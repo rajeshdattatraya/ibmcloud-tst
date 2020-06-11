@@ -24,6 +24,7 @@ export class ResultPageComponent implements OnInit {
   quizNumber;
   mode;
   jrss = "";
+  stage2_status;
   stage1;
   stage2;
   stage3;
@@ -65,6 +66,7 @@ export class ResultPageComponent implements OnInit {
           this.mode="";
         }
         console.log("res***** ", res);
+          
         this.userAnswers= res;
         this.userAnswers.forEach((userAns) => {
         console.log("userAns.userAnswerID ",userAns.userAnswerID, "  userAns.answerID ", userAns.answerID);
@@ -94,9 +96,11 @@ export class ResultPageComponent implements OnInit {
                            this.stage1="Skipped";
                        }
                        if(res['stage2_PreTechAssessment']) {
+                         this.stage2_status="Not Started"
                            this.stage2="Not Started";
                        } else {
                            this.stage2="Skipped";
+                           this.stage2_status="Skipped"
                        }
                        if(res['stage3_TechAssessment']) {
                            this.stage3="Not Started";
