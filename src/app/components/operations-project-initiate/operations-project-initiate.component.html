@@ -20,30 +20,30 @@
           <td  width="25%">{{this.operationsProjectDetails[0].userScore}}%</td>
         </tr>
         <tr>
+          <td  width="25%"><label style="color: mediumpurple">You can download CV here:</label></td>
+          <td  width="25%"><a href="#" routerLinkActive="active">Click here</a></td>
+          <td  width="25%"><label style="color: mediumpurple">You can access the Pre-Technical-Interview form here:</label></td>
+          <td  width="25%"><a href="#" routerLinkActive="active">Click here</a></td>
+        </tr>
+        <tr *ngIf="displayTechInterviewFields">
           <td  width="25%"><label style="color: mediumpurple">Technical Interview Score:</label></td>
           <td  width="25%">{{this.operationsProjectDetails[0].avgTechScore}}</td>
           <td  width="25%"><label style="color: mediumpurple">Technical Interview Result:</label></td>
           <td  width="25%">{{this.operationsProjectDetails[0].smeResult}}</td>
         </tr>
-        <tr>
+        <tr *ngIf="displayTechInterviewFields">
           <td  width="25%"><label style="color: mediumpurple">Technical Interview Feedback:</label></td>
-          <td  colspan="3" width="75%"><textarea readonly maxlength="3000" cols="90" value="{{this.operationsProjectDetails[0].smeFeedback}}"></textarea></td>
+          <td  colspan="3" width="75%"><textarea disabled readonly maxlength="3000" cols="90" value="{{this.operationsProjectDetails[0].smeFeedback}}"></textarea></td>
         </tr>
-        <tr>
+        <tr *ngIf="displayPartnerInterviewFields">
             <td  width="25%"><label style="color: mediumpurple">Partner Interview Feedback:</label></td>
-            <td  colspan="3" width="75%"><textarea readonly maxlength="3000" cols="90" value="{{this.operationsProjectDetails[0].managementFeedback}}"></textarea></td>
+            <td  colspan="3" width="75%"><textarea disabled readonly maxlength="3000" cols="90" value="{{this.operationsProjectDetails[0].managementFeedback}}"></textarea></td>
         </tr>
-        <tr>
+        <tr *ngIf="displayPartnerInterviewFields">
           <td  width="25%"><label style="color: mediumpurple">Partner Interview Result:</label></td>
           <td  width="25%">{{this.operationsProjectDetails[0].managementResult}}</td>
           <td width="25%"></td>
           <td width="25%"></td>
-        </tr>
-        <tr>
-          <td  width="25%"><label style="color: mediumpurple">You can download CV here:</label></td>
-          <td  width="25%"><a href="#" routerLinkActive="active">Click here</a></td>
-          <td  width="25%"><label style="color: mediumpurple">You can access the Pre-Technical-Interview form here:</label></td>
-          <td  width="25%"><a href="#" routerLinkActive="active">Click here</a></td>
         </tr>
         </tbody>
       </table>

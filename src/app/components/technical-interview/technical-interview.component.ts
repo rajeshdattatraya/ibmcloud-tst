@@ -24,6 +24,7 @@ export class TechnicalInterviewComponent implements OnInit {
   formReset = false;
   userName: String = "";
   accessLevel: String = "";
+  stage3_status: String = "";
   constructor(private fb:FormBuilder, private actRoute: ActivatedRoute, private router: Router,private ngZone: NgZone,
     private apiService: ApiService) {
     this.userName = this.router.getCurrentNavigation().extras.state.username;
@@ -184,6 +185,11 @@ export class TechnicalInterviewComponent implements OnInit {
       let userName=this.candidateInterviewDetails[0].userName;
       let userScore=this.candidateInterviewDetails[0].userScore;
       let quizNumber=this.candidateInterviewDetails[0].quizNumber;
+      if (this.techskillForm.value.finalResult === 'Recommended' || this.techskillForm.value.finalResult === 'Strongly Recommended') {
+          this.stage3_status = 'Completed';
+      } else {
+          this.stage3_status = 'Not Started';
+      }
       this.apiService.getResultByUser(userName,quizNumber).subscribe(res => {
           //console.log('get the result data'+res['_id']+"\t"+ res['userName']);
             let updateResults=new TechnicalInterview(userName,userScore, quizNumber,
@@ -192,7 +198,7 @@ export class TechnicalInterviewComponent implements OnInit {
             this.techskillForm.value.finalResult,
             this.techskillForm.value.feedback,
             this.userName,
-            "Completed");
+            this.stage3_status);
 
 			this.apiService.updateResults(res['_id'],updateResults).subscribe(res => {
             console.log('Candidate SME Interview Details updated successfully!');
