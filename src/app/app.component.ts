@@ -10,7 +10,7 @@ export let browserRefresh = false;
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnDestroy {
-  title = 'TECHNICAL ASSESSMENT TEST';
+  title = 'TALENT SOURCING TOOL';
   subscription: Subscription;
 
   constructor(private router: Router) {
