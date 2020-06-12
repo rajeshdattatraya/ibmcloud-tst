@@ -1,7 +1,7 @@
 <div>
   <h4>{{mode}}<br>{{displayMsg}}
 <br><br>
-<div *ngIf="numberOfCorrectAns >=80">
+<div *ngIf="numberOfCorrectAns >=passingScore">
   You have scored  <b><strong><mark>{{scorePercentage}}%</mark></strong></b> and thus you are selected for the next technical round.<br><br>
 </div>
 <div *ngIf="stage2_status!='Skipped'"> 

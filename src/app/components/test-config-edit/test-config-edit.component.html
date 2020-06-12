@@ -85,6 +85,18 @@
             </div>
           </div>
         </div>
+        
+        <div class="form-group row">
+          <label for="inputPassingScore" class="col-sm-4 col-form-label">Passing Score</label>
+          <div class="col-sm-8">
+            <input class="form-control" type="text" formControlName="passingScore" id="inputPassingScore" [ngClass]="{ 'is-invalid': submitted && myForm.passingScore.errors }" maxlength="3" minlength="1">
+            <div *ngIf="submitted && myForm.passingScore.errors" class="invalid-feedback">
+              <div *ngIf="myForm.passingScore.errors.required">Passing Score is required</div>
+              <div *ngIf="myForm.passingScore.errors.pattern">Invalid Passing Score</div>
+            </div>
+          </div>
+        </div>
+
 
         <div class="form-group" class="text-center" style="width: 100px">
           <button class="btn btn-success btn-lg btn-block" type="submit">Update</button>
@@ -94,7 +106,7 @@
   </div>
 </div>
 <br/>
-<h4 class="my-0 mr-md-auto font-weight-normal">Test Config List</h4>
+<h4 class="my-0 mr-md-auto font-weight-normal">Test Config List edit</h4>
 <br/>
 <div class="container">
   <!-- No data message -->
@@ -106,6 +118,7 @@
       <th scope="col center">JRSS</th>
       <th scope="col center">No Of Questions</th>
       <th scope="col center">Test Duration(in Minutes)</th>
+      <th scope="col center">Passing Score</th>
     </tr>
     </thead>
     <tbody>
@@ -113,6 +126,7 @@
       <td>{{testConfig.JRSS}}</td>
       <td>{{testConfig.noOfQuestions}}</td>
       <td>{{testConfig.testDuration}}</td>
+      <td>{{testConfig.passingScore}}</td>
       <td class="text-center edit-block">
           <span class="edit" [routerLink]="['/testconfig-edit/', testConfig._id]">
             <button type="button" class="btn btn-success btn-sm">Edit</button>

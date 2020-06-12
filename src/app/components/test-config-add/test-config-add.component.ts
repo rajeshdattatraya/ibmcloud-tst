@@ -18,6 +18,7 @@ export class TestConfigAddComponent implements OnInit {
   JRSS:any = [];
   testDuration: number;
   noOfQuestions: number;
+  passingScore:number;
   TestConfigs:any = [];
   TestConfigDetails:any = [];
   userName: String = "admin";
@@ -48,7 +49,8 @@ export class TestConfigAddComponent implements OnInit {
         this.testConfigAddForm = this.fb.group({
           JRSS: ['', [Validators.required]],
           noOfQuestions: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
-          testDuration: ['', [Validators. required, Validators.pattern('^[0-9]+$')]]
+          testDuration: ['', [Validators. required, Validators.pattern('^[0-9]+$')]],
+          passingScore: ['', [Validators. required, Validators.pattern('^[0-9]+$')]]
         })
       }
 
@@ -81,17 +83,21 @@ export class TestConfigAddComponent implements OnInit {
 
 
     onSubmit() {
-        this.submitted = true;
-        if (!this.testConfigAddForm.valid) {
+        this.submitted = true;        
+        if (!this.testConfigAddForm.valid) {          
           return false;
         } else {
           let jrss = this.testConfigAddForm.value.JRSS;
+          
           this.testconfigService.findTestConfigByJRSS(jrss).subscribe(
                (res) => {
                  window.alert("Record exists for the selected JRSS. Please click on the Edit link below to edit the details");
                }, (error) => {
+                
                   let testConfig = new TestConfig(this.testConfigAddForm.value.JRSS,
-                   this.testConfigAddForm.value.noOfQuestions, this.testConfigAddForm.value.testDuration);
+                   this.testConfigAddForm.value.noOfQuestions, this.testConfigAddForm.value.testDuration,this.testConfigAddForm.value.passingScore);
+                   console.log("innnn test config*********",testConfig)
+                   console.log("value",this.testConfigAddForm.value.passingScore)
                    this.testconfigService.createTestConfig(testConfig).subscribe(
                      (res) => {
                       console.log('Test Config successfully saved!')
