@@ -18,6 +18,7 @@ export class TestConfigEditComponent implements OnInit {
   JRSS:any = [];
   testDuration: number;
   noOfQuestions: number;
+  passingScore:number;
   TestConfigs:any = [];
   userName: String = "admin";
   oldJRSS: String = "";
@@ -48,7 +49,8 @@ export class TestConfigEditComponent implements OnInit {
       this.testConfigEditForm = this.fb.group({
             JRSS: ['', [Validators.required]],
             noOfQuestions: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
-            testDuration: ['', [Validators. required, Validators.pattern('^[0-9]+$')]]
+            testDuration: ['', [Validators. required, Validators.pattern('^[0-9]+$')]],
+            passingScore: ['', [Validators. required, Validators.pattern('^[0-9]+$')]]
       })
     }
 
@@ -67,11 +69,12 @@ export class TestConfigEditComponent implements OnInit {
     }
 
     getTestConfig(id) {
-        this.testconfigService.getTestConfig(id).subscribe(data => {
+        this.testconfigService.getTestConfig(id).subscribe(data => {          
           this.testConfigEditForm.setValue({
             JRSS: data['JRSS'],
             noOfQuestions: data['noOfQuestions'],
-            testDuration: data['testDuration']
+            testDuration: data['testDuration'],
+            passingScore:data['passingScore']
           });
           this.oldJRSS = data['JRSS'];
         });
@@ -81,7 +84,8 @@ export class TestConfigEditComponent implements OnInit {
         this.testConfigEditForm = this.fb.group({
           JRSS: ['', [Validators.required, Validators.pattern('^[0-9A-Z]+$')]],
           noOfQuestions: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
-          testDuration: ['', [Validators.required, Validators.pattern('^[0-9]+$')]]
+          testDuration: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+          passingScore: ['', [Validators.required, Validators.pattern('^[0-9]+$')]]
         })
       }
 
@@ -107,7 +111,7 @@ export class TestConfigEditComponent implements OnInit {
             window.alert("You can not edit JRSS.");
           } else {
             let testConfig = new TestConfig(this.testConfigEditForm.value.JRSS,
-            this.testConfigEditForm.value.noOfQuestions, this.testConfigEditForm.value.testDuration);
+            this.testConfigEditForm.value.noOfQuestions, this.testConfigEditForm.value.testDuration,this.testConfigEditForm.value.passingScore);
             let id = this.actRoute.snapshot.paramMap.get('id');
             this.testconfigService.updateTestConfig(id, testConfig)
                 .subscribe(res => {
