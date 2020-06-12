@@ -33,7 +33,7 @@
       </tr>
       <tr *ngIf="displayTechInterviewFields">
         <td  width="25%"><label style="color: mediumpurple">Technical Interview Feedback:</label></td>
-        <td  colspan="3" width="75%"><textarea type="textArea" rows="5" cols="80" disabled maxlength="3000" value="{{this.partnerInterviewDetails[0].smeFeedback}}"></textarea></td>
+        <td  colspan="3" width="75%"><textarea type="textArea" maxlength="3000" cols="90" disabled readonly value="{{this.partnerInterviewDetails[0].smeFeedback}}"></textarea></td>
       </tr>
       </tbody>
     </table>

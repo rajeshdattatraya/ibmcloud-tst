@@ -33,11 +33,11 @@
         </tr>
         <tr *ngIf="displayTechInterviewFields">
           <td  width="25%"><label style="color: mediumpurple">Technical Interview Feedback:</label></td>
-          <td  colspan="3" width="75%"><textarea readonly maxlength="3000" cols="90" value="{{this.operationsProjectDetails[0].smeFeedback}}"></textarea></td>
+          <td  colspan="3" width="75%"><textarea disabled readonly maxlength="3000" cols="90" value="{{this.operationsProjectDetails[0].smeFeedback}}"></textarea></td>
         </tr>
         <tr *ngIf="displayPartnerInterviewFields">
             <td  width="25%"><label style="color: mediumpurple">Partner Interview Feedback:</label></td>
-            <td  colspan="3" width="75%"><textarea readonly maxlength="3000" cols="90" value="{{this.operationsProjectDetails[0].managementFeedback}}"></textarea></td>
+            <td  colspan="3" width="75%"><textarea disabled readonly maxlength="3000" cols="90" value="{{this.operationsProjectDetails[0].managementFeedback}}"></textarea></td>
         </tr>
         <tr *ngIf="displayPartnerInterviewFields">
           <td  width="25%"><label style="color: mediumpurple">Partner Interview Result:</label></td>
