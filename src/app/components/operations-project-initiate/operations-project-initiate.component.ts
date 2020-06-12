@@ -20,6 +20,8 @@ export class OperationsProjectInitiateComponent implements OnInit {
   formReset = false;
   accessLevel: string = "";
   status: string = "Completed";
+  displayTechInterviewFields = true;
+  displayPartnerInterviewFields = true;
 
  constructor(public fb: FormBuilder, private actRoute: ActivatedRoute, private router: Router,private ngZone: NgZone,
   private apiService: ApiService) {
@@ -62,6 +64,12 @@ get myForm(){
   readOperationsProjectDetails(id) {
     this.apiService.readOperationsProjectDetails(id).subscribe(data => {
       this.operationsProjectDetails = data;
+     if(this.operationsProjectDetails[0].stage3_status === 'Skipped') {
+          this.displayTechInterviewFields = false;
+      }
+      if(this.operationsProjectDetails[0].stage4_status === 'Skipped') {
+          this.displayPartnerInterviewFields = false;
+      }
     });
   }
 
@@ -79,6 +87,7 @@ get myForm(){
           // Update Results table
           this.apiService.saveOperationsStatus(id, status).subscribe(
             (res) => {
+              window.alert("Project Assignment detail is successfully submitted");
               console.log("Operations stage status successfully updated to Results table!");
             }, (error) => {
               console.log(error);
