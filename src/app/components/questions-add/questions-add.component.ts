@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { ApiService } from './../../service/api.service';
 import { Component, OnInit, NgZone } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { FormGroup, FormArray,FormBuilder, Validators } from "@angular/forms";
 import { Question } from 'src/app/model/questions';
 import { ResourceLoader } from '@angular/compiler';
 import * as XLSX from 'xlsx';
@@ -45,7 +45,6 @@ export class QuestionsAddComponent implements OnInit {
 
   mainForm() {
       this.questionForm = this.fb.group({
-        jrss: ['', [Validators.required]],
         technologyStream: ['', [Validators.required]],
         questionType: ['', [Validators.required]],
         question: ['', [Validators.required]],
@@ -59,6 +58,7 @@ export class QuestionsAddComponent implements OnInit {
         option4checkbox:[],
         answerID:[],
         questionID:[],
+        
        
       })
     }
@@ -74,21 +74,7 @@ export class QuestionsAddComponent implements OnInit {
       })
     }
 
-  // Choose JRSS with select dropdown
-  updateJRSSProfile(e){
-    this.questionForm.get('jrss').setValue(e, {
-    onlySelf: true
-    })
-  // Get technologyStream from JRSS
-       for (var jrss of this.JRSS){
-         if(jrss.jrss == e){
-           this.technologyStream = [];
-           for (var skill of jrss.technologyStream){
-             this.technologyStream.push(skill);
-           }
-         }
-   }
-  }
+  
 
   // Choose Technology Stream with select dropdown
       updateTechnologyStream(e){
@@ -98,18 +84,29 @@ export class QuestionsAddComponent implements OnInit {
       }
 
 
-    // Get all Bands
+    // Get all Technology streams of all JRSS
     readJRSS(){
        this.apiService.getJRSS().subscribe((data) => {
        this.JRSS = data;
-       })
+       this.technologyStream = [];
+     for (var jrss of this.JRSS){
+        for (var skill of jrss.technologyStream){
+          this.technologyStream.push(skill);
+        }
+      }
+           console.log("Technical Stream getjrss: "+ JSON.stringify(this.technologyStream));
+    })
+  
     }
-
+  
     // Choose QuestionType with select dropdown
     updateQuestionTypes(e){
       this.questionForm.get('questionType').setValue(e, {
       onlySelf: true
       })
+    }
+    getTechnologyStream() {
+      return this.technologyStream;
     }
 
     onSubmit() {
@@ -121,7 +118,6 @@ export class QuestionsAddComponent implements OnInit {
         } else {            
           this.answerArray=[];  
           this.optionsArray=[];
-          this.questionForm.value.jrss=this.questionForm.value.jrss
           this.questionForm.value.technologyStream=this.questionForm.value.technologyStream
           if(!(this.questionForm.value.option1checkbox || this.questionForm.value.option2checkbox
             || this.questionForm.value.option3checkbox || this.questionForm.value.option4checkbox)){

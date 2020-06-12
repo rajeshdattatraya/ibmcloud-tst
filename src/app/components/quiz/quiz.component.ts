@@ -140,7 +140,7 @@ ngOnInit() {
          (data) => {
          this.noOfQuestions = data['noOfQuestions'];
          this.configDuration = data['testDuration']*60;
-         this.quizService.getQuizQuestions(this.noOfQuestions, this.userName,this.jrss,this.technologyStream).subscribe(res => {
+         this.quizService.getQuizQuestions(this.noOfQuestions, this.userName,this.technologyStream).subscribe(res => {
                  this.questions = res;
          }, (error) => {
          console.log(error);
