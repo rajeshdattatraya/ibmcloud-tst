@@ -47,7 +47,7 @@
 
         <tr *ngFor="let dynamic of dynamicArray; let i = index;" [formGroupName]="i">
           <td  width="25%">
-              <select class="form-control" formControlName="technologyStream" [ngModel]="dynamic[0].value">
+              <select class="form-control" formControlName="technologyStream" [ngModel]="dynamic[i].value">
                 <option  *ngFor="let ts of dynamic;" [value]="ts.value">
                   {{ts.value}}
                 </option>
@@ -62,10 +62,10 @@
             </td>
           <td colspan="2"  width="50%" *ngIf="dynamicArray.length == i+1">
             &nbsp;&nbsp;
-            <a> <img src="assets/images/add.jpg" width="25" height="25" (click)="addQuantity(i)"> </a>
+            <a> <img src="assets/images/add.jpg" width="25" height="25" (click)="addTechStream(i)"> </a>
             <!-- <button type="button" (click)="addQuantity(i)" class="btn btn-secondary">Add</button> -->
            &nbsp;&nbsp;
-           <a> <img src="assets/images/remove.jpg" width="25" height="25" (click)="removeQuantity(i)"> </a>
+           <a> <img src="assets/images/remove.jpg" width="25" height="25" (click)="removeTechStream(i)"> </a>
             <!-- <button (click)="removeQuantity(i)" class="btn btn-secondary">Remove</button> -->
           </td>
         </tr>
@@ -88,6 +88,7 @@
           <td>
              <select formControlName="finalResult" class="form-control" [ngClass]="{ 'is-invalid': submitted && myForm.finalResult.errors }">
               <option value="">Choose...</option>
+              <option id="Strongly Recommended">Strongly Recommended</option>
               <option id="Recommended">Recommended</option>
               <option id="Not Suitable">Not Suitable</option>
               <option id="StandBy">StandBy</option>
@@ -122,16 +123,16 @@
         </tr>
         <br/>
         <tr>
+          <td></td>
           <td colspan="3" class="text-center">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button size="8" type="submit"class="btn btn-secondary" >Submit</button>
             &nbsp;&nbsp;&nbsp;&nbsp;
             <button size="8" type="reset" (click)="resetForm()" class="btn btn-secondary">Clear</button>
             &nbsp;&nbsp;&nbsp;&nbsp;
             <button size="8"  type="button" (click)="cancelForm()" class="btn btn-secondary">Cancel</button>
           </td>
-          <!-- <td><button class="form-control" type="submit" (click)="resetForm()">Clear</button></td>
-          <td><button class="form-control" type="submit" (click)="cancelForm()">Cancel</button></td> -->
-          <td></td>
+
             </tr>
       </table>
 

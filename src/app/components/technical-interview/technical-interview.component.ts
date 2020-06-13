@@ -27,9 +27,9 @@ export class TechnicalInterviewComponent implements OnInit {
   stage3_status: String = "";
   constructor(private fb:FormBuilder, private actRoute: ActivatedRoute, private router: Router,private ngZone: NgZone,
     private apiService: ApiService) {
-    this.userName = this.router.getCurrentNavigation().extras.state.username;
-    let id =this.actRoute.snapshot.paramMap.get('id');
-    this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
+    this.userName ="anil@gmail.com";// this.router.getCurrentNavigation().extras.state.username;
+    let id ="anil@gmail.com";//this.actRoute.snapshot.paramMap.get('id');
+    //this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
     this.readCandidateTechnicalInterviewDetails(id);
     this.techskillForm = this.fb.group({
         finalscore:'',
@@ -63,7 +63,7 @@ export class TechnicalInterviewComponent implements OnInit {
   }
 
 
-  newQuantity(): FormGroup {
+  createTechStream(): FormGroup {
     return this.fb.group({
       technologyStream:this.getTechnologyStream(),
       score: '0'
@@ -87,7 +87,7 @@ export class TechnicalInterviewComponent implements OnInit {
       }
       this.newDynamic =this.technologyStreamArray;
       this.dynamicArray.push(this.newDynamic);
-      this.techStream().push(this.newQuantity());
+      this.techStream().push(this.createTechStream());
       //console.log("Technical Stream getjrss: "+ JSON.stringify(this.technologyStreamArray));
     })
   }
@@ -96,15 +96,15 @@ export class TechnicalInterviewComponent implements OnInit {
     return this.technologyStreamArray;
   }
 
-  addQuantity(i:number) {
+  addTechStream(i:number) {
     if(i<(this.newDynamic.length-1)){
       this.newDynamic =this.getTechnologyStream();
       this.dynamicArray.push(this.newDynamic);
-      this.techStream().push(this.newQuantity());
+      this.techStream().push(this.createTechStream());
     }
   }
 
-  removeQuantity(i:number) {
+  removeTechStream(i:number) {
     if(this.dynamicArray.length ==1) {
         return false;
     } else {
@@ -130,6 +130,7 @@ export class TechnicalInterviewComponent implements OnInit {
     this.averageScore=this.totalScore/scoreCount;
     if(isNaN(this.averageScore))
       this.averageScore=0;
+      this.dynamicFormControlValidation();
    }
 
    //Reset
@@ -137,6 +138,10 @@ export class TechnicalInterviewComponent implements OnInit {
     this.formReset = true;
     this.techskillForm.reset();
     this.averageScore=0;
+    var dynamicArrayLen:number=this.dynamicArray.length;
+    for(var cnt=dynamicArrayLen;cnt>1;cnt--);
+      this.removeTechStream(cnt);
+    this.techskillForm.value.score=0;
    // this.ngZone.run(() => this.router.navigateByUrl('/technical-list',{state:{username:this.userName}}))
   }
 //Cancel
@@ -200,8 +205,9 @@ export class TechnicalInterviewComponent implements OnInit {
             this.userName,
             this.stage3_status);
 
-			this.apiService.updateResults(res['_id'],updateResults).subscribe(res => {
+			      this.apiService.updateResults(res['_id'],updateResults).subscribe(res => {
             console.log('Candidate SME Interview Details updated successfully!');
+            alert("SME Interview Details saved successfully.");
             this.ngZone.run(() => this.router.navigateByUrl('/technical-interview-list',{state:{username:this.userName,accessLevel:this.accessLevel}}))
             }, (error) => {
             console.log(error);
