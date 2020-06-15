@@ -42,7 +42,6 @@ export class QuestionsAddBulkComponent implements OnInit {
 
   mainForm() {
       this.questionForm = this.fb.group({
-        jrss: ['', [Validators.required]],
         technologyStream: ['', [Validators.required]],
         questionType: ['', [Validators.required]],
         question: ['', [Validators.required]],
@@ -97,9 +96,17 @@ export class QuestionsAddBulkComponent implements OnInit {
 
     // Get all Bands
     readJRSS(){
-       this.apiService.getJRSS().subscribe((data) => {
-       this.JRSS = data;
-       })
+      this.apiService.getJRSS().subscribe((data) => {
+        this.JRSS = data;
+        this.technologyStream = [];
+      for (var jrss of this.JRSS){
+         for (var skill of jrss.technologyStream){
+           this.technologyStream.push(skill);
+         }
+       }
+            console.log("Technical Stream getjrss: "+ JSON.stringify(this.technologyStream));
+     })
+   
     }
 
     // Choose QuestionType with select dropdown
@@ -139,7 +146,7 @@ export class QuestionsAddBulkComponent implements OnInit {
   { 
     this.submitted = true;
     this.formReset = false;
-  if (!this.questionForm.value.jrss || !this.questionForm.value.technologyStream)
+  if (!this.questionForm.value.technologyStream)
   {
      return false;
   }       
@@ -293,6 +300,8 @@ export class QuestionsAddBulkComponent implements OnInit {
         console.log("Number of Questions uploaded "+this.bulkUploadQuestions);
        this.formReset = true;
         this.questionForm.reset();
+        this.file = null;
+        (<HTMLInputElement>document.getElementById('fileName')).value = "";
       }, (error) => {
         console.log(error);
       });
