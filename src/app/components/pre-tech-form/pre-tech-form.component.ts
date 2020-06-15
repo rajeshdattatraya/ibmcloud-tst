@@ -45,7 +45,12 @@ this.mode = this.router.getCurrentNavigation().extras.state.mode;
  preTech(){
    this.mode="pre-tech"
  }
+logout(){	
+	if(window.confirm("are you sure?\nplease save the data if you haven't by clicking on Cancel")){
+		this.router.navigate(['/login-component']);
+	}
 
+}
  ngOnInit(): void {
 	console.log('here in pre',this.mode)
 	 this.getPreTechAssessmentQuestions();
