@@ -42,10 +42,10 @@
     </div>
   </nav>
   <br/>
-<div class="row justify-content-center">
-  <div class="col-md-8 register-employee">
-    <h4 class="my-0 mr-md-auto font-weight-normal">Workflow Configuration</h4>
-    <br/>
+  <div class="row justify-content-center">
+     <div class="col-md-8 register-employee">  
+      <h4 class="my-0 mr-md-auto font-weight-normal">Workflow Configuration</h4>  
+    <br/><br/>
     <!-- form Test Config -->
     <h6 class="my-0 mr-md-auto font-weight-normal">Please check the required recruitment process stages for the selected JRSS</h6>
     <br/>
@@ -53,7 +53,7 @@
       <div class="card-body">
         <form [formGroup]="workFlowForm" (ngSubmit)="onSubmit()">
           <div class="form-group row">
-            <label for="inputJRSS3" class="col-sm-4 col-form-label">JRSS</label>
+            <label for="inputJRSS3" class="col-sm-4 col-form-label" class="text-center">Job Role:</label>
             <div class="col-sm-8">
               <select class="custom-select form-control" (change)="updateJrssProfile($event.target.value)"
                       formControlName="JRSS" id="inputJRSS3" [ngClass]="{ 'is-invalid': submitted && myForm.JRSS.errors }">
@@ -66,31 +66,32 @@
               </div>
             </div>
           </div>
-        <div class="form-group row">
-        <input type="checkbox" class="form-check-input"  formControlName="stage1OnlineTechAssessment" id="stage1OnlineTechAssessmentCheck1">
-        <label class="form-check-label" for="stage1OnlineTechAssessmentCheck1">Online Technical Assessment</label>
+        <br/>
+        <div>
+         <input type="checkbox" class="form-check-input"  formControlName="stage1OnlineTechAssessment" id="stage1OnlineTechAssessmentCheck1">
+         <label class="form-check-label" for="stage1OnlineTechAssessmentCheck1">Online Technical Assessment</label>
         </div>
-          <div class="form-group row">
+        <div>
         <input type="checkbox" class="form-check-input" formControlName="stage2PreTechAssessment" id="stage2PreTechAssessmentCheck2">
         <label class="form-check-label" for="stage2PreTechAssessmentCheck2">Pre-technical Interview Assessment Form</label>
           </div>
-          <div class="form-group row">
+          <div>
         <input type="checkbox" class="form-check-input" formControlName="stage3TechAssessment" id="stage3TechAssessmentCheck3">
         <label class="form-check-label" for="stage3TechAssessmentCheck3">Technical Interview</label>
           </div>
-          <div class="form-group row">
+          <div class>
         <input type="checkbox" class="form-check-input" formControlName="stage4ManagementInterview" id="stage4ManagementInterviewCheck4">
         <label class="form-check-label" for="stage4ManagementInterviewCheck4">Partner Interview</label>
           </div>
-          <div class="form-group row">
+          <div>
         <input type="checkbox" class="form-check-input" formControlName="stage5ProjectAllocation" id="stage5ProjectAllocationCheck5">
         <label class="form-check-label" for="stage5ProjectAllocationCheck5">Project Assignment</label>
           </div>
     <br/>
-
-    <div class="form-group" class="text-center" style="width: 100px">
-      <button class="btn btn-success btn-lg btn-block" type="submit">Save</button>
+    <div class="text-center">
+      <button class="btn btn-success btn-default" type="submit">Save</button>
     </div>
+  
     </form>
   </div>
   </div>
