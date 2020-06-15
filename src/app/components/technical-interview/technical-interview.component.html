@@ -47,10 +47,12 @@
 
         <tr *ngFor="let dynamic of dynamicArray; let i = index;" [formGroupName]="i">
           <td  width="25%">
-              <select class="form-control" formControlName="technologyStream" [ngModel]="dynamic[i].value">
-                <option  *ngFor="let ts of dynamic;" [value]="ts.value">
-                  {{ts.value}}
-                </option>
+              <select class="form-control" formControlName="technologyStream" (change)="changeSelectTechStream(i)" [ngModel]="dynamic[i].value"> <!--[ngModel]="dynamic[i].value"-->
+                <ng-container *ngFor="let ts of dynamic;" >
+                    <option *ngIf="!this.selectedTechStream.includes(ts.value) || this.selectedTechStream[i]==ts.value" [value]="ts.value" [ngValue]="ts.value"> <!--[ngValue]="ts.value"-->
+                      {{ts.value}}
+                    </option>
+                </ng-container>
               </select>
           </td>
           <td width="25%">

@@ -13,6 +13,7 @@ export class TechnicalInterviewComponent implements OnInit {
   techskillForm: FormGroup;
   candidateInterviewDetails:any=[];
   technologyStreamArray:any= [];
+  selectedTechStream:any=[];
   scoreArray:any[];
   dynamicArray: any = [];
   newDynamic: any = {};
@@ -89,6 +90,7 @@ export class TechnicalInterviewComponent implements OnInit {
       this.dynamicArray.push(this.newDynamic);
       this.techStream().push(this.createTechStream());
       //console.log("Technical Stream getjrss: "+ JSON.stringify(this.technologyStreamArray));
+      console.log(this.technologyStreamArray.get("key"));
     })
   }
 
@@ -96,8 +98,25 @@ export class TechnicalInterviewComponent implements OnInit {
     return this.technologyStreamArray;
   }
 
+  changeSelectTechStream(i:number) {
+    if(i<(this.newDynamic.length-1)){
+     this.selectedTechStream=[];
+     var selectedStream:any=[]=this.techskillForm.value.techStream;
+      for(var sc of selectedStream){
+        var technology=sc.technologyStream;
+        this.selectedTechStream.push(sc.technologyStream);
+        }
+     }
+  }
+
   addTechStream(i:number) {
     if(i<(this.newDynamic.length-1)){
+     this.selectedTechStream=[];
+     var selectedStream:any=[]=this.techskillForm.value.techStream;
+      for(var sc of selectedStream){
+        var technology=sc.technologyStream;
+        this.selectedTechStream.push(sc.technologyStream);
+      }
       this.newDynamic =this.getTechnologyStream();
       this.dynamicArray.push(this.newDynamic);
       this.techStream().push(this.createTechStream());
@@ -105,6 +124,7 @@ export class TechnicalInterviewComponent implements OnInit {
   }
 
   removeTechStream(i:number) {
+
     if(this.dynamicArray.length ==1) {
         return false;
     } else {
