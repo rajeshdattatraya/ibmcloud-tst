@@ -1,0 +1,33 @@
+    <p *ngIf="Result.length <= 0" class="no-data text-center">There are no records in dashboard</p>
+
+    <!-- Dashboard list -->
+    <table class="table table-bordered" *ngIf="Result.length > 0">
+      <thead class="table-success">
+      <tr>
+        <th scope="col"></th>
+        <th scope="col" width="16%">Employee</th>
+        <th scope="col" width="25%">Job Role</th>
+        <th scope="col" width="15%">Online Test Result</th>
+        <th scope="col" width="15%">Tech Interview Result</th>
+        <th scope="col" width="17%">Partner Interview Result</th>
+        <th scope="col" width="17%">Assigned To Project</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let result of Result | filter: searchByKeyword: 'name' | paginate: config; let i = index">
+        <td><input type="radio"></td>
+        <td  width="16%">{{result.result_users[0].employeeName}}</td>
+        <td  width="25%">{{result.result_users[0].JRSS}}</td>
+        <td  width="15%">{{result.userScore}}</td>
+        <td  width="15%">{{result.smeResult}}</td>
+        <td  width="17%">{{result.managementResult}}</td>
+        <td  width="17%">
+          <div *ngIf="result.stage5_status == 'Completed'">Assigned</div>
+          <div *ngIf="result.stage5_status == 'Not Started'">Unassigned</div>
+          <div *ngIf="result.stage5_status == 'Skipped' || result.stage5_status == ''">-</div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
+

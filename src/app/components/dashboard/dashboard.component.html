@@ -1,0 +1,24 @@
+<nav class="navbar navbar-expand-lg navbar-light table-success">
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/partner-list" [state]="{username:this.userName,accessLevel:this.accessLevel}" routerLinkActive="active">Partner Interview</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/operations-candidate-list" [state]="{username:this.userName,accessLevel:this.accessLevel}" routerLinkActive="active">Project Assignment</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/login-component" routerLinkActive="active">Logout</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<br>
+<div class="container">
+  <app-dashboard-search (groupFilters)="filters = $event"></app-dashboard-search>
+  <br/>
+  <app-dashboard-list [groupFilters]="filters" [searchByKeyword]="searchText"></app-dashboard-list>
+</div>

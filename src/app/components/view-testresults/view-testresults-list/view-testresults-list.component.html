@@ -1,5 +1,3 @@
-<div class="container">
-    <!-- No data message -->
     <!-- Candidate list -->
     <table class="table table-bordered" *ngIf="Result.length > 0">
       <thead class="table-success">
@@ -27,7 +25,6 @@
         </tbody>
       </table>
        <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
-  </div>
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog modal-lg">

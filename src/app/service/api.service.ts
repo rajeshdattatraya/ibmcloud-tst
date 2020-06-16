@@ -365,6 +365,17 @@ getCandidateAssessmentDetails(username,quizNumber): Observable<any> {
   )
 }
 
+//getDashboardList
+getDashboardList(): Observable<any> {
+  let url = `${this.userResultUri}/getDashboardList`;
+  return this.http.get(url, {headers: this.headers}).pipe(
+        map((res: Response) => {
+          return res || {}
+        }),
+        catchError(this.errorMgmt)
+  )
+}
+
 //getPartnerInterviewList
 getPartnerInterviewList(): Observable<any> {
   let url = `${this.userResultUri}/getPartnerInterviewList`;

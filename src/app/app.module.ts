@@ -27,6 +27,7 @@ import { TestConfigEditComponent } from './components/test-config-edit/test-conf
 import { JrssCreateComponent } from './components/jrss-create/jrss-create.component';
 import { StreamCreateComponent } from './components/stream-create/stream-create.component';
 import {UserModule} from './components/view-testresults/user.module';
+import { DashboardUserModule } from './components/dashboard/dashboard-user.module';
 import { PartnerInterviewComponent } from './components/partner-interview/partner-interview.component';
 import { PartnerInterviewInitiateComponent } from './components/partner-interview-initiate/partner-interview-initiate.component';
 import { OperationsCandidateListComponent } from './components/operations-candidate-list/operations-candidate-list.component';
@@ -66,7 +67,8 @@ export let browserRefresh = false;
     TechnicalInterviewListComponent,
     PreTechFormComponent,
     TechnicalInterviewComponent,
-    WorkflowConfigComponent],
+    WorkflowConfigComponent
+    ],
   imports: [
     BrowserModule,
     NgxPaginationModule,
@@ -75,6 +77,7 @@ export let browserRefresh = false;
     ReactiveFormsModule,
     HttpClientModule,
     UserModule,
+    DashboardUserModule,
     [ NgxPaginationModule ],
     BackButtonDisableModule.forRoot({
       preserveScrollPosition: true

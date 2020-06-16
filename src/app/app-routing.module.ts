@@ -28,10 +28,12 @@ import { TechnicalInterviewListComponent } from './components/technical-intervie
 import { PreTechFormComponent } from './components/pre-tech-form/pre-tech-form.component';
 import { TechnicalInterviewComponent } from './components/technical-interview/technical-interview.component';
 import { WorkflowConfigComponent } from './components/workflow-config/workflow-config.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login-component' },
   { path: '', loadChildren: './components/view-testresults/user.module#UserModule'},
+  { path: '', loadChildren: './components/dashboard/dashboard-user.module#DashboardUserModule'},
   { path: 'create-band', component: BandCreateComponent },
   { path: 'take-quiz', component: QuizComponent },
   { path: 'result-page', component: ResultPageComponent },
@@ -57,7 +59,9 @@ const routes: Routes = [
   {path: 'pre-tech-form', component:PreTechFormComponent},
   { path: 'initiate-operations-project/:id', component:OperationsProjectInitiateComponent },
   { path: 'technical-list/:id', component:TechnicalInterviewComponent },
-  { path: 'workflow-config', component:WorkflowConfigComponent }
+  { path: 'workflow-config', component:WorkflowConfigComponent },
+  { path: 'dashboard', component:DashboardComponent}
+
   
 ];
 
