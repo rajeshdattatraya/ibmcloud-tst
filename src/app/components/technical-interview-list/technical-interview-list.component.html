@@ -39,14 +39,23 @@
           <td  width="20%">{{TechnicalInterview.userScore}}%</td>
           <td  width="8%"><a href="#" routerLinkActive="active">Click Here</a></td>
           <td  width="8%"><a href="#" routerLinkActive="active">Click Here</a></td>
-          <td  class="text-center edit-block" width="20%">
-            <a class="edit" [routerLink]="['/technical-list/', TechnicalInterview.userName]" [state]="{username:this.userName,accessLevel:this.accessLevel}">
-              <button type="button" class="btn btn-success btn-sm">Initiate Interview</button>&nbsp;
-            </a>
+          <td  class="text-center edit-block" width="20%">            
+            <input type="radio" name="radiogroup" 
+            (change)="onSelectionChange(TechnicalInterview.userName)">           
           </td>
         </tr>
         </tbody>
       </table>
+      
+      <div  class="float-right text-right">
+       <span (click)="exceptionalApproval()">
+              <button type="button"class="btn btn-success btn-sm" >Exceptional Approval</button>
+            </span>
+            &nbsp;
+            <a class="edit" [routerLink]="['/technical-list/', emailSelected]" [state]="{username:this.userName,accessLevel:this.accessLevel}">
+              <button type="button" class="btn btn-success btn-sm">Initiate Interview</button>&nbsp;
+            </a>
+          </div>
       <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
     </div>
   </div>
