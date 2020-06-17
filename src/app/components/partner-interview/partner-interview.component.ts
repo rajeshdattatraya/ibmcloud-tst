@@ -16,6 +16,7 @@ export class PartnerInterviewComponent implements OnInit {
   config: any;
   accessLevel: String = "";
   mode: string = "";
+  emailSelected = "";
 
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
       this.config = {
@@ -35,11 +36,7 @@ export class PartnerInterviewComponent implements OnInit {
 
   ngOnInit() {
       this.accessLevel="partner";
-      this.browserRefresh = browserRefresh;
-      if (this.browserRefresh) {
-            window.alert('You are redirected to login screen.');
-            this.router.navigate(['/login-component']);
-      }
+      this.browserRefresh = browserRefresh;      
   }
 
   pageChange(newPage: number) {
@@ -47,9 +44,30 @@ export class PartnerInterviewComponent implements OnInit {
   }
 
 
+  exceptionalApproval() {
+    if (this.emailSelected == "") {
+      alert("please select the candidate")
+    }
+
+    this.apiService.updateExceptionalApprovalForStage4(this.emailSelected).subscribe(res => {
+      window.alert('Succesfully updated candidate status');
+      window.location.reload();
+    }, (error) => {
+      console.log(error);
+    })
+  }
+
+  
+
+  onSelectionChange(value) {
+    this.emailSelected = value;
+
+  }
+
   getPartnerInterviewList(){
     this.apiService.getPartnerInterviewList().subscribe((data) => {
      this.PartnerInterviewList = data;
+     console.log("partner details here",data)
     })
   }
 }

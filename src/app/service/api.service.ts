@@ -101,9 +101,7 @@ getPreTechniaclQuestions(jrss,userName): Observable<any> {
   // Create user
   createUser(data): Observable<any> {
 
-    let url = `${this.baseloginUri}/login`;
-    console.log('API SERVICE')
-    console.log('---get--'+ this.http.get(`${this.baseloginUri}`));
+    let url = `${this.baseloginUri}/login`;    
     return this.http.post(url, data)
       .pipe(
         catchError(this.errorMgmt)
@@ -478,6 +476,14 @@ updateResults(id: string,data: UserResult): Observable<any> {
 // Update candidate
 updateExceptionalApproval(id: string): Observable<any> {
   let url = `${this.userResultUri}/updateExceptionalApproval/${id}`;
+  return this.http.put(url,{ headers: this.headers }).pipe(
+    catchError(this.errorMgmt)
+  )
+}
+
+// Update candidate
+updateExceptionalApprovalForStage4(id: string): Observable<any> {
+  let url = `${this.userResultUri}/updateExceptionalApprovalStage4/${id}`;
   return this.http.put(url,{ headers: this.headers }).pipe(
     catchError(this.errorMgmt)
   )
