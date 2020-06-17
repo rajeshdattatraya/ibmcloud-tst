@@ -474,6 +474,15 @@ updateResults(id: string,data: UserResult): Observable<any> {
   )
 }
 
+
+// Update candidate
+updateExceptionalApproval(id: string): Observable<any> {
+  let url = `${this.userResultUri}/updateExceptionalApproval/${id}`;
+  return this.http.put(url,{ headers: this.headers }).pipe(
+    catchError(this.errorMgmt)
+  )
+}
+
 readTechInterviewDetails(userName): Observable<any> {
   let url = `${this.userResultUri}/readCandidateTechSMEReviewDetails/${userName}`;
   return this.http.get(url, {headers: this.headers}).pipe(
