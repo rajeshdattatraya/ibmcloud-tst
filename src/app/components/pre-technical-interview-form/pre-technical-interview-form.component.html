@@ -1,0 +1,44 @@
+<h1>works...</h1>
+<!-- Modal Code starts. -->
+
+  <div>
+    <div class="modal-header table-success">
+      <h4 class="modal-title">Pre_technical Assessment Details</h4>
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+    </div>
+  </div>
+ 
+<div class="card>">
+  <table>
+    <tbody style="background-color: white;">
+      <tr>
+        <td><b>{{this.preTechQuesAndAns[0].preTechQuestion}}</b></td>      
+      </tr>
+      <tr>
+        <td>&nbsp;{{this.preTechQuesAndAns[0].answer}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!--Not entering this div and not displaying questions and answers-->
+<div *ngFor="let preTechQAndA of preTechQuesAndAns;let i=index">
+  <table  style="table-layout: fixed; width: 100%">
+    <tbody style="background-color: white;">
+      <tr>
+        <td><b>{{i+1}}.&nbsp;{{preTechQAndA.preTechQuestion}}</b></td>   
+
+      </tr>
+      <tr></tr>
+      <tr>
+        <td>&nbsp;{{preTechQAndA.answer}}</td>
+      </tr>
+      </tbody>
+  </table>
+</div>
+
+
+<div class="modal-footer table-success">
+  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>
+

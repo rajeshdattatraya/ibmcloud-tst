@@ -29,6 +29,7 @@ import { PreTechFormComponent } from './components/pre-tech-form/pre-tech-form.c
 import { TechnicalInterviewComponent } from './components/technical-interview/technical-interview.component';
 import { WorkflowConfigComponent } from './components/workflow-config/workflow-config.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { PreTechnicalInterviewFormComponent } from './components/pre-technical-interview-form/pre-technical-interview-form.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login-component' },
@@ -57,11 +58,13 @@ const routes: Routes = [
   { path: 'partner-list', component:PartnerInterviewComponent },
   { path: 'initiate-partner-interview/:id', component:PartnerInterviewInitiateComponent },
   { path: 'operations-candidate-list', component:OperationsCandidateListComponent },
-  {path: 'pre-tech-form', component:PreTechFormComponent},
+  { path: 'pre-tech-form', component:PreTechFormComponent},
   { path: 'initiate-operations-project/:id', component:OperationsProjectInitiateComponent },
   { path: 'technical-list/:id', component:TechnicalInterviewComponent },
   { path: 'workflow-config', component:WorkflowConfigComponent },
-  { path: 'dashboard', component:DashboardComponent}
+  { path: 'dashboard', component:DashboardComponent},
+  { path: 'pre-technical-interview-form/:jrss/:username',component:PreTechnicalInterviewFormComponent},
+
 
   
 ];
