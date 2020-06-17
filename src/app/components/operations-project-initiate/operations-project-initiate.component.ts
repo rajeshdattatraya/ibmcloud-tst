@@ -78,7 +78,7 @@ get myForm(){
     if (!this.operationsProjectForm.valid) {
       return false;
     } else {
-    let operationsDetails = new OperationsDetails(this.operationsProjectDetails[0].result_users[0].employeeName, this.operationsProjectForm.value.projectLocation,
+    let operationsDetails = new OperationsDetails(this.operationsProjectDetails[0].result_users[0].username, this.operationsProjectForm.value.projectLocation,
       this.operationsProjectForm.value.projectName, this.operationsProjectForm.value.projectPosition, this.operationsProjectForm.value.managementComments, this.userName, new Date());
 
     // Insert into projectAlloc table
