@@ -1,0 +1,19 @@
+<div class="card w-85">
+    <div class="card-header"><i><b><font style="font-size:14px">Enter Search Criteria</font></b></i></div>
+    <div class="card-body">
+    <form novalidate [formGroup]="form">
+      <div>
+        <br>
+        <div class="form-group row">
+            <div class="col-sm-4">
+            <input type="search" #candiateName formControlName="employeeName" placeholder="Search using Candidate Name" id="search4" aria-label="Search" ></div>            
+            <div class="col-sm-4">
+            <button class="btn btn-primary float-center" (click)="search(form.value)">Search</button>
+            </div>
+        </div>
+      </div>
+    </form>
+    </div>
+    </div>
+    
+    

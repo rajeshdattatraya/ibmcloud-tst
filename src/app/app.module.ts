@@ -28,15 +28,14 @@ import { JrssCreateComponent } from './components/jrss-create/jrss-create.compon
 import { StreamCreateComponent } from './components/stream-create/stream-create.component';
 import {UserModule} from './components/view-testresults/user.module';
 import { DashboardUserModule } from './components/dashboard/dashboard-user.module';
+import { OperationsUserModule } from './components/operations-candidate-list/operations-user.module';
 import { PartnerInterviewComponent } from './components/partner-interview/partner-interview.component';
 import { PartnerInterviewInitiateComponent } from './components/partner-interview-initiate/partner-interview-initiate.component';
-import { OperationsCandidateListComponent } from './components/operations-candidate-list/operations-candidate-list.component';
 import { OperationsProjectInitiateComponent } from './components/operations-project-initiate/operations-project-initiate.component';
 import { TechnicalInterviewListComponent } from './components/technical-interview-list/technical-interview-list.component';
 import { PreTechFormComponent } from './components/pre-tech-form/pre-tech-form.component';
 import { TechnicalInterviewComponent } from './components/technical-interview/technical-interview.component';
 import { WorkflowConfigComponent } from './components/workflow-config/workflow-config.component';
-
 
 export let browserRefresh = false;
 
@@ -61,8 +60,7 @@ export let browserRefresh = false;
     JrssCreateComponent,
     StreamCreateComponent,
     PartnerInterviewComponent,
-    PartnerInterviewInitiateComponent,
-    OperationsCandidateListComponent,
+    PartnerInterviewInitiateComponent,   
     OperationsProjectInitiateComponent,
     TechnicalInterviewListComponent,
     PreTechFormComponent,
@@ -78,6 +76,7 @@ export let browserRefresh = false;
     HttpClientModule,
     UserModule,
     DashboardUserModule,
+    OperationsUserModule,
     [ NgxPaginationModule ],
     BackButtonDisableModule.forRoot({
       preserveScrollPosition: true
