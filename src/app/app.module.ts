@@ -26,10 +26,10 @@ import { TestConfigAddComponent } from './components/test-config-add/test-config
 import { TestConfigEditComponent } from './components/test-config-edit/test-config-edit.component';
 import { JrssCreateComponent } from './components/jrss-create/jrss-create.component';
 import { StreamCreateComponent } from './components/stream-create/stream-create.component';
-import {UserModule} from './components/view-testresults/user.module';
+import { UserModule} from './components/view-testresults/user.module';
 import { DashboardUserModule } from './components/dashboard/dashboard-user.module';
 import { OperationsUserModule } from './components/operations-candidate-list/operations-user.module';
-import { PartnerInterviewComponent } from './components/partner-interview/partner-interview.component';
+import { PartnerUserModule } from './components/partner-interview/partner-user.module';
 import { PartnerInterviewInitiateComponent } from './components/partner-interview-initiate/partner-interview-initiate.component';
 import { OperationsProjectInitiateComponent } from './components/operations-project-initiate/operations-project-initiate.component';
 import { TechnicalInterviewListComponent } from './components/technical-interview-list/technical-interview-list.component';
@@ -58,8 +58,7 @@ export let browserRefresh = false;
     TestConfigAddComponent,
     TestConfigEditComponent,
     JrssCreateComponent,
-    StreamCreateComponent,
-    PartnerInterviewComponent,
+    StreamCreateComponent,   
     PartnerInterviewInitiateComponent,   
     OperationsProjectInitiateComponent,
     TechnicalInterviewListComponent,
@@ -77,6 +76,7 @@ export let browserRefresh = false;
     UserModule,
     DashboardUserModule,
     OperationsUserModule,
+    PartnerUserModule,
     [ NgxPaginationModule ],
     BackButtonDisableModule.forRoot({
       preserveScrollPosition: true

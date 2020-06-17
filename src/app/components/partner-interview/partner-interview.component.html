@@ -17,53 +17,9 @@
   </div>
 </nav>
 <br>
-<div>
-  <div>
-    <h4 class="my-0 mr-md-auto font-weight-normal">Partner Interview Assessment Queue</h4>
-    <br/>
-  </div>
-  <div class="container">
-    <!-- No data message -->
-    <p *ngIf="PartnerInterviewList.length <= 0" class="no-data text-center">There are no records in Partner Interview Assessment Queue</p>
 
-    <!-- Partner Interview list -->
-    <table class="table table-bordered" >
-      <thead class="table-success">
-      <tr>
-        <th scope="col" width="12%">Name</th>
-        <th scope="col" width="20%">JRSS</th>
-        <th scope="col" width="20%">Online Quiz Result</th>
-        <th scope="col" width="23%">Technical Interview Result</th>
-        <th scope="col" width="8%">CV Download</th>
-        <th scope="col center" width="20%">Action</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let partnerInterview of PartnerInterviewList | paginate: config; let i = index">
-        <td  width="12%">{{partnerInterview.result_users[0].employeeName}}</td>
-        <td  width="20%">{{partnerInterview.result_users[0].JRSS}}</td>
-        <td  width="20%">{{partnerInterview.userScore}}%</td>
-        <td  width="23%">{{partnerInterview.smeResult}}</td>
-        <td  width="8%"><a href="#" routerLinkActive="active">Click Here</a></td>
-        <td  class="text-center edit-block" width="20%">
-          <input type="radio" name="radiogroup" 
-          (change)="onSelectionChange(partnerInterview.userName)">           
-          <!-- <a class="edit" [routerLink]="['/initiate-partner-interview/', partnerInterview.userName]" [state]="{username:this.userName,accessLevel:this.accessLevel}">
-            <button type="button" class="btn btn-success btn-sm">Initiate Interview</button>&nbsp;
-          </a> -->
-        </td>
-      </tr>
-      </tbody>
-    </table>
-    <div  class="float-right text-right">
-      <span (click)="exceptionalApproval()">
-             <button type="button"class="btn btn-success btn-sm" >Exceptional Approval</button>
-           </span>
-           &nbsp;
-           <a class="edit" [routerLink]="['/initiate-partner-interview/', emailSelected]" [state]="{username:this.userName,accessLevel:this.accessLevel}">
-             <button type="button" class="btn btn-success btn-sm">Initiate Interview</button>&nbsp;
-           </a>
-         </div>
-    <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
-  </div>
+<div class="container">
+  <app-partner-interview-search (groupFilters)="filters = $event"></app-partner-interview-search>
+  <br/>
+  <app-partner-interview-list [groupFilters]="filters" [searchByKeyword]="searchText"></app-partner-interview-list>
 </div>
