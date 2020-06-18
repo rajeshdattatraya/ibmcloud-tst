@@ -17,6 +17,7 @@ export class TechnicalInterviewListComponent implements OnInit {
   TechnicalInterviewList: any = [];
   config: any;
   emailSelected = "";
+  quizNumber;
 
 
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService, private ngZone: NgZone) {
@@ -29,7 +30,6 @@ export class TechnicalInterviewListComponent implements OnInit {
     if (!this.browserRefresh) {
       this.userName = this.router.getCurrentNavigation().extras.state.username;
       this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
-      console.log("accessLevel*", this.accessLevel);
     }
     route.queryParams.subscribe(
       params => this.config.currentPage = params['page'] ? params['page'] : 1);
@@ -47,18 +47,27 @@ export class TechnicalInterviewListComponent implements OnInit {
     if (this.emailSelected == "") {
       alert("please select the candidate")
     }
-
-    this.apiService.updateExceptionalApproval(this.emailSelected).subscribe(res => {
-      window.alert('Succesfully updated candidate');
-      window.location.reload();
-    }, (error) => {
-      console.log(error);
-    })
+    else {
+      this.apiService.updateExceptionalApproval(this.emailSelected,this.quizNumber).subscribe(res => {
+        window.alert('Succesfully updated candidate');
+        window.location.reload();
+      }, (error) => {
+        console.log(error);
+      })
+    }
+  }
+  initiateInterview() {
+    if (this.emailSelected == "") {
+      alert("please select the candidate")
+    }
+    else {      
+      this.router.navigate(['/technical-list/', this.emailSelected], { state: { username: this.userName, accessLevel: this.accessLevel } })
+    }
   }
 
-
-  onSelectionChange(value) {
+  onSelectionChange(value,quizNumber) {
     this.emailSelected = value;
+    this.quizNumber=quizNumber;
 
   }
 

@@ -46,13 +46,12 @@ this.mode = this.router.getCurrentNavigation().extras.state.mode;
    this.mode="pre-tech"
  }
 logout(){	
-	if(window.confirm("are you sure?\nplease save the data if you haven't by clicking on Cancel")){
+	if(window.confirm("Proceed if you already saved your data!")){
 		this.router.navigate(['/login-component']);
 	}
 
 }
  ngOnInit(): void {
-	console.log('here in pre',this.mode)
 	 this.getPreTechAssessmentQuestions();
 	 
 }
@@ -68,7 +67,6 @@ this.preTechService.getStageStatusByUserName(this.userName).subscribe(
 	  if (this.stage2_status == "Completed") {
 			this.stage2Completed =  true	  
 	  }
-	  console.log("******* this.stage2_status ****** ",this.stage2_status);
 	  });
 	  
      // Get jrss

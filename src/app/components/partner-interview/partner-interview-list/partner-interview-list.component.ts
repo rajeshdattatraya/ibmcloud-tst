@@ -23,6 +23,7 @@ export class PartnerInterviewListComponent implements OnChanges {
   accessLevel: String = "";
   mode: string = "";
   emailSelected = "";
+  quizNumber;
 
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
       this.config = {
@@ -60,16 +61,25 @@ export class PartnerInterviewListComponent implements OnChanges {
       alert("please select the candidate")
     }
 
-    this.apiService.updateExceptionalApprovalForStage4(this.emailSelected).subscribe(res => {
+    this.apiService.updateExceptionalApprovalForStage4(this.emailSelected,this.quizNumber).subscribe(res => {
       window.alert('Succesfully updated candidate status');
       window.location.reload();
     }, (error) => {
       console.log(error);
     })
   } 
+  initiateInterview() {
+    if (this.emailSelected == "") {
+      alert("please select the candidate")
+    }
+    else {
+      this.router.navigate(['/initiate-partner-interview/', this.emailSelected], { state: { username: this.userName, accessLevel: this.accessLevel } })
+    }
+  }
 
-  onSelectionChange(value) {
+  onSelectionChange(value,quizNumber) {
     this.emailSelected = value;
+    this.quizNumber=quizNumber;
   }
 
   getPartnerInterviewList(){

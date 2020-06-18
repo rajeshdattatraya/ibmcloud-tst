@@ -27,21 +27,19 @@
           <td  width="8%"><a href="#" routerLinkActive="active">Click Here</a></td>
           <td  class="text-center edit-block" width="20%">
             <input type="radio" name="radiogroup" 
-            (change)="onSelectionChange(partnerInterview.userName)">           
-            <!-- <a class="edit" [routerLink]="['/initiate-partner-interview/', partnerInterview.userName]" [state]="{username:this.userName,accessLevel:this.accessLevel}">
-              <button type="button" class="btn btn-success btn-sm">Initiate Interview</button>&nbsp;
-            </a> -->
+            (change)="onSelectionChange(partnerInterview.userName,partnerInterview.quizNumber)">
           </td>
         </tr>
         </tbody>
       </table>
-      <div  class="float-right text-right">
+
+      <div  class="float-right text-right" *ngIf="Result.length > 0">
         <span (click)="exceptionalApproval()">
                <button type="button"class="btn btn-success btn-sm" >Exceptional Approval</button>
              </span>
              &nbsp;
-             <a class="edit" [routerLink]="['/initiate-partner-interview/', emailSelected]" [state]="{username:this.userName,accessLevel:this.accessLevel}">
-               <button type="button" class="btn btn-success btn-sm">Initiate Interview</button>&nbsp;
-             </a>
+             <span (click)="initiateInterview()">
+              <button type="button" class="btn btn-success btn-sm">Initiate Interview</button>&nbsp;
+            </span>         
            </div>
       <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>

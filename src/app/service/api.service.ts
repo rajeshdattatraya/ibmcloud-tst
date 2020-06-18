@@ -485,16 +485,16 @@ updateResults(id: string,data: UserResult): Observable<any> {
 
 
 // Update candidate
-updateExceptionalApproval(id: string): Observable<any> {
-  let url = `${this.userResultUri}/updateExceptionalApproval/${id}`;
+updateExceptionalApproval(id: string,quizNumber): Observable<any> {
+  let url = `${this.userResultUri}/updateExceptionalApproval/${id}/${quizNumber}`;
   return this.http.put(url,{ headers: this.headers }).pipe(
     catchError(this.errorMgmt)
   )
 }
 
 // Update candidate
-updateExceptionalApprovalForStage4(id: string): Observable<any> {
-  let url = `${this.userResultUri}/updateExceptionalApprovalStage4/${id}`;
+updateExceptionalApprovalForStage4(id: string,quizNumber): Observable<any> {
+  let url = `${this.userResultUri}/updateExceptionalApprovalStage4/${id}/${quizNumber}`;
   return this.http.put(url,{ headers: this.headers }).pipe(
     catchError(this.errorMgmt)
   )
