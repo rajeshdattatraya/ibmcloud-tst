@@ -40,10 +40,12 @@
           <td *ngIf="TechnicalInterview.stage2_status=='Skipped'">Stage2 is Skipped</td>
           <td *ngIf="TechnicalInterview.stage2_status=='Completed'">
               <!--<a href="#assessmentModal"  (click)="getPreTechnicalAssessmentDetails(TechnicalInterview.result_users[0].JRSS,TechnicalInterview.result_users[0].username)" class="col-4 cursor-pointer" data-toggle="modal" >Click here</a>-->
-              <a class="edit" [routerLink]="['/pre-technical-interview-form/',TechnicalInterview.result_users[0].JRSS, TechnicalInterview.userName]" [state]="{jrss:TechnicalInterview.result_users[0].JRSS,username:TechnicalInterview.result_users[0].username}">
+              <a class="edit" [routerLink]="['/pre-technical-interview-form/',TechnicalInterview.result_users[0].JRSS, TechnicalInterview.userName]" 
+              [state]="{jrss:TechnicalInterview.result_users[0].JRSS,username:TechnicalInterview.result_users[0].username,access:'tech-list'}">
                 <button type="button" class="btn btn-success btn-sm">Click here</button>&nbsp;
               </a>
-          </td>          <td  width="8%"><a href="#" routerLinkActive="active">Click Here</a></td>
+          </td>      
+          <td  width="8%"><a href="#" routerLinkActive="active">Click Here</a></td>
           <td  class="text-center edit-block" width="20%">            
             <input type="radio" name="radiogroup" 
             (change)="onSelectionChange(TechnicalInterview.userName)">           

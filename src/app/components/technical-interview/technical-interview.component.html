@@ -26,7 +26,13 @@
         <td  width="25%"><label style="color: mediumpurple">You can download CV here:</label></td>
         <td  width="25%"><a href="#" routerLinkActive="active">Click here</a></td>
         <td  width="25%"><label style="color: mediumpurple">You can access the Pre-Technical-Interview form here:</label></td>
-        <td  width="25%"><a href="#" routerLinkActive="active">Click here</a></td>
+        <td *ngIf="result.stage2_status=='Skipped'">Stage2 is Skipped</td>
+        <td *ngIf="result.stage2_status=='Completed'">
+            <!--<a href="#assessmentModal"  (click)="getPreTechnicalAssessmentDetails(TechnicalInterview.result_users[0].JRSS,TechnicalInterview.result_users[0].username)" class="col-4 cursor-pointer" data-toggle="modal" >Click here</a>-->
+            <a class="edit" [routerLink]="['/pre-technical-interview-form/',result.result_users[0].JRSS, result.userName]" [state]="{jrss:result.result_users[0].JRSS,username:result.result_users[0].username,access:'tech-interview-initiate'}">
+              <td  width="25%"><a href="#" routerLinkActive="active">Click here</a></td>
+            </a>
+        </td>
       </tr>
       </tbody>
     </table>

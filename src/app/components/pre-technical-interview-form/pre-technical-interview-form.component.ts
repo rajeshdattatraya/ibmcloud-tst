@@ -21,6 +21,10 @@ export class PreTechnicalInterviewFormComponent implements OnInit {
   config: any;
   preTechAssmntQuestions:any = [];
   preTechQuesAndAns: PreTechQuesAndAns[] = [];
+  access:any = this.router.getCurrentNavigation().extras.state.access;
+  
+  username =this.route.snapshot.paramMap.get('username');
+
 
 
 
@@ -42,20 +46,33 @@ export class PreTechnicalInterviewFormComponent implements OnInit {
       
       let jrss =this.route.snapshot.paramMap.get('jrss');
       let username =this.route.snapshot.paramMap.get('username');
-      this.getPreTechnicalAssessmentDetails(jrss,username);
+      this.access = this.router.getCurrentNavigation().extras.state.access;
+      console.log("access------*",this.access);
+
+
+      this.getPreTechnicalAssessmentDetails(jrss,username,this.access);
   }
 
   ngOnInit(): void {
-    let jrss =this.route.snapshot.paramMap.get('jrss');
-      let username =this.route.snapshot.paramMap.get('username');
-    this.getPreTechnicalAssessmentDetails(jrss,username);
+   
   }
 
- 
 
-  getPreTechnicalAssessmentDetails(jrss,username) {
+
+  close() {
+    if(this.access =='tech-list'){
+      this.router.navigate(['/technical-interview-list'], { state: { username: this.userName, accessLevel: this.accessLevel } })   
+    }
+     if(this.access =='tech-interview-initiate'){
+      this.router.navigate(['/technical-list/', this.userName], { state: { username: this.userName, accessLevel: this.accessLevel } })
+     }
+  }
+
+
+  getPreTechnicalAssessmentDetails(jrss,username,access) {
     console.log('username--'+username);
     console.log('jrss--'+jrss);
+    console.log('accesslevl----'+access);
     this.preTechQuesAndAns = [];    
     this.preTechService.getPreTechAssessmentQuestions(jrss,username).subscribe(res => {
     this.preTechAssmntQuestions = res;
