@@ -27,6 +27,11 @@ export class DashboardListComponent implements OnChanges {
   config: any;
   accessLevel: String = "";
   mode: string = "";
+  candidateID: any;
+  dashboardDetails: any = [];
+  displayTechInterview: boolean = true;
+  displayPartnerInterview: boolean = true;
+  displayProjectAssign: boolean = true;
 
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
         this.config = {
@@ -81,6 +86,7 @@ export class DashboardListComponent implements OnChanges {
         return result.reduce((acc, cur: any) => { return acc & cur }, 1)
       }
       this.filteredUsers = this.users.filter(filterUser);
+      console.log("this.filteredUsers length"+this.filteredUsers.length);
       this.Result = this.filteredUsers
     }
 
@@ -103,6 +109,37 @@ export class DashboardListComponent implements OnChanges {
         this.users = data
         this.filteredUsers = this.filteredUsers.length > 0 ? this.filteredUsers : this.users;
       })
+    }
+
+    setCandidateID(id) {
+      console.log("id"+id);
+      this.candidateID = id;
+    }
+
+    viewDetails(id) {
+      this.candidateID = id;
+      this.mode = "displayModalBody";
+      this.displayTechInterview = true;
+      this.displayPartnerInterview = true;
+      this.displayProjectAssign = true;
+      this.apiService.viewDashboardDetails(this.candidateID).subscribe((data) => {
+         this.dashboardDetails = data;
+
+         if (this.dashboardDetails[0] === undefined ||
+            (this.dashboardDetails[0].smeResult === undefined &&
+             this.dashboardDetails[0].smeFeedback === undefined)) {
+            this.displayTechInterview = false;
+         }
+         if (this.dashboardDetails[0] === undefined ||
+            (this.dashboardDetails[0].managementResult === undefined &&
+            this.dashboardDetails[0].managementFeedback === undefined)) {
+            this.displayPartnerInterview = false;
+         }
+         if (this.dashboardDetails[0] === undefined ||
+             this.dashboardDetails[0].result_projectAlloc.length == 0) {
+             this.displayProjectAssign = false;
+         }
+      });
     }
 
   }

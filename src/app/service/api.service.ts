@@ -374,6 +374,17 @@ getDashboardList(): Observable<any> {
   )
 }
 
+//viewDashboardDetails
+viewDashboardDetails(id): Observable<any> {
+  let url = `${this.userResultUri}/viewDashboardDetails/${id}`;
+  return this.http.get(url, {headers: this.headers}).pipe(
+        map((res: Response) => {
+          return res || {}
+        }),
+        catchError(this.errorMgmt)
+  )
+}
+
 //getPartnerInterviewList
 getPartnerInterviewList(): Observable<any> {
   let url = `${this.userResultUri}/getPartnerInterviewList`;

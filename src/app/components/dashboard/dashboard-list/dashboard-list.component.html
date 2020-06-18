@@ -15,7 +15,7 @@
       </thead>
       <tbody>
       <tr *ngFor="let result of Result | filter: searchByKeyword: 'name' | paginate: config; let i = index">
-        <td><input type="radio"></td>
+        <td><input type="radio" name="candidateRadio" value="result._id" (click)="setCandidateID(result._id)"></td>
         <td  width="16%">{{result.result_users[0].employeeName}}</td>
         <td  width="25%">{{result.result_users[0].JRSS}}</td>
         <td  width="15%">{{result.userScore}}</td>
@@ -30,4 +30,130 @@
       </tbody>
     </table>
     <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
+    <div *ngIf="Result.length > 0" style="width:100%">
+      <table>
+        <tr>
+          <td width="45%"></td>
+          <td width="25%"></td>
+          <td width="5%"></td>
+          <td width="25%"><button class="btn btn-primary align-right" data-toggle="modal" href="#candidateModal" (click)="viewDetails(this.candidateID)">View Details</button></td>
+
+        </tr>
+      </table>
+    </div>
+
+    <!-- Modal window to view candidate details-->
+    <!-- Modal -->
+    <div id="candidateModal" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header table-success">
+            <h4 class="modal-title">View Candidate Details</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body" *ngIf="mode=='displayModalBody'">
+            <div class="card">
+              <div class="card-header">Candidate details</div>
+              <div class="card-body">
+              <table>
+                <tr>
+                  <td width="25%"><label style="color: mediumpurple">Name:</label></td>
+                  <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].employeeName}}</td>
+                  <td width="25%"><label style="color: mediumpurple">Email:</label></td>
+                  <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].email}}</td>
+                </tr>
+                <tr>
+                  <td width="25%"><label style="color: mediumpurple">Band:</label></td>
+                  <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].band}}</td>
+                  <td width="20%"><label style="color: mediumpurple">Job Role:</label></td>
+                  <td width="35%">&nbsp;{{this.dashboardDetails[0].result_users[0].JRSS}}</td>
+                </tr>
+                <tr>
+                  <td width="25%"><label style="color: mediumpurple">DateOfJoining:</label></td>
+                  <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].dateOfJoining.split('T')[0]}}</td>
+                  <td width="25%"><label style="color: mediumpurple">PhoneNumber:</label></td>
+                  <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].phoneNumber}}</td>
+                </tr>
+                <tr>
+                  <td width="25%"><label style="color: mediumpurple">Technology Stream:</label></td>
+                  <td colspan="3" width="75%">&nbsp;{{this.dashboardDetails[0].result_users[0].technologyStream}}</td>
+                </tr>
+            </table>
+              </div>
+            </div>
+
+            <div class="card">
+            <div class="card-header">Online Test Details</div>
+            <div class="card-body">
+              <table>
+                <tr>
+                  <td width="25%"><label style="color: mediumpurple">Online Test Result:</label></td>
+                  <td colspan="2" width="75%">&nbsp;{{this.dashboardDetails[0].userScore}}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="card" *ngIf="displayTechInterview">
+          <div class="card-header">Technical Interview Details</div>
+          <div class="card-body">
+            <table>
+              <tr>
+                <td width="25%"><label style="color: mediumpurple">SME Result:</label></td>
+                <td colspan="3" width="75%">&nbsp;{{this.dashboardDetails[0].smeResult}}</td>
+              </tr>
+              <tr>
+                <td width="25%"><label style="color: mediumpurple">SME Feedback:</label></td>
+                <td colspan="3" width="75%">&nbsp;<textarea type="textArea" maxlength="3000" cols="50" disabled readonly value="{{this.dashboardDetails[0].smeFeedback}}"></textarea></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="card" *ngIf="displayPartnerInterview">
+        <div class="card-header">Partner Interview Details</div>
+        <div class="card-body">
+          <table>
+            <tr>
+              <td width="25%"><label style="color: mediumpurple">Partner Result:</label></td>
+              <td colspan="3" width="75%">&nbsp;{{this.dashboardDetails[0].managementResult}}</td>
+            </tr>
+            <tr>
+              <td width="25%"><label style="color: mediumpurple">Partner FeedBack:</label></td>
+              <td colspan="3" width="75%">&nbsp;<textarea type="textArea" maxlength="3000" cols="50" disabled readonly value="{{this.dashboardDetails[0].managementFeedback}}"></textarea></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" *ngIf="displayProjectAssign">
+      <div class="card-header">Project Assignment Details</div>
+      <div class="card-body">
+        <table>
+          <tr>
+            <td width="20%"><label style="color: mediumpurple">Location:</label></td>
+            <td width="30%">&nbsp;{{this.dashboardDetails[0].result_projectAlloc[0].location}}</td>
+            <td width="20%"><label style="color: mediumpurple">ProjectName:</label></td>
+            <td width="30%">&nbsp;{{this.dashboardDetails[0].result_projectAlloc[0].projectName}}</td>
+          </tr>
+          <tr>
+            <td width="20%"><label style="color: mediumpurple">Position:</label></td>
+            <td width="30%">&nbsp;{{this.dashboardDetails[0].result_projectAlloc[0].position}}</td>
+            <td width="20%"><label style="color: mediumpurple">Comments:</label></td>
+            <td width="30%">&nbsp;{{this.dashboardDetails[0].result_projectAlloc[0].comments}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+          </div>
+          <div class="modal-footer table-success">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
 
