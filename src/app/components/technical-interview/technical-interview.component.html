@@ -2,10 +2,14 @@
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" routerLinkActive="active">Initiate Technical Interview</a>
+        <a class="nav-link" routerLinkActive="active"><b>Initiate Technical Interview</b></a>
       </li>
-      <li class="nav-item align-right">
-        <a class="nav-link" routerLink="/login-component" routerLinkActive="active">Logout</a>
+    </ul>
+  </div>
+  <div>
+    <ul class="navbar-nav navbar-right">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/login-component" routerLinkActive="active"><b>Logout</b></a>
       </li>
     </ul>
   </div>
@@ -142,19 +146,12 @@
           </td>
         </tr>
         <br/>
-        <tr>
-          <td></td>
-          <td colspan="3" class="text-center">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <button size="8" type="submit"class="btn btn-secondary" >Submit</button>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <button size="8" type="reset" (click)="resetForm()" class="btn btn-secondary">Clear</button>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <button size="8"  type="button" (click)="cancelForm()" class="btn btn-secondary">Cancel</button>
-          </td>
-
-            </tr>
       </table>
+      <div class="text-center" style="width: 1000px">
+        <button  type="submit"class="btn btn-success btn-sm" >Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <button  type="reset" (click)="resetForm()" class="btn btn-success btn-sm">Clear</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <button  type="button" (click)="cancelForm()" class="btn btn-success btn-sm">Cancel</button>
+      </div>
   <!-- {{this.techskillForm.value | json}} -->
   </form>
   </div>

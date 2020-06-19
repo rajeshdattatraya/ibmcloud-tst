@@ -1,29 +1,27 @@
-  <div>
+
     <div class="modal-header table-success">
-      <h4 class="modal-title">Pre_technical Assessment Details</h4>
+      <h4 class="modal-title">Pre_Technical Assessement Form</h4>
       <button type="button" (click)="close()" class="close" data-dismiss="modal">&times;</button>
     </div>
-  </div>
  
 <div *ngFor="let preTechQAndA of preTechQuesAndAns;let i=index">
   <table  style="table-layout: fixed; width: 100%">
     <tbody style="background-color: white;">
       <tr>
         <td><b>{{i+1}}.&nbsp;{{preTechQAndA.preTechQuestion}}</b></td>   
-
       </tr>
-      <tr></tr>
       <tr>
-        <td>&nbsp;{{preTechQAndA.answer}}</td>
+        <td>&nbsp;&nbsp;{{preTechQAndA.answer}}</td>
       </tr>
       </tbody>
   </table>
 </div>
 
+    <div class="text-center" style="width: 1000px">
+      <span (click)="close()">
+        <button type="button" class="btn btn-success btn-sm">Close</button>&nbsp;
+      </span>
+  </div>
+  
 
-<div class="modal-footer table-success">
-  <span (click)="close()">
-    <button type="button" class="btn btn-success btn-sm">Close</button>&nbsp;
-  </span>
-</div>
 
