@@ -42,7 +42,6 @@ export class TestConfigService {
     // Get Test Config
     findTestConfigByJRSS(JRSS): Observable<any> {
       let url = `${this.baseUri}/findTestConfigByJRSS/${JRSS}`;
-      console.log("in api service",this.http.get(url, {headers: this.headers}));
       return this.http.get(url, {headers: this.headers}).pipe(
         
         map((res: Response) => {

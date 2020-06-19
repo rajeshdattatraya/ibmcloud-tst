@@ -42,16 +42,17 @@
   </div>
 </nav>
 <br/>
-<div class="row justify-content-center">
-  <div class="col-md-8 register-employee">
-    <h4 class="my-0 mr-md-auto font-weight-normal">Add Test Configuration</h4>
-    <br/>
+<div>
+  <h4 class="my-0 mr-md-auto font-weight-normal">Add Test Configuration</h4>
+  <br/>
+</div>
     <!-- form Test Config -->
+    <div class="card w-85">
     <div class="card-body">
       <form [formGroup]="testConfigAddForm" (ngSubmit)="onSubmit()">
         <div class="form-group row">
           <label for="inputJRSS3" class="col-sm-4 col-form-label">Job Role</label>
-          <div class="col-sm-8">
+          <div class="col-sm-6">
             <select class="custom-select form-control" (change)="updateJrssProfile($event.target.value)"
                     formControlName="JRSS" id="inputJRSS3" [ngClass]="{ 'is-invalid': submitted && myForm.JRSS.errors }">
               <option value="">Choose...</option>
@@ -66,7 +67,7 @@
 
         <div class="form-group row">
           <label for="inputNoOfQuestions3" class="col-sm-4 col-form-label">Number of Questions</label>
-          <div class="col-sm-8">
+          <div class="col-sm-6">
             <input class="form-control" type="text" formControlName="noOfQuestions" id="inputNoOfQuestions3" [ngClass]="{ 'is-invalid': submitted && myForm.noOfQuestions.errors }" maxlength="3" minlength="1">
             <div *ngIf="submitted && myForm.noOfQuestions.errors" class="invalid-feedback">
               <div *ngIf="myForm.noOfQuestions.errors.required">Number of Questions is required</div>
@@ -77,7 +78,7 @@
 
         <div class="form-group row">
           <label for="inputTestDuration3" class="col-sm-4 col-form-label">Test Duration(in Minutes)</label>
-          <div class="col-sm-8">
+          <div class="col-sm-6">
             <input class="form-control" type="text" formControlName="testDuration" id="inputTestDuration3" [ngClass]="{ 'is-invalid': submitted && myForm.testDuration.errors }" maxlength="10" minlength="2">
             <div *ngIf="submitted && myForm.testDuration.errors" class="invalid-feedback">
               <div *ngIf="myForm.testDuration.errors.required">Test Duration is required</div>
@@ -88,7 +89,7 @@
 
         <div class="form-group row">
           <label for="inputPassingScore" class="col-sm-4 col-form-label">Passing Score</label>
-          <div class="col-sm-8">
+          <div class="col-sm-6">
             <input class="form-control" type="text" formControlName="passingScore" id="inputPassingScore" [ngClass]="{ 'is-invalid': submitted && myForm.passingScore.errors }" maxlength="3" minlength="1">
             <div *ngIf="submitted && myForm.passingScore.errors" class="invalid-feedback">
               <div *ngIf="myForm.passingScore.errors.required">Passing Score is required</div>
@@ -98,16 +99,16 @@
         </div>
 
         <div class="form-group" class="text-center" style="width: 100px">
-          <button class="btn btn-success btn-lg btn-block" type="submit">Save</button>
+          <button class="btn btn-success btn-lg float-center" type="submit">Save</button>
         </div>
       </form>
     </div>
   </div>
+<br/>
+<div>
+<h4 class="my-0 mr-md-auto font-weight-normal">Test Configuration List</h4>
 </div>
 <br/>
-<h4 class="my-0 mr-md-auto font-weight-normal">Test Config List</h4>
-<br/>
-<div class="container">
   <!-- No data message -->
   <p *ngIf="TestConfigs.length <= 0" class="no-data text-center">There are no records added yet!</p>
 
@@ -119,6 +120,7 @@
       <th scope="col center">No Of Questions</th>
       <th scope="col center">Test Duration(in Minutes)</th>
       <th scope="col center">Passing Score</th>
+      <th scope="col center">Action</th>
     </tr>
     </thead>
     <tbody>
@@ -135,6 +137,5 @@
     </tr>
     </tbody>
   </table>
-</div>
 
 

@@ -110,17 +110,21 @@ export class TestConfigEditComponent implements OnInit {
           if (this.oldJRSS != this.testConfigEditForm.value.JRSS) {
             window.alert("You can not edit JRSS.");
           } else {
-            let testConfig = new TestConfig(this.testConfigEditForm.value.JRSS,
-            this.testConfigEditForm.value.noOfQuestions, this.testConfigEditForm.value.testDuration,this.testConfigEditForm.value.passingScore);
-            let id = this.actRoute.snapshot.paramMap.get('id');
-            this.testconfigService.updateTestConfig(id, testConfig)
-                .subscribe(res => {
-                  this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
-                  this.router.navigate(['/testconfig-add']));
-                  console.log('Content updated successfully!')
-                }, (error) => {
-                  console.log(error)
-            })
+            if (this.testConfigEditForm.value.passingScore < 50) {
+              window.alert("Please enter passing score above 50");
+            } else {
+              let testConfig = new TestConfig(this.testConfigEditForm.value.JRSS,
+              this.testConfigEditForm.value.noOfQuestions, this.testConfigEditForm.value.testDuration,this.testConfigEditForm.value.passingScore);
+              let id = this.actRoute.snapshot.paramMap.get('id');
+              this.testconfigService.updateTestConfig(id, testConfig)
+                  .subscribe(res => {
+                    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
+                    this.router.navigate(['/testconfig-add']));
+                    console.log('Content updated successfully!')
+                  }, (error) => {
+                    console.log(error)
+              })
+              }
           }
 
         }

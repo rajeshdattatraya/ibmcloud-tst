@@ -22,6 +22,7 @@ export class StreamCreateComponent implements OnInit {
   jrssDocId: String = "";
   currentJrssArray:any = [];
   techStreamArray:any = [];
+  existingTechnologyStream:any = [];
   constructor(
     public fb: FormBuilder,
     private router: Router,
@@ -63,6 +64,15 @@ export class StreamCreateComponent implements OnInit {
     this.streamCreateForm.get('JRSS').setValue(e, {
       onlySelf: true
     })
+    // Get technologyStream from JRSS
+    for (var jrss of this.JRSS){
+      if(jrss.jrss == e){
+        this.existingTechnologyStream = [];
+        for (var skill of jrss.technologyStream){
+          this.existingTechnologyStream.push(skill);
+        }
+      }
+    }
   }
 
 

@@ -42,17 +42,18 @@
   </div>
 </nav>
 <br/>
-<div class="row justify-content-center">
-    <div class="col-md-8 register-employee">
-        <h4 class="my-0 mr-md-auto font-weight-normal">Add Job Role</h4>
-        <br/>
+<div>
+  <h4 class="my-0 mr-md-auto font-weight-normal">Add Job Role</h4>
+  <br/>
+</div>
       <!-- form add jrss -->
+  <div class="card">
       <div class="card-body">
         <form [formGroup]="jrssForm" (ngSubmit)="onSubmit()">
 
             <div class="form-group row">
                 <label for="inputJrss" class="col-sm-2 col-form-label">Job Role</label>
-                <div class="col-sm-8">
+                <div class="col-sm-6">
                 <input class="form-control" type="text" formControlName="jrss" id="inputJrss" [ngClass]="{ 'is-invalid': submitted && myForm.jrss.errors }">
                   <div *ngIf="submitted && myForm.jrss.errors" class="invalid-feedback">
                     <div *ngIf="myForm.jrss.errors.required">Job Role is required</div>
@@ -61,20 +62,17 @@
               </div>
   
           <div class="form-group" class="text-center" style="width: 100px">
-            <button class="btn btn-success btn-lg btn-block" type="submit">Save</button>
+            <button class="btn btn-success btn-lg float-center" type="submit">Save</button>
           </div>
           <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
       &nbsp;&nbsp;&nbsp;
         </form>
       </div>
     </div><!-- form add jrss -->
-  </div>
-  
+
   <br/>
   <h4 class="my-0 mr-md-auto font-weight-normal">Job Role List</h4>
   <br/>
-
-  <div class="container">
     <!-- No data message -->
     <p *ngIf="Jrss.length <= 0" class="no-data text-center">There is no Job Role added yet!</p>
   
@@ -104,6 +102,6 @@
       </tr>
       </tbody>
     </table>
-  </div>
+
   
   

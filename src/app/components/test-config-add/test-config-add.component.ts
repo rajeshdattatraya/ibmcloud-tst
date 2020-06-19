@@ -49,8 +49,8 @@ export class TestConfigAddComponent implements OnInit {
         this.testConfigAddForm = this.fb.group({
           JRSS: ['', [Validators.required]],
           noOfQuestions: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
-          testDuration: ['', [Validators. required, Validators.pattern('^[0-9]+$')]],
-          passingScore: ['', [Validators. required, Validators.pattern('^[0-9]+$')]]
+          testDuration: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+          passingScore: ['', [Validators.required, Validators.pattern('^[0-9]+$')]]
         })
       }
 
@@ -87,17 +87,26 @@ export class TestConfigAddComponent implements OnInit {
         if (!this.testConfigAddForm.valid) {          
           return false;
         } else {
-          let jrss = this.testConfigAddForm.value.JRSS;
-          
-          this.testconfigService.findTestConfigByJRSS(jrss).subscribe(
+          if (this.testConfigAddForm.value.passingScore < 50) {
+            window.alert("Please enter passing score above 50");
+          } else {
+            let jrss = this.testConfigAddForm.value.JRSS;
+           let testConfig = new TestConfig(this.testConfigAddForm.value.JRSS,
+           this.testConfigAddForm.value.noOfQuestions, this.testConfigAddForm.value.testDuration,this.testConfigAddForm.value.passingScore);
+
+            this.testconfigService.findTestConfigByJRSS(jrss).subscribe(
                (res) => {
-                 window.alert("Record exists for the selected JRSS. Please click on the Edit link below to edit the details");
+                  let jrss = res['JRSS'];
+                  let id = res['_id'];
+                  this.testconfigService.updateTestConfig(id, testConfig)
+                     .subscribe(res => {
+                       this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
+                       this.router.navigate(['/testconfig-add']));
+                       console.log('Content updated successfully!')
+                     }, (error) => {
+                       console.log(error)
+                 })
                }, (error) => {
-                
-                  let testConfig = new TestConfig(this.testConfigAddForm.value.JRSS,
-                   this.testConfigAddForm.value.noOfQuestions, this.testConfigAddForm.value.testDuration,this.testConfigAddForm.value.passingScore);
-                   console.log("innnn test config*********",testConfig)
-                   console.log("value",this.testConfigAddForm.value.passingScore)
                    this.testconfigService.createTestConfig(testConfig).subscribe(
                      (res) => {
                       console.log('Test Config successfully saved!')
@@ -107,6 +116,7 @@ export class TestConfigAddComponent implements OnInit {
                        console.log(error);
                   });
                });
+          }
           }
 
     }
