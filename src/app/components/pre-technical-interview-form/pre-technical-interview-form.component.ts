@@ -21,12 +21,8 @@ export class PreTechnicalInterviewFormComponent implements OnInit {
   config: any;
   preTechAssmntQuestions:any = [];
   preTechQuesAndAns: PreTechQuesAndAns[] = [];
-  access:any = this.router.getCurrentNavigation().extras.state.access;
-  
+  access:any = this.router.getCurrentNavigation().extras.state.access; 
   username =this.route.snapshot.paramMap.get('username');
-
-
-
 
   constructor(private route: ActivatedRoute,	private preTechService: PreTechService,
     private router: Router, private apiService: ApiService) {
@@ -47,48 +43,41 @@ export class PreTechnicalInterviewFormComponent implements OnInit {
       let jrss =this.route.snapshot.paramMap.get('jrss');
       let username =this.route.snapshot.paramMap.get('username');
       this.access = this.router.getCurrentNavigation().extras.state.access;
-      console.log("access------*",this.access);
-
-
       this.getPreTechnicalAssessmentDetails(jrss,username,this.access);
   }
 
-  ngOnInit(): void {
-   
+  ngOnInit(): void {    
   }
-
-
 
   close() {
     if(this.access =='tech-list'){
       this.router.navigate(['/technical-interview-list'], { state: { username: this.userName, accessLevel: this.accessLevel } })   
     }
-     if(this.access =='tech-interview-initiate'){
+    if(this.access =='tech-interview-initiate'){
       this.router.navigate(['/technical-list/', this.userName], { state: { username: this.userName, accessLevel: this.accessLevel } })
+     }
+     if(this.access =='partner-interview-initiate'){
+      this.router.navigate(['/initiate-partner-interview/', this.userName], { state: { username: this.userName, accessLevel: this.accessLevel } })
+     }
+     if(this.access =='operation-interview-initiate'){
+      this.router.navigate(['/initiate-operations-project/', this.userName], { state: { username: this.userName, accessLevel: this.accessLevel } })
      }
   }
 
 
-  getPreTechnicalAssessmentDetails(jrss,username,access) {
-    console.log('username--'+username);
-    console.log('jrss--'+jrss);
-    console.log('accesslevl----'+access);
-    this.preTechQuesAndAns = [];    
-    this.preTechService.getPreTechAssessmentQuestions(jrss,username).subscribe(res => {
-    this.preTechAssmntQuestions = res;
-    this.preTechAssmntQuestions.forEach((quesAndAnswer) => { 
-  	console.log('quesAndAnswer.PreTechAnswers.length--'+quesAndAnswer.PreTechAnswers.length)
-    var answer = "";
-    var test = "";
+   getPreTechnicalAssessmentDetails(jrss,username,access) {
+     this.preTechQuesAndAns = [];    
+     this.preTechService.getPreTechAssessmentQuestions(jrss,username).subscribe(res => {
+     this.preTechAssmntQuestions = res;
+     this.preTechAssmntQuestions.forEach((quesAndAnswer) => { 
+     var answer = "";
+     var test = "";
     if (quesAndAnswer.PreTechAnswers.length > 0) {
          answer = quesAndAnswer.PreTechAnswers[0].answer ;
          test = quesAndAnswer.preTechQuestion;
-    }
+     }
     this.preTechQuesAndAns.push(new PreTechQuesAndAns(quesAndAnswer.preTechQID, quesAndAnswer.jrss,
     test,this.userName, answer));
-    console.log('length of array--'+this.preTechQuesAndAns.length);
-    console.log('question--'+this.preTechQuesAndAns[0].preTechQuestion);
-    console.log('response--'+this.preTechQuesAndAns[0].answer);
      });
            }, (error) => {
            console.log(error);
