@@ -24,32 +24,34 @@
       <table class="table table-bordered" >
         <thead class="table-success">
         <tr>
-          <th scope="col" width="12%">Name</th>
-          <th scope="col" width="20%">JRSS</th>
-          <th scope="col" width="20%">Online Assessment Result</th>
-          <th scope="col" width="23%">Pre-Technical interview Assesment Form</th>
-          <th scope="col" width="8%">CV Download</th>
-          <th scope="col" width="23%">Action</th>
+          <th scope="col" width="5%">Action</th>
+          <th scope="col" width="20%">Name</th>
+          <th scope="col" width="25%">Job Role</th>
+          <th scope="col" width="20%">Online Test Result</th>
+          <th scope="col" width="23%">Pre-Technical Interview Assessment Form</th>
+          <th scope="col" width="17%">CV Download</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let TechnicalInterview of TechnicalInterviewList | paginate: config; let i = index">
-          <td  width="12%">{{TechnicalInterview.result_users[0].employeeName}}</td>
-          <td  width="20%">{{TechnicalInterview.result_users[0].JRSS}}</td>
-          <td  width="20%">{{TechnicalInterview.userScore}}%</td> 
-          <td *ngIf="TechnicalInterview.stage2_status=='Skipped'">Stage2 is Skipped</td>
-          <td *ngIf="TechnicalInterview.stage2_status=='Completed'">
+
+          <td  class="text-center edit-block" width="5%">
+            <input type="radio" name="radiogroup"
+                   (change)="onSelectionChange(TechnicalInterview.userName,TechnicalInterview.quizNumber)">
+          </td>
+          <td  width="20%">{{TechnicalInterview.result_users[0].employeeName}}</td>
+          <td  width="25%">{{TechnicalInterview.result_users[0].JRSS}}</td>
+          <td  width="20%">{{TechnicalInterview.userScore}}%</td>
+          <td *ngIf="TechnicalInterview.stage2_status=='Skipped'" width="23%">Stage2 is Skipped</td>
+          <td *ngIf="TechnicalInterview.stage2_status=='Completed'" width="23%">
               <!--<a href="#assessmentModal"  (click)="getPreTechnicalAssessmentDetails(TechnicalInterview.result_users[0].JRSS,TechnicalInterview.result_users[0].username)" class="col-4 cursor-pointer" data-toggle="modal" >Click here</a>-->
               <a class="edit" [routerLink]="['/pre-technical-interview-form/',TechnicalInterview.result_users[0].JRSS, TechnicalInterview.userName]" 
               [state]="{jrss:TechnicalInterview.result_users[0].JRSS,username:TechnicalInterview.result_users[0].username,access:'tech-list'}">
-                <button type="button" class="btn btn-success btn-sm">Click here</button>&nbsp;
+                Click here
               </a>
-          </td>      
-          <td  width="8%"><a href="#" routerLinkActive="active">Click Here</a></td>
-          <td  class="text-center edit-block" width="20%">            
-            <input type="radio" name="radiogroup" 
-            (change)="onSelectionChange(TechnicalInterview.userName,TechnicalInterview.quizNumber)">           
           </td>
+          <td  width="17%"><a href="#" routerLinkActive="active">Click Here</a></td>
+
         </tr>
         </tbody>
       </table>
@@ -66,4 +68,3 @@
       <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
     </div>
   </div>
-  
