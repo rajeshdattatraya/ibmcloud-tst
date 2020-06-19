@@ -25,6 +25,10 @@ export class PartnerInterviewListComponent implements OnChanges {
   emailSelected = "";
   quizNumber;
 
+  candidateAssessmentDetails: any = [];
+  userScore:number=0;
+  assesmentDate="";
+
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
       this.config = {
         currentPage: 1,
@@ -41,15 +45,15 @@ export class PartnerInterviewListComponent implements OnChanges {
       this.getPartnerInterviewList();
   }
 
-  ngOnChanges(): void {  
+  ngOnChanges(): void {
     if (this.groupFilters) this.filterUserList(this.groupFilters, this.users);
     this.router.navigate(['/partner-list']);
   }
-  
+
   ngOnInit() {
       this.accessLevel="partner";
-      this.browserRefresh = browserRefresh;  
-      this.readResult();    
+      this.browserRefresh = browserRefresh;
+      this.readResult();
   }
 
   pageChange(newPage: number) {
@@ -67,7 +71,7 @@ export class PartnerInterviewListComponent implements OnChanges {
     }, (error) => {
       console.log(error);
     })
-  } 
+  }
   initiateInterview() {
     if (this.emailSelected == "") {
       alert("Please select the candidate")
@@ -84,16 +88,16 @@ export class PartnerInterviewListComponent implements OnChanges {
 
   getPartnerInterviewList(){
     this.apiService.getPartnerInterviewList().subscribe((data) => {
-     this.PartnerInterviewList = data;     
+     this.PartnerInterviewList = data;
     })
   }
 
-  filterUserList(filters: any, users: any): void {  
+  filterUserList(filters: any, users: any): void {
     this.filteredUsers = this.users; //Reset User List
     const keys = Object.keys(filters);
     const filterUser = user => {
-      let result = keys.map(key => {      
-        if (key == "employeeName" || key == "JRSS") {        
+      let result = keys.map(key => {
+        if (key == "employeeName" || key == "JRSS") {
           if (user.result_users[0][key]) {
             return String(user.result_users[0][key]).toLowerCase().startsWith(String(filters[key]).toLowerCase())
           }
@@ -104,22 +108,33 @@ export class PartnerInterviewListComponent implements OnChanges {
           return false;
         }
       });
-  
+
       // To Clean Array from undefined if the age is passed so the map will fill the gap with (undefined)
       result = result.filter(it => it !== undefined);
       return result.reduce((acc, cur: any) => { return acc & cur }, 1)
     }
-    this.filteredUsers = this.users.filter(filterUser);  
-    this.Result = this.filteredUsers;  
+    this.filteredUsers = this.users.filter(filterUser);
+    this.Result = this.filteredUsers;
   }
-  
+
   // To Read the Results
-  readResult() {  
+  readResult() {
     this.apiService.getPartnerInterviewList().subscribe((data) => {
       this.Result = data;
       this.users = data
-      this.filteredUsers = this.filteredUsers.length > 0 ? this.filteredUsers : this.users;    
+      this.filteredUsers = this.filteredUsers.length > 0 ? this.filteredUsers : this.users;
     })
   }
+
+  getCandidateAssessmentDetails(userid,quizId,username,userScore,createdDate) {
+    this.userName=username;
+    this.quizNumber=quizId;
+    this.userScore=userScore;
+    this.assesmentDate=createdDate;
+    this.mode="displayAssessmentModalBody";
+    this.apiService.getCandidateAssessmentDetails(userid,quizId).subscribe((data) => {
+    this.candidateAssessmentDetails = data;
+   })
+}
 
 }

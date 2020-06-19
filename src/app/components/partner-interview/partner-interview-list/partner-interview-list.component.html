@@ -5,7 +5,7 @@
 
       <!-- No data message -->
       <p *ngIf="Result.length <= 0" class="no-data text-center">There are no records in Partner Interview Assessment Queue</p>
-  
+
       <!-- Partner Interview list -->
       <table class="table table-bordered" *ngIf="Result.length > 0">
         <thead class="table-success">
@@ -26,7 +26,7 @@
           </td>
           <td  width="13%">{{partnerInterview.result_users[0].employeeName}}</td>
           <td  width="25%">{{partnerInterview.result_users[0].JRSS}}</td>
-          <td  width="20%">{{partnerInterview.userScore}}%</td>
+          <td  width="20%"><a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(partnerInterview.userName,partnerInterview.quizNumber,partnerInterview.result_users[0].employeeName,partnerInterview.userScore,partnerInterview.createdDate)" class="col-4 cursor-pointer" data-toggle="modal">{{partnerInterview.userScore}}%</a></td>
           <td  width="23%">{{partnerInterview.smeResult}}</td>
           <td  width="17%"><a href="#" routerLinkActive="active">Click Here</a></td>
         </tr>
@@ -40,8 +40,74 @@
              &nbsp;
              <span (click)="initiateInterview()">
               <button type="button" class="btn btn-success btn-sm">Initiate Interview</button>&nbsp;
-            </span>         
+            </span>
            </div>
     <div *ngIf="Result.length > 0">
       <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
     </div>
+
+<!-- Modal Code starts. -->
+<div id="assessmentModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+     <div class="modal-content">
+      <!-- <div *ngIf="assessmentDetails.quizNumber == this.quizNumber"> -->
+      <div class="modal-header table-success">
+        <h4 class="modal-title">Candidate Assessment Details</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body" *ngIf="mode=='displayAssessmentModalBody'">
+        <table style="table-layout: fixed; width: 100%">
+          <thead>
+          <tr>
+            <td scope="col" width="10%">{{this.userName}}'s answers</td>
+            <td scope="col" width="10%">Attempt No : {{this.quizNumber}}</td>
+            <td scope="col" width="10%"> Date : {{ this.assesmentDate.substring(0,10) }}</td>
+            <td scope="col" width="10%"> Score : {{ this.userScore }}%</td>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td colspan="4" scope="col" style="font-size:x-small;color:black;font-style: italic;">
+              You have correctly answered {{(this.userScore * this.candidateAssessmentDetails.results.length)/100}} questions out of  {{this.candidateAssessmentDetails.results.length}}
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div *ngFor="let answer of this.candidateAssessmentDetails.results;let i=index">
+        <div *ngFor="let questions of answer.userAttemptedQs" >
+          <table  style="table-layout: fixed; width: 100%">
+            <tbody>
+              <tr>
+                <td width="2%">
+                  <div  *ngIf="answer.userAnswerID==questions.answerID">
+                    <img src="assets/images/success.jpg" width="20" height="20"/>
+                  </div>
+                  <div  *ngIf="answer.userAnswerID!= questions.answerID">
+                    <img src="assets/images/failure.jpg" width="20" height="20"/>
+                  </div>
+                </td><td><b>{{i+1}}){{questions.question}}?</b></td>
+              </tr>
+              <tr></tr>
+              <tr  *ngFor="let questionOption of questions.options;let k=index">
+                <td  width="2%"></td>
+                <td>{{k+1}}){{questionOption.option}} </td>
+              </tr>
+              <tr><td  width="2%"></td>
+                <td style="color:black"><pre>Candidate Answer: {{answer.userAnswerID}}    Correct Answer:  {{questions.answerID}}
+                  </pre> </td></tr>
+              <tr></tr>
+              </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer table-success">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      <!-- </div> -->
+    </div>
+    </div>
+
+  </div>
+</div>
+<!-- Code Ends.-->
