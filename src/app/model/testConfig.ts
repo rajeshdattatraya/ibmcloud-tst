@@ -1,4 +1,5 @@
 export class TestConfig {
+
    JRSS: string;
    noOfQuestions: number;
    testDuration: number;
@@ -6,9 +7,9 @@ export class TestConfig {
 
    constructor(JRSS, noOfQuestions, testDuration,passingScore) {
       this.JRSS = JRSS;
-   		this.noOfQuestions = noOfQuestions;
-         this.testDuration = testDuration;         
-         this.passingScore=passingScore;
+      this.noOfQuestions = noOfQuestions;
+      this.testDuration = testDuration;
+      this.passingScore=passingScore;
    }
 
 }
