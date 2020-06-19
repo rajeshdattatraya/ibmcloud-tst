@@ -21,7 +21,8 @@ export class OperationsCandidateSearchListComponent implements OnChanges {
   config: any;
   accessLevel: String = "";
   mode: string = "";
-  operationsCandidateList: any = []; 
+  operationsCandidateList: any = [];
+  emailSelected = "";
 
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
     this.config = {
@@ -53,6 +54,10 @@ ngOnChanges(): void {
  }
 pageChange(newPage: number) {
     this.router.navigate(['/operations-candidate-list'], { queryParams: { page: newPage } });
+}
+
+onSelectionChange(value) {
+    this.emailSelected = value;
 }
 
 getOperationsCandidateList(){

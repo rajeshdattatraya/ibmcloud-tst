@@ -58,11 +58,11 @@ export class PartnerInterviewListComponent implements OnChanges {
 
   exceptionalApproval() {
     if (this.emailSelected == "") {
-      alert("please select the candidate")
+      alert("Please select the candidate")
     }
 
     this.apiService.updateExceptionalApprovalForStage4(this.emailSelected,this.quizNumber).subscribe(res => {
-      window.alert('Succesfully updated candidate status');
+      window.alert('Successfully updated candidate status');
       window.location.reload();
     }, (error) => {
       console.log(error);
@@ -70,7 +70,7 @@ export class PartnerInterviewListComponent implements OnChanges {
   } 
   initiateInterview() {
     if (this.emailSelected == "") {
-      alert("please select the candidate")
+      alert("Please select the candidate")
     }
     else {
       this.router.navigate(['/initiate-partner-interview/', this.emailSelected], { state: { username: this.userName, accessLevel: this.accessLevel } })

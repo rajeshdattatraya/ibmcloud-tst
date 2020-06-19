@@ -10,25 +10,25 @@
       <table class="table table-bordered" *ngIf="Result.length > 0">
         <thead class="table-success">
         <tr>
-          <th scope="col" width="12%">Name</th>
-          <th scope="col" width="20%">JRSS</th>
+          <th scope="col center" width="5%">Action</th>
+          <th scope="col" width="13%">Name</th>
+          <th scope="col" width="25%">Job Role</th>
           <th scope="col" width="20%">Online Quiz Result</th>
           <th scope="col" width="23%">Technical Interview Result</th>
-          <th scope="col" width="8%">CV Download</th>
-          <th scope="col center" width="20%">Action</th>
+          <th scope="col" width="17%">CV Download</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let partnerInterview of Result | filter: searchByKeyword: 'name' | paginate: config; let i = index">
-          <td  width="12%">{{partnerInterview.result_users[0].employeeName}}</td>
-          <td  width="20%">{{partnerInterview.result_users[0].JRSS}}</td>
+          <td  class="text-center edit-block" width="5%">
+            <input type="radio" name="radiogroup"
+                   (change)="onSelectionChange(partnerInterview.userName,partnerInterview.quizNumber)">
+          </td>
+          <td  width="13%">{{partnerInterview.result_users[0].employeeName}}</td>
+          <td  width="25%">{{partnerInterview.result_users[0].JRSS}}</td>
           <td  width="20%">{{partnerInterview.userScore}}%</td>
           <td  width="23%">{{partnerInterview.smeResult}}</td>
-          <td  width="8%"><a href="#" routerLinkActive="active">Click Here</a></td>
-          <td  class="text-center edit-block" width="20%">
-            <input type="radio" name="radiogroup" 
-            (change)="onSelectionChange(partnerInterview.userName,partnerInterview.quizNumber)">
-          </td>
+          <td  width="17%"><a href="#" routerLinkActive="active">Click Here</a></td>
         </tr>
         </tbody>
       </table>
@@ -42,4 +42,6 @@
               <button type="button" class="btn btn-success btn-sm">Initiate Interview</button>&nbsp;
             </span>         
            </div>
+    <div *ngIf="Result.length > 0">
       <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
+    </div>

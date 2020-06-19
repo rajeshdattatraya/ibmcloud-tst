@@ -116,8 +116,11 @@ export class DashboardListComponent implements OnChanges {
       this.candidateID = id;
     }
 
-    viewDetails(id) {
-      this.candidateID = id;
+    viewDetails() {
+      console.log("id:",this.candidateID);
+      if (this.candidateID == undefined) {
+        window.alert("Please select the candidate");
+      }  else {
       this.mode = "displayModalBody";
       this.displayTechInterview = true;
       this.displayPartnerInterview = true;
@@ -140,6 +143,7 @@ export class DashboardListComponent implements OnChanges {
              this.displayProjectAssign = false;
          }
       });
+      }
     }
 
   }
