@@ -19,6 +19,10 @@ export class CandidateListComponent implements OnInit {
   quizNumber = 1;
   status = "";
   userName = "";
+  candidateId;
+  candidateUsersId;
+  candidateUserName;
+  index;
 
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
     this.config = {
@@ -37,11 +41,11 @@ export class CandidateListComponent implements OnInit {
 
   ngOnInit() {
     this.browserRefresh = browserRefresh;
-    if (this.browserRefresh) {
-        if (window.confirm('Your account will be deactivated. You need to contact administrator to login again. Are you sure?')) {
-          this.router.navigate(['/login-component']);
-        }
-    }
+    // if (this.browserRefresh) {
+    //     if (window.confirm('Your account will be deactivated. You need to contact administrator to login again. Are you sure?')) {
+    //       this.router.navigate(['/login-component']);
+    //     }
+    // }
   }
 
   pageChange(newPage: number) {
@@ -66,9 +70,9 @@ export class CandidateListComponent implements OnInit {
   }
 
   //To remove candidate
-  removeCandidate(candidate, index) {
+  removeCandidate(candidateUsername,candidateId, index) {
     if(window.confirm('Are you sure?')) {
-        this.apiService.deleteCandidate(candidate._id,candidate.username).subscribe((data) => {
+        this.apiService.deleteCandidate(candidateId,candidateUsername).subscribe((data) => {
           this.Candidate.splice(index, 1);
         }
       )
@@ -76,12 +80,18 @@ export class CandidateListComponent implements OnInit {
     }
   }
 
+  onSelectionChange(candidateId,candidateUsersId,candidateUserName,i){
+    this.candidateId=candidateId;
+    this.candidateUsersId=candidateUsersId;
+    this.candidateUserName=candidateUserName;
+    this.index=i;
+
+  }
    //Story#27 - Activate & Inactivate candidate's status for Assessment
    updateCandidateStatus(candidate, index) {     
     //Get quizNumber and status coulmns value from Users table
     this.apiService.getUserByUserName(candidate.username).subscribe(
       (res) => {
-      console.log('Users records fetched successfully - ' + res)      
       //If Status is Inactive and quizNumber < 3, increase quizNumber by 1 
       //and update the status and quizNumber columns of Users table 
       if (res.status === 'Inactive' && res.quizNumber < 3) {                          

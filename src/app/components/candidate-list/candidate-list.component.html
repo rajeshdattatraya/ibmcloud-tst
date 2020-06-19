@@ -1,9 +1,9 @@
-<nav class="navbar navbar-expand-lg navbar-light table-success">
+<div><nav class="navbar navbar-expand-lg navbar-light table-success">
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav">
       <li class="nav-item active">
         <a class="nav-link dropdown-toggle" routerLink="/candidates-list" [state]="{username:this.userName}" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Manage Candidate<span class="sr-only">(current)</span>
+          <b>Manage Candidate</b><span class="sr-only">(current)</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" routerLink="/create-candidate" [state]="{username:this.userName}" routerLinkActive="active">Add Candidate</a>
@@ -12,7 +12,7 @@
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" routerLink="/manage-questionbank" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Manage Questions
+        <b>Manage Questions</b>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" routerLink="/manage-questionbank" routerLinkActive="active">Add question</a>
@@ -21,7 +21,7 @@
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" routerLink="/jrss-create" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Manage Metadata
+        <b>Manage Metadata</b>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" routerLink="/jrss-create" routerLinkActive="active">Add Job Role</a>
@@ -29,21 +29,30 @@
           <a class="dropdown-item" routerLink="/testconfig-add" routerLinkActive="active">Add Test Configuration</a>
         </div>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/workflow-config"routerLinkActive="active">Manage Workflow</a>
+          <a class="nav-link" routerLink="/workflow-config"routerLinkActive="active"><b>Manage Workflow</b></a>
       </li>      
          <li class="nav-item">
-        <a class="nav-link" routerLink="/view-testresults"routerLinkActive="active">View TestResults</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/login-component" routerLinkActive="active">Logout</a>
+        <a class="nav-link" routerLink="/view-testresults"routerLinkActive="active"><b>View TestResults</b></a>
       </li>
     </ul>
   </div>
+      <div>
+        <ul class="navbar-nav navbar-right">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/login-component" routerLinkActive="active"><b>Logout</b></a>
+          </li>
+        </ul>
+      </div>
+     
+    
+  
 </nav>
+</div>
 <br/>
-<h4 class="my-0 mr-md-auto font-weight-normal">View Candidates</h4>
-<br/>
-<div class="container">
+<div class="float-left text-left">
+<h4 class="my-0 mr-md-auto font-weight-normal">View Candidates</h4></div>
+<br/><br>
+
   <!-- No data message -->
   <p *ngIf="Candidate.length <= 0" class="no-data text-center">There is no candidate added yet!</p>
 
@@ -51,39 +60,47 @@
   <table class="table table-bordered" *ngIf="Candidate.length > 0">
     <thead class="table-success">
     <tr>
-      <th scope="col" width="10%">Name</th>
-      <th scope="col" width="10%">Email</th>
-      <th scope="col" width="5%">Band</th>
-      <th scope="col" width="30%">Job Role</th>
-      <th scope="col" width="10%">Phone No</th>
-      <th scope="col" width="5%">Status</th>
-      <th scope="col" width="2%">Quiz No</th>
-      <th scope="col center" width="30%">Update</th>
+      <th scope="col center" class="float-center text-center" width="20%">Action</th>
+      <th scope="col" class="float-center text-center" width="17%">Name</th>
+      <th scope="col" class="float-center text-center" width="10%">Email</th>
+      <th scope="col" class="float-center text-center" width="5%">Band</th>
+      <th scope="col center" class="float-center text-center" width="30%">Job Role</th>
+      <th scope="col" class="float-center text-center" width="10%">Phone No</th>
+      <th scope="col" class="float-center text-center" width="5%">Status</th>
+      <th scope="col" class="float-center text-center" width="5%">Quiz Attempt</th>      
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let candidate of Candidate | paginate: config; let i = index">
-      <td *ngIf="candidate.candidate_users.length > 0" width="10%">{{candidate.employeeName}}</td>
-      <td *ngIf="candidate.candidate_users.length > 0" width="10%">{{candidate.username}}</td>
-      <td *ngIf="candidate.candidate_users.length > 0" width="5%">{{candidate.band}}</td>
-      <td *ngIf="candidate.candidate_users.length > 0" width="30%">{{candidate.JRSS}}</td>
-      <td *ngIf="candidate.candidate_users.length > 0" width="10%">{{candidate.phoneNumber}}</td>
-      <td *ngIf="candidate.candidate_users.length > 0" width="5%">{{candidate.candidate_users[0].status}}</td>
-      <td *ngIf="candidate.candidate_users.length > 0" width="2%">{{candidate.candidate_users[0].quizNumber}}</td>
-      <td *ngIf="candidate.candidate_users.length > 0" class="text-center edit-block" width="30%">
-        <a class="edit" [routerLink]="['/edit-candidate/', candidate._id, candidate.candidate_users[0]._id]" [state]="{username:this.userName}">
-            <button type="button" class="btn btn-success btn-sm">Edit</button>&nbsp;
-        </a>
-        <a class="delete" (click)="removeCandidate(candidate,i)">
-            <button type="button" class="btn btn-danger btn-sm">Delete</button>&nbsp;
-        </a>
+      <td *ngIf="candidate.candidate_users.length > 0" class="float-center text-center" width="20%">
+        <input type="radio" name="radiogroup"
+                   (change)="onSelectionChange(candidate._id, candidate.candidate_users[0]._id,candidate.username,i)">
+          
+        &nbsp;
         <a class="edit" (click)="updateCandidateStatus(candidate, i)">
             <button type="button" class="btn btn-success btn-sm">{{candidate.state}}</button>
         </a>
       </td>
+      <td *ngIf="candidate.candidate_users.length > 0" width="17%" class="float-center text-center">{{candidate.employeeName}}</td>
+      <td *ngIf="candidate.candidate_users.length > 0" width="10%" class="float-center text-center">{{candidate.username}}</td>
+      <td *ngIf="candidate.candidate_users.length > 0" width="5%" class="float-center text-center">{{candidate.band}}</td>
+      <td *ngIf="candidate.candidate_users.length > 0" width="30%" class="float-center text-center">{{candidate.JRSS}}</td>
+      <td *ngIf="candidate.candidate_users.length > 0" width="10%" class="float-center text-center">{{candidate.phoneNumber}}</td>
+      <td *ngIf="candidate.candidate_users.length > 0" width="5%" class="float-center text-center">{{candidate.candidate_users[0].status}}</td>
+      <td *ngIf="candidate.candidate_users.length > 0" width="5%" class="float-center text-center">{{candidate.candidate_users[0].quizNumber}}</td>
+      
     </tr>
     </tbody>
   </table>
+  <div  class="float-right text-right" *ngIf="Candidate.length > 0">
+    <a class="edit" [routerLink]="['/edit-candidate/', candidateId, candidateUsersId]" [state]="{username:this.userName}">
+      <button type="button" class="btn btn-success btn-sm">Edit</button>&nbsp;
+  </a>
+  <a class="delete" (click)="removeCandidate(candidateUserName,candidateId,index)">
+      <button type="button" class="btn btn-danger btn-sm">Delete</button>&nbsp;
+  </a>    
+       </div>
+       <div *ngIf="Candidate.length > 0">
   <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
 </div>
 
