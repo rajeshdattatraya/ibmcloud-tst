@@ -2,36 +2,44 @@
   <div *ngIf="accessLevel === 'partner'" class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" routerLink="/partner-list" [state]="{username:this.userName, accessLevel:this.accessLevel}" routerLinkActive="active">Partner Interview</a>
+        <a class="nav-link" routerLink="/partner-list" [state]="{username:this.userName, accessLevel:this.accessLevel}" routerLinkActive="active"><b>Partner Interview</b></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/operations-candidate-list" [state]="{username:this.userName, accessLevel:this.accessLevel}" routerLinkActive="active">Project Assignment</a>
+        <a class="nav-link" routerLink="/operations-candidate-list" [state]="{username:this.userName, accessLevel:this.accessLevel}" routerLinkActive="active"><b>Project Assignment</b></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/dashboard" [state]="{username:this.userName, accessLevel:this.accessLevel}" routerLinkActive="active">Dashboard</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/login-component" routerLinkActive="active">Logout</a>
+        <a class="nav-link" routerLink="/dashboard" [state]="{username:this.userName, accessLevel:this.accessLevel}" routerLinkActive="active"><b>Dashboard</b></a>
       </li>
     </ul>
   </div>
   <div *ngIf="accessLevel === 'management'" class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/operations-candidate-list" [state]="{username:this.userName, accessLevel:this.accessLevel}" routerLinkActive="active">Project Assignment</a>
+          <a class="nav-link" routerLink="/operations-candidate-list" [state]="{username:this.userName, accessLevel:this.accessLevel}" routerLinkActive="active"><b>Project Assignment</b></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/dashboard" [state]="{username:this.userName, accessLevel:this.accessLevel}" routerLinkActive="active">Dashboard</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/login-component" routerLinkActive="active">Logout</a>
+          <a class="nav-link" routerLink="/dashboard" [state]="{username:this.userName, accessLevel:this.accessLevel}" routerLinkActive="active"><b>Dashboard</b></a>
         </li>
       </ul>
+  </div>
+  <div *ngIf="accessLevel === 'management'">
+    <ul class="navbar-nav navbar-right">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/login-component" routerLinkActive="active"><b>Logout</b></a>
+      </li>
+    </ul>
+  </div>
+  <div *ngIf="accessLevel === 'partner'">
+    <ul class="navbar-nav navbar-right">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/login-component" routerLinkActive="active"><b>Logout</b></a>
+      </li>
+    </ul>
   </div>
   </nav>
   <br>
 
-  <div class="container">
+  <div>
     <app-operations-candidate-search (groupFilters)="filters = $event"></app-operations-candidate-search>
     <br/>
     <app-operations-candidate-search-list [groupFilters]="filters" [searchByKeyword]="searchText"></app-operations-candidate-search-list>
