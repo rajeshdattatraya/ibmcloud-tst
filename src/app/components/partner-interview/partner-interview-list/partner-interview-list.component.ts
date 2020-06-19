@@ -43,7 +43,7 @@ export class PartnerInterviewListComponent implements OnChanges {
 
   ngOnChanges(): void {  
     if (this.groupFilters) this.filterUserList(this.groupFilters, this.users);
-    this.router.navigate(['/partner-interview']);
+    this.router.navigate(['/partner-list']);
   }
   
   ngOnInit() {
@@ -53,7 +53,7 @@ export class PartnerInterviewListComponent implements OnChanges {
   }
 
   pageChange(newPage: number) {
-        this.router.navigate(['/partner-interview'], { queryParams: { page: newPage } });
+        this.router.navigate(['/partner-list'], { queryParams: { page: newPage } });
   }
 
   exceptionalApproval() {
