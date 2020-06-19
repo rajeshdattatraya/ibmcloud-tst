@@ -22,7 +22,10 @@ export class TechnicalInterviewListComponent implements OnInit {
   filteredUsers: any[] = [];
   form: FormGroup;
   @Output() groupFilters: EventEmitter<any> = new EventEmitter<any>();
-
+  candidateAssessmentDetails: any = [];
+  mode: any;
+  userScore:number=0;
+  assesmentDate="";
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService, private ngZone: NgZone,private fb: FormBuilder) {
     this.config = {
       currentPage: 1,
@@ -120,5 +123,14 @@ export class TechnicalInterviewListComponent implements OnInit {
 
     }
 
-
+    getCandidateAssessmentDetails(userid,quizId,username,userScore,createdDate) {
+      this.userName=username;
+      this.quizNumber=quizId;
+      this.userScore=userScore;
+      this.assesmentDate=createdDate;
+      this.mode="displayAssessmentModalBody";
+      this.apiService.getCandidateAssessmentDetails(userid,quizId).subscribe((data) => {
+      this.candidateAssessmentDetails = data;
+     })
+  }
 }
