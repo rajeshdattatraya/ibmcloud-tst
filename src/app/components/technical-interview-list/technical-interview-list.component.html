@@ -16,7 +16,6 @@
       <h4 class="my-0 mr-md-auto font-weight-normal">Technical Interview Assessment Queue</h4>
       <br/>
     </div>
-    <div class="container">
       <!-- No data message -->
       <p *ngIf="TechnicalInterviewList.length <= 0" class="no-data text-center">There are no records in Technical Interview Assessment Queue</p>
   
@@ -66,5 +65,4 @@
             </span>
           </div>
       <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
-    </div>
   </div>
