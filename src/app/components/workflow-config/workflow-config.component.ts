@@ -16,6 +16,11 @@ export class WorkflowConfigComponent implements OnInit {
   JRSS:any = [];
   userName: String = "admin";
   jrssDocId: String = "";
+  stage1 : boolean = false;
+  stage2 : boolean = false;
+  stage3 : boolean = false;
+  stage4 : boolean = false;
+  stage5 : boolean = false;
 
   constructor(public fb: FormBuilder,private apiService: ApiService, private router: Router) {
      this.mainForm();
@@ -31,13 +36,39 @@ export class WorkflowConfigComponent implements OnInit {
       onlySelf: true
     })
    this.apiService.getJrss(this.workFlowForm.value.JRSS).subscribe((data) => {
-        this.workFlowForm.setValue({
-            JRSS: data['jrss'],
-            stage1OnlineTechAssessment: data['stage1_OnlineTechAssessment'],
-            stage2PreTechAssessment: data['stage2_PreTechAssessment'],
-            stage3TechAssessment: data['stage3_TechAssessment'],
-            stage4ManagementInterview: data['stage4_ManagementInterview'],
-            stage5ProjectAllocation: data['stage5_ProjectAllocation']
+        console.log("inside this.workFlowForm.value.JRSS", this.workFlowForm.value.JRSS);
+            if (data['stage1_OnlineTechAssessment']) {
+                this.stage1 = data['stage1_OnlineTechAssessment'];
+            } else {
+                this.stage1 = false;
+            }
+            if (data['stage2_PreTechAssessment']) {
+               this.stage2 = data['stage2_PreTechAssessment'];
+            } else {
+                this.stage2 = false;
+            }
+            if (data['stage3_TechAssessment']) {
+               this.stage3 = data['stage3_TechAssessment'];
+            } else {
+               this.stage3 = false;
+            }
+            if (data['stage4_ManagementInterview']) {
+                this.stage4 = data['stage4_ManagementInterview'];
+            } else {
+               this.stage4 = false;
+            }
+            if (data['stage5_ProjectAllocation']) {
+                this.stage5 = data['stage5_ProjectAllocation'];
+            } else {
+               this.stage5 = false;
+            }
+          this.workFlowForm.setValue({
+              JRSS: data['jrss'],
+              stage1OnlineTechAssessment : this.stage1,
+              stage2PreTechAssessment: this.stage2,
+              stage3TechAssessment : this.stage3,
+              stage4ManagementInterview : this.stage4,
+              stage5ProjectAllocation: this.stage5
           });
    });
   }
