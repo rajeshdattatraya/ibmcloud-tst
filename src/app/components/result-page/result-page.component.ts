@@ -27,7 +27,6 @@ export class ResultPageComponent implements OnInit {
   mode;
   jrss = "";
   stage2_status;
-
   stage1;
   stage2;
   stage3;
@@ -88,8 +87,20 @@ export class ResultPageComponent implements OnInit {
           this.jrss = res['JRSS'];
           // Read the work flow details by reading jrss record by jrss name.
           this.apiService.getJrss(this.jrss).subscribe((res) => {
-            if (res['stage1_OnlineTechAssessment']) {
+            let data;
+            this.testconfigService.findTestConfigByJRSS(this.jrss).subscribe(
+              (data) => {
+                this.passingScore = data['passingScore']
+                if (this.numberOfCorrectAns > this.passingScore) {
+                  this.displayMsg = "Congratulations on completing the exam."
+                } else {
+                  this.displayMsg = "Unfortunately, you didn't meet the selection criteria."
+                }
+
+            if (res['stage1_OnlineTechAssessment'] && this.numberOfCorrectAns >=this.passingScore) {
               this.stage1 = "Completed";
+            } else if(res['stage1_OnlineTechAssessment'] && this.numberOfCorrectAns <this.passingScore){
+              this.stage1 = "Not Started";
             } else {
               this.stage1 = "Skipped";
             }
@@ -115,25 +126,16 @@ export class ResultPageComponent implements OnInit {
             } else {
               this.stage5 = "Skipped";
             }
-            let data;
-            console.log("ooooo",this.jrss)
-            this.testconfigService.findTestConfigByJRSS(this.jrss).subscribe(
-              (data) => {
-                this.passingScore = data['passingScore']
-                if (this.numberOfCorrectAns > this.passingScore) {
-                  this.displayMsg = "Congratulations on completing the exam."
-                } else {
-                  this.displayMsg = "Unfortunately, you didn't meet the selection criteria."
-                }
-                console.log("kdidkw",this.passingScore)
-                if (this.numberOfCorrectAns > this.passingScore) {
-                  let userResultWokFlow = new UserResultWorkFlow(this.username, Number(this.scorePercentage),
-                    this.quizNumber, this.stage1, this.stage2, this.stage3, this.stage4, this.stage5);
-                  data = JSON.stringify(userResultWokFlow);
-                } else {
-                  let userResult = new UserResult(this.username, Number(this.scorePercentage), this.quizNumber);
-                  data = JSON.stringify(userResult);
-                }
+
+            if (this.numberOfCorrectAns > this.passingScore) {
+              let userResultWokFlow = new UserResultWorkFlow(this.username, Number(this.scorePercentage),
+                this.quizNumber, this.stage1, this.stage2, this.stage3, this.stage4, this.stage5);
+              data = JSON.stringify(userResultWokFlow);
+            } else {
+              let userResult = new UserResultWorkFlow(this.username, Number(this.scorePercentage), this.quizNumber,
+              this.stage1, this.stage2, this.stage3, this.stage4, this.stage5);
+              data = JSON.stringify(userResult);
+            }          
                 this.resultPageService.saveResult(data).subscribe(
                   (res) => {
                     console.log('Quiz results for the user have been successfully saved!');
@@ -141,9 +143,6 @@ export class ResultPageComponent implements OnInit {
                     console.log(error);
                   });
               });
-            
-    
-                console.log("here in",data)
               }, (error) => {
                 console.log(error);
               })
