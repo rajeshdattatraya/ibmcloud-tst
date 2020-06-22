@@ -34,6 +34,8 @@ export class ViewTestresultsListComponent implements OnChanges {
   mode: any;
   userScore:number=0;
   assesmentDate="";
+  questionCount:number=0;
+  correctAnswerCount:number=0;
   constructor(private ref: ChangeDetectorRef, private http: HttpClient, private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
     this.config = {
       currentPage: 1,
@@ -122,6 +124,8 @@ export class ViewTestresultsListComponent implements OnChanges {
      this.mode="displayAssessmentModalBody";
      this.apiService.getCandidateAssessmentDetails(userid,quizId).subscribe((data) => {
      this.candidateAssessmentDetails = data;
+     this.questionCount=this.candidateAssessmentDetails.results.length;
+     this.correctAnswerCount=Math.round((userScore*this.questionCount)/100)
     })
  }
 

@@ -83,7 +83,7 @@
               <table>
                 <tr>
                   <td width="25%"><label>Online Test Result:</label></td>
-                  <td colspan="2" width="75%">&nbsp;{{this.dashboardDetails[0].userScore}}</td>
+                  <td colspan="2" width="75%">&nbsp;<a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(dashboardDetails[0].userName,dashboardDetails[0].quizNumber,dashboardDetails[0].result_users[0].employeeName,dashboardDetails[0].userScore,dashboardDetails[0].createdDate)" class="col-4 cursor-pointer" data-toggle="modal" >{{this.dashboardDetails[0].userScore}} </a></td>
                 </tr>
               </table>
             </div>
@@ -150,3 +150,71 @@
       </div>
     </div>
 
+
+<!-- Below Candidate Assessment Details added by A.George on 22June2020.-->
+
+<!-- Modal Code starts. -->
+<div id="assessmentModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+     <div class="modal-content">
+      <!-- <div *ngIf="assessmentDetails.quizNumber == this.quizNumber"> -->
+      <div class="modal-header table-success">
+        <h4 class="modal-title">Candidate Assessment Details</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body" *ngIf="mode=='displayAssessmentModalBody'">
+        <table style="table-layout: fixed; width: 100%">
+          <thead>
+          <tr>
+            <td scope="col" width="10%">{{this.userName}}'s answers</td>
+            <td scope="col" width="10%">Attempt No : {{this.quizNumber}}</td>
+            <td scope="col" width="10%"> Date : {{ this.assesmentDate.substring(0,10) }}</td>
+            <td scope="col" width="10%"> Score : {{ this.userScore }}%</td>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td colspan="4" scope="col" style="font-size:x-small;color:black;font-style: italic;">
+              You have correctly answered {{this.correctAnswerCount}} questions out of  {{this.questionCount}}
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div *ngFor="let answer of this.candidateAssessmentDetails.results;let i=index">
+        <div *ngFor="let questions of answer.userAttemptedQs" >
+          <table  style="table-layout: fixed; width: 100%">
+            <tbody>
+              <tr>
+                <td width="2%">
+                  <div  *ngIf="answer.userAnswerID==questions.answerID">
+                    <img src="assets/images/success.jpg" width="20" height="20"/>
+                  </div>
+                  <div  *ngIf="answer.userAnswerID!= questions.answerID">
+                    <img src="assets/images/failure.jpg" width="20" height="20"/>
+                  </div>
+                </td><td><b>{{i+1}}){{questions.question}}?</b></td>
+              </tr>
+              <tr></tr>
+              <tr  *ngFor="let questionOption of questions.options;let k=index">
+                <td  width="2%"></td>
+                <td>{{k+1}}){{questionOption.option}} </td>
+              </tr>
+              <tr><td  width="2%"></td>
+                <td style="color:black"><pre>Candidate Answer: {{answer.userAnswerID}}    Correct Answer:  {{questions.answerID}}
+                  </pre> </td></tr>
+              <tr></tr>
+              </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer table-success">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      <!-- </div> -->
+    </div>
+    </div>
+
+  </div>
+</div>
+<!-- Code Ends.-->

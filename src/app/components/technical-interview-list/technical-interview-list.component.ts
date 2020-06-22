@@ -26,6 +26,9 @@ export class TechnicalInterviewListComponent implements OnInit {
   mode: any;
   userScore:number=0;
   assesmentDate="";
+  questionCount:number=0;
+  correctAnswerCount:number=0;
+
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService, private ngZone: NgZone,private fb: FormBuilder) {
     this.config = {
       currentPage: 1,
@@ -131,6 +134,9 @@ export class TechnicalInterviewListComponent implements OnInit {
       this.mode="displayAssessmentModalBody";
       this.apiService.getCandidateAssessmentDetails(userid,quizId).subscribe((data) => {
       this.candidateAssessmentDetails = data;
+      this.questionCount=this.candidateAssessmentDetails.results.length;
+      this.correctAnswerCount=Math.round((userScore*this.questionCount)/100)
+
      })
   }
 }

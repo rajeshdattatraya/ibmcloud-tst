@@ -28,6 +28,8 @@ export class PartnerInterviewListComponent implements OnChanges {
   candidateAssessmentDetails: any = [];
   userScore:number=0;
   assesmentDate="";
+  questionCount:number=0;
+  correctAnswerCount:number=0;
 
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
       this.config = {
@@ -134,6 +136,8 @@ export class PartnerInterviewListComponent implements OnChanges {
     this.mode="displayAssessmentModalBody";
     this.apiService.getCandidateAssessmentDetails(userid,quizId).subscribe((data) => {
     this.candidateAssessmentDetails = data;
+    this.questionCount=this.candidateAssessmentDetails.results.length;
+    this.correctAnswerCount=Math.round((userScore*this.questionCount)/100)
    })
 }
 

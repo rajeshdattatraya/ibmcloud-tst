@@ -32,6 +32,13 @@ export class DashboardListComponent implements OnChanges {
   displayTechInterview: boolean = true;
   displayPartnerInterview: boolean = true;
   displayProjectAssign: boolean = true;
+  quizNumber;
+  userScore;
+  assesmentDate;
+  questionCount;
+  correctAnswerCount;
+  candidateAssessmentDetails:any=[];
+
 
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
         this.config = {
@@ -145,5 +152,20 @@ export class DashboardListComponent implements OnChanges {
       });
       }
     }
+
+
+    getCandidateAssessmentDetails(userid,quizId,username,userScore,createdDate) {
+      this.userName=username;
+      this.quizNumber=quizId;
+      this.userScore=userScore;
+      this.assesmentDate=createdDate;
+      this.mode="displayAssessmentModalBody";
+      this.apiService.getCandidateAssessmentDetails(userid,quizId).subscribe((data) => {
+      this.candidateAssessmentDetails = data;
+      this.questionCount=this.candidateAssessmentDetails.results.length;
+      this.correctAnswerCount=Math.round((userScore*this.questionCount)/100)
+     })
+  }
+
 
   }
