@@ -6,6 +6,7 @@ import { ApiService } from './../../service/api.service';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { DatePipe } from '@angular/common';
 import { browserRefresh } from '../../app.component';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-candidate-edit',
@@ -17,7 +18,8 @@ export class CandidateEditComponent implements OnInit {
   public browserRefresh: boolean;
   submitted = false;
   editForm: FormGroup;
-  JRSS:any;
+  JRSS:any = [];
+  JRSSFull:any = [];
   Band:any = [];
   candidate : Candidate;
   user : UserDetails;
@@ -27,6 +29,11 @@ export class CandidateEditComponent implements OnInit {
   technologyStream:any= [];
   skillArray:any= []; 
   stream:any=[];
+  resumeBlob:Blob;
+  resumeName1:string;
+  editCandResume:File;
+  resumeUploaded:boolean;
+  resumeText:any;
 
   constructor(
     public fb: FormBuilder,
@@ -50,6 +57,7 @@ export class CandidateEditComponent implements OnInit {
     let user_id = this.actRoute.snapshot.paramMap.get('user_id');
     this.getCandidate(can_id);
     this.getUser(user_id);
+    this.downloadCandidateResume(can_id);
     this.editForm = this.fb.group({
       employeeName: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.pattern('[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,3}$')]],
@@ -63,7 +71,18 @@ export class CandidateEditComponent implements OnInit {
   // Get all Jrss
  readJrss(){
   this.apiService.getJRSS().subscribe((data) => {
-  this.JRSS = data;
+    this.JRSSFull = data;
+    for(var i=0; i<this.JRSSFull.length; i++)
+    {
+      let workFlowPrsent = ((this.JRSSFull[i]['stage1_OnlineTechAssessment']==undefined) &&
+      (this.JRSSFull[i]['stage2_PreTechAssessment']==undefined) &&
+      (this.JRSSFull[i]['stage3_TechAssessment']==undefined) &&
+      (this.JRSSFull[i]['stage4_ManagementInterview']==undefined) &&
+      (this.JRSSFull[i]['stage5_ProjectAllocation']==undefined))
+      if (!workFlowPrsent){
+        this.JRSS.push(this.JRSSFull[i]);
+      }
+    }
   this.updateJrssProfile();
   })
 }
@@ -105,7 +124,6 @@ export class CandidateEditComponent implements OnInit {
   }
 
   getCandidate(id) {
-    
     this.apiService.getCandidate(id).subscribe(data => {
       this.editForm.setValue({
         employeeName: data['employeeName'],
@@ -132,10 +150,41 @@ export class CandidateEditComponent implements OnInit {
       this.candidate = new Candidate(data['employeeName'],
       data['email'], data['band'], data['JRSS'], data['technologyStream'], data[ 'phoneNumber'], data['dateOfJoining'],
       data['createdBy'], data['createdDate'], data['updatedBy'], data['updatedDate'],
-      data['username'])
+      data['username'], data['resumeName'], data['resumeData']);
     });
   }
 
+  downloadCandidateResume(id){
+    this.apiService.getCandidate(id).subscribe(data => {
+      //Get resume Data
+      this.resumeName1 = data['resumeName'];
+      let resumeData1 : String = data['resumeData'];
+      var byteString = atob(resumeData1.split(',')[1]);
+      // separate out the mime component
+      var mimeString = resumeData1.split(',')[0].split(':')[1].split(';')[0];
+
+      // write the bytes of the string to an ArrayBuffer
+      var ab = new ArrayBuffer(byteString.length);
+      var ia = new Uint8Array(ab);
+      for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+      }
+      this.resumeBlob =  new Blob([ab], {type: mimeString});
+      
+      if (this.resumeName1 == "ResumeEmpty.doc")
+      {
+        this.resumeUploaded=false;
+      }else{
+        this.resumeUploaded = true;
+      }
+      });    
+  }
+
+  downloadResume()
+  {
+    saveAs(this.resumeBlob,this.resumeName1);
+  }
+  
   getUser(id) {
     this.apiService.getUser(id).subscribe(data => {
       this.user = new UserDetails(
@@ -155,7 +204,7 @@ export class CandidateEditComponent implements OnInit {
       technologyStream: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
       dateOfJoining: ['', [Validators.required]]
-    })
+      })
   }
  
   canExit(): boolean{
@@ -169,16 +218,31 @@ export class CandidateEditComponent implements OnInit {
       return true;
     }
   }
-
+  addResume(event)     
+  {
+  this.editCandResume= event.target.files[0]; 
+  }
   onSubmit() {    
     this.submitted = true;
-       
+
+    if(this.editCandResume){
+      this.candidate.resumeName=this.editCandResume.name;
+      console.log("New resume uploaded: "+this.candidate.resumeName)
+
+      let reader = new FileReader();
+      reader.readAsDataURL(this.editCandResume);
+      reader.onload = (e) => {    
+      this.candidate.resumeData = <String>reader.result;
+      console.log("this.candidate.resumeData inside loop: "+this.candidate.resumeData);
+    }}
+     
     // Technology Stream
     if( typeof(this.editForm.value.technologyStream) == 'object' )  
     { 
      this.editForm.value.technologyStream = this.editForm.value.technologyStream.join(',');
     }
-    let updatedCandidate = new Candidate(this.editForm.value.employeeName,
+
+      let updatedCandidate = new Candidate(this.editForm.value.employeeName,
       this.editForm.value.email,
       this.editForm.value.band,
       this.editForm.value.JRSS,
@@ -189,7 +253,9 @@ export class CandidateEditComponent implements OnInit {
       this.candidate.createdDate,
       this.username,
       new Date(),
-      this.editForm.value.email
+      this.editForm.value.email,
+      this.candidate.resumeName,
+      this.candidate.resumeData
       );
       let updatedUser = new UserDetails(this.editForm.value.email,
         this.user.password,
@@ -246,6 +312,5 @@ export class CandidateEditComponent implements OnInit {
           })
         }
         }
-  }
-
+    }
 }

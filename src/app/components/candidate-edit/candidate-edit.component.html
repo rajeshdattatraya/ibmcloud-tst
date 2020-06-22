@@ -152,10 +152,24 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <button class="btn btn-success btn-lg btn-block" type="submit">Update</button>
-        </div>
-      </form>
-    </div>
+          <div class="row">
+            <label class="col-sm-4 col-form-label">Candidate Resume</label>
+            <div class="col-sm-8">
+              <input class="form-control" type="file" (change)="addResume($event)" size="50">
+            </div>
+          </div>
+          <br/>
+          <div class="row" *ngIf="resumeUploaded">
+            <label class="col-sm-4 col-form-label">Available Resume</label>
+            <div class="col-sm-8">
+                <button type="button" (click)="downloadResume()">Download</button>
+            </div>
+          </div>
+
+            <div class="form-group">
+            <button class="btn btn-success btn-lg btn-block" type="submit">Update</button>
+          </div>
+        </form>
+      </div>
   </div>
 </div>

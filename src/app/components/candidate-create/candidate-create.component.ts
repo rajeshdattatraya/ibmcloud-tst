@@ -8,6 +8,7 @@ import { appConfig } from './../../model/appConfig';
 import { browserRefresh } from '../../app.component';
 import * as CryptoJS from 'crypto-js';
 
+
 @Component({
   selector: 'app-candidate-create',
   templateUrl: './candidate-create.component.html',
@@ -19,6 +20,7 @@ export class CandidateCreateComponent implements OnInit {
   submitted = false;
   candidateForm: FormGroup;
   JRSS:any = []
+  JRSSFull:any = [];
   Band:any = [];
   quizNumber: number;
   userName: String = "admin";
@@ -26,6 +28,8 @@ export class CandidateCreateComponent implements OnInit {
   currDate: Date ;
   technologyStream:any= [];
   skillArray:any= [];  
+  resume: File;
+  resumeText: any;
 
   constructor(
     public fb: FormBuilder,
@@ -56,13 +60,25 @@ export class CandidateCreateComponent implements OnInit {
       JRSS: ['', [Validators.required]],
       technologyStream:['', [Validators.required]],
       phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
-      dateOfJoining: ['', Validators. required]
+      dateOfJoining: ['', Validators.required],
+      candidateResume: ['']
     })
   }
  // Get all Jrss
  readJrss(){  
   this.apiService.getJRSS().subscribe((data) => {
-  this.JRSS = data;
+  this.JRSSFull = data;
+  for(var i=0; i<this.JRSSFull.length; i++)
+  {
+    let workFlowPrsent = ((this.JRSSFull[i]['stage1_OnlineTechAssessment']==undefined) &&
+    (this.JRSSFull[i]['stage2_PreTechAssessment']==undefined) &&
+    (this.JRSSFull[i]['stage3_TechAssessment']==undefined) &&
+    (this.JRSSFull[i]['stage4_ManagementInterview']==undefined) &&
+    (this.JRSSFull[i]['stage5_ProjectAllocation']==undefined))
+    if (!workFlowPrsent){
+      this.JRSS.push(this.JRSSFull[i]);
+    }
+  }
   this.updateJrssProfile();
   })
 }
@@ -109,7 +125,10 @@ export class CandidateCreateComponent implements OnInit {
       return true;
     }
   }
-
+  addResume(event)     
+  {
+  this.resume= event.target.files[0]; 
+  }
   onSubmit() {
     this.submitted = true; 
     // Encrypt the password
@@ -125,8 +144,20 @@ export class CandidateCreateComponent implements OnInit {
           this.skillArray.push(stream.value);  
       }     
     }
-    this.candidateForm.value.technologyStream = this.skillArray.join(',');     
-
+    this.candidateForm.value.technologyStream = this.skillArray.join(',');    
+    
+    //Check if resume is not selected
+    if(!this.resume){
+      let bufferLength = 10;
+      let ab = new ArrayBuffer(bufferLength);
+      this.resume = new File([ab], "ResumeEmpty.doc");
+      console.log("Resume not selected");
+    }
+    let reader = new FileReader();
+    reader.readAsDataURL(this.resume);
+    reader.onload = (e) => {    
+    this.resumeText = reader.result;
+    
     let candidate = new Candidate(this.candidateForm.value.employeeName,
     this.candidateForm.value.email,
     this.candidateForm.value.band,
@@ -138,8 +169,12 @@ export class CandidateCreateComponent implements OnInit {
     new Date(),
     this.userName,
     new Date(),
-    this.candidateForm.value.email
+    this.candidateForm.value.email,
+    this.resume.name,
+    this.resumeText
     );
+    
+ 
     let user = new UserDetails(this.candidateForm.value.email,
      this.password,
      this.quizNumber,
@@ -153,7 +188,7 @@ export class CandidateCreateComponent implements OnInit {
      "false"
      );
 
-     let formDate = new Date(this.candidateForm.value.dateOfJoining)
+     let formDate = new Date(this.candidateForm.value.dateOfJoining);
      this.currDate = new Date();
      
     if (!this.candidateForm.valid) {
@@ -190,8 +225,8 @@ export class CandidateCreateComponent implements OnInit {
             }}        
           }, (error) => {
       console.log(error);
-    }
-  )
+    })
+  }
   }
   }
 }
