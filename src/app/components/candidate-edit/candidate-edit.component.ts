@@ -39,17 +39,12 @@ export class CandidateEditComponent implements OnInit {
     if (!this.browserRefresh) {
         this.username = this.router.getCurrentNavigation().extras.state.username;
     }    
+    this.readJrss();
   }
 
   ngOnInit() {
     this.browserRefresh = browserRefresh;
-    if (this.browserRefresh) {
-        if (window.confirm('Your account will be deactivated. You need to contact administrator to login again. Are you sure?')) {
-            this.router.navigate(['/login-component']);
-        }
-    }
-    this.readBand();
-    this.readJrss();
+    this.readBand();    
     this.updateCandidate();
     let can_id = this.actRoute.snapshot.paramMap.get('id');
     let user_id = this.actRoute.snapshot.paramMap.get('user_id');
@@ -69,22 +64,19 @@ export class CandidateEditComponent implements OnInit {
  readJrss(){
   this.apiService.getJRSS().subscribe((data) => {
   this.JRSS = data;
+  this.updateJrssProfile();
   })
 }
   // Choose designation with select dropdown
-  updateJrssProfile(e){
-    this.editForm.get('JRSS').setValue(e, {
-      onlySelf: true
-    })
+  updateJrssProfile(){
+    this.technologyStream = [];    
     // Get technologyStream from JRSS
-    for (var jrss of this.JRSS){          
-      if(jrss.jrss == e){
-        this.technologyStream = [];
+    for (var jrss of this.JRSS){
         for (var skill of jrss.technologyStream){          
           this.technologyStream.push(skill);
-        } 
-      }
+        }       
     }    
+    console.log("technology stream",this.technologyStream)
   } 
 
   // Choose options with select-dropdown
@@ -113,6 +105,7 @@ export class CandidateEditComponent implements OnInit {
   }
 
   getCandidate(id) {
+    
     this.apiService.getCandidate(id).subscribe(data => {
       this.editForm.setValue({
         employeeName: data['employeeName'],
@@ -123,12 +116,10 @@ export class CandidateEditComponent implements OnInit {
         phoneNumber: data['phoneNumber'],
         dateOfJoining : this.datePipe.transform(data['dateOfJoining'], 'yyyy-MM-dd')
       });
-
+      this.technologyStream = [];
       // Get technologyStream from JRSS
       this.stream = this.editForm.value.technologyStream.split(",");
       for (var jrss of this.JRSS){
-        if(jrss.jrss == this.editForm.value.JRSS){
-          this.technologyStream = [];
           for (var skill of jrss.technologyStream){
             for(var streamValue of this.stream) { 
               if(skill.value == streamValue){
@@ -136,11 +127,8 @@ export class CandidateEditComponent implements OnInit {
               }
             }
             this.technologyStream.push(skill);
-          }
         }
       }
-
-
       this.candidate = new Candidate(data['employeeName'],
       data['email'], data['band'], data['JRSS'], data['technologyStream'], data[ 'phoneNumber'], data['dateOfJoining'],
       data['createdBy'], data['createdDate'], data['updatedBy'], data['updatedDate'],

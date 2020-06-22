@@ -46,11 +46,6 @@ export class CandidateCreateComponent implements OnInit {
 
   ngOnInit() {
     this.browserRefresh = browserRefresh;
-    if (this.browserRefresh) {
-        if (window.confirm('Your account will be deactivated. You need to contact administrator to login again. Are you sure?')) {
-           this.router.navigate(['/login-component']);
-        }
-    }
   }
 
   mainForm() {
@@ -65,27 +60,23 @@ export class CandidateCreateComponent implements OnInit {
     })
   }
  // Get all Jrss
- readJrss(){
-  console.log("In readJRSS"); 
+ readJrss(){  
   this.apiService.getJRSS().subscribe((data) => {
   this.JRSS = data;
-  console.log("data is "+this.JRSS); 
+  this.updateJrssProfile();
   })
 }
   // Choose designation with select dropdown
-  updateJrssProfile(e){
-    this.candidateForm.get('JRSS').setValue(e, {
-      onlySelf: true
-    })
+  updateJrssProfile(){
+    this.technologyStream = [];    
     // Get technologyStream from JRSS
-    for (var jrss of this.JRSS){          
-      if(jrss.jrss == e){   
-        this.technologyStream = [];
+    for (var jrss of this.JRSS){         
         for (var skill of jrss.technologyStream){          
           this.technologyStream.push(skill);          
-        } 
+        
       }
     }    
+    
   } 
 
   // Choose band with select dropdown
