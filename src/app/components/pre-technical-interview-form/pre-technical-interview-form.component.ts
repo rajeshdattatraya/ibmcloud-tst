@@ -22,7 +22,9 @@ export class PreTechnicalInterviewFormComponent implements OnInit {
   preTechAssmntQuestions:any = [];
   preTechQuesAndAns: PreTechQuesAndAns[] = [];
   access:any = this.router.getCurrentNavigation().extras.state.access; 
+  quizNumber:any =this.router.getCurrentNavigation().extras.state.quizId;
   username =this.route.snapshot.paramMap.get('username');
+
 
   constructor(private route: ActivatedRoute,	private preTechService: PreTechService,
     private router: Router, private apiService: ApiService) {
@@ -35,11 +37,10 @@ export class PreTechnicalInterviewFormComponent implements OnInit {
       if (!this.browserRefresh) {
           this.userName = this.router.getCurrentNavigation().extras.state.username;
           this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
-          console.log("accessLevel*",this.accessLevel);
         }
         route.queryParams.subscribe(
           params => this.config.currentPage= params['page']?params['page']:1 );
-      
+          console.log("quizNumber-----*",this.quizNumber);
       let jrss =this.route.snapshot.paramMap.get('jrss');
       let username =this.route.snapshot.paramMap.get('username');
       this.access = this.router.getCurrentNavigation().extras.state.access;
@@ -54,7 +55,7 @@ export class PreTechnicalInterviewFormComponent implements OnInit {
       this.router.navigate(['/technical-interview-list'], { state: { username: this.userName, accessLevel: this.accessLevel } })   
     }
     if(this.access =='tech-interview-initiate'){
-      this.router.navigate(['/technical-list/', this.userName], { state: { username: this.userName, accessLevel: this.accessLevel } })
+      this.router.navigate(['/technical-list/', this.userName], { state: { username: this.userName, quizId:this.quizNumber, accessLevel: this.accessLevel } })
      }
      if(this.access =='partner-interview-initiate'){
       this.router.navigate(['/initiate-partner-interview/', this.userName], { state: { username: this.userName, accessLevel: this.accessLevel } })

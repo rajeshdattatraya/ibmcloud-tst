@@ -3,6 +3,8 @@ import { FormGroup, FormControl, FormArray, FormBuilder,Validators } from '@angu
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from './../../service/api.service';
 import {TechnicalInterview} from './../../model/technicalinterview';
+import { saveAs } from 'file-saver';
+
 @Component({
   selector: 'app-technical-interview',
   templateUrl: './technical-interview.component.html',
@@ -28,6 +30,10 @@ export class TechnicalInterviewComponent implements OnInit {
   stage3_status: String = "";
   quizNumber:any;
   loginUser:string;
+  resumeName1:string;
+  resumeBlob:Blob;
+  resumeUploaded:boolean;
+  
   constructor(private fb:FormBuilder, private actRoute: ActivatedRoute, private router: Router,private ngZone: NgZone,
     private apiService: ApiService) {
     this.loginUser = this.router.getCurrentNavigation().extras.state.username;
@@ -52,6 +58,39 @@ export class TechnicalInterviewComponent implements OnInit {
   }
   techStream() : FormArray {
       return this.techskillForm.get("techStream") as FormArray
+  }
+
+  downloadCandidateResume(id){
+    console.log('resume method'+id);
+    this.apiService.getCandidateJrss(id).subscribe(data => {
+      //Get resume Data    
+      this.resumeName1 = data['resumeName'];
+      console.log('resumeName1---'+this.resumeName1);
+      let resumeData1 : String = data['resumeData'];
+      console.log('resumeData1---'+resumeData1);
+
+      var byteString = atob(resumeData1.split(',')[1]);
+      // separate out the mime component
+      var mimeString = resumeData1.split(',')[0].split(':')[1].split(';')[0];
+
+      // write the bytes of the string to an ArrayBuffer
+      var ab = new ArrayBuffer(byteString.length);
+      var ia = new Uint8Array(ab);
+      for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+      }
+      this.resumeBlob =  new Blob([ab], {type: mimeString});
+      
+      if (this.resumeName1 == "ResumeEmpty.doc")
+      {
+        this.resumeUploaded=false;
+        alert('CV not uploaded');
+      }else{
+        this.resumeUploaded = true;
+        saveAs(this.resumeBlob,this.resumeName1);
+      }
+       
+      });      
   }
 
   //Read candidate details
