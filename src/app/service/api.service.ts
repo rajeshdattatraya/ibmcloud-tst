@@ -20,6 +20,7 @@ export class ApiService {
   baseQuestionUri:string = appConfig.baseUri +'/api/quiz';
   projectAllocUri:string = appConfig.baseUri + '/projectAlloc';
   headers = new HttpHeaders().set('Content-Type', 'application/json');
+  baseUserroleUri:string = appConfig.baseUri + '/api/userrole';
 
   constructor(private http: HttpClient) { }
 // Get all JRSS
@@ -508,6 +509,23 @@ readTechInterviewDetails(userName,quizId): Observable<any> {
         }),
         catchError(this.errorMgmt)
   )
+}
+
+// Get all userroles
+getUserroles() {
+  return this.http.get(`${this.baseUserroleUri}`);
+}
+
+
+//Check if any user already present with the same email id in Users table
+findUniqueUserEmail(email): Observable<any> {
+  let url = `${this.baseUserroleUri}/findUser/${email}`;
+  return this.http.get(url, {headers: this.headers}).pipe(
+    map((res: Response) => {
+      return res || {}
+    }),
+    catchError(this.errorMgmt)
+    )
 }
 
 

@@ -30,6 +30,7 @@ import { TechnicalInterviewComponent } from './components/technical-interview/te
 import { WorkflowConfigComponent } from './components/workflow-config/workflow-config.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PreTechnicalInterviewFormComponent } from './components/pre-technical-interview-form/pre-technical-interview-form.component';
+import { AdminuserCreateComponent } from './components/adminuser-create/adminuser-create.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login-component' },
@@ -65,6 +66,7 @@ const routes: Routes = [
   { path: 'workflow-config', component:WorkflowConfigComponent },
   { path: 'dashboard', component:DashboardComponent},
   { path: 'pre-technical-interview-form/:jrss/:username',component:PreTechnicalInterviewFormComponent},
+  { path: 'adminuser-create', component:AdminuserCreateComponent }
 
 
   

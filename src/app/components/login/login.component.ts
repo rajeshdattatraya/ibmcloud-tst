@@ -108,11 +108,23 @@ export class LoginComponent implements OnInit {
           if (res.accessLevel === 'admin') {
             this.ngZone.run(() => this.router.navigateByUrl('/candidates-list', { state: { username: res.username } }))
           } else if (res.accessLevel === 'sme') {
-            this.ngZone.run(() => this.router.navigateByUrl('/technical-interview-list', { state: { username: res.username, accessLevel: res.accessLevel } }))
+			   if(res.password == appConfig.defaultEncryptedPassword){
+                this.ngZone.run(() => this.router.navigateByUrl('/change-password',{state:{username:res.username,quizNumber:res.quizNumber}}))  
+               }else{
+			   this.ngZone.run(() => this.router.navigateByUrl('/technical-interview-list', { state: { username: res.username, accessLevel: res.accessLevel } }))
+			   }
           } else if (res.accessLevel === 'partner') {
+			  if(res.password == appConfig.defaultEncryptedPassword){
+                this.ngZone.run(() => this.router.navigateByUrl('/change-password',{state:{username:res.username,quizNumber:res.quizNumber}}))  
+               }else{
             this.ngZone.run(() => this.router.navigateByUrl('/partner-list', { state: { username: res.username, accessLevel: res.accessLevel } }))
+			   }
           } else if (res.accessLevel === 'management') {
+			  if(res.password == appConfig.defaultEncryptedPassword){
+                this.ngZone.run(() => this.router.navigateByUrl('/change-password',{state:{username:res.username,quizNumber:res.quizNumber}}))  
+               }else{
             this.ngZone.run(() => this.router.navigateByUrl('/operations-candidate-list', { state: { username: res.username, accessLevel: res.accessLevel } }))
+			   }
           } else if (res.userLoggedin == 'false') {
             if (res.quizNumber == 1 && res.status == 'Active' && res.password == appConfig.defaultEncryptedPassword) {
               this.ngZone.run(() => this.router.navigateByUrl('/change-password', { state: { username: res.username, quizNumber: res.quizNumber } }))
