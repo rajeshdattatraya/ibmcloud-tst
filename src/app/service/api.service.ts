@@ -101,7 +101,7 @@ getPreTechniaclQuestions(jrss,userName): Observable<any> {
   // Create user
   createUser(data): Observable<any> {
 
-    let url = `${this.baseloginUri}/login`;    
+    let url = `${this.baseloginUri}/login`;
     return this.http.post(url, data)
       .pipe(
         catchError(this.errorMgmt)
@@ -500,8 +500,8 @@ updateExceptionalApprovalForStage4(id: string,quizNumber): Observable<any> {
   )
 }
 
-readTechInterviewDetails(userName): Observable<any> {
-  let url = `${this.userResultUri}/readCandidateTechSMEReviewDetails/${userName}`;
+readTechInterviewDetails(userName,quizId): Observable<any> {
+  let url = `${this.userResultUri}/readCandidateTechSMEReviewDetails/${userName}/${quizId}`;
   return this.http.get(url, {headers: this.headers}).pipe(
         map((res: Response) => {
           return res || {}
