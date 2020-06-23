@@ -3,7 +3,7 @@
     <ul class="navbar-nav">
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" routerLink="/candidates-list" [state]="{username:this.userName}" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Manage Candidate<span class="sr-only">(current)</span>
+          <b>Manage Candidate</b><span class="sr-only">(current)</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" routerLink="/create-candidate" [state]="{username:this.userName}" routerLinkActive="active">Add Candidate</a>
@@ -12,7 +12,7 @@
       </li>
       <li class="nav-item dropdown active">
         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Manage Questions<span class="sr-only">(current)</span>
+        <b>Manage Questions</b><span class="sr-only">(current)</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" routerLink="/manage-questionbank" routerLinkActive="active">Add question</a>
@@ -21,7 +21,7 @@
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" routerLink="/jrss-create" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Manage Metadata
+        <b>Manage Metadata</b>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" routerLink="/jrss-create" routerLinkActive="active">Add Job Role</a>
@@ -30,13 +30,17 @@
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/workflow-config"routerLinkActive="active">Manage Workflow</a>
+        <a class="nav-link" routerLink="/workflow-config"routerLinkActive="active"><b>Manage Workflow</b></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/view-testresults"routerLinkActive="active">View TestResults</a>
+        <a class="nav-link" routerLink="/view-testresults"routerLinkActive="active"><b>View TestResults</b></a>
       </li>
+    </ul>
+  </div>
+  <div>
+    <ul class="navbar-nav navbar-right">
       <li class="nav-item">
-        <a class="nav-link" routerLink="/login-component" routerLinkActive="active">Logout</a>
+        <a class="nav-link" routerLink="/login-component" routerLinkActive="active"><b>Logout</b></a>
       </li>
     </ul>
   </div>

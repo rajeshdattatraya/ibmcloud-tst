@@ -29,12 +29,7 @@ export class JrssCreateComponent implements OnInit {
     }
 
   ngOnInit() { 
-    this.browserRefresh = browserRefresh;
-      if (this.browserRefresh) {
-          if (window.confirm('Your account will be deactivated. You need to contact administrator to login again. Are you sure?')) {
-             this.router.navigate(['/login-component']);
-          }
-      }
+    this.browserRefresh = browserRefresh;      
    }
 
   getJrss(id) {
