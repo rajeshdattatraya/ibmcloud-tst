@@ -3,6 +3,8 @@ import { ApiService } from '../../service/api.service';
 import { FormGroup, FormBuilder, Validators,FormControl } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
 import { browserRefresh } from '../../app.component';
+import { DatePipe } from '@angular/common';
+import { saveAs } from 'file-saver';
 
 
 @Component({
@@ -28,8 +30,12 @@ export class TechnicalInterviewListComponent implements OnInit {
   assesmentDate="";
   questionCount:number=0;
   correctAnswerCount:number=0;
+  resumeName1:string;
+  resumeBlob:Blob;
+  resumeUploaded:boolean;
 
-  constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService, private ngZone: NgZone,private fb: FormBuilder) {
+
+  constructor(private datePipe: DatePipe,private route: ActivatedRoute, private router: Router, private apiService: ApiService, private ngZone: NgZone,private fb: FormBuilder) {
     this.config = {
       currentPage: 1,
       itemsPerPage: 5,
@@ -50,6 +56,39 @@ export class TechnicalInterviewListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  downloadCandidateResume(id){
+    console.log('resume method'+id);
+    this.apiService.getCandidateJrss(id).subscribe(data => {
+      //Get resume Data    
+      this.resumeName1 = data['resumeName'];
+      console.log('resumeName1---'+this.resumeName1);
+      let resumeData1 : String = data['resumeData'];
+      console.log('resumeData1---'+resumeData1);
+
+      var byteString = atob(resumeData1.split(',')[1]);
+      // separate out the mime component
+      var mimeString = resumeData1.split(',')[0].split(':')[1].split(';')[0];
+
+      // write the bytes of the string to an ArrayBuffer
+      var ab = new ArrayBuffer(byteString.length);
+      var ia = new Uint8Array(ab);
+      for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+      }
+      this.resumeBlob =  new Blob([ab], {type: mimeString});
+      
+      if (this.resumeName1 == "ResumeEmpty.doc")
+      {
+        this.resumeUploaded=false;
+        alert('CV not uploaded');
+      }else{
+        this.resumeUploaded = true;
+        saveAs(this.resumeBlob,this.resumeName1);
+      }
+       
+      });      
   }
 
   pageChange(newPage: number) {
