@@ -75,11 +75,12 @@ export class CandidateCreateComponent implements OnInit {
   this.JRSSFull = data;
   for(var i=0; i<this.JRSSFull.length; i++)
   {
-    let workFlowPrsent = ((this.JRSSFull[i]['stage1_OnlineTechAssessment']==undefined) &&
-    (this.JRSSFull[i]['stage2_PreTechAssessment']==undefined) &&
-    (this.JRSSFull[i]['stage3_TechAssessment']==undefined) &&
-    (this.JRSSFull[i]['stage4_ManagementInterview']==undefined) &&
-    (this.JRSSFull[i]['stage5_ProjectAllocation']==undefined))
+    let workFlowPrsent = ((this.JRSSFull[i]['stage1_OnlineTechAssessment']==undefined) ||
+    ((this.JRSSFull[i]['stage1_OnlineTechAssessment']==false) &&
+    (this.JRSSFull[i]['stage2_PreTechAssessment']==false) &&
+    (this.JRSSFull[i]['stage3_TechAssessment']==false) &&
+    (this.JRSSFull[i]['stage4_ManagementInterview']==false) &&
+    (this.JRSSFull[i]['stage5_ProjectAllocation']==false)))
     if (!workFlowPrsent){
       this.JRSS.push(this.JRSSFull[i]);
     }

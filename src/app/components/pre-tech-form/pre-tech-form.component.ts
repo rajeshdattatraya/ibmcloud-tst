@@ -24,8 +24,12 @@ export class PreTechFormComponent implements OnInit {
 	stage2_status = "";
 	
 	stage2Completed=false;
-mode= "instructions";
+	mode= "instructions";
 	preTechAssmntQuestions:any = [];
+	resumeBlob:Blob;
+	resumeName1:string;
+	resumeUploaded:boolean;
+	candidateResume:File;
  
   constructor(
     private router: Router,
@@ -53,7 +57,7 @@ logout(){
 }
  ngOnInit(): void {
 	 this.getPreTechAssessmentQuestions();
-	 
+	 	 
 }
 
 //Read the pre technical assessment questions (based on the given JRSS) to be filled by the candidate
@@ -93,9 +97,42 @@ this.preTechService.getStageStatusByUserName(this.userName).subscribe(
          }, (error) => {
          console.log(error);
          });
-    });
+	});
+	this.apiService.getCandidateJrss(this.userName).subscribe(data => {
+		//Get resume Data
+		this.resumeName1 = data['resumeName'];
+		let resumeData1 : String = data['resumeData'];
+		console.log("Resume Uploaded name: "+this.resumeName1);
+		var byteString = atob(resumeData1.split(',')[1]);
+		// separate out the mime component
+		var mimeString = resumeData1.split(',')[0].split(':')[1].split(';')[0];
+  
+		// write the bytes of the string to an ArrayBuffer
+		var ab = new ArrayBuffer(byteString.length);
+		var ia = new Uint8Array(ab);
+		for (var i = 0; i < byteString.length; i++) {
+		  ia[i] = byteString.charCodeAt(i);
+		}
+		this.resumeBlob =  new Blob([ab], {type: mimeString});
+		
+		if (this.resumeName1 == "ResumeEmpty.doc")
+		{
+		  this.resumeUploaded=false;
+		}else{
+		  this.resumeUploaded = true;
+		}
+		});
     
  } //end of loadQuestion()
+
+  downloadResume()
+  {
+    saveAs(this.resumeBlob,this.resumeName1);
+  }
+
+  addResume(event){
+	this.candidateResume= event.target.files[0]; 
+  }
  
  
  submitPreTechForm( preTechQAndA : PreTechQuesAndAns[]) {
@@ -115,6 +152,12 @@ this.preTechService.getStageStatusByUserName(this.userName).subscribe(
 			  }
 			);
 			this.stage2Completed =  true;
+			//Resume upload call
+			if(this.candidateResume){
+				console.log("Resume is selected");
+			}else{
+				console.log("Resume is not selected");
+			}
 		} else {
 		
 		this.stage2Completed = false;

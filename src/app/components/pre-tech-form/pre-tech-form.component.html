@@ -15,7 +15,7 @@
 		<div class="form-group"   class="scrollbar scrollbar-primary">
 		
        <label  class="control-label"  [class.has-error]="LocalVariable.invalid" for="{{preTechQAndA.preTechQuestion}}"  
-		style="display: inline;   width: 90%;">
+		style="display: inline;">
           <!--To display questions as entered with line breaks-->
           <pre><b> {{i+1}}.&nbsp;{{preTechQAndA.preTechQuestion}}</b></pre>
         </label>
@@ -30,18 +30,30 @@
 		</div>
   </div>
 </div>
+<br />
+<div class="row col-sm-16" *ngIf="!resumeUploaded">
+  <label class="col-sm-2"><b>Upload Resume</b></label>
+  <div class="text-right">
+    <input class="form-control" type="file" (change)="addResume($event)" size="50">
+  </div>
+</div>
+<div class="row col-sm-16" *ngIf="resumeUploaded">
+  <div class="col-sm-8">
+    <p style="color:blue;" (click)="downloadResume()"><u>Download Candidate Resume</u></p>
+  </div>
+</div>
 <br /><br />
  <div class="text-center" style="width: 100%">
  &nbsp;&nbsp;
-        <button type="submit"   class="btn btn-primary" [disabled]="stage2Completed" >Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button type="submit"   class="btn btn-primary" [disabled]="stage2Completed" >Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<button type="button"  class="btn btn-primary" [disabled]="stage2Completed" (click)="mode= 'Draft'; submitPreTechForm(preTechQuesAndAns);" >Save Draft</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<button type="reset"  class="btn btn-primary" [disabled]="stage2Completed" >Clear</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<button type="button"  class="btn btn-primary"  (click)="close()"> Close </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       </div>
- 
  </form>
- </div> 
-
+ &nbsp;&nbsp;
+</div> 
+ 
 <div *ngIf="mode=='instructions'" oncopy="return false">
     Congratulations on completing the exam,
     <h4 class="text-center"> <br>Instructions for filling up the pre-technical assessment form</h4>
