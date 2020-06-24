@@ -18,7 +18,7 @@
         <td><input type="radio" name="candidateRadio" value="result._id" (click)="setCandidateID(result._id)"></td>
         <td  width="16%">{{result.result_users[0].employeeName}}</td>
         <td  width="25%">{{result.result_users[0].JRSS}}</td>
-        <td  width="15%">{{result.userScore}}</td>
+        <td  width="15%"><a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(result.userName,result.quizNumber,result.result_users[0].employeeName,result.userScore,result.createdDate)" class="col-4 cursor-pointer" data-toggle="modal" >{{result.userScore}}%</a></td>
         <td  width="15%">{{result.smeResult}}</td>
         <td  width="17%">{{result.managementResult}}</td>
         <td  width="17%">
@@ -95,7 +95,9 @@
               <table>
                 <tr>
                   <td width="25%"><label>Online Test Result:</label></td>
-                  <td colspan="2" width="75%">&nbsp;<a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(dashboardDetails[0].userName,dashboardDetails[0].quizNumber,dashboardDetails[0].result_users[0].employeeName,dashboardDetails[0].userScore,dashboardDetails[0].createdDate)" class="col-4 cursor-pointer" data-toggle="modal" >{{this.dashboardDetails[0].userScore}} </a></td>
+                  <td width="25%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {{this.dashboardDetails[0].userScore}}%</td>
+                  <td width="25%"></td>
+                  <td width="25%"></td>
                 </tr>
               </table>
             </div>

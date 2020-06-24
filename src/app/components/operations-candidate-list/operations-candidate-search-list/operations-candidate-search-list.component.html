@@ -1,9 +1,9 @@
     <div>
-      <h4 class="my-0 mr-md-auto font-weight-normal">Candidate's Project Assignment Queue</h4>
+      <h4 class="my-0 mr-md-auto font-weight-normal">Project Assignment Queue</h4>
       <br/>
     </div>
       <!-- No data found message -->
-      <p *ngIf="Result.length <= 0" class="no-data text-center">No records found</p>
+      <p *ngIf="Result.length <= 0" class="no-data text-center">There are no records in Project Assignment Queue</p>
 
       <!-- Operations candidate list -->
       <table class="table table-bordered" *ngIf="Result.length > 0">
@@ -31,9 +31,9 @@
             </tbody>
       </table>
     <div  class="float-right text-right" *ngIf="Result.length > 0">
-      <a class="edit" [routerLink]="['/initiate-operations-project/', emailSelected]" [state]="{username:this.userName,accessLevel:this.accessLevel}">
-        <button type="button" class="btn btn-success btn-sm">Assign Project</button>&nbsp;
-      </a>
+      <span (click)="assignProject()">
+         <button type="button" class="btn btn-success btn-sm">Assign Project</button>&nbsp;
+      </span>
     </div>
     <div *ngIf="Result.length > 0">
       <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>

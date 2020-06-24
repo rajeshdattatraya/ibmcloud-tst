@@ -117,6 +117,13 @@ getCandidateAssessmentDetails(userid,quizId,username,userScore,createdDate) {
   this.correctAnswerCount=Math.round((userScore*this.questionCount)/100)
  })
 }
-
+  assignProject() {
+    if (this.emailSelected == "") {
+      alert("Please select the candidate")
+    }
+    else {
+      this.router.navigate(['/initiate-operations-project/', this.emailSelected], { state: { username: this.userName, accessLevel: this.accessLevel } })
+    }
+  }
 
 }

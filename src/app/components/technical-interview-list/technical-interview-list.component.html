@@ -45,7 +45,7 @@
       <p *ngIf="TechnicalInterviewList.length <= 0" class="no-data text-center">There are no records in Technical Interview Assessment Queue</p>
 
       <!-- Technical Interview list -->
-      <table class="table table-bordered" >
+      <table class="table table-bordered" ngIf="TechnicalInterviewList.length > 0">
         <thead class="table-success">
         <tr>
           <th scope="col" width="5%">Action</th>

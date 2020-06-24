@@ -74,7 +74,7 @@
 
       <form [formGroup]="operationsProjectForm" (ngSubmit)="onSubmit(this.operationsProjectDetails[0]._id)" >
         <div class="form-group row">
-          <label for="inputLocation" class="col-sm-4 col-form-label" style="color: mediumpurple">Location:</label>
+          <label for="inputLocation" class="col-sm-4 col-form-label">Location:</label>
           <div class="col-sm-4" style="size:50px">
             <select class="custom-select form-control" (change)="updateLocation($event.target.value)"
                     formControlName="projectLocation" id="inputLocation" [ngClass]="{ 'is-invalid': submitted && myForm.projectLocation.errors }">
