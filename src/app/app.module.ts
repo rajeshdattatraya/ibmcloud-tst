@@ -38,6 +38,8 @@ import { TechnicalInterviewComponent } from './components/technical-interview/te
 import { WorkflowConfigComponent } from './components/workflow-config/workflow-config.component';
 import { PreTechnicalInterviewFormComponent } from './components/pre-technical-interview-form/pre-technical-interview-form.component';
 import { AdminuserCreateComponent } from './components/adminuser-create/adminuser-create.component';
+import { ConfigPretechassessmentFormComponent } from './components/config-pretechassessment-form/config-pretechassessment-form.component';
+
 
 export let browserRefresh = false;
 
@@ -68,7 +70,8 @@ export let browserRefresh = false;
     TechnicalInterviewComponent,
     WorkflowConfigComponent,
     PreTechnicalInterviewFormComponent,
-    AdminuserCreateComponent
+    AdminuserCreateComponent,
+    ConfigPretechassessmentFormComponent   
     ],
   imports: [
     BrowserModule,

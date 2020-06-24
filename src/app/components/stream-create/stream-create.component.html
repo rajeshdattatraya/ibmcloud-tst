@@ -1,109 +1,115 @@
 <nav class="navbar navbar-expand-lg navbar-light table-success">
-  <div class="collapse navbar-collapse" id="navbarNavDropdown">
-    <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link dropdown-toggle" routerLink="/candidates-list" [state]="{username:this.userName}" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <b>Manage Candidate</b>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" routerLink="/create-candidate" [state]="{username:this.userName}" routerLinkActive="active">Add Candidate</a>
-          <a class="dropdown-item" routerLink="/candidates-list" [state]="{username:this.userName}" routerLinkActive="active">View Candidate</a>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <b> Manage Questions</b>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" routerLink="/manage-questionbank" routerLinkActive="active">Add question</a>
-          <a class="dropdown-item" routerLink="/manage-questionbank-bulk" routerLinkActive="active">Add Bulk Question</a>
-        </div>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <b>Manage Metadata</b><span class="sr-only">(current)</span>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" routerLink="/jrss-create" routerLinkActive="active">Add Job Role</a>
-          <a class="dropdown-item" routerLink="/stream-create" routerLinkActive="active">Add Technology Stream</a>
-          <a class="dropdown-item" routerLink="/testconfig-add" routerLinkActive="active">Add Test Configuration</a>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/workflow-config"routerLinkActive="active"><b>Manage Workflow</b></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/view-testresults"routerLinkActive="active"><b>View TestResults</b></a>
-      </li> 
-	  <li class="nav-item">
-        <a class="nav-link" routerLink="/adminuser-create"routerLinkActive="active">Create User</a>
-      </li>
-    </ul>
-  </div>
-  <div>
-    <ul class="navbar-nav navbar-right">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/login-component" routerLinkActive="active"><b>Logout</b></a>
-      </li>
-    </ul>
-  </div>
+	<div class="collapse navbar-collapse" id="navbarNavDropdown">
+		<ul class="navbar-nav">
+			<li class="nav-item active">
+				<a class="nav-link dropdown-toggle" routerLink="/candidates-list" [state]="{username:this.userName}" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<b>Manage Candidate</b>
+				</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+					<a class="dropdown-item" routerLink="/create-candidate" [state]="{username:this.userName}" routerLinkActive="active">Add Candidate</a>
+					<a class="dropdown-item" routerLink="/candidates-list" [state]="{username:this.userName}" routerLinkActive="active">View Candidate</a>
+				</div>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<b> Manage Questions</b>
+				</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+					<a class="dropdown-item" routerLink="/manage-questionbank" routerLinkActive="active">Add question</a>
+					<a class="dropdown-item" routerLink="/manage-questionbank-bulk" routerLinkActive="active">Add Bulk Question</a>
+				</div>
+			</li>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<b>Manage Metadata</b>
+					<span class="sr-only">(current)</span>
+				</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+					<a class="dropdown-item" routerLink="/jrss-create" routerLinkActive="active">Add Job Role</a>
+					<a class="dropdown-item" routerLink="/stream-create" routerLinkActive="active">Add Technology Stream</a>
+					<a class="dropdown-item" routerLink="/testconfig-add" routerLinkActive="active">Add Test Configuration</a>
+				</div>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" routerLink="/workflow-config"routerLinkActive="active">
+					<b>Manage Workflow</b>
+				</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" routerLink="/view-testresults"routerLinkActive="active">
+					<b>View TestResults</b>
+				</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" routerLink="/adminuser-create"routerLinkActive="active">Create User</a>
+			</li>
+		</ul>
+	</div>
+	<div>
+		<ul class="navbar-nav navbar-right">
+			<li class="nav-item">
+				<a class="nav-link" routerLink="/login-component" routerLinkActive="active">
+					<b>Logout</b>
+				</a>
+			</li>
+		</ul>
+	</div>
 </nav>
 <br/>
 <div>
-  <h4 class="my-0 mr-md-auto font-weight-normal">Mapping Technology Stream to Job Role</h4>
-  <br/>
+	<h4 class="my-0 mr-md-auto font-weight-normal">Mapping Technology Stream to Job Role</h4>
+	<br/>
 </div>
-      <!-- form Test Config -->
+<!-- form Test Config -->
 <div class="card">
-      <div class="card-body">
-        <form [formGroup]="streamCreateForm" (ngSubmit)="onSubmit()">
-            <div class="form-group row">
-                <label for="inputJRSS3" class="col-sm-4 col-form-label">Job Role</label>
-                <div class="col-sm-6">
-                <select class="custom-select form-control" (change)="updateJrssProfile($event.target.value)"
-                        formControlName="JRSS" id="inputJRSS3" [ngClass]="{ 'is-invalid': submitted && myForm.JRSS.errors }"> 
-                  <option value="">Choose...</option>
-                  <option *ngFor="let jrss of JRSS" value="{{jrss.jrss}}">{{jrss.jrss}}
+	<div class="card-body">
+		<form [formGroup]="streamCreateForm" (ngSubmit)="onSubmit()">
+			<div class="form-group row">
+				<label for="inputJRSS3" class="col-sm-4 col-form-label">Job Role</label>
+				<div class="col-sm-6">
+					<select class="custom-select form-control" (change)="updateJrssProfile($event.target.value)"
+                        formControlName="JRSS" id="inputJRSS3" [ngClass]="{ 'is-invalid': submitted && myForm.JRSS.errors }">
+						<option value="">Choose...</option>
+						<option *ngFor="let jrss of JRSS" value="{{jrss.jrss}}">{{jrss.jrss}}
                   </option>
-                </select>
-                  <div *ngIf="submitted && myForm.JRSS.errors" class="invalid-feedback">
-                    <div *ngIf="myForm.JRSS.errors.required">Job Role is required</div>
-                  </div>
-                </div>
-              </div>
-          <div class="form-group row">
-            <label class="col-sm-4 col-form-label">Existing Technology Stream Mapped</label>
-            <div class="col-sm-6">
-              <select multiple class="custom-select form-control" formControlName="existingTechnologyStream" [ngClass]="{ 'is-invalid': submitted && myForm.technologyStream.errors }">
-                <option *ngFor="let data of existingTechnologyStream" [ngValue]="data" >{{data.value}}</option>
-              </select>
-            </div>
-          </div>
-  
-          <div class="form-group row">
-            <label for="inputTechnologyStream" class="col-sm-4 col-form-label">New Technology Stream To Be Mapped</label>
-            <div class="col-sm-6">
-              <input class="form-control" type="text" formControlName="technologyStream" id="inputTechnologyStream" [ngClass]="{ 'is-invalid': submitted && myForm.technologyStream.errors }" maxlength="50" minlength="1">
-              <div *ngIf="submitted && myForm.technologyStream.errors" class="invalid-feedback">
-                <div *ngIf="myForm.technologyStream.errors.required">Technology Stream is required</div>
-                <div *ngIf="myForm.technologyStream.errors.pattern">Enter a valid Tech Stream</div>
-              </div>
-            </div>
-          </div>
-  
-          <div class="form-group">
-            <button class="btn btn-success btn-lg float-center" type="submit">Save</button>
-          </div>
-          <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
-      &nbsp;&nbsp;&nbsp;
-        </form>
-      </div>
-    </div>
-  <br/>
-<br/>
-<h4 class="my-0 mr-md-auto font-weight-normal">Technology Stream List</h4>
-<br/>
-  <p class="no-data text-center">There are no records added yet!</p>
+					</select>
+					<div *ngIf="submitted && myForm.JRSS.errors" class="invalid-feedback">
+						<div *ngIf="myForm.JRSS.errors.required">Job Role is required</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label">Existing Technology Stream Mapped</label>
+				<div class="col-sm-6">
+					<select multiple class="custom-select form-control" formControlName="existingTechnologyStream" [ngClass]="{ 'is-invalid': submitted && myForm.technologyStream.errors }">
+						<option *ngFor="let data of existingTechnologyStream" [ngValue]="data" >{{data.value}}</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="inputTechnologyStream" class="col-sm-4 col-form-label">New Technology Stream To Be Mapped</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="text" formControlName="technologyStream" id="inputTechnologyStream" [ngClass]="{ 'is-invalid': submitted && myForm.technologyStream.errors }" maxlength="50" minlength="1">
+						<div *ngIf="submitted && myForm.technologyStream.errors" class="invalid-feedback">
+							<div *ngIf="myForm.technologyStream.errors.required">Technology Stream is required</div>
+							<div *ngIf="myForm.technologyStream.errors.pattern">Enter a valid Tech Stream</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-success btn-lg float-center" type="submit">Save</button>
+				</div>
+				<div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+       &nbsp;&nbsp;&nbsp;
+        
+			</form>
+		</div>
+	</div>
+	<br/>
+	<br/>
+	<h4 class="my-0 mr-md-auto font-weight-normal">Technology Stream List</h4>
+	<br/>
+	<p class="no-data text-center">There are no records added yet!</p>
 
     
 
