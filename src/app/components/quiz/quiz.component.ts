@@ -49,6 +49,7 @@ export class QuizComponent implements OnInit {
   toggle = true; 		
   status = "Flag";
   timeLeft = '';
+  isSubmittedAnswers:boolean = false;
   
   constructor(
     private router: Router,
@@ -116,7 +117,7 @@ ngOnInit() {
     const diff = (now.getTime() - this.startTime.getTime()) / 1000;
     const timeLeftSec = this.configDuration - diff;
     this.timeLeft = this.parseTime(timeLeftSec);
-    if (timeLeftSec <= 0 && timeLeftSec>-1) {
+    if (timeLeftSec <= 0 && timeLeftSec>-1 && this.isSubmittedAnswers == false) {
       //Auto Submit
       this.submitAnswers(false);
     }
@@ -235,7 +236,8 @@ ngOnInit() {
   let userAnswer = new UserAnswer(null,null,null,null,null);
   this.questions.forEach((question) => {  
 	this.questionID = question.questionID;
-	this.userAnswerID ="";
+  this.userAnswerID ="";
+  this.isSubmittedAnswers = true;
 
 	question.options.forEach((option) => {
 	if (option.checked === "checked")  {
