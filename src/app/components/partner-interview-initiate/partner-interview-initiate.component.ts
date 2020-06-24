@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
 import { browserRefresh } from '../../app.component';
 import { PartnerDetails } from './../../model/PartnerDetails';
+import {TechnicalInterviewListComponent} from '../technical-interview-list/technical-interview-list.component';
 
 @Component({
   selector: 'app-partner-interview-initiate',
@@ -24,7 +25,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
   result: String = "";
   feedback: String = "";
 
- constructor(public fb: FormBuilder, private actRoute: ActivatedRoute, private router: Router,private ngZone: NgZone,
+ constructor(private cv:TechnicalInterviewListComponent,public fb: FormBuilder, private actRoute: ActivatedRoute, private router: Router,private ngZone: NgZone,
   private apiService: ApiService) {
        this.userName = this.router.getCurrentNavigation().extras.state.username;
        this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
@@ -50,6 +51,11 @@ export class PartnerInterviewInitiateComponent implements OnInit {
 
   get myForm(){
         return this.partnerFeedbackForm.controls;
+  }
+
+   //To download candidate's CV if uploaded
+   downloadCandidateResume(id){
+    this.cv.downloadCandidateResume(id) 
   }
 
   // Choose FinalResult with select dropdown

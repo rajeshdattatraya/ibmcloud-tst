@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from './../../service/api.service';
 import {TechnicalInterview} from './../../model/technicalinterview';
 import { saveAs } from 'file-saver';
+import {TechnicalInterviewListComponent} from '../technical-interview-list/technical-interview-list.component';
+
 
 @Component({
   selector: 'app-technical-interview',
@@ -34,7 +36,7 @@ export class TechnicalInterviewComponent implements OnInit {
   resumeBlob:Blob;
   resumeUploaded:boolean;
 
-  constructor(private fb:FormBuilder, private actRoute: ActivatedRoute, private router: Router,private ngZone: NgZone,
+  constructor(private cv:TechnicalInterviewListComponent,private fb:FormBuilder, private actRoute: ActivatedRoute, private router: Router,private ngZone: NgZone,
     private apiService: ApiService) {
     this.loginUser = this.router.getCurrentNavigation().extras.state.username;
     this.userName =this.actRoute.snapshot.paramMap.get('id');
@@ -60,37 +62,9 @@ export class TechnicalInterviewComponent implements OnInit {
       return this.techskillForm.get("techStream") as FormArray
   }
 
+   //To download candidate's CV if uploaded
   downloadCandidateResume(id){
-    console.log('resume method'+id);
-    this.apiService.getCandidateJrss(id).subscribe(data => {
-      //Get resume Data
-      this.resumeName1 = data['resumeName'];
-      console.log('resumeName1---'+this.resumeName1);
-      let resumeData1 : String = data['resumeData'];
-      console.log('resumeData1---'+resumeData1);
-
-      var byteString = atob(resumeData1.split(',')[1]);
-      // separate out the mime component
-      var mimeString = resumeData1.split(',')[0].split(':')[1].split(';')[0];
-
-      // write the bytes of the string to an ArrayBuffer
-      var ab = new ArrayBuffer(byteString.length);
-      var ia = new Uint8Array(ab);
-      for (var i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i);
-      }
-      this.resumeBlob =  new Blob([ab], {type: mimeString});
-
-      if (this.resumeName1 == "ResumeEmpty.doc")
-      {
-        this.resumeUploaded=false;
-        alert('CV not uploaded');
-      }else{
-        this.resumeUploaded = true;
-        saveAs(this.resumeBlob,this.resumeName1);
-      }
-
-      });
+    this.cv.downloadCandidateResume(id) 
   }
 
   //Read candidate details
@@ -193,7 +167,7 @@ export class TechnicalInterviewComponent implements OnInit {
         scoreCount++;
       }
     }
-    this.averageScore==Math.round((this.totalScore/scoreCount) *100 +Number.EPSILON)/100;
+    this.averageScore=Math.round((this.totalScore/scoreCount) *100 +Number.EPSILON)/100;
     if(isNaN(this.averageScore))
       this.averageScore=0;
       this.dynamicFormControlValidation();

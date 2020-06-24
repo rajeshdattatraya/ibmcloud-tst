@@ -26,8 +26,7 @@
               <td  width="20%"><a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(operationsList.userName,operationsList.quizNumber,operationsList.result_users[0].employeeName,operationsList.userScore,operationsList.createdDate)" class="col-4 cursor-pointer" data-toggle="modal">{{operationsList.userScore}}%</a></td>
               <td  width="23%">{{operationsList.smeResult}}</td>
               <td  width="23%">{{operationsList.managementResult}}</td>
-              <td  width="13%"><a href="#" routerLinkActive="active">Click Here</a></td>
-            </tr>
+              <td width="20%"><a href="#" (click)="downloadCandidateResume(operationsList.userName)" routerLinkActive="active" class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
             </tbody>
       </table>
     <div  class="float-right text-right" *ngIf="Result.length > 0">
