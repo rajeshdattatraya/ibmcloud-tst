@@ -23,6 +23,11 @@ export class StreamCreateComponent implements OnInit {
   currentJrssArray:any = [];
   techStreamArray:any = [];
   existingTechnologyStream:any = [];
+  config: any;
+  index;  
+  jrssId;
+  jrssValue;
+
   constructor(
     public fb: FormBuilder,
     private router: Router,
@@ -42,7 +47,8 @@ export class StreamCreateComponent implements OnInit {
   mainForm() {
     this.streamCreateForm = this.fb.group({
       JRSS: ['', [Validators.required]],
-      technologyStream :['', [Validators.required]]
+      technologyStream :['', [Validators.required]],
+      existingTechnologyStream: ['']
     })
   }
 
@@ -53,6 +59,18 @@ export class StreamCreateComponent implements OnInit {
     this.JRSS = data;
     })
   }
+
+onSelectionChange(jrssId, jrssValue ,index) {
+    this.jrssId = jrssId;
+    this.jrssValue = jrssValue;
+    this.index = index;    
+}
+
+pageChange(newPage: number) {
+  this.router.navigate(['/stream-create'], { queryParams: { page: newPage } });
+}
+
+
 
   // Choose designation with select dropdown
   updateJrssProfile(e){

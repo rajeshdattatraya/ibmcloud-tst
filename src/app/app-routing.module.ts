@@ -32,6 +32,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PreTechnicalInterviewFormComponent } from './components/pre-technical-interview-form/pre-technical-interview-form.component';
 import { AdminuserCreateComponent } from './components/adminuser-create/adminuser-create.component';
 import { ConfigPretechassessmentFormComponent } from './components/config-pretechassessment-form/config-pretechassessment-form.component'
+import { StreamDeleteComponent } from './components/stream-delete/stream-delete.component';
+
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login-component' },
@@ -68,9 +70,8 @@ const routes: Routes = [
   { path: 'dashboard', component:DashboardComponent},
   { path: 'pre-technical-interview-form/:jrss/:username',component:PreTechnicalInterviewFormComponent},
   { path: 'adminuser-create', component:AdminuserCreateComponent },
-  { path:  'config-pretechassessment-form',component:ConfigPretechassessmentFormComponent }
-
-
+  { path:  'config-pretechassessment-form',component:ConfigPretechassessmentFormComponent },
+  { path: 'delete-stream/:id', component: StreamDeleteComponent, canDeactivate:[DeactivateGuard] },
   
 ];
 

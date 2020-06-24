@@ -39,6 +39,7 @@ import { WorkflowConfigComponent } from './components/workflow-config/workflow-c
 import { PreTechnicalInterviewFormComponent } from './components/pre-technical-interview-form/pre-technical-interview-form.component';
 import { AdminuserCreateComponent } from './components/adminuser-create/adminuser-create.component';
 import { ConfigPretechassessmentFormComponent } from './components/config-pretechassessment-form/config-pretechassessment-form.component';
+import { StreamDeleteComponent } from './components/stream-delete/stream-delete.component';
 
 
 export let browserRefresh = false;
@@ -71,7 +72,8 @@ export let browserRefresh = false;
     WorkflowConfigComponent,
     PreTechnicalInterviewFormComponent,
     AdminuserCreateComponent,
-    ConfigPretechassessmentFormComponent   
+    ConfigPretechassessmentFormComponent,
+    StreamDeleteComponent   
     ],
   imports: [
     BrowserModule,
