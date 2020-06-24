@@ -310,6 +310,17 @@ getJrsss() {
   return this.http.get(`${this.baseJrssUri}`);
 }
 
+// Get jrss by id
+getJrssById(id): Observable<any> {
+  let url = `${this.baseJrssUri}/readJrssById/${id}`;
+  return this.http.get(url, {headers: this.headers}).pipe(
+    map((res: Response) => {
+      return res || {}
+    }),
+    catchError(this.errorMgmt)
+  )
+}
+
 // Get jrss
 getJrss(id): Observable<any> {
   let url = `${this.baseJrssUri}/readJrss/${id}`;

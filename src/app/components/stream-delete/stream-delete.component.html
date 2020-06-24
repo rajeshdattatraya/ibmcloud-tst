@@ -56,29 +56,75 @@
 </div>
 
 
-      <!-- form Test Config -->
-      <div class="card">
-        <div class="card-body">
-          <form [formGroup]="streamDeleteForm" (ngSubmit)="onSubmit()">             
-    
-            <div class="form-group row">
-              <label for="inputTechnologyStream" class="col-sm-4 col-form-label">Enter Technology Stream</label>
-              <div class="col-sm-6">
-                <input class="form-control" type="text" formControlName="technologyStream" id="inputTechnologyStream" [ngClass]="{ 'is-invalid': submitted && myForm.technologyStream.errors }" maxlength="50" minlength="1">
-                <div *ngIf="submitted && myForm.technologyStream.errors" class="invalid-feedback">
-                  <div *ngIf="myForm.technologyStream.errors.required">Technology Stream is required</div>
-                  <div *ngIf="myForm.technologyStream.errors.pattern">Enter a valid Tech Stream</div>
-                </div>
-              </div>
-            </div>
-    
-            <div class="float-right text-right">
-              <button class="btn btn-success btn-sm float-center" type="submit">Delete</button>&nbsp;&nbsp;
-              <button type="button" class="btn btn-success btn-sm" (click)="cancelForm()">Cancel</button>
-            </div>
-            <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
-        &nbsp;&nbsp;&nbsp;
-          </form>
-        </div>
-      </div>
-    <br/>
+     <!-- form Test Config -->
+<div class="col-lg-20 register-employee">
+	<div class="card-body">
+		<form [formGroup]="streamDeleteForm" (ngSubmit)="onSubmit()">
+
+			<div class="form-group row">
+				<label for="inputJRSS3" class="col-sm-4 col-form-label">Job Role</label>
+				<div class="col-sm-6">
+				<select class="custom-select form-control" (change)="updateJrssProfile($event.target.value)"
+						formControlName="JRSS" id="inputJRSS3" [ngClass]="{ 'is-invalid': submitted && myForm.JRSS.errors }">
+				  <option value="" >Choose...</option>
+				  <option *ngFor="let jrss of JRSS" value="{{jrss.jrss}}">{{jrss.jrss}}</option>
+				</select>
+				  <div *ngIf="submitted && myForm.JRSS.errors" class="invalid-feedback">
+					  <div *ngIf="myForm.JRSS.errors.required">JRSS is required</div>
+				  </div>
+				</div>
+			</div>
+			  
+			  <div class="form-group row">
+				<label for="inputSkill3" class="col-sm-4 col-form-label">Technology Stream To be Deleted</label>
+				<div class="col-sm-6">
+					<select class="custom-select form-control" 
+                        formControlName="technologyStream" id="inputSkill3" [ngClass]="{ 'is-invalid': submitted && myForm.technologyStream.errors }">
+						<option *ngFor="let data of technologyStream" value="{{data.value}}">{{data.value}}</option>
+					</select>
+					<div *ngIf="submitted && myForm.technologyStream.errors" class="invalid-feedback">
+						<div *ngIf="myForm.technologyStream.errors.required">Technology Stream  is required</div>
+					</div>
+				</div>
+      		</div>      
+
+      		<div class="float-right text-right">
+       			 <button class="btn btn-success btn-sm float-center" type="submit">Delete</button>&nbsp;&nbsp;
+        			<button type="button" class="btn btn-success btn-sm" (click)="cancelForm()">Cancel</button>
+      		</div>
+      		<div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+        			&nbsp;&nbsp;&nbsp;
+        
+		</form>
+		</div>
+	</div>
+	<br/>
+	<br/>
+	<div>
+		<h4 class="my-0 mr-md-auto font-weight-normal">Technology Stream List</h4><br/>
+	</div>
+	<!-- No data found message -->
+	<p *ngIf="JRSS.length <= 0" class="no-data text-center">There is no Technology Stream List added yet!</p>
+	  
+		<!-- Technology Stream list -->      
+		<table class="table table-bordered" *ngIf="JRSS.length > 0" >
+		  <thead class="table-success">
+		  <tr>          
+			  <th scope="col" width="35%">Job Role</th>          
+			  <th scope="col" width="65%">Technology Stream</th>    
+		   </tr>
+		  </thead>
+		  <tbody>
+		    <tr *ngFor="let jrss of JRSS; let i = index">
+			    <td  width="12%">{{jrss.jrss}}</td>      
+			    <td  width="20%">
+				      <tr class="no-data text-center" *ngFor="let tech of jrss.technologyStream">{{tech.value}}</tr>
+			    </td>                   
+		    </tr>
+		  </tbody>
+	  </table>  
+	  
+	  <div *ngIf="JRSS.length > 0">
+			<pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
+	  </div>		  
+	  
