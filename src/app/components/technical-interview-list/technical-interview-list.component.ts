@@ -5,12 +5,17 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { browserRefresh } from '../../app.component';
 import { DatePipe } from '@angular/common';
 import { saveAs } from 'file-saver';
+import { Injectable } from '@angular/core';
 
 
 @Component({
   selector: 'app-technical-interview-list',
   templateUrl: './technical-interview-list.component.html',
   styleUrls: ['./technical-interview-list.component.css']
+})
+
+@Injectable({
+  providedIn: 'root'
 })
 export class TechnicalInterviewListComponent implements OnInit {
   public browserRefresh: boolean;
@@ -59,13 +64,10 @@ export class TechnicalInterviewListComponent implements OnInit {
   }
 
   downloadCandidateResume(id){
-    console.log('resume method'+id);
     this.apiService.getCandidateJrss(id).subscribe(data => {
       //Get resume Data    
       this.resumeName1 = data['resumeName'];
-      console.log('resumeName1---'+this.resumeName1);
       let resumeData1 : String = data['resumeData'];
-      console.log('resumeData1---'+resumeData1);
 
       var byteString = atob(resumeData1.split(',')[1]);
       // separate out the mime component

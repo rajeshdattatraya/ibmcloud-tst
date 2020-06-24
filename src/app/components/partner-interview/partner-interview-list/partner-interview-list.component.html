@@ -28,8 +28,7 @@
           <td  width="25%">{{partnerInterview.result_users[0].JRSS}}</td>
           <td  width="20%"><a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(partnerInterview.userName,partnerInterview.quizNumber,partnerInterview.result_users[0].employeeName,partnerInterview.userScore,partnerInterview.createdDate)" class="col-4 cursor-pointer" data-toggle="modal">{{partnerInterview.userScore}}%</a></td>
           <td  width="23%">{{partnerInterview.smeResult}}</td>
-          <td  width="17%"><a href="#" routerLinkActive="active">Click Here</a></td>
-        </tr>
+          <td width="20%"><a href="#" (click)="downloadCandidateResume(partnerInterview.userName)" routerLinkActive="active" class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>        </tr>
         </tbody>
       </table>
 

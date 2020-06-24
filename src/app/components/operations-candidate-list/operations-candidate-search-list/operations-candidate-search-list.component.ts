@@ -2,6 +2,8 @@ import { Component, Input, OnChanges,OnInit } from '@angular/core';
 import { ApiService } from './../../../service/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { browserRefresh } from '../../../app.component';
+import {TechnicalInterviewListComponent} from '../../technical-interview-list/technical-interview-list.component';
+
 
 @Component({
   selector: 'app-operations-candidate-search-list',
@@ -29,7 +31,7 @@ export class OperationsCandidateSearchListComponent implements OnChanges {
   assesmentDate="";
   questionCount:number=0;
   correctAnswerCount:number=0;
-  constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
+  constructor(private cv:TechnicalInterviewListComponent,private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
     this.config = {
       currentPage: 1,
       itemsPerPage: 5,
@@ -63,6 +65,11 @@ pageChange(newPage: number) {
 
 onSelectionChange(value) {
     this.emailSelected = value;
+}
+
+ //To download candidate's CV if uploaded
+ downloadCandidateResume(id){
+  this.cv.downloadCandidateResume(id) 
 }
 
 getOperationsCandidateList(){

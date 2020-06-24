@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
 import { browserRefresh } from '../../app.component';
 import { OperationsDetails } from './../../model/OperationsDetails';
+import {TechnicalInterviewListComponent} from '../technical-interview-list/technical-interview-list.component';
 
 @Component({
   selector: 'app-operations-project-initiate',
@@ -23,7 +24,7 @@ export class OperationsProjectInitiateComponent implements OnInit {
   displayTechInterviewFields = true;
   displayPartnerInterviewFields = true;
 
- constructor(public fb: FormBuilder, private actRoute: ActivatedRoute, private router: Router,private ngZone: NgZone,
+ constructor(private cv:TechnicalInterviewListComponent,public fb: FormBuilder, private actRoute: ActivatedRoute, private router: Router,private ngZone: NgZone,
   private apiService: ApiService) {
        this.userName = this.router.getCurrentNavigation().extras.state.username;          
        this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;            
@@ -52,6 +53,11 @@ export class OperationsProjectInitiateComponent implements OnInit {
 get myForm(){
   return this.operationsProjectForm.controls;
 }
+
+  //To download candidate's CV if uploaded
+  downloadCandidateResume(id){
+    this.cv.downloadCandidateResume(id) 
+  }
 
   // Choose Location with select dropdown
   updateLocation(e){    
