@@ -33,7 +33,7 @@ export class TechnicalInterviewComponent implements OnInit {
   resumeName1:string;
   resumeBlob:Blob;
   resumeUploaded:boolean;
-  
+
   constructor(private fb:FormBuilder, private actRoute: ActivatedRoute, private router: Router,private ngZone: NgZone,
     private apiService: ApiService) {
     this.loginUser = this.router.getCurrentNavigation().extras.state.username;
@@ -63,7 +63,7 @@ export class TechnicalInterviewComponent implements OnInit {
   downloadCandidateResume(id){
     console.log('resume method'+id);
     this.apiService.getCandidateJrss(id).subscribe(data => {
-      //Get resume Data    
+      //Get resume Data
       this.resumeName1 = data['resumeName'];
       console.log('resumeName1---'+this.resumeName1);
       let resumeData1 : String = data['resumeData'];
@@ -80,7 +80,7 @@ export class TechnicalInterviewComponent implements OnInit {
         ia[i] = byteString.charCodeAt(i);
       }
       this.resumeBlob =  new Blob([ab], {type: mimeString});
-      
+
       if (this.resumeName1 == "ResumeEmpty.doc")
       {
         this.resumeUploaded=false;
@@ -89,8 +89,8 @@ export class TechnicalInterviewComponent implements OnInit {
         this.resumeUploaded = true;
         saveAs(this.resumeBlob,this.resumeName1);
       }
-       
-      });      
+
+      });
   }
 
   //Read candidate details
@@ -193,7 +193,7 @@ export class TechnicalInterviewComponent implements OnInit {
         scoreCount++;
       }
     }
-    this.averageScore=this.totalScore/scoreCount;
+    this.averageScore==Math.round((this.totalScore/scoreCount) *100 +Number.EPSILON)/100;
     if(isNaN(this.averageScore))
       this.averageScore=0;
       this.dynamicFormControlValidation();

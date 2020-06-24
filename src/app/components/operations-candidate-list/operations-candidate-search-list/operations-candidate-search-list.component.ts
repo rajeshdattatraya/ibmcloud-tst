@@ -8,7 +8,7 @@ import { browserRefresh } from '../../../app.component';
   templateUrl: './operations-candidate-search-list.component.html',
   styleUrls: ['./operations-candidate-search-list.component.css']
 })
-export class OperationsCandidateSearchListComponent implements OnChanges { 
+export class OperationsCandidateSearchListComponent implements OnChanges {
 
   @Input() groupFilters: Object;
   @Input() searchByKeyword: string;
@@ -23,7 +23,12 @@ export class OperationsCandidateSearchListComponent implements OnChanges {
   mode: string = "";
   operationsCandidateList: any = [];
   emailSelected = "";
-
+  quizNumber;
+  candidateAssessmentDetails: any = [];
+  userScore:number=0;
+  assesmentDate="";
+  questionCount:number=0;
+  correctAnswerCount:number=0;
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
     this.config = {
       currentPage: 1,
@@ -39,7 +44,7 @@ export class OperationsCandidateSearchListComponent implements OnChanges {
     params => this.config.currentPage= params['page']?params['page']:1 );
     this.getOperationsCandidateList();
 }
-ngOnChanges(): void {  
+ngOnChanges(): void {
   if (this.groupFilters) this.filterUserList(this.groupFilters, this.users);
   this.router.navigate(['/operations-candidate-list'])
 }
@@ -62,16 +67,16 @@ onSelectionChange(value) {
 
 getOperationsCandidateList(){
   this.apiService.getOperationsCandidateList().subscribe((data) => {
-   this.operationsCandidateList = data;   
-  })  
+   this.operationsCandidateList = data;
+  })
 }
 
-filterUserList(filters: any, users: any): void {  
+filterUserList(filters: any, users: any): void {
   this.filteredUsers = this.users; //Reset User List
   const keys = Object.keys(filters);
   const filterUser = user => {
-    let result = keys.map(key => {      
-      if (key == "employeeName" || key == "JRSS") {        
+    let result = keys.map(key => {
+      if (key == "employeeName" || key == "JRSS") {
         if (user.result_users[0][key]) {
           return String(user.result_users[0][key]).toLowerCase().startsWith(String(filters[key]).toLowerCase())
         }
@@ -87,16 +92,31 @@ filterUserList(filters: any, users: any): void {
     result = result.filter(it => it !== undefined);
     return result.reduce((acc, cur: any) => { return acc & cur }, 1)
   }
-  this.filteredUsers = this.users.filter(filterUser);  
-  this.Result = this.filteredUsers;  
+  this.filteredUsers = this.users.filter(filterUser);
+  this.Result = this.filteredUsers;
 }
 
 // To Read the Results
-readResult() {  
+readResult() {
   this.apiService.getOperationsCandidateList().subscribe((data) => {
     this.Result = data;
     this.users = data
-    this.filteredUsers = this.filteredUsers.length > 0 ? this.filteredUsers : this.users;    
+    this.filteredUsers = this.filteredUsers.length > 0 ? this.filteredUsers : this.users;
   })
 }
+
+getCandidateAssessmentDetails(userid,quizId,username,userScore,createdDate) {
+  this.userName=username;
+  this.quizNumber=quizId;
+  this.userScore=userScore;
+  this.assesmentDate=createdDate;
+  this.mode="displayAssessmentModalBody";
+  this.apiService.getCandidateAssessmentDetails(userid,quizId).subscribe((data) => {
+  this.candidateAssessmentDetails = data;
+  this.questionCount=this.candidateAssessmentDetails.results.length;
+  this.correctAnswerCount=Math.round((userScore*this.questionCount)/100)
+ })
+}
+
+
 }
