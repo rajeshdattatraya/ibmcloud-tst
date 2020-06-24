@@ -34,6 +34,9 @@ export class CandidateEditComponent implements OnInit {
   editCandResume:File;
   resumeUploaded:boolean;
   resumeText:any;
+  EmployeeType:any = ['Regular','Contractor'];
+  displayContractorUIFields: Boolean = false;
+  displayRegularUIFields: Boolean = true;
 
   constructor(
     public fb: FormBuilder,
@@ -60,8 +63,9 @@ export class CandidateEditComponent implements OnInit {
     this.downloadCandidateResume(can_id);
     this.editForm = this.fb.group({
       employeeName: ['', [Validators.required]],
+      employeeType: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.pattern('[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,3}$')]],
-      band: ['', [Validators.required]],
+      band: [''],
       JRSS: ['', [Validators.required]],
       technologyStream:['', [Validators.required]],
       phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
@@ -112,6 +116,21 @@ export class CandidateEditComponent implements OnInit {
       })
     }
 
+  // Choose options with select-dropdown
+  updateEmployeeTypeProfile(e) {
+    this.editForm.get('employeeType').setValue(e, {
+      onlySelf: true
+    })
+
+    if (this.editForm.value.employeeType == 'Contractor') {
+        this.displayContractorUIFields = true;
+        this.displayRegularUIFields = false;
+    } else {
+       this.displayContractorUIFields = false;
+       this.displayRegularUIFields = true;
+    }
+  }
+
   // Get all Bands
     readBand(){
        this.apiService.getBands().subscribe((data) => {
@@ -125,15 +144,37 @@ export class CandidateEditComponent implements OnInit {
 
   getCandidate(id) {
     this.apiService.getCandidate(id).subscribe(data => {
-      this.editForm.setValue({
-        employeeName: data['employeeName'],
-        email: data['email'],
-        band: data['band'],
-        JRSS: data['JRSS'],
-        technologyStream: data['technologyStream'],
-        phoneNumber: data['phoneNumber'],
-        dateOfJoining : this.datePipe.transform(data['dateOfJoining'], 'yyyy-MM-dd')
-      });
+      if (data['employeeType'] == undefined) {
+          data['employeeType'] = 'Regular'
+      }
+      if (data['employeeType'] == 'Regular') {
+       this.displayContractorUIFields = false;
+       this.displayRegularUIFields = true;
+        this.editForm.setValue({
+          employeeName: data['employeeName'],
+          employeeType: data['employeeType'],
+          email: data['email'],
+          band: data['band'],
+          JRSS: data['JRSS'],
+          technologyStream: data['technologyStream'],
+          phoneNumber: data['phoneNumber'],
+          dateOfJoining : this.datePipe.transform(data['dateOfJoining'], 'yyyy-MM-dd')
+        });
+      }
+      if (data['employeeType'] == 'Contractor') {
+        this.displayContractorUIFields = true;
+        this.displayRegularUIFields = false;
+        this.editForm.setValue({
+          employeeName: data['employeeName'],
+          employeeType: data['employeeType'],
+          email: data['email'],
+          band: '',
+          JRSS: data['JRSS'],
+          technologyStream: data['technologyStream'],
+          phoneNumber: data['phoneNumber'],
+          dateOfJoining : this.datePipe.transform(data['dateOfJoining'], 'yyyy-MM-dd')
+        });
+      }
       this.technologyStream = [];
       // Get technologyStream from JRSS
       this.stream = this.editForm.value.technologyStream.split(",");
@@ -147,10 +188,18 @@ export class CandidateEditComponent implements OnInit {
             this.technologyStream.push(skill);
         }
       }
-      this.candidate = new Candidate(data['employeeName'],
-      data['email'], data['band'], data['JRSS'], data['technologyStream'], data[ 'phoneNumber'], data['dateOfJoining'],
-      data['createdBy'], data['createdDate'], data['updatedBy'], data['updatedDate'],
-      data['username'], data['resumeName'], data['resumeData']);
+      if (data['employeeType'] == 'Regular' || data['employeeType'] == undefined) {
+        this.candidate = new Candidate(data['employeeName'],data['employeeType'],
+        data['email'], data['band'], data['JRSS'], data['technologyStream'], data[ 'phoneNumber'], data['dateOfJoining'],
+        data['createdBy'], data['createdDate'], data['updatedBy'], data['updatedDate'],
+        data['username'], data['resumeName'], data['resumeData']);
+      }
+      if (data['employeeType'] == 'Contractor') {
+        this.candidate = new Candidate(data['employeeName'],data['employeeType'],
+        data['email'], '', data['JRSS'], data['technologyStream'], data[ 'phoneNumber'], data['dateOfJoining'],
+        data['createdBy'], data['createdDate'], data['updatedBy'], data['updatedDate'],
+        data['username'], data['resumeName'], data['resumeData']);
+      }
     });
   }
 
@@ -198,8 +247,9 @@ export class CandidateEditComponent implements OnInit {
   updateCandidate() {
     this.editForm = this.fb.group({
       employeeName: ['', [Validators.required]],
+      employeeType: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.pattern('[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,3}$')]],
-      band: ['', [Validators.required]],
+      band: [''],
       JRSS: ['', [Validators.required]],
       technologyStream: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
@@ -242,21 +292,43 @@ export class CandidateEditComponent implements OnInit {
      this.editForm.value.technologyStream = this.editForm.value.technologyStream.join(',');
     }
 
-      let updatedCandidate = new Candidate(this.editForm.value.employeeName,
-      this.editForm.value.email,
-      this.editForm.value.band,
-      this.editForm.value.JRSS,
-      this.editForm.value.technologyStream,
-      this.editForm.value.phoneNumber,
-      this.editForm.value.dateOfJoining,
-      this.candidate.createdBy,
-      this.candidate.createdDate,
-      this.username,
-      new Date(),
-      this.editForm.value.email,
-      this.candidate.resumeName,
-      this.candidate.resumeData
-      );
+      let updatedCandidate;
+      if (this.editForm.value.employeeType == 'Regular') {
+        updatedCandidate = new Candidate(this.editForm.value.employeeName,this.editForm.value.employeeType,
+        this.editForm.value.email,
+        this.editForm.value.band,
+        this.editForm.value.JRSS,
+        this.editForm.value.technologyStream,
+        this.editForm.value.phoneNumber,
+        this.editForm.value.dateOfJoining,
+        this.candidate.createdBy,
+        this.candidate.createdDate,
+        this.username,
+        new Date(),
+        this.editForm.value.email,
+        this.candidate.resumeName,
+        this.candidate.resumeData
+        );
+      }
+
+      if (this.editForm.value.employeeType == 'Contractor') {
+        updatedCandidate = new Candidate(this.editForm.value.employeeName,this.editForm.value.employeeType,
+        this.editForm.value.email,
+        '',
+        this.editForm.value.JRSS,
+        this.editForm.value.technologyStream,
+        this.editForm.value.phoneNumber,
+        this.editForm.value.dateOfJoining,
+        this.candidate.createdBy,
+        this.candidate.createdDate,
+        this.username,
+        new Date(),
+        this.editForm.value.email,
+        this.candidate.resumeName,
+        this.candidate.resumeData
+        );
+      }
+
       let updatedUser = new UserDetails(this.editForm.value.email,
         this.user.password,
         this.user.quizNumber,

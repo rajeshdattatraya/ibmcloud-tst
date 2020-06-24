@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import { ApiService } from './../../service/api.service';
 import { Candidate } from './../../model/candidate';
+import { CandidateContractor } from './../../model/candidateContractor';
 import { UserDetails } from './../../model/userDetails';
 import { Component, OnInit, NgZone } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
@@ -30,6 +31,9 @@ export class CandidateCreateComponent implements OnInit {
   skillArray:any= [];  
   resume: File;
   resumeText: any;
+  EmployeeType:any = ['Regular','Contractor'];
+  displayContractorUIFields: Boolean = false;
+  displayRegularUIFields: Boolean = true;
 
   constructor(
     public fb: FormBuilder,
@@ -55,8 +59,9 @@ export class CandidateCreateComponent implements OnInit {
   mainForm() {
     this.candidateForm = this.fb.group({
       employeeName: ['', [Validators.required]],
+      employeeType: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.pattern('[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,3}$')]],
-      band: ['', [Validators.required]],
+      band: [''],
       JRSS: ['', [Validators.required]],
       technologyStream:['', [Validators.required]],
       phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
@@ -101,6 +106,21 @@ export class CandidateCreateComponent implements OnInit {
       onlySelf: true
       })
     }
+
+  // Choose employee type with select dropdown
+  updateEmployeeTypeProfile(e){
+    this.candidateForm.get('employeeType').setValue(e, {
+    onlySelf: true
+    })
+
+    if (this.candidateForm.value.employeeType == 'Contractor') {
+        this.displayContractorUIFields = true;
+        this.displayRegularUIFields = false;
+    } else {
+       this.displayContractorUIFields = false;
+       this.displayRegularUIFields = true;
+    }
+  }
 
     // Get all Bands
     readBand(){
@@ -157,22 +177,44 @@ export class CandidateCreateComponent implements OnInit {
     reader.readAsDataURL(this.resume);
     reader.onload = (e) => {    
     this.resumeText = reader.result;
-    
-    let candidate = new Candidate(this.candidateForm.value.employeeName,
-    this.candidateForm.value.email,
-    this.candidateForm.value.band,
-    this.candidateForm.value.JRSS,
-    this.candidateForm.value.technologyStream,
-    this.candidateForm.value.phoneNumber,
-    this.candidateForm.value.dateOfJoining,
-    this.userName,
-    new Date(),
-    this.userName,
-    new Date(),
-    this.candidateForm.value.email,
-    this.resume.name,
-    this.resumeText
-    );
+
+    let candidate;
+    if (this.candidateForm.value.employeeType == 'Regular' ) {
+      candidate = new Candidate(this.candidateForm.value.employeeName,this.candidateForm.value.employeeType,
+      this.candidateForm.value.email,
+      this.candidateForm.value.band,
+      this.candidateForm.value.JRSS,
+      this.candidateForm.value.technologyStream,
+      this.candidateForm.value.phoneNumber,
+      this.candidateForm.value.dateOfJoining,
+      this.userName,
+      new Date(),
+      this.userName,
+      new Date(),
+      this.candidateForm.value.email,
+      this.resume.name,
+      this.resumeText
+      );
+    }
+    console.log("this.candidateForm.value.employeeType",this.candidateForm.value.employeeType);
+
+    if (this.candidateForm.value.employeeType == 'Contractor' ) {
+      candidate = new CandidateContractor(this.candidateForm.value.employeeName,this.candidateForm.value.employeeType,
+      this.candidateForm.value.email,
+      this.candidateForm.value.JRSS,
+      this.candidateForm.value.technologyStream,
+      this.candidateForm.value.phoneNumber,
+      this.candidateForm.value.dateOfJoining,
+      this.userName,
+      new Date(),
+      this.userName,
+      new Date(),
+      this.candidateForm.value.email,
+      this.resume.name,
+      this.resumeText
+      );
+    }
+
     
  
     let user = new UserDetails(this.candidateForm.value.email,
@@ -190,10 +232,11 @@ export class CandidateCreateComponent implements OnInit {
 
      let formDate = new Date(this.candidateForm.value.dateOfJoining);
      this.currDate = new Date();
-     
+      console.log("this.candidateForm.valid", this.candidateForm.valid);
     if (!this.candidateForm.valid) {
       return false;
     } else {
+    console.log("in candidate-create.ts");
       if ( formDate > this.currDate) {
         window.confirm("Date Of Joining is a future date. Please verify.")
        } else {

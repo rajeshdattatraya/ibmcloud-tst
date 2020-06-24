@@ -36,6 +36,10 @@ export class ViewTestresultsListComponent implements OnChanges {
   assesmentDate="";
   questionCount:number=0;
   correctAnswerCount:number=0;
+  displayContractorUIFields: Boolean = false;
+  displayRegularUIFields: Boolean = true;
+
+
   constructor(private ref: ChangeDetectorRef, private http: HttpClient, private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
     this.config = {
       currentPage: 1,
@@ -106,7 +110,14 @@ export class ViewTestresultsListComponent implements OnChanges {
   getCandidateDetails(username) {
       this.mode="displayModalBody";
       this.apiService.getCandidateDetails(username).subscribe((data) => {
-             this.candidateDetails = data;
+           this.candidateDetails = data;
+           if (this.candidateDetails[0].employeeType == 'Contractor') {
+                this.displayContractorUIFields = true;
+                this.displayRegularUIFields = false;
+           } else {
+                this.displayContractorUIFields = false;
+                this.displayRegularUIFields = true;
+           }
       })
   }
 

@@ -21,6 +21,8 @@ export class PartnerInterviewInitiateComponent implements OnInit {
   accessLevel: String = "";
   stage4_status: String = "";
   displayTechInterviewFields = true;
+  result: String = "";
+  feedback: String = "";
 
  constructor(public fb: FormBuilder, private actRoute: ActivatedRoute, private router: Router,private ngZone: NgZone,
   private apiService: ApiService) {
@@ -64,9 +66,15 @@ export class PartnerInterviewInitiateComponent implements OnInit {
       if(this.partnerInterviewDetails[0].stage3_status == 'Skipped') {
           this.displayTechInterviewFields = false;
       }
+      if (this.partnerInterviewDetails[0].managementResult != undefined) {
+          this.result = this.partnerInterviewDetails[0].managementResult
+      }
+      if (this.partnerInterviewDetails[0].managementFeedback != undefined) {
+        this.feedback = this.partnerInterviewDetails[0].managementFeedback;
+      }
       this.partnerFeedbackForm.setValue({
-                  finalResult: this.partnerInterviewDetails[0].managementResult,
-                  partnerFeedback: this.partnerInterviewDetails[0].managementFeedback
+                  finalResult: this.result,
+                  partnerFeedback: this.feedback
       });
     });
   }

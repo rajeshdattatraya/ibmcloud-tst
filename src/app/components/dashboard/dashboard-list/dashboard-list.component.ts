@@ -38,6 +38,8 @@ export class DashboardListComponent implements OnChanges {
   questionCount;
   correctAnswerCount;
   candidateAssessmentDetails:any=[];
+  displayContractorUIFields: Boolean = false;
+  displayRegularUIFields: Boolean = true;
 
 
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
@@ -93,7 +95,6 @@ export class DashboardListComponent implements OnChanges {
         return result.reduce((acc, cur: any) => { return acc & cur }, 1)
       }
       this.filteredUsers = this.users.filter(filterUser);
-      console.log("this.filteredUsers length"+this.filteredUsers.length);
       this.Result = this.filteredUsers
     }
 
@@ -106,7 +107,6 @@ export class DashboardListComponent implements OnChanges {
     getDashboardList(){
       this.apiService.getDashboardList().subscribe((data) => {
        this.DashboardList = data;
-       console.log("dashboardlist",this.DashboardList.length);
       })
     }
     // To Read the Results
@@ -119,12 +119,10 @@ export class DashboardListComponent implements OnChanges {
     }
 
     setCandidateID(id) {
-      console.log("id"+id);
       this.candidateID = id;
     }
 
     viewDetails() {
-      console.log("id:",this.candidateID);
       if (this.candidateID == undefined) {
         window.alert("Please select the candidate");
       }  else {
@@ -132,8 +130,19 @@ export class DashboardListComponent implements OnChanges {
       this.displayTechInterview = true;
       this.displayPartnerInterview = true;
       this.displayProjectAssign = true;
+      this.displayContractorUIFields = false;
+      this.displayRegularUIFields = true;
+
       this.apiService.viewDashboardDetails(this.candidateID).subscribe((data) => {
          this.dashboardDetails = data;
+
+         if (this.dashboardDetails[0].result_users[0].employeeType == 'Contractor') {
+              this.displayContractorUIFields = true;
+              this.displayRegularUIFields = false;
+          } else {
+              this.displayContractorUIFields = false;
+              this.displayRegularUIFields = true;
+          }
 
          if (this.dashboardDetails[0] === undefined ||
             (this.dashboardDetails[0].smeResult === undefined &&

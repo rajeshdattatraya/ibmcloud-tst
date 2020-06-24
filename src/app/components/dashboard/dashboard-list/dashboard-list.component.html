@@ -58,14 +58,26 @@
                   <td width="25%"><label>Email:</label></td>
                   <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].email}}</td>
                 </tr>
-                <tr>
+                <tr *ngIf="displayRegularUIFields">
                   <td width="25%"><label>Band:</label></td>
                   <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].band}}</td>
                   <td width="20%"><label>Job Role:</label></td>
                   <td width="35%">&nbsp;{{this.dashboardDetails[0].result_users[0].JRSS}}</td>
                 </tr>
-                <tr>
+                <tr *ngIf="displayContractorUIFields">
+                  <td width="25%">Job Role:</td>
+                  <td width="30%">{{this.dashboardDetails[0].result_users[0].JRSS}}</td>
+                  <td width="20%"><label></label></td>
+                  <td width="35%">&nbsp;</td>
+                </tr>
+                <tr *ngIf="displayRegularUIFields">
                   <td width="25%"><label>DateOfJoining:</label></td>
+                  <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].dateOfJoining.split('T')[0]}}</td>
+                  <td width="25%"><label>PhoneNumber:</label></td>
+                  <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].phoneNumber}}</td>
+                </tr>
+                <tr *ngIf="displayContractorUIFields">
+                  <td width="25%"><label>DateOfBirth:</label></td>
                   <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].dateOfJoining.split('T')[0]}}</td>
                   <td width="25%"><label>PhoneNumber:</label></td>
                   <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].phoneNumber}}</td>

@@ -24,7 +24,9 @@
         </tr>
         </tbody>
       </table>
+      <div *ngIf="Result.length > 0">
        <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
+      </div>
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog modal-lg">
@@ -45,7 +47,7 @@
             <td><label class="col-sm-8 col-form-label">Email:</label></td>
             <td>&nbsp;{{this.candidateDetails[0].email}}</td>
           </tr>
-          <tr>
+          <tr *ngIf="displayRegularUIFields">
             <td><label class="col-sm-10 col-form-label">Band:</label></td>
             <td>&nbsp;{{this.candidateDetails[0].band}}</td>
           </tr>
@@ -61,9 +63,13 @@
             <td><label class="col-sm-10 col-form-label">PhoneNumber:</label></td>
             <td>&nbsp;{{this.candidateDetails[0].phoneNumber}}</td>
           </tr>
-          <tr>
+          <tr *ngIf="displayRegularUIFields">
             <td><label class="col-sm-10 col-form-label">DateOfJoining:</label></td>
-            <td>&nbsp;{{this.candidateDetails[0].dateOfJoining}}</td>
+            <td>&nbsp;{{this.candidateDetails[0].dateOfJoining.split('T')[0]}}</td>
+          </tr>
+          <tr *ngIf="displayContractorUIFields">
+            <td><label class="col-sm-10 col-form-label">DateOfBirth:</label></td>
+            <td>&nbsp;{{this.candidateDetails[0].dateOfJoining.split('T')[0]}}</td>
           </tr>
           <tr>
             <td><label class="col-sm-10 col-form-label">Status:</label></td>

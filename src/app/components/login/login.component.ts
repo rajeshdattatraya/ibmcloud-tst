@@ -83,9 +83,8 @@ export class LoginComponent implements OnInit {
         (res) => {
           this.ngZone.run(() => this.router.navigateByUrl('/change-password', { state: { username: res.username, quizNumber: res.quiznumber } }))
         }, (error) => {
-          this.error = 'Invalid Username/DateOfJoining'
+          this.error = 'Invalid Username/DateOfJoining/DateOfBirth'
           console.log(error);
-
         });
     }
   }
@@ -179,6 +178,11 @@ export class LoginComponent implements OnInit {
 
         });
     }
+  }
+
+  //Cancel
+  cancelForm(){
+      this.mode = 'login';
   }
 
 }
