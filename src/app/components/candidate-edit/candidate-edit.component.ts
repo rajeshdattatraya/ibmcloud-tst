@@ -78,11 +78,12 @@ export class CandidateEditComponent implements OnInit {
     this.JRSSFull = data;
     for(var i=0; i<this.JRSSFull.length; i++)
     {
-      let workFlowPrsent = ((this.JRSSFull[i]['stage1_OnlineTechAssessment']==undefined) &&
-      (this.JRSSFull[i]['stage2_PreTechAssessment']==undefined) &&
-      (this.JRSSFull[i]['stage3_TechAssessment']==undefined) &&
-      (this.JRSSFull[i]['stage4_ManagementInterview']==undefined) &&
-      (this.JRSSFull[i]['stage5_ProjectAllocation']==undefined))
+      let workFlowPrsent = ( (this.JRSSFull[i]['stage1_OnlineTechAssessment']==undefined) ||
+      ((this.JRSSFull[i]['stage1_OnlineTechAssessment']==false) &&
+      (this.JRSSFull[i]['stage2_PreTechAssessment']==false) &&
+      (this.JRSSFull[i]['stage3_TechAssessment']==false) &&
+      (this.JRSSFull[i]['stage4_ManagementInterview']==false) &&
+      (this.JRSSFull[i]['stage5_ProjectAllocation']==false)))
       if (!workFlowPrsent){
         this.JRSS.push(this.JRSSFull[i]);
       }
@@ -283,24 +284,16 @@ export class CandidateEditComponent implements OnInit {
   onSubmit() {    
     this.submitted = true;
 
-    if(this.editCandResume){
-      this.candidate.resumeName=this.editCandResume.name;
-      console.log("New resume uploaded: "+this.candidate.resumeName)
-
-      let reader = new FileReader();
-      reader.readAsDataURL(this.editCandResume);
-      reader.onload = (e) => {    
-      this.candidate.resumeData = <String>reader.result;
-      console.log("this.candidate.resumeData inside loop: "+this.candidate.resumeData);
-    }}
-     
-    // Technology Stream
-    if( typeof(this.editForm.value.technologyStream) == 'object' )  
-    { 
-     this.editForm.value.technologyStream = this.editForm.value.technologyStream.join(',');
-    }
-
-      let updatedCandidate;
+     // Technology Stream
+     if( typeof(this.editForm.value.technologyStream) == 'object' )  
+     { 
+      this.editForm.value.technologyStream = this.editForm.value.technologyStream.join(',');
+     }
+     let updatedCandidate;
+     if(!this.editCandResume)
+     {
+      console.log("Resume is not selected");
+      //Candidate details for a regular employee whose resume is not selected
       if (this.editForm.value.employeeType == 'Regular') {
         updatedCandidate = new Candidate(this.editForm.value.employeeName,this.editForm.value.employeeType,
         this.editForm.value.email,
@@ -318,7 +311,7 @@ export class CandidateEditComponent implements OnInit {
         this.candidate.resumeData
         );
       }
-
+      //Candidate details for a Contractor employee whose resume is not selected
       if (this.editForm.value.employeeType == 'Contractor') {
         updatedCandidate = new Candidate(this.editForm.value.employeeName,this.editForm.value.employeeType,
         this.editForm.value.email,
@@ -392,5 +385,109 @@ export class CandidateEditComponent implements OnInit {
           })
         }
         }
+    } else{
+        this.candidate.resumeName=this.editCandResume.name;
+        console.log("New resume uploaded: "+this.candidate.resumeName)
+  
+        let reader = new FileReader();
+        reader.readAsDataURL(this.editCandResume);
+        reader.onload = (e) => {    
+        console.log("this.candidate.resumeData inside loop: "+reader.result);
+        this.candidate.resumeData=<String>reader.result;
+        //Candidate details for a regular employee whose resume is selected
+        if (this.editForm.value.employeeType == 'Regular') {
+          updatedCandidate = new Candidate(this.editForm.value.employeeName,this.editForm.value.employeeType,
+          this.editForm.value.email,
+          this.editForm.value.band,
+          this.editForm.value.JRSS,
+          this.editForm.value.technologyStream,
+          this.editForm.value.phoneNumber,
+          this.editForm.value.dateOfJoining,
+          this.candidate.createdBy,
+          this.candidate.createdDate,
+          this.username,
+          new Date(),
+          this.editForm.value.email,
+          this.candidate.resumeName,
+          this.candidate.resumeData
+          );
+        }
+        //Candidate details for a contractor employee whose resume is selected
+        if (this.editForm.value.employeeType == 'Contractor') {
+          updatedCandidate = new Candidate(this.editForm.value.employeeName,this.editForm.value.employeeType,
+          this.editForm.value.email,
+          '',
+          this.editForm.value.JRSS,
+          this.editForm.value.technologyStream,
+          this.editForm.value.phoneNumber,
+          this.editForm.value.dateOfJoining,
+          this.candidate.createdBy,
+          this.candidate.createdDate,
+          this.username,
+          new Date(),
+          this.editForm.value.email,
+          this.candidate.resumeName,
+          this.candidate.resumeData
+          );
+        }
+
+          let updatedUser = new UserDetails(this.editForm.value.email,
+            this.user.password,
+            this.user.quizNumber,
+            this.user.status,
+            this.user.accessLevel,
+            this.user.createdBy,
+            this.user.CreatedDate,
+            this.username,
+            new Date(),
+            this.editForm.value.dateOfJoining,
+            this.user.userLoggedin
+            );
+    
+            let formDate = new Date(this.editForm.value.dateOfJoining)
+            this.currDate = new Date();
+    
+            if (!this.editForm.valid) {
+              return false;
+            } else {
+              if ( formDate > this.currDate) {
+                window.confirm("Date Of Joining is a future date. Please verify.")
+               } else {       
+              this.apiService.findUniqueUsername(this.editForm.value.email).subscribe(
+                (res) => {
+                  console.log('res.count inside response ' + res.count)
+                  if (res.count > 0 && (this.editForm.value.email != this.candidate.email))
+                    {
+                      window.confirm("Please use another Email ID");
+                    } 
+                    else 
+                    {
+                    if ((res.count > 0 || res.count == 0) && ((this.editForm.value.email != this.candidate.email) || (this.editForm.value.email == this.candidate.email)))
+                    {
+                      if (window.confirm('Are you sure?')) {
+                      let can_id = this.actRoute.snapshot.paramMap.get('id');
+                      let user_id = this.actRoute.snapshot.paramMap.get('user_id');
+                      this.apiService.updateUserDetails(user_id, updatedUser).subscribe(res => {
+                        console.log('User Details updated successfully!');
+                        }, (error) => {
+                        console.log(error);
+                        })  
+                      this.apiService.updateCandidate(can_id, updatedCandidate).subscribe(res => {
+                        this.router.navigateByUrl('/candidates-list', {state:{username:this.username}});
+                        console.log('Candidate Details updated successfully!');
+                        }, (error) => {
+                        console.log(error);
+                        })
+                       }
+                      }
+                    }
+                }, (error) => {
+                  console.log(error);
+              })
+            }
+            }
+      }
+      
+    }
     }
 }
