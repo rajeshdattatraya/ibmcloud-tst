@@ -112,7 +112,7 @@
         <div class="form-group row">
           <label for="inputJRSS3" class="col-sm-4 col-form-label">Job Role</label>
           <div class="col-sm-8">
-          <select class="custom-select form-control" 
+          <select class="custom-select form-control" (change)="updateJrssProfile($event.target.value)"
                   formControlName="JRSS" id="inputJRSS3" [ngClass]="{ 'is-invalid': submitted && myForm.JRSS.errors }"> 
             <option value="">Choose...</option>
             <option *ngFor="let jrss of JRSS" value="{{jrss.jrss}}">{{jrss.jrss}}

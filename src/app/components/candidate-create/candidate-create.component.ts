@@ -85,18 +85,22 @@ export class CandidateCreateComponent implements OnInit {
       this.JRSS.push(this.JRSSFull[i]);
     }
   }
-  this.updateJrssProfile();
   })
 }
   // Choose designation with select dropdown
-  updateJrssProfile(){
-    this.technologyStream = [];    
+  updateJrssProfile(e){
+    this.candidateForm.get('JRSS').setValue(e, {
+      onlySelf: true
+    })      
     // Get technologyStream from JRSS
-    for (var jrss of this.JRSS){         
+    for (var jrss of this.JRSS){      
+      if(jrss.jrss == e){   
+        this.technologyStream = [];   
         for (var skill of jrss.technologyStream){          
           this.technologyStream.push(skill);          
         
       }
+    }
     }    
     
   } 

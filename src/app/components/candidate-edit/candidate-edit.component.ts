@@ -87,17 +87,22 @@ export class CandidateEditComponent implements OnInit {
         this.JRSS.push(this.JRSSFull[i]);
       }
     }
-  this.updateJrssProfile();
+  
   })
 }
   // Choose designation with select dropdown
-  updateJrssProfile(){
-    this.technologyStream = [];    
+  updateJrssProfile(e){
+    this.editForm.get('JRSS').setValue(e, {
+      onlySelf: true
+    })     
     // Get technologyStream from JRSS
     for (var jrss of this.JRSS){
+      if(jrss.jrss == e){
+        this.technologyStream = [];
         for (var skill of jrss.technologyStream){          
           this.technologyStream.push(skill);
         }       
+      }
     }    
     console.log("technology stream",this.technologyStream)
   } 
@@ -179,6 +184,8 @@ export class CandidateEditComponent implements OnInit {
       // Get technologyStream from JRSS
       this.stream = this.editForm.value.technologyStream.split(",");
       for (var jrss of this.JRSS){
+        if(jrss.jrss == this.editForm.value.JRSS){
+          this.technologyStream = [];
           for (var skill of jrss.technologyStream){
             for(var streamValue of this.stream) { 
               if(skill.value == streamValue){
@@ -186,6 +193,7 @@ export class CandidateEditComponent implements OnInit {
               }
             }
             this.technologyStream.push(skill);
+          }
         }
       }
       if (data['employeeType'] == 'Regular' || data['employeeType'] == undefined) {
