@@ -59,7 +59,7 @@ export class CandidateListComponent implements OnInit {
       
       this.Candidate.forEach(candidate => {
         candidate.candidate_users.forEach(user => {
-          if (user.status == 'Active' && user.userLoggedin === 'true' ){ candidate.state='Log Out'; } 
+          if (user.status == 'Active' && user.userLoggedin === 'true' ){ candidate.state='Clear\xa0User\'s\xa0Session'; } 
 		      else if (user.status == 'Active' )  { candidate.state='Disable'; } 
           else {candidate.state='Enable'; }
 	       });
