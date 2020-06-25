@@ -100,16 +100,16 @@
 					<button class="btn btn-success btn-lg float-center" type="submit">Save</button>
 				</div>
 				<div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
-       &nbsp;&nbsp;&nbsp;
+       			&nbsp;&nbsp;&nbsp;
         
-			</form>
+		</form>
+	</div>
+</div>
+		<br/>
+		<br/>
+		<div>
+			<h4 class="my-0 mr-md-auto font-weight-normal">Technology Stream List</h4><br/>
 		</div>
-	</div>
-	<br/>
-	<br/>
-	<div>
-		<h4 class="my-0 mr-md-auto font-weight-normal">Technology Stream List</h4><br/>
-	</div>
 	<!-- No data found message -->
 	<p *ngIf="JRSS.length <= 0" class="no-data text-center">There is no Technology Stream List added yet!</p>
 	  
@@ -123,14 +123,12 @@
 		 </tr>
 		 </thead>
 		 <tbody>
-		  <tr *ngFor="let jrss of JRSS; let i = index">
+		  <tr *ngFor="let jrss of jrssObjectArray | paginate: config; let i = index">
 			<td  class="text-center edit-block" width="5%">
-			  <input type="radio" name="radiogroup" (change)="onSelectionChange(jrss._id, jrss.jrss, i)">
+			  <input type="radio" name="radiogroup" (change)="onSelectionChange(jrss[0],jrss[1])">
 			</td>
-			<td  width="12%">{{jrss.jrss}}</td>      
-			<td  width="20%">
-				<tr class="no-data text-center" *ngFor="let tech of jrss.technologyStream">{{tech.value}}</tr>
-			</td>                   
+			<td  width="12%">{{jrss[1]}}</td>      
+            <td  width="12%">{{jrss[2]}}</td>     
 		  </tr>
 		  </tbody>
 	   </table>

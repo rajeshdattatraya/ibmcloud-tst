@@ -11,26 +11,17 @@ import { browserRefresh } from '../../app.component';
   styleUrls: ['./stream-delete.component.css']
 })
 export class StreamDeleteComponent implements OnInit {  
-  public duplicateTechStream : boolean;
   error = '';
+  config: any;
   public browserRefresh: boolean;
   streamDeleteForm: FormGroup;
   JRSS:any = [];
   userName: String = "admin";
   submitted = false;
-  optionsArray:Array<Object>=[];
-  jrssDocId: String = "";
-  currentJrssArray:any = [];
   techStreamArray:any = [];
-  existingTechnologyStream:any = [];
-  config: any;
-  index;  
-  jrssId;
-  jrssValue;
   technologyStream:any= [];
-  skillArray:any= []; 
-  stream:any=[];
-  jrssStream : JRSS;
+  jrssObject: any= [];
+  jrssObjectArray:any = [];  
 
   constructor(
     public fb: FormBuilder,
@@ -39,6 +30,14 @@ export class StreamDeleteComponent implements OnInit {
     private apiService: ApiService,
     private actRoute: ActivatedRoute   
   ) { 
+    this.config = {
+      currentPage: 1,
+      itemsPerPage: 5,
+      totalItems:0
+    };
+
+    actRoute.queryParams.subscribe(
+      params => this.config.currentPage= params['page']?params['page']:1 );
   }
 
   ngOnInit(): void {
@@ -69,12 +68,22 @@ export class StreamDeleteComponent implements OnInit {
   // Get all Jrss
   readJrss(){
     this.apiService.getJRSS().subscribe((data) => {
-    this.JRSS = data;   
+    this.JRSS = data;  
+        
+    // Get technologyStream from JRSS
+    for (var jrss of this.JRSS){     
+      this.techStreamArray = [];
+        for (var skill of jrss.technologyStream){          
+            this.techStreamArray.push(skill.value);         
+        }        
+        this.jrssObject = [jrss.jrss, this.techStreamArray];
+        this.jrssObjectArray.push(this.jrssObject);  
+    } 
     })
   }
 
   
-  getJrss(id) {   
+  getJrss(id) {     
     this.apiService.getJrssById(id).subscribe(data => {        
       this.streamDeleteForm.setValue({
         JRSS: data['jrss'],
@@ -129,7 +138,7 @@ pageChange(newPage: number) {
 
   canExit(): boolean{
     if (this.streamDeleteForm.dirty && !this.submitted){
-      if(window.confirm("You have undeleted data in the delete technology form. Please confirm if you still want to proceed to new page")){
+      if(window.confirm("You have un-deleted data in the technology form. Please confirm if you still want to proceed to new page")){
         return true;
       } else {
       return false;

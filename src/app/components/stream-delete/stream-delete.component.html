@@ -55,9 +55,8 @@
   <br/>
 </div>
 
-
-     <!-- form Test Config -->
-<div class="col-lg-20 register-employee">
+<!-- form Test Config -->
+<div class="card">
 	<div class="card-body">
 		<form [formGroup]="streamDeleteForm" (ngSubmit)="onSubmit()">
 
@@ -115,11 +114,9 @@
 		   </tr>
 		  </thead>
 		  <tbody>
-		    <tr *ngFor="let jrss of JRSS; let i = index">
-			    <td  width="12%">{{jrss.jrss}}</td>      
-			    <td  width="20%">
-				      <tr class="no-data text-center" *ngFor="let tech of jrss.technologyStream">{{tech.value}}</tr>
-			    </td>                   
+		    <tr *ngFor="let jrss of jrssObjectArray | paginate: config; let i = index">
+				<td  width="12%">{{jrss[0]}}</td>      
+				<td  width="12%">{{jrss[1]}}</td>                  
 		    </tr>
 		  </tbody>
 	  </table>  
