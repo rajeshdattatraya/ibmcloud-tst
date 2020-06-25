@@ -87,7 +87,9 @@
       <label for="inputJRSS3" class="col-sm-4 col-form-label"></label>
       <div class="col-sm-6">
         &nbsp;&nbsp;&nbsp;&nbsp;
-      <input type="checkbox" class="form-check-input" formControlName="stage2PreTechAssessment" id="stage2PreTechAssessmentCheck2">
+        
+      <input type="checkbox" class="form-check-input" (change)="preTechQuestionCheck($event)" formControlName="stage2PreTechAssessment" id="stage2PreTechAssessmentCheck2">
+    
       <label class="form-check-label" for="stage2PreTechAssessmentCheck2">Pre-technical Interview Assessment Form</label>
       </div>
     </div>

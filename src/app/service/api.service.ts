@@ -27,7 +27,12 @@ export class ApiService {
 getJRSS() {
   return this.http.get(`${this.baseJrssUri}`);
 }
-  // Create Candidate
+ 
+// Get all JRSS
+getJRSSPreTech(jrssName) {
+  return this.http.get(`${this.baseJrssUri}/getJrssPreTech/${jrssName}`);
+}
+// Create Candidate
   createCandidate(data): Observable<any> {
     let url = `${this.baseUri}/create`;
     return this.http.post(url, data)
