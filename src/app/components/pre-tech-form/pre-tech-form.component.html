@@ -1,48 +1,51 @@
+<nav class="navbar navbar-expand-lg navbar-light table-success">
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" routerLinkActive="active"><b>Pre Technical Interview Form</b></a>
+      </li>
+    </ul>
+  </div>
+  <div>
+    <ul class="navbar-nav navbar-right">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/login-component" routerLinkActive="active"><b>Logout</b></a>
+      </li>
+    </ul>
+  </div>
+</nav>
 <div  class="card-body" *ngIf="mode !='instructions'" >
-
 <form #preTechAssessmentForm="ngForm"  name= "form" (ngSubmit)="mode= 'Submit'; preTechAssessmentForm.form.valid && submitPreTechForm(preTechQuesAndAns)" >
-
-    <font color="black" size="+2">
-      <div class="form-group row">
-        <div class="col-sm-10"><b>Pre Technical Interview Form</b></div>
-        <div class="col-sm-2"><a class="nav-link"(click)="logout()"  routerLinkActive="active">Logout</a></div>
-      </div>
-        </font>
     <div>
-        
       <div *ngFor="let preTechQAndA of preTechQuesAndAns; let i = index" >
-        <br/>
-		<div class="form-group"   class="scrollbar scrollbar-primary">
-		
-       <label  class="control-label"  [class.has-error]="LocalVariable.invalid" for="{{preTechQAndA.preTechQuestion}}"  
-		style="display: inline;">
-          <!--To display questions as entered with line breaks-->
+      <br/>
+		  <div class="form-group"   class="scrollbar scrollbar-primary">
+		  <label  [class.has-error]="LocalVariable.invalid" for="{{preTechQAndA.preTechQuestion}}"><!--To display questions as entered with line breaks-->
           <pre><b> {{i+1}}.&nbsp;{{preTechQAndA.preTechQuestion}}</b></pre>
         </label>
         <textarea  id="{{preTechQAndA.preTechQuestion}}"   [readonly]="stage2Completed"
-		name = "{{preTechQAndA.preTechQuestion}}" [ngClass]="{ 'is-invalid': preTechAssessmentForm.submitted && LocalVariable.invalid }"
-		[(ngModel)]= "preTechQAndA.answer" class="form-control"  #LocalVariable="ngModel" required></textarea>
+		  name = "{{preTechQAndA.preTechQuestion}}" [ngClass]="{ 'is-invalid': preTechAssessmentForm.submitted && LocalVariable.invalid }"
+		  [(ngModel)]= "preTechQAndA.answer" class="form-control"  #LocalVariable="ngModel" required></textarea>
 		
 		<div *ngIf="preTechAssessmentForm.submitted && LocalVariable.invalid" class="invalid-feedback">
-                        <div *ngIf="LocalVariable.errors.required">This field is required.</div>
-         </div>
-					
+      <div *ngIf="LocalVariable.errors.required">This field is required.</div>
+    </div>
 		</div>
   </div>
 </div>
 <br />
-<div class="row col-sm-16" *ngIf="!resumeUploaded">
-  <label class="col-sm-2"><b>Upload Resume</b></label>
-  <div class="text-right">
-    <input class="form-control" type="file" (change)="addResume($event)" size="50">
+  <div class="row col-sm-16" *ngIf="!resumeUploaded">
+    <label class="col-sm-2"><b>Upload Resume</b></label>
+    <div class="text-right">
+      <input class="form-control" type="file" (change)="addResume($event)" size="50">
+    </div>
   </div>
-</div>
-<div class="row col-sm-16" *ngIf="resumeUploaded">
-  <div class="col-sm-8">
-    <p style="color:blue;" (click)="downloadResume()"><u>Download Candidate Resume</u></p>
+  <div class="row col-sm-16" *ngIf="resumeUploaded">
+    <div class="col-sm-8 cursor-pointer">
+      <p style="color:blue;" (click)="downloadResume()"><u><b>Download Resume</b></u></p>
+    </div>
   </div>
-</div>
-<br /><br />
+  <br /><br />
  <div class="text-center" style="width: 100%">
  &nbsp;&nbsp;
     <button type="submit"   class="btn btn-primary" [disabled]="stage2Completed" >Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -64,7 +67,7 @@
 <ol>4. Please note that you also have an option to "Save Draft" anytime and hence you don't need to fill-up the form in one go.</ol>
 <ol>5. If you don't have anything to share against a particular question, then please mention as "Not Applicable".</ol>
 <p class="text-center">
-  <button type="button" class="btn btn-primary" (click)="mode = 'Draft'">Start pre-tech interview</button>   
+  <button type="button" class="btn btn-primary" (click)="mode = 'Draft'">Start</button>
   </div>
   
  
