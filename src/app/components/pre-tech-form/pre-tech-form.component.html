@@ -34,18 +34,19 @@
   </div>
 </div>
 <br />
-  <div class="row col-sm-16" *ngIf="!resumeUploaded">
-    <label class="col-sm-2"><b>Upload Resume</b></label>
-    <div class="text-right">
+<div class="text-center">
+  <div class="row col-sm-8">
+    <label><b>Upload Resume</b></label>
+    <div class="row col-sm-8">
       <input class="form-control" type="file" (change)="addResume($event)" size="50">
     </div>
   </div>
-  <div class="row col-sm-16" *ngIf="resumeUploaded">
-    <div class="col-sm-8 cursor-pointer">
+<br>
+  <div class="row col-sm-8 text-center" *ngIf="resumeUploaded">
       <p style="color:blue;" (click)="downloadResume()"><u><b>Download Resume</b></u></p>
-    </div>
   </div>
-  <br /><br />
+</div>
+  <br />
  <div class="text-center" style="width: 100%">
  &nbsp;&nbsp;
     <button type="submit"   class="btn btn-primary" [disabled]="stage2Completed" >Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -58,6 +59,7 @@
 </div> 
  
 <div *ngIf="mode=='instructions'" oncopy="return false">
+  <br>
     Congratulations on completing the exam,
     <h4 class="text-center"> <br>Instructions for filling up the pre-technical assessment form</h4>
      <br>
