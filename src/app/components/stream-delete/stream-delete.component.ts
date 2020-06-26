@@ -22,6 +22,9 @@ export class StreamDeleteComponent implements OnInit {
   technologyStream:any= [];
   jrssObject: any= [];
   jrssObjectArray:any = [];  
+  jrssDocId: String = "";
+
+  currentJrssArray:any = [];
 
   constructor(
     public fb: FormBuilder,
@@ -91,7 +94,6 @@ export class StreamDeleteComponent implements OnInit {
       }); 
 
       // Get technologyStream from JRSS
-     // this.stream = this.streamDeleteForm.value.technologyStream.split(",");
       for (var jrss of this.JRSS){
         if(jrss.jrss == data['jrss']){
           this.technologyStream = [];
@@ -99,8 +101,7 @@ export class StreamDeleteComponent implements OnInit {
             this.technologyStream.push(skill);
           }
         }
-      }
-      
+      }    
       
     });
   }
@@ -117,6 +118,7 @@ pageChange(newPage: number) {
     // Get technologyStream from JRSS
     for (var jrss of this.JRSS){          
       if(jrss.jrss == e){
+        this.currentJrssArray = jrss;
         this.technologyStream = [];
         for (var skill of jrss.technologyStream){          
           this.technologyStream.push(skill);
@@ -153,16 +155,30 @@ cancelForm(){
   this.ngZone.run(() => this.router.navigateByUrl('/stream-create',{state:{username:this.userName}}))
 }
 
+readJrssDocId(){
+  for (var jrss of this.JRSS){    
+    if(jrss.jrss == this.streamDeleteForm.value.JRSS){
+      this.jrssDocId = jrss._id;
+      this.currentJrssArray = jrss;      
+    }
+  }
+}
+
 onSubmit() {
     this.submitted = true;
-    
+    this.readJrssDocId();    
     if (!this.streamDeleteForm.valid) {
       return false;
-    } else{ 
-
-      // To-Do -- Delete stream from JRSS technology Stream arry
-      console.log("Tech="+ this.streamDeleteForm.value.technologyStream);
-       
+    } else{   
+      this.currentJrssArray.technologyStream = this.currentJrssArray.technologyStream.filter(item => item.key !== this.streamDeleteForm.value.technologyStream);
+      this.apiService.updateTechStream(this.jrssDocId, JSON.stringify(this.currentJrssArray)).subscribe(res => {
+        console.log('Technology Stream deleted successfully!');
+        alert('Technology Stream deleted successfully!');
+        this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
+             this.router.navigate(['/stream-create/']));
+        }, (error) => {
+        console.log(error);
+        })
       }
 }
 
