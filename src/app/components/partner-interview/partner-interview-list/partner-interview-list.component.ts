@@ -2,6 +2,8 @@ import { Component, Input, OnChanges,OnInit } from '@angular/core';
 import { ApiService } from './../../../service/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { browserRefresh } from '../../../app.component';
+import { PartnerDetails } from './../../../model/PartnerDetails';
+import { appConfig } from './../../../model/appConfig';
 import {TechnicalInterviewListComponent} from '../../technical-interview-list/technical-interview-list.component';
 
 @Component({
@@ -34,9 +36,9 @@ export class PartnerInterviewListComponent implements OnChanges {
 
   constructor(private cv:TechnicalInterviewListComponent,private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
       this.config = {
-        currentPage: 1,
-        itemsPerPage: 5,
-        totalItems:0
+        currentPage: appConfig.currentPage,
+        itemsPerPage: appConfig.itemsPerPage,
+        totalItems: appConfig.totalItems
       };
       this.browserRefresh = browserRefresh;
       if (!this.browserRefresh) {
@@ -67,18 +69,23 @@ export class PartnerInterviewListComponent implements OnChanges {
         this.router.navigate(['/partner-list'], { queryParams: { page: newPage } });
   }
 
-  exceptionalApproval() {
-    if (this.emailSelected == "") {
-      alert("Please select the candidate")
-    }
 
-    this.apiService.updateExceptionalApprovalForStage4(this.emailSelected,this.quizNumber).subscribe(res => {
-      window.alert('Successfully updated candidate status');
-      window.location.reload();
-    }, (error) => {
-      console.log(error);
-    })
+  exceptionalApproval() {
+       if (this.emailSelected == "") {
+            alert("Please select the candidate")
+       }
+       if (window.confirm('Are you sure to provide exceptional approval?')) {
+        let partnerDetails = new PartnerDetails("Exceptional Approval Given",
+                      "Partner Feedback",this.userName,new Date(), "Skipped");
+        this.apiService.updateExceptionalApprovalForStage4(partnerDetails,this.emailSelected,this.quizNumber).subscribe(res => {
+          window.alert('Successfully provided exceptional approval');
+          window.location.reload();
+        }, (error) => {
+          console.log(error);
+        })
+        }
   }
+
   initiateInterview() {
     if (this.emailSelected == "") {
       alert("Please select the candidate")

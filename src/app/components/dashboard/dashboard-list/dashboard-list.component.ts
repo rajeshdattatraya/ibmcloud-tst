@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
 import { browserRefresh } from '../../../app.component';
 import { Dashboard } from './../../../model/dashboard';
+import { appConfig } from './../../../model/appConfig';
 
 
 @Component({
@@ -44,9 +45,9 @@ export class DashboardListComponent implements OnChanges {
 
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
         this.config = {
-          currentPage: 1,
-          itemsPerPage: 5,
-          totalItems:0
+          currentPage: appConfig.currentPage,
+          itemsPerPage: appConfig.itemsPerPage,
+          totalItems: appConfig.totalItems
         };
         this.browserRefresh = browserRefresh;
         if (!this.browserRefresh) {

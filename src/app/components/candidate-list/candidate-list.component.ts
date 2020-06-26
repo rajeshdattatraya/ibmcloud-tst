@@ -3,6 +3,7 @@ import { ApiService } from './../../service/api.service';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
 import { browserRefresh } from '../../app.component';
+import { appConfig } from './../../model/appConfig';
 
 @Component({
   selector: 'app-candidate-list',
@@ -26,9 +27,9 @@ export class CandidateListComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
     this.config = {
-      currentPage: 1,
-      itemsPerPage: 5,
-      totalItems:0
+      currentPage: appConfig.currentPage,
+      itemsPerPage: appConfig.itemsPerPage,
+      totalItems:appConfig.totalItems
     };
     this.browserRefresh = browserRefresh;
     if (!this.browserRefresh) {

@@ -5,6 +5,7 @@ import { TestConfigService } from './../../service/testconfig.service';
 import { ApiService } from './../../service/api.service';
 import { TestConfig } from './../../model/testConfig';
 import { browserRefresh } from '../../app.component';
+import { appConfig } from './../../model/appConfig';
 
 @Component({
   selector: 'app-test-config-edit',
@@ -14,6 +15,7 @@ import { browserRefresh } from '../../app.component';
 export class TestConfigEditComponent implements OnInit {
   public browserRefresh: boolean;
   submitted = false;
+  config: any;
   testConfigEditForm: FormGroup;
   JRSS:any = [];
   testDuration: number;
@@ -31,6 +33,13 @@ export class TestConfigEditComponent implements OnInit {
       private testconfigService: TestConfigService,
       private apiService: ApiService
     ) {
+      this.config = {
+                currentPage: appConfig.currentPage,
+                itemsPerPage: appConfig.itemsPerPage,
+                totalItems: appConfig.totalItems
+      };
+    actRoute.queryParams.subscribe(
+          params => this.config.currentPage= params['page']?params['page']:1 );
       this.browserRefresh = browserRefresh;
       this.getAllJRSS();
       let id = this.actRoute.snapshot.paramMap.get('id');
@@ -66,6 +75,10 @@ export class TestConfigEditComponent implements OnInit {
       this.testConfigEditForm.get('JRSS').setValue(e, {
         onlySelf: true
       })
+    }
+
+    pageChange(newPage: number) {
+          this.router.navigate(['/testconfig-add'], { queryParams: { page: newPage } });
     }
 
     getTestConfig(id) {

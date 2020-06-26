@@ -504,15 +504,15 @@ updateResults(id: string,data: UserResult): Observable<any> {
 // Update candidate
 updateExceptionalApproval(id: string,quizNumber): Observable<any> {
   let url = `${this.userResultUri}/updateExceptionalApproval/${id}/${quizNumber}`;
-  return this.http.put(url,{ headers: this.headers }).pipe(
+  return this.http.put(url, { headers: this.headers }).pipe(
     catchError(this.errorMgmt)
   )
 }
 
 // Update candidate
-updateExceptionalApprovalForStage4(id: string,quizNumber): Observable<any> {
+updateExceptionalApprovalForStage4(data,id,quizNumber): Observable<any> {
   let url = `${this.userResultUri}/updateExceptionalApprovalStage4/${id}/${quizNumber}`;
-  return this.http.put(url,{ headers: this.headers }).pipe(
+  return this.http.put(url, data, { headers: this.headers }).pipe(
     catchError(this.errorMgmt)
   )
 }

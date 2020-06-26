@@ -91,12 +91,20 @@
         </div>
         </div>
 
+        <div class="form-group row">
+          <label class="col-sm-6 col-form-label"></label>
+          <div class="col-sm-10"></div>
+          <div class="col-sm-20 text-center" style="width:1150px">
+          <button type="submit" class="btn btn-success btn-sm">Submit</button>&nbsp;&nbsp;
+          <button type="button" class="btn btn-success btn-sm" (click)="resetForm()">Clear</button>&nbsp;&nbsp;
+          <button type="button" class="btn btn-success btn-sm" (click)="cancelForm()">Cancel</button>
+          &nbsp;&nbsp;
+          <button type="button"class="btn btn-success btn-sm" (click)="exceptionalApproval(this.partnerInterviewDetails[0].userName,this.partnerInterviewDetails[0].quizNumber)">Exceptional Approval</button>
+          </div>
+        </div>
+
       </div>
-      <div class="text-center" style="width: 1000px">
-        <button type="submit" class="btn btn-success btn-sm">Submit</button>&nbsp;&nbsp;
-        <button type="button" class="btn btn-success btn-sm" (click)="resetForm()">Clear</button>&nbsp;&nbsp;
-        <button type="button" class="btn btn-success btn-sm" (click)="cancelForm()">Cancel</button>
-      </div>
+
     </form>
   </div>
   </div>

@@ -119,4 +119,24 @@ export class PartnerInterviewInitiateComponent implements OnInit {
         this.ngZone.run(() => this.router.navigateByUrl('/partner-list',{state:{username:this.userName,accessLevel:this.accessLevel}}))
     }
 
+     exceptionalApproval(emailSelected, quizNumber) {
+         if (window.confirm('Are you sure to provide exceptional approval?')) {
+            if (this.partnerFeedbackForm.value.partnerFeedback == "") {
+              alert("Please enter feedback");
+            } else {
+              this.stage4_status = "Skipped";
+              console.log("quizNumber",quizNumber);
+              console.log("emailSelected",emailSelected);
+              let partnerDetails = new PartnerDetails("Exceptional Approval Given",
+                            this.partnerFeedbackForm.value.partnerFeedback,this.userName,new Date(), this.stage4_status);
+              this.apiService.updateExceptionalApprovalForStage4(partnerDetails,emailSelected,quizNumber).subscribe(res => {
+                window.alert('Successfully provided exceptional approval');
+                this.ngZone.run(() => this.router.navigateByUrl('/partner-list',{state:{username:this.userName,accessLevel:this.accessLevel}}))
+              }, (error) => {
+                console.log(error);
+              })
+            }
+         }
+      }
+
 }

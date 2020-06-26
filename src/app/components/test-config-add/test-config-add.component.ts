@@ -1,10 +1,11 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute,Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { TestConfigService } from './../../service/testconfig.service';
 import { ApiService } from './../../service/api.service';
 import { TestConfig } from './../../model/testConfig';
 import { browserRefresh } from '../../app.component';
+import { appConfig } from './../../model/appConfig';
 
 @Component({
   selector: 'app-test-config-add',
@@ -14,6 +15,7 @@ import { browserRefresh } from '../../app.component';
 export class TestConfigAddComponent implements OnInit {
   public browserRefresh: boolean;
   submitted = false;
+  config: any;
   testConfigAddForm: FormGroup;
   JRSS:any = [];
   testDuration: number;
@@ -26,10 +28,18 @@ export class TestConfigAddComponent implements OnInit {
   constructor(
       public fb: FormBuilder,
       private router: Router,
+      private actRoute: ActivatedRoute,
       private ngZone: NgZone,
       private testconfigService: TestConfigService,
       private apiService: ApiService
     ) {
+    this.config = {
+            currentPage: appConfig.currentPage,
+            itemsPerPage: appConfig.itemsPerPage,
+            totalItems: appConfig.totalItems
+          };
+      actRoute.queryParams.subscribe(
+            params => this.config.currentPage= params['page']?params['page']:1 );
       this.browserRefresh = browserRefresh;
       this.mainForm();
       this.readJrss();
@@ -61,6 +71,9 @@ export class TestConfigAddComponent implements OnInit {
       this.testConfigAddForm.get('JRSS').setValue(e, {
         onlySelf: true
       })
+    }
+    pageChange(newPage: number) {
+          this.router.navigate(['/testconfig-add'], { queryParams: { page: newPage } });
     }
 
     //get All Test Configs

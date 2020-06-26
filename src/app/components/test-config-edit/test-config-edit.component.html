@@ -95,7 +95,7 @@
         </div>
         
         <div class="form-group row">
-          <label for="inputPassingScore" class="col-sm-4 col-form-label">Passing Score</label>
+          <label for="inputPassingScore" class="col-sm-4 col-form-label">Passing Score(in Percentage)</label>
           <div class="col-sm-6">
             <input class="form-control" type="text" formControlName="passingScore" id="inputPassingScore" [ngClass]="{ 'is-invalid': submitted && myForm.passingScore.errors }" maxlength="3" minlength="1">
             <div *ngIf="submitted && myForm.passingScore.errors" class="invalid-feedback">
@@ -126,7 +126,7 @@
       <th scope="col center">Job Role</th>
       <th scope="col center">No Of Questions</th>
       <th scope="col center">Test Duration(in Minutes)</th>
-      <th scope="col center">Passing Score</th>
+      <th scope="col center">Passing Score(in Percentage)</th>
       <th scope="col center">Action</th>
     </tr>
     </thead>
@@ -144,5 +144,7 @@
     </tr>
     </tbody>
   </table>
-
+  <div *ngIf="TestConfigs.length > 0">
+    <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
+  </div>
 
