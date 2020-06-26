@@ -23,7 +23,7 @@ export class StreamDeleteComponent implements OnInit {
   jrssObject: any= [];
   jrssObjectArray:any = [];  
   jrssDocId: String = "";
-
+  jrssId = '';  
   currentJrssArray:any = [];
 
   constructor(
@@ -52,8 +52,8 @@ export class StreamDeleteComponent implements OnInit {
       } 
       this.mainForm();
       this.readJrss();      
-      let jrss_id = this.actRoute.snapshot.paramMap.get('id');      
-      this.getJrss(jrss_id);     
+      this.jrssId = this.actRoute.snapshot.paramMap.get('id');      
+      this.getJrss(this.jrssId);     
       this.streamDeleteForm = this.fb.group({
         JRSS: ['', [Validators.required]],
         technologyStream :['', [Validators.required]]
@@ -107,7 +107,7 @@ export class StreamDeleteComponent implements OnInit {
   }
 
 pageChange(newPage: number) {
-  this.router.navigate(['/delete-stream'], { queryParams: { page: newPage } });
+  this.router.navigate(['/delete-stream',this.jrssId], { queryParams: { page: newPage } });
 }
 
   // Choose designation with select dropdown
@@ -175,7 +175,7 @@ onSubmit() {
         console.log('Technology Stream deleted successfully!');
         alert('Technology Stream deleted successfully!');
         this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
-             this.router.navigate(['/stream-create/']));
+             this.router.navigate(['/delete-stream/',this.jrssId]));
         }, (error) => {
         console.log(error);
         })
