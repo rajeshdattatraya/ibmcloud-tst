@@ -7,6 +7,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { appConfig } from './../../model/appConfig';
 import { browserRefresh } from '../../app.component';
 import * as CryptoJS from 'crypto-js';
+import { SpecialUser } from './../../model/SpecialUser';
 
 @Component({
   selector: 'app-adminuser-create',
@@ -28,6 +29,9 @@ export class AdminuserCreateComponent implements OnInit {
   skillArray:any= [];  
   Userrole:any = [];
   userrole: String = "";
+  AdminUsers:any = [];
+  username;
+  index;
 
   constructor(
     public fb: FormBuilder,
@@ -40,6 +44,7 @@ export class AdminuserCreateComponent implements OnInit {
     this.quizNumber = 1;
     this.mainForm();
     this.readUserrole();    
+    this.getAllSpecialUsers();
   }
 
   ngOnInit() {
@@ -78,6 +83,31 @@ export class AdminuserCreateComponent implements OnInit {
     return this.candidateForm.controls;
   }
 
+  //get All special users (e.g. sme, partner etc)
+  getAllSpecialUsers(){
+    this.apiService.findAllUser().subscribe((data) => {
+    this.AdminUsers = data;
+    })
+}
+
+// Delete the selected user
+  //To remove candidate
+  removeUser(username, index) {
+    if(window.confirm('Are you sure?')) {
+        this.apiService.deleteUser(username).subscribe((data) => {
+          this.AdminUsers.splice(index, 1);
+        }
+      )
+      this.getAllSpecialUsers();
+    }
+  }
+
+  onSelectionChange(username,i){
+    this.username=username;
+    this.index=i;
+
+  }
+
   canExit(): boolean{
     if (this.candidateForm.dirty && !this.submitted){
       if(window.confirm("You have unsaved data in the Create Candidate form. Please confirm if you still want to proceed to new page")){
@@ -99,7 +129,7 @@ export class AdminuserCreateComponent implements OnInit {
     this.password = this.password.replace("/","=rk=");    
      
 
-    let user = new UserDetails(this.candidateForm.value.email,
+    let user = new SpecialUser(this.candidateForm.value.email,
      this.password,
      this.quizNumber,
      "Active",
@@ -109,7 +139,8 @@ export class AdminuserCreateComponent implements OnInit {
      this.userName,
      new Date(),
      this.candidateForm.value.dateOfJoining,
-     "false"
+     "false",
+     this.candidateForm.value.employeeName
      );
 
 

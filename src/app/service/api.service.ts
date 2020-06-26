@@ -545,4 +545,27 @@ findUniqueUserEmail(email): Observable<any> {
 }
 
 
+//getAllSpecialUsers
+
+//Check if any user already present with the same email id in Users table
+findAllUser(): Observable<any> {
+  let url = `${this.baseUserroleUri}/findAllUser`;
+  return this.http.get(url, {headers: this.headers}).pipe(
+    map((res: Response) => {
+      return res || {}
+    }),
+    catchError(this.errorMgmt)
+    )
+}
+
+
+// Delete a user
+deleteUser(username): Observable<any> {
+  let url = `${this.baseUserroleUri}/deleteUser/${username}`;
+  return this.http.delete(url, { headers: this.headers }).pipe(
+    catchError(this.errorMgmt)
+  )
+}
+
+
 }
