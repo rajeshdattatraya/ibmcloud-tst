@@ -39,7 +39,7 @@
         <td  width="25%"><label>You can access the Pre-Technical-Interview form here:</label></td>
         <td *ngIf="this.partnerInterviewDetails[0].stage2_status=='Skipped'">Stage2 is Skipped</td>
         <td *ngIf="this.partnerInterviewDetails[0].stage2_status=='Completed'">
-            <a class="edit" [routerLink]="['/pre-technical-interview-form/',this.partnerInterviewDetails[0].result_users[0].JRSS, this.partnerInterviewDetails[0].userName]" [state]="{jrss:this.partnerInterviewDetails[0].result_users[0].JRSS,username:this.partnerInterviewDetails[0].result_users[0].username,access:'partner-interview-initiate'}">
+            <a class="edit" [routerLink]="['/pre-technical-interview-form/',this.partnerInterviewDetails[0].result_users[0].JRSS, this.partnerInterviewDetails[0].userName]" [state]="{jrss:this.partnerInterviewDetails[0].result_users[0].JRSS,username:this.partnerInterviewDetails[0].result_users[0].username,access:'partner-interview-initiate',accessLevel:this.accessLevel}">
               <td  width="25%"><a href="#" routerLinkActive="active">Click here</a></td>
             </a>
         </td>         </tr>
