@@ -40,6 +40,8 @@ import { PreTechnicalInterviewFormComponent } from './components/pre-technical-i
 import { AdminuserCreateComponent } from './components/adminuser-create/adminuser-create.component';
 import { ConfigPretechassessmentFormComponent } from './components/config-pretechassessment-form/config-pretechassessment-form.component';
 import { StreamDeleteComponent } from './components/stream-delete/stream-delete.component';
+import { ReportComponent } from './components/report/report.component';
+import { ReportFilterPipe } from './components/report/reportFilter.pipe';
 
 
 export let browserRefresh = false;
@@ -73,7 +75,9 @@ export let browserRefresh = false;
     PreTechnicalInterviewFormComponent,
     AdminuserCreateComponent,
     ConfigPretechassessmentFormComponent,
-    StreamDeleteComponent   
+    StreamDeleteComponent,
+    ReportComponent,
+    ReportFilterPipe   
     ],
   imports: [
     BrowserModule,

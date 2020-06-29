@@ -33,7 +33,7 @@ import { PreTechnicalInterviewFormComponent } from './components/pre-technical-i
 import { AdminuserCreateComponent } from './components/adminuser-create/adminuser-create.component';
 import { ConfigPretechassessmentFormComponent } from './components/config-pretechassessment-form/config-pretechassessment-form.component'
 import { StreamDeleteComponent } from './components/stream-delete/stream-delete.component';
-
+import { ReportComponent } from './components/report/report.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login-component' },
@@ -64,6 +64,7 @@ const routes: Routes = [
   { path: 'initiate-partner-interview/:id', component:PartnerInterviewInitiateComponent },
   { path: 'operations-candidate-list', component:OperationsCandidateListComponent },
   { path: 'pre-tech-form', component:PreTechFormComponent},
+  { path: 'report', component:ReportComponent},
   { path: 'initiate-operations-project/:id', component:OperationsProjectInitiateComponent },
   { path: 'technical-list/:id', component:TechnicalInterviewComponent },
   { path: 'workflow-config', component:WorkflowConfigComponent },

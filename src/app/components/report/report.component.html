@@ -1,0 +1,113 @@
+<nav class="navbar navbar-expand-lg navbar-light table-success">
+  <div *ngIf="accessLevel === 'partner'" class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/partner-list" [state]="{username:this.userName,accessLevel:this.accessLevel}" routerLinkActive="active"><b>Partner Interview</b></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/operations-candidate-list" [state]="{username:this.userName,accessLevel:this.accessLevel}" routerLinkActive="active"><b>Project Assignment</b></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/dashboard" [state]="{username:this.userName,accessLevel:this.accessLevel}" routerLinkActive="active"><b>Dashboard</b></a>
+      </li>
+       
+	  <li class="nav-item">
+      <a class="nav-link" routerLink="/report" [state]="{username:this.userName,accessLevel:this.accessLevel}" routerLinkActive="active"><b>Report</b></a>
+    </li>
+    
+    </ul>
+  </div>
+  <div *ngIf="accessLevel === 'management'" class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/operations-candidate-list" [state]="{username:this.userName, accessLevel:this.accessLevel}" routerLinkActive="active"><b>Project Assignment</b></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/dashboard" [state]="{username:this.userName, accessLevel:this.accessLevel}" routerLinkActive="active"><b>Dashboard</b></a>
+      </li>
+       
+	  <li class="nav-item">
+      <a class="nav-link" routerLink="/report" [state]="{username:this.userName,accessLevel:this.accessLevel}" routerLinkActive="active"><b>Report</b></a>
+    </li>
+
+    </ul>
+  </div>
+  <div *ngIf="accessLevel === 'management'">
+    <ul class="navbar-nav navbar-right">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/login-component" routerLinkActive="active"><b>Logout</b></a>
+      </li>
+    </ul>
+  </div>
+  <div *ngIf="accessLevel === 'partner'">
+    <ul class="navbar-nav navbar-right">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/login-component" routerLinkActive="active"><b>Logout</b></a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<br>
+
+<form #reportForm="ngForm"  name= "form"
+(ngSubmit)=" reportForm.form.valid && search(fromDate, toDate, jrss)"> 
+<div class="card w-85">
+
+<div class="card-header"><i><b><font style="font-size:14px">Enter Search Criteria</font></b></i></div>
+<div class="card-body">
+		<div class="form-group row">
+        <div class="col-sm-3">
+		<label  class="control-label"  for="fromDate">	From Date: </label>
+			<input type="date"  class="form-control" name = "fromDate" [(ngModel)] = "fromDate" placeholder="From Date" id="fromDate" aria-label="Search" >
+		</div>
+        <div class="col-sm-3">
+		<label  class="control-label"  for="toDate">	To Date: </label>
+			 <input type="date"  class="form-control" name = "toDate" [(ngModel)] = "toDate" placeholder="To Date" id="toDate" aria-label="Search" >
+		</div>
+		
+    </div>
+	<div class="form-group row">
+	 <div class="col-sm-3">
+	 
+		<label  class="control-label"  for="jrss">	JRSS: </label>
+			  <input type="text"  class="form-control" name = "jrss" [(ngModel)] = "jrss" placeholder="Search by Job Role" id="JRSS" aria-label="Search" >
+    </div>
+    <!--
+		 <div class="col-sm-2">
+			 <br /> <button type="submit"  class="btn btn-primary" >Search</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </div>
+    -->
+		 </div>
+		 
+		
+  </div>
+</div>
+
+</form>
+
+<table class="table table-bordered" >
+      <thead class="table-success">
+      <tr>
+        
+        <th scope="col" width="20%">Job Role</th>
+        <th scope="col" width="15%">Total Candidates Registered </th>
+        <th scope="col" width="15%">Passed Online Test</th>
+        <th scope="col" width="15%">Passed Tech Interview</th>
+		<th scope="col" width="15%">Passed Partner Interview</th>
+        <th scope="col" width="15%">Assigned To Project</th>
+      </tr>
+      </thead>
+     
+      <tbody>
+      <tr *ngFor="let report of reportData | reportFilter:fromDate:toDate:jrss" >
+        
+        <td  width="20%">{{report[0][1]}}</td>
+        <td  width="15%">{{report[1][1]}}</td>
+        <td  width="15%">{{report[2][1]}}</td>
+        <td  width="15%">{{report[3][1]}}</td>
+		    <td  width="15%">{{report[4][1]}}</td>
+        <td  width="15%">{{report[5][1]}}</td>
+        
+      </tr>
+      </tbody>
+    </table>
