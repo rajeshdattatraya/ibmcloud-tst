@@ -218,6 +218,14 @@ getUserByUserName(id): Observable<any> {
     )
   }
 
+  //Update Candidate Resume from Pre-Tech Form.
+  updateCandidateResume(username, data): Observable<any> {
+    let url = `${this.baseUri}/updateCandidateResume/${username}`;
+    return this.http.put(url, data, { headers: this.headers }).pipe(
+      catchError(this.errorMgmt)
+    )
+  }
+
    // Update User by ID
    updateUserDetails(id, data): Observable<any> {
     let url = `${this.baseUri}/updateUser/${id}`;

@@ -35,18 +35,18 @@
 </div>
 <br />
 <div class="text-center">
-  <div class="row col-sm-8">
-    <label><b>Upload Resume</b></label>
-    <div class="row col-sm-8">
-      <input class="form-control" type="file" (change)="addResume($event)" size="50">
-    </div>
-  </div>
-<br>
   <div class="row col-sm-8 text-center" *ngIf="resumeUploaded">
       <p style="color:blue;" (click)="downloadResume()"><u><b>Download Resume</b></u></p>
   </div>
+  <div class="row col-sm-8">
+    <label><b>Upload resume if updated version available</b></label><hr><hr>
+    <div class="row col-sm-8">
+      <input class="form-control" type="file" id="resumeFile" (change)="addResume($event)" size="50">
+    </div><hr><hr>
+    <button type="button" class="btn btn-primary" (click)="uploadResume()">Upload Resume</button>
+  </div>
 </div>
-  <br />
+  <br/><br/>
  <div class="text-center" style="width: 100%">
  &nbsp;&nbsp;
     <button type="submit"   class="btn btn-primary" [disabled]="stage2Completed" >Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
