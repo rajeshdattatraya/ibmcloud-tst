@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'reportFilter'
 })
 export class ReportFilterPipe implements PipeTransform {
-    transform(reportData: any[],fromDate:String,toDate:String,jrss:String): any[] {
+    transform(reportData: any[],fromDate:Date,toDate:Date,jrss:String): any[] {
       console.log('inside the report filter fromDate',fromDate)
       console.log('inside the report filter toDate',toDate)
       console.log('inside the report filter jrss',jrss)
