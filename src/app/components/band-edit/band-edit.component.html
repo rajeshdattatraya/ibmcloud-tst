@@ -18,7 +18,7 @@
         </div>
 
         <div class="form-group">
-          <button class="btn btn-success btn-lg btn-block" type="submit">Save</button>
+          <button class="btn btn-success btn-lg btn-block" style="background-color:#0043CE;" type="submit">Save</button>
         </div>
       </form>
     </div>
@@ -43,10 +43,10 @@
       <td>{{band.band}}</td>
       <td class="text-center edit-block">
           <span class="edit" [routerLink]="['/edit-band/', band._id]">
-            <button type="button" class="btn btn-success btn-sm">Edit</button>
+            <button type="button" class="btn btn-success btn-sm" style="background-color:#0043CE;">Edit</button>
           </span>
         <span class="delete" (click)="removeBand(band, i)">
-            <button type="button" class="btn btn-danger btn-sm">Delete</button>
+            <button type="button" class="btn btn-danger btn-sm" style="background-color:#0043CE;">Delete</button>
           </span>
       </td>
     </tr>
