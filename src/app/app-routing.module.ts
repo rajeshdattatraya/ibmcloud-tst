@@ -34,6 +34,7 @@ import { AdminuserCreateComponent } from './components/adminuser-create/adminuse
 import { ConfigPretechassessmentFormComponent } from './components/config-pretechassessment-form/config-pretechassessment-form.component'
 import { StreamDeleteComponent } from './components/stream-delete/stream-delete.component';
 import { ReportComponent } from './components/report/report.component';
+import { UserEditComponent } from './components/user-edit/user-edit.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login-component' },
@@ -73,7 +74,7 @@ const routes: Routes = [
   { path: 'adminuser-create', component:AdminuserCreateComponent },
   { path:  'config-pretechassessment-form',component:ConfigPretechassessmentFormComponent },
   { path: 'delete-stream/:id', component: StreamDeleteComponent, canDeactivate:[DeactivateGuard] },
-  
+  { path: 'edit-user/:docid', component: UserEditComponent },
 ];
 
 @NgModule({

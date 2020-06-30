@@ -32,6 +32,7 @@ export class AdminuserCreateComponent implements OnInit {
   AdminUsers:any = [];
   username;
   index;
+  docid;
 
   constructor(
     public fb: FormBuilder,
@@ -102,9 +103,10 @@ export class AdminuserCreateComponent implements OnInit {
     }
   }
 
-  onSelectionChange(username,i){
+  onSelectionChange(username,docId,i){
     this.username=username;
     this.index=i;
+    this.docid = docId;
 
   }
 
