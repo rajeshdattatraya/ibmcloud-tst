@@ -1,17 +1,53 @@
-<div class="card w-85">
+<div class="card w-100">
 <div class="card-header"><i><b><font style="font-size:14px">Enter Search Criteria</font></b></i></div>
 <div class="card-body">
 <form novalidate [formGroup]="form">
   <div>
     <br>
+    <table>
+    <tr width="100%">
+      <td width="20%"><div class="col-sm-4"><label>Name: </label></div></td>
+      <td width="35%"><div class="form-group row"><div class="col-sm-8"><input type="search" #candiateName formControlName="employeeName" placeholder="Search using Candidate Name" id="search4" aria-label="Search" >
+      </div></div></td>
+      <td width="20%"><div class="col-sm-6"><label>Job Role: </label></div></td>
+      <td width="35%"><div class="form-group row"><div class="col-sm-8"><input type="search" #jrss formControlName="JRSS" placeholder="Search using Job Role" id="search4" aria-label="Search" mdbInput>
+        </div></div></td>
+    </tr>
+    <tr width="100%">
+      <td width="30%"><div class="col-sm-10"><label>Assigned To project: </label></div></td>
+      <td width="20%"><div class="form-group row"><div class="col-sm-12"><select type="search" #stage5_status formControlName="stage5_status" placeholder="Search using Assigned To Project" class="custom-select form-control" (change)="updateAssignedToProjectProfile($event.target.value)"
+                   id="search4" aria-label="Search" mdbInput>
+            <option value="">Choose...</option>
+            <option *ngFor="let assigned of AssignedToProject" value="{{assigned}}">{{assigned}}
+            </option>
+          </select>
+        </div></div></td>
+      <td width="30%"><div class="col-sm-10"><label>Partner Interview Result: </label></div></td>
+      <td width="20%"><div class="form-group row"><div class="col-sm-12">
+        <select type="search" #managementResult formControlName="managementResult" placeholder="Search using Partner Interview Result" class="custom-select form-control" (change)="updatePartnerInterviewResultProfile($event.target.value)"
+                id="search4" aria-label="Search" mdbInput>
+          <option value="">Choose...</option>
+          <option *ngFor="let partnerResult of PartnerInterviewResult" value="{{partnerResult}}">{{partnerResult}}
+          </option>
+        </select>
+      </div></div></td>
+    </tr>
+    <tr width="100%">
+      <td width="30%"><div class="col-sm-10"><label>Tech Interview Result: </label></div></td>
+      <td width="20%"><div class="form-group row"><div class="col-sm-12">
+        <select type="search" #smeResult formControlName="smeResult" placeholder="Search using Technical Interview Result" class="custom-select form-control" (change)="updateTechInterviewResultProfile($event.target.value)"
+                id="search4" aria-label="Search" mdbInput>
+        <option value="">Choose...</option>
+        <option *ngFor="let techInterview of TechInterviewResult" value="{{techInterview}}">{{techInterview}}
+        </option>
+      </select>
+      </div></div></td>
+    </tr>
+    </table>
     <div class="form-group row">
-        <div class="col-sm-4">
-        <input type="search" #candiateName formControlName="employeeName" placeholder="Search using Candidate Name" id="search4" aria-label="Search" ></div>
-        <div class="col-sm-4">
-        <input type="search" #jrss formControlName="JRSS" placeholder="Search using Job Role" id="search4" aria-label="Search" mdbInput></div>
-        <div class="col-sm-4">
+      <div class="col-sm-4">
         <button class="btn btn-success btn-sm float-center" (click)="search(form.value)">Search</button>
-        </div>
+      </div>
     </div>
   </div>
 </form>

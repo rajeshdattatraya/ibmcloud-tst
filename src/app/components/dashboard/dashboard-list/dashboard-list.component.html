@@ -24,7 +24,8 @@
         <td  width="17%">
           <div *ngIf="result.stage5_status == 'Completed'">Assigned</div>
           <div *ngIf="result.stage5_status == 'Not Started'">Unassigned</div>
-          <div *ngIf="result.stage5_status == 'Skipped' || result.stage5_status == ''">-</div>
+          <div *ngIf="result.stage5_status == 'Skipped'">-</div>
+          <div *ngIf="result.stage5_status == null ">-</div>
         </td>
       </tr>
       </tbody>
