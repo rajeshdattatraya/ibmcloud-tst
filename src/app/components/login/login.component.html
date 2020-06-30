@@ -20,12 +20,12 @@
             <div *ngIf="f1.password.errors.required">Password is required</div>
           </div>
         </div>
-        <button [disabled]="loading" class="btn btn-primary" >
+        <button [disabled]="loading" class="btn btn-primary" style="background-color:#0043CE;" >
           <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
           Login
         </button>&nbsp;&nbsp;&nbsp;
         
-        <button type="button" class="btn btn-primary" (click)="forgotPassword()">Forgot password</button>         
+        <button type="button" class="btn btn-primary" style="background-color:#0043CE;" (click)="forgotPassword()">Forgot password</button>         
         <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
         &nbsp;&nbsp;&nbsp;
       </form>
