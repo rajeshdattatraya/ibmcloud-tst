@@ -10,6 +10,10 @@
       <li class="nav-item">
         <a class="nav-link" routerLink="/dashboard" [state]="{username:this.userName,accessLevel:this.accessLevel}" routerLinkActive="active"><b>Dashboard</b></a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/report" [state]="{username:this.userName, accessLevel:this.accessLevel}" routerLinkActive="active"><b>Report</b></a>
+      </li>
+
     </ul>
   </div>
   <div *ngIf="accessLevel === 'management'" class="collapse navbar-collapse" id="navbarNavDropdown">
@@ -20,6 +24,10 @@
       <li class="nav-item">
         <a class="nav-link" routerLink="/dashboard" [state]="{username:this.userName, accessLevel:this.accessLevel}" routerLinkActive="active"><b>Dashboard</b></a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/report" [state]="{username:this.userName, accessLevel:this.accessLevel}" routerLinkActive="active"><b>Report</b></a>
+      </li>
+
     </ul>
   </div>
   <div *ngIf="accessLevel === 'management'">
