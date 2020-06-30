@@ -17,7 +17,7 @@
   <br/>
   <div>
     <div class="card">
-    <div style="background-color:powderblue">View Candidate Details</div>
+    <div style="background-color:powderblue" class="card-header"><b>View Candidate Details</b></div>
     <div class="card-body">
     <table>
       <tbody>
@@ -52,7 +52,7 @@
 <br>
 <!-- Dynamic Form Table -->
   <div class="card">
-    <div style="background-color:powderblue">Please enter feedback here</div>
+    <div style="background-color:powderblue" class="card-header">Please enter feedback here</div>
     <div class="card-body">
     <form [formGroup]="techskillForm" (ngSubmit)="onSubmit()">
       <table  formArrayName="techStream">
