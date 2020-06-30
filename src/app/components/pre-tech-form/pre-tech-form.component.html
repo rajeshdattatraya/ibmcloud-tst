@@ -43,16 +43,16 @@
     <div class="row col-sm-8">
       <input class="form-control" type="file" id="resumeFile" (change)="addResume($event)" size="50">
     </div><hr><hr>
-    <button type="button" class="btn btn-primary" (click)="uploadResume()">Upload Resume</button>
+    <button type="button" class="btn btn-primary" style="background-color:#0043CE;" (click)="uploadResume()">Upload Resume</button>
   </div>
 </div>
   <br/><br/>
  <div class="text-center" style="width: 100%">
  &nbsp;&nbsp;
-    <button type="submit"   class="btn btn-primary" [disabled]="stage2Completed" >Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<button type="button"  class="btn btn-primary" [disabled]="stage2Completed" (click)="mode= 'Draft'; submitPreTechForm(preTechQuesAndAns);" >Save Draft</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<button type="reset"  class="btn btn-primary" [disabled]="stage2Completed" >Clear</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<button type="button"  class="btn btn-primary"  (click)="close()"> Close </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button type="submit"   style="background-color:#0043CE;" class="btn btn-primary" [disabled]="stage2Completed" >Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<button type="button"  style="background-color:#0043CE;" class="btn btn-primary" [disabled]="stage2Completed" (click)="mode= 'Draft'; submitPreTechForm(preTechQuesAndAns);" >Save Draft</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<button type="reset"  style="background-color:#0043CE;" class="btn btn-primary" [disabled]="stage2Completed" >Clear</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<button type="button"  style="background-color:#0043CE;" class="btn btn-primary"  (click)="close()"> Close </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       </div>
  </form>
  &nbsp;&nbsp;
@@ -69,7 +69,7 @@
 <ol>4. Please note that you also have an option to "Save Draft" anytime and hence you don't need to fill-up the form in one go.</ol>
 <ol>5. If you don't have anything to share against a particular question, then please mention as "Not Applicable".</ol>
 <p class="text-center">
-  <button type="button" class="btn btn-primary" (click)="mode = 'Draft'">Start</button>
+  <button type="button" style="background-color:#0043CE;" class="btn btn-primary" (click)="mode = 'Draft'">Start</button>
   </div>
   
  
