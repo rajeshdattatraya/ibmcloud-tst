@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light table-success">
+<nav class="navbar navbar-expand-lg navbar-light table-success" style="background-color:powderblue">
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav">
       <li class="nav-item dropdown active">
@@ -96,7 +96,7 @@
 
           
         <div class="form-group">
-          <button class="btn btn-success btn-lg btn-block" type="submit">Register</button>
+          <button class="btn btn-success btn-lg btn-block" style="background-color:#0043CE;" type="submit">Register</button>
         </div>
       </form>
 
@@ -126,7 +126,7 @@
     <tr *ngFor="let adminuser of AdminUsers; let i = index">
       <td *ngIf="adminuser.username.length > 0" class="float-center text-center" width="5%">
         <input type="radio" name="radiogroup"
-                   (change)="onSelectionChange(adminuser.username,i)">         
+                   (change)="onSelectionChange(adminuser.username,adminuser._id,i)">         
       </td>
       <td *ngIf="adminuser.username.length > 0" width="5%" class="float-center text-center"> {{adminuser.name}} </td>
       <td *ngIf="adminuser.username.length > 0" width="5%" class="float-center text-center" > {{adminuser.username}} </td>
@@ -136,8 +136,13 @@
   </table>
 
   <div  class="float-right text-right" *ngIf="AdminUsers.length > 0">
+    <a class="edit" [routerLink]="['/edit-user/', docid]">
+      <button type="button" style="background-color:#0043CE;" class="btn btn-success btn-sm">Edit</button>&nbsp;
+  </a>
+
+  <div  class="float-right text-right" *ngIf="AdminUsers.length > 0">
     <a class="delete" (click)="removeUser(username,index)">
-      <button type="button" class="btn btn-danger btn-sm">Delete</button>&nbsp;
+      <button type="button" style="background-color:#0043CE;" class="btn btn-danger btn-sm">Delete</button>&nbsp;
   </a> 
   </div>
 </div>

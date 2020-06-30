@@ -14,7 +14,7 @@
 	  <li class="nav-item">
       <a class="nav-link" routerLink="/report" [state]="{username:this.userName,accessLevel:this.accessLevel}" routerLinkActive="active"><b>Report</b></a>
     </li>
-    
+
     </ul>
   </div>
   <div *ngIf="accessLevel === 'management'" class="collapse navbar-collapse" id="navbarNavDropdown">
@@ -62,16 +62,19 @@
 		</div>
         <div class="col-sm-3">
 		<label  class="control-label"  for="toDate">	To Date: </label>
-			 <input type="date"  class="form-control" name = "toDate" [(ngModel)] = "toDate" placeholder="To Date" id="toDate" aria-label="Search" >
-		</div>
+       <input type="date"  class="form-control" name = "toDate" [(ngModel)] = "toDate"  placeholder="To Date" 
+       id="toDate" aria-label="Search" 
+       [ngClass]="{  invalid:(toDate != null || toDate > currDate )}" />
+    </div>
+    <div class="col-sm-3">
+	 
+      <label  class="control-label"  for="jrss">	JRSS: </label>
+        <input type="text"  class="form-control" name = "jrss" [(ngModel)] = "jrss" placeholder="Search by Job Role" id="JRSS" aria-label="Search" >
+      </div>
 		
     </div>
 	<div class="form-group row">
-	 <div class="col-sm-3">
 	 
-		<label  class="control-label"  for="jrss">	JRSS: </label>
-			  <input type="text"  class="form-control" name = "jrss" [(ngModel)] = "jrss" placeholder="Search by Job Role" id="JRSS" aria-label="Search" >
-    </div>
     <!--
 		 <div class="col-sm-2">
 			 <br /> <button type="submit"  class="btn btn-primary" >Search</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

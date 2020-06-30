@@ -11,9 +11,10 @@ import { browserRefresh } from '../../app.component';
   styleUrls: ['./report.component.css']
 })
 export class ReportComponent implements OnInit {
-  fromDate: string;
-  toDate: string;
+  fromDate: Date;
+  toDate: Date;
   jrss: string;
+  currDate:Date=new Date();
   filters: Object;
   userName = "";
   accessLevel: String = "";
@@ -98,7 +99,7 @@ export class ReportComponent implements OnInit {
 
 
 
-  search(fromDate:String , toDate:String, jrss: String) {
+  search(fromDate:Date , toDate:Date, jrss: String) {
    // console.log("inside search method fromDate", fromDate);
    // console.log(" inside search method  toDate", toDate);
    // console.log(" inside search method jrss", jrss);

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light table-success">
+<nav class="navbar navbar-expand-lg navbar-light table-success" style="background-color:powderblue">
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav">
       <li class="nav-item dropdown">
@@ -27,8 +27,7 @@
           <a class="dropdown-item" routerLink="/jrss-create" routerLinkActive="active">Add Job Role</a>
           <a class="dropdown-item" routerLink="/stream-create" routerLinkActive="active">Add Technology Stream</a>
           <a class="dropdown-item" routerLink="/testconfig-add" routerLinkActive="active">Add Test Configuration</a>
-          <a class="dropdown-item" routerLink="/config-pretechassessment-form" routerLinkActive="active">Manage Pre-Technical Interview Assessment Form</a>
-        </div>
+          </div>
       </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="/workflow-config"routerLinkActive="active"><b>Manage Workflow</b></a>
@@ -70,7 +69,7 @@
               </div>
   
           <div class="form-group">
-            <button class="btn btn-success btn-lg float-center" type="submit">Save</button>
+            <button class="btn btn-success btn-lg float-center" style="background-color:#0043CE;" type="submit">Save</button>
           </div>
           <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
       &nbsp;&nbsp;&nbsp;
@@ -87,7 +86,7 @@
     <!-- Candidate list -->
     <table class="table table-bordered" *ngIf="Jrss.length > 0">
       <thead class="table-success">
-      <tr>
+      <tr style="background-color:powderblue">
         <th scope="col">No.</th>
         <th scope="col center">Job Role</th>
       </tr>

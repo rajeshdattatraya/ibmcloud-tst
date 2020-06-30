@@ -41,6 +41,7 @@ export class DashboardListComponent implements OnChanges {
   candidateAssessmentDetails:any=[];
   displayContractorUIFields: Boolean = false;
   displayRegularUIFields: Boolean = true;
+  filterKey : string = "";
 
 
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
@@ -77,15 +78,31 @@ export class DashboardListComponent implements OnChanges {
     filterUserList(filters: any, users: any): void {
       this.filteredUsers = this.users; //Reset User List
       const keys = Object.keys(filters);
+      console.log("filters",filters);
+      console.log("keys",keys);
       const filterUser = user => {
         let result = keys.map(key => {
           if (key == "employeeName" || key == "JRSS") {
             if (user.result_users[0][key]) {
               return String(user.result_users[0][key]).toLowerCase().startsWith(String(filters[key]).toLowerCase())
             }
-          }
-          else if (user[key]) {
-            return String(user[key]).toLowerCase().startsWith(String(filters[key]).toLowerCase())
+          } else if (user[key]) {
+            if (key == "smeResult" || key == "managementResult") {
+                let filterK:string  = "";
+                let resultBoolean: boolean;
+                let filterArray:any = [];
+                filterK = filters[key];
+                filterArray = filterK.split(',');
+                   for (let i=0; i<filterArray.length;i++) {
+                    resultBoolean = (String(user[key]).toLowerCase().startsWith(String(filterArray[i]).toLowerCase()));
+                    if (resultBoolean) {
+                      return resultBoolean;
+                    }
+                }
+                return resultBoolean;
+            } else {
+                return String(user[key]).toLowerCase().startsWith(String(filters[key]).toLowerCase())
+            }
           } else {
             return false;
           }

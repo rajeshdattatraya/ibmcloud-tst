@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light table-success">
+<nav class="navbar navbar-expand-lg navbar-light table-success" style="background-color:powderblue">
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
         <li class="nav-item active">
@@ -88,8 +88,8 @@
       		</div>      
 
       		<div class="float-right text-right">
-       			 <button class="btn btn-success btn-sm float-center" type="submit">Delete</button>&nbsp;&nbsp;
-        			<button type="button" class="btn btn-success btn-sm" (click)="cancelForm()">Cancel</button>
+       			 <button style="background-color:#0043CE;" class="btn btn-success btn-sm float-center" type="submit">Delete</button>&nbsp;&nbsp;
+        			<button style="background-color:#0043CE;" type="button" class="btn btn-success btn-sm" (click)="cancelForm()">Cancel</button>
       		</div>
       		<div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
         			&nbsp;&nbsp;&nbsp;
@@ -108,7 +108,7 @@
 		<!-- Technology Stream list -->      
 		<table class="table table-bordered" *ngIf="JRSS.length > 0" >
 		  <thead class="table-success">
-		  <tr>          
+		  <tr style="background-color:powderblue">          
 			  <th scope="col" width="35%">Job Role</th>          
 			  <th scope="col" width="65%">Technology Stream</th>    
 		   </tr>

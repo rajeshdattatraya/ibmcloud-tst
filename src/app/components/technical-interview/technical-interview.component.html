@@ -1,8 +1,8 @@
-<nav class="navbar navbar-expand-lg navbar-light table-success">
+<nav class="navbar navbar-expand-lg navbar-light table-success" style="background-color:powderblue">
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" routerLinkActive="active"><b>Initiate Technical Interview</b></a>
+        <a class="nav-link" routerLinkActive="active" ><b>Initiate Technical Interview</b></a>
       </li>
     </ul>
   </div>
@@ -17,7 +17,7 @@
   <br/>
   <div>
     <div class="card">
-    <div class="card-header bg-success">View Candidate Details</div>
+    <div style="background-color:powderblue" class="card-header"><b>View Candidate Details</b></div>
     <div class="card-body">
     <table>
       <tbody>
@@ -52,7 +52,7 @@
 <br>
 <!-- Dynamic Form Table -->
   <div class="card">
-    <div class="card-header bg-success">Please enter feedback here</div>
+    <div style="background-color:powderblue" class="card-header"><b>Please enter feedback here</b></div>
     <div class="card-body">
     <form [formGroup]="techskillForm" (ngSubmit)="onSubmit()">
       <table  formArrayName="techStream">
@@ -148,9 +148,9 @@
         <br/>
       </table>
       <div class="text-center" style="width: 1000px">
-        <button  type="submit"class="btn btn-success btn-sm" >Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;
-        <button  type="reset" (click)="resetForm()" class="btn btn-success btn-sm">Clear</button>&nbsp;&nbsp;&nbsp;&nbsp;
-        <button  type="button" (click)="cancelForm()" class="btn btn-success btn-sm">Cancel</button>
+        <button  type="submit" style="background-color:#0043CE;" class="btn btn-success btn-sm" style="background-color:#0043CE;" >Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <button  type="reset" style="background-color:#0043CE;" (click)="resetForm()" class="btn btn-success btn-sm" style="background-color:#0043CE;">Clear</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <button  type="button" style="background-color:#0043CE;" (click)="cancelForm()" class="btn btn-success btn-sm" style="background-color:#0043CE;">Cancel</button>
       </div>
   <!-- {{this.techskillForm.value | json}} -->
   </form>

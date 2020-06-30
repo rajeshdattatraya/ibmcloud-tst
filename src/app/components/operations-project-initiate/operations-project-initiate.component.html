@@ -16,7 +16,7 @@
 </nav>
 <br/>
   <div class="card">
-    <div class="card-header bg-success">View Candidate Details</div>
+    <div class="modal-header table-success" style="background-color:powderblue"><b>View Candidate Details</b></div>
     <div class="card-body">
       <table>
         <tbody>
@@ -69,7 +69,7 @@
   </div>
     <br>
     <div class="card">
-    <div class="card-header bg-success">Please enter details to assign a candidate to a particular project</div>
+    <div class="card-header" style="background-color:powderblue">Please enter details to assign a candidate to a particular project</div>
     <div class="card-body">
 
       <form [formGroup]="operationsProjectForm" (ngSubmit)="onSubmit(this.operationsProjectDetails[0]._id)" >
@@ -119,9 +119,9 @@
 
       </div>
         <div class="text-center" style="width: 1000px">
-          <button type="submit" class="btn btn-success btn-sm">Submit</button>&nbsp;&nbsp;
-          <button type="button" class="btn btn-success btn-sm" (click)="resetForm()">Clear</button>&nbsp;&nbsp;
-          <button type="button" class="btn btn-success btn-sm" (click)="cancelForm()">Cancel</button>
+          <button type="submit" style="background-color:#0043CE;" class="btn btn-success btn-sm">Submit</button>&nbsp;&nbsp;
+          <button type="button" style="background-color:#0043CE;" class="btn btn-success btn-sm" (click)="resetForm()">Clear</button>&nbsp;&nbsp;
+          <button type="button" style="background-color:#0043CE;" class="btn btn-success btn-sm" (click)="cancelForm()">Cancel</button>
         </div>
       </form>
     </div>

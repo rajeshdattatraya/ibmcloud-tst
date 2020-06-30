@@ -27,7 +27,7 @@ export class StreamCreateComponent implements OnInit {
   jrssName;
   jrssObject: any= [];
   jrssObjectArray:any = [];  
-  
+  techStreamCollection:any = [];  
 
   constructor(
     public fb: FormBuilder,
@@ -47,6 +47,7 @@ export class StreamCreateComponent implements OnInit {
 
     this.mainForm();
     this.readJrss();
+    this.readTechStream();
   }
 
   ngOnInit(): void {
@@ -60,8 +61,7 @@ export class StreamCreateComponent implements OnInit {
       existingTechnologyStream: ['']
     })
   }
-
-
+  
    // Get all Jrss
    readJrss(){
     this.apiService.getJRSS().subscribe((data) => {
@@ -77,6 +77,18 @@ export class StreamCreateComponent implements OnInit {
         this.jrssObjectArray.push(this.jrssObject);          
     }  
     });        
+  }
+
+  // Get all TechStream
+  readTechStream(){
+    this.apiService.getTechStream().subscribe((data) => {
+    this.techStreamCollection = data;    
+    });        
+  }
+
+  // Add technology stream to techStream
+  addTechnologyStream(){
+    
   }
 
 onSelectionChange(jrssId,jrssName) {
@@ -100,7 +112,14 @@ pageChange(newPage: number) {
           this.existingTechnologyStream.push(skill);
         }
       }
-    }
+    }    
+  }
+
+   // Choose designation with select dropdown 
+   updateStreamProfile(e){
+    this.streamCreateForm.get('technologyStream').setValue(e, {
+      onlySelf: true
+    })
   }
 
   // Getter to access form control
@@ -142,7 +161,5 @@ pageChange(newPage: number) {
         console.log(error);
         })
       }
-
 }
-
 }

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light table-success">
+<nav class="navbar navbar-expand-lg navbar-light table-success" style="background-color:powderblue">
 	<div class="collapse navbar-collapse" id="navbarNavDropdown">
 		<ul class="navbar-nav">
 			<li class="nav-item active">
@@ -89,17 +89,25 @@
 			<div class="form-group row">
 				<label for="inputTechnologyStream" class="col-sm-4 col-form-label">New Technology Stream To Be Mapped</label>
 				<div class="col-sm-6">
-					<input class="form-control" type="text" formControlName="technologyStream" id="inputTechnologyStream" [ngClass]="{ 'is-invalid': submitted && myForm.technologyStream.errors }" maxlength="50" minlength="1">
-						<div *ngIf="submitted && myForm.technologyStream.errors" class="invalid-feedback">
-							<div *ngIf="myForm.technologyStream.errors.required">Technology Stream is required</div>
-							<div *ngIf="myForm.technologyStream.errors.pattern">Enter a valid Tech Stream</div>
-						</div>
+					<select class="custom-select form-control" (change)="updateStreamProfile($event.target.value)"
+						formControlName="technologyStream" id="inputTechnologyStream" [ngClass]="{ 'is-invalid': submitted && myForm.technologyStream.errors }">
+						<option value="">Choose...</option>
+							<option *ngFor="let stream of techStreamCollection" value="{{stream.technologyStream}}">{{stream.technologyStream}}
+					   </option>
+					</select>
+					<div *ngIf="submitted && myForm.technologyStream.errors" class="invalid-feedback">
+						<div *ngIf="myForm.technologyStream.errors.required">Technology Stream is required</div>
 					</div>
 				</div>
-				<div class="form-group">
-					<button class="btn btn-success btn-lg float-center" type="submit">Save</button>
-				</div>
-				<div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+			</div>
+			&nbsp;
+			<td><label>Add New Technology Stream(If not available):</label></td>
+			<td><a href="#" (click)="addTechnologyStream()" routerLinkActive="active" class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>        
+			&nbsp;
+			<div class="form-group">
+					<button style="background-color:#0043CE;" class="btn btn-success btn-lg float-center" type="submit">Save</button>
+			</div>
+			<div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
        			&nbsp;&nbsp;&nbsp;
         
 		</form>
@@ -116,7 +124,7 @@
 		<!-- Technology Stream list -->      
 		<table class="table table-bordered" *ngIf="JRSS.length > 0" >
 		  <thead class="table-success">
-		  <tr> 
+		  <tr style="background-color:powderblue"> 
 			<th scope="col center" width="5%">Action</th>           
 			<th scope="col" width="33%">Job Role</th>          
 			<th scope="col" width="62%">Technology Stream</th>    
@@ -135,7 +143,7 @@
 	  
 	   <div  class="float-right text-right" *ngIf="JRSS.length > 0">
 		  <a class="edit" [routerLink]="['/delete-stream/', jrssId]">
-			  <button type="button" class="btn btn-danger btn-sm">Delete</button>&nbsp;
+			  <button type="button" style="background-color:#0043CE;" class="btn btn-danger btn-sm">Delete</button>&nbsp;
 		  </a>  
 		</div>
 	  
