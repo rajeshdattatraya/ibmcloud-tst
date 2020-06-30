@@ -16,7 +16,7 @@
     <tr width="100%">
       <td width="30%"><div class="col-sm-10"><label>Assigned To project: </label></div></td>
       <td width="20%"><div class="form-group row"><div class="col-sm-12"><select type="search" #stage5_status formControlName="stage5_status" placeholder="Search using Assigned To Project" class="custom-select form-control" (change)="updateAssignedToProjectProfile($event.target.value)"
-                   id="search4" aria-label="Search" mdbInput>
+                   style="width:65%" id="search4" aria-label="Search" mdbInput>
             <option value="">Choose...</option>
             <option *ngFor="let assigned of AssignedToProject" value="{{assigned}}">{{assigned}}
             </option>
@@ -36,7 +36,7 @@
       <td width="30%"><div class="col-sm-10"><label>Tech Interview Result: </label></div></td>
       <td width="20%"><div class="form-group row"><div class="col-sm-12">
         <select type="search" #smeResult formControlName="smeResult" placeholder="Search using Technical Interview Result" class="custom-select form-control" (change)="updateTechInterviewResultProfile($event.target.value)"
-                id="search4" aria-label="Search" mdbInput>
+                style="width:65%" id="search4" aria-label="Search" mdbInput>
         <option value="">Choose...</option>
         <option *ngFor="let techInterview of TechInterviewResult" value="{{techInterview}}">{{techInterview}}
         </option>
@@ -46,7 +46,8 @@
     </table>
     <div class="form-group row">
       <div class="col-sm-4">
-        <button class="btn btn-success btn-sm float-center" (click)="search(form.value)">Search</button>
+        &nbsp;&nbsp;&nbsp;
+        <button class="btn btn-sm btn-primary" style="background-color:#0043CE;" (click)="search(form.value)">Search</button>
       </div>
     </div>
   </div>
