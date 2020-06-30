@@ -21,6 +21,7 @@ export class ApiService {
   projectAllocUri:string = appConfig.baseUri + '/projectAlloc';
   headers = new HttpHeaders().set('Content-Type', 'application/json');
   baseUserroleUri:string = appConfig.baseUri + '/api/userrole';
+  techStreamUri:string = appConfig.baseUri + '/techStream';
 
   constructor(private http: HttpClient) { }
 // Get all JRSS
@@ -573,6 +574,11 @@ deleteUser(username): Observable<any> {
   return this.http.delete(url, { headers: this.headers }).pipe(
     catchError(this.errorMgmt)
   )
+}
+
+// Get all techStream
+getTechStream() {
+  return this.http.get(`${this.techStreamUri}`);
 }
 
 
