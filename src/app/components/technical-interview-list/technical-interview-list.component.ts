@@ -1,6 +1,6 @@
-import { Component, OnInit, NgZone,Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, NgZone, Output, EventEmitter, ViewChild } from '@angular/core';
 import { ApiService } from '../../service/api.service';
-import { FormGroup, FormBuilder, Validators,FormControl } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
 import { browserRefresh } from '../../app.component';
 import { DatePipe } from '@angular/common';
@@ -31,21 +31,26 @@ export class TechnicalInterviewListComponent implements OnInit {
   @Output() groupFilters: EventEmitter<any> = new EventEmitter<any>();
   candidateAssessmentDetails: any = [];
   mode: any;
-  userScore:number=0;
-  assesmentDate="";
-  questionCount:number=0;
-  correctAnswerCount:number=0;
-  resumeName1:string;
-  resumeBlob:Blob;
-  resumeUploaded:boolean;
+  userScore: number = 0;
+  assesmentDate = "";
+  questionCount: number = 0;
+  correctAnswerCount: number = 0;
+  resumeName1: string;
+  resumeBlob: Blob;
+  resumeUploaded: boolean;
+  showModal: boolean = false;
+  smeFeedbackForm: FormGroup;
+  formReset = false;
+  submitted = false;
 
 
-  constructor(private datePipe: DatePipe,private route: ActivatedRoute, private router: Router, private apiService: ApiService, private ngZone: NgZone,private fb: FormBuilder) {
+  constructor(private datePipe: DatePipe, private route: ActivatedRoute, private router: Router, private apiService: ApiService, private ngZone: NgZone, private fb: FormBuilder) {
     this.config = {
       currentPage: 1,
       itemsPerPage: 5,
       totalItems: 0
     };
+    
     this.browserRefresh = browserRefresh;
     if (!this.browserRefresh) {
       this.userName = this.router.getCurrentNavigation().extras.state.username;
@@ -54,20 +59,33 @@ export class TechnicalInterviewListComponent implements OnInit {
     this.form = this.fb.group({
       employeeName: new FormControl(''),
       JRSS: new FormControl('')
-      });
+    });
     route.queryParams.subscribe(
       params => this.config.currentPage = params['page'] ? params['page'] : 1);
     this.getTechnicalInterviewList();
+    this.mainForm();
   }
 
+  @ViewChild('content') content: any;
   ngOnInit(): void {
+    
   }
 
-  downloadCandidateResume(id){
+
+  mainForm() {
+    this.smeFeedbackForm = this.fb.group({
+      smeFeedback: ['', [Validators.required]]
+    })
+  }
+
+  get myForm() {
+    return this.smeFeedbackForm.controls;
+  }
+  downloadCandidateResume(id) {
     this.apiService.getCandidateJrss(id).subscribe(data => {
       //Get resume Data    
       this.resumeName1 = data['resumeName'];
-      let resumeData1 : String = data['resumeData'];
+      let resumeData1: String = data['resumeData'];
 
       var byteString = atob(resumeData1.split(',')[1]);
       // separate out the mime component
@@ -79,35 +97,51 @@ export class TechnicalInterviewListComponent implements OnInit {
       for (var i = 0; i < byteString.length; i++) {
         ia[i] = byteString.charCodeAt(i);
       }
-      this.resumeBlob =  new Blob([ab], {type: mimeString});
-      
-      if (this.resumeName1 == "ResumeEmpty.doc")
-      {
-        this.resumeUploaded=false;
+      this.resumeBlob = new Blob([ab], { type: mimeString });
+
+      if (this.resumeName1 == "ResumeEmpty.doc") {
+        this.resumeUploaded = false;
         alert('CV not uploaded');
-      }else{
+      } else {
         this.resumeUploaded = true;
-        saveAs(this.resumeBlob,this.resumeName1);
+        saveAs(this.resumeBlob, this.resumeName1);
       }
-       
-      });      
+
+    });
   }
 
   pageChange(newPage: number) {
     this.router.navigate(['/technical-interview-list'], { queryParams: { page: newPage } });
   }
 
+
+  //submit
+  onSubmit() {
+    this.submitted = true;
+    
+    this.apiService.updateExceptionalApproval(this.emailSelected, this.quizNumber,  this.smeFeedbackForm.value.smeFeedback).subscribe(res => {
+      window.alert('Successfully moved candidate to next stage');
+      this.showModal = false;
+      window.location.reload();
+    }, (error) => {
+      console.log(error);
+    })
+
+  }
   exceptionalApproval() {
+
     if (this.emailSelected == "") {
       alert("please select the candidate")
     }
     else {
-      this.apiService.updateExceptionalApproval(this.emailSelected,this.quizNumber).subscribe(res => {
-        window.alert('Succesfully updated candidate');
-        window.location.reload();
-      }, (error) => {
-        console.log(error);
-      })
+      if (window.confirm("are you sure?")) {
+        this.showModal = true;
+        this.content.open();
+
+      }
+      else {
+        this.showModal = false;
+      }
     }
   }
   initiateInterview() {
@@ -115,69 +149,69 @@ export class TechnicalInterviewListComponent implements OnInit {
       alert("please select the candidate")
     }
     else {
-      this.router.navigate(['/technical-list/', this.emailSelected], { state: { username: this.userName,quizId:this.quizNumber,accessLevel: this.accessLevel } })
+      this.router.navigate(['/technical-list/', this.emailSelected], { state: { username: this.userName, quizId: this.quizNumber, accessLevel: this.accessLevel } })
     }
   }
 
-  onSelectionChange(value,quizNumber) {
+  onSelectionChange(value, quizNumber) {
     this.emailSelected = value;
-    this.quizNumber=quizNumber;
+    this.quizNumber = quizNumber;
 
   }
 
   getTechnicalInterviewList() {
     this.apiService.getTechnicalInterviewList().subscribe((data) => {
       this.TechnicalInterviewList = data;
-      this.technicalInterviewCandidateList=data;
+      this.technicalInterviewCandidateList = data;
     })
   }
 
   search(filters: any): void {
     Object.keys(filters).forEach(key => filters[key] === '' ? delete filters[key] : key);
-    this.filterUserList(filters,this.technicalInterviewCandidateList);
-    }
+    this.filterUserList(filters, this.technicalInterviewCandidateList);
+  }
 
 
-    filterUserList(filters: any, candidateList: any): void {
+  filterUserList(filters: any, candidateList: any): void {
 
-      this.filteredUsers = candidateList; //Reset User List
-      const keys = Object.keys(filters);
+    this.filteredUsers = candidateList;
+    const keys = Object.keys(filters);
 
-      const filterUser = user => {
-        let result = keys.map(key => {
-          if (key == "employeeName" || key == "JRSS") {
-            if (user.result_users[0][key]) {
-              return String(user.result_users[0][key]).toLowerCase().startsWith(String(filters[key]).toLowerCase())
-            }
+    const filterUser = user => {
+      let result = keys.map(key => {
+        if (key == "employeeName" || key == "JRSS") {
+          if (user.result_users[0][key]) {
+            return String(user.result_users[0][key]).toLowerCase().startsWith(String(filters[key]).toLowerCase())
           }
+        }
 
-          else if (user[key]) {
-            return String(user[key]).toLowerCase().startsWith(String(filters[key]).toLowerCase())
-          } else {
-            return false;
-          }
-        });
+        else if (user[key]) {
+          return String(user[key]).toLowerCase().startsWith(String(filters[key]).toLowerCase())
+        } else {
+          return false;
+        }
+      });
 
-        // To Clean Array from undefined if the age is passed so the map will fill the gap with (undefined)
-        result = result.filter(it => it !== undefined);
-        return result.reduce((acc, cur: any) => { return acc & cur }, 1)
-      }
-      this.filteredUsers = candidateList.filter(filterUser);
-      this.TechnicalInterviewList = this.filteredUsers
-
+      // To Clean Array from undefined if the age is passed so the map will fill the gap with (undefined)
+      result = result.filter(it => it !== undefined);
+      return result.reduce((acc, cur: any) => { return acc & cur }, 1)
     }
+    this.filteredUsers = candidateList.filter(filterUser);
+    this.TechnicalInterviewList = this.filteredUsers
 
-    getCandidateAssessmentDetails(userid,quizId,username,userScore,createdDate) {
-      this.userName=username;
-      this.quizNumber=quizId;
-      this.userScore=userScore;
-      this.assesmentDate=createdDate;
-      this.mode="displayAssessmentModalBody";
-      this.apiService.getCandidateAssessmentDetails(userid,quizId).subscribe((data) => {
+  }
+
+  getCandidateAssessmentDetails(userid, quizId, username, userScore, createdDate) {
+    this.userName = username;
+    this.quizNumber = quizId;
+    this.userScore = userScore;
+    this.assesmentDate = createdDate;
+    this.mode = "displayAssessmentModalBody";
+    this.apiService.getCandidateAssessmentDetails(userid, quizId).subscribe((data) => {
       this.candidateAssessmentDetails = data;
-      this.questionCount=this.candidateAssessmentDetails.results.length;
-      this.correctAnswerCount=Math.round((userScore*this.questionCount)/100)
+      this.questionCount = this.candidateAssessmentDetails.results.length;
+      this.correctAnswerCount = Math.round((userScore * this.questionCount) / 100)
 
-     })
+    })
   }
 }

@@ -91,7 +91,7 @@ export class ResultPageComponent implements OnInit {
             this.testconfigService.findTestConfigByJRSS(this.jrss).subscribe(
               (data) => {
                 this.passingScore = data['passingScore']
-                if (this.numberOfCorrectAns > this.passingScore) {
+                if (this.numberOfCorrectAns >= this.passingScore) {
                   this.displayMsg = "Congratulations on completing the exam."
                 } else {
                   this.displayMsg = "Unfortunately, you didn't meet the selection criteria."
@@ -127,7 +127,7 @@ export class ResultPageComponent implements OnInit {
               this.stage5 = "Skipped";
             }
 
-            if (this.numberOfCorrectAns > this.passingScore) {
+            if (this.numberOfCorrectAns >= this.passingScore) {
               let userResultWokFlow = new UserResultWorkFlow(this.username, Number(this.scorePercentage),
                 this.quizNumber, this.stage1, this.stage2, this.stage3, this.stage4, this.stage5);
               data = JSON.stringify(userResultWokFlow);
