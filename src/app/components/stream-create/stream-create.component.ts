@@ -27,9 +27,7 @@ export class StreamCreateComponent implements OnInit {
   jrssName;
   jrssObject: any= [];
   jrssObjectArray:any = [];  
-  techStream:any = [];
-  techStreamCollection:any = [];
-  
+  techStreamCollection:any = [];  
 
   constructor(
     public fb: FormBuilder,
@@ -63,8 +61,7 @@ export class StreamCreateComponent implements OnInit {
       existingTechnologyStream: ['']
     })
   }
-
-
+  
    // Get all Jrss
    readJrss(){
     this.apiService.getJRSS().subscribe((data) => {
@@ -85,16 +82,13 @@ export class StreamCreateComponent implements OnInit {
   // Get all TechStream
   readTechStream(){
     this.apiService.getTechStream().subscribe((data) => {
-    this.techStream = data;    
-
-    // Get technologyStream from techStream
-    for (var jrss of this.techStream){     
-        this.techStreamCollection = [];
-        for (var skill of jrss.technologyStream){
-          this.techStreamCollection.push(skill);
-        }
-    }    
+    this.techStreamCollection = data;    
     });        
+  }
+
+  // Add technology stream to techStream
+  addTechnologyStream(){
+    
   }
 
 onSelectionChange(jrssId,jrssName) {
@@ -118,24 +112,14 @@ pageChange(newPage: number) {
           this.existingTechnologyStream.push(skill);
         }
       }
-    }
-    // Get technologyStream from techStream
+    }    
   }
 
-   // Choose designation with select dropdown for new Technology Stream Field
+   // Choose designation with select dropdown 
    updateStreamProfile(e){
     this.streamCreateForm.get('technologyStream').setValue(e, {
       onlySelf: true
     })
-    // // Get technologyStream from JRSS
-    // for (var jrss of this.JRSS){
-    //   if(jrss.jrss == e){
-    //     this.existingTechnologyStream = [];
-    //     for (var skill of jrss.technologyStream){
-    //       this.existingTechnologyStream.push(skill);
-    //     }
-    //   }
-    // }
   }
 
   // Getter to access form control
@@ -177,7 +161,5 @@ pageChange(newPage: number) {
         console.log(error);
         })
       }
-
 }
-
 }
