@@ -15,7 +15,8 @@ export class OperationsProjectInitiateComponent implements OnInit {
   public browserRefresh: boolean;
   userName: String = "";
   operationsProjectDetails : any = []; 
-  ProjectLocation: any=['Onshore','Offshore']; 
+  ProjectLocation: any=['Onshore','Offshore'];
+  ClientProject: any=['DWP','HMRC','SG'];
   operationsProjectForm: FormGroup;
   submitted = false;
   formReset = false;
@@ -44,6 +45,7 @@ export class OperationsProjectInitiateComponent implements OnInit {
   mainForm() {
     this.operationsProjectForm = this.fb.group({
       projectLocation: ['', [Validators.required]],
+      clientProject: ['', [Validators.required]],
       projectName: ['', [Validators.required]],
       projectPosition: ['', [Validators.required]],
       managementComments: ['', [Validators.required]]
@@ -62,6 +64,12 @@ get myForm(){
   // Choose Location with select dropdown
   updateLocation(e){    
     this.operationsProjectForm.get('projectLocation').setValue(e, {
+    onlySelf: true
+    })
+  }
+  // Choose Location with select dropdown
+  updateClientProject(e){
+    this.operationsProjectForm.get('clientProject').setValue(e, {
     onlySelf: true
     })
   }
@@ -84,7 +92,7 @@ get myForm(){
     if (!this.operationsProjectForm.valid) {
       return false;
     } else {
-    let operationsDetails = new OperationsDetails(this.operationsProjectDetails[0].result_users[0].username, this.operationsProjectForm.value.projectLocation,
+    let operationsDetails = new OperationsDetails(this.operationsProjectDetails[0].result_users[0].username, this.operationsProjectForm.value.projectLocation,this.operationsProjectForm.value.clientProject,
       this.operationsProjectForm.value.projectName, this.operationsProjectForm.value.projectPosition, this.operationsProjectForm.value.managementComments, this.userName, new Date());
 
     // Insert into projectAlloc table

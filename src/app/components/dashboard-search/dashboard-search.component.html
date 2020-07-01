@@ -42,7 +42,28 @@
         </option>
       </select>
       </div></div></td>
+      <td width="30%"><div class="col-sm-10"><label>Online Test Result: </label></div></td>
+      <td width="20%"><div class="form-group row"><div class="col-sm-12">
+        <select type="search" #stage1_status formControlName="stage1_status" placeholder="Search using Online Test Result" class="custom-select form-control" (change)="updateOnlineResultProfile($event.target.value)"
+                style="width:99%" id="search4" aria-label="Search" mdbInput>
+          <option value="">Choose...</option>
+          <option *ngFor="let onlineResult of OnlineResult" value="{{onlineResult}}">{{onlineResult}}
+          </option>
+        </select>
+      </div></div></td>
     </tr>
+      <tr width="100%">
+        <td width="30%"><div class="col-sm-10"><label class="control-label" for="fromDate"> From Date: </label></div></td>
+        <td width="20%"><div class="form-group row"><div class="col-sm-12">
+          <input style="width:65%" type="date" formControlName="fromDate" placeholder="From Date"
+          id="fromDate" aria-label="Search">
+        </div></div></td>
+        <td width="30%"><div class="col-sm-10"> <label class="control-label" for="toDate"> To Date: </label></div></td>
+        <td width="20%"><div class="form-group row"><div class="col-sm-12">
+          <input style="width:99%" type="date" formControlName="toDate" placeholder="To Date" id="toDate"
+                 aria-label="Search" />
+         </div></div></td>
+      </tr>
     </table>
     <div class="form-group row">
       <div class="col-sm-4">

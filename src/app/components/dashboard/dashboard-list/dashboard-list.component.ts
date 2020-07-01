@@ -104,6 +104,13 @@ export class DashboardListComponent implements OnChanges {
                 return String(user[key]).toLowerCase().startsWith(String(filters[key]).toLowerCase())
             }
           } else {
+            if (key == "fromDate" || key == "toDate") {
+              let createdKey = "createdDate";
+              let registeredDate = user.result_users[0][createdKey].split('T');
+              if (registeredDate[0] >= filters.fromDate && registeredDate[0] <= filters.toDate) {
+                  return true;
+              }
+            }
             return false;
           }
         });

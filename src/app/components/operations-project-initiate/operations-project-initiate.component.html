@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light table-success">
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color:powderblue">
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav">
       <li class="nav-item">
@@ -84,6 +84,20 @@
             </select>
             <div *ngIf="submitted && myForm.projectLocation.errors" class="invalid-feedback">
               <div *ngIf="myForm.projectLocation.errors.required">Location is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputClientProject" class="col-sm-4 col-form-label">Client:</label>
+          <div class="col-sm-4" style="size:50px">
+            <select class="custom-select form-control" (change)="updateClientProject($event.target.value)"
+                    formControlName="clientProject" id="inputClientProject" [ngClass]="{ 'is-invalid': submitted && myForm.clientProject.errors }">
+              <option value="" disabled>Choose...</option>
+              <option *ngFor="let clientProject of ClientProject" value="{{clientProject}}">{{clientProject}}
+              </option>
+            </select>
+            <div *ngIf="submitted && myForm.clientProject.errors" class="invalid-feedback">
+              <div *ngIf="myForm.clientProject.errors.required">Client is required</div>
             </div>
           </div>
         </div>
