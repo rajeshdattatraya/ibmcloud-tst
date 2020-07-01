@@ -1,11 +1,10 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, NgZone } from '@angular/core';
 import { ReportService } from './report.service';
-import { FormGroup, FormControl } from "@angular/forms";
-import { environment } from './../../../environments/environment';
 import { browserRefresh } from '../../app.component';
 import { DatePipe } from '@angular/common'
-import { invalid } from '@angular/compiler/src/render3/view/util';
+import { appConfig } from './../../model/appConfig';
+
 
 @Component({
   selector: 'app-report',
@@ -22,6 +21,9 @@ export class ReportComponent implements OnInit {
   reportData: any = [];
   reportObj = {};
 
+  itemsPerPage = appConfig.itemsPerPage;
+  page=1;
+
   from_Date: any;
   to_Date: any;
   searchJrss: string;
@@ -31,7 +33,8 @@ export class ReportComponent implements OnInit {
     private router: Router,
     private ngZone: NgZone,
     private reportService: ReportService,
-    public datepipe: DatePipe) {
+    public datepipe: DatePipe
+    ) {
     this.browserRefresh = browserRefresh;
     if (!this.browserRefresh) {
       this.userName = this.router.getCurrentNavigation().extras.state.username;
@@ -115,6 +118,7 @@ export class ReportComponent implements OnInit {
     let stage5Count = 0;
     let toDate: any;
     let fromDate: any;
+    
 
     let totalRegCandiates = 0;
     this.reportData = [];
@@ -169,6 +173,7 @@ export class ReportComponent implements OnInit {
       this.reportData.push(Object.entries(this.reportObj[key]));
     });
   }
+
 
 }
 
