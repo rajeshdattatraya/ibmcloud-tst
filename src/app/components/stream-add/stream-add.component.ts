@@ -16,8 +16,6 @@ export class StreamAddComponent implements OnInit {
   submitted = false;
   streamForm: FormGroup;
   techStreamArray:any = [];
-  //techStreamSorted:any = [];
-  //techStreamList:String = "";
   userName: String = "admin"; 
 
   constructor(
@@ -34,15 +32,15 @@ ngOnInit() {
   this.browserRefresh = browserRefresh;      
  }
 
+//Cancel
+cancelForm(){
+  this.ngZone.run(() => this.router.navigateByUrl('/stream-create',{state:{username:this.userName}}))
+}
+
+// Read data from techStream table
  readTechStream(){
   this.apiService.getTechStream().subscribe((data) => {
    this.techStreamArray = data;
-
-  // Get technologyStream from JRSS
-  // for (var skill of this.techStreamArray){     
-  //   this.techStreamSorted.push(skill.technologyStream);           
-  // }
-  // this.techStreamList = this.techStreamSorted.join(',');
   })
 }
 
