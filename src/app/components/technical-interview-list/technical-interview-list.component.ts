@@ -6,6 +6,7 @@ import { browserRefresh } from '../../app.component';
 import { DatePipe } from '@angular/common';
 import { saveAs } from 'file-saver';
 import { Injectable } from '@angular/core';
+import { appConfig } from './../../model/appConfig';
 
 
 @Component({
@@ -46,9 +47,9 @@ export class TechnicalInterviewListComponent implements OnInit {
 
   constructor(private datePipe: DatePipe, private route: ActivatedRoute, private router: Router, private apiService: ApiService, private ngZone: NgZone, private fb: FormBuilder) {
     this.config = {
-      currentPage: 1,
-      itemsPerPage: 5,
-      totalItems: 0
+      currentPage: appConfig.currentPage,
+      itemsPerPage: appConfig.itemsPerPage,
+      totalItems: appConfig.totalItems
     };
     
     this.browserRefresh = browserRefresh;

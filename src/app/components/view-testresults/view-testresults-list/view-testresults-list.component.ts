@@ -42,9 +42,9 @@ export class ViewTestresultsListComponent implements OnChanges {
 
   constructor(private ref: ChangeDetectorRef, private http: HttpClient, private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
     this.config = {
-      currentPage: 1,
-      itemsPerPage: 5,
-      totalItems: 0
+      currentPage: appConfig.currentPage,
+      itemsPerPage: appConfig.itemsPerPage,
+      totalItems: appConfig.totalItems
     };
     route.queryParams.subscribe(
       params => this.config.currentPage = params['page'] ? params['page'] : 1);

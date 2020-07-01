@@ -87,6 +87,8 @@
        <span (click)="initiateInterview()">
               <button type="button" class="btn btn-success btn-sm" style="background-color:#0043CE;">Initiate Interview</button>&nbsp;
        </span>
+      </div>
+    <div *ngIf="TechnicalInterviewList.length > 0">
         <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
       </div>
   </div>
@@ -163,7 +165,7 @@
     <div class="modal-dialog">
      <div class="modal-content">
       <!-- <div *ngIf="assessmentDetails.quizNumber == this.quizNumber"> -->
-      <div class="modal-header table-success">
+      <div class="modal-header table-success" style="background-color:powderblue">
         <h4 class="modal-title">SME Feedback:</h4>
          
         
