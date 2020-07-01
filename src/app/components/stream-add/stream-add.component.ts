@@ -3,6 +3,7 @@ import { ApiService } from './../../service/api.service';
 import { Component, OnInit, NgZone } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { browserRefresh } from '../../app.component';
+import { TechStream } from './../../model/techStream';
 
 @Component({
   selector: 'app-stream-add',
@@ -58,7 +59,10 @@ get myForm(){
 // Check duplicate stream in techStream
 checkDuplicateStream(){
   for (var stream of this.techStreamArray){
-    if(stream.technologyStream.toLowerCase() == this.streamForm.value.technologyStream.toLowerCase()){
+    if(stream.technologyStream.toLowerCase().trim() == this.streamForm.value.technologyStream.toLowerCase().trim()
+        || this.streamForm.value.technologyStream.toLowerCase().trim() === 'null'
+        || this.streamForm.value.technologyStream.trim().length == 0
+        || this.streamForm.value.technologyStream == ""){
       this.duplicateStream = true;
     }
   }
@@ -68,20 +72,21 @@ onSubmit() {
   this.submitted = true;
   this.duplicateStream = false;
   this.checkDuplicateStream();
+  let techStreamObject = new TechStream(this.streamForm.value.technologyStream.trim(),this.userName, new Date());
+  
   if (!this.streamForm.valid) {
-    return false;
+      return false;
   } else if(this.duplicateStream){
-    this.error = 'This entry is already existing';
-  } else{
-    console.log("this.streamForm.value="+this.streamForm.value);
-    this.apiService.createTechStream(this.streamForm.value).subscribe(
-      (res) => {
-        console.log('New Technology Stream added successfully!');
-        alert('New Technology Stream added successfully!');
-       this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
-       this.router.navigate(['/stream-create']));
-      }, (error) => {
-        console.log(error);
+      this.error = 'Invalid entries found - Check for space or existing stream!';
+  } else{    
+      this.apiService.createTechStream(techStreamObject).subscribe(
+        (res) => {
+            console.log('New Technology Stream added successfully!');
+            alert('New Technology Stream added successfully!');
+            this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
+            this.router.navigate(['/stream-create']));
+        }, (error) => {
+            console.log(error);
       });
   }
 }
