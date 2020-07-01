@@ -77,7 +77,6 @@ export let browserRefresh = false;
     ConfigPretechassessmentFormComponent,
     StreamDeleteComponent,
     ReportComponent,
-    ReportFilterPipe,
     UserEditComponent   
     ],
   imports: [
