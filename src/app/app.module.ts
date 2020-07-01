@@ -42,6 +42,7 @@ import { ConfigPretechassessmentFormComponent } from './components/config-pretec
 import { StreamDeleteComponent } from './components/stream-delete/stream-delete.component';
 import { ReportComponent } from './components/report/report.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
+import { StreamAddComponent } from './components/stream-add/stream-add.component';
 
 
 export let browserRefresh = false;
@@ -77,7 +78,8 @@ export let browserRefresh = false;
     ConfigPretechassessmentFormComponent,
     StreamDeleteComponent,
     ReportComponent,
-    UserEditComponent   
+    UserEditComponent,
+    StreamAddComponent   
     ],
   imports: [
     BrowserModule,

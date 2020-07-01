@@ -35,6 +35,7 @@ import { ConfigPretechassessmentFormComponent } from './components/config-pretec
 import { StreamDeleteComponent } from './components/stream-delete/stream-delete.component';
 import { ReportComponent } from './components/report/report.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
+import { StreamAddComponent } from './components/stream-add/stream-add.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login-component' },
@@ -75,6 +76,7 @@ const routes: Routes = [
   { path:  'config-pretechassessment-form',component:ConfigPretechassessmentFormComponent },
   { path: 'delete-stream/:id', component: StreamDeleteComponent, canDeactivate:[DeactivateGuard] },
   { path: 'edit-user/:docid', component: UserEditComponent },
+  { path: 'stream-add', component: StreamAddComponent },
 ];
 
 @NgModule({

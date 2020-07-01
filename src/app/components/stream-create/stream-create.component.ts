@@ -86,11 +86,6 @@ export class StreamCreateComponent implements OnInit {
     });        
   }
 
-  // Add technology stream to techStream
-  addTechnologyStream(){
-    
-  }
-
 onSelectionChange(jrssId,jrssName) {
   this.jrssId = jrssId;
   this.jrssName = jrssName;   

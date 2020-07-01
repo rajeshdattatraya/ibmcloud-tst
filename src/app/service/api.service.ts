@@ -581,5 +581,14 @@ getTechStream() {
   return this.http.get(`${this.techStreamUri}`);
 }
 
+// Create techStream
+createTechStream(data): Observable<any> {
+  let url = `${this.techStreamUri}/createTechStream`;
+  return this.http.post(url, data)
+    .pipe(
+      catchError(this.errorMgmt)
+    )
+}
+
 
 }

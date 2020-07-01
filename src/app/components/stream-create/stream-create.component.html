@@ -101,8 +101,11 @@
 				</div>
 			</div>
 			&nbsp;
-			<td><label>Add New Technology Stream(If not available):</label></td>
-			<td><a href="#" (click)="addTechnologyStream()" routerLinkActive="active" class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>        
+			<td><label>Add New Technology Stream (If not available)</label>
+				<a class="edit" [routerLink]="['/stream-add']">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<td><a href="#" routerLinkActive="active">Click here</a></td>
+			 	</a>
+			</td>
 			&nbsp;
 			<div class="form-group">
 					<button style="background-color:#0043CE;" class="btn btn-success btn-lg float-center" type="submit">Save</button>
