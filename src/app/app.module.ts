@@ -41,7 +41,6 @@ import { AdminuserCreateComponent } from './components/adminuser-create/adminuse
 import { ConfigPretechassessmentFormComponent } from './components/config-pretechassessment-form/config-pretechassessment-form.component';
 import { StreamDeleteComponent } from './components/stream-delete/stream-delete.component';
 import { ReportComponent } from './components/report/report.component';
-import { ReportFilterPipe } from './components/report/reportFilter.pipe';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
 
 
