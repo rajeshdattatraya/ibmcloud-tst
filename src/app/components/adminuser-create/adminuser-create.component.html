@@ -1,64 +1,71 @@
 <nav class="navbar navbar-expand-lg navbar-light table-success" style="background-color:powderblue">
-  <div class="collapse navbar-collapse" id="navbarNavDropdown">
-    <ul class="navbar-nav">
-      <li class="nav-item dropdown active">
-        <a class="nav-link dropdown-toggle" routerLink="/candidates-list" [state]="{username:this.userName}" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <b>Manage Candidate</b><span class="sr-only">(current)</span>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" routerLink="/create-candidate" [state]="{username:this.userName}" routerLinkActive="active">Add Candidate</a>
-          <a class="dropdown-item" routerLink="/candidates-list" [state]="{username:this.userName}" routerLinkActive="active">View Candidate</a>
-        </div>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" routerLink="/manage-questionbank" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <b>Manage Questions</b>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" routerLink="/manage-questionbank" routerLinkActive="active">Add question</a>
-          <a class="dropdown-item" routerLink="/manage-questionbank-bulk" routerLinkActive="active">Add Bulk Question</a>
-        </div>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" routerLink="/jrss-create" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <b>Manage Metadata</b>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" routerLink="/jrss-create" routerLinkActive="active">Add Job Role</a>
-          <a class="dropdown-item" routerLink="/stream-create" routerLinkActive="active">Add Technology Stream</a>
-          <a class="dropdown-item" routerLink="/testconfig-add" routerLinkActive="active">Add Test Configuration</a>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/workflow-config"routerLinkActive="active"><b>Manage Workflow</b></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/view-testresults"routerLinkActive="active"><b>View TestResults</b></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/adminuser-create"routerLinkActive="active"><b>Manage User</b></a>
-      </li>
-    </ul>
-  </div>
-  <div>
-    <ul class="navbar-nav navbar-right">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/login-component" routerLinkActive="active"><b>Logout</b></a>
-      </li>
-    </ul>
-  </div>
+	<div class="collapse navbar-collapse" id="navbarNavDropdown">
+		<ul class="navbar-nav">
+			<li class="nav-item active">
+				<a class="nav-link dropdown-toggle" routerLink="/candidates-list" [state]="{username:this.userName}" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<b>Manage Candidate</b>
+				</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+					<a class="dropdown-item" routerLink="/create-candidate" [state]="{username:this.userName}" routerLinkActive="active">Add Candidate</a>
+					<a class="dropdown-item" routerLink="/candidates-list" [state]="{username:this.userName}" routerLinkActive="active">View Candidate</a>
+				</div>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<b> Manage Questions</b>
+				</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+					<a class="dropdown-item" routerLink="/manage-questionbank" routerLinkActive="active">Add question</a>
+					<a class="dropdown-item" routerLink="/manage-questionbank-bulk" routerLinkActive="active">Add Bulk Question</a>
+				</div>
+			</li>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<b>Manage Metadata</b>
+					<span class="sr-only">(current)</span>
+				</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+					<a class="dropdown-item" routerLink="/jrss-create" routerLinkActive="active">Add Job Role</a>
+					<a class="dropdown-item" routerLink="/stream-create" routerLinkActive="active">Add Technology Stream</a>
+					<a class="dropdown-item" routerLink="/testconfig-add" routerLinkActive="active">Add Test Configuration</a>
+				</div>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" routerLink="/workflow-config"routerLinkActive="active">
+					<b>Manage Workflow</b>
+				</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" routerLink="/view-testresults"routerLinkActive="active">
+					<b>View TestResults</b>
+				</a>
+			</li>
+			<li class="nav-item">
+        		<a class="nav-link" routerLink="/adminuser-create"routerLinkActive="active"><b>Manage User</b></a>
+			</li>
+		</ul>
+	</div>
+	<div>
+		<ul class="navbar-nav navbar-right">
+			<li class="nav-item">
+				<a class="nav-link" routerLink="/login-component" routerLinkActive="active">
+					<b>Logout</b>
+				</a>
+			</li>
+		</ul>
+	</div>
 </nav>
 <br/>
-
-<h4 class="my-0 mr-md-auto font-weight-normal">Add User</h4>
-<div class="row justify-content-left">
-  <div class="col-lg-20 register-employee">
-    <!-- form card register -->
+<div>
+  <h4 class="my-0 mr-md-auto font-weight-normal">Add User</h4>
+  <br/>
+</div>  
+<div class="card">
     <div class="card-body">
       <form [formGroup]="candidateForm" (ngSubmit)="onSubmit()" >
         <div class="form-group row">
           <label for="inputName" class="col-sm-4 col-form-label">Name</label>
-          <div class="col-sm-8">
+          <div class="col-sm-6">
           <input class="form-control" type="text" formControlName="employeeName" id="inputName" [ngClass]="{ 'is-invalid': submitted && myForm.employeeName.errors }">
             <div *ngIf="submitted && myForm.employeeName.errors" class="invalid-feedback">
               <div *ngIf="myForm.employeeName.errors.required">Name is required</div>
@@ -68,7 +75,7 @@
 
         <div class="form-group row">
           <label for="inputEmail3" class="col-sm-4 col-form-label">Email</label>
-          <div class="col-sm-8">
+          <div class="col-sm-6">
           <input class="form-control" type="text" formControlName="email" id="inputEmail3" [ngClass]="{ 'is-invalid': submitted && myForm.email.errors }">
             <div *ngIf="submitted && myForm.email.errors" class="invalid-feedback">
               <div *ngIf="myForm.email.errors.required">Email is required</div>
@@ -81,7 +88,7 @@
 
         <div class="form-group row">
           <label for="inputUserrole3" class="col-sm-4 col-form-label">User role</label>
-          <div class="col-sm-8">
+          <div class="col-sm-6">
           <select class="custom-select form-control" (change)="updateUserroleProfile($event.target.value)"
                   formControlName="userrole" id="inputUserrole3" [ngClass]="{ 'is-invalid': submitted && myForm.userrole.errors }">
             <option value="">Choose...</option>
@@ -93,29 +100,26 @@
             </div>
           </div>
         </div>
-
-          
         <div class="form-group">
-          <button class="btn btn-success btn-lg btn-block" style="background-color:#0043CE;" type="submit">Register</button>
+          <button class="btn btn-success btn-lg float-center" style="background-color:#0043CE;" type="submit">Register</button>
         </div>
+        <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+            &nbsp;&nbsp;&nbsp;
       </form>
-
-    </div>
   </div><!-- form card register -->
 </div>
 
-<div>
-  <h4 class="my-0 mr-md-auto font-weight-normal">Users List</h4>
-  </div>
-  <br/>
-<div class="container">
-  <!-- No data message -->
-  <p *ngIf="AdminUsers.length <= 0" class="no-data text-center">There are no records added yet!</p>
+<br/>
+<h4 class="my-0 mr-md-auto font-weight-normal">Users List</h4>
+<br/>
 
+<!-- No data message -->
+<p *ngIf="AdminUsers.length <= 0" class="no-data text-center">There are no records added yet!</p>
+  
   <!-- Admin users list -->
   <table class="table table-bordered" *ngIf="AdminUsers.length > 0">
     <thead class="table-success">
-    <tr>
+    <tr style="background-color:powderblue">
       <th scope="col center" class="float-center text-center" width="5%">Action</th>
       <th scope="col" class="float-center text-center" width="33%">Name</th>
       <th scope="col" class="float-center text-center" width="34%">Email</th>
@@ -136,19 +140,19 @@
   </table>
 
   <div  class="float-right text-right" *ngIf="AdminUsers.length > 0">
-    <a *ngIf="isRowSelected" class="edit" [routerLink]="['/edit-user/', docid]">
-      <button  [ngClass]="{disabled : !isRowSelected}" style="background-color:#0043CE;" class="btn btn-success btn-sm">Edit</button>&nbsp;
-  </a>
-  <a *ngIf="! isRowSelected" class="edit" >
-    <button  [ngClass]="{disabled : !isRowSelected}" style="background-color:#0043CE;" class="btn btn-success btn-sm">Edit</button>&nbsp;
-  </a>
+        <a *ngIf="isRowSelected" class="edit" [routerLink]="['/edit-user/', docid]">
+            <button  [ngClass]="{disabled : !isRowSelected}" style="background-color:#0043CE;" type="button" class="btn btn-primary">Edit</button>&nbsp;
+       </a>
+        <a *ngIf="! isRowSelected" class="edit" >
+            <button  [ngClass]="{disabled : !isRowSelected}" style="background-color:#0043CE;" type="button" class="btn btn-primary">Edit</button>&nbsp;
+        </a>
 
-  <div  class="float-right text-right" *ngIf="AdminUsers.length > 0">
-    <a *ngIf="isRowSelected" class="delete" (click)="removeUser(username,index)">
-      <button [ngClass]="{disabled : !isRowSelected}" style="background-color:#0043CE;" class="btn btn-danger btn-sm">Delete</button>&nbsp;
-  </a> 
-  <a *ngIf="! isRowSelected" class="delete">
-    <button [ngClass]="{disabled : !isRowSelected}" style="background-color:#0043CE;" class="btn btn-danger btn-sm">Delete</button>&nbsp;
-  </a> 
-  </div>
+    <div  class="float-right text-right" *ngIf="AdminUsers.length > 0">
+        <a *ngIf="isRowSelected" class="delete" (click)="removeUser(username,index)">
+            <button [ngClass]="{disabled : !isRowSelected}" style="background-color:#0043CE;" type="button" class="btn btn-primary">Delete</button>&nbsp;
+        </a> 
+        <a *ngIf="! isRowSelected" class="delete">
+            <button [ngClass]="{disabled : !isRowSelected}" style="background-color:#0043CE;" type="button" class="btn btn-primary">Delete</button>&nbsp;
+        </a> 
+    </div>
 </div>
