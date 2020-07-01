@@ -33,6 +33,7 @@ export class AdminuserCreateComponent implements OnInit {
   username;
   index;
   docid;
+  isRowSelected = false;
 
   constructor(
     public fb: FormBuilder,
@@ -100,6 +101,7 @@ export class AdminuserCreateComponent implements OnInit {
         }
       )
       this.getAllSpecialUsers();
+      this.isRowSelected = false;
     }
   }
 
@@ -107,6 +109,7 @@ export class AdminuserCreateComponent implements OnInit {
     this.username=username;
     this.index=i;
     this.docid = docId;
+    this.isRowSelected=true;
 
   }
 

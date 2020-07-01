@@ -136,13 +136,19 @@
   </table>
 
   <div  class="float-right text-right" *ngIf="AdminUsers.length > 0">
-    <a class="edit" [routerLink]="['/edit-user/', docid]">
-      <button type="button" style="background-color:#0043CE;" class="btn btn-success btn-sm">Edit</button>&nbsp;
+    <a *ngIf="isRowSelected" class="edit" [routerLink]="['/edit-user/', docid]">
+      <button  [ngClass]="{disabled : !isRowSelected}" style="background-color:#0043CE;" class="btn btn-success btn-sm">Edit</button>&nbsp;
+  </a>
+  <a *ngIf="! isRowSelected" class="edit" >
+    <button  [ngClass]="{disabled : !isRowSelected}" style="background-color:#0043CE;" class="btn btn-success btn-sm">Edit</button>&nbsp;
   </a>
 
   <div  class="float-right text-right" *ngIf="AdminUsers.length > 0">
-    <a class="delete" (click)="removeUser(username,index)">
-      <button type="button" style="background-color:#0043CE;" class="btn btn-danger btn-sm">Delete</button>&nbsp;
+    <a *ngIf="isRowSelected" class="delete" (click)="removeUser(username,index)">
+      <button [ngClass]="{disabled : !isRowSelected}" style="background-color:#0043CE;" class="btn btn-danger btn-sm">Delete</button>&nbsp;
+  </a> 
+  <a *ngIf="! isRowSelected" class="delete">
+    <button [ngClass]="{disabled : !isRowSelected}" style="background-color:#0043CE;" class="btn btn-danger btn-sm">Delete</button>&nbsp;
   </a> 
   </div>
 </div>

@@ -31,6 +31,13 @@ export class UserEditComponent implements OnInit {
   username;
   index;
   user:SpecialUser;
+
+  status: String = "";
+  createdBy: String = "";
+  CreatedDate: Date ;
+  UpdatedBy: String = "";
+  userLoggedin: String = "";
+  email: String = "";
   
   constructor(
     public fb: FormBuilder,
@@ -42,7 +49,7 @@ export class UserEditComponent implements OnInit {
     
     this.password = appConfig.defaultPassword;
     this.quizNumber = 1;
-    this.mainForm();
+    //this.mainForm();
     this.readUserrole();    
     this.getAllSpecialUsers();
   }
@@ -55,8 +62,14 @@ export class UserEditComponent implements OnInit {
         }
     }
 
+    this.mainForm();
     let user_id = this.actRoute.snapshot.paramMap.get('docid');
     this.getUser(user_id);
+    this.editForm = this.fb.group({
+      employeeName: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.pattern('[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,3}$')]],
+      userrole: ['', [Validators.required]],
+    })
 
 
     
@@ -110,20 +123,20 @@ canExit(): boolean{
 
 getUser(id) {
   this.apiService.getUser(id).subscribe(data => {
-    alert('data[name] ====='+data['name']);
-    alert('data[username] ====='+data['username']);
-    alert('data[acessLevel] ====='+data['accessLevel']);
-
-
-
     this.editForm.setValue({
       employeeName: data['name'],
       email: data['username'],
-      userrole: data['acessLevel']
+      userrole: data['accessLevel']
     });
-    alert('this.editForm.value.employeeName===='+this.editForm.value.employeeName);
-    alert('this.editForm.value.email===='+this.editForm.value.email);
-    alert('this.editForm.value.userrole===='+this.editForm.value.userrole);
+    this.email = data['username'];
+    this.password = data['password'];
+    this.quizNumber = data['quizNumber'];
+    this.status = data['status'];
+    this.createdBy = data['createdBy'];
+    this.CreatedDate = data['CreatedDate'];
+    this.UpdatedBy = data['UpdatedBy'];
+    //this.UpdatedDate
+    this.userLoggedin=data['userLoggedin'];
   });
 
 
@@ -136,18 +149,20 @@ onSubmit() {
 
 
   let updatedUser = new SpecialUser(this.editForm.value.email,
-    this.user.password,
-    this.user.quizNumber,
-    this.user.status,
-    this.user.accessLevel,
-    this.user.createdBy,
-    this.user.CreatedDate,
-    this.username,
+    this.password,
+    this.quizNumber,
+    this.status,
+    this.editForm.value.userrole,
+    this.createdBy,
+    this.CreatedDate,
+    this.UpdatedBy,
     new Date(),
-    this.editForm.value.dateOfJoining,
-    this.user.userLoggedin,
+    new Date(),
+    this.userLoggedin,
     this.editForm.value.employeeName
     );
+
+    let user_id = this.actRoute.snapshot.paramMap.get('docid');
 
 
    this.currDate = new Date();
@@ -155,29 +170,24 @@ onSubmit() {
   if (!this.editForm.valid) {
     return false;
   } else  {
-      console.log("in candidate-create.ts");
       this.apiService.findUniqueUserEmail(this.editForm.value.email).subscribe(
         (res) => {
-          console.log('res.count inside response ' + res.count)
-         if (res.count > 0)
+         if ((res.count > 1 && this.editForm.value.email == this.email) || (res.count > 0 && this.editForm.value.email != this.email))
          {
-            console.log('res.count inside if ' + res.count)
             window.confirm("Please use another Email ID");
           } 
           else 
-          {
-          if (res.count == 0)
-          { this.apiService.createUserDetails(updatedUser).subscribe(
+          { this.apiService.updateUserDetails(user_id, updatedUser).subscribe(
             (res) => {
-                        console.log('User successfully created!')
-                        alert('User successfully created!');
+                        console.log('User successfully updated!')
+                        alert('User successfully updated!');
                         this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
                         this.router.navigate(['/adminuser-create']));
                      }, (error) => {
                         console.log(error);
                      });
             
-          }}        
+          }    
         }, (error) => {
     console.log(error);
   }
