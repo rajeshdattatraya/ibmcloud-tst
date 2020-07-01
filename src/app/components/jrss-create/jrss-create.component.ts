@@ -1,8 +1,9 @@
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from './../../service/api.service';
 import { Component, OnInit, NgZone } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { browserRefresh } from '../../app.component';
+import { appConfig } from './../../model/appConfig';
 
 @Component({
   selector: 'app-jrss-create',
@@ -17,13 +18,22 @@ export class JrssCreateComponent implements OnInit {
   jrssForm: FormGroup;
   Jrss:any = [];
   userName: String = "admin";
+  config: any;
 
   constructor(
       public fb: FormBuilder,
       private router: Router,
+      private actRoute: ActivatedRoute,
       private ngZone: NgZone,
       private apiService: ApiService
     ) {
+      this.config = {
+                currentPage: appConfig.currentPage,
+                itemsPerPage: appConfig.itemsPerPage,
+                totalItems: appConfig.totalItems
+      };
+      actRoute.queryParams.subscribe(
+            params => this.config.currentPage= params['page']?params['page']:1 );
       this.readJrss();
       this.mainForm();
     }
@@ -55,6 +65,10 @@ export class JrssCreateComponent implements OnInit {
     // Getter to access form control
     get myForm(){
       return this.jrssForm.controls;
+    }
+
+    pageChange(newPage: number) {
+          this.router.navigate(['/jrss-create'], { queryParams: { page: newPage } });
     }
     
   removeJrss(jrss, index) {

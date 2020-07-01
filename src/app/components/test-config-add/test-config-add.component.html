@@ -123,29 +123,33 @@
   <table class="table table-bordered" *ngIf="TestConfigs.length > 0">
     <thead class="table-success">
     <tr style="background-color:powderblue">
+      <th scope="col center">Action</th>
       <th scope="col center">Job Role</th>
       <th scope="col center">No Of Questions</th>
       <th scope="col center">Test Duration(in Minutes)</th>
       <th scope="col center">Passing Score(in Percentage)</th>
-      <th scope="col center">Action</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let testConfig of TestConfigs; let i = index">
+    <tr *ngFor="let testConfig of TestConfigs | paginate: config; let i = index">
+      <td class="text-center edit-block" width="5%">
+        <input type="radio" name="radiogroup" (change)="onSelectionChange(testConfig._id)">
+      </td>
       <td>{{testConfig.JRSS}}</td>
       <td>{{testConfig.noOfQuestions}}</td>
       <td>{{testConfig.testDuration}}</td>
       <td>{{testConfig.passingScore}}</td>
-      <td class="text-center edit-block">
-          <span class="edit" [routerLink]="['/testconfig-edit/', testConfig._id]">
-            <button type="button" style="background-color:#0043CE;" class="btn btn-success btn-sm">Edit</button>
-          </span>
-      </td>
     </tr>
     </tbody>
   </table>
-  <div *ngIf="TestConfigs.length > 0">
-    <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
-  </div>
+<div  class="float-right text-right" *ngIf="TestConfigs.length > 0">
+  <a class="edit" [routerLink]="['/testconfig-edit/', testConfigID]">
+    <button type="button" style="background-color:#0043CE;" class="btn btn-success btn-sm">Edit</button>&nbsp;
+  </a>
+</div>
+
+<div *ngIf="TestConfigs.length > 0">
+  <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
+</div>
 
 

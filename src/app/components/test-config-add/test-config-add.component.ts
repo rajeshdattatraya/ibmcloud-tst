@@ -24,6 +24,7 @@ export class TestConfigAddComponent implements OnInit {
   TestConfigs:any = [];
   TestConfigDetails:any = [];
   userName: String = "admin";
+  testConfigID: any;
 
   constructor(
       public fb: FormBuilder,
@@ -74,6 +75,9 @@ export class TestConfigAddComponent implements OnInit {
     }
     pageChange(newPage: number) {
           this.router.navigate(['/testconfig-add'], { queryParams: { page: newPage } });
+    }
+    onSelectionChange(testConfigId) {
+      this.testConfigID = testConfigId;
     }
 
     //get All Test Configs

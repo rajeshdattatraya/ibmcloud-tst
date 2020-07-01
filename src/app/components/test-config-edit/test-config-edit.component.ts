@@ -24,6 +24,7 @@ export class TestConfigEditComponent implements OnInit {
   TestConfigs:any = [];
   userName: String = "admin";
   oldJRSS: String = "";
+  testConfigID: any;
 
   constructor(
       public fb: FormBuilder,
@@ -68,6 +69,10 @@ export class TestConfigEditComponent implements OnInit {
       this.apiService.getJRSS().subscribe((data) => {
       this.JRSS = data;
       })
+    }
+
+    onSelectionChange(testConfigId) {
+      this.testConfigID = testConfigId;
     }
 
     // Choose designation with select dropdown

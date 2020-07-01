@@ -92,23 +92,15 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let jrss of Jrss; let i = index">
+      <tr *ngFor="let jrss of Jrss | paginate: config; let i = index">
         <th scope="row">{{i+1}}</th>
         <td>{{jrss.jrss}}</td>
-        <!--
-        <td class="text-center edit-block">
-            <span class="edit" [routerLink]="['/edit-jrss/', jrss._id]">
-              <button type="button" class="btn btn-success btn-sm">Edit</button>
-            </span> </td>
-          <td class="text-center edit-block" style="width: 100px">  
-          <span class="delete" (click)="removeJrss(jrss, i)">
-              <button type="button" class="btn btn-success btn-sm" style="width: 100px">Delete</button>
-            </span>
-        </td>-->
-        
       </tr>
       </tbody>
     </table>
+    <div *ngIf="Jrss.length > 0">
+      <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
+    </div>
 
   
   

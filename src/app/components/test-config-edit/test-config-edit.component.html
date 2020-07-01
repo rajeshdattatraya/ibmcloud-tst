@@ -3,37 +3,37 @@
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link dropdown-toggle" routerLink="/candidates-list" [state]="{username:this.userName}" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Manage Candidate
+          <b>Manage Candidate</b>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" routerLink="/create-candidate" [state]="{username:this.userName}" routerLinkActive="active">Add Candidate</a>
-          <a class="dropdown-item" routerLink="/candidates-list" [state]="{username:this.userName}" routerLinkActive="active">View Candidate</a>
+          <a class="dropdown-item" routerLink="/create-candidate" [state]="{username:this.userName}" routerLinkActive="active"><b>Add Candidate</b></a>
+          <a class="dropdown-item" routerLink="/candidates-list" [state]="{username:this.userName}" routerLinkActive="active"><b>View Candidate</b></a>
         </div>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" routerLink="/manage-questionbank" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Manage Questions
+          <b>Manage Questions</b>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" routerLink="/manage-questionbank" routerLinkActive="active">Add question</a>
-          <a class="dropdown-item" routerLink="/manage-questionbank-bulk" routerLinkActive="active">Add Bulk Question</a>
+          <a class="dropdown-item" routerLink="/manage-questionbank" routerLinkActive="active"><b>Add question</b></a>
+          <a class="dropdown-item" routerLink="/manage-questionbank-bulk" routerLinkActive="active"><b>Add Bulk Question</b></a>
         </div>
       </li>
       <li class="nav-item dropdown active">
         <a class="nav-link dropdown-toggle" routerLink="/jrss-create" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Manage Metadata<span class="sr-only">(current)</span>
+          <b>Manage Metadata</b><span class="sr-only">(current)</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" routerLink="/jrss-create" routerLinkActive="active">Add Job Role</a>
-          <a class="dropdown-item" routerLink="/stream-create" routerLinkActive="active">Add Technology Stream</a>
-          <a class="dropdown-item" routerLink="/testconfig-add" routerLinkActive="active">Add Test Configuration</a>
+          <a class="dropdown-item" routerLink="/jrss-create" routerLinkActive="active"><b>Add Job Role</b></a>
+          <a class="dropdown-item" routerLink="/stream-create" routerLinkActive="active"><b>Add Technology Stream</b></a>
+          <a class="dropdown-item" routerLink="/testconfig-add" routerLinkActive="active"><b>Add Test Configuration</b></a>
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/workflow-config"routerLinkActive="active">Manage Workflow</a>
+        <a class="nav-link" routerLink="/workflow-config"routerLinkActive="active"><b>Manage Workflow</b></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/view-testresults"routerLinkActive="active">View TestResults</a>
+        <a class="nav-link" routerLink="/view-testresults"routerLinkActive="active"><b>View TestResults</b></a>
       </li>
 	    <li class="nav-item">
       <a class="nav-link" routerLink="/adminuser-create"routerLinkActive="active"><b>Create User</b></a>
@@ -123,27 +123,31 @@
   <table class="table table-bordered" *ngIf="TestConfigs.length > 0">
     <thead class="table-success">
     <tr style="background-color:powderblue">
+      <th scope="col center">Action</th>
       <th scope="col center">Job Role</th>
       <th scope="col center">No Of Questions</th>
       <th scope="col center">Test Duration(in Minutes)</th>
       <th scope="col center">Passing Score(in Percentage)</th>
-      <th scope="col center">Action</th>
+
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let testConfig of TestConfigs; let i = index">
+    <tr *ngFor="let testConfig of TestConfigs | paginate: config; let i = index">
+      <td class="text-center edit-block" width="5%">
+        <input type="radio" name="radiogroup" (change)="onSelectionChange(testConfig._id)">
+      </td>
       <td>{{testConfig.JRSS}}</td>
       <td>{{testConfig.noOfQuestions}}</td>
       <td>{{testConfig.testDuration}}</td>
       <td>{{testConfig.passingScore}}</td>
-      <td class="text-center edit-block">
-          <span class="edit" [routerLink]="['/testconfig-edit/', testConfig._id]">
-            <button type="button" class="btn btn-success btn-sm" style="background-color:#0043CE;" >Edit</button>
-          </span>
-      </td>
     </tr>
     </tbody>
   </table>
+  <div  class="float-right text-right" *ngIf="TestConfigs.length > 0">
+    <span class="edit" [routerLink]="['/testconfig-edit/', testConfig._id]">
+      <button type="button" class="btn btn-success btn-sm" style="background-color:#0043CE;" >Edit</button>
+    </span>
+  </div>
   <div *ngIf="TestConfigs.length > 0">
     <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
   </div>
