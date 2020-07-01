@@ -81,6 +81,9 @@ export class TechnicalInterviewListComponent implements OnInit {
   get myForm() {
     return this.smeFeedbackForm.controls;
   }
+  skipMethod(){
+    alert('Stage skipped');
+  }
   downloadCandidateResume(id) {
     this.apiService.getCandidateJrss(id).subscribe(data => {
       //Get resume Data    

@@ -62,6 +62,10 @@ export class TechnicalInterviewComponent implements OnInit {
       return this.techskillForm.get("techStream") as FormArray
   }
 
+  skipMethod(){
+    alert('Stage skipped');
+  }
+  
    //To download candidate's CV if uploaded
   downloadCandidateResume(id){
     this.cv.downloadCandidateResume(id) 

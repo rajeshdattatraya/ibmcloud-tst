@@ -41,6 +41,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
              this.router.navigate(['/login-component']);
         }
    }
+   
 
   mainForm() {
       this.partnerFeedbackForm = this.fb.group({
@@ -51,6 +52,10 @@ export class PartnerInterviewInitiateComponent implements OnInit {
 
   get myForm(){
         return this.partnerFeedbackForm.controls;
+  }
+  
+  skipMethod(){
+    alert('Stage skipped');
   }
 
    //To download candidate's CV if uploaded

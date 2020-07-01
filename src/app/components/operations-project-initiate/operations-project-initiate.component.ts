@@ -56,6 +56,9 @@ get myForm(){
   return this.operationsProjectForm.controls;
 }
 
+  skipMethod(){
+    alert('Stage skipped');
+  }
   //To download candidate's CV if uploaded
   downloadCandidateResume(id){
     this.cv.downloadCandidateResume(id) 

@@ -36,7 +36,7 @@
           <td  width="25%"><label>You can download CV here:</label></td>
           <td width="20%"><a href="#" (click)="downloadCandidateResume(this.operationsProjectDetails[0].userName)" routerLinkActive="active" class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>          
           <td  width="25%"><label>You can access the Pre-Technical-Interview form here:</label></td>
-          <td *ngIf="this.operationsProjectDetails[0].stage2_status=='Skipped'">Stage2 is Skipped</td>
+          <td *ngIf="this.operationsProjectDetails[0].stage2_status=='Skipped'" width="20%"><a href="#" (click)="skipMethod()" routerLinkActive="active"  class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
           <td *ngIf="this.operationsProjectDetails[0].stage2_status=='Completed'">
             <a class="edit" [routerLink]="['/pre-technical-interview-form/',this.operationsProjectDetails[0].result_users[0].JRSS, this.operationsProjectDetails[0].userName]" [state]="{jrss:this.operationsProjectDetails[0].result_users[0].JRSS,username:this.operationsProjectDetails[0].result_users[0].username,access:'operation-interview-initiate',accessLevel:this.accessLevel}">
               <td  width="25%"><a href="#" routerLinkActive="active">Click here</a></td>
