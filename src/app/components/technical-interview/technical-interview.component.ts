@@ -263,4 +263,20 @@ export class TechnicalInterviewComponent implements OnInit {
       })*/
     }
   }
+
+  exceptionalApproval(emailSelected, quizNumber) {
+     if (window.confirm('Are you sure to provide exceptional approval?')) {
+        if (this.techskillForm.value.feedback == "") {
+          alert("Please enter feedback");
+        } else {
+          this.apiService.updateExceptionalApproval(emailSelected,quizNumber).subscribe(res => {
+            window.alert('Successfully moved candidate to next stage');
+            this.ngZone.run(() => this.router.navigateByUrl('/technical-interview-list',{state:{username:this.userName,accessLevel:this.accessLevel}}))
+          }, (error) => {
+            console.log(error);
+          })
+        }
+     }
+  }
+
 }

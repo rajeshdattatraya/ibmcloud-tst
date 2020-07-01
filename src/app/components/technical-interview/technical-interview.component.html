@@ -137,7 +137,7 @@
 
         <br/>
         <tr>
-          <td><label>Technical Feedback</label><br><b><i><font style="font-size:10px">(max 3000 characters)</font></i></b></td>
+          <td><label>Technical Feedback</label><br><b><i><font style="font-size:10px">(Max 3000 characters)</font></i></b></td>
           <td colspan="3">
             <textarea class="form-control" type="textarea" rows="5" cols="50"  maxlength="3000" formControlName="feedback" [ngClass]="{ 'is-invalid': submitted && myForm.feedback.errors}"></textarea>
             <div *ngIf="submitted && myForm.feedback.errors" class="invalid-feedback">
@@ -150,7 +150,8 @@
       <div class="text-center" style="width: 1000px">
         <button  type="submit" style="background-color:#0043CE;" class="btn btn-success btn-sm" style="background-color:#0043CE;" >Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;
         <button  type="reset" style="background-color:#0043CE;" (click)="resetForm()" class="btn btn-success btn-sm" style="background-color:#0043CE;">Clear</button>&nbsp;&nbsp;&nbsp;&nbsp;
-        <button  type="button" style="background-color:#0043CE;" (click)="cancelForm()" class="btn btn-success btn-sm" style="background-color:#0043CE;">Cancel</button>
+        <button  type="button" style="background-color:#0043CE;" (click)="cancelForm()" class="btn btn-success btn-sm" style="background-color:#0043CE;">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="button"style="background-color:#0043CE;" class="btn btn-success btn-sm" (click)="exceptionalApproval(this.candidateInterviewDetails[0].userName,this.candidateInterviewDetails[0].quizNumber)">Exceptional Approval</button>
       </div>
   <!-- {{this.techskillForm.value | json}} -->
   </form>
