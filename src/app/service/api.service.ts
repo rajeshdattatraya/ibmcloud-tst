@@ -511,16 +511,16 @@ updateResults(id: string,data: UserResult): Observable<any> {
 
 
 // Update candidate
-updateExceptionalApproval(id: string,quizNumber): Observable<any> {
-  let url = `${this.userResultUri}/updateExceptionalApproval/${id}/${quizNumber}`;
+updateExceptionalApproval(id: string,quizNumber,smeFeedback): Observable<any> {
+  let url = `${this.userResultUri}/updateExceptionalApproval/${id}/${quizNumber}/${smeFeedback}`;
   return this.http.put(url, { headers: this.headers }).pipe(
     catchError(this.errorMgmt)
   )
 }
 
 // Update candidate
-updateExceptionalApprovalForStage4(data,id,quizNumber,smeFeedback): Observable<any> {
-  let url = `${this.userResultUri}/updateExceptionalApprovalStage4/${id}/${quizNumber}/${smeFeedback}`;
+updateExceptionalApprovalForStage4(data,id,quizNumber): Observable<any> {
+  let url = `${this.userResultUri}/updateExceptionalApprovalStage4/${id}/${quizNumber}`;
   return this.http.put(url, data, { headers: this.headers }).pipe(
     catchError(this.errorMgmt)
   )
