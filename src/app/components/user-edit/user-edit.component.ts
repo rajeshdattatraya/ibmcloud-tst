@@ -13,7 +13,7 @@ import { ActivatedRoute, Router } from "@angular/router";
   styleUrls: ['./user-edit.component.css']
 })
 export class UserEditComponent implements OnInit {
-
+  error = '';
   public browserRefresh: boolean;
   submitted = false;
   editForm: FormGroup;
