@@ -269,7 +269,7 @@ export class TechnicalInterviewComponent implements OnInit {
         if (this.techskillForm.value.feedback == "") {
           alert("Please enter feedback");
         } else {
-          this.apiService.updateExceptionalApproval(emailSelected,quizNumber).subscribe(res => {
+          this.apiService.updateExceptionalApproval(emailSelected,quizNumber,this.techskillForm.value.feedback).subscribe(res => {
             window.alert('Successfully moved candidate to next stage');
             this.ngZone.run(() => this.router.navigateByUrl('/technical-interview-list',{state:{username:this.userName,accessLevel:this.accessLevel}}))
           }, (error) => {
