@@ -15,7 +15,7 @@ import { SpecialUser } from './../../model/SpecialUser';
   styleUrls: ['./adminuser-create.component.css']
 })
 export class AdminuserCreateComponent implements OnInit {
-
+  error = '';
   public browserRefresh: boolean;
   submitted = false;
   candidateForm: FormGroup;
