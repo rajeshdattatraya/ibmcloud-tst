@@ -13,6 +13,7 @@ import { TechStream } from './../../model/techStream';
 export class StreamAddComponent implements OnInit {
   error = '';
   public duplicateStream : boolean;
+  public nullStream : boolean;
   public browserRefresh: boolean;
   submitted = false;
   streamForm: FormGroup;
@@ -59,11 +60,17 @@ get myForm(){
 // Check duplicate stream in techStream
 checkDuplicateStream(){
   for (var stream of this.techStreamArray){
+    console.log("Remove space ="+this.streamForm.value.technologyStream);
+    console.log("Remove space1 ="+this.streamForm.value.technologyStream.toLowerCase().replaceAll("\\s+", "").trim());
+    
     if(stream.technologyStream.toLowerCase().trim() == this.streamForm.value.technologyStream.toLowerCase().trim()
-        || this.streamForm.value.technologyStream.toLowerCase().trim() === 'null'
-        || this.streamForm.value.technologyStream.trim().length == 0
-        || this.streamForm.value.technologyStream == ""){
+      || stream.technologyStream.toLowerCase().replaceAll("-", "").trim() == this.streamForm.value.technologyStream.toLowerCase().replaceAll("-", "").trim()
+      || stream.technologyStream.toLowerCase().replaceAll("\\s+", "").trim() == this.streamForm.value.technologyStream.toLowerCase().replaceAll("\\s+", "").trim()
+    ) {
       this.duplicateStream = true;
+    } else if (this.streamForm.value.technologyStream.toLowerCase().trim() === 'null'
+          || this.streamForm.value.technologyStream.trim().length == 0) {
+      this.nullStream = true;
     }
   }
 }	
@@ -71,14 +78,17 @@ checkDuplicateStream(){
 onSubmit() {
   this.submitted = true;
   this.duplicateStream = false;
+  this.nullStream = false;
   this.checkDuplicateStream();
   let techStreamObject = new TechStream(this.streamForm.value.technologyStream.trim(),this.userName, new Date());
   
   if (!this.streamForm.valid) {
       return false;
-  } else if(this.duplicateStream){
-      this.error = 'Invalid entries found - Check for space or existing stream!';
-  } else{    
+  } else if(this.nullStream){
+      this.error = 'Invalid entries found - Null/Space not allowed!';
+  } else if (this.duplicateStream) {
+      this.error = 'Invalid entries found - Technology Stream already exist!';
+  } else {    
       this.apiService.createTechStream(techStreamObject).subscribe(
         (res) => {
             console.log('New Technology Stream added successfully!');
