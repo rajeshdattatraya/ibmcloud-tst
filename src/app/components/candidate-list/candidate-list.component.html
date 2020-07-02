@@ -96,7 +96,7 @@
     </tbody>
   </table>
   <div  class="float-right text-right" *ngIf="Candidate.length > 0">
-    <a class="edit" [routerLink]="['/edit-candidate/', candidateId, candidateUsersId]" [state]="{username:this.userName}">
+    <a class="edit" (click)="invokeEdit()">
       <button type="button" class="btn btn-primary" style="background-color:#0043CE;">Edit</button>&nbsp;
   </a>
   <a class="delete" (click)="removeCandidate(candidateUserName,candidateId,index)">
