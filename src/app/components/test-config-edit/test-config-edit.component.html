@@ -144,7 +144,7 @@
     </tbody>
   </table>
   <div  class="float-right text-right" *ngIf="TestConfigs.length > 0">
-    <span class="edit" [routerLink]="['/testconfig-edit/', testConfigID]">
+    <span class="edit" (click)="editTestConfig()">
       <button type="button" class="btn btn-success btn-sm" style="background-color:#0043CE;" >Edit</button>
     </span>
   </div>

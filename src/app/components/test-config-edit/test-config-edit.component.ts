@@ -24,7 +24,7 @@ export class TestConfigEditComponent implements OnInit {
   TestConfigs:any = [];
   userName: String = "admin";
   oldJRSS: String = "";
-  testConfigID: any;
+  testConfigID: String = "";
 
   constructor(
       public fb: FormBuilder,
@@ -73,6 +73,14 @@ export class TestConfigEditComponent implements OnInit {
 
     onSelectionChange(testConfigId) {
       this.testConfigID = testConfigId;
+    }
+
+    editTestConfig() {
+      if (this.testConfigID == "") {
+        alert("Please select the test configuration record")
+      } else {
+        this.router.navigate(['/testconfig-edit/', this.testConfigID]);
+      }
     }
 
     // Choose designation with select dropdown

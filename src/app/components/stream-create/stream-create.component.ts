@@ -4,6 +4,7 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { JRSS } from './../../model/jrss';
 import { browserRefresh } from '../../app.component';
+import { appConfig } from './../../model/appConfig';
 
 @Component({
   selector: 'app-stream-create',
@@ -37,9 +38,9 @@ export class StreamCreateComponent implements OnInit {
     private route: ActivatedRoute
   ) { 
     this.config = {
-      currentPage: 1,
-      itemsPerPage: 5,
-      totalItems:0
+      currentPage: appConfig.currentPage,
+      itemsPerPage: appConfig.itemsPerPage,
+      totalItems:appConfig.totalItems
     };
 
     route.queryParams.subscribe(
@@ -90,6 +91,14 @@ onSelectionChange(jrssId,jrssName) {
   this.jrssId = jrssId;
   this.jrssName = jrssName;   
 }
+
+ deleteTechStream() {
+    if (this.jrssId == undefined) {
+      alert("Please select the technology stream record");
+    } else {
+      this.router.navigate(['/delete-stream/', this.jrssId]);
+    }
+ }
 
 pageChange(newPage: number) {
   this.router.navigate(['/stream-create'], { queryParams: { page: newPage } });

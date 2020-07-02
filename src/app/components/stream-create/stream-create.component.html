@@ -145,7 +145,7 @@
 	   </table>
 	  
 	   <div  class="float-right text-right" *ngIf="JRSS.length > 0">
-		  <a class="edit" [routerLink]="['/delete-stream/', jrssId]">
+		  <a class="edit" (click)="deleteTechStream()">
 			  <button type="button" style="background-color:#0043CE;" class="btn btn-danger btn-sm">Delete</button>&nbsp;
 		  </a>  
 		</div>

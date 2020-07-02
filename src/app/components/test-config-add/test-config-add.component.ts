@@ -24,7 +24,7 @@ export class TestConfigAddComponent implements OnInit {
   TestConfigs:any = [];
   TestConfigDetails:any = [];
   userName: String = "admin";
-  testConfigID: any;
+  testConfigID: String = "";
 
   constructor(
       public fb: FormBuilder,
@@ -78,6 +78,14 @@ export class TestConfigAddComponent implements OnInit {
     }
     onSelectionChange(testConfigId) {
       this.testConfigID = testConfigId;
+    }
+
+    editTestConfig() {
+      if (this.testConfigID == "") {
+        alert("Please select the test configuration record");
+      } else {
+        this.router.navigate(['/testconfig-edit/', this.testConfigID]);
+      }
     }
 
     //get All Test Configs
