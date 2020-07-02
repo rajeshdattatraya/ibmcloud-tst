@@ -82,11 +82,15 @@ export class JrssCreateComponent implements OnInit {
 
   checkDuplicateJrss(){
     for (var jrss of this.Jrss){
-      if(jrss.jrss.toLowerCase() == this.jrssForm.value.jrss.toLowerCase()){
+      if(jrss.jrss.toLowerCase().trim() == this.jrssForm.value.jrss.toLowerCase().trim()
+          || this.jrssForm.value.jrss.toLowerCase().trim() === 'null'
+          || this.jrssForm.value.jrss.trim().length == 0
+          || this.jrssForm.value.jrss == ""){
         this.duplicateJrss = true;
       }
     }
-  }	
+  }
+
     onSubmit() {
         this.submitted = true;
         this.duplicateJrss = false;
