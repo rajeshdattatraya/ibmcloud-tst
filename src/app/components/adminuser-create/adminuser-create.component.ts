@@ -95,6 +95,9 @@ export class AdminuserCreateComponent implements OnInit {
 // Delete the selected user
   //To remove candidate
   removeUser(username, index) {
+    if(this.isRowSelected == false){
+      alert("Please select the user");
+    }else{
     if(window.confirm('Are you sure?')) {
         this.apiService.deleteUser(username).subscribe((data) => {
           this.AdminUsers.splice(index, 1);
@@ -103,6 +106,7 @@ export class AdminuserCreateComponent implements OnInit {
       this.getAllSpecialUsers();
       this.isRowSelected = false;
     }
+  }
   }
 
   onSelectionChange(username,docId,i){
@@ -124,6 +128,14 @@ export class AdminuserCreateComponent implements OnInit {
       return true;
     }
   }
+
+  invokeEdit(){
+    if(this.isRowSelected == false){
+      alert("Please select the user");
+      }else{
+      this.router.navigate(['/edit-user/', this.docid]);
+      }
+    }
 
   onSubmit() {
     this.submitted = true; 

@@ -24,6 +24,7 @@ export class CandidateListComponent implements OnInit {
   candidateUsersId;
   candidateUserName;
   index;
+  isRowSelected = false;
 
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
     this.config = {
@@ -72,21 +73,35 @@ export class CandidateListComponent implements OnInit {
 
   //To remove candidate
   removeCandidate(candidateUsername,candidateId, index) {
+    if(this.isRowSelected == false){
+      alert("Please select the candidate");
+    }else{
     if(window.confirm('Are you sure?')) {
         this.apiService.deleteCandidate(candidateId,candidateUsername).subscribe((data) => {
           this.Candidate.splice(index, 1);
         }
       )
       this.readCandidate();
+      this.isRowSelected = false;
     }
   }
+  }
+
+	invokeEdit(){
+    if (this.isRowSelected == false){
+      alert("Please select the user");
+      }else{
+      this.router.navigate(['/edit-candidate/', this.candidateId, this.candidateUsersId], {state: {username:this.userName}});
+      }
+    } 
+	
 
   onSelectionChange(candidateId,candidateUsersId,candidateUserName,i){
     this.candidateId=candidateId;
     this.candidateUsersId=candidateUsersId;
     this.candidateUserName=candidateUserName;
     this.index=i;
-
+    this.isRowSelected = true;
   }
    //Story#27 - Activate & Inactivate candidate's status for Assessment
    updateCandidateStatus(candidate, index) {     
