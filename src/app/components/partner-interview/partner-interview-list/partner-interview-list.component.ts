@@ -1,9 +1,11 @@
-import { Component, Input, OnChanges,OnInit } from '@angular/core';
+import { Component,NgZone, Input, OnChanges,ViewChild } from '@angular/core';
 import { ApiService } from './../../../service/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { browserRefresh } from '../../../app.component';
 import { PartnerDetails } from './../../../model/PartnerDetails';
 import { appConfig } from './../../../model/appConfig';
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+
 import {TechnicalInterviewListComponent} from '../../technical-interview-list/technical-interview-list.component';
 
 @Component({
@@ -33,8 +35,11 @@ export class PartnerInterviewListComponent implements OnChanges {
   assesmentDate="";
   questionCount:number=0;
   correctAnswerCount:number=0;
+  showModal: boolean = false;
+  partnerFeedbackForm: FormGroup;
+  submitted = false;
 
-  constructor(private cv:TechnicalInterviewListComponent,private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
+  constructor(private cv:TechnicalInterviewListComponent,private route: ActivatedRoute, private router: Router, private apiService: ApiService,private ngZone: NgZone,private fb: FormBuilder) {
       this.config = {
         currentPage: appConfig.currentPage,
         itemsPerPage: appConfig.itemsPerPage,
@@ -48,6 +53,13 @@ export class PartnerInterviewListComponent implements OnChanges {
       route.queryParams.subscribe(
       params => this.config.currentPage= params['page']?params['page']:1 );
       this.getPartnerInterviewList();
+      this.mainForm();
+  }
+  @ViewChild('content') content: any;
+  mainForm() {
+    this.partnerFeedbackForm = this.fb.group({
+      partnerFeedback: ['', [Validators.required]]
+    })
   }
 
   ngOnChanges(): void {
@@ -69,7 +81,36 @@ export class PartnerInterviewListComponent implements OnChanges {
         this.router.navigate(['/partner-list'], { queryParams: { page: newPage } });
   }
 
-
+  get myForm() {
+    return this.partnerFeedbackForm.controls;
+  }
+  onSubmit() {
+    this.submitted = true;
+    let partnerDetails = new PartnerDetails("Exceptional Approval Given",
+    this.partnerFeedbackForm.value.partnerFeedback,this.userName,new Date(), "Skipped");
+    this.apiService.updateExceptionalApprovalForStage4(partnerDetails,this.emailSelected,this.quizNumber).subscribe(res => {
+      window.alert('Successfully provided exceptional approval');
+      window.location.reload();
+    }, (error) => {
+      console.log(error);
+    })
+  }
+ 
+  exceptionalApproval() {
+    if (this.emailSelected == "") {
+      alert("please select the candidate")
+    }
+    else {
+      if (window.confirm("Are you sure you want to provide exemption approval?")) {
+        this.showModal = true;
+        this.content.open();
+      }
+      else {
+        this.showModal = false;
+      }
+    }
+  }
+/*
   exceptionalApproval() {
        if (this.emailSelected == "") {
             alert("Please select the candidate")
@@ -85,7 +126,7 @@ export class PartnerInterviewListComponent implements OnChanges {
         })
         }
   }
-
+*/
   initiateInterview() {
     if (this.emailSelected == "") {
       alert("Please select the candidate")
