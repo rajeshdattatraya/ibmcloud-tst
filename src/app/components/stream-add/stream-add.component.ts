@@ -60,12 +60,8 @@ get myForm(){
 // Check duplicate stream in techStream
 checkDuplicateStream(){
   for (var stream of this.techStreamArray){
-    console.log("Remove space ="+this.streamForm.value.technologyStream);
-    console.log("Remove space1 ="+this.streamForm.value.technologyStream.toLowerCase().replaceAll("\\s+", "").trim());
-    
     if(stream.technologyStream.toLowerCase().trim() == this.streamForm.value.technologyStream.toLowerCase().trim()
-      || stream.technologyStream.toLowerCase().replaceAll("-", "").trim() == this.streamForm.value.technologyStream.toLowerCase().replaceAll("-", "").trim()
-      || stream.technologyStream.toLowerCase().replaceAll("\\s+", "").trim() == this.streamForm.value.technologyStream.toLowerCase().replaceAll("\\s+", "").trim()
+      || stream.technologyStream.toLowerCase().replaceAll("-", "").trim() == this.streamForm.value.technologyStream.toLowerCase().replaceAll("-", "").trim()      
     ) {
       this.duplicateStream = true;
     } else if (this.streamForm.value.technologyStream.toLowerCase().trim() === 'null'
