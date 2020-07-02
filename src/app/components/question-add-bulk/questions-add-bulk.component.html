@@ -50,10 +50,12 @@
   </div>
 </nav>
 <br/>
-<div class="row justify-content-left">
-  <div class="col-md-8 register-employee">
-    <h4 class="my-0 mr-md-auto font-weight-normal">Add Bulk Questions</h4>
+<div>
+  <h4 class="my-0 mr-md-auto font-weight-normal">Add Bulk Questions</h4>
+  <br/>
+</div>
     <!-- form Test Config -->
+    <div class="card">
     <div class="card-body">
       <form [formGroup]="questionForm" (ngSubmit)="bulkUploadFile()">
         <div class="form-group row">
@@ -86,8 +88,8 @@
       </div>
       <div class="col-md-4">
       <div class="col-sm-16" >
-        <button type="button" class="btn btn-success btn-sm" style="background-color:#0043CE;" (click)="bulkUploadFile()">Upload File</button> &nbsp;&nbsp;&nbsp;&nbsp;
-        <button type="button" class="btn btn-success btn-sm" style="background-color:#0043CE;" (click)="resetForm()">Reset</button>
+        <button type="button" class="btn btn-success btn-lg" style="background-color:#0043CE;" (click)="bulkUploadFile()">Upload File</button> &nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="button" class="btn btn-success btn-lg" style="background-color:#0043CE;" (click)="resetForm()">Reset</button>
       </div>
       </div>
     </div>
@@ -96,7 +98,6 @@
         <p><b>{{ bulkUploadQuestions }} out of {{ totalBulkQuestions }} questions uploaded</b></p>
       </div>
       </form>
-    </div>
   </div>
 </div>
 

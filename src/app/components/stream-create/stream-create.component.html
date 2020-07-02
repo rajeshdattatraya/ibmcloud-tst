@@ -108,7 +108,9 @@
 			</td>
 			&nbsp;
 			<div class="form-group">
+        <div class="row justify-content-center">
 					<button style="background-color:#0043CE;" class="btn btn-success btn-lg float-center" type="submit">Save</button>
+        </div>
 			</div>
 			<div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
        			&nbsp;&nbsp;&nbsp;
@@ -147,7 +149,7 @@
 	   <div  class="float-right text-right" *ngIf="JRSS.length > 0">
 		  <a class="edit" (click)="deleteTechStream()">
 			  <button type="button" style="background-color:#0043CE;" class="btn btn-danger btn-sm">Delete</button>&nbsp;
-		  </a>  
+		  </a>
 		</div>
 	  
 	  
