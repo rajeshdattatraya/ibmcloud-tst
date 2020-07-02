@@ -61,7 +61,8 @@ get myForm(){
 checkDuplicateStream(){
   for (var stream of this.techStreamArray){
     if(stream.technologyStream.toLowerCase().trim() == this.streamForm.value.technologyStream.toLowerCase().trim()
-      || stream.technologyStream.toLowerCase().replaceAll("-", "").trim() == this.streamForm.value.technologyStream.toLowerCase().replaceAll("-", "").trim()      
+      || stream.technologyStream.toLowerCase().replace(/\s/g, "").replaceAll("-", "").trim() == this.streamForm.value.technologyStream.toLowerCase().replace(/\s/g, "").replaceAll("-", "").trim()
+      || stream.technologyStream.toLowerCase().replace(/\s/g, "").trim() == this.streamForm.value.technologyStream.toLowerCase().replace(/\s/g, "").trim()      
     ) {
       this.duplicateStream = true;
     } else if (this.streamForm.value.technologyStream.toLowerCase().trim() === 'null'
