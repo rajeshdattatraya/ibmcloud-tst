@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { ApiService } from './../../service/api.service';
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators, FormArray } from "@angular/forms";
 import { browserRefresh } from '../../app.component';
 import { Component, OnInit, NgZone } from '@angular/core';
 
@@ -16,7 +16,7 @@ export class ConfigPretechassessmentFormComponent implements OnInit {
   Candidate:any = [];
   containers = [];
   config: any;
-  preTechQuestion;
+  preTechQuestionCount;
   state = "Activate";
   questionNo ="Question 1:"
   error = "";
@@ -25,6 +25,8 @@ export class ConfigPretechassessmentFormComponent implements OnInit {
   submitted = false;
   formReset = false;  
   JRSS:any = [];
+  preTechQuestions:any = [];
+  preTechQuestionsObject:any = [];
   userName: String = "admin";
   jrssDocId: String = ""; 
 
@@ -37,37 +39,67 @@ export class ConfigPretechassessmentFormComponent implements OnInit {
   { 
     this.readJrss();
     this.mainForm();
+   
   }
 
   ngOnInit(): void {
   }
 
   updateJrssProfile(e) {
+    this.readPreTechQuestions();
+    console.log("the current value of JRSS is "+this.configPreTechForm.value.JRSS)
     this.configPreTechForm.get('JRSS').setValue(e, {
       onlySelf: true
     })
     this.apiService.getJRSSPreTech(this.configPreTechForm.value.JRSS).subscribe((data) => {
-      console.log("inside this.workFlowForm.value.JRSS", this. configPreTechForm.value.JRSS, data);
-      this.preTechQuestion = data[0]['jrss_preTech'].length;
-      console.log("in kkkk", this.preTechQuestion)     
-      
+      console.log("inside this.configPreTechForm.value.JRSS", this. configPreTechForm.value.JRSS, data);
+      this.preTechQuestionCount = data[0]['jrss_preTech'].length;
+      for(let i=1;i<=this.preTechQuestionCount;i++){
+        this.containers.push(this.containers.length);
+      }
+      console.log("in kkkk", this.preTechQuestionCount);    
+      for (var preTechQuestion of this.preTechQuestionsObject)
+      {
+        console.log("the jrss are "+preTechQuestion.jrss);
+        
+       if(preTechQuestion.jrss==this.configPreTechForm.value.JRSS)
+       {
+        for(let i=0;i<this.preTechQuestionCount;i++)
+        {
+          console.log("The q is "+preTechQuestion.preTechQuestion);
+         this.preTechQuestions[i] = preTechQuestion.preTechQuestion;
+        }
+       }
+      }   
       this.configPreTechForm.setValue({
-        JRSS: data[0]['jrss'],
-       
-      });
+      JRSS: data[0]['jrss'], 
+      QuestionTextbox: this.preTechQuestions     
+     });
+      
     });
+    
   }
 
   mainForm() {
     this.configPreTechForm = this.fb.group({
-      jrss: ['', [Validators.required]]
+      JRSS: ['', [Validators.required]],      
+      QuestionTextbox: this.fb.array([this.preTechQuestionCount])
     })
   }
+
   readJrss(){
     this.apiService.getJRSS().subscribe((data) => {
      this.JRSS = data;
     })
   } 
+
+
+  readPreTechQuestions(){
+    console.log("this.configPreTechForm.value.JRSS is "+this.configPreTechForm.value.JRSS)
+    this.apiService.getpreTechQuestions(this.configPreTechForm.value.JRSS).subscribe((data) => {
+     this.preTechQuestionsObject = data;
+    })
+  }
 
    // Getter to access form control
    get myForm(){

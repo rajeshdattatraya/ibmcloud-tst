@@ -17,6 +17,7 @@ export class ApiService {
   baseloginUri:string = appConfig.baseUri + '/api/login';
   baseBandUri:string = appConfig.baseUri + '/api/band';
   baseJrssUri:string = appConfig.baseUri + '/api/jrss';
+  basePreTechQuestionnaireUri:string = appConfig.baseUri + '/api/preTechForm/getPreTechQuestionanire';
   baseQuestionUri:string = appConfig.baseUri +'/api/quiz';
   projectAllocUri:string = appConfig.baseUri + '/projectAlloc';
   headers = new HttpHeaders().set('Content-Type', 'application/json');
@@ -27,10 +28,19 @@ export class ApiService {
 // Get all JRSS
 getJRSS() {
   return this.http.get(`${this.baseJrssUri}`);
+  }
+
+// http://localhost:4000/api/preTechForm/getPreTechQuestionanire/Java%20Technical%20Assessment/candidate12@ibm.com
+getpreTechQuestions(jrss) {
+  let url = `${this.basePreTechQuestionnaireUri}/${jrss}/admin`;
+  console.log("the url is "+ url);
+  return this.http.get(`${this.basePreTechQuestionnaireUri}/${jrss}/admin`);
 }
  
 // Get all JRSS
 getJRSSPreTech(jrssName) {
+  let url = `${this.baseJrssUri}/getJrssPreTech/${jrssName}`;
+  console.log("the url 2 is "+ url);
   return this.http.get(`${this.baseJrssUri}/getJrssPreTech/${jrssName}`);
 }
 // Create Candidate
