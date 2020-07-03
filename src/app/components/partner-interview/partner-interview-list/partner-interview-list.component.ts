@@ -1,4 +1,4 @@
-import { Component,NgZone, Input, OnChanges,ViewChild } from '@angular/core';
+import { Component,NgZone, Input, OnChanges,ViewChild ,Injectable} from '@angular/core';
 import { ApiService } from './../../../service/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { browserRefresh } from '../../../app.component';
@@ -7,11 +7,16 @@ import { appConfig } from './../../../model/appConfig';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 import {TechnicalInterviewListComponent} from '../../technical-interview-list/technical-interview-list.component';
+import { isEmpty } from 'rxjs/operators';
 
 @Component({
   selector: 'app-partner-interview-list',
   templateUrl: './partner-interview-list.component.html',
   styleUrls: ['./partner-interview-list.component.css']
+})
+
+@Injectable({
+  providedIn: 'root'
 })
 export class PartnerInterviewListComponent implements OnChanges {
   @Input() groupFilters: Object;
@@ -55,18 +60,18 @@ export class PartnerInterviewListComponent implements OnChanges {
       this.getPartnerInterviewList();
       this.mainForm();
   }
-  @ViewChild('content') content: any;
+  
   mainForm() {
     this.partnerFeedbackForm = this.fb.group({
       partnerFeedback: ['', [Validators.required]]
     })
   }
-
+  @ViewChild('content') content: any;
   ngOnChanges(): void {
     if (this.groupFilters) this.filterUserList(this.groupFilters, this.users);
     this.router.navigate(['/partner-list']);
   }
-
+  
   ngOnInit() {
       this.accessLevel="partner";
       this.browserRefresh = browserRefresh;
@@ -86,17 +91,20 @@ export class PartnerInterviewListComponent implements OnChanges {
   }
   onSubmit() {
     this.submitted = true;
-    let partnerDetails = new PartnerDetails("Exceptional Approval Given",
-    this.partnerFeedbackForm.value.partnerFeedback,this.userName,new Date(), "Skipped");
-    this.apiService.updateExceptionalApprovalForStage4(partnerDetails,this.emailSelected,this.quizNumber).subscribe(res => {
-      window.alert('Successfully provided exceptional approval');
-      window.location.reload();
-    }, (error) => {
-      console.log(error);
-    })
+    if(this.partnerFeedbackForm.value.partnerFeedback.length>0){
+      let partnerDetails = new PartnerDetails("Exceptional Approval Given",
+      this.partnerFeedbackForm.value.partnerFeedback,this.userName,new Date(), "Skipped");
+      this.apiService.updateExceptionalApprovalForStage4(partnerDetails,this.emailSelected,this.quizNumber).subscribe(res => {
+        window.alert('Successfully provided exceptional approval');
+        window.location.reload();
+      }, (error) => {
+        console.log(error);
+      })
+    }
   }
  
   exceptionalApproval() {
+    
     if (this.emailSelected == "") {
       alert("please select the candidate")
     }
@@ -104,6 +112,7 @@ export class PartnerInterviewListComponent implements OnChanges {
       if (window.confirm("Are you sure you want to provide exemption approval?")) {
         this.showModal = true;
         this.content.open();
+        this.partnerFeedbackForm.reset;
       }
       else {
         this.showModal = false;
