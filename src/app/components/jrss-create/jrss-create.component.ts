@@ -13,6 +13,7 @@ import { appConfig } from './../../model/appConfig';
 export class JrssCreateComponent implements OnInit {
   error = '';
   public duplicateJrss : boolean;
+  public nullJrss : boolean;
   public browserRefresh: boolean;
   submitted = false;
   jrssForm: FormGroup;
@@ -80,25 +81,44 @@ export class JrssCreateComponent implements OnInit {
     }
   }
 
+  // checkDuplicateJrss(){
+  //   for (var jrss of this.Jrss){
+  //     if(jrss.jrss.toLowerCase().trim() == this.jrssForm.value.jrss.toLowerCase().trim()
+  //         || this.jrssForm.value.jrss.toLowerCase().trim() === 'null'
+  //         || this.jrssForm.value.jrss.trim().length == 0
+  //         || this.jrssForm.value.jrss == ""){
+  //       this.duplicateJrss = true;
+  //     }
+  //   }
+  // }
+
+  // Check duplicate stream in techStream
   checkDuplicateJrss(){
     for (var jrss of this.Jrss){
       if(jrss.jrss.toLowerCase().trim() == this.jrssForm.value.jrss.toLowerCase().trim()
-          || this.jrssForm.value.jrss.toLowerCase().trim() === 'null'
-          || this.jrssForm.value.jrss.trim().length == 0
-          || this.jrssForm.value.jrss == ""){
+        || jrss.jrss.toLowerCase().replace(/\s/g, "").replaceAll("-", "").trim() == this.jrssForm.value.jrss.toLowerCase().replace(/\s/g, "").replaceAll("-", "").trim()
+        || jrss.jrss.toLowerCase().replace(/\s/g, "").trim() == this.jrssForm.value.jrss.toLowerCase().replace(/\s/g, "").trim()      
+      ) {
         this.duplicateJrss = true;
+      } else if (this.jrssForm.value.jrss.toLowerCase().trim() === 'null'
+            || this.jrssForm.value.jrss.trim().length == 0) {
+        this.nullJrss = true;
       }
     }
-  }
+  }	
 
     onSubmit() {
         this.submitted = true;
         this.duplicateJrss = false;
+        this.nullJrss = false;
         this.checkDuplicateJrss();
+        
         if (!this.jrssForm.valid) {
           return false;
+        } else if (this.nullJrss){
+          this.error = 'Invalid entries found - Null/Space not allowed!';
         } else if(this.duplicateJrss){
-          this.error = 'This entry is already existing';
+          this.error = 'Invalid entries found - Job Role already exist!';
         } else{
           this.apiService.createJrss(this.jrssForm.value).subscribe(
             (res) => {
