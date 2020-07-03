@@ -114,7 +114,7 @@
   </thead>
 
   <tbody>
-    <tr *ngFor="let report of reportData | paginate: {id:'listing_pagination', itemsPerPage:itemsPerPage,
+    <tr *ngFor="let report of reportData | paginate: {id:'report_pagination', itemsPerPage:itemsPerPage,
      currentPage:page, totalItems:reportData.length}">
 
       <td width="20%">{{report[0][1]}}</td>
@@ -127,6 +127,8 @@
     </tr>
   </tbody>
 </table>
-<pagination-controls (pageChange)="(page=$event)" id="listing_pagination"
+<div *ngIf="reportData.length > 0">
+  <pagination-controls (pageChange)="(page=$event)" id="report_pagination"
   directionLinks="true"></pagination-controls>
+</div>
 </div>
