@@ -78,8 +78,6 @@ export class DashboardListComponent implements OnChanges {
     filterUserList(filters: any, users: any): void {
       this.filteredUsers = this.users; //Reset User List
       const keys = Object.keys(filters);
-      console.log("filters",filters);
-      console.log("keys",keys);
       const filterUser = user => {
         let result = keys.map(key => {
           if (key == "employeeName" || key == "JRSS") {
@@ -87,22 +85,7 @@ export class DashboardListComponent implements OnChanges {
               return String(user.result_users[0][key]).toLowerCase().startsWith(String(filters[key]).toLowerCase())
             }
           } else if (user[key]) {
-            if (key == "smeResult" || key == "managementResult") {
-                let filterK:string  = "";
-                let resultBoolean: boolean;
-                let filterArray:any = [];
-                filterK = filters[key];
-                filterArray = filterK.split(',');
-                   for (let i=0; i<filterArray.length;i++) {
-                    resultBoolean = (String(user[key]).toLowerCase().startsWith(String(filterArray[i]).toLowerCase()));
-                    if (resultBoolean) {
-                      return resultBoolean;
-                    }
-                }
-                return resultBoolean;
-            } else {
-                return String(user[key]).toLowerCase().startsWith(String(filters[key]).toLowerCase())
-            }
+                return String(user[key]).toLowerCase().startsWith(String(filters[key]).toLowerCase());
           } else {
             if (key == "fromDate" || key == "toDate") {
               let createdKey = "createdDate";

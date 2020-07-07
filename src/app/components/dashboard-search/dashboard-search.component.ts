@@ -14,8 +14,8 @@ import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 })
 export class DashboardSearchComponent implements OnInit {
   AssignedToProject:any = ['Assigned','Unassigned'];
-  PartnerInterviewResult: any = ['Selected','NotSelected', 'StandBy'];
-  TechInterviewResult: any = ['Selected','NotSelected', 'StandBy'];
+  PartnerInterviewResult: any = ['Recommended','Not Suitable', 'StandBy'];
+  TechInterviewResult: any = ['Strongly Recommended','Recommended','Not Suitable','StandBy'];
   OnlineResult: any = ['Pass','Fail'];
   submitted = false;
   currDate: Date = new Date();
@@ -72,26 +72,12 @@ export class DashboardSearchComponent implements OnInit {
     } else if (filters.stage5_status == 'Unassigned') {
       filters.stage5_status = "Not Started";
     }
-    if (filters.managementResult == 'Selected') {
-      filters.managementResult = "Recommended";
-    } else if (filters.managementResult == 'NotSelected') {
-      filters.managementResult = "Not Suitable";
-    } else if (filters.managementResult == 'StandBy') {
-            filters.managementResult = "StandBy";
-    }
-    if (filters.smeResult == 'Selected') {
-      filters.smeResult = "Recommended,Strongly Recommended";
-    } else if (filters.smeResult == 'NotSelected') {
-      filters.smeResult = "Not Suitable";
-    } else if (filters.smeResult == 'StandBy') {
-      filters.smeResult = "StandBy";
-    }
     if (filters.stage1_status == 'Pass') {
       filters.stage1_status = "Completed";
     } else if (filters.stage1_status == 'Fail') {
       filters.stage1_status = "Not Started";
     }
-    Object.keys(filters).forEach(key => filters[key] === '' ? delete filters[key] : key);
+    Object.keys(filters).forEach(key => (filters[key] === '' || filters[key] ===  null) ? delete filters[key] : key);
     this.groupFilters.emit(filters);
   }
 

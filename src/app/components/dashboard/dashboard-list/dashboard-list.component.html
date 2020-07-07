@@ -14,7 +14,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let result of Result | filter: searchByKeyword: 'name' | paginate: config; let i = index">
+      <tr *ngFor="let result of Result | paginate: config; let i = index">
         <td><input type="radio" name="candidateRadio" value="result._id" (click)="setCandidateID(result._id)"></td>
         <td  width="16%">{{result.result_users[0].employeeName}}</td>
         <td  width="25%">{{result.result_users[0].JRSS}}</td>
