@@ -5,11 +5,16 @@ import { browserRefresh } from '../../../app.component';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { appConfig } from './../../../model/appConfig';
+import { Injectable } from '@angular/core';
 
 @Component({
   selector: 'app-view-testresults-list',
   templateUrl: './view-testresults-list.component.html',
   styleUrls: []
+})
+
+@Injectable({
+  providedIn: 'root'
 })
 export class ViewTestresultsListComponent implements OnChanges {
 
