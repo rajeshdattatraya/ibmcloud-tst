@@ -8,7 +8,6 @@ import { saveAs } from 'file-saver';
 import { Injectable } from '@angular/core';
 import { appConfig } from './../../model/appConfig';
 
-
 @Component({
   selector: 'app-technical-interview-list',
   templateUrl: './technical-interview-list.component.html',
@@ -43,6 +42,9 @@ export class TechnicalInterviewListComponent implements OnInit {
   smeFeedbackForm: FormGroup;
   formReset = false;
   submitted = false;
+  displayContractorUIFields: Boolean = false;
+  displayRegularUIFields: Boolean = true;
+  candidateDetails: any = [];
 
 
   constructor(private datePipe: DatePipe, private route: ActivatedRoute, private router: Router, private apiService: ApiService, private ngZone: NgZone, private fb: FormBuilder) {
@@ -85,6 +87,26 @@ export class TechnicalInterviewListComponent implements OnInit {
   skipMethod(){
     alert('Stage skipped');
   }
+
+
+
+
+  //To read candidate details
+  getCandidateDetails(username) {
+    this.mode="displayModalBody";
+    this.apiService.getCandidateDetails(username).subscribe((data) => {
+         this.candidateDetails = data;
+         if (this.candidateDetails[0].employeeType == 'Contractor') {
+              this.displayContractorUIFields = true;
+              this.displayRegularUIFields = false;
+         } else {
+              this.displayContractorUIFields = false;
+              this.displayRegularUIFields = true;
+         }
+    })
+}
+  
+  //To download candidate's CV if uploaded
   downloadCandidateResume(id) {
     this.apiService.getCandidateJrss(id).subscribe(data => {
       //Get resume Data    
