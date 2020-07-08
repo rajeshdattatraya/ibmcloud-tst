@@ -31,6 +31,10 @@ export class OperationsCandidateSearchListComponent implements OnChanges {
   assesmentDate="";
   questionCount:number=0;
   correctAnswerCount:number=0;
+  candidateDetails: any = [];
+  displayContractorUIFields: Boolean = false;
+  displayRegularUIFields: Boolean = true;
+  
   constructor(private cv:TechnicalInterviewListComponent,private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
     this.config = {
       currentPage: 1,
@@ -109,6 +113,22 @@ readResult() {
     this.Result = data;
     this.users = data
     this.filteredUsers = this.filteredUsers.length > 0 ? this.filteredUsers : this.users;
+  })
+}
+
+
+//To read candidate details
+getCandidateDetails(username) {
+  this.mode="displayModalBody";
+  this.apiService.getCandidateDetails(username).subscribe((data) => {
+       this.candidateDetails = data;
+       if (this.candidateDetails[0].employeeType == 'Contractor') {
+            this.displayContractorUIFields = true;
+            this.displayRegularUIFields = false;
+       } else {
+            this.displayContractorUIFields = false;
+            this.displayRegularUIFields = true;
+       }
   })
 }
 
