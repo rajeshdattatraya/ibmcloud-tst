@@ -20,7 +20,7 @@
           <td *ngIf="result.result_users.length  > 0"></td>
           <td *ngIf="result.result_users.length  > 0">{{result.result_users[0].JRSS}}</td>
           <td *ngIf="result.result_users.length  > 0">{{result.quizNumber}}</td>
-          <td *ngIf="result.result_users.length  > 0"><a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(result.userName,result.quizNumber,result.result_users[0].employeeName,result.userScore,result.createdDate)" class="col-4 cursor-pointer" data-toggle="modal" >{{result.userScore}}%</a></td>
+          <td *ngIf="result.result_users.length  > 0"><a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(result.userName,result.quizNumber,result.result_users[0].employeeName,result.userScore,result.createdDate)" class="col-4 cursor-pointer" data-toggle="modal" *ngIf="result.userScore!=null">{{result.userScore}}%</a><p *ngIf="result.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p></td>
         </tr>
         </tbody>
       </table>

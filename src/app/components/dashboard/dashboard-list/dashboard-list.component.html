@@ -18,7 +18,7 @@
         <td><input type="radio" name="candidateRadio" value="result._id" (click)="setCandidateID(result._id)"></td>
         <td  width="16%">{{result.result_users[0].employeeName}}</td>
         <td  width="25%">{{result.result_users[0].JRSS}}</td>
-        <td  width="15%"><a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(result.userName,result.quizNumber,result.result_users[0].employeeName,result.userScore,result.createdDate)" class="col-4 cursor-pointer" data-toggle="modal" *ngIf="result.userScore!=null">{{result.userScore}}%</a><p *ngIf="result.userScore==null">N/A</p></td>
+        <td  width="15%"><a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(result.userName,result.quizNumber,result.result_users[0].employeeName,result.userScore,result.createdDate)" class="col-4 cursor-pointer" data-toggle="modal" *ngIf="result.userScore!=null">{{result.userScore}}%</a><p *ngIf="result.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p></td>
         <td  width="15%">{{result.smeResult}}</td>
         <td  width="17%">{{result.managementResult}}</td>
         <td  width="17%">
