@@ -34,7 +34,7 @@ export class PartnerInterviewListComponent implements OnChanges {
   mode: string = "";
   emailSelected = "";
   quizNumber;
-
+  candidateDetails: any = [];
   candidateAssessmentDetails: any = [];
   userScore:number=0;
   assesmentDate="";
@@ -43,6 +43,8 @@ export class PartnerInterviewListComponent implements OnChanges {
   showModal: boolean = false;
   partnerFeedbackForm: FormGroup;
   submitted = false;
+  displayContractorUIFields: Boolean = false;
+  displayRegularUIFields: Boolean = true;
 
   constructor(private cv:TechnicalInterviewListComponent,private route: ActivatedRoute, private router: Router, private apiService: ApiService,private ngZone: NgZone,private fb: FormBuilder) {
       this.config = {
@@ -81,6 +83,21 @@ export class PartnerInterviewListComponent implements OnChanges {
    downloadCandidateResume(id){
     this.cv.downloadCandidateResume(id) 
   }
+
+   //To read candidate details
+   getCandidateDetails(username) {
+    this.mode="displayModalBody";
+    this.apiService.getCandidateDetails(username).subscribe((data) => {
+         this.candidateDetails = data;
+         if (this.candidateDetails[0].employeeType == 'Contractor') {
+              this.displayContractorUIFields = true;
+              this.displayRegularUIFields = false;
+         } else {
+              this.displayContractorUIFields = false;
+              this.displayRegularUIFields = true;
+         }
+    })
+}
 
   pageChange(newPage: number) {
         this.router.navigate(['/partner-list'], { queryParams: { page: newPage } });

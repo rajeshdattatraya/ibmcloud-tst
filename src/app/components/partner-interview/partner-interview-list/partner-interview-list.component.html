@@ -153,6 +153,68 @@
     </div>
   </div>
   
+  <!-- Modal -->
+ <div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content" >
+      <div class="modal-header table-success" style="background-color:powderblue">
+        <h4 class="modal-title">View Candidate Details</h4>
+        <button type="button"  class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body" *ngIf="mode=='displayModalBody'">
+        <table>
+          <tr>
+            <td><label class="col-sm-8 col-form-label">Name:</label></td>
+            <td>&nbsp;{{this.candidateDetails[0].employeeName}}</td>
+          </tr>
+          <tr>
+            <td><label class="col-sm-8 col-form-label">Email:</label></td>
+            <td>&nbsp;{{this.candidateDetails[0].email}}</td>
+          </tr>
+          <tr *ngIf="displayRegularUIFields">
+            <td><label class="col-sm-10 col-form-label">Band:</label></td>
+            <td>&nbsp;{{this.candidateDetails[0].band}}</td>
+          </tr>
+          <tr>
+            <td><label class="col-sm-10 col-form-label">Job Role:</label></td>
+            <td>&nbsp;{{this.candidateDetails[0].JRSS}}</td>
+          </tr>
+          <tr>
+            <td><label class="col-sm-10 col-form-label">Technology Stream:</label></td>
+            <td>&nbsp;{{this.candidateDetails[0].technologyStream}}</td>
+          </tr>
+          <tr>
+            <td><label class="col-sm-10 col-form-label">Phone Number:</label></td>
+            <td>&nbsp;{{this.candidateDetails[0].phoneNumber}}</td>
+          </tr>
+          <tr *ngIf="displayRegularUIFields">
+            <td><label class="col-sm-10 col-form-label">Date of Joining:</label></td>
+            <td>&nbsp;{{this.candidateDetails[0].dateOfJoining.split('T')[0]}}</td>
+          </tr>
+          <tr *ngIf="displayContractorUIFields">
+            <td><label class="col-sm-10 col-form-label">Date of Birth:</label></td>
+            <td>&nbsp;{{this.candidateDetails[0].dateOfJoining.split('T')[0]}}</td>
+          </tr>
+          <tr>
+            <td><label class="col-sm-10 col-form-label">Status:</label></td>
+            <td>&nbsp;{{this.candidateDetails[0].candidate_users[0].status}}</td>
+          </tr>
+          <tr>
+            <td><label class="col-sm-10 col-form-label">Quiz Attempts:</label></td>
+            <td>&nbsp;{{this.candidateDetails[0].candidate_users[0].quizNumber}}</td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer table-success" style="background-color:powderblue">
+        <button type="button" style="background-color:#0043CE;"  class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 </div>
 <!-- Code Ends.-->
 
