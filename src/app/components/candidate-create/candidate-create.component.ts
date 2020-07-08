@@ -8,6 +8,8 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { appConfig } from './../../model/appConfig';
 import { browserRefresh } from '../../app.component';
 import * as CryptoJS from 'crypto-js';
+import { UserResultWorkFlow } from './../../model/userResultWorkFlow';
+import { ResultPageService } from './../../components/result-page/result-page.service';
 
 
 @Component({
@@ -34,12 +36,19 @@ export class CandidateCreateComponent implements OnInit {
   EmployeeType:any = ['Regular','Contractor'];
   displayContractorUIFields: Boolean = false;
   displayRegularUIFields: Boolean = true;
+  passingScore;
+  stage1;
+  stage2;
+  stage3;
+  stage4;
+  stage5;
 
   constructor(
     public fb: FormBuilder,
     private router: Router,
     private ngZone: NgZone,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private resultPageService: ResultPageService
   ) {
     this.browserRefresh = browserRefresh;
     if (!this.browserRefresh) {
@@ -175,7 +184,10 @@ export class CandidateCreateComponent implements OnInit {
     if(!this.resume){
       let bufferLength = 10;
       let ab = new ArrayBuffer(bufferLength);
-      this.resume = new File([ab], "ResumeEmpty.doc");
+      let resumeBlob : any;
+      resumeBlob =  new Blob([ab], {type: "application/octet-stream"});
+      resumeBlob.name =  "ResumeEmpty.doc";
+      this.resume = resumeBlob;
       console.log("Resume not selected");
     }
     let reader = new FileReader();
@@ -218,9 +230,7 @@ export class CandidateCreateComponent implements OnInit {
       this.resume.name,
       this.resumeText
       );
-    }
-
-    
+    } 
  
     let user = new UserDetails(this.candidateForm.value.email,
      this.password,
@@ -270,7 +280,51 @@ export class CandidateCreateComponent implements OnInit {
                         }, (error) => {
                           console.log(error);
                         })
-            }}        
+              //Create Candidate details in Results collection, in case the Stage1 and Stage2 are skipped.
+              this.apiService.getJrss(this.candidateForm.value.JRSS).subscribe((res) => {
+                  if (res['stage1_OnlineTechAssessment']) {
+                    this.stage1 = "Not Started";
+                  } else {
+                    this.stage1 = "Skipped";
+                  }
+                  if (res['stage2_PreTechAssessment']) {
+                    this.stage2 = "Not Started";
+                  } else {
+                    this.stage2 = "Skipped";
+                  }
+                  if (res['stage3_TechAssessment']) {
+                    this.stage3 = "Not Started";
+                  } else {
+                    this.stage3 = "Skipped";
+                  }
+                  if (res['stage4_ManagementInterview']) {
+                    this.stage4 = "Not Started";
+                  } else {
+                    this.stage4 = "Skipped";
+                  }
+                  if (res['stage5_ProjectAllocation']) {
+                    this.stage5 = "Not Started";
+                  } else {
+                    this.stage5 = "Skipped";
+                  }
+                  if (this.stage1 == 'Skipped') {
+                  console.log("Stage 1 is skipped for this JRSS");
+                  //Initialzing the user Result workflow collection
+                  let userResultWokFlow = new UserResultWorkFlow(this.candidateForm.value.email, '',
+                  this.quizNumber, this.stage1, this.stage2, this.stage3, this.stage4, this.stage5);
+                  //Create Collecetion in User table.
+                  this.resultPageService.saveResult(userResultWokFlow).subscribe(
+                    (res) => {
+                      console.log('Results for the user have been successfully created if Stage 1 is skipped');
+                    }, (error) => {
+                      console.log(error);
+                    });
+                  } else{
+                    console.log("Stage 1 is not skipped for this JRSS");
+                  }
+                
+                });
+            }}       
           }, (error) => {
       console.log(error);
     })

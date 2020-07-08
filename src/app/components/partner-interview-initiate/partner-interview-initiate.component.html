@@ -31,7 +31,8 @@
         <td  width="25%"><label>Technology Stream:</label></td>
         <td  width="25%">{{this.partnerInterviewDetails[0].result_users[0].technologyStream}}</td>
         <td  width="25%"><label>Online Test Result:</label></td>
-        <td  width="25%">{{this.partnerInterviewDetails[0].userScore}}%</td>
+        <td  width="25%" *ngIf="this.partnerInterviewDetails[0].userScore!=null">{{this.partnerInterviewDetails[0].userScore}}%</td>
+        <p *ngIf="this.partnerInterviewDetails[0].userScore==null">N/A</p>
       </tr>
       <tr>
         <td  width="25%"><label>You can download CV here:</label></td>
