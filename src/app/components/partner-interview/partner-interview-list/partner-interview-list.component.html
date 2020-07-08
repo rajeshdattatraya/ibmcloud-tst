@@ -24,7 +24,7 @@
             <input type="radio" name="radiogroup"
                    (change)="onSelectionChange(partnerInterview.userName,partnerInterview.quizNumber)">
           </td>
-          <td  width="13%">{{partnerInterview.result_users[0].employeeName}}</td>
+          <td width="20%"><a href="#myModal" (click)="getCandidateDetails(partnerInterview.userName)" class="col-4 cursor-pointer" data-toggle="modal" >{{partnerInterview.result_users[0].employeeName}}</a></td>
           <td  width="25%">{{partnerInterview.result_users[0].JRSS}}</td>
           <td  width="20%"><a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(partnerInterview.userName,partnerInterview.quizNumber,partnerInterview.result_users[0].employeeName,partnerInterview.userScore,partnerInterview.createdDate)" class="col-4 cursor-pointer" data-toggle="modal" *ngIf="partnerInterview.userScore!=null">{{partnerInterview.userScore}}%</a><p *ngIf="partnerInterview.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p></td>
           <td  width="23%">{{partnerInterview.smeResult}}</td>
