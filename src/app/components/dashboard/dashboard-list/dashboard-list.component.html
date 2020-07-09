@@ -97,7 +97,7 @@
                 <tr>
                   <td width="25%"><label>Online Test Result:</label></td>
                   <td width="25%" *ngIf="this.dashboardDetails[0].userScore!=null">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{this.dashboardDetails[0].userScore}}%</td>
-                  <p *ngIf="this.dashboardDetails[0].userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;N/A</p>
+                  <td width="25%" *ngIf="this.dashboardDetails[0].userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;N/A</td>
                   <td width="25%"></td>
                   <td width="25%"></td>
                 </tr>
@@ -109,6 +109,11 @@
           <div class="card-header" style="background-color:powderblue">Technical Interview Details</div>
           <div class="card-body">
             <table>
+              <tr>
+                 <td  width="25%"><label>Technical Interview Score:</label></td>
+                 <td  width="25%" *ngIf="this.dashboardDetails[0].avgTechScore!=null">{{this.dashboardDetails[0].avgTechScore}}/10</td>
+                 <td  width="25%" *ngIf="this.dashboardDetails[0].avgTechScore==null">N/A</td>
+              </tr>
               <tr>
                 <td width="25%"><label>SME Result:</label></td>
                 <td colspan="3" width="75%">&nbsp;{{this.dashboardDetails[0].smeResult}}</td>

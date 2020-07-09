@@ -94,7 +94,7 @@ export class ResultPageComponent implements OnInit {
                 if (this.numberOfCorrectAns >= this.passingScore) {
                   this.displayMsg = "Congratulations on completing the exam."
                 } else {
-                  this.displayMsg = "Unfortunately, you didn't meet the selection criteria."
+                  this.displayMsg = "Thank you for completing the online assessment test, account hiring manager will come back to you shortly."
                 }
 
             if (res['stage1_OnlineTechAssessment'] && this.numberOfCorrectAns >=this.passingScore) {
