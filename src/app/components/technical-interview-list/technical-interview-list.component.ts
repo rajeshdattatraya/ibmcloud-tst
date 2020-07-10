@@ -193,7 +193,7 @@ export class TechnicalInterviewListComponent implements OnInit {
   }
 
   search(filters: any): void {
-    Object.keys(filters).forEach(key => filters[key] === '' ? delete filters[key] : key);
+    Object.keys(filters).forEach(key => (filters[key] === '' || filters[key] ===  null) ? delete filters[key] : key);
     this.filterUserList(filters, this.technicalInterviewCandidateList);
   }
 
