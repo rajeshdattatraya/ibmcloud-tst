@@ -7,7 +7,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { appConfig } from './../../model/appConfig';
 import { browserRefresh } from '../../app.component';
 import * as CryptoJS from 'crypto-js';
-import { SpecialUser } from './../../model/SpecialUser';
+import { SpecialUser } from './../../model/specialUser';
 
 @Component({
   selector: 'app-adminuser-create',
