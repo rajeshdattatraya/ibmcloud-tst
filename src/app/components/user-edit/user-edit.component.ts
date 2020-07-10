@@ -2,7 +2,7 @@ import { ApiService } from './../../service/api.service';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { appConfig } from './../../model/appConfig';
 import { browserRefresh } from '../../app.component';
-import { SpecialUser } from './../../model/SpecialUser';
+import { SpecialUser } from './../../model/specialUser';
 import { Component, OnInit, NgZone } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 
