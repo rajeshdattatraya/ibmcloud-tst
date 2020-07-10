@@ -9,14 +9,12 @@
             <td width="20%"><div class="col-sm-4"><label>Name: </label></div></td>
             <td width="35%"><div class="form-group row"><div class="col-sm-8"><input type="search" #candiateName formControlName="employeeName" placeholder="Search using Candidate Name" id="search4" aria-label="Search" >
             </div></div></td>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <button class="btn btn-sm btn-primary" style="background-color:#0043CE;" (click)="search(form.value)">Search</button>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+             <button type="reset" class="btn btn-sm btn-primary" style="background-color:#0043CE;">Clear</button>
           </tr>
         </table>
-        <div class="form-group row">
-          <div class="col-sm-4">
-            &nbsp;&nbsp;&nbsp;
-            <button class="btn btn-sm btn-primary" style="background-color:#0043CE;" (click)="search(form.value)">Search</button>
-          </div>
-        </div>
       </div>
     </form>
     </div>
