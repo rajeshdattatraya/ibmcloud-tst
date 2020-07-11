@@ -36,6 +36,7 @@ import { StreamDeleteComponent } from './components/stream-delete/stream-delete.
 import { ReportComponent } from './components/report/report.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { StreamAddComponent } from './components/stream-add/stream-add.component';
+import { ViewInterviewStatusComponent } from './components/view-interview-status/view-interview-status.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login-component' },
@@ -77,6 +78,7 @@ const routes: Routes = [
   { path: 'delete-stream/:id', component: StreamDeleteComponent, canDeactivate:[DeactivateGuard] },
   { path: 'edit-user/:docid', component: UserEditComponent },
   { path: 'stream-add', component: StreamAddComponent },
+  { path: 'viewinterview-status', component: ViewInterviewStatusComponent },
 ];
 
 @NgModule({

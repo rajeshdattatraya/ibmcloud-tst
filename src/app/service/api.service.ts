@@ -601,4 +601,14 @@ createTechStream(data): Observable<any> {
 }
 
 
+getCandidateInterviewStatus(): Observable<any> {
+  let url = `${this.userResultUri}/getCandidateInterviewStatus`;
+  return this.http.get(url, {headers: this.headers}).pipe(
+        map((res: Response) => {
+          return res || {}
+        }),
+        catchError(this.errorMgmt)
+  )
+}
+
 }
