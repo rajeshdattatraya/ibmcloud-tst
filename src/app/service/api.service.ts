@@ -23,6 +23,7 @@ export class ApiService {
   headers = new HttpHeaders().set('Content-Type', 'application/json');
   baseUserroleUri:string = appConfig.baseUri + '/api/userrole';
   techStreamUri:string = appConfig.baseUri + '/techStream';
+  sendEmailUri:string = appConfig.baseUri + '/sendEmail';
 
   constructor(private http: HttpClient) { }
 // Get all JRSS
@@ -609,6 +610,15 @@ getCandidateInterviewStatus(): Observable<any> {
         }),
         catchError(this.errorMgmt)
   )
+}
+
+// Send Email
+sendEmail(data): Observable<any> {  
+  let url = `${this.sendEmailUri}/sendEmail`;
+  return this.http.post(url, data)
+    .pipe(
+      catchError(this.errorMgmt)
+    )
 }
 
 }

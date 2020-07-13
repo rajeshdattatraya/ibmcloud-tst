@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { browserRefresh } from '../../app.component';
 import { OperationsDetails } from './../../model/OperationsDetails';
 import {TechnicalInterviewListComponent} from '../technical-interview-list/technical-interview-list.component';
+import { SendEmail } from './../../model/sendEmail';
 
 @Component({
   selector: 'app-operations-project-initiate',
@@ -92,6 +93,23 @@ get myForm(){
 
   onSubmit(id) {
     this.submitted = true;
+
+    // Set Email parameters
+    let fromAddress = "tsttool2020@gmail.com";
+    let fromPassword = "tst@2020";
+    let toAddress = this.operationsProjectDetails[0].result_users[0].username;    
+    let emailSubject = "Project Assignment Notification";   
+    let emailMessage = "Dear " + this.operationsProjectDetails[0].result_users[0].employeeName + ",<br> \
+      <p>This is to formally notify you of your New assignment within DWP IBM India. The details of your assignment are given below.<br> </p><p>&emsp;&emsp;&emsp;\
+      Employee Name : " +this.operationsProjectDetails[0].result_users[0].employeeName+ "<br>&emsp;&emsp;&emsp;\
+      Location : " +this.operationsProjectForm.value.projectLocation+ "<br>&emsp;&emsp;&emsp;\
+      Client : " + this.operationsProjectForm.value.clientProject + "<br>&emsp;&emsp;&emsp;\
+      Project Name : " + this.operationsProjectForm.value.projectName + "<br>&emsp;&emsp;&emsp;\
+      Project Position : " +this.operationsProjectForm.value.projectPosition+ "</p>\
+      <p>This email is to be treated as a formal communication to you, notifying you of your new assignment.  It is the employee's responsibility to contact the manager, and initiate the assignment. If you are unable to do so despite all efforts, please contact  your People Manager or IBM Human Resources. </p>\
+      <p>I wish you all the best in your new assignment, and look forward to you contributing productively to the Company!</p> \
+      <p>From, <br>DWP Team and Management</p>";   
+    
     if (!this.operationsProjectForm.valid) {
       return false;
     } else {
@@ -106,6 +124,17 @@ get myForm(){
             (res) => {
               window.alert("Project Assignment detail is successfully submitted");
               console.log("Operations stage status successfully updated to Results table!");
+
+              // Send notification to the candidate
+              let sendEmailObject = new SendEmail(fromAddress, toAddress, emailSubject, emailMessage, fromPassword);
+              this.apiService.sendEmail(sendEmailObject).subscribe(
+                (res) => {
+                    console.log("Email sent successfully to " + this.operationsProjectDetails[0].result_users[0].username);            
+                }, (error) => {
+                    console.log("Error occurred while sending email to " + this.operationsProjectDetails[0].result_users[0].username);
+                    console.log(error);
+              });
+
             }, (error) => {
               console.log(error);
             });
