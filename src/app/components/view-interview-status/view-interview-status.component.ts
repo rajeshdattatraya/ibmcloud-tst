@@ -25,6 +25,7 @@ export class ViewInterviewStatusComponent implements OnInit {
   isRowSelected = false;
   mode = "CandidateList";
   userName = "";
+  accessLevel = "management";
   stage1: boolean = false;
   stage2: boolean = false;
   stage3: boolean = false;
