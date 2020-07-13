@@ -13,32 +13,47 @@ import { appConfig } from './../../model/appConfig';
 })
 export class ViewInterviewStatusComponent implements OnInit {
   config: any;
+  submitted = false;
+  formReset = false;
+  workFlowForm: FormGroup;
   public browserRefresh: boolean;
-  userName = "";
   candidateInterviewStatus:any = [];
-  resultId;
-  candidateUserId;
-  candidateUserName;
+  candidateDetails: any;
+  candidateUserId = "";
+  candidateUserName = "";
   index;
   isRowSelected = false;
+  mode = "CandidateList";
+  userName = "";
+  stage1: boolean = false;
+  stage2: boolean = false;
+  stage3: boolean = false;
+  stage4: boolean = false;
 
-  constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
+  constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService,public fb: FormBuilder) {
     this.config = {
       currentPage: appConfig.currentPage,
       itemsPerPage: appConfig.itemsPerPage,
       totalItems:appConfig.totalItems
     };
     this.browserRefresh = browserRefresh;
-    if (!this.browserRefresh) {
-        this.userName = this.router.getCurrentNavigation().extras.state.username;
-    }
     route.queryParams.subscribe(
     params => this.config.currentPage= params['page']?params['page']:1 );
     this.getCandidateInterviewStatus();
+    this.mainForm();
   }
 
 
   ngOnInit(): void {
+  }
+
+  mainForm() {
+      this.workFlowForm = this.fb.group({
+        stage1OnlineTechAssessment: [false],
+        stage2PreTechAssessment: [false],
+        stage3TechAssessment: [false],
+        stage4ManagementInterview: [false]
+      })
   }
 
 
@@ -61,15 +76,31 @@ export class ViewInterviewStatusComponent implements OnInit {
 
 
   onSelectionChange(resultId,candidateUserName,i){
-    this.resultId=resultId;
-    //this.candidateUserId=candidateUserId;
+    this.candidateUserId=resultId;
     this.candidateUserName=candidateUserName;
     this.index=i;
     this.isRowSelected = true;
   }
 
-  exceptionalApproval(){
-    alert("Exception Approval Code.")
+  exceptionalApproval() {
+    if (this.candidateUserId == "") {
+        alert("Please select the candidate");
+    } else {
+       this.mode="ExceptionalApproval";
+       this.apiService.viewCandidateInterviewStatus(this.candidateUserId).subscribe((data) => {
+          this.candidateDetails = data;
+       })
+    }
+  }
+
+
+  onSubmit() {
+    alert("Submit");
+  }
+
+  //Cancel
+  cancelForm(){
+      this.mode = "CandidateList";
   }
 
 }

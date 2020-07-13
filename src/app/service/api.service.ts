@@ -612,6 +612,16 @@ getCandidateInterviewStatus(): Observable<any> {
   )
 }
 
+viewCandidateInterviewStatus(id): Observable<any> {
+  let url = `${this.userResultUri}/viewCandidateInterviewStatus/${id}`;
+  return this.http.get(url, {headers: this.headers}).pipe(
+        map((res: Response) => {
+          return res || {}
+        }),
+        catchError(this.errorMgmt)
+  )
+}
+
 // Send Email
 sendEmail(data): Observable<any> {  
   let url = `${this.sendEmailUri}/sendEmail`;

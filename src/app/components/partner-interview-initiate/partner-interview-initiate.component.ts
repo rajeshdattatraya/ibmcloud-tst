@@ -129,7 +129,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
             if (this.partnerFeedbackForm.value.partnerFeedback == "") {
               alert("Please enter feedback");
             } else {
-              this.stage4_status = "Skipped";
+              this.stage4_status = "Completed";
               console.log("quizNumber",quizNumber);
               console.log("emailSelected",emailSelected);
               let partnerDetails = new PartnerDetails("Exceptional Approval Given",

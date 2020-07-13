@@ -155,24 +155,21 @@ export class TechnicalInterviewListComponent implements OnInit {
 
   }
   exceptionalApproval() {
-
     if (this.emailSelected == "") {
-      alert("please select the candidate")
+      alert("Please select the candidate")
     }
     else {
       if (window.confirm("Are you sure you want to provide exemption approval?")) {
         this.showModal = true;
         this.content.open();
-
-      }
-      else {
+      } else {
         this.showModal = false;
       }
     }
   }
   initiateInterview() {
     if (this.emailSelected == "") {
-      alert("please select the candidate")
+      alert("Please select the candidate")
     }
     else {
       this.router.navigate(['/technical-list/', this.emailSelected], { state: { username: this.userName, quizId: this.quizNumber, accessLevel: this.accessLevel } })
