@@ -3,21 +3,27 @@
   <div class="card-body">
     <form novalidate [formGroup]="form">
       <div>
-        <br>
-        <div class="form-group row">
-          <div class="col-sm-3">
-            <input type="search" #candiateName formControlName="employeeName" placeholder="Search using Candidate Name" id="search4" aria-label="Search" >
-          </div>
-          <div class="col-sm-3">
-            <input type="search" #emailID formControlName="userName" placeholder="Search using Email ID" id="search4" aria-label="Search" mdbInput>
-          </div>
-          <div class="col-sm-3">
-            <input type="search" #jrss formControlName="JRSS" placeholder="Search using Job Role" id="search4" aria-label="Search" mdbInput>
-          </div>
+        <table>
+          <tr width="100%">
+            <td width="35%"><div class="col-sm-8"><label>Name: </label>&nbsp;<input type="search" #candiateName formControlName="employeeName" placeholder="Search using Candidate Name" id="search4" aria-label="Search" >
+            </div></td>
 
-          <button class="btn btn-primary float-right" style="background-color:#0043CE;" (click)="search(form.value)">Search</button>
+            <td width="30%"><div class="col-sm-8"><label>Job Role: </label>&nbsp;<input type="search" #jrss formControlName="JRSS" placeholder="Search using Job Role" id="search4" aria-label="Search" mdbInput>
+            </div></td>
 
+            <td width="30%"><div class="col-sm-8"><label>Email id: </label>&nbsp;<input type="search" #jrss formControlName="userName" placeholder="Search using Eamil id" id="search4" aria-label="Search" mdbInput>
+            </div></td>
+          </tr>
+        </table>
+
+        <div class="form-group">&nbsp;
+          <div class="row justify-content-center"> &nbsp;&nbsp;&nbsp;    
+            <button class="btn btn-sm btn-primary" style="background-color:#0043CE;" (click)="search(form.value)">Search</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="reset" class="btn btn-sm btn-primary" style="background-color:#0043CE;">Clear</button>
+          </div>
         </div>
+        <br>
       </div>
     </form>
   </div>
