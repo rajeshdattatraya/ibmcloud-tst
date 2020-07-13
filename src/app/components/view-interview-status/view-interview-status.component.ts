@@ -38,6 +38,10 @@ export class ViewInterviewStatusComponent implements OnInit {
       totalItems:appConfig.totalItems
     };
     this.browserRefresh = browserRefresh;
+    if (!this.browserRefresh) {
+        this.userName = this.router.getCurrentNavigation().extras.state.username;
+        this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
+    }
     route.queryParams.subscribe(
     params => this.config.currentPage= params['page']?params['page']:1 );
     this.getCandidateInterviewStatus();
