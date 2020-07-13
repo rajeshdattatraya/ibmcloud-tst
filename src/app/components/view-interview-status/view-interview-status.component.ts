@@ -29,6 +29,7 @@ export class ViewInterviewStatusComponent implements OnInit {
   stage2: boolean = false;
   stage3: boolean = false;
   stage4: boolean = false;
+  preTechQuestion;
 
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService,public fb: FormBuilder) {
     this.config = {
@@ -73,7 +74,13 @@ export class ViewInterviewStatusComponent implements OnInit {
       
     })
   }
-
+  preTechQuestionCheck(event) {
+    if (this.preTechQuestion <= 0) {
+      event.target.checked = false
+      window.alert("There are no Pre-technical Questions configured for this Job role")
+      this.workFlowForm.value.stage2PreTechAssessment=false
+    }
+  }
 
   onSelectionChange(resultId,candidateUserName,i){
     this.candidateUserId=resultId;
