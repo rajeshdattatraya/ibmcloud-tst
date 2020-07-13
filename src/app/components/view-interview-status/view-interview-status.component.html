@@ -88,6 +88,13 @@
       </tr>
       </tbody>
     </table>
+    <div  class="float-right text-right" *ngIf="candidateInterviewStatus.length > 0">
+      <span (click)="exceptionalApproval()">
+             <button type="button"class="btn btn-success btn-sm" style="background-color:#0043CE;">Exceptional Approval</button>
+             
+      </span>
+      
+     </div>
     <!-- <div *ngIf="candidateInterviewStatus.length > 0">
         <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
     </div>  -->

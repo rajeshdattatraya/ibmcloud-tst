@@ -68,4 +68,8 @@ export class ViewInterviewStatusComponent implements OnInit {
     this.isRowSelected = true;
   }
 
+  exceptionalApproval(){
+    alert("Exception Approval Code.")
+  }
+
 }
