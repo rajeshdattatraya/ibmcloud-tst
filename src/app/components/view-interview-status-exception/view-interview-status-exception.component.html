@@ -1,0 +1,115 @@
+  <nav class="navbar navbar-expand-lg navbar-light" style="background-color:powderblue">
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active"><b>Exceptional Approval</b></a>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <ul class="navbar-nav navbar-right">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/login-component" routerLinkActive="active"><b>Logout</b></a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <br/>
+
+  <div class="card">
+    <div class="modal-header" style="background-color:powderblue"><b>View Candidate Details</b></div>
+    <div class="card-body">
+      <table>
+        <tbody>
+        <tr>
+          <td  width="25%"><label>Name:</label></td>
+          <td  width="25%">{{this.candidateDetails[0].employeeName}}</td>
+          <td  width="25%"><label>Job Role:</label></td>
+          <td  width="25%">{{this.candidateDetails[0].JRSS}}</td>
+        </tr>
+        <tr>
+          <td  width="25%"><label>Technology Stream:</label></td>
+          <td  width="25%">{{this.candidateDetails[0].technologyStream}}</td>
+          <td  width="25%" *ngIf="displayResultFields"><label>Online Test Result:</label></td>
+          <td  width="25%" *ngIf="displayResultFields">{{this.candidateDetails[0].candidate_results[0].userScore}}</td>
+        </tr>
+        <tr>
+          <td  width="25%"><label>You can download CV here:</label></td>
+          <td  width="20%"><a href="#"  routerLinkActive="active" class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
+          <td  width="25%"><label>You can access the Pre-Technical-Interview form here:</label></td>
+          <td  width="20%"><a href="#"  routerLinkActive="active"  class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
+        </tr>
+        <tr *ngIf="displayResultFields">
+          <td  width="25%"><label>Technical Interview Score:</label></td>
+          <td  width="25%">{{this.candidateDetails[0].candidate_results[0].avgTechScore}}</td>
+          <td  width="25%"><label>Technical Interview Result:</label></td>
+          <td  width="25%">{{this.candidateDetails[0].candidate_results[0].smeResult}}</td>
+        </tr>
+        <tr *ngIf="displayResultFields">
+          <td  width="25%"><label>Technical Interview Feedback:</label></td>
+          <td  colspan="3" width="75%"><textarea type="textArea" maxlength="3000" cols="90" disabled readonly value="{{this.candidateDetails[0].candidate_results[0].smeFeedback}}"></textarea></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <br>
+  <div class="card">
+    <div  style="background-color:powderblue" class="card-header" ><b>Provide exceptional approval for : </b></div>
+    <div class="card-body">
+      <form [formGroup]="workFlowForm" (ngSubmit)="exceptionSubmit()">
+        <div class="form-group row" *ngIf="!stage1Completed">
+          <label class="col-sm-4 col-form-label"></label>
+          <div class="col-sm-6">
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="checkbox" class="form-check-input"  formControlName="stage1OnlineTechAssessment" id="stage1OnlineTechAssessmentCheck1">
+            <label class="form-check-label" for="stage1OnlineTechAssessmentCheck1">Online Technical Assessment</label>
+          </div>
+        </div>
+        <div class="form-group row" *ngIf="!stage2Completed">
+          <label class="col-sm-4 col-form-label"></label>
+          <div class="col-sm-6">
+            &nbsp;&nbsp;&nbsp;&nbsp;
+
+            <input type="checkbox" class="form-check-input" (change)="preTechQuestionCheck($event)" formControlName="stage2PreTechAssessment" id="stage2PreTechAssessmentCheck2">
+            <label class="form-check-label" for="stage2PreTechAssessmentCheck2">Pre-technical Interview Assessment Form</label>
+          </div>
+        </div>
+        <div class="form-group row" *ngIf="!stage3Completed">
+          <label class="col-sm-4 col-form-label"></label>
+          <div class="col-sm-6">
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="checkbox" class="form-check-input" formControlName="stage3TechAssessment" id="stage3TechAssessmentCheck3">
+            <label class="form-check-label" for="stage3TechAssessmentCheck3">Technical Interview</label>
+          </div>
+        </div>
+        <div class="form-group row" *ngIf="!stage4Completed">
+          <label class="col-sm-4 col-form-label"></label>
+          <div class="col-sm-6">
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="checkbox" class="form-check-input" formControlName="stage4ManagementInterview" id="stage4ManagementInterviewCheck4">
+            <label class="form-check-label" for="stage4ManagementInterviewCheck4">Partner Interview</label>
+          </div>
+        </div>
+        <div *ngIf="stage1Completed && stage2Completed && stage3Completed && stage4Completed">
+          <p>All the workflow stages are completed, please click on the <b>Project Assignment</b> tab to assign the candidate to project.</p>
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label"></label>
+            <div class="col-sm-6">
+              <button type="button" class="btn btn-success btn-sm" style="background-color:#0043CE;" (click)="cancelForm()">Cancel</button>
+            </div>
+          </div>
+        </div>
+        <br/>
+        <div class="form-group row" *ngIf="!(stage1Completed && stage2Completed && stage3Completed && stage4Completed)">
+          <label class="col-sm-4 col-form-label"></label>
+          <div class="col-sm-6">
+            <button class="btn btn-success btn-sm" style="background-color:#0043CE;" type="submit">Save</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="button" class="btn btn-success btn-sm" style="background-color:#0043CE;" (click)="cancelForm()">Cancel</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>

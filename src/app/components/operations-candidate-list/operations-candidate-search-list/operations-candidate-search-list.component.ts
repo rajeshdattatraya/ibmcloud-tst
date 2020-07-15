@@ -3,7 +3,7 @@ import { ApiService } from './../../../service/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { browserRefresh } from '../../../app.component';
 import {TechnicalInterviewListComponent} from '../../technical-interview-list/technical-interview-list.component';
-
+import { appConfig } from './../../../model/appConfig';
 
 @Component({
   selector: 'app-operations-candidate-search-list',
@@ -37,9 +37,9 @@ export class OperationsCandidateSearchListComponent implements OnChanges {
   
   constructor(private cv:TechnicalInterviewListComponent,private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
     this.config = {
-      currentPage: 1,
-      itemsPerPage: 5,
-      totalItems:0
+      currentPage: appConfig.currentPage,
+      itemsPerPage: appConfig.itemsPerPage,
+      totalItems:appConfig.totalItems
     };
     this.browserRefresh = browserRefresh;
     if (!this.browserRefresh) {

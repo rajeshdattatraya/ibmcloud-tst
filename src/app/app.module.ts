@@ -44,6 +44,7 @@ import { ReportComponent } from './components/report/report.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { StreamAddComponent } from './components/stream-add/stream-add.component';
 import { ViewInterviewStatusComponent } from './components/view-interview-status/view-interview-status.component';
+import { ViewInterviewStatusExceptionComponent } from './components/view-interview-status-exception/view-interview-status-exception.component';
 
 
 export let browserRefresh = false;
@@ -81,7 +82,8 @@ export let browserRefresh = false;
     ReportComponent,
     UserEditComponent,
     StreamAddComponent,
-    ViewInterviewStatusComponent   
+    ViewInterviewStatusComponent,
+    ViewInterviewStatusExceptionComponent   
     ],
   imports: [
     BrowserModule,
