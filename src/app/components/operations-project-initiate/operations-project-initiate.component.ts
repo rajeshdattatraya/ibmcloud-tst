@@ -95,8 +95,7 @@ get myForm(){
     this.submitted = true;
 
     // Set Email parameters
-    let fromAddress = "tsttool2020@gmail.com";
-    let fromPassword = "tst@2020";
+    let fromAddress = this.userName;    
     let toAddress = this.operationsProjectDetails[0].result_users[0].username;    
     let emailSubject = "Project Assignment Notification";   
     let emailMessage = "Dear " + this.operationsProjectDetails[0].result_users[0].employeeName + ",<br> \
@@ -126,7 +125,7 @@ get myForm(){
               console.log("Operations stage status successfully updated to Results table!");
 
               // Send notification to the candidate
-              let sendEmailObject = new SendEmail(fromAddress, toAddress, emailSubject, emailMessage, fromPassword);
+              let sendEmailObject = new SendEmail(fromAddress, toAddress, emailSubject, emailMessage);
               this.apiService.sendEmail(sendEmailObject).subscribe(
                 (res) => {
                     console.log("Email sent successfully to " + this.operationsProjectDetails[0].result_users[0].username);            

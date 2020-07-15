@@ -3,14 +3,12 @@ export class SendEmail {
    from: String;  
    to: string;
    subject: string;
-   message: string;
-   password: string;
+   message: string; 
    
-   constructor(from, to, subject, message, password ) {    
+   constructor(from, to, subject, message) {    
     this.from = from;   
     this.to = to;
     this.subject = subject;  
-    this.message = message; 
-    this.password = password;   
+    this.message = message;    
    }
 }
