@@ -128,9 +128,9 @@ get myForm(){
               let sendEmailObject = new SendEmail(fromAddress, toAddress, emailSubject, emailMessage);
               this.apiService.sendEmail(sendEmailObject).subscribe(
                 (res) => {
-                    console.log("Email sent successfully to " + this.operationsProjectDetails[0].result_users[0].username);            
+                    console.log("Email sent successfully to " + toAddress);            
                 }, (error) => {
-                    console.log("Error occurred while sending email to " + this.operationsProjectDetails[0].result_users[0].username);
+                    console.log("Error occurred while sending email to " + toAddress);
                     console.log(error);
               });
 

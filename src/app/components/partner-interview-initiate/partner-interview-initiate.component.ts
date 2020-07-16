@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { browserRefresh } from '../../app.component';
 import { PartnerDetails } from './../../model/PartnerDetails';
 import {TechnicalInterviewListComponent} from '../technical-interview-list/technical-interview-list.component';
+import { SendEmail } from './../../model/sendEmail';
 
 @Component({
   selector: 'app-partner-interview-initiate',
@@ -92,6 +93,13 @@ export class PartnerInterviewInitiateComponent implements OnInit {
 
    onSubmit(id) {
           this.submitted = true;
+
+          // Set Email parameters
+          let fromAddress = this.userName;    
+          let toAddress = 'ranjeku5@in.ibm.com';    
+          let emailSubject = "Candidate Assignment Notification";   
+          let emailMessage = "Project is assigned to your queue and is ready for evaluation"; 
+            
           if (!this.partnerFeedbackForm.valid) {
             return false;
           } else {
@@ -107,6 +115,17 @@ export class PartnerInterviewInitiateComponent implements OnInit {
                       (res) => {
                         console.log('Partner Details successfully created!')
                         window.alert("Partner's interview detail is successfully submitted");
+
+                        // Send notification to the candidate
+                        let sendEmailObject = new SendEmail(fromAddress, toAddress, emailSubject, emailMessage);
+                        this.apiService.sendEmail(sendEmailObject).subscribe(
+                        (res) => {
+                            console.log("Email sent successfully to " + toAddress);            
+                         }, (error) => {
+                            console.log("Error occurred while sending email to " + toAddress);
+                            console.log(error);
+                        });
+
                         this.ngZone.run(() => this.router.navigateByUrl('/partner-list',{state:{username:this.userName,accessLevel:this.accessLevel}}))
                       }, (error) => {
                         console.log(error);
