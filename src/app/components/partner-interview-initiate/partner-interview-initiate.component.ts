@@ -97,8 +97,12 @@ export class PartnerInterviewInitiateComponent implements OnInit {
           // Set Email parameters
           let fromAddress = this.userName;    
           let toAddress = 'ranjeku5@in.ibm.com';    
-          let emailSubject = "Candidate Assignment Notification";   
-          let emailMessage = "Project is assigned to your queue and is ready for evaluation"; 
+          let emailSubject = "Candidate Assignment Notification";            
+          let emailMessage = "Dear Team,<br><p>This is to formally notify that candidate " 
+            + this.partnerInterviewDetails[0].result_users[0].employeeName 
+            + " is added to the queue for job role " + this.partnerInterviewDetails[0].result_users[0].JRSS 
+            + ".</p><p>Please validate the candidate for new project assignment.</p>\
+            <p>Regards, <br>DWP Partner Team</p>"; 
             
           if (!this.partnerFeedbackForm.valid) {
             return false;
