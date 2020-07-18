@@ -25,6 +25,9 @@ export class PartnerInterviewInitiateComponent implements OnInit {
   displayTechInterviewFields = true;
   result: String = "";
   feedback: String = "";
+  error = '';
+  usersDetail:any = [];
+  usersArray:any = [];
 
  constructor(private cv:TechnicalInterviewListComponent,public fb: FormBuilder, private actRoute: ActivatedRoute, private router: Router,private ngZone: NgZone,
   private apiService: ApiService) {
@@ -95,8 +98,21 @@ export class PartnerInterviewInitiateComponent implements OnInit {
           this.submitted = true;
 
           // Set Email parameters
-          let fromAddress = this.userName;    
-          let toAddress = 'ranjeku5@in.ibm.com';    
+          let toAddress = "";
+          this.apiService.getUserByAccessLevel("management").subscribe( (res) => {
+              this.usersDetail = res;             
+              this.usersArray = [];
+              for (var value of this.usersDetail){           
+                  this.usersArray.push(value.username);        
+              }              
+              toAddress = this.usersArray;        
+          }, (error) => {
+                this.error = 'Error found while getting username from Users table'
+                console.log(error);
+      
+              });       
+
+          let fromAddress = this.userName;            
           let emailSubject = "Candidate Assignment Notification";            
           let emailMessage = "Dear Team,<br><p>This is to formally notify that candidate " 
             + this.partnerInterviewDetails[0].result_users[0].employeeName 
@@ -118,9 +134,9 @@ export class PartnerInterviewInitiateComponent implements OnInit {
           this.apiService.savePartnerFeedBack(id, partnerDetails).subscribe(
                       (res) => {
                         console.log('Partner Details successfully created!')
-                        window.alert("Partner's interview detail is successfully submitted");
+                        window.alert("Partner's interview detail is successfully submitted"); 
 
-                        // Send notification to the candidate
+                        // Send notification to the candidate                        
                         let sendEmailObject = new SendEmail(fromAddress, toAddress, emailSubject, emailMessage);
                         this.apiService.sendEmail(sendEmailObject).subscribe(
                         (res) => {
@@ -153,8 +169,6 @@ export class PartnerInterviewInitiateComponent implements OnInit {
               alert("Please enter feedback");
             } else {
               this.stage4_status = "Completed";
-              console.log("quizNumber",quizNumber);
-              console.log("emailSelected",emailSelected);
               let partnerDetails = new PartnerDetails("Exceptional Approval Given",
                             this.partnerFeedbackForm.value.partnerFeedback,this.userName,new Date(), this.stage4_status);
               this.apiService.updateExceptionalApprovalForStage4(partnerDetails,emailSelected,quizNumber).subscribe(res => {

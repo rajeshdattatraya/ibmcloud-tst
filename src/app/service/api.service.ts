@@ -5,7 +5,6 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { appConfig } from './../model/appConfig';
 import { UserResult} from './../model/userResult';
 
-//var passport = require('passport');
 @Injectable({
   providedIn: 'root'
 })
@@ -34,14 +33,12 @@ getJRSS() {
 // http://localhost:4000/api/preTechForm/getPreTechQuestionanire/Java%20Technical%20Assessment/candidate12@ibm.com
 getpreTechQuestions(jrss) {
   let url = `${this.basePreTechQuestionnaireUri}/${jrss}/admin`;
-  console.log("the url is "+ url);
   return this.http.get(`${this.basePreTechQuestionnaireUri}/${jrss}/admin`);
 }
  
 // Get all JRSS
 getJRSSPreTech(jrssName) {
   let url = `${this.baseJrssUri}/getJrssPreTech/${jrssName}`;
-  console.log("the url 2 is "+ url);
   return this.http.get(`${this.baseJrssUri}/getJrssPreTech/${jrssName}`);
 }
 // Create Candidate
@@ -88,7 +85,6 @@ getPreTechniaclQuestions(jrss,userName): Observable<any> {
 
   // Create Question
   createQuestion(data): Observable<any> {
-    console.log('create question apiservice');
     let url = `${this.baseUri}/createquestion`;
     return this.http.post(url, data)
       .pipe(
@@ -97,8 +93,7 @@ getPreTechniaclQuestions(jrss,userName): Observable<any> {
   }
 
     // get max Question
-    getQuestionID(): Observable<any> {
-      console.log('get question ID apiservice');
+    getQuestionID(): Observable<any> {   
       let url = `${this.baseUri}/getMaxQuestionID`;
       return this.http.get(url, {headers: this.headers}).pipe(
         map((res: Response) => {
@@ -118,7 +113,6 @@ getPreTechniaclQuestions(jrss,userName): Observable<any> {
 
   // Create user
   createUser(data): Observable<any> {
-
     let url = `${this.baseloginUri}/login`;
     return this.http.post(url, data)
       .pipe(
@@ -169,6 +163,17 @@ getPreTechniaclQuestions(jrss,userName): Observable<any> {
  // Get User
  getUserByIdAndPwd(id, pwd): Observable<any> {
   let url = `${this.baseloginUri}/readUser/${id}/${pwd}`;
+  return this.http.get(url, {headers: this.headers}).pipe(
+    map((res: Response) => {
+      return res || {}
+    }),
+    catchError(this.errorMgmt)
+  )
+}
+
+ // Get Users by access Level
+ getUserByAccessLevel(accessLevel): Observable<any> {
+  let url = `${this.baseloginUri}/readUserByAccessLevel/${accessLevel}`;
   return this.http.get(url, {headers: this.headers}).pipe(
     map((res: Response) => {
       return res || {}
@@ -317,8 +322,6 @@ return this.http.put(url, status).pipe(
  catchError(this.errorMgmt)
 )
 }
-
-
 //Start JRSS:
 
 // Create jrss
@@ -381,15 +384,6 @@ deleteJrss(id): Observable<any> {
   )
 }
 
-
-/**
- *
- * getCandidateAssessmentDetails
- * @param username
- * @author A.George
- * 29May2020
- *
- */
 getCandidateAssessmentDetails(username,quizNumber): Observable<any> {
   let url = `${this.userResultUri}/quizDetailsByUser/${username}/${quizNumber}`;
   return this.http.get(url, {headers: this.headers}).pipe(
@@ -445,8 +439,7 @@ readPartnerInterviewDetails(userName): Observable<any> {
 }
 
 //savePartnerFeedBack
-  savePartnerFeedBack(id,data): Observable<any> {
-  console.log('savePartnerFeedBack API update method',data);
+  savePartnerFeedBack(id,data): Observable<any> { 
     let url = `${this.userResultUri}/updatePartnerDetails/${id}`;
     return this.http.post(url, data)
       .pipe(
