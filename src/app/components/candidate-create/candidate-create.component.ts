@@ -10,6 +10,7 @@ import { browserRefresh } from '../../app.component';
 import * as CryptoJS from 'crypto-js';
 import { UserResultWorkFlow } from './../../model/userResultWorkFlow';
 import { ResultPageService } from './../../components/result-page/result-page.service';
+import { SendEmail } from './../../model/sendEmail';
 
 
 @Component({
@@ -324,6 +325,33 @@ export class CandidateCreateComponent implements OnInit {
                   }
                 
                 });
+
+
+                 //Send email notification for taking the assessment test given that candidate is created.
+                // Set Email parameters
+                let fromAddress = "Talent.Sourcing@in.ibm.com";
+                let toAddress = this.candidateForm.value.email;    
+                let emailSubject = "Candidate Registration Successful in Talent Sourcing Tool";   
+                let emailMessage = "Dear " + this.candidateForm.value.employeeName + ",<br> \
+                <p>We would like to confirm, your details have been successfully registered in Talent Sourcing Tool, DWP<br> </p><p>&emsp;&emsp;&emsp;\
+                To attend the online assessment test please login to the tool using below details.<br>&emsp;&emsp;&emsp;\
+                Access link: <a href='url'>https://tatclientapp.mybluemix.net</a><br>&emsp;&emsp;&emsp;\
+                User Name : " +this.candidateForm.value.email+ "<br>&emsp;&emsp;&emsp;\
+                Defalut Password : welcome <br>&emsp;&emsp;&emsp;\
+                Please change the default password when you login for first time and then go ahead with the online test<br>&emsp;&emsp;&emsp;\
+                <p>Regards, <br>DWP Operations Team</p>";    
+
+                  // Send notification to the candidate
+                  let sendEmailObject = new SendEmail(fromAddress, toAddress, emailSubject, emailMessage);
+                  this.apiService.sendEmail(sendEmailObject).subscribe(
+                    (res) => {
+                        console.log("Email sent successfully to " + this.candidateForm.value.email);            
+                    }, (error) => {
+                        console.log("Error occurred while sending email to " + this.candidateForm.value.email);
+                        console.log(error);
+                  });
+
+
             }}       
           }, (error) => {
       console.log(error);

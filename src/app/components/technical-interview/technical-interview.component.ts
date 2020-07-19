@@ -5,6 +5,7 @@ import { ApiService } from './../../service/api.service';
 import {TechnicalInterview} from './../../model/technicalinterview';
 import { saveAs } from 'file-saver';
 import {TechnicalInterviewListComponent} from '../technical-interview-list/technical-interview-list.component';
+import { SendEmail } from './../../model/sendEmail';
 
 
 @Component({
@@ -35,6 +36,10 @@ export class TechnicalInterviewComponent implements OnInit {
   resumeName1:string;
   resumeBlob:Blob;
   resumeUploaded:boolean;
+  partnerUserList:any = [];
+  partnerUsersEmail: String = "";
+  jrss: String = "";
+  candidateName: String = "";
 
   constructor(private cv:TechnicalInterviewListComponent,private fb:FormBuilder, private actRoute: ActivatedRoute, private router: Router,private ngZone: NgZone,
     private apiService: ApiService) {
@@ -224,8 +229,33 @@ export class TechnicalInterviewComponent implements OnInit {
    }
  }
 
+ readPartnerUserDet(){
+	this.apiService.getUserByRole('partner').subscribe((data) => {
+  this.partnerUserList = data;
+  for (var partnerEmail of this.partnerUserList){
+    if(this.partnerUsersEmail == ""){
+      this.partnerUsersEmail = partnerEmail.username;
+    }else{
+      this.partnerUsersEmail = this.partnerUsersEmail + ", "+partnerEmail.username;
+    }
+  }
+	})
+ }
+
+ readCandidateNameAndJrss(){
+        this.apiService.getCandidateJrss(this.userName).subscribe(
+          (res) => {      
+          this.jrss=res['JRSS'];
+          this.candidateName = res['employeeName'];
+               }, (error) => {
+               console.log(error);
+               });
+ }
+
   onSubmit() {
 
+    this.readPartnerUserDet();
+    this.readCandidateNameAndJrss();
     this.submitted = true;
     this.dynamicFormControlValidation();
     if (!this.techskillForm.valid) {
@@ -254,6 +284,27 @@ export class TechnicalInterviewComponent implements OnInit {
       this.apiService.updateResults(updateId,updateResults).subscribe(res => {
       console.log('Candidate SME Interview Details updated successfully!');
       window.alert("SME Interview Details saved successfully.");
+
+      //Send email notification to partner when 'Recommended' or 'Strongly Recommended'	
+      if(this.stage3_status == 'Completed'){
+        let fromAddress = "Talent.Sourcing@in.ibm.com";
+        let toAddress = this.partnerUsersEmail;    
+        let emailSubject = "Candidate assignment notification in Talent Sourcing Tool: Partner evaluation pending";
+        let emailMessage = "Dear Team,<br> \
+        <p>We would like to notify that the candidate "+this.candidateName+" is added to the queue for the job role " +this.jrss+".<br> </p><p>&emsp;&emsp;&emsp;\
+         Please assess the candidate for the new project assignment.<br>&emsp;&emsp;&emsp;\
+         <p>Regards, <br>DWP Operations Team</p>"; 
+         	// Send notification to the SME user
+				   let sendEmailObject2 = new SendEmail(fromAddress, toAddress, emailSubject, emailMessage);
+				   this.apiService.sendEmail(sendEmailObject2).subscribe(
+					 (res) => {
+						 console.log("Email sent successfully to " + this.partnerUsersEmail);            
+					 }, (error) => {
+						 console.log("Error occurred while sending email to " + this.partnerUsersEmail);
+						 console.log(error);
+				   }); 
+      }
+
       this.ngZone.run(() => this.router.navigateByUrl('/technical-interview-list',{state:{username:this.userName,accessLevel:this.accessLevel}}))
       }, (error) => {
       console.log(error);

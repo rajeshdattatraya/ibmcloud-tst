@@ -624,4 +624,15 @@ sendEmail(data): Observable<any> {
     )
 }
 
+// Get Users table records based on role
+getUserByRole(id): Observable<any> {
+  let url = `${this.baseloginUri}/getUserByRole/${id}`;
+  return this.http.get(url, {headers: this.headers}).pipe(
+    map((res: Response) => {
+      return res || {}
+    }),
+    catchError(this.errorMgmt)
+    )
+  }
+
 }
