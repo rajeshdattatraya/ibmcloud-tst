@@ -332,14 +332,14 @@ export class CandidateCreateComponent implements OnInit {
                 let fromAddress = "Talent.Sourcing@in.ibm.com";
                 let toAddress = this.candidateForm.value.email;    
                 let emailSubject = "Candidate Registration Successful in Talent Sourcing Tool";   
-                let emailMessage = "Dear " + this.candidateForm.value.employeeName + ",<br> \
-                <p>We would like to confirm, your details have been successfully registered in Talent Sourcing Tool, DWP<br> </p><p>&emsp;&emsp;&emsp;\
-                To attend the online assessment test please login to the tool using below details.<br>&emsp;&emsp;&emsp;\
-                Access link: <a href='url'>https://tatclientapp.mybluemix.net</a><br>&emsp;&emsp;&emsp;\
-                User Name : " +this.candidateForm.value.email+ "<br>&emsp;&emsp;&emsp;\
-                Defalut Password : welcome <br>&emsp;&emsp;&emsp;\
+                let emailMessage = "Dear " + this.candidateForm.value.employeeName + ",<br><br> \
+                We would like to confirm, your details have been successfully registered in Talent Sourcing Tool, DWP.<br>\
+                To attend the online assessment test please login to the tool using below details.<br>\
+                Access link: <a href='url'>https://tatclientapp.mybluemix.net</a><br>\
+                User Name : " +this.candidateForm.value.email+ "<br>\
+                Defalut Password : welcome <br>\
                 Please change the default password when you login for first time and then go ahead with the online test<br>&emsp;&emsp;&emsp;\
-                <p>Regards, <br>DWP Operations Team</p>";    
+                <p>Regards, <br>DWP Operations Team";    
 
                   // Send notification to the candidate
                   let sendEmailObject = new SendEmail(fromAddress, toAddress, emailSubject, emailMessage);

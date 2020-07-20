@@ -63,6 +63,7 @@ logout(){
  ngOnInit(): void {
 	 this.getPreTechAssessmentQuestions();
 	 this.downloadCandidateDetails();
+	 this.readSmeUser();
 	 	 
 }
 
@@ -207,7 +208,6 @@ downloadCandidateDetails()
  
  submitPreTechForm( preTechQAndA : PreTechQuesAndAns[]) {
  console.log("******* mode ****** ",this.mode);
- this.readSmeUser();
  
      this.preTechService.saveOrSubmitPreTechAssmentDetails(preTechQAndA).subscribe(res => {
 
@@ -228,10 +228,10 @@ downloadCandidateDetails()
 			let fromAddress = "Talent.Sourcing@in.ibm.com";
 			let toAddress = this.smeUsersEmail;
 			let emailSubject = "Candidate assignment notification in Talent Sourcing Tool: SME evaluation pending"; 
-			let emailMessage = "Dear Team,<br> \
-			<p>We would like to notify that the candidate "+this.candidateName+" is added to the queue for the job role" +this.jrss+".<br> </p><p>&emsp;&emsp;&emsp;\
-			 Please assess the candidate for the new project assignment.<br>&emsp;&emsp;&emsp;\
-			 <p>Regards, <br>DWP Operations Team</p>"; 
+			let emailMessage = "Dear Team,<br><br> \
+			We would like to notify that the candidate "+this.candidateName+" is added to the queue for the job role " +this.jrss+".<br>\
+			Please assess the candidate for the new project assignment.<br>\
+			<p>Regards, <br>DWP Operations Team</p>"; 
 
 
 				   // Send notification to the SME user
