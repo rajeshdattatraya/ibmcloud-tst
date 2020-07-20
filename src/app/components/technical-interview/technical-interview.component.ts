@@ -323,7 +323,6 @@ export class TechnicalInterviewComponent implements OnInit {
           this.apiService.updateExceptionalApproval(emailSelected,quizNumber,this.techskillForm.value.feedback).subscribe(res => {
             window.alert('Successfully moved candidate to next stage');
             //Send email notification to partner when 'Recommended' or 'Strongly Recommended'	
-      if(this.stage3_status == 'Completed'){
         let fromAddress = "Talent.Sourcing@in.ibm.com";
         let toAddress = this.partnerUsersEmail;    
         let emailSubject = "Candidate assignment notification in Talent Sourcing Tool: Partner evaluation pending";
@@ -340,7 +339,7 @@ export class TechnicalInterviewComponent implements OnInit {
 						 console.log("Error occurred while sending email to " + this.partnerUsersEmail);
 						 console.log(error);
 				   }); 
-      }
+
             this.ngZone.run(() => this.router.navigateByUrl('/technical-interview-list',{state:{username:this.userName,accessLevel:this.accessLevel}}))
           }, (error) => {
             console.log(error);
