@@ -91,6 +91,21 @@
     </div>
 
     <div class="form-group row">
+      <label for="inputComplexityLevel" class="col-sm-4 col-form-label">Complexity Level</label>
+      <div class="col-sm-8">
+        <select class="custom-select form-control" (change)="updateComplexityLevel($event.target.value)"
+                formControlName="complexityLevel" id="inputComplexityLevel" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.complexityLevel.errors }">
+          <option value="">Choose...</option>
+          <option *ngFor="let complexityLevel of ComplexityLevel" value="{{complexityLevel}}">{{complexityLevel}}
+          </option>
+        </select>
+        <div *ngIf="!formReset && submitted && myForm.complexityLevel.errors" class="invalid-feedback">
+          <div *ngIf="myForm.complexityLevel.errors.required">Choose ComplexityLevel</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
     <label for="inputVerify3" class="col-sm-4 col-form-label">Question</label>
     <div class="col-sm-8">
       <textarea class="form-control" type="textarea" rows="5" cols="50"  formControlName="question" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.question.errors }">
