@@ -18,10 +18,12 @@ export class QuestionsAddBulkComponent implements OnInit {
   JRSS:any = [];
   technologyStream:any = [];
   QuestionTypes:any = ['SingleSelect','MultiSelect'];
+  ComplexityLevels:any = ['Complex','Medium','Simple'];
   answerArray:Array<String>=[];
   optionsArray:Array<Object>=[];
   questionID:any;
   validQuestionType:any;
+  validComplexityLevel:any;
   bulkUploadQuestions:number=0;
   totalBulkQuestions:number=0;
   file: File;
@@ -44,6 +46,7 @@ export class QuestionsAddBulkComponent implements OnInit {
       this.questionForm = this.fb.group({
         technologyStream: ['', [Validators.required]],
         questionType: ['', [Validators.required]],
+        complexityLevel: ['', [Validators.required]],
         question: ['', [Validators.required]],
         option1: ['', [Validators.required]],
         option2: ['', [Validators.required]],
@@ -119,6 +122,7 @@ export class QuestionsAddBulkComponent implements OnInit {
       let templateFileName= "Bulk_Upload_Template.xlsx";
       let templateExcel: any = [{
         QuestionType: '',
+        ComplexityLevel: '',
         Question: '',
         Option1: '',
         Option2: '',
@@ -176,7 +180,7 @@ export class QuestionsAddBulkComponent implements OnInit {
       this.totalBulkQuestions=jsonQuestionObj.length;
       console.log("File length: "+jsonQuestionObj.length);
       //Check if first row in file is empty.
-      let firstRowEmpty = ((!(jsonQuestionObj[0]["QuestionType"])) && (!(jsonQuestionObj[0]["Question"])) && (!(jsonQuestionObj[0]["Option1"])) && (!(jsonQuestionObj[0]["Option2"])) && (!(jsonQuestionObj[0]["Option3"])) && (!(jsonQuestionObj[0]["Option4"])) 
+      let firstRowEmpty = ((!(jsonQuestionObj[0]["QuestionType"])) && (!(jsonQuestionObj[0]["ComplexityLevel"])) && (!(jsonQuestionObj[0]["Question"])) && (!(jsonQuestionObj[0]["Option1"])) && (!(jsonQuestionObj[0]["Option2"])) && (!(jsonQuestionObj[0]["Option3"])) && (!(jsonQuestionObj[0]["Option4"]))
       && (!(jsonQuestionObj[0]["AnswerID"])));
       console.log("First Row Empty: "+firstRowEmpty);
       //Check if File uploaded is Empty      
@@ -190,6 +194,7 @@ export class QuestionsAddBulkComponent implements OnInit {
       this.answerArray=[];  
       this.optionsArray=[];   
       this.validQuestionType=false;
+      this.validComplexityLevel=false;
       
       //Check Valid QuestionType And update
       for(var j = 0; j<this.QuestionTypes.length; j++){
@@ -201,6 +206,19 @@ export class QuestionsAddBulkComponent implements OnInit {
       if(!this.validQuestionType)
       {
         console.log("Not a valid Question Type "+jsonQuestionObj[i]["QuestionType"]+" on row "+(i+2));
+        continue;
+      }
+      //Check Valid ComplexityLevel And update
+      console.log("this.ComplexityLevels.length",this.ComplexityLevels.length);
+      for(var j = 0; j<this.ComplexityLevels.length; j++){
+        if(jsonQuestionObj[i]["ComplexityLevel"] == this.ComplexityLevels[j]){
+          this.questionForm.value.complexityLevel = jsonQuestionObj[i]["ComplexityLevel"];
+          this.validComplexityLevel = true;
+        }
+      }
+      if(!this.validComplexityLevel)
+      {
+        console.log("Not a valid Complexity Level "+jsonQuestionObj[i]["ComplexityLevel"]+" on row "+(i+2));
         continue;
       }
       

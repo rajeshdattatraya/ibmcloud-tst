@@ -21,6 +21,7 @@ export class QuestionsAddComponent implements OnInit {
   JRSS:any = [];
   technologyStream:any = [];
   QuestionTypes:any = ['SingleSelect','MultiSelect'];
+  ComplexityLevel:any = ['Complex','Medium','Simple'];
   answerArray:Array<String>=[];
   optionsArray:Array<Object>=[];
   questionID:any;
@@ -47,6 +48,7 @@ export class QuestionsAddComponent implements OnInit {
       this.questionForm = this.fb.group({
         technologyStream: ['', [Validators.required]],
         questionType: ['', [Validators.required]],
+        complexityLevel: ['', [Validators.required]],
         question: ['', [Validators.required]],
         option1: ['', [Validators.required]],
         option2: ['', [Validators.required]],
@@ -102,6 +104,12 @@ export class QuestionsAddComponent implements OnInit {
     // Choose QuestionType with select dropdown
     updateQuestionTypes(e){
       this.questionForm.get('questionType').setValue(e, {
+      onlySelf: true
+      })
+    }
+    // Choose QuestionType with select dropdown
+    updateComplexityLevel(e){
+      this.questionForm.get('complexityLevel').setValue(e, {
       onlySelf: true
       })
     }

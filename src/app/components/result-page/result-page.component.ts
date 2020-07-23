@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Question } from './../../model/questions';
 import { QuizService } from './../../components/quiz/quiz.service';
-import { UserResult } from './../../model/userResult';
 import { UserResultWorkFlow } from './../../model/userResultWorkFlow';
 import { ApiService } from './../../service/api.service';
 import { browserRefresh } from '../../app.component';
@@ -32,6 +31,7 @@ export class ResultPageComponent implements OnInit {
   stage3;
   stage4;
   stage5;
+  userResult;
 
   constructor(
     private router: Router,
@@ -128,14 +128,13 @@ export class ResultPageComponent implements OnInit {
             }
 
             if (this.numberOfCorrectAns >= this.passingScore) {
-              let userResultWokFlow = new UserResultWorkFlow(this.username, Number(this.scorePercentage),
-                this.quizNumber, this.stage1, this.stage2, this.stage3, this.stage4, this.stage5);
-              data = JSON.stringify(userResultWokFlow);
+              this.userResult = "Pass";
             } else {
-              let userResult = new UserResultWorkFlow(this.username, Number(this.scorePercentage), this.quizNumber,
-              this.stage1, this.stage2, this.stage3, this.stage4, this.stage5);
-              data = JSON.stringify(userResult);
-            }          
+              this.userResult = "Fail";
+            }
+             let userResultWokFlow = new UserResultWorkFlow(this.username, Number(this.scorePercentage), this.userResult,
+                this.quizNumber, this.stage1, this.stage2, this.stage3, this.stage4, this.stage5);
+                data = JSON.stringify(userResultWokFlow);
                 this.resultPageService.saveResult(data).subscribe(
                   (res) => {
                     console.log('Quiz results for the user have been successfully saved!');

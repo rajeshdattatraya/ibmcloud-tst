@@ -62,6 +62,8 @@ export class TechnicalInterviewComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getTechnicalStreamFromJRSS();
+    this.readPartnerUserDet();
+    this.readCandidateNameAndJrss();
   }
   techStream() : FormArray {
       return this.techskillForm.get("techStream") as FormArray
@@ -254,8 +256,6 @@ export class TechnicalInterviewComponent implements OnInit {
 
   onSubmit() {
 
-    this.readPartnerUserDet();
-    this.readCandidateNameAndJrss();
     this.submitted = true;
     this.dynamicFormControlValidation();
     if (!this.techskillForm.valid) {
@@ -290,9 +290,9 @@ export class TechnicalInterviewComponent implements OnInit {
         let fromAddress = "Talent.Sourcing@in.ibm.com";
         let toAddress = this.partnerUsersEmail;    
         let emailSubject = "Candidate assignment notification in Talent Sourcing Tool: Partner evaluation pending";
-        let emailMessage = "Dear Team,<br> \
-        <p>We would like to notify that the candidate "+this.candidateName+" is added to the queue for the job role " +this.jrss+".<br> </p><p>&emsp;&emsp;&emsp;\
-         Please assess the candidate for the new project assignment.<br>&emsp;&emsp;&emsp;\
+        let emailMessage = "Dear Team,<br><br> \
+        We would like to notify that the candidate "+this.candidateName+" is added to the queue for the job role " +this.jrss+".<br>\
+        Please assess the candidate for the new project assignment.<br>\
          <p>Regards, <br>DWP Operations Team</p>"; 
          	// Send notification to the SME user
 				   let sendEmailObject2 = new SendEmail(fromAddress, toAddress, emailSubject, emailMessage);
@@ -322,6 +322,24 @@ export class TechnicalInterviewComponent implements OnInit {
         } else {
           this.apiService.updateExceptionalApproval(emailSelected,quizNumber,this.techskillForm.value.feedback).subscribe(res => {
             window.alert('Successfully moved candidate to next stage');
+            //Send email notification to partner when 'Recommended' or 'Strongly Recommended'	
+        let fromAddress = "Talent.Sourcing@in.ibm.com";
+        let toAddress = this.partnerUsersEmail;    
+        let emailSubject = "Candidate assignment notification in Talent Sourcing Tool: Partner evaluation pending";
+        let emailMessage = "Dear Team,<br><br> \
+        We would like to notify that the candidate "+this.candidateName+" is added to the queue for the job role " +this.jrss+".<br>\
+        Please assess the candidate for the new project assignment.<br>\
+         <p>Regards, <br>DWP Operations Team</p>"; 
+         	// Send notification to the SME user
+				   let sendEmailObject2 = new SendEmail(fromAddress, toAddress, emailSubject, emailMessage);
+				   this.apiService.sendEmail(sendEmailObject2).subscribe(
+					 (res) => {
+						 console.log("Email sent successfully to " + this.partnerUsersEmail);            
+					 }, (error) => {
+						 console.log("Error occurred while sending email to " + this.partnerUsersEmail);
+						 console.log(error);
+				   }); 
+
             this.ngZone.run(() => this.router.navigateByUrl('/technical-interview-list',{state:{username:this.userName,accessLevel:this.accessLevel}}))
           }, (error) => {
             console.log(error);

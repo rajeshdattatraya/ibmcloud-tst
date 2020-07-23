@@ -35,7 +35,7 @@ export class DashboardSearchComponent implements OnInit {
       stage5_status: new FormControl(''),
       managementResult: new FormControl(''),
       smeResult: new FormControl(''),
-      stage1_status: new FormControl(''),
+      userResult: new FormControl(''),
       fromDate: new FormControl(''),
       toDate: new FormControl('')
     });
@@ -61,7 +61,7 @@ export class DashboardSearchComponent implements OnInit {
   }
   // Choose Online Test Result type with select dropdown
   updateOnlineResultProfile(e) {
-    this.form.get('stage1_status').setValue(e, {
+    this.form.get('userResult').setValue(e, {
     onlySelf: true
     })
   }
@@ -71,11 +71,6 @@ export class DashboardSearchComponent implements OnInit {
       filters.stage5_status = "Completed";
     } else if (filters.stage5_status == 'Unassigned') {
       filters.stage5_status = "Not Started";
-    }
-    if (filters.stage1_status == 'Pass') {
-      filters.stage1_status = "Completed";
-    } else if (filters.stage1_status == 'Fail') {
-      filters.stage1_status = "Not Started";
     }
     Object.keys(filters).forEach(key => (filters[key] === '' || filters[key] ===  null) ? delete filters[key] : key);
     this.groupFilters.emit(filters);
