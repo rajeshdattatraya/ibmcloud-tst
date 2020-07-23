@@ -230,10 +230,25 @@ getUserByUserName(id): Observable<any> {
   // Update candidate
   updateCandidate(id, data): Observable<any> {
     let url = `${this.baseUri}/update/${id}`;
+    console.log("The URL is "+url);
     return this.http.put(url, data, { headers: this.headers }).pipe(
       catchError(this.errorMgmt)
     )
   }
+
+
+
+// http://localhost:4000/api/preTechForm/getPreTechQuestionanire/Java%20Technical%20Assessment/candidate12@ibm.com
+
+//Update Pre-technical Question.
+updatePreTechQuestion(id, data): Observable<any> {
+    let url = `${this.baseUri}/preTechForm/updatePreTechQuestion/admin/${id}`;
+    return this.http.put(url, data, { headers: this.headers }).pipe(
+      catchError(this.errorMgmt)
+    )
+  }
+
+
 
   //Update Candidate Resume from Pre-Tech Form.
   updateCandidateResume(username, data): Observable<any> {
@@ -379,6 +394,7 @@ deleteJrss(id): Observable<any> {
 // Update Workflow by JRSS name
  updateWorkflow(id, data): Observable<any> {
   let url = `${this.baseJrssUri}/updateWorkflow/${id}`;
+  console.log("The url is "+url);
   return this.http.put(url, data, { headers: this.headers }).pipe(
     catchError(this.errorMgmt)
   )
