@@ -1,0 +1,213 @@
+<nav class="navbar navbar-expand-lg navbar-light table-success" style="background-color:powderblue">
+  <div *ngIf="accessLevel === 'partner'" class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/partner-list" [state]="{username:this.userName, accessLevel:this.accessLevel}" routerLinkActive="active"><b>Partner Interview</b></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/operations-candidate-list" [state]="{username:this.userName, accessLevel:this.accessLevel}" routerLinkActive="active"><b>Project Assignment</b></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/dashboard" [state]="{username:this.userName, accessLevel:this.accessLevel}" routerLinkActive="active"><b>Dashboard</b></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/report" [state]="{username:this.userName, accessLevel:this.accessLevel}" routerLinkActive="active"><b>Report</b></a>
+      </li>
+
+    </ul>
+  </div>
+  <div *ngIf="accessLevel === 'management'" class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" routerLink="/openpositions-list" [state]="{username:this.userName, accessLevel:this.accessLevel}" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <b>Manage Open Seats</b>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" routerLink="/openpositions-create" [state]="{username:this.userName, accessLevel:this.accessLevel}" routerLinkActive="active">Add Open Seat</a>
+          <a class="dropdown-item" routerLink="/openpositions-list" [state]="{username:this.userName, accessLevel:this.accessLevel}" routerLinkActive="active">View Open Seats</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/operations-candidate-list" [state]="{username:this.userName, accessLevel:this.accessLevel}" routerLinkActive="active"><b>Project Assignment</b></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/viewinterview-status" [state]="{username:this.userName, accessLevel:this.accessLevel}" routerLinkActive="active"><b>Exception Approval</b></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/dashboard" [state]="{username:this.userName, accessLevel:this.accessLevel}" routerLinkActive="active"><b>Dashboard</b></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/report" [state]="{username:this.userName, accessLevel:this.accessLevel}" routerLinkActive="active"><b>Report</b></a>
+      </li>
+    </ul>
+  </div>
+  <div *ngIf="accessLevel === 'admin'" class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item dropdown active">
+        <a class="nav-link dropdown-toggle" routerLink="/candidates-list" [state]="{username:this.userName}" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <b>Manage User</b><span class="sr-only">(current)</span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" routerLink="/create-candidate" [state]="{username:this.userName}" routerLinkActive="active">Add Candidate</a>
+          <a class="dropdown-item" routerLink="/adminuser-create"routerLinkActive="active">Add User</a>
+          <a class="dropdown-item" routerLink="/candidates-list" [state]="{username:this.userName}" routerLinkActive="active">View Candidate</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" routerLink="/manage-questionbank" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <b>Manage Questions</b>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" routerLink="/manage-questionbank" routerLinkActive="active">Add Question</a>
+          <a class="dropdown-item" routerLink="/manage-questionbank-bulk" routerLinkActive="active">Add Bulk Question</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" routerLink="/jrss-create" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <b>Manage Metadata</b>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" routerLink="/jrss-create" routerLinkActive="active">Add Job Role</a>
+          <a class="dropdown-item" routerLink="/stream-create" routerLinkActive="active">Add Technology Stream</a>
+          <a class="dropdown-item" routerLink="/testconfig-add" routerLinkActive="active">Add Test Configuration</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/workflow-config" routerLinkActive="active">
+          <b>Manage WorkFlow</b>
+        </a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" routerLink="/openpositions-list" [state]="{username:this.userName, accessLevel:'admin'}" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <b>Manage Open Seats</b>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" routerLink="/openpositions-create" [state]="{username:this.userName, accessLevel:'admin'}" routerLinkActive="active">Add Open Seat</a>
+          <a class="dropdown-item" routerLink="/openpositions-list" [state]="{username:this.userName, accessLevel:'admin'}" routerLinkActive="active">View Open Seats</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/view-testresults"routerLinkActive="active"><b>Test Results</b></a>
+      </li>
+    </ul>
+  </div>
+  <div *ngIf="accessLevel === 'management' || accessLevel === 'partner' || accessLevel === 'admin'">
+    <ul class="navbar-nav navbar-right">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/login-component" routerLinkActive="active"><b>Logout</b></a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<br>
+
+<h4 class="my-0 mr-md-auto font-weight-normal">Update Open Position/Seat</h4>
+<br/>
+<div class="card">
+  <div class="card-body">
+    <form [formGroup]="openPositionForm" (ngSubmit)="onSubmit()" >
+      <div class="form-group row">
+        <label for="inputPositionName" class="col-sm-4 col-form-label">Open Position Name</label>
+        <div class="col-sm-6">
+          <input class="form-control" type="text" formControlName="positionName" id="inputPositionName" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.positionName.errors }">
+          <div *ngIf="!formReset && submitted && myForm.positionName.errors" class="invalid-feedback">
+            <div *ngIf="!formReset && myForm.positionName.errors.required">Position Name is required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="inputAccount" class="col-sm-4 col-form-label">Account</label>
+        <div class="col-sm-6">
+          <input class="form-control" type="text" formControlName="account" id="inputAccount" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.account.errors }">
+          <div *ngIf="!formReset && submitted && myForm.account.errors" class="invalid-feedback">
+            <div *ngIf="myForm.account.errors.required">Account is required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="inputJobRole" class="col-sm-4 col-form-label">Job Role</label>
+        <div class="col-sm-6">
+          <select class="custom-select form-control" (change)="updateJobRoleProfile($event.target.value)"
+                  formControlName="JRSS" id="inputJobRole" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.JRSS.errors }">
+            <option value="">Choose...</option>
+            <option *ngFor="let jrss of JRSS" value="{{jrss.jrss}}">{{jrss.jrss}}
+            </option>
+          </select>
+          <div *ngIf="!formReset && submitted && myForm.JRSS.errors" class="invalid-feedback">
+            <div *ngIf="myForm.JRSS.errors.required">Job Role is required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="inputRateCardJobRole" class="col-sm-4 col-form-label">Rate Card Job Role</label>
+        <div class="col-sm-6">
+          <select class="custom-select form-control" (change)="updateRateCardJobRoleProfile($event.target.value)"
+                  formControlName="rateCardJobRole" id="inputRateCardJobRole" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.rateCardJobRole.errors }">
+            <option value="">Choose...</option>
+            <option *ngFor="let data of RateCardJobRole" value="{{data.rateCardJobRole}}">{{data.rateCardJobRole}}
+            </option>
+          </select>
+          <div *ngIf="!formReset && submitted && myForm.rateCardJobRole.errors" class="invalid-feedback">
+            <div *ngIf="myForm.rateCardJobRole.errors.required">Rate Card Job Role is required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="inputLineOfBusiness" class="col-sm-4 col-form-label">Line Of Business</label>
+        <div class="col-sm-6">
+          <select class="custom-select form-control" (change)="updateLineOfBusinessProfile($event.target.value)"
+                  id="inputLineOfBusiness" formControlName="lineOfBusiness" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.lineOfBusiness.errors }">
+            <option value="" disabled>Choose...</option>
+            <option *ngFor="let data of LineOfBusiness" value="{{data.lob}}" >{{data.lob}}</option>
+          </select>
+          <div *ngIf="!formReset && submitted && myForm.lineOfBusiness.errors" class="invalid-feedback">
+            <div *ngIf="myForm.lineOfBusiness.errors.required">Line Of Business is required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="inputPositionLocation" class="col-sm-4 col-form-label">Position Location</label>
+        <div class="col-sm-6">
+          <select class="custom-select form-control" (change)="updatePositionLocationProfile($event.target.value)"
+                  id="inputPositionLocation" formControlName="positionLocation" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.positionLocation.errors }">
+            <option value="" disabled>Choose...</option>
+            <option *ngFor="let data of PositionLocation" value="{{data.positionLocation}}" >{{data.positionLocation}}</option>
+          </select>
+          <div *ngIf="!formReset && submitted && myForm.positionLocation.errors" class="invalid-feedback">
+            <div *ngIf="myForm.positionLocation.errors.required">Position Location is required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="inputCompetencyLevel" class="col-sm-4 col-form-label">Competency Level</label>
+        <div class="col-sm-6">
+          <select class="custom-select form-control" (change)="updateCompetencyLevelProfile($event.target.value)"
+                  id="inputCompetencyLevel" formControlName="competencyLevel" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.competencyLevel.errors }">
+            <option value="" disabled>Choose...</option>
+            <option *ngFor="let data of CompetencyLevel" value="{{data.competencyLevel}}" >{{data.competencyLevel}}</option>
+          </select>
+          <div *ngIf="!formReset && submitted && myForm.competencyLevel.errors" class="invalid-feedback">
+            <div *ngIf="myForm.competencyLevel.errors.required">Competency Level is required</div>
+          </div>
+        </div>
+      </div>
+      <br/>
+      <div class="form-group">
+        <div class="row justify-content-center">
+          <button style="background-color:#0043CE;" class="btn btn-success btn-lg" type="submit">Save</button>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <button style="background-color:#0043CE;" class="btn btn-success btn-lg" type="button" (click)="resetForm()">Reset</button>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <button style="background-color:#0043CE;" class="btn btn-success btn-lg" type="button" (click)="cancelForm()">Cancel</button>
+        </div>
+      </div>
+    </form>
+
+  </div>
+</div><!-- form card register -->

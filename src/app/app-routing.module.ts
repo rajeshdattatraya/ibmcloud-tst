@@ -38,6 +38,9 @@ import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { StreamAddComponent } from './components/stream-add/stream-add.component';
 import { ViewInterviewStatusComponent } from './components/view-interview-status/view-interview-status.component';
 import { ViewInterviewStatusExceptionComponent } from './components/view-interview-status-exception/view-interview-status-exception.component';
+import { OpenpositionsListComponent } from './components/openpositions-list/openpositions-list.component';
+import { OpenpositionsCreateComponent } from './components/openpositions-create/openpositions-create.component';
+import { OpenpositionsEditComponent } from './components/openpositions-edit/openpositions-edit.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login-component' },
@@ -80,7 +83,10 @@ const routes: Routes = [
   { path: 'edit-user/:docid', component: UserEditComponent },
   { path: 'stream-add', component: StreamAddComponent },
   { path: 'viewinterview-status', component: ViewInterviewStatusComponent },
-  { path: 'viewinterview-status-exception/:id', component: ViewInterviewStatusExceptionComponent }
+  { path: 'viewinterview-status-exception/:id', component: ViewInterviewStatusExceptionComponent },
+  { path: 'openpositions-create', component: OpenpositionsCreateComponent },
+  { path: 'openpositions-list', component: OpenpositionsListComponent },
+  { path: 'openpositions-edit/:id', component: OpenpositionsEditComponent }
 ];
 
 @NgModule({

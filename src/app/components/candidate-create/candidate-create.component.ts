@@ -1,10 +1,11 @@
 import { Router } from '@angular/router';
 import { ApiService } from './../../service/api.service';
+import { OpenPositionService } from './../../service/openPosition.service';
 import { Candidate } from './../../model/candidate';
 import { CandidateContractor } from './../../model/candidateContractor';
 import { UserDetails } from './../../model/userDetails';
 import { Component, OnInit, NgZone } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { FormGroup, FormControl,FormBuilder, Validators } from "@angular/forms";
 import { appConfig } from './../../model/appConfig';
 import { browserRefresh } from '../../app.component';
 import * as CryptoJS from 'crypto-js';
@@ -22,7 +23,9 @@ import { SendEmail } from './../../model/sendEmail';
 export class CandidateCreateComponent implements OnInit {
   public browserRefresh: boolean;
   submitted = false;
+  formReset = false;
   candidateForm: FormGroup;
+  myOpenPositionGroup: FormGroup;
   JRSS:any = []
   JRSSFull:any = [];
   Band:any = [];
@@ -43,13 +46,23 @@ export class CandidateCreateComponent implements OnInit {
   stage3;
   stage4;
   stage5;
+  OpenPositions: any = [];
+  LineOfBusiness:any = [];
+  CompetencyLevel:any = [];
+  PositionLocation:any = [];
+  UserPositionLocation:any = [];
+  RateCardJobRole:any = [];
+  OpenPosition: any= [];
+  OJRSS: any= [];
+  displayOpenPositionFields: boolean = false;
 
   constructor(
     public fb: FormBuilder,
     private router: Router,
     private ngZone: NgZone,
     private apiService: ApiService,
-    private resultPageService: ResultPageService
+    private resultPageService: ResultPageService,
+    private openPositionService: OpenPositionService
   ) {
     this.browserRefresh = browserRefresh;
     if (!this.browserRefresh) {
@@ -59,7 +72,9 @@ export class CandidateCreateComponent implements OnInit {
     this.quizNumber = 1;
     this.readBand();
     this.mainForm();
-    this.readJrss();    
+    this.readJrss();
+    this.mainOpenForm();
+    this.readUserPositionLocation();
   }
 
   ngOnInit() {
@@ -147,6 +162,11 @@ export class CandidateCreateComponent implements OnInit {
   // Getter to access form control
   get myForm(){
     return this.candidateForm.controls;
+  }
+
+  // Getter to access form control
+  get myOpenForm(){
+    return this.myOpenPositionGroup.controls;
   }
 
   canExit(): boolean{
@@ -360,4 +380,77 @@ export class CandidateCreateComponent implements OnInit {
   }
   }
 }
+    //get all open positions
+    getOpenPositionDetails() {
+        this.openPositionService.getAllOpenPositions().subscribe((data) => {
+            this.OpenPositions = data;
+        })
+    }
+
+    updateOpenPositionProfile(positionName) {
+         this.openPositionService.readOpenPositionByPositionName(positionName).subscribe((data) => {
+              this.LineOfBusiness.push(data['lineOfBusiness']);
+              this.CompetencyLevel.push(data['competencyLevel']);
+              this.PositionLocation.push(data['positionLocation']);
+              this.RateCardJobRole.push(data['rateCardJobRole']);
+              this.OJRSS.push(data['JRSS']);
+            this.myOpenPositionGroup.setValue({
+                  positionName: data['positionName'],
+                  JRSS: data['JRSS'],
+                  rateCardJobRole: data['rateCardJobRole'],
+                  lineOfBusiness: data['lineOfBusiness'],
+                  positionLocation: data['positionLocation'],
+                  competencyLevel : data['competencyLevel'],
+                  userPositionLocation: '',
+                  grossProfit: ''
+
+            });
+            this.displayOpenPositionFields = true;
+            console.log("displayOpenPositionFields",this.displayOpenPositionFields);
+         })
+    }
+
+    mainOpenForm() {
+        this.myOpenPositionGroup = new FormGroup({
+          positionName: new FormControl(),
+          JRSS: new FormControl(),
+          rateCardJobRole: new FormControl(),
+          lineOfBusiness: new FormControl(),
+          positionLocation: new FormControl(),
+          competencyLevel:new FormControl(),
+          userPositionLocation:new FormControl(),
+          grossProfit:new FormControl()
+        })
+      }
+
+      calculateGP() {
+        this.myOpenPositionGroup.get('grossProfit').setValue("20");
+      }
+
+      // Get all PositionLocation
+      readUserPositionLocation(){
+         this.openPositionService.getPositionLocations().subscribe((data) => {
+            this.UserPositionLocation = data;
+         })
+      }
+
+     // Choose user position location with select dropdown
+     updateUserPositionLocationProfile(e){
+       this.myOpenPositionGroup.get('userPositionLocation').setValue(e, {
+       onlySelf: true
+       })
+     }
+
+     //Reset
+     resetForm(){
+      this.formReset = true;
+      this.candidateForm.reset();
+      this.myOpenPositionGroup.reset();
+     }
+
+     //Cancel
+     cancelForm(){
+       this.ngZone.run(() => this.router.navigateByUrl('/candidates-list',{state:{username:this.userName}}))
+     }
+
 }

@@ -45,6 +45,9 @@ import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { StreamAddComponent } from './components/stream-add/stream-add.component';
 import { ViewInterviewStatusComponent } from './components/view-interview-status/view-interview-status.component';
 import { ViewInterviewStatusExceptionComponent } from './components/view-interview-status-exception/view-interview-status-exception.component';
+import { OpenpositionsListComponent } from './components/openpositions-list/openpositions-list.component';
+import { OpenpositionsCreateComponent } from './components/openpositions-create/openpositions-create.component';
+import { OpenpositionsEditComponent } from './components/openpositions-edit/openpositions-edit.component';
 
 
 export let browserRefresh = false;
@@ -83,7 +86,10 @@ export let browserRefresh = false;
     UserEditComponent,
     StreamAddComponent,
     ViewInterviewStatusComponent,
-    ViewInterviewStatusExceptionComponent   
+    ViewInterviewStatusExceptionComponent,
+    OpenpositionsListComponent,
+    OpenpositionsCreateComponent,
+    OpenpositionsEditComponent   
     ],
   imports: [
     BrowserModule,
