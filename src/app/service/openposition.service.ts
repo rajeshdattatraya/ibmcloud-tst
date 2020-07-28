@@ -89,6 +89,28 @@ export class OpenPositionService {
        return this.http.get(`${this.baseLOBUri}`);
      }
 
+     // Read Rate Card by rate card code
+     readRateCardsByRateCardCode(name): Observable<any> {
+       let url = `${this.baseUri}/readRateCardsByRateCardCode/${name}`;
+       return this.http.get(url, {headers: this.headers}).pipe(
+         map((res: Response) => {
+           return res || {}
+         }),
+         catchError(this.errorMgmt)
+       )
+     }
+
+      // Read Cost Card by rate cost code
+      readCostCardsByCostCardCode(name): Observable<any> {
+        let url = `${this.baseUri}/readCostCardsByCostCardCode/${name}`;
+        return this.http.get(url, {headers: this.headers}).pipe(
+          map((res: Response) => {
+            return res || {}
+          }),
+          catchError(this.errorMgmt)
+        )
+      }
+
   // Error handling
     errorMgmt(error: HttpErrorResponse) {
       let errorMessage = '';

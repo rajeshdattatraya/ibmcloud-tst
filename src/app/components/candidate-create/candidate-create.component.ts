@@ -54,6 +54,7 @@ export class CandidateCreateComponent implements OnInit {
   RateCardJobRole:any = [];
   OpenPosition: any= [];
   OJRSS: any= [];
+  UserLOB: any = [];
   displayOpenPositionFields: boolean = false;
 
   constructor(
@@ -75,6 +76,7 @@ export class CandidateCreateComponent implements OnInit {
     this.readJrss();
     this.mainOpenForm();
     this.readUserPositionLocation();
+    this.readUserLineOfBusiness();
   }
 
   ngOnInit() {
@@ -86,6 +88,7 @@ export class CandidateCreateComponent implements OnInit {
       employeeName: ['', [Validators.required]],
       employeeType: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.pattern('[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,3}$')]],
+      userLOB: [''],
       band: [''],
       JRSS: ['', [Validators.required]],
       technologyStream:['', [Validators.required]],
@@ -157,6 +160,25 @@ export class CandidateCreateComponent implements OnInit {
        this.apiService.getBands().subscribe((data) => {
        this.Band = data;
        })
+    }
+
+   // Get all User Line of business
+    readUserLineOfBusiness(){
+       this.openPositionService.getLineOfBusiness().subscribe((data) => {
+        this.UserLOB = data;
+       })
+    }
+    //Update Userline of business
+    updateUserLOBProfile(e) {
+        this.candidateForm.get('userLOB').setValue(e, {
+          onlySelf: true
+        })
+        if (this.candidateForm.value.userLOB == 'HCAM/Landed') {
+            e = 'HCAM';
+        }
+        this.apiService.readBandsByLOB(e).subscribe((data) => {
+          this.Band = data
+        })
     }
 
   // Getter to access form control
@@ -272,17 +294,13 @@ export class CandidateCreateComponent implements OnInit {
     if (!this.candidateForm.valid) {
       return false;
     } else {
-    console.log("in candidate-create.ts");
       if ( formDate > this.currDate) {
         window.confirm("Date Of Joining is a future date. Please verify.")
        } else {
-        console.log("in candidate-create.ts");
         this.apiService.findUniqueUsername(this.candidateForm.value.email).subscribe(
           (res) => {
-            console.log('res.count inside response ' + res.count)
            if (res.count > 0)
            {
-              console.log('res.count inside if ' + res.count)
               window.confirm("Please use another Email ID");
             } 
             else 
@@ -406,7 +424,6 @@ export class CandidateCreateComponent implements OnInit {
 
             });
             this.displayOpenPositionFields = true;
-            console.log("displayOpenPositionFields",this.displayOpenPositionFields);
          })
     }
 
@@ -424,8 +441,33 @@ export class CandidateCreateComponent implements OnInit {
       }
 
       calculateGP() {
-        this.myOpenPositionGroup.get('grossProfit').setValue("20");
-      }
+        let GP: number = 0;
+        let rateCardValue: number = 0;
+        let costCardValue: number = 0;
+        let costCardCode = ""
+        let rateCardCode = ""
+        rateCardCode = this.myOpenPositionGroup.value.lineOfBusiness+" - "+this.myOpenPositionGroup.value.positionLocation+" - "+
+                       this.myOpenPositionGroup.value.rateCardJobRole+" - "+this.myOpenPositionGroup.value.competencyLevel;
+       this.openPositionService.readRateCardsByRateCardCode(rateCardCode).subscribe((data) => {
+          rateCardValue = data['rateCardValue'];
+           if (this.candidateForm.value.band == 'Exec'
+              || this.candidateForm.value.band == 'Apprentice'
+              || this.candidateForm.value.band == 'Graduate') {
+            costCardCode = this.myOpenPositionGroup.value.userPositionLocation+" - "+this.candidateForm.value.userLOB
+                           +" - "+this.candidateForm.value.band
+           } else {
+            costCardCode = this.myOpenPositionGroup.value.userPositionLocation+" - "+this.candidateForm.value.userLOB
+                            +" - Band-"+this.candidateForm.value.band
+           }
+          this.openPositionService.readCostCardsByCostCardCode(costCardCode).subscribe((data) => {
+             costCardValue = data['costCardValue'];
+             GP = rateCardValue-costCardValue
+             this.myOpenPositionGroup.get('grossProfit').setValue(GP);
+          })
+       })
+    }
+
+
 
       // Get all PositionLocation
       readUserPositionLocation(){

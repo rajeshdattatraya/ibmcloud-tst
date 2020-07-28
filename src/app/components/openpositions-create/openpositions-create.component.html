@@ -141,20 +141,6 @@
         </div>
       </div>
 
-      <div class="form-group row">
-        <label for="inputRateCardJobRole" class="col-sm-4 col-form-label">Rate Card Job Role</label>
-        <div class="col-sm-6">
-          <select class="custom-select form-control" (change)="updateRateCardJobRoleProfile($event.target.value)"
-                  formControlName="rateCardJobRole" id="inputRateCardJobRole" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.rateCardJobRole.errors }">
-            <option value="">Choose...</option>
-            <option *ngFor="let data of RateCardJobRole" value="{{data.rateCardJobRole}}">{{data.rateCardJobRole}}
-            </option>
-          </select>
-          <div *ngIf="!formReset && submitted && myForm.rateCardJobRole.errors" class="invalid-feedback">
-            <div *ngIf="myForm.rateCardJobRole.errors.required">Rate Card Job Role is required</div>
-          </div>
-        </div>
-      </div>
 
       <div class="form-group row">
         <label for="inputLineOfBusiness" class="col-sm-4 col-form-label">Line Of Business</label>
@@ -170,6 +156,7 @@
         </div>
       </div>
 
+
       <div class="form-group row">
         <label for="inputPositionLocation" class="col-sm-4 col-form-label">Position Location</label>
         <div class="col-sm-6">
@@ -180,6 +167,21 @@
           </select>
           <div *ngIf="!formReset && submitted && myForm.positionLocation.errors" class="invalid-feedback">
             <div *ngIf="myForm.positionLocation.errors.required">Position Location is required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="inputRateCardJobRole" class="col-sm-4 col-form-label">Rate Card Job Role</label>
+        <div class="col-sm-6">
+          <select class="custom-select form-control" (change)="updateRateCardJobRoleProfile($event.target.value)"
+                  formControlName="rateCardJobRole" id="inputRateCardJobRole" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.rateCardJobRole.errors }">
+            <option value="">Choose...</option>
+            <option *ngFor="let data of RateCardJobRole" value="{{data.rateCardJobRole}}">{{data.rateCardJobRole}}
+            </option>
+          </select>
+          <div *ngIf="!formReset && submitted && myForm.rateCardJobRole.errors" class="invalid-feedback">
+            <div *ngIf="myForm.rateCardJobRole.errors.required">Rate Card Job Role is required</div>
           </div>
         </div>
       </div>

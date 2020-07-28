@@ -299,6 +299,17 @@ updatePreTechQuestion(id, data): Observable<any> {
       )
     }
 
+    // Get bands by lob name
+    readBandsByLOB(lob): Observable<any> {
+    let url = `${this.baseBandUri}/readBandsByLOB/${lob}`;
+    return this.http.get(url, {headers: this.headers}).pipe(
+      map((res: Response) => {
+        return res || {}
+      }),
+      catchError(this.errorMgmt)
+    )
+  }
+
     // Update band
     updateBand(id, data): Observable<any> {
       let url = `${this.baseBandUri}/updateBand/${id}`;
