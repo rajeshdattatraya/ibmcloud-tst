@@ -23,6 +23,7 @@ export class ApiService {
   baseUserroleUri:string = appConfig.baseUri + '/api/userrole';
   techStreamUri:string = appConfig.baseUri + '/techStream';
   sendEmailUri:string = appConfig.baseUri + '/sendEmail';
+  baseAccountUri:string = appConfig.baseUri + '/api/account';
 
   constructor(private http: HttpClient) { }
 // Get all JRSS
@@ -661,5 +662,10 @@ getUserByRole(id): Observable<any> {
     catchError(this.errorMgmt)
     )
   }
+
+// Get all accounts
+getAccounts() {
+  return this.http.get(`${this.baseAccountUri}`);
+}
 
 }

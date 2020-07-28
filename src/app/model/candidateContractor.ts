@@ -14,9 +14,10 @@ export class CandidateContractor {
    username: String;
    resumeName: String;
    resumeData: String; 
+   account: String; 
 
    constructor(employeeName,employeeType, email,JRSS,technologyStream,phoneNumber
-   ,dateOfJoining,createdBy,createdDate,updatedBy,updatedDate,username,resumeName,resumeData) {
+   ,dateOfJoining,createdBy,createdDate,updatedBy,updatedDate,username,resumeName,resumeData,account) {
     this.employeeName = employeeName;
     this.employeeType = employeeType;
     this.email = email;
@@ -31,5 +32,6 @@ export class CandidateContractor {
     this.username = username;
     this.resumeName = resumeName;
     this.resumeData = resumeData;
+    this.account == account;
    }
 }

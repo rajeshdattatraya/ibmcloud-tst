@@ -37,6 +37,7 @@ export class CandidateEditComponent implements OnInit {
   EmployeeType:any = ['Regular','Contractor'];
   displayContractorUIFields: Boolean = false;
   displayRegularUIFields: Boolean = true;
+  Account:any = [];
 
   constructor(
     public fb: FormBuilder,
@@ -55,6 +56,7 @@ export class CandidateEditComponent implements OnInit {
   ngOnInit() {
     this.browserRefresh = browserRefresh;
     this.readBand();    
+    this.readAccount(); 
     this.updateCandidate();
     let can_id = this.actRoute.snapshot.paramMap.get('id');
     let user_id = this.actRoute.snapshot.paramMap.get('user_id');
@@ -69,7 +71,8 @@ export class CandidateEditComponent implements OnInit {
       JRSS: ['', [Validators.required]],
       technologyStream:['', [Validators.required]],
       phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
-      dateOfJoining: ['', [Validators.required]]
+      dateOfJoining: ['', [Validators.required]],
+      account: ['']
     })
   }
   // Get all Jrss
@@ -143,6 +146,19 @@ export class CandidateEditComponent implements OnInit {
        this.Band = data;
        })
     }
+     // Choose options with select-dropdown
+  updateAccountProfile(e) {
+    this.editForm.get('account').setValue(e, {
+      onlySelf: true
+    })
+  }
+
+    // Get all Acconts
+    readAccount(){
+      this.apiService.getAccounts().subscribe((data) => {
+      this.Account = data;
+      })
+    }
   // Getter to access form control
   get myForm() {
     return this.editForm.controls;
@@ -164,7 +180,8 @@ export class CandidateEditComponent implements OnInit {
           JRSS: data['JRSS'],
           technologyStream: data['technologyStream'],
           phoneNumber: data['phoneNumber'],
-          dateOfJoining : this.datePipe.transform(data['dateOfJoining'], 'yyyy-MM-dd')
+          dateOfJoining : this.datePipe.transform(data['dateOfJoining'], 'yyyy-MM-dd'),
+          account: data['account']
         });
       }
       if (data['employeeType'] == 'Contractor') {
@@ -178,7 +195,8 @@ export class CandidateEditComponent implements OnInit {
           JRSS: data['JRSS'],
           technologyStream: data['technologyStream'],
           phoneNumber: data['phoneNumber'],
-          dateOfJoining : this.datePipe.transform(data['dateOfJoining'], 'yyyy-MM-dd')
+          dateOfJoining : this.datePipe.transform(data['dateOfJoining'], 'yyyy-MM-dd'),
+          account: data['account']
         });
       }
       this.technologyStream = [];
@@ -201,13 +219,13 @@ export class CandidateEditComponent implements OnInit {
         this.candidate = new Candidate(data['employeeName'],data['employeeType'],
         data['email'], data['band'], data['JRSS'], data['technologyStream'], data[ 'phoneNumber'], data['dateOfJoining'],
         data['createdBy'], data['createdDate'], data['updatedBy'], data['updatedDate'],
-        data['username'], data['resumeName'], data['resumeData']);
+        data['username'], data['resumeName'], data['resumeData'], data['account']);
       }
       if (data['employeeType'] == 'Contractor') {
         this.candidate = new Candidate(data['employeeName'],data['employeeType'],
         data['email'], '', data['JRSS'], data['technologyStream'], data[ 'phoneNumber'], data['dateOfJoining'],
         data['createdBy'], data['createdDate'], data['updatedBy'], data['updatedDate'],
-        data['username'], data['resumeName'], data['resumeData']);
+        data['username'], data['resumeName'], data['resumeData'], data['account']);
       }
     });
   }
@@ -262,7 +280,8 @@ export class CandidateEditComponent implements OnInit {
       JRSS: ['', [Validators.required]],
       technologyStream: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
-      dateOfJoining: ['', [Validators.required]]
+      dateOfJoining: ['', [Validators.required]],
+      account: ['']
       })
   }
  
@@ -308,7 +327,8 @@ export class CandidateEditComponent implements OnInit {
         new Date(),
         this.editForm.value.email,
         this.candidate.resumeName,
-        this.candidate.resumeData
+        this.candidate.resumeData,
+        this.editForm.value.account
         );
       }
       //Candidate details for a Contractor employee whose resume is not selected
@@ -326,7 +346,8 @@ export class CandidateEditComponent implements OnInit {
         new Date(),
         this.editForm.value.email,
         this.candidate.resumeName,
-        this.candidate.resumeData
+        this.candidate.resumeData,
+        this.editForm.value.account
         );
       }
 
@@ -409,7 +430,8 @@ export class CandidateEditComponent implements OnInit {
           new Date(),
           this.editForm.value.email,
           this.candidate.resumeName,
-          this.candidate.resumeData
+          this.candidate.resumeData,
+          this.editForm.value.account
           );
         }
         //Candidate details for a contractor employee whose resume is selected
@@ -427,7 +449,8 @@ export class CandidateEditComponent implements OnInit {
           new Date(),
           this.editForm.value.email,
           this.candidate.resumeName,
-          this.candidate.resumeData
+          this.candidate.resumeData,
+          this.editForm.value.account
           );
         }
 

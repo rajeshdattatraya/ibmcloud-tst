@@ -15,9 +15,10 @@ export class Candidate {
    username: String;
    resumeName: String;
    resumeData: String; 
+   account: String;
 
    constructor(employeeName,employeeType, email,band,JRSS,technologyStream,phoneNumber
-   ,dateOfJoining,createdBy,createdDate,updatedBy,updatedDate,username,resumeName,resumeData) {
+   ,dateOfJoining,createdBy,createdDate,updatedBy,updatedDate,username,resumeName,resumeData,account) {
     this.employeeName = employeeName;
     this.employeeType = employeeType;
     this.email = email;
@@ -33,5 +34,6 @@ export class Candidate {
     this.username = username;
     this.resumeName = resumeName;
     this.resumeData = resumeData;
+    this.account = account;
    }
 }

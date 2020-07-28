@@ -56,6 +56,7 @@ export class CandidateCreateComponent implements OnInit {
   OJRSS: any= [];
   UserLOB: any = [];
   displayOpenPositionFields: boolean = false;
+  Account:any = [];
 
   constructor(
     public fb: FormBuilder,
@@ -77,6 +78,7 @@ export class CandidateCreateComponent implements OnInit {
     this.mainOpenForm();
     this.readUserPositionLocation();
     this.readUserLineOfBusiness();
+    this.readAccount();
   }
 
   ngOnInit() {
@@ -94,7 +96,8 @@ export class CandidateCreateComponent implements OnInit {
       technologyStream:['', [Validators.required]],
       phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
       dateOfJoining: ['', Validators.required],
-      candidateResume: ['']
+      candidateResume: [''],
+      account: ['']
     })
   }
  // Get all Jrss
@@ -160,6 +163,20 @@ export class CandidateCreateComponent implements OnInit {
        this.apiService.getBands().subscribe((data) => {
        this.Band = data;
        })
+    }
+
+    // Get all Acconts
+    readAccount(){
+      this.apiService.getAccounts().subscribe((data) => {
+      this.Account = data;
+      })
+    }
+    
+    // Choose account with select dropdown
+    updateAccountProfile(e){
+      this.candidateForm.get('account').setValue(e, {
+      onlySelf: true
+      })
     }
 
    // Get all User Line of business
@@ -253,7 +270,8 @@ export class CandidateCreateComponent implements OnInit {
       new Date(),
       this.candidateForm.value.email,
       this.resume.name,
-      this.resumeText
+      this.resumeText,
+      this.candidateForm.value.account
       );
     }
     console.log("this.candidateForm.value.employeeType",this.candidateForm.value.employeeType);
@@ -271,7 +289,8 @@ export class CandidateCreateComponent implements OnInit {
       new Date(),
       this.candidateForm.value.email,
       this.resume.name,
-      this.resumeText
+      this.resumeText,
+      this.candidateForm.value.account
       );
     } 
  
