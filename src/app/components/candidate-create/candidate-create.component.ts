@@ -97,7 +97,7 @@ export class CandidateCreateComponent implements OnInit {
       phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
       dateOfJoining: ['', Validators.required],
       candidateResume: [''],
-      account: ['']
+      account: ['', [Validators.required]]
     })
   }
  // Get all Jrss

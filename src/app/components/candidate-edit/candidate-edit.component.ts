@@ -72,7 +72,7 @@ export class CandidateEditComponent implements OnInit {
       technologyStream:['', [Validators.required]],
       phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
       dateOfJoining: ['', [Validators.required]],
-      account: ['']
+      account: ['', [Validators.required]]
     })
   }
   // Get all Jrss
