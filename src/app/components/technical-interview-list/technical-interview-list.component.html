@@ -54,22 +54,14 @@
       <!-- Technical Interview list -->
       <table class="table table-bordered" *ngIf="TechnicalInterviewList.length > 0">
         <thead class="table-success">
-        <tr *ngIf="account!='Sector'" style="background-color:powderblue">
+          <tr style="background-color:powderblue">
           <th scope="col" width="5%">Action</th>
           <th scope="col" width="20%">Name</th>
           <th scope="col" width="25%">Job Role</th>
           <th scope="col" width="15%">Online Test Result</th>
           <th scope="col" width="20%">Pre-Technical Interview Assessment Form</th>
           <th scope="col" width="17%">CV Download</th>
-        </tr>
-        <tr *ngIf="account=='Sector'" style="background-color:powderblue">
-          <th scope="col" width="5%">Action</th>
-          <th scope="col" width="20%">Name</th>
-          <th scope="col" width="25%">Job Role</th>
-          <th scope="col" width="15%">Online Test Result</th>
-          <th scope="col" width="20%">Pre-Technical Interview Assessment Form</th>
-          <th scope="col" width="17%">CV Download</th>
-          <th scope="col" width="17%">Account</th>
+          <th *ngIf="account=='Sector'" scope="col" width="17%">Account</th>
         </tr>
         </thead>
         <tbody *ngIf="account=='Sector'">
