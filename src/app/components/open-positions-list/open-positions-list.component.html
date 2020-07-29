@@ -1,0 +1,48 @@
+<div>
+    <h4 class="my-0 mr-md-auto font-weight-normal">Open Positions List</h4>
+    <br />
+</div>
+<!-- No data found message -->
+<p class="no-data text-center">There are no records in Project Assignment Queue</p>
+<div class="form-group">
+    <!-- Operations candidate list -->
+    <table class="table table-bordered">
+        <thead class="table-success">
+            <tr style="background-color:powderblue">
+                <th scope="col center" width="4%">Action</th>
+                <th scope="col" width="14%">Open Position</th>
+                <th scope="col" width="18%">Job Role</th>
+                <th scope="col" width="16%">Line of Business</th>
+                <th scope="col" width="16%">Position Location</th>
+                <th scope="col" width="15%">Rate Card Role</th>
+                <th scope="col" width="22%">Competency Level</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let openPosition of openPositionsList | paginate: {id:'positions_pagination', itemsPerPage:itemsPerPage,
+            currentPage:page, totalItems:openPositionsList.length} ">
+                <td class="text-center" width="4%">
+                    <input type="radio" name="jrssSelected"  (change)="jrssSelected=openPosition.jobRole">
+                </td>
+                <td width="14%">{{openPosition.position}}</td>
+                <td width="18%">{{openPosition.jobRole}}</td>
+                <td width="16%">{{openPosition.lob}}</td>
+                <td width="16%">{{openPosition.posLocation}}</td>
+                <td width="15%">{{openPosition.rateCardRole}}</td>
+                <td width="22%">{{openPosition.compLevel}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="float-right text-right">
+    <span>
+        <button type="button" style="background-color:#0043CE;" class="btn btn-success btn-sm"
+            (click)="redirectToFindCandidates()">Find Candidate</button>&nbsp;
+    </span>
+</div>
+<div *ngIf="openPositionsList.length > 0">
+    <pagination-controls (pageChange)="(page=$event)" id="positions_pagination" directionLinks="true"></pagination-controls>
+  </div>
+
+
+<!-- Code Ends.-->

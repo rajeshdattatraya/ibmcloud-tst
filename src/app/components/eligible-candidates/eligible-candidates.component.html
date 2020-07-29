@@ -1,0 +1,174 @@
+<div>
+    <h4 class="my-0 mr-md-auto font-weight-normal" >Project Assignment Queue - {{Result.length}}</h4>
+    <br/>
+  </div>
+    <!-- No data found message -->
+    <p *ngIf="Result.length <= 0" class="no-data text-center">There are no records in Project Assignment Queue</p>
+
+    <!-- Operations candidate list -->
+    <table class="table table-bordered" *ngIf="Result.length > 0">
+      <thead class="table-success">
+      <tr style="background-color:powderblue">
+        <th scope="col center" width="5%">Action</th>
+        <th scope="col" width="12%">Name</th>
+        <th scope="col" width="20%">Online Test Result</th>
+        <th scope="col" width="23%">Technical Interview Result</th>
+        <th scope="col" width="23%">Partner Interview Result</th>
+        <th scope="col" width="13%">CV Download</th>
+      </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let operationsList of Result | filterByJRSS:jrss | paginate: {id:'positions_pagination', 
+          itemsPerPage:itemsPerPage,
+          currentPage:page, totalItems:Result.length}">
+            <td  class="text-center edit-block" width="5%">
+              <input type="radio" name="radiogroup" (change)="emailSelected = operationsList.userName">
+            </td>
+            <td width="12%"><a href="#myModal" (click)="getCandidateDetails(operationsList.userName)" class="col-4 cursor-pointer" data-toggle="modal" >{{operationsList.result_users[0].employeeName}}</a></td>
+            <td  width="20%"><a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(operationsList.userName,operationsList.quizNumber,operationsList.result_users[0].employeeName,operationsList.userScore,operationsList.createdDate)" class="col-4 cursor-pointer" data-toggle="modal" *ngIf="operationsList.userScore!=null">{{operationsList.userScore}}%</a><p *ngIf="operationsList.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p></td>
+            <td  width="23%">{{operationsList.smeResult}}</td>
+            <td  width="23%">{{operationsList.managementResult}}</td>
+            <td width="20%"><a href="#" (click)="downloadCandidateResume(operationsList.userName)" routerLinkActive="active" class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
+          </tbody>
+    </table>
+  <div  class="float-right text-right" *ngIf="Result.length > 0">
+    <span (click)="assignProject()">
+       <button type="button" style="background-color:#0043CE;" class="btn btn-success btn-sm">Assign Project</button>&nbsp;
+    </span>
+  </div>
+  <div *ngIf="Result.length > 0">
+    <pagination-controls (pageChange)="(page=$event)" id="positions_pagination"
+    directionLinks="true"></pagination-controls>
+  </div>
+
+
+  <!-- Modal Code starts. -->
+<div id="assessmentModal" class="modal fade" role="dialog">
+<div class="modal-dialog modal-lg">
+  <!-- Modal content-->
+   <div class="modal-content">
+    <!-- <div *ngIf="assessmentDetails.quizNumber == this.quizNumber"> -->
+    <div class="modal-header table-success" style="background-color:powderblue">
+      <h4 class="modal-title">Candidate Assessment Details</h4>
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+    </div>
+    <div class="modal-body" *ngIf="mode=='displayAssessmentModalBody'">
+      <table style="table-layout: fixed; width: 100%">
+        <thead>
+        <tr>
+          <td scope="col" width="10%">{{this.userName}}'s answers</td>
+          <td scope="col" width="10%">Attempt No : {{this.quizNumber}}</td>
+          <td scope="col" width="10%"> Date : {{ this.assesmentDate.substring(0,10) }}</td>
+          <td scope="col" width="10%"> Score : {{ this.userScore }}%</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td colspan="4" scope="col" style="font-size:x-small;color:black;font-style: italic;">
+            You have correctly answered {{this.correctAnswerCount}} questions out of  {{this.questionCount}}
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div *ngFor="let answer of this.candidateAssessmentDetails.results;let i=index">
+      <div *ngFor="let questions of answer.userAttemptedQs" >
+        <table  style="table-layout: fixed; width: 100%">
+          <tbody>
+            <tr>
+              <td width="2%">
+                <div  *ngIf="answer.userAnswerID==questions.answerID">
+                  <img src="assets/images/success.jpg" width="20" height="20"/>
+                </div>
+                <div  *ngIf="answer.userAnswerID!= questions.answerID">
+                  <img src="assets/images/failure.jpg" width="20" height="20"/>
+                </div>
+              </td><td><b>{{i+1}}){{questions.question}}?</b></td>
+            </tr>
+            <tr></tr>
+            <tr  *ngFor="let questionOption of questions.options;let k=index">
+              <td  width="2%"></td>
+              <td>{{k+1}}){{questionOption.option}} </td>
+            </tr>
+            <tr><td  width="2%"></td>
+              <td style="color:black"><pre>Candidate Answer: {{answer.userAnswerID}}    Correct Answer:  {{questions.answerID}}
+                </pre> </td></tr>
+            <tr></tr>
+            </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="modal-footer table-success" style="background-color:powderblue">
+      <button type="button" style="background-color:#0043CE;" class="btn btn-primary" data-dismiss="modal">Close</button>
+    <!-- </div> -->
+  </div>
+  </div>
+
+</div>
+</div>
+<!-- Code Ends.-->
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+<div class="modal-dialog modal-lg">
+
+  <!-- Modal content-->
+  <div class="modal-content" >
+    <div class="modal-header table-success" style="background-color:powderblue">
+      <h4 class="modal-title">View Candidate Details</h4>
+      <button type="button"  class="close" data-dismiss="modal">&times;</button>
+    </div>
+    <div class="modal-body" *ngIf="mode=='displayModalBody'">
+      <table>
+        <tr>
+          <td><label class="col-sm-8 col-form-label">Name:</label></td>
+          <td>&nbsp;{{this.candidateDetails[0].employeeName}}</td>
+        </tr>
+        <tr>
+          <td><label class="col-sm-8 col-form-label">Email:</label></td>
+          <td>&nbsp;{{this.candidateDetails[0].email}}</td>
+        </tr>
+        <tr *ngIf="displayRegularUIFields">
+          <td><label class="col-sm-10 col-form-label">Band:</label></td>
+          <td>&nbsp;{{this.candidateDetails[0].band}}</td>
+        </tr>
+        <tr>
+          <td><label class="col-sm-10 col-form-label">Job Role:</label></td>
+          <td>&nbsp;{{this.candidateDetails[0].JRSS}}</td>
+        </tr>
+        <tr>
+          <td><label class="col-sm-10 col-form-label">Technology Stream:</label></td>
+          <td>&nbsp;{{this.candidateDetails[0].technologyStream}}</td>
+        </tr>
+        <tr>
+          <td><label class="col-sm-10 col-form-label">Phone Number:</label></td>
+          <td>&nbsp;{{this.candidateDetails[0].phoneNumber}}</td>
+        </tr>
+        <tr *ngIf="displayRegularUIFields">
+          <td><label class="col-sm-10 col-form-label">Date of Joining:</label></td>
+          <td>&nbsp;{{this.candidateDetails[0].dateOfJoining.split('T')[0]}}</td>
+        </tr>
+        <tr *ngIf="displayContractorUIFields">
+          <td><label class="col-sm-10 col-form-label">Date of Birth:</label></td>
+          <td>&nbsp;{{this.candidateDetails[0].dateOfJoining.split('T')[0]}}</td>
+        </tr>
+        <tr>
+          <td><label class="col-sm-10 col-form-label">Status:</label></td>
+          <td>&nbsp;{{this.candidateDetails[0].candidate_users[0].status}}</td>
+        </tr>
+        <tr>
+          <td><label class="col-sm-10 col-form-label">Quiz Attempts:</label></td>
+          <td>&nbsp;{{this.candidateDetails[0].candidate_users[0].quizNumber}}</td>
+        </tr>
+      </table>
+    </div>
+    <div class="modal-footer table-success" style="background-color:powderblue">
+      <button type="button" style="background-color:#0043CE;"  class="btn btn-primary" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+
+</div>
+</div>
+<!-- Code Ends.-->
+
+

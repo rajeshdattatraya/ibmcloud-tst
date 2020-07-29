@@ -41,6 +41,9 @@ import { ViewInterviewStatusExceptionComponent } from './components/view-intervi
 import { OpenpositionsListComponent } from './components/openpositions-list/openpositions-list.component';
 import { OpenpositionsCreateComponent } from './components/openpositions-create/openpositions-create.component';
 import { OpenpositionsEditComponent } from './components/openpositions-edit/openpositions-edit.component';
+import { ProjectAssignmentComponent } from './components/project-assignment/project-assignment.component';
+import { OpenPositionsListComponent } from './components/open-positions-list/open-positions-list.component';
+import { EligibleCandidatesComponent } from './components/eligible-candidates/eligible-candidates.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login-component' },
@@ -86,7 +89,10 @@ const routes: Routes = [
   { path: 'viewinterview-status-exception/:id', component: ViewInterviewStatusExceptionComponent },
   { path: 'openpositions-create', component: OpenpositionsCreateComponent },
   { path: 'openpositions-list', component: OpenpositionsListComponent },
-  { path: 'openpositions-edit/:id', component: OpenpositionsEditComponent }
+  { path: 'openpositions-edit/:id', component: OpenpositionsEditComponent },
+  { path: 'project_assignment', component: ProjectAssignmentComponent },
+  { path: 'open-positions-list', component: OpenPositionsListComponent },
+  { path: 'eligible-candidates', component: EligibleCandidatesComponent },
 ];
 
 @NgModule({

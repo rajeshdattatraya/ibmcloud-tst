@@ -48,6 +48,10 @@ import { ViewInterviewStatusExceptionComponent } from './components/view-intervi
 import { OpenpositionsListComponent } from './components/openpositions-list/openpositions-list.component';
 import { OpenpositionsCreateComponent } from './components/openpositions-create/openpositions-create.component';
 import { OpenpositionsEditComponent } from './components/openpositions-edit/openpositions-edit.component';
+import { ProjectAssignmentComponent } from './components/project-assignment/project-assignment.component';
+import { OpenPositionsListComponent } from './components/open-positions-list/open-positions-list.component';
+import { EligibleCandidatesComponent } from './components/eligible-candidates/eligible-candidates.component';
+import { EligibleCandidatesFilterPipe } from './components/eligible-candidates/filterByJRSS.pipe';
 
 
 export let browserRefresh = false;
@@ -89,7 +93,12 @@ export let browserRefresh = false;
     ViewInterviewStatusExceptionComponent,
     OpenpositionsListComponent,
     OpenpositionsCreateComponent,
-    OpenpositionsEditComponent   
+    OpenpositionsEditComponent,
+	ProjectAssignmentComponent,
+    OpenPositionsListComponent,
+    EligibleCandidatesComponent,
+    EligibleCandidatesFilterPipe 
+	
     ],
   imports: [
     BrowserModule,
