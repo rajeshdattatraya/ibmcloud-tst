@@ -24,6 +24,7 @@ export class TechnicalInterviewListComponent implements OnInit {
   TechnicalInterviewList: any = [];
   config: any;
   emailSelected = "";
+  account: String = "";
   quizNumber;
   technicalInterviewCandidateList: any = [];
   filteredUsers: any[] = [];
@@ -58,6 +59,7 @@ export class TechnicalInterviewListComponent implements OnInit {
     if (!this.browserRefresh) {
       this.userName = this.router.getCurrentNavigation().extras.state.username;
       this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
+      this.account = this.router.getCurrentNavigation().extras.state.account; 
     }
     this.form = this.fb.group({
       employeeName: new FormControl(''),

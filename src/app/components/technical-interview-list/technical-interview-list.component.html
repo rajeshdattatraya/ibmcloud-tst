@@ -63,9 +63,8 @@
           <th scope="col" width="17%">CV Download</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody *ngIf="account=='Sector'">
         <tr *ngFor="let TechnicalInterview of TechnicalInterviewList | paginate: config; let i = index">
-
           <td  class="text-center edit-block" width="5%">
             <input type="radio" name="radiogroup"
                    (change)="onSelectionChange(TechnicalInterview.userName,TechnicalInterview.quizNumber)">
@@ -83,6 +82,25 @@
           <td width="20%"><a href="#" (click)="downloadCandidateResume(TechnicalInterview.userName)" routerLinkActive="active" class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
         </tr>
         </tbody>
+        <tbody *ngFor="let TechnicalInterview of TechnicalInterviewList | paginate: config; let i = index" >
+          <tr *ngIf="TechnicalInterview.account == account">
+            <td  class="text-center edit-block" width="5%">
+              <input type="radio" name="radiogroup"
+                     (change)="onSelectionChange(TechnicalInterview.userName,TechnicalInterview.quizNumber)">
+            </td>
+            <td width="20%"><a href="#myModal" (click)="getCandidateDetails(TechnicalInterview.userName)" class="col-4 cursor-pointer" data-toggle="modal" >{{TechnicalInterview.result_users[0].employeeName}}</a></td>
+            <td  width="25%">{{TechnicalInterview.result_users[0].JRSS}}</td>
+            <td  width="17%"><a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(TechnicalInterview.userName,TechnicalInterview.quizNumber,TechnicalInterview.result_users[0].employeeName,TechnicalInterview.userScore,TechnicalInterview.createdDate)" class="col-4 cursor-pointer" data-toggle="modal" *ngIf="TechnicalInterview.userScore!=null">{{TechnicalInterview.userScore}}%</a><p *ngIf="TechnicalInterview.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p></td>
+            <td *ngIf="TechnicalInterview.stage2_status=='Skipped'" width="20%"><a href="#" (click)="skipMethod()" routerLinkActive="active"  class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
+            <td *ngIf="TechnicalInterview.stage2_status=='Completed'" width="20%">
+                <a class="col-4 cursor-pointer" [routerLink]="['/pre-technical-interview-form/',TechnicalInterview.result_users[0].JRSS, TechnicalInterview.userName]"
+                [state]="{jrss:TechnicalInterview.result_users[0].JRSS,username:TechnicalInterview.result_users[0].username,access:'tech-list'}">
+                Click here
+                </a>
+            </td>
+            <td width="20%"><a href="#" (click)="downloadCandidateResume(TechnicalInterview.userName)" routerLinkActive="active" class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
+          </tr>
+          </tbody>
       </table>
 
       <div  class="float-right text-right" *ngIf="TechnicalInterviewList.length > 0">

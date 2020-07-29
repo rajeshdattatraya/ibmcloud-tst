@@ -110,7 +110,7 @@ export class LoginComponent implements OnInit {
 			   if(res.password == appConfig.defaultEncryptedPassword){
                 this.ngZone.run(() => this.router.navigateByUrl('/change-password',{state:{username:res.username,quizNumber:res.quizNumber}}))  
                }else{
-			   this.ngZone.run(() => this.router.navigateByUrl('/technical-interview-list', { state: { username: res.username, accessLevel: res.accessLevel } }))
+			   this.ngZone.run(() => this.router.navigateByUrl('/technical-interview-list', { state: { username: res.username, accessLevel: res.accessLevel,account:res.account } }))
 			   }
           } else if (res.accessLevel === 'partner') {
 			  if(res.password == appConfig.defaultEncryptedPassword){
