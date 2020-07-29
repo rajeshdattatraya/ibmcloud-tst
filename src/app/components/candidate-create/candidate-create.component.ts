@@ -460,32 +460,46 @@ export class CandidateCreateComponent implements OnInit {
       }
 
       calculateGP() {
-        let GP: number = 0;
-        let rateCardValue: number = 0;
-        let costCardValue: number = 0;
-        let costCardCode = ""
-        let rateCardCode = ""
-        rateCardCode = this.myOpenPositionGroup.value.lineOfBusiness+" - "+this.myOpenPositionGroup.value.positionLocation+" - "+
-                       this.myOpenPositionGroup.value.rateCardJobRole+" - "+this.myOpenPositionGroup.value.competencyLevel;
-       this.openPositionService.readRateCardsByRateCardCode(rateCardCode).subscribe((data) => {
-          rateCardValue = data['rateCardValue'];
-           if (this.candidateForm.value.band == 'Exec'
-              || this.candidateForm.value.band == 'Apprentice'
-              || this.candidateForm.value.band == 'Graduate') {
-            costCardCode = this.myOpenPositionGroup.value.userPositionLocation+" - "+this.candidateForm.value.userLOB
-                           +" - "+this.candidateForm.value.band
-           } else {
-            costCardCode = this.myOpenPositionGroup.value.userPositionLocation+" - "+this.candidateForm.value.userLOB
-                            +" - Band-"+this.candidateForm.value.band
-           }
-          this.openPositionService.readCostCardsByCostCardCode(costCardCode).subscribe((data) => {
-             costCardValue = data['costCardValue'];
-             GP = rateCardValue-costCardValue
-             this.myOpenPositionGroup.get('grossProfit').setValue(GP);
-          })
-       })
-    }
-
+          if (this.myOpenPositionGroup.value.userPositionLocation == null || this.myOpenPositionGroup.value.positionName == null
+              || this.myOpenPositionGroup.value.userPositionLocation == '' || this.myOpenPositionGroup.value.positionName == '') {
+             window.alert("Please select Open Position/User Position Location");
+             return false;
+          }
+          if (this.candidateForm.value.userLOB == null || this.candidateForm.value.band == null ||
+              this.candidateForm.value.userLOB == '' || this.candidateForm.value.band == '') {
+             window.alert("Please select User Line Of Business/Band");
+             return false;
+          }
+          let GP: number = 0;
+          let rateCardValue: number = 0;
+          let costCardValue: number = 0;
+          let costCardCode = ""
+          let rateCardCode = ""
+          rateCardCode = this.myOpenPositionGroup.value.lineOfBusiness+" - "+this.myOpenPositionGroup.value.positionLocation+" - "+
+                         this.myOpenPositionGroup.value.rateCardJobRole+" - "+this.myOpenPositionGroup.value.competencyLevel;
+         this.openPositionService.readRateCardsByRateCardCode(rateCardCode).subscribe((data) => {
+            rateCardValue = data['rateCardValue'];
+             if (this.candidateForm.value.band == 'Exec'
+                || this.candidateForm.value.band == 'Apprentice'
+                || this.candidateForm.value.band == 'Graduate') {
+              costCardCode = this.myOpenPositionGroup.value.userPositionLocation+" - "+this.candidateForm.value.userLOB
+                             +" - "+this.candidateForm.value.band
+             } else {
+              costCardCode = this.myOpenPositionGroup.value.userPositionLocation+" - "+this.candidateForm.value.userLOB
+                              +" - Band-"+this.candidateForm.value.band
+             }
+            this.openPositionService.readCostCardsByCostCardCode(costCardCode).subscribe((data) => {
+               costCardValue = data['costCardValue'];
+               if (costCardValue == null || rateCardValue == null) {
+                  window.alert("No data available for this open position and candidate details.");
+                  return false;
+               } else {
+                  GP = Math.round(((rateCardValue-costCardValue)/costCardValue)*100)
+               }
+               this.myOpenPositionGroup.get('grossProfit').setValue(GP);
+            })
+         })
+      }
 
 
       // Get all PositionLocation
