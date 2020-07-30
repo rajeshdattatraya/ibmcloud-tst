@@ -95,6 +95,16 @@ export class CandidateEditComponent implements OnInit {
       account: ['', [Validators.required]],
       userLOB: ['']
     })
+    this.myOpenPositionGroup = this.fb.group({
+          positionName: '',
+          JRSS:'',
+          rateCardJobRole: '',
+          lineOfBusiness: '',
+          positionLocation: '',
+          competencyLevel:'',
+          grossProfit: '',
+          userPositionLocation: ''
+    })
   }
   // Get all Jrss
  readJrss(){
@@ -200,7 +210,10 @@ export class CandidateEditComponent implements OnInit {
       if (data['employeeType'] == undefined) {
           data['employeeType'] = 'Regular'
       }
+      console.log('grossProfit',data['grossProfit']);
+       console.log('userPositionLocation',data['userPositionLocation']);
       if (data['employeeType'] == 'Regular') {
+
        this.displayContractorUIFields = false;
        this.displayRegularUIFields = true;
         this.editForm.setValue({
@@ -214,6 +227,16 @@ export class CandidateEditComponent implements OnInit {
           dateOfJoining : this.datePipe.transform(data['dateOfJoining'], 'yyyy-MM-dd'),
           account: data['account'],
           userLOB: data['userLOB']
+        });
+        this.myOpenPositionGroup.setValue({
+          positionName: '',
+          JRSS:'',
+          rateCardJobRole: '',
+          lineOfBusiness: '',
+          positionLocation: '',
+          competencyLevel:'',
+          grossProfit: data['grossProfit'],
+          userPositionLocation: data['userPositionLocation']
         });
       }
       if (data['employeeType'] == 'Contractor') {
@@ -231,6 +254,16 @@ export class CandidateEditComponent implements OnInit {
           account: data['account'],
           userLOB: ''
         });
+        this.myOpenPositionGroup.setValue({
+          positionName: '',
+          JRSS:'',
+          rateCardJobRole: '',
+          lineOfBusiness: '',
+          positionLocation: '',
+          competencyLevel:'',
+          grossProfit: '',
+          userPositionLocation: ''
+        })
       }
       this.technologyStream = [];
       // Get technologyStream from JRSS

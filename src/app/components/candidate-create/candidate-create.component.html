@@ -240,7 +240,6 @@
                   <div class="col-sm-6">
                     <select class="custom-select form-control"
                             formControlName="JRSS" id="inputJobRole" [ngClass]="{ 'is-invalid': !formReset && submitted && myOpenForm.JRSS.errors }">
-                      <option value="">Choose...</option>
                       <option *ngFor="let data of OJRSS" value="{{data}}">{{data}}
                       </option>
                     </select>
@@ -256,7 +255,6 @@
                   <div class="col-sm-6">
                     <select class="custom-select form-control"  id="inputLineOfBusiness" formControlName="lineOfBusiness"
                             [ngClass]="{ 'is-invalid': !formReset && submitted && myOpenForm.lineOfBusiness.errors }">
-                      <option value="">Choose...</option>
                       <option *ngFor="let data of LineOfBusiness" value="{{data}}" >{{data}}</option>
                     </select>
                     <div *ngIf="!formReset && submitted && myOpenForm.lineOfBusiness.errors" class="invalid-feedback">
@@ -270,7 +268,6 @@
                   <div class="col-sm-6">
                     <select class="custom-select form-control" id="inputPositionLocation" formControlName="positionLocation"
                             [ngClass]="{ 'is-invalid': !formReset && submitted && myOpenForm.positionLocation.errors }">
-                      <option value="">Choose...</option>
                       <option *ngFor="let data of PositionLocation" value="{{data}}" >{{data}}</option>
                     </select>
                     <div *ngIf="!formReset && submitted && myOpenForm.positionLocation.errors" class="invalid-feedback">
@@ -284,7 +281,6 @@
                   <div class="col-sm-6">
                     <select class="custom-select form-control" formControlName="rateCardJobRole" id="inputRateCardJobRole"
                             [ngClass]="{ 'is-invalid': !formReset && submitted && myOpenForm.rateCardJobRole.errors }">
-                      <option value="">Choose...</option>
                       <option *ngFor="let data of RateCardJobRole" value="{{data}}">{{data}}
                       </option>
                     </select>
@@ -299,7 +295,6 @@
                   <div class="col-sm-6">
                     <select class="custom-select form-control" id="inputCompetencyLevel" formControlName="competencyLevel"
                             [ngClass]="{ 'is-invalid': !formReset && submitted && myOpenForm.competencyLevel.errors }">
-                      <option value="">Choose...</option>
                       <option *ngFor="let data of CompetencyLevel" value="{{data}}" >{{data}}</option>
                     </select>
                     <div *ngIf="!formReset && submitted && myOpenForm.competencyLevel.errors" class="invalid-feedback">
