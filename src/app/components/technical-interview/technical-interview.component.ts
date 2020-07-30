@@ -40,12 +40,14 @@ export class TechnicalInterviewComponent implements OnInit {
   partnerUsersEmail: String = "";
   jrss: String = "";
   candidateName: String = "";
+  account: String = "";
 
   constructor(private cv:TechnicalInterviewListComponent,private fb:FormBuilder, private actRoute: ActivatedRoute, private router: Router,private ngZone: NgZone,
     private apiService: ApiService) {
     this.loginUser = this.router.getCurrentNavigation().extras.state.username;
     this.userName =this.actRoute.snapshot.paramMap.get('id');
     this.quizNumber =this.router.getCurrentNavigation().extras.state.quizId;
+    this.account = this.router.getCurrentNavigation().extras.state.account; 
     /*console.log("loginUser==="+this.loginUser);
     console.log("userName==="+this.userName);
     console.log("quizNumber==="+this.quizNumber);*/
@@ -197,7 +199,7 @@ export class TechnicalInterviewComponent implements OnInit {
   }
 //Cancel
  cancelForm(){
-     this.ngZone.run(() => this.router.navigateByUrl('/technical-interview-list',{state:{username:this.loginUser}}))
+     this.ngZone.run(() => this.router.navigateByUrl('/technical-interview-list',{state:{username:this.loginUser,account:this.account}}))
  }
 
  isNumber(evt,rowCount) {

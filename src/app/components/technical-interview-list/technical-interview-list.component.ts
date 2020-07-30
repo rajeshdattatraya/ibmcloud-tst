@@ -174,7 +174,7 @@ export class TechnicalInterviewListComponent implements OnInit {
       alert("Please select the candidate")
     }
     else {
-      this.router.navigate(['/technical-list/', this.emailSelected], { state: { username: this.userName, quizId: this.quizNumber, accessLevel: this.accessLevel } })
+      this.router.navigate(['/technical-list/', this.emailSelected], { state: { username: this.userName, quizId: this.quizNumber, accessLevel: this.accessLevel, account: this.account } })
     }
   }
 
