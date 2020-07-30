@@ -25,6 +25,7 @@ export class OpenpositionsEditComponent implements OnInit {
   CompetencyLevel:any = [];
   PositionLocation:any = [];
   RateCardJobRole:any = [];
+  Account:any = [];
 
 
   constructor(
@@ -44,12 +45,26 @@ export class OpenpositionsEditComponent implements OnInit {
       this.readRateCardJobRole();
       this.readLineOfBusiness();
       this.readJrss();
+      this.readAccount();
+
   }
 
   ngOnInit(): void {
     let openPositionID = this.actRoute.snapshot.paramMap.get('id');
     this.readOpenPosition(openPositionID);
     this.mainForm();
+  }
+  // Get all Acconts
+  readAccount(){
+    this.apiService.getAccounts().subscribe((data) => {
+    this.Account = data;
+    })
+  }
+  // Choose account with select dropdown
+  updateAccountProfile(e){
+    this.openPositionForm.get('account').setValue(e, {
+    onlySelf: true
+    })
   }
 
   readOpenPosition(openPositionID) {

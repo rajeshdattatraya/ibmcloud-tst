@@ -16,9 +16,12 @@ export class Candidate {
    resumeName: String;
    resumeData: String; 
    account: String;
+   userLOB: string;
+   grossProfit:string;
+   userPositionLocation:string;
 
    constructor(employeeName,employeeType, email,band,JRSS,technologyStream,phoneNumber
-   ,dateOfJoining,createdBy,createdDate,updatedBy,updatedDate,username,resumeName,resumeData,account) {
+   ,dateOfJoining,createdBy,createdDate,updatedBy,updatedDate,username,resumeName,resumeData,account,userLOB,grossProfit,userPositionLocation) {
     this.employeeName = employeeName;
     this.employeeType = employeeType;
     this.email = email;
@@ -35,5 +38,8 @@ export class Candidate {
     this.resumeName = resumeName;
     this.resumeData = resumeData;
     this.account = account;
+    this.userLOB = userLOB;
+    this.grossProfit = grossProfit;
+    this.userPositionLocation = userPositionLocation;
    }
 }

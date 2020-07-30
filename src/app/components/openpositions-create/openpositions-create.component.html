@@ -119,8 +119,13 @@
       <div class="form-group row">
         <label for="inputAccount" class="col-sm-4 col-form-label">Account</label>
         <div class="col-sm-6">
-          <input class="form-control" type="text" formControlName="account" id="inputAccount" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.account.errors }">
-          <div *ngIf="!formReset && submitted && myForm.account.errors" class="invalid-feedback">
+          <select class="custom-select form-control" (change)="updateAccountProfile($event.target.value)"
+                  formControlName="account" id="inputAccount" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.account.errors }" >
+            <option value="">Choose...</option>
+            <option *ngFor="let account of Account" value="{{account.account}}">{{account.account}}
+            </option>
+          </select>
+          <div *ngIf="!formReset && submitted && myForm.account.errors" class="invalid-feedback" >
             <div *ngIf="myForm.account.errors.required">Account is required</div>
           </div>
         </div>

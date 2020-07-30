@@ -18,6 +18,7 @@ export class OpenpositionsCreateComponent implements OnInit {
   openPositionForm: FormGroup;
   submitted = false;
   formReset = false;
+  Account:any = [];
   JRSS:any = []
   JRSSFull:any = [];
 
@@ -44,6 +45,7 @@ export class OpenpositionsCreateComponent implements OnInit {
       this.readRateCardJobRole();
       this.readLineOfBusiness();
       this.readJrss();
+      this.readAccount();
   }
 
   ngOnInit(): void {
@@ -88,6 +90,20 @@ export class OpenpositionsCreateComponent implements OnInit {
        this.LineOfBusiness = data;
        })
     }
+
+    // Get all Acconts
+    readAccount(){
+      this.apiService.getAccounts().subscribe((data) => {
+      this.Account = data;
+      })
+    }
+    // Choose account with select dropdown
+    updateAccountProfile(e){
+      this.openPositionForm.get('account').setValue(e, {
+      onlySelf: true
+      })
+    }
+
 
     // Get all Jrss
      readJrss(){

@@ -112,6 +112,21 @@
         </div>
 
         <div class="form-group row" *ngIf="displayRegularUIFields">
+          <label for="inputUserLOB" class="col-sm-4 col-form-label">User Line Of Business</label>
+          <div class="col-sm-6">
+            <select class="custom-select form-control" (change)="updateUserLOBProfile($event.target.value)"
+                    formControlName="userLOB" id="inputUserLOB" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.userLOB.errors }">
+              <option value="">Choose...</option>
+              <option *ngFor="let userLOB of UserLOB" value="{{userLOB.lob}}">{{userLOB.lob}}
+              </option>
+            </select>
+            <div *ngIf="!formReset && submitted && myForm.userLOB.errors" class="invalid-feedback">
+              <div *ngIf="myForm.userLOB.errors.required">User Line Of Business is required</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row" *ngIf="displayRegularUIFields">
           <label for="inputBand3" class="col-sm-4 col-form-label">Band</label>
           <div class="col-sm-6">
             <select class="custom-select form-control" (change)="updateBandProfile($event.target.value)"
@@ -219,12 +234,146 @@
             </div>
           </div>
 
-            <div class="form-group">
-              <div class="row justify-content-center">
-               <button class="btn btn-primary btn-lg" style="background-color:#0043CE;" type="submit">Update</button>
-              </div>
-          </div>
-        </form>
-      </div>
-  </div>
+        <br/>
+        <div class="panel-group">
+          <div class="panel panel-default">
+            <div class="card-header" style="background-color:powderblue">
+              <h6 class="panel-title">
+                <a data-toggle="collapse" href="#collapse1" (click)="getOpenPositionDetails()"><b>Calculate Gross Profit(Optional)</b></a>
+              </h6>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse">
+              <div class="panel-body">
+                <h6><b>Please select Open Position and User Location to calculate Gross Profit</b></h6>
+                <br/>
+                <div [formGroup]="myOpenPositionGroup" class="form-group row">
+                  <label for="inputPositionName" class="col-sm-4 col-form-label">Open Position</label>
+                  <div class="col-sm-6">
+                    <select class="custom-select form-control" (change)="updateOpenPositionProfile($event.target.value)"
+                            formControlName="positionName" id="inputPositionName" [ngClass]="{ 'is-invalid': !formReset && submitted && myOpenForm.positionName.errors }">
+                      <option value="">Choose...</option>
+                      <option *ngFor="let data of OpenPositions" value="{{data.positionName}}">{{data.positionName}}</option>
+                    </select>
+                    <div *ngIf="!formReset && submitted && myOpenForm.positionName.errors" class="invalid-feedback">
+                      <div *ngIf="myOpenForm.positionName.errors.required">Open Position is required</div>
+                    </div>
+                  </div>
+                </div>
 
+                <div [formGroup]="myOpenPositionGroup" class="form-group row" *ngIf="displayOpenPositionFields">
+                  <label for="inputJobRole" class="col-sm-4 col-form-label">Job Role</label>
+                  <div class="col-sm-6">
+                    <select class="custom-select form-control"
+                            formControlName="JRSS" id="inputJobRole" [ngClass]="{ 'is-invalid': !formReset && submitted && myOpenForm.JRSS.errors }">
+                      <option value="">Choose...</option>
+                      <option *ngFor="let data of OJRSS" value="{{data}}">{{data}}
+                      </option>
+                    </select>
+                    <div *ngIf="!formReset && submitted && myOpenForm.JRSS.errors" class="invalid-feedback">
+                      <div *ngIf="myOpenForm.JRSS.errors.required">Job Role is required</div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div [formGroup]="myOpenPositionGroup" class="form-group row" *ngIf="displayOpenPositionFields">
+                  <label for="inputLineOfBusiness" class="col-sm-4 col-form-label">Line Of Business</label>
+                  <div class="col-sm-6">
+                    <select class="custom-select form-control"  id="inputLineOfBusiness" formControlName="lineOfBusiness"
+                            [ngClass]="{ 'is-invalid': !formReset && submitted && myOpenForm.lineOfBusiness.errors }">
+                      <option value="">Choose...</option>
+                      <option *ngFor="let data of LineOfBusiness" value="{{data}}" >{{data}}</option>
+                    </select>
+                    <div *ngIf="!formReset && submitted && myOpenForm.lineOfBusiness.errors" class="invalid-feedback">
+                      <div *ngIf="myOpenForm.lineOfBusiness.errors.required">Line Of Business is required</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div [formGroup]="myOpenPositionGroup" class="form-group row" *ngIf="displayOpenPositionFields">
+                  <label for="inputPositionLocation" class="col-sm-4 col-form-label">Position Location</label>
+                  <div class="col-sm-6">
+                    <select class="custom-select form-control" id="inputPositionLocation" formControlName="positionLocation"
+                            [ngClass]="{ 'is-invalid': !formReset && submitted && myOpenForm.positionLocation.errors }">
+                      <option value="">Choose...</option>
+                      <option *ngFor="let data of PositionLocation" value="{{data}}" >{{data}}</option>
+                    </select>
+                    <div *ngIf="!formReset && submitted && myOpenForm.positionLocation.errors" class="invalid-feedback">
+                      <div *ngIf="myOpenForm.positionLocation.errors.required">Position Location is required</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div [formGroup]="myOpenPositionGroup" class="form-group row" *ngIf="displayOpenPositionFields">
+                  <label for="inputRateCardJobRole" class="col-sm-4 col-form-label">Rate Card Job Role</label>
+                  <div class="col-sm-6">
+                    <select class="custom-select form-control" formControlName="rateCardJobRole" id="inputRateCardJobRole"
+                            [ngClass]="{ 'is-invalid': !formReset && submitted && myOpenForm.rateCardJobRole.errors }">
+                      <option value="">Choose...</option>
+                      <option *ngFor="let data of RateCardJobRole" value="{{data}}">{{data}}
+                      </option>
+                    </select>
+                    <div *ngIf="!formReset && submitted && myOpenForm.rateCardJobRole.errors" class="invalid-feedback">
+                      <div *ngIf="myOpenForm.rateCardJobRole.errors.required">Rate Card Job Role is required</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div [formGroup]="myOpenPositionGroup" class="form-group row" *ngIf="displayOpenPositionFields">
+                  <label for="inputCompetencyLevel" class="col-sm-4 col-form-label">Competency Level</label>
+                  <div class="col-sm-6">
+                    <select class="custom-select form-control" id="inputCompetencyLevel" formControlName="competencyLevel"
+                            [ngClass]="{ 'is-invalid': !formReset && submitted && myOpenForm.competencyLevel.errors }">
+                      <option value="">Choose...</option>
+                      <option *ngFor="let data of CompetencyLevel" value="{{data}}" >{{data}}</option>
+                    </select>
+                    <div *ngIf="!formReset && submitted && myOpenForm.competencyLevel.errors" class="invalid-feedback">
+                      <div *ngIf="myOpenForm.competencyLevel.errors.required">Competency Level is required</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div [formGroup]="myOpenPositionGroup" class="form-group row">
+                  <label for="inputUserPositionLocation" class="col-sm-4 col-form-label">User Location</label>
+                  <div class="col-sm-6">
+                    <select class="custom-select form-control" (change)="updateUserPositionLocationProfile($event.target.value)" id="inputUserPositionLocation" formControlName="userPositionLocation"
+                            [ngClass]="{ 'is-invalid': !formReset && submitted && myOpenForm.userPositionLocation.errors }">
+                      <option value="">Choose...</option>
+                      <option *ngFor="let data of UserPositionLocation" value="{{data.positionLocation}}" >{{data.positionLocation}}</option>
+                    </select>
+                    <div *ngIf="!formReset && submitted && myOpenForm.userPositionLocation.errors" class="invalid-feedback">
+                      <div *ngIf="myOpenForm.userPositionLocation.errors.required">User Location is required</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div [formGroup]="myOpenPositionGroup" class="form-group row">
+                  <label for="inputGP" class="col-sm-4 col-form-label">Gross Profit(%)</label>
+                  <div class="col-sm-4">
+                    <input class="form-control" type="text" formControlName="grossProfit" id="inputGP">
+                  </div>
+                  <div>
+                    &nbsp;&nbsp;&nbsp;
+                    <button style="background-color:#0043CE;" class="btn btn-success btn-sm" type="button" (click)="calculateGP()">Calculate GP</button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <br/>
+
+        <div class="form-group">
+          <div class="row justify-content-center">
+            <button style="background-color:#0043CE;" class="btn btn-success btn-lg" type="submit">Update</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <button style="background-color:#0043CE;" class="btn btn-success btn-lg" type="button" (click)="resetForm()">Reset</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <button style="background-color:#0043CE;" class="btn btn-success btn-lg" type="button" (click)="cancelForm()">Cancel</button>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div><!-- form card register -->

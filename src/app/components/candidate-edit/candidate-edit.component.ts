@@ -1,9 +1,10 @@
 import { Candidate } from './../../model/candidate';
 import { UserDetails } from './../../model/userDetails'
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,NgZone } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { ApiService } from './../../service/api.service';
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { OpenPositionService } from './../../service/openPosition.service';
+import { FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms";
 import { DatePipe } from '@angular/common';
 import { browserRefresh } from '../../app.component';
 import { saveAs } from 'file-saver';
@@ -17,7 +18,9 @@ import { saveAs } from 'file-saver';
 export class CandidateEditComponent implements OnInit {
   public browserRefresh: boolean;
   submitted = false;
+  formReset = false;
   editForm: FormGroup;
+  myOpenPositionGroup: FormGroup;
   JRSS:any = [];
   JRSSFull:any = [];
   Band:any = [];
@@ -39,10 +42,23 @@ export class CandidateEditComponent implements OnInit {
   displayRegularUIFields: Boolean = true;
   Account:any = [];
 
+  OpenPositions: any = [];
+  LineOfBusiness:any = [];
+  CompetencyLevel:any = [];
+  PositionLocation:any = [];
+  UserPositionLocation:any = [];
+  RateCardJobRole:any = [];
+  OpenPosition: any= [];
+  OJRSS: any= [];
+  UserLOB: any = [];
+  displayOpenPositionFields: boolean = false;
+
   constructor(
     public fb: FormBuilder,
     private actRoute: ActivatedRoute,
     private apiService: ApiService,
+    private ngZone: NgZone,
+    private openPositionService: OpenPositionService,
     private router: Router,
     private datePipe: DatePipe
   ) {
@@ -55,9 +71,13 @@ export class CandidateEditComponent implements OnInit {
 
   ngOnInit() {
     this.browserRefresh = browserRefresh;
+    this.mainOpenForm();
+    this.readUserPositionLocation();
+    this.readUserLineOfBusiness();
     this.readBand();    
     this.readAccount(); 
     this.updateCandidate();
+
     let can_id = this.actRoute.snapshot.paramMap.get('id');
     let user_id = this.actRoute.snapshot.paramMap.get('user_id');
     this.getCandidate(can_id);
@@ -72,7 +92,8 @@ export class CandidateEditComponent implements OnInit {
       technologyStream:['', [Validators.required]],
       phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
       dateOfJoining: ['', [Validators.required]],
-      account: ['', [Validators.required]]
+      account: ['', [Validators.required]],
+      userLOB: ['']
     })
   }
   // Get all Jrss
@@ -163,6 +184,16 @@ export class CandidateEditComponent implements OnInit {
   get myForm() {
     return this.editForm.controls;
   }
+  // Getter to access form control
+  get myOpenForm(){
+    return this.myOpenPositionGroup.controls;
+  }
+ // Get all User Line of business
+  readUserLineOfBusiness(){
+     this.openPositionService.getLineOfBusiness().subscribe((data) => {
+      this.UserLOB = data;
+     })
+  }
 
   getCandidate(id) {
     this.apiService.getCandidate(id).subscribe(data => {
@@ -181,7 +212,8 @@ export class CandidateEditComponent implements OnInit {
           technologyStream: data['technologyStream'],
           phoneNumber: data['phoneNumber'],
           dateOfJoining : this.datePipe.transform(data['dateOfJoining'], 'yyyy-MM-dd'),
-          account: data['account']
+          account: data['account'],
+          userLOB: data['userLOB']
         });
       }
       if (data['employeeType'] == 'Contractor') {
@@ -196,7 +228,8 @@ export class CandidateEditComponent implements OnInit {
           technologyStream: data['technologyStream'],
           phoneNumber: data['phoneNumber'],
           dateOfJoining : this.datePipe.transform(data['dateOfJoining'], 'yyyy-MM-dd'),
-          account: data['account']
+          account: data['account'],
+          userLOB: ''
         });
       }
       this.technologyStream = [];
@@ -219,13 +252,14 @@ export class CandidateEditComponent implements OnInit {
         this.candidate = new Candidate(data['employeeName'],data['employeeType'],
         data['email'], data['band'], data['JRSS'], data['technologyStream'], data[ 'phoneNumber'], data['dateOfJoining'],
         data['createdBy'], data['createdDate'], data['updatedBy'], data['updatedDate'],
-        data['username'], data['resumeName'], data['resumeData'], data['account']);
+        data['username'], data['resumeName'], data['resumeData'], data['account'],
+        data['userLOB'],data['grossProfit'],data['userPositionLocation']);
       }
       if (data['employeeType'] == 'Contractor') {
         this.candidate = new Candidate(data['employeeName'],data['employeeType'],
         data['email'], '', data['JRSS'], data['technologyStream'], data[ 'phoneNumber'], data['dateOfJoining'],
         data['createdBy'], data['createdDate'], data['updatedBy'], data['updatedDate'],
-        data['username'], data['resumeName'], data['resumeData'], data['account']);
+        data['username'], data['resumeName'], data['resumeData'], data['account'],'','','');
       }
     });
   }
@@ -281,7 +315,8 @@ export class CandidateEditComponent implements OnInit {
       technologyStream: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
       dateOfJoining: ['', [Validators.required]],
-      account: ['']
+      account: [''],
+      userLOB: ['']
       })
   }
  
@@ -328,7 +363,10 @@ export class CandidateEditComponent implements OnInit {
         this.editForm.value.email,
         this.candidate.resumeName,
         this.candidate.resumeData,
-        this.editForm.value.account
+        this.editForm.value.account,
+        this.editForm.value.userLOB,
+        this.myOpenPositionGroup.value.grossProfit,
+        this.myOpenPositionGroup.value.userPositionLocation
         );
       }
       //Candidate details for a Contractor employee whose resume is not selected
@@ -347,7 +385,10 @@ export class CandidateEditComponent implements OnInit {
         this.editForm.value.email,
         this.candidate.resumeName,
         this.candidate.resumeData,
-        this.editForm.value.account
+        this.editForm.value.account,
+        '',
+        '',
+        ''
         );
       }
 
@@ -431,7 +472,10 @@ export class CandidateEditComponent implements OnInit {
           this.editForm.value.email,
           this.candidate.resumeName,
           this.candidate.resumeData,
-          this.editForm.value.account
+          this.editForm.value.account,
+          this.editForm.value.userLOB,
+          this.myOpenPositionGroup.value.grossProfit,
+          this.myOpenPositionGroup.value.userPositionLocation
           );
         }
         //Candidate details for a contractor employee whose resume is selected
@@ -450,7 +494,10 @@ export class CandidateEditComponent implements OnInit {
           this.editForm.value.email,
           this.candidate.resumeName,
           this.candidate.resumeData,
-          this.editForm.value.account
+          this.editForm.value.account,
+          '',
+          '',
+          ''
           );
         }
 
@@ -513,4 +560,131 @@ export class CandidateEditComponent implements OnInit {
       
     }
     }
+
+   //Reset
+   resetForm(){
+    this.formReset = true;
+    this.editForm.reset();
+    this.myOpenPositionGroup.reset();
+   }
+
+   //Cancel
+   cancelForm(){
+     this.ngZone.run(() => this.router.navigateByUrl('/candidates-list',{state:{username:this.username}}))
+   }
+
+   //Update Userline of business
+   updateUserLOBProfile(e) {
+       this.editForm.get('userLOB').setValue(e, {
+         onlySelf: true
+       })
+       if (this.editForm.value.userLOB == 'HCAM/Landed') {
+           e = 'HCAM';
+       }
+       this.apiService.readBandsByLOB(e).subscribe((data) => {
+         this.Band = data
+       })
+   }
+
+   mainOpenForm() {
+       this.myOpenPositionGroup = new FormGroup({
+         positionName: new FormControl(),
+         JRSS: new FormControl(),
+         rateCardJobRole: new FormControl(),
+         lineOfBusiness: new FormControl(),
+         positionLocation: new FormControl(),
+         competencyLevel:new FormControl(),
+         userPositionLocation:new FormControl(),
+         grossProfit:new FormControl()
+       })
+     }
+  // Get all PositionLocation
+  readUserPositionLocation(){
+     this.openPositionService.getPositionLocations().subscribe((data) => {
+        this.UserPositionLocation = data;
+     })
+  }
+
+  //get all open positions
+  getOpenPositionDetails() {
+      this.openPositionService.getAllOpenPositions().subscribe((data) => {
+          this.OpenPositions = data;
+      })
+  }
+
+    updateOpenPositionProfile(positionName) {
+         this.openPositionService.readOpenPositionByPositionName(positionName).subscribe((data) => {
+              this.LineOfBusiness.push(data['lineOfBusiness']);
+              this.CompetencyLevel.push(data['competencyLevel']);
+              this.PositionLocation.push(data['positionLocation']);
+              this.RateCardJobRole.push(data['rateCardJobRole']);
+              this.OJRSS.push(data['JRSS']);
+            this.myOpenPositionGroup.setValue({
+                  positionName: data['positionName'],
+                  JRSS: data['JRSS'],
+                  rateCardJobRole: data['rateCardJobRole'],
+                  lineOfBusiness: data['lineOfBusiness'],
+                  positionLocation: data['positionLocation'],
+                  competencyLevel : data['competencyLevel'],
+                  userPositionLocation: '',
+                  grossProfit: ''
+
+            });
+            this.displayOpenPositionFields = true;
+         })
+    }
+   // Choose user position location with select dropdown
+   updateUserPositionLocationProfile(e){
+     this.myOpenPositionGroup.get('userPositionLocation').setValue(e, {
+     onlySelf: true
+     })
+   }
+
+    calculateGP() {
+      if (this.myOpenPositionGroup.value.userPositionLocation == null || this.myOpenPositionGroup.value.positionName == null
+          || this.myOpenPositionGroup.value.userPositionLocation == '' || this.myOpenPositionGroup.value.positionName == '') {
+         window.alert("Please select Open Position/User Position Location");
+         return false;
+      }
+
+      console.log("this.editForm.value.userLOB ",this.editForm.value.userLOB );
+      console.log("this.editForm.value.band ",this.editForm.value.band );
+      if (this.editForm.value.userLOB == null || this.editForm.value.band == null ||
+          this.editForm.value.userLOB == '' || this.editForm.value.band == '') {
+         window.alert("Please select User Line Of Business/Band");
+         return false;
+      }
+      let GP: number = 0;
+      let rateCardValue: number = 0;
+      let costCardValue: number = 0;
+      let costCardCode = ""
+      let rateCardCode = ""
+      rateCardCode = this.myOpenPositionGroup.value.lineOfBusiness+" - "+this.myOpenPositionGroup.value.positionLocation+" - "+
+                     this.myOpenPositionGroup.value.rateCardJobRole+" - "+this.myOpenPositionGroup.value.competencyLevel;
+     this.openPositionService.readRateCardsByRateCardCode(rateCardCode).subscribe((data) => {
+        rateCardValue = data['rateCardValue'];
+         if (this.editForm.value.band == 'Exec'
+            || this.editForm.value.band == 'Apprentice'
+            || this.editForm.value.band == 'Graduate') {
+          costCardCode = this.myOpenPositionGroup.value.userPositionLocation+" - "+this.editForm.value.userLOB
+                         +" - "+this.editForm.value.band
+         } else {
+          costCardCode = this.myOpenPositionGroup.value.userPositionLocation+" - "+this.editForm.value.userLOB
+                          +" - Band-"+this.editForm.value.band
+         }
+        this.openPositionService.readCostCardsByCostCardCode(costCardCode).subscribe((data) => {
+           costCardValue = data['costCardValue'];
+           if (costCardValue == null || rateCardValue == null) {
+              window.alert("No data available for this open position and candidate details.");
+              return false;
+           } else {
+              GP = Math.round(((rateCardValue-costCardValue)/costCardValue)*100)
+           }
+           this.myOpenPositionGroup.get('grossProfit').setValue(GP);
+        })
+     })
+  }
+
+
+
 }

@@ -90,14 +90,14 @@ export class CandidateCreateComponent implements OnInit {
       employeeName: ['', [Validators.required]],
       employeeType: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.pattern('[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,3}$')]],
-      userLOB: [''],
       band: [''],
       JRSS: ['', [Validators.required]],
       technologyStream:['', [Validators.required]],
       phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
       dateOfJoining: ['', Validators.required],
       candidateResume: [''],
-      account: ['', [Validators.required]]
+      account: ['', [Validators.required]],
+      userLOB: ['']
     })
   }
  // Get all Jrss
@@ -271,7 +271,10 @@ export class CandidateCreateComponent implements OnInit {
       this.candidateForm.value.email,
       this.resume.name,
       this.resumeText,
-      this.candidateForm.value.account
+      this.candidateForm.value.account,
+      this.candidateForm.value.userLOB,
+      this.myOpenPositionGroup.value.grossProfit,
+      this.myOpenPositionGroup.value.userPositionLocation
       );
     }
     console.log("this.candidateForm.value.employeeType",this.candidateForm.value.employeeType);
