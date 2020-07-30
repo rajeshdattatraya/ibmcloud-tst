@@ -3,7 +3,7 @@
     <br />
 </div>
 <!-- No data found message -->
-<p class="no-data text-center">There are no records in Project Assignment Queue</p>
+<p class="no-data text-center" *ngIf="openPositionsList.length <= 0">There are no open positions</p>
 <div class="form-group">
     <!-- Operations candidate list -->
     <table class="table table-bordered">
@@ -22,14 +22,14 @@
             <tr *ngFor="let openPosition of openPositionsList | paginate: {id:'positions_pagination', itemsPerPage:itemsPerPage,
             currentPage:page, totalItems:openPositionsList.length} ">
                 <td class="text-center" width="4%">
-                    <input type="radio" name="jrssSelected"  (change)="jrssSelected=openPosition.jobRole">
+                    <input type="radio" name="jrssSelected"  (change)="jrssSelected=openPosition.JRSS">
                 </td>
-                <td width="14%">{{openPosition.position}}</td>
-                <td width="18%">{{openPosition.jobRole}}</td>
-                <td width="16%">{{openPosition.lob}}</td>
-                <td width="16%">{{openPosition.posLocation}}</td>
-                <td width="15%">{{openPosition.rateCardRole}}</td>
-                <td width="22%">{{openPosition.compLevel}}</td>
+                <td width="14%">{{openPosition.positionName}}</td>
+                <td width="18%">{{openPosition.JRSS}}</td>
+                <td width="16%">{{openPosition.lineOfBusiness}}</td>
+                <td width="16%">{{openPosition.positionLocation}}</td>
+                <td width="15%">{{openPosition.rateCardJobRole}}</td>
+                <td width="22%">{{openPosition.competencyLevel}}</td>
             </tr>
         </tbody>
     </table>

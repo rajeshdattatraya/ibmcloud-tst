@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { appConfig } from 'src/app/model/appConfig';
+import { PositionsService } from 'src/app/components/open-positions-list/positions.service';
+
 
 @Component({
   selector: 'app-open-positions-list',
@@ -13,20 +15,32 @@ export class OpenPositionsListComponent implements OnInit {
   jrssSelected=false;
   itemsPerPage = appConfig.itemsPerPage;
   page=1;
+  account="DWP";
+  status="Open";
+  openPositionsList:any = [];
 
-  openPositionsList = [
-    { "position":"Sr. java developer", "jobRole":"Java Technical Assessment", "lob":"GBS", "posLocation":"Onsite", "rateCardRole":"Developer", "compLevel":"Senior"},
-    { "position":"Tester", "jobRole":" Test Automation Consultant", "lob":"GBS", "posLocation":"Onsite", "rateCardRole":"Developer", "compLevel":"Senior"},
-  ]
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+    private positionsService: PositionsService) { 
+    //this.account = this.router.getCurrentNavigation().extras.state.account;
+  }
 
   ngOnInit(): void {
+    this.listAllOpenPositions()
   }
+
+
+    // To Read the Open Position
+    listAllOpenPositions() {
+    this.positionsService.listAllOpenPositions(this.account, this.status).subscribe((data) => {
+      this.openPositionsList = data;
+      
+    })
+  }
+
 
   //Method to redirect to the page to find the candidates for the given JRSS
   redirectToFindCandidates() {
-    alert(this.jrssSelected )
     if (this.jrssSelected) {
       this.router.navigateByUrl('/eligible-candidates',{state:{jrss:this.jrssSelected}});
     } else {
