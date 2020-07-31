@@ -185,10 +185,18 @@ export class TechnicalInterviewListComponent implements OnInit {
   }
 
   getTechnicalInterviewList() {
+    if(this.account.toLocaleLowerCase() !=='sector'){
+      this.apiService.getTechnicalInterviewAccountList(this.account).subscribe((data) => {
+        this.TechnicalInterviewList = data;
+        this.technicalInterviewCandidateList = data;
+      })
+    }
+    else{
     this.apiService.getTechnicalInterviewList().subscribe((data) => {
       this.TechnicalInterviewList = data;
       this.technicalInterviewCandidateList = data;
     })
+   }
   }
 
   search(filters: any): void {

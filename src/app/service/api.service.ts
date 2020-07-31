@@ -526,6 +526,17 @@ getTechnicalInterviewList(): Observable<any> {
   )
 }
 
+  //getTechnicalInterviewAccountList
+  getTechnicalInterviewAccountList(account): Observable<any> {
+   let url = `${this.userResultUri}/getTechnicalInterviewAccountList/${account}`;
+   return this.http.get(url, {headers: this.headers}).pipe(
+      map((res: Response) => {
+        return res || {}
+      }),
+      catchError(this.errorMgmt)
+  )
+ }
+
 getResultByUser(username: string,quiznumber:number){
   let url = `${this.userResultUri}/getResultByUser/${username}/${quiznumber}`;
   return this.http.get(url, { headers: this.headers }).pipe(

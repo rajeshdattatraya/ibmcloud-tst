@@ -24,8 +24,7 @@ export class PreTechnicalInterviewFormComponent implements OnInit {
   access:any = this.router.getCurrentNavigation().extras.state.access; 
   quizNumber:any =this.router.getCurrentNavigation().extras.state.quizId;
   username =this.route.snapshot.paramMap.get('username');
-
-
+  account: String = "";
   constructor(private route: ActivatedRoute,	private preTechService: PreTechService,
     private router: Router, private apiService: ApiService) {
       this.config = {
@@ -37,6 +36,7 @@ export class PreTechnicalInterviewFormComponent implements OnInit {
       if (!this.browserRefresh) {
           this.userName = this.router.getCurrentNavigation().extras.state.username;
           this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
+          this.account = this.router.getCurrentNavigation().extras.state.account; 
         }
         route.queryParams.subscribe(
           params => this.config.currentPage= params['page']?params['page']:1 );
@@ -55,7 +55,7 @@ export class PreTechnicalInterviewFormComponent implements OnInit {
       this.router.navigate(['/technical-interview-list'], { state: { username: this.userName, accessLevel: this.accessLevel } })   
     }
     if(this.access =='tech-interview-initiate'){
-      this.router.navigate(['/technical-list/', this.userName], { state: { username: this.userName, quizId:this.quizNumber, accessLevel: this.accessLevel } })
+      this.router.navigate(['/technical-list/', this.userName], { state: { username: this.userName, quizId:this.quizNumber, accessLevel: this.accessLevel, account:this.account } })
      }
      if(this.access =='partner-interview-initiate'){
       this.router.navigate(['/initiate-partner-interview/', this.userName], { state: { username: this.userName, accessLevel: this.accessLevel } })
