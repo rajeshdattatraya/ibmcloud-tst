@@ -455,6 +455,17 @@ getPartnerInterviewList(): Observable<any> {
   )
 }
 
+//getPartnerInterviewAccountList
+getPartnerInterviewAccountList(account): Observable<any> {
+  let url = `${this.userResultUri}/getPartnerInterviewAccountList/${account}`;
+return this.http.get(url, {headers: this.headers}).pipe(
+      map((res: Response) => {
+        return res || {}
+      }),
+      catchError(this.errorMgmt)
+)
+}
+
 //readPartnerInterviewDetails
 readPartnerInterviewDetails(userName): Observable<any> {
   let url = `${this.userResultUri}/readPartnerInterviewDetails/${userName}`;

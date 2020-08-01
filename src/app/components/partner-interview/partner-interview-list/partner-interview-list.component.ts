@@ -45,6 +45,7 @@ export class PartnerInterviewListComponent implements OnChanges {
   submitted = false;
   displayContractorUIFields: Boolean = false;
   displayRegularUIFields: Boolean = true;
+  account: String = ""; 
 
   constructor(private cv:TechnicalInterviewListComponent,private route: ActivatedRoute, private router: Router, private apiService: ApiService,private ngZone: NgZone,private fb: FormBuilder) {
       this.config = {
@@ -56,6 +57,7 @@ export class PartnerInterviewListComponent implements OnChanges {
       if (!this.browserRefresh) {
           this.userName = this.router.getCurrentNavigation().extras.state.username;
           this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
+          this.account = this.router.getCurrentNavigation().extras.state.account;
       }
       route.queryParams.subscribe(
       params => this.config.currentPage= params['page']?params['page']:1 );
@@ -167,10 +169,16 @@ export class PartnerInterviewListComponent implements OnChanges {
     this.quizNumber=quizNumber;
   }
 
-  getPartnerInterviewList(){
+  getPartnerInterviewList(){   
+    if(this.account.toLocaleLowerCase() !=='sector'){      
+      this.apiService.getPartnerInterviewAccountList(this.account).subscribe((data) => {
+        this.PartnerInterviewList = data;             
+      })
+    } else {      
     this.apiService.getPartnerInterviewList().subscribe((data) => {
      this.PartnerInterviewList = data;
-    })
+      })
+   }
   }
 
   filterUserList(filters: any, users: any): void {
@@ -199,12 +207,20 @@ export class PartnerInterviewListComponent implements OnChanges {
   }
 
   // To Read the Results
-  readResult() {
-    this.apiService.getPartnerInterviewList().subscribe((data) => {
-      this.Result = data;
-      this.users = data
-      this.filteredUsers = this.filteredUsers.length > 0 ? this.filteredUsers : this.users;
-    })
+  readResult() {    
+    if(this.account.toLocaleLowerCase() !=='sector'){      
+      this.apiService.getPartnerInterviewAccountList(this.account).subscribe((data) => {       
+        this.Result = data;
+        this.users = data
+        this.filteredUsers = this.filteredUsers.length > 0 ? this.filteredUsers : this.users;
+      })
+    } else {      
+      this.apiService.getPartnerInterviewList().subscribe((data) => {        
+        this.Result = data;
+        this.users = data
+        this.filteredUsers = this.filteredUsers.length > 0 ? this.filteredUsers : this.users;
+      })
+   }    
   }
 
   getCandidateAssessmentDetails(userid,quizId,username,userScore,createdDate) {
