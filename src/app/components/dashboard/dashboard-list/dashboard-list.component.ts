@@ -42,6 +42,7 @@ export class DashboardListComponent implements OnChanges {
   displayContractorUIFields: Boolean = false;
   displayRegularUIFields: Boolean = true;
   filterKey : string = "";
+  account: String = "";
 
 
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
@@ -54,6 +55,7 @@ export class DashboardListComponent implements OnChanges {
         if (!this.browserRefresh) {
             this.userName = this.router.getCurrentNavigation().extras.state.username;
             this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
+            this.account = this.router.getCurrentNavigation().extras.state.account;
         }
         route.queryParams.subscribe(
         params => this.config.currentPage= params['page']?params['page']:1 );

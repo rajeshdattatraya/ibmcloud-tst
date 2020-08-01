@@ -53,7 +53,7 @@ export class PartnerInterviewListComponent implements OnChanges {
         itemsPerPage: appConfig.itemsPerPage,
         totalItems: appConfig.totalItems
       };
-      this.browserRefresh = browserRefresh;
+      this.browserRefresh = browserRefresh;      
       if (!this.browserRefresh) {
           this.userName = this.router.getCurrentNavigation().extras.state.username;
           this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
@@ -72,7 +72,7 @@ export class PartnerInterviewListComponent implements OnChanges {
   }
   @ViewChild('content') content: any;
   ngOnChanges(): void {
-    if (this.groupFilters) this.filterUserList(this.groupFilters, this.users);
+    if (this.groupFilters) this.filterUserList(this.groupFilters, this.users);      
     this.router.navigate(['/partner-list']);
   }
   
@@ -122,8 +122,7 @@ export class PartnerInterviewListComponent implements OnChanges {
     }
   }
  
-  exceptionalApproval() {
-    
+  exceptionalApproval() {    
     if (this.emailSelected == "") {
       alert("please select the candidate")
     }
@@ -131,10 +130,10 @@ export class PartnerInterviewListComponent implements OnChanges {
       if (window.confirm("Are you sure you want to provide exemption approval?")) {
         this.showModal = true;
         this.content.open();
-        this.partnerFeedbackForm.reset;
+        this.partnerFeedbackForm.reset;        
       }
       else {
-        this.showModal = false;
+        this.showModal = false;       
       }
     }
   }
@@ -160,7 +159,7 @@ export class PartnerInterviewListComponent implements OnChanges {
       alert("Please select the candidate")
     }
     else {
-      this.router.navigate(['/initiate-partner-interview/', this.emailSelected], { state: { username: this.userName, accessLevel: this.accessLevel } })
+      this.router.navigate(['/initiate-partner-interview/', this.emailSelected], { state: { username: this.userName, accessLevel: this.accessLevel, account: this.account } })
     }
   }
 
@@ -169,7 +168,7 @@ export class PartnerInterviewListComponent implements OnChanges {
     this.quizNumber=quizNumber;
   }
 
-  getPartnerInterviewList(){   
+  getPartnerInterviewList(){      
     if(this.account.toLocaleLowerCase() !=='sector'){      
       this.apiService.getPartnerInterviewAccountList(this.account).subscribe((data) => {
         this.PartnerInterviewList = data;             
@@ -207,7 +206,7 @@ export class PartnerInterviewListComponent implements OnChanges {
   }
 
   // To Read the Results
-  readResult() {    
+  readResult() {     
     if(this.account.toLocaleLowerCase() !=='sector'){      
       this.apiService.getPartnerInterviewAccountList(this.account).subscribe((data) => {       
         this.Result = data;

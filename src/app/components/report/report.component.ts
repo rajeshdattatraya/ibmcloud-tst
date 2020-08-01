@@ -20,6 +20,7 @@ export class ReportComponent implements OnInit {
   reportResponse: any = [];
   reportData: any = [];
   reportObj = {};
+  account : String ="";
 
   itemsPerPage = appConfig.itemsPerPage;
   page=1;
@@ -39,6 +40,7 @@ export class ReportComponent implements OnInit {
     if (!this.browserRefresh) {
       this.userName = this.router.getCurrentNavigation().extras.state.username;
       this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
+      this.account = this.router.getCurrentNavigation().extras.state.account;
     }
   }
 

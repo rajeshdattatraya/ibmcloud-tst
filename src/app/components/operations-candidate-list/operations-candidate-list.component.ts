@@ -13,12 +13,14 @@ export class OperationsCandidateListComponent  {
   userName = "";
   accessLevel: String = "";
   public browserRefresh: boolean;
+  account: String = "";
 
   constructor(private router: Router) {
   this.browserRefresh = browserRefresh;
     if (!this.browserRefresh) {
         this.userName = this.router.getCurrentNavigation().extras.state.username;
         this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
+        this.account = this.router.getCurrentNavigation().extras.state.account;
     }
    
 }

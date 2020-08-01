@@ -25,11 +25,13 @@ export class OperationsProjectInitiateComponent implements OnInit {
   status: string = "Completed";
   displayTechInterviewFields = true;
   displayPartnerInterviewFields = true;
+  account: String = "";
 
  constructor(private cv:TechnicalInterviewListComponent,public fb: FormBuilder, private actRoute: ActivatedRoute, private router: Router,private ngZone: NgZone,
   private apiService: ApiService) {
        this.userName = this.router.getCurrentNavigation().extras.state.username;          
-       this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;            
+       this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;  
+       this.account = this.router.getCurrentNavigation().extras.state.account;          
        let id = this.actRoute.snapshot.paramMap.get('id');
        this.readOperationsProjectDetails(id); 
        this.mainForm();     
@@ -135,7 +137,7 @@ get myForm(){
               console.log(error);
             });
         console.log('Operations details successfully inserted to ProjectAlloc table!')
-        this.ngZone.run(() => this.router.navigateByUrl('/operations-candidate-list',{state:{username:this.userName,accessLevel:this.accessLevel}}))
+        this.ngZone.run(() => this.router.navigateByUrl('/operations-candidate-list',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
         }, (error) => {
           console.log(error);
         });
@@ -149,6 +151,6 @@ resetForm(){
 }
 //Cancel
 cancelForm(){
-  this.ngZone.run(() => this.router.navigateByUrl('/operations-candidate-list',{state:{username:this.userName,accessLevel:this.accessLevel}}))
+  this.ngZone.run(() => this.router.navigateByUrl('/operations-candidate-list',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
 }
 }

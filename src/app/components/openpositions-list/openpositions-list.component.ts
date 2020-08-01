@@ -19,6 +19,7 @@ export class OpenpositionsListComponent implements OnInit {
   isRowSelected = false;
   openPositionID;
   index;
+  account: String ="";
 
 
   constructor(
@@ -35,6 +36,7 @@ export class OpenpositionsListComponent implements OnInit {
         if (!this.browserRefresh) {
             this.userName = this.router.getCurrentNavigation().extras.state.username;
             this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
+            this.account = this.router.getCurrentNavigation().extras.state.account;
         }
       route.queryParams.subscribe(
       params => this.config.currentPage= params['page']?params['page']:1 );
@@ -75,7 +77,7 @@ export class OpenpositionsListComponent implements OnInit {
        if (this.isRowSelected == false){
          alert("Please select the Open Position");
        } else {
-           this.router.navigate(['/openpositions-edit/', this.openPositionID], {state:{username:this.userName,accessLevel:this.accessLevel}})
+           this.router.navigate(['/openpositions-edit/', this.openPositionID], {state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}})
        }
      }
 

@@ -34,6 +34,7 @@ export class OperationsCandidateSearchListComponent implements OnChanges {
   candidateDetails: any = [];
   displayContractorUIFields: Boolean = false;
   displayRegularUIFields: Boolean = true;
+  account: String = "";
   
   constructor(private cv:TechnicalInterviewListComponent,private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
     this.config = {
@@ -45,6 +46,7 @@ export class OperationsCandidateSearchListComponent implements OnChanges {
     if (!this.browserRefresh) {
         this.userName = this.router.getCurrentNavigation().extras.state.username;
         this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
+        this.account = this.router.getCurrentNavigation().extras.state.account;
     }
     route.queryParams.subscribe(
     params => this.config.currentPage= params['page']?params['page']:1 );
@@ -149,7 +151,7 @@ getCandidateAssessmentDetails(userid,quizId,username,userScore,createdDate) {
       alert("Please select the candidate")
     }
     else {
-      this.router.navigate(['/initiate-operations-project/', this.emailSelected], { state: { username: this.userName, accessLevel: this.accessLevel } })
+      this.router.navigate(['/initiate-operations-project/', this.emailSelected], { state: { username: this.userName, accessLevel: this.accessLevel,account:this.account } })
     }
   }
 

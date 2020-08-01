@@ -14,6 +14,7 @@ export class OpenpositionsEditComponent implements OnInit {
   userName = "";
   accessLevel: String = "";
   public browserRefresh: boolean;
+  account: String = "";
 
   openPositionForm: FormGroup;
   submitted = false;
@@ -39,6 +40,7 @@ export class OpenpositionsEditComponent implements OnInit {
       if (!this.browserRefresh) {
           this.userName = this.router.getCurrentNavigation().extras.state.username;
           this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
+          this.account = this.router.getCurrentNavigation().extras.state.account;
       }
       this.readCompetencyLevel();
       this.readPositionLocation();
@@ -185,7 +187,7 @@ export class OpenpositionsEditComponent implements OnInit {
         this.openPositionService.updateOpenPosition(openPositionID,this.openPositionForm.value).subscribe(
               (res) => {
                 console.log('Open Position successfully updated!');
-                this.ngZone.run(() => this.router.navigateByUrl('/openpositions-list',{state:{username:this.userName,accessLevel:this.accessLevel}}))
+                this.ngZone.run(() => this.router.navigateByUrl('/openpositions-list',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
               }, (error) => {
                 console.log(error);
               });
@@ -199,7 +201,7 @@ export class OpenpositionsEditComponent implements OnInit {
 
      //Cancel
      cancelForm(){
-       this.ngZone.run(() => this.router.navigateByUrl('/openpositions-list',{state:{username:this.userName,accessLevel:this.accessLevel}}))
+       this.ngZone.run(() => this.router.navigateByUrl('/openpositions-list',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
      }
 
 }

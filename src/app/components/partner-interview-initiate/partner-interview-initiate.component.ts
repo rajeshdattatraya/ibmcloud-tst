@@ -28,11 +28,13 @@ export class PartnerInterviewInitiateComponent implements OnInit {
   error = '';
   usersDetail:any = [];
   usersArray:any = [];
+  account: String = "";
 
  constructor(private cv:TechnicalInterviewListComponent,public fb: FormBuilder, private actRoute: ActivatedRoute, private router: Router,private ngZone: NgZone,
   private apiService: ApiService) {
        this.userName = this.router.getCurrentNavigation().extras.state.username;
        this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
+       this.account = this.router.getCurrentNavigation().extras.state.account;
        let id = this.actRoute.snapshot.paramMap.get('id');
        this.readPartnerInterviewDetails(id);
        this.mainForm();
@@ -146,7 +148,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
                             console.log(error);
                         });
 
-                        this.ngZone.run(() => this.router.navigateByUrl('/partner-list',{state:{username:this.userName,accessLevel:this.accessLevel}}))
+                        this.ngZone.run(() => this.router.navigateByUrl('/partner-list',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
                       }, (error) => {
                         console.log(error);
                       });
@@ -160,20 +162,20 @@ export class PartnerInterviewInitiateComponent implements OnInit {
    }
    //Cancel
     cancelForm(){
-        this.ngZone.run(() => this.router.navigateByUrl('/partner-list',{state:{username:this.userName,accessLevel:this.accessLevel}}))
+        this.ngZone.run(() => this.router.navigateByUrl('/partner-list',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
     }
 
-     exceptionalApproval(emailSelected, quizNumber) {
+     exceptionalApproval(emailSelected, quizNumber) {       
          if (window.confirm('Are you sure to provide exceptional approval?')) {
             if (this.partnerFeedbackForm.value.partnerFeedback == "") {
               alert("Please enter feedback");
-            } else {
+            } else {             
               this.stage4_status = "Completed";
               let partnerDetails = new PartnerDetails("Exceptional Approval Given",
                             this.partnerFeedbackForm.value.partnerFeedback,this.userName,new Date(), this.stage4_status);
               this.apiService.updateExceptionalApprovalForStage4(partnerDetails,emailSelected,quizNumber).subscribe(res => {
                 window.alert('Successfully provided exceptional approval');
-                this.ngZone.run(() => this.router.navigateByUrl('/partner-list',{state:{username:this.userName,accessLevel:this.accessLevel}}))
+                this.ngZone.run(() => this.router.navigateByUrl('/partner-list',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
               }, (error) => {
                 console.log(error);
               })
