@@ -342,7 +342,7 @@ export class TechnicalInterviewComponent implements OnInit {
 						 console.log(error);
 				   }); 
 
-            this.ngZone.run(() => this.router.navigateByUrl('/technical-interview-list',{state:{username:this.userName,accessLevel:this.accessLevel}}))
+            this.ngZone.run(() => this.router.navigateByUrl('/technical-interview-list',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
           }, (error) => {
             console.log(error);
           })

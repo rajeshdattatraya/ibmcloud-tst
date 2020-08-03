@@ -76,7 +76,7 @@
           <td *ngIf="TechnicalInterview.stage2_status=='Skipped'" width="20%"><a href="#" (click)="skipMethod()" routerLinkActive="active"  class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
           <td *ngIf="TechnicalInterview.stage2_status=='Completed'" width="20%">
               <a class="col-4 cursor-pointer" [routerLink]="['/pre-technical-interview-form/',TechnicalInterview.result_users[0].JRSS, TechnicalInterview.userName]"
-              [state]="{jrss:TechnicalInterview.result_users[0].JRSS,username:TechnicalInterview.result_users[0].username,access:'tech-list'}">
+              [state]="{jrss:TechnicalInterview.result_users[0].JRSS,username:TechnicalInterview.result_users[0].username,access:'tech-list',account:this.account}">
               Click here
               </a>
           </td>

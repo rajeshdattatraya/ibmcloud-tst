@@ -52,7 +52,7 @@ export class PreTechnicalInterviewFormComponent implements OnInit {
 
   close() {
     if(this.access =='tech-list'){
-      this.router.navigate(['/technical-interview-list'], { state: { username: this.userName, accessLevel: this.accessLevel } })   
+      this.router.navigate(['/technical-interview-list'], { state: { username: this.userName, accessLevel: this.accessLevel,account:this.account } })   
     }
     if(this.access =='tech-interview-initiate'){
       this.router.navigate(['/technical-list/', this.userName], { state: { username: this.userName, quizId:this.quizNumber, accessLevel: this.accessLevel, account:this.account } })
