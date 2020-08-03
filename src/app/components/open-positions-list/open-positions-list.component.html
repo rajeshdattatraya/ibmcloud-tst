@@ -22,7 +22,7 @@
             <tr *ngFor="let openPosition of openPositionsList | paginate: {id:'positions_pagination', itemsPerPage:itemsPerPage,
             currentPage:page, totalItems:openPositionsList.length} ">
                 <td class="text-center" width="4%">
-                    <input type="radio" name="jrssSelected"  (change)="jrssSelected=openPosition.JRSS">
+                    <input type="radio" name="jrssSelected"  (change)="jrssSelected=openPosition.JRSS; positionID=openPosition._id">
                 </td>
                 <td width="14%">{{openPosition.positionName}}</td>
                 <td width="18%">{{openPosition.JRSS}}</td>

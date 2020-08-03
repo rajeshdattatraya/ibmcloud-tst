@@ -44,6 +44,9 @@ export class EligibleCandidatesComponent implements OnInit {
   page = 1;
   jrss='';
   itemsPerPage=appConfig.itemsPerPage;
+  account='';
+  positionID='';
+
 
   constructor(
   private cv:TechnicalInterviewListComponent,
@@ -51,7 +54,8 @@ export class EligibleCandidatesComponent implements OnInit {
   private router: Router, 
   private apiService: ApiService) {
     this.jrss = this.router.getCurrentNavigation().extras.state.jrss;
-    console.log('this.jrss',this.jrss);
+    this.account = this.router.getCurrentNavigation().extras.state.account;
+    this.positionID = this.router.getCurrentNavigation().extras.state.positionID;
 
     this.browserRefresh = browserRefresh;
     if (!this.browserRefresh) {
@@ -120,12 +124,15 @@ getCandidateAssessmentDetails(userid,quizId,username,userScore,createdDate) {
   this.correctAnswerCount=Math.round((userScore*this.questionCount)/100)
  })
 }
+
   assignProject() {
     if (this.emailSelected == "") {
       alert("Please select the candidate")
     }
     else {
-      this.router.navigate(['/initiate-operations-project/', this.emailSelected], { state: { username: this.userName, accessLevel: this.accessLevel } })
+      this.router.navigate(['/initiate-operations-project/', this.emailSelected], 
+      {  state: { username: this.userName, accessLevel: this.accessLevel, account: this.account, positionID: this.positionID }} 
+      )
     }
   }
 

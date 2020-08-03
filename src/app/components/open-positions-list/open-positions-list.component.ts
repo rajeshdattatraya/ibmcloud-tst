@@ -18,6 +18,7 @@ export class OpenPositionsListComponent implements OnInit {
   account="DWP";
   status="Open";
   openPositionsList:any = [];
+  positionID;
 
 
   constructor(private router: Router,
@@ -42,7 +43,7 @@ export class OpenPositionsListComponent implements OnInit {
   //Method to redirect to the page to find the candidates for the given JRSS
   redirectToFindCandidates() {
     if (this.jrssSelected) {
-      this.router.navigateByUrl('/eligible-candidates',{state:{jrss:this.jrssSelected}});
+      this.router.navigateByUrl('/eligible-candidates',{state:{jrss:this.jrssSelected, account:this.account, positionID:this.positionID}});
     } else {
       alert("Please select a position");
     }

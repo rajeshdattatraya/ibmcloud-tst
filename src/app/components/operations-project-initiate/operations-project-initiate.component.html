@@ -67,6 +67,117 @@
         </tbody>
       </table>
     </div>
+
+    <br>
+
+    <!-- This Div block will conditionaly display the open position details-->
+    <div class="card" *ngIf="positionID != undefined || positionID != null">
+      <div class="card-header table-success" style="background-color:powderblue"><b> Open Position Details</b></div>
+      <div class="card-body">
+        <table>
+          <tbody>
+          <tr>
+            <td  width="25%"><label>Position Name:</label></td>
+            <td  width="25%">{{positionDetails.positionName}}</td>
+            <td  width="25%"><label>Job Role:</label></td>
+            <td  width="25%">{{positionDetails.JRSS}}</td>
+          </tr>
+  
+          <tr>
+            <td  width="25%"><label>Line of Business:</label></td>
+            <td  width="25%">{{positionDetails.lineOfBusiness}}</td>
+            <td  width="25%"><label>Position Location:</label></td>
+            <td  width="25%">{{positionDetails.positionLocation}}</td>
+          </tr>
+          <tr>
+            <td  width="25%"><label>Rate Card Role:</label></td>
+            <td  width="25%">{{positionDetails.rateCardJobRole}}</td>
+            <td  width="25%"><label>Competency Level:</label></td>
+            <td  width="25%">{{positionDetails.competencyLevel}}</td>
+          </tr>
+  
+  
+        </tbody>
+         </table>
+        </div>
+   </div>
+  
+  
+   <br>
+  
+    <!-- This Div block will conditionaly Caluclate Gross Profit fields and button-->
+    <div class="card"  class="form-group" *ngIf="positionID != undefined || positionID != null">
+      <div class="card-header table-success" style="background-color:powderblue"><b> Gross Profit Details</b></div>
+      <div class="card-body">
+  
+        <table width="100%">
+          <tbody>
+          <tr>
+            <td  width="15%"><label id="rateCardLOB">Line of Business:</label></td>
+            <td  width="30%">
+               <select class="custom-select form-control"    name= "rateCardLOB"  [(ngModel)]= "rateCardLOB" >
+                <option *ngFor="let data of lineOfBusiness"  class="form-control" value="{{data.lob}}" >{{data.lob}}</option>
+              </select>
+            </td>
+            
+            <td  width="15%"><label>&nbsp;&nbsp;Position Location:</label></td>
+            <td  width="40%">
+  
+              <select class="custom-select form-control" id="inputPositionLocation"  name= "rateCardLocation"  [(ngModel)]= "rateCardLocation" >
+                <option *ngFor="let data of positionLocation" value="{{data.positionLocation}}" >{{data.positionLocation}}</option>
+              </select>
+  
+            </td>
+          </tr>
+  
+          <tr>
+            <td  width="15%"><label>Rate Card Job Role:</label></td>
+            <td  width="30%"> 
+              <select class="custom-select form-control"  name= "rateCardRole"  [(ngModel)]= "rateCardRole"  
+              id="rateCardRole"  >
+                <option *ngFor="let data of rateCardJobRole" value="{{data.rateCardJobRole}}">{{data.rateCardJobRole}}
+                </option>
+              </select>
+           </td>
+            <td  width="15%"><label>&nbsp;&nbsp;Competency Level:</label></td>
+            <td  width="40%">
+  
+              <select class="custom-select form-control" 
+                    id="rateCardComplexityLevel" name= "rateCardComplexityLevel"  [(ngModel)]= "rateCardComplexityLevel"  >
+              <option *ngFor="let data of competencyLevel" value="{{data.competencyLevel}}"
+             
+                 >{{data.competencyLevel}}</option>
+            </select>
+            </td>
+          </tr>
+           <tr>
+  
+            <td  width="15%"><label>Candidate Location:</label></td>
+            <td  width="30%">
+  
+              <select class="custom-select form-control" id="candidateLocation"  name= "candidateLocation"  [(ngModel)]= "candidateLocation" >
+                <option *ngFor="let data of positionLocation" value="{{data.positionLocation}}" >{{data.positionLocation}}</option>
+              </select>
+  
+            </td>
+            <td  width="15%"><label>&nbsp;&nbsp;Gross Profit(%):</label></td>
+            <td  width="30%"> <input class="form-control" type="text" id="grossProfit"  name= "grossProfit"  [(ngModel)]= "grossProfit"></td>
+          </tr>
+          <tr>
+            <td  width="15%"></td>
+            <td  width="30%"></td>
+            <td  width="15%"></td>
+            <td  width="40%"> 
+              <button style="background-color:#0043CE;" class="btn btn-success btn-sm" type="button" (click)="calculateGP()">
+                Calculate GP</button></td>
+          </tr>
+         </tbody>
+         </table>
+        </div>
+   </div>  
+      <br>
+
+
   </div>
     <br>
     <div class="card">
