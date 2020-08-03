@@ -52,6 +52,7 @@ import { ProjectAssignmentComponent } from './components/project-assignment/proj
 import { OpenPositionsListComponent } from './components/open-positions-list/open-positions-list.component';
 import { EligibleCandidatesComponent } from './components/eligible-candidates/eligible-candidates.component';
 import { EligibleCandidatesFilterPipe } from './components/eligible-candidates/filterByJRSS.pipe';
+import { QuestionAddBulkSectorsmeComponent } from './components/question-add-bulk-sectorsme/question-add-bulk-sectorsme.component';
 
 
 export let browserRefresh = false;
@@ -97,7 +98,8 @@ export let browserRefresh = false;
 	ProjectAssignmentComponent,
     OpenPositionsListComponent,
     EligibleCandidatesComponent,
-    EligibleCandidatesFilterPipe 
+    EligibleCandidatesFilterPipe,
+    QuestionAddBulkSectorsmeComponent 
 	
     ],
   imports: [

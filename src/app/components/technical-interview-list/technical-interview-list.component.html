@@ -2,8 +2,20 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/technical-interview-list" [state]="{username:this.userName}" routerLinkActive="active"><b>Technical Interview</b></a>
+          <a class="nav-link" routerLink="/technical-interview-list" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active"><b>Technical Interview</b></a>
         </li>
+
+        <li *ngIf="account=='sector'" class="nav-item dropdown active">
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <b>Manage Questions</b><span class="sr-only">(current)</span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" routerLink="/manage-questionbank" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active">Add Question</a>
+            <a class="dropdown-item" routerLink="/manage-questionbank-bulk-sectorsme" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active">Add Bulk Question</a>
+            
+          </div>
+        </li>
+
       </ul>
     </div>
     <div>

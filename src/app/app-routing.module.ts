@@ -44,6 +44,7 @@ import { OpenpositionsEditComponent } from './components/openpositions-edit/open
 import { ProjectAssignmentComponent } from './components/project-assignment/project-assignment.component';
 import { OpenPositionsListComponent } from './components/open-positions-list/open-positions-list.component';
 import { EligibleCandidatesComponent } from './components/eligible-candidates/eligible-candidates.component';
+import { QuestionAddBulkSectorsmeComponent } from './components/question-add-bulk-sectorsme/question-add-bulk-sectorsme.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login-component' },
@@ -93,6 +94,7 @@ const routes: Routes = [
   { path: 'project_assignment', component: ProjectAssignmentComponent },
   { path: 'open-positions-list', component: OpenPositionsListComponent },
   { path: 'eligible-candidates', component: EligibleCandidatesComponent },
+  { path: 'manage-questionbank-bulk-sectorsme', component:QuestionAddBulkSectorsmeComponent},
 ];
 
 @NgModule({
