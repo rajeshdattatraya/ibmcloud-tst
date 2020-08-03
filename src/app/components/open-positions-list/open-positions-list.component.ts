@@ -15,15 +15,19 @@ export class OpenPositionsListComponent implements OnInit {
   jrssSelected=false;
   itemsPerPage = appConfig.itemsPerPage;
   page=1;
-  account="DWP";
-  status="Open";
+  account="";
+ 
   openPositionsList:any = [];
   positionID;
+  userName;
+  accessLevel;
 
 
   constructor(private router: Router,
     private positionsService: PositionsService) { 
-    //this.account = this.router.getCurrentNavigation().extras.state.account;
+    this.account = this.router.getCurrentNavigation().extras.state.account;
+    this.userName = this.router.getCurrentNavigation().extras.state.username;          
+       this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;  
   }
 
   ngOnInit(): void {
@@ -33,7 +37,8 @@ export class OpenPositionsListComponent implements OnInit {
 
     // To Read the Open Position
     listAllOpenPositions() {
-    this.positionsService.listAllOpenPositions(this.account, this.status).subscribe((data) => {
+      const status="Open";
+    this.positionsService.listAllOpenPositions(this.account, status).subscribe((data) => {
       this.openPositionsList = data;
       
     })
@@ -43,7 +48,7 @@ export class OpenPositionsListComponent implements OnInit {
   //Method to redirect to the page to find the candidates for the given JRSS
   redirectToFindCandidates() {
     if (this.jrssSelected) {
-      this.router.navigateByUrl('/eligible-candidates',{state:{jrss:this.jrssSelected, account:this.account, positionID:this.positionID}});
+      this.router.navigateByUrl('/eligible-candidates',{state:{jrss:this.jrssSelected, accessLevel:this.accessLevel, account:this.account, positionID:this.positionID}});
     } else {
       alert("Please select a position");
     }
