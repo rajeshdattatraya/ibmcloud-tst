@@ -79,10 +79,19 @@ onSelectionChange(value) {
 }
 
 getOperationsCandidateList(){
-  this.apiService.getOperationsCandidateList().subscribe((data) => {
-   this.operationsCandidateList = data;
-  })
+  if(this.account =='sector'){
+this.apiService.getOperationsCandidateList().subscribe((data) => {
+    
+      this.operationsCandidateList = data;
+    })
+  }
+  else{
+    this.apiService.getOperationsAccountCandidateList(this.account).subscribe((data) => {
+      this.operationsCandidateList = data;
+})
 }
+}
+
 
 filterUserList(filters: any, users: any): void {
   this.filteredUsers = this.users; //Reset User List
@@ -111,11 +120,20 @@ filterUserList(filters: any, users: any): void {
 
 // To Read the Results
 readResult() {
+  if(this.account.toLocaleLowerCase() !=='sector'){ 
+  this.apiService.getOperationsAccountCandidateList(this.account).subscribe((data) => {
+    this.Result = data;
+    this.users = data
+    this.filteredUsers = this.filteredUsers.length > 0 ? this.filteredUsers : this.users;
+  })
+}else{
   this.apiService.getOperationsCandidateList().subscribe((data) => {
     this.Result = data;
     this.users = data
     this.filteredUsers = this.filteredUsers.length > 0 ? this.filteredUsers : this.users;
   })
+}
+
 }
 
 

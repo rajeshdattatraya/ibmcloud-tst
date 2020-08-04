@@ -16,7 +16,7 @@
           <th scope="col" width="20%">Online Test Result</th>
           <th scope="col" width="23%">Technical Interview Result</th>
           <th scope="col" width="17%">CV Download</th>
-          <th *ngIf="account=='sector'" scope="col" width="17%">Account</th>
+          <th *ngIf="account=='sector' || account=='Sector'" scope="col" width="17%">Account</th>
         </tr>
         </thead>
         <tbody>
@@ -30,7 +30,7 @@
           <td width="20%"><a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(partnerInterview.userName,partnerInterview.quizNumber,partnerInterview.result_users[0].employeeName,partnerInterview.userScore,partnerInterview.createdDate)" class="col-4 cursor-pointer" data-toggle="modal" *ngIf="partnerInterview.userScore!=null">{{partnerInterview.userScore}}%</a><p *ngIf="partnerInterview.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p></td>
           <td width="23%">{{partnerInterview.smeResult}}</td>
           <td width="20%"><a href="#" (click)="downloadCandidateResume(partnerInterview.userName)" routerLinkActive="active" class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
-          <td *ngIf="account=='sector'" width="25%">{{partnerInterview.result_users[0].account}}</td>
+          <td *ngIf="account=='sector' || account=='Sector'" width="25%">{{partnerInterview.result_users[0].account}}</td>
         </tr>
         </tbody>
       </table>

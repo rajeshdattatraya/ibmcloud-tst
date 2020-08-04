@@ -161,7 +161,7 @@ export class TechnicalInterviewListComponent implements OnInit {
       alert("Please select the candidate")
     }
     else {
-      if (window.confirm("Are you sure you want to provide exemption approval?")) {
+      if (window.confirm("Are you sure you want to provide exception approval?")) {
         this.showModal = true;
         this.content.open();
       } else {

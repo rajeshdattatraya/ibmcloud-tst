@@ -73,7 +73,7 @@
           <th scope="col" width="15%">Online Test Result</th>
           <th scope="col" width="20%">Pre-Technical Interview Assessment Form</th>
           <th scope="col" width="17%">CV Download</th>
-          <th *ngIf="account=='sector'" scope="col" width="17%">Account</th>
+          <th *ngIf="account=='sector' || account=='Sector'" scope="col" width="17%">Account</th>
         </tr>
         </thead>
         <tbody>
@@ -93,7 +93,7 @@
               </a>
           </td>
           <td width="20%"><a href="#" (click)="downloadCandidateResume(TechnicalInterview.userName)" routerLinkActive="active" class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
-          <td *ngIf="account=='sector'" width="25%">{{TechnicalInterview.result_users[0].account}}</td> 
+          <td *ngIf="account=='sector' || account=='Sector'" width="25%">{{TechnicalInterview.result_users[0].account}}</td> 
         </tr>
         </tbody>
       </table>
