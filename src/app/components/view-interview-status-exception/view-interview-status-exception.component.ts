@@ -31,7 +31,7 @@ export class ViewInterviewStatusExceptionComponent implements OnInit {
   smeResult = "";
   managementResult = "";
   preTechQuestion;
-
+  account="";
   employeeName = "";
   onlineTestResult = "";
   technicalInterviewResult = "";
@@ -53,6 +53,7 @@ export class ViewInterviewStatusExceptionComponent implements OnInit {
               private apiService: ApiService,public fb: FormBuilder,private ngZone: NgZone) {
      this.userName = this.router.getCurrentNavigation().extras.state.username;
      this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
+     this.account = this.router.getCurrentNavigation().extras.state.account;
      let id = this.actRoute.snapshot.paramMap.get('id');
      this.viewCandidateInterviewStatus(id);
      this.mainForm();
@@ -143,7 +144,7 @@ export class ViewInterviewStatusExceptionComponent implements OnInit {
        this.resultPageService.saveResult(resultStatus).subscribe(
          (res) => {
            console.log('Results table record inserted successfully');
-           this.ngZone.run(() => this.router.navigateByUrl('/viewinterview-status',{state:{username:this.userName,accessLevel:this.accessLevel}}))
+           this.ngZone.run(() => this.router.navigateByUrl('/viewinterview-status',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
          }, (error) => {
            console.log(error);
          });
@@ -196,7 +197,7 @@ export class ViewInterviewStatusExceptionComponent implements OnInit {
 
   //Cancel
   cancelForm() {
-      this.ngZone.run(() => this.router.navigateByUrl('/viewinterview-status',{state:{username:this.userName,accessLevel:this.accessLevel}}))
+      this.ngZone.run(() => this.router.navigateByUrl('/viewinterview-status',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
   }
 
 }

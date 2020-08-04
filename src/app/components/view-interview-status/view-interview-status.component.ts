@@ -133,7 +133,7 @@ export class ViewInterviewStatusComponent implements OnInit {
     if (this.candidateUserId == "") {
         alert("Please select the candidate");
     } else {
-        this.router.navigate(['/viewinterview-status-exception/', this.candidateUserId], { state: { username: this.userName, accessLevel: this.accessLevel } })
+        this.router.navigate(['/viewinterview-status-exception/', this.candidateUserId], { state: { username: this.userName, accessLevel: this.accessLevel,account:this.account } })
     }
   }
 
