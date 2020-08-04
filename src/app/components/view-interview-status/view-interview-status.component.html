@@ -11,16 +11,19 @@
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/operations-candidate-list" [state]="{username:this.userName, accessLevel:this.accessLevel}" routerLinkActive="active"><b>Project Assignment</b></a>
+        <a class="nav-link" routerLink="/operations-candidate-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Project Assignment</b></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/viewinterview-status" [state]="{username:this.userName, accessLevel:this.accessLevel}" routerLinkActive="active"><b>Exception Approval</b></a>
+        <a class="nav-link" routerLink="/open-positions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Open Positions</b></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/dashboard" [state]="{username:this.userName, accessLevel:this.accessLevel}" routerLinkActive="active"><b>Dashboard</b></a>
+        <a class="nav-link" routerLink="/viewinterview-status" [state]="{username:this.userName, accessLevel:this.accessLevel,account: this.account}" routerLinkActive="active"><b>Exception Approval</b></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/report" [state]="{username:this.userName, accessLevel:this.accessLevel}" routerLinkActive="active"><b>Report</b></a>
+        <a class="nav-link" routerLink="/dashboard" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Dashboard</b></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/report" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Report</b></a>
       </li>
     </ul>
   </div>

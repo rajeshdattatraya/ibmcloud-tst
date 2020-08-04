@@ -26,7 +26,7 @@ export class ViewInterviewStatusComponent implements OnInit {
 
   userName = "";
   accessLevel = "management";
-
+  account = "";
   employeeName = "";
   onlineTestResult = "";
   technicalInterviewResult = "";
@@ -50,7 +50,8 @@ export class ViewInterviewStatusComponent implements OnInit {
     if (!this.browserRefresh) {
         this.userName = this.router.getCurrentNavigation().extras.state.username;
         this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
-    }
+        this.account = this.router.getCurrentNavigation().extras.state.account;
+      }
     route.queryParams.subscribe(
     params => this.config.currentPage= params['page']?params['page']:1 );
     this.getCandidateInterviewStatus();

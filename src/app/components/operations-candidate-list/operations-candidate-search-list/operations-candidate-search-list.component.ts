@@ -120,7 +120,7 @@ filterUserList(filters: any, users: any): void {
 
 // To Read the Results
 readResult() {
-  if(this.account.toLocaleLowerCase() !=='sector'){ 
+  if(this.account !=='sector'){ 
   this.apiService.getOperationsAccountCandidateList(this.account).subscribe((data) => {
     this.Result = data;
     this.users = data
