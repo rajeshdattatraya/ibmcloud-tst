@@ -57,6 +57,7 @@ export class CandidateCreateComponent implements OnInit {
   UserLOB: any = [];
   displayOpenPositionFields: boolean = false;
   Account:any = [];
+  AccountArray:any=[];
 
   constructor(
     public fb: FormBuilder,
@@ -169,6 +170,12 @@ export class CandidateCreateComponent implements OnInit {
     readAccount(){
       this.apiService.getAccounts().subscribe((data) => {
       this.Account = data;
+      //Remove 'sector' from Account collection
+      for (var accValue of this.Account){    
+          if(accValue.account !== 'sector') {
+            this.AccountArray.push(accValue.account);             
+          }            
+      }      
       })
     }
     
