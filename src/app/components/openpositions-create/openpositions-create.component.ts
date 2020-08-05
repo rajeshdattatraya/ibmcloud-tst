@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
 import { browserRefresh } from '../../app.component';
 import { ApiService } from './../../service/api.service';
+import { OpenPosition } from './../../model/openPosition';
 import { OpenPositionService } from './../../service/openPosition.service';
 
 @Component({
@@ -171,7 +172,21 @@ export class OpenpositionsCreateComponent implements OnInit {
           return false;
         } else {
         this.submitted = true;
-        this.openPositionService.createOpenPosition(this.openPositionForm.value).subscribe(
+        let openPosition = new OpenPosition(
+        this.openPositionForm.value.positionName,
+        this.openPositionForm.value.JRSS,
+        this.openPositionForm.value.rateCardJobRole,
+        this.openPositionForm.value.lineOfBusiness,
+        this.openPositionForm.value.positionLocation,
+        this.openPositionForm.value.competencyLevel,
+        this.openPositionForm.value.account,
+        "Open",
+        this.userName,
+        new Date(),
+        this.userName,
+        new Date()
+        );
+        this.openPositionService.createOpenPosition(openPosition).subscribe(
               (res) => {
                 console.log('Open Position successfully created!');
                 this.ngZone.run(() => this.router.navigateByUrl('/openpositions-list',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))

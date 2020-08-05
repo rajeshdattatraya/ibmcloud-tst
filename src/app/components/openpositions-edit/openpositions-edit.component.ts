@@ -4,6 +4,7 @@ import { ActivatedRoute,Router } from '@angular/router';
 import { browserRefresh } from '../../app.component';
 import { ApiService } from './../../service/api.service';
 import { OpenPositionService } from './../../service/openPosition.service';
+import { OpenPosition } from './../../model/openPosition';
 
 @Component({
   selector: 'app-openpositions-edit',
@@ -184,7 +185,21 @@ export class OpenpositionsEditComponent implements OnInit {
     onSubmit() {
         this.submitted = true;
         let openPositionID = this.actRoute.snapshot.paramMap.get('id');
-        this.openPositionService.updateOpenPosition(openPositionID,this.openPositionForm.value).subscribe(
+        let openPositionDetails = new OpenPosition(
+        this.openPositionForm.value.positionName,
+        this.openPositionForm.value.JRSS,
+        this.openPositionForm.value.rateCardJobRole,
+        this.openPositionForm.value.lineOfBusiness,
+        this.openPositionForm.value.positionLocation,
+        this.openPositionForm.value.competencyLevel,
+        this.openPositionForm.value.account,
+        "Open",
+        this.userName,
+        new Date(),
+        this.userName,
+        new Date()
+        );
+        this.openPositionService.updateOpenPosition(openPositionID,openPositionDetails).subscribe(
               (res) => {
                 console.log('Open Position successfully updated!');
                 this.ngZone.run(() => this.router.navigateByUrl('/openpositions-list',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))

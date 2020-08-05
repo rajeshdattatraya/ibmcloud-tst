@@ -1,6 +1,7 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { ApiService } from './../../service/api.service';
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { OpenPositionService } from './../../service/openPosition.service';
+import { FormGroup, FormControl, FormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
 import { browserRefresh } from '../../app.component';
 import { PartnerDetails } from './../../model/PartnerDetails';
@@ -18,6 +19,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
   partnerInterviewDetails : any = [];
   FinalResult: any=['Recommended','Not Suitable','StandBy'];
   partnerFeedbackForm: FormGroup;
+  myOpenPositionGroup: FormGroup;
   submitted = false;
   formReset = false;
   accessLevel: String = "";
@@ -30,14 +32,31 @@ export class PartnerInterviewInitiateComponent implements OnInit {
   usersArray:any = [];
   account: String = "";
 
+   OpenPositions: any = [];
+   LineOfBusiness:any = [];
+   CompetencyLevel:any = [];
+   PositionLocation:any = [];
+   UserPositionLocation:any = [];
+   RateCardJobRole:any = [];
+   OpenPosition: any= [];
+   OJRSS: any= [];
+   UserLOB: any = [];
+   Band:any = [];
+   band: any;
+   userLOB: any;
+   displayOpenPositionFields: boolean = false;
+
  constructor(private cv:TechnicalInterviewListComponent,public fb: FormBuilder, private actRoute: ActivatedRoute, private router: Router,private ngZone: NgZone,
-  private apiService: ApiService) {
+  private apiService: ApiService, private openPositionService: OpenPositionService) {
        this.userName = this.router.getCurrentNavigation().extras.state.username;
        this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
        this.account = this.router.getCurrentNavigation().extras.state.account;
        let id = this.actRoute.snapshot.paramMap.get('id');
        this.readPartnerInterviewDetails(id);
        this.mainForm();
+       this.mainOpenForm();
+       this.readUserPositionLocation();
+       this.readUserLineOfBusiness();
    }
 
    ngOnInit() {
@@ -93,6 +112,8 @@ export class PartnerInterviewInitiateComponent implements OnInit {
                   finalResult: this.result,
                   partnerFeedback: this.feedback
       });
+      this.myOpenPositionGroup.get('grossProfit').setValue(this.partnerInterviewDetails[0].result_users[0].grossProfit);
+      this.myOpenPositionGroup.get('userPositionLocation').setValue(this.partnerInterviewDetails[0].result_users[0].userPositionLocation);
     });
   }
 
@@ -182,5 +203,120 @@ export class PartnerInterviewInitiateComponent implements OnInit {
             }
          }
       }
+
+      /* Start GP */
+      // Getter to access form control
+      get myOpenForm(){
+        return this.myOpenPositionGroup.controls;
+      }
+
+      updateOpenPositionProfile(positionName) {
+               this.openPositionService.readOpenPositionByPositionName(positionName).subscribe((data) => {
+                    this.LineOfBusiness.push(data['lineOfBusiness']);
+                    this.CompetencyLevel.push(data['competencyLevel']);
+                    this.PositionLocation.push(data['positionLocation']);
+                    this.RateCardJobRole.push(data['rateCardJobRole']);
+                    this.OJRSS.push(data['JRSS']);
+                  this.myOpenPositionGroup.setValue({
+                        positionName: data['positionName'],
+                        JRSS: data['JRSS'],
+                        rateCardJobRole: data['rateCardJobRole'],
+                        lineOfBusiness: data['lineOfBusiness'],
+                        positionLocation: data['positionLocation'],
+                        competencyLevel : data['competencyLevel'],
+                        userPositionLocation: '',
+                        grossProfit: ''
+                  });
+                  this.displayOpenPositionFields = true;
+               })
+      }
+
+      // Choose user position location with select dropdown
+     updateUserPositionLocationProfile(e){
+       this.myOpenPositionGroup.get('userPositionLocation').setValue(e, {
+       onlySelf: true
+       })
+     }
+     calculateGP() {
+         if (this.myOpenPositionGroup.value.userPositionLocation == null || this.myOpenPositionGroup.value.positionName == null
+             || this.myOpenPositionGroup.value.userPositionLocation == '' || this.myOpenPositionGroup.value.positionName == '') {
+            window.alert("Please select Open Position/User Position Location");
+            return false;
+         }
+         if (this.userLOB == null || this.band == null ||
+             this.userLOB == '' || this.band == '') {
+            window.alert("Please select User Line Of Business/Band");
+            return false;
+         }
+         let GP: number = 0;
+         let rateCardValue: number = 0;
+         let costCardValue: number = 0;
+         let costCardCode = ""
+         let rateCardCode = ""
+         rateCardCode = this.myOpenPositionGroup.value.lineOfBusiness+" - "+this.myOpenPositionGroup.value.positionLocation+" - "+
+                        this.myOpenPositionGroup.value.rateCardJobRole+" - "+this.myOpenPositionGroup.value.competencyLevel;
+        this.openPositionService.readRateCardsByRateCardCode(rateCardCode).subscribe((data) => {
+           rateCardValue = data['rateCardValue'];
+            if (this.band == 'Exec'
+               || this.band == 'Apprentice'
+               || this.band == 'Graduate') {
+             costCardCode = this.myOpenPositionGroup.value.userPositionLocation+" - "+this.userLOB
+                            +" - "+this.band
+            } else {
+             costCardCode = this.myOpenPositionGroup.value.userPositionLocation+" - "+this.userLOB
+                             +" - Band-"+this.band
+            }
+           this.openPositionService.readCostCardsByCostCardCode(costCardCode).subscribe((data) => {
+              costCardValue = data['costCardValue'];
+              if (costCardValue == null || rateCardValue == null) {
+                 window.alert("No data available for this open position and candidate details.");
+                 return false;
+              } else {
+                 GP = Math.round(((rateCardValue-costCardValue)/costCardValue)*100)
+              }
+              this.myOpenPositionGroup.get('grossProfit').setValue(GP);
+           })
+        })
+     }
+
+     //get all open positions
+     getOpenPositionDetails() {
+         this.openPositionService.getAllOpenPositions().subscribe((data) => {
+             this.OpenPositions = data;
+         })
+         this.myOpenPositionGroup.get('grossProfit').setValue(this.partnerInterviewDetails[0].result_users[0].grossProfit);
+         this.myOpenPositionGroup.get('userPositionLocation').setValue(this.partnerInterviewDetails[0].result_users[0].userPositionLocation);
+         this.band = this.partnerInterviewDetails[0].result_users[0].band;
+         this.userLOB = this.partnerInterviewDetails[0].result_users[0].userLOB;
+     }
+
+
+     // Get all User Line of business
+     readUserLineOfBusiness(){
+         this.openPositionService.getLineOfBusiness().subscribe((data) => {
+         this.UserLOB = data;
+        })
+     }
+
+    // Get all PositionLocation
+    readUserPositionLocation(){
+       this.openPositionService.getPositionLocations().subscribe((data) => {
+          this.UserPositionLocation = data;
+       })
+    }
+
+     mainOpenForm() {
+         this.myOpenPositionGroup = new FormGroup({
+           positionName: new FormControl(),
+           JRSS: new FormControl(),
+           rateCardJobRole: new FormControl(),
+           lineOfBusiness: new FormControl(),
+           positionLocation: new FormControl(),
+           competencyLevel:new FormControl(),
+           userPositionLocation:new FormControl(),
+           grossProfit:new FormControl()
+         })
+       }
+      /*End GP*/
 
 }
