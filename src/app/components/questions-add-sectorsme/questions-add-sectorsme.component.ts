@@ -216,7 +216,7 @@ export class QuestionsAddSectorsmeComponent implements OnInit {
               window.confirm('Succesfully added to QuestionBank');
               this.formReset = true;
               this.questionForm.reset();
-              this.ngZone.run(() => this.router.navigateByUrl('/manage-questionbank'))
+              this.ngZone.run(() => this.router.navigateByUrl('/manage-questionbank-sectorsme',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
             }, (error) => {
               console.log(error);
             }); 
