@@ -11,6 +11,7 @@ import { appConfig } from './../../model/appConfig';
 export class PositionsService {
 
   opePositionsUri:string = appConfig.baseUri + '/openPosition/listOpenPositions';
+  closePositionsUri:string = appConfig.baseUri + '/openPosition/closePosition';
   headers = new HttpHeaders().set('Content-Type', 'application/json');
 
 constructor(private http: HttpClient) { }
@@ -23,6 +24,19 @@ listAllOpenPositions(account, status) {
  
   
   return this.http.get(url, {headers: this.headers}).pipe(
+    map((res: Response) => {
+      return res || {}
+    }),
+    catchError(this.errorMgmt)
+  )
+}
+
+
+
+closePositionByID(positionID, positionStatus) {
+  let url = `${this.closePositionsUri}/${positionID}/${positionStatus}`;
+  
+  return this.http.put(url, {headers: this.headers}).pipe(
     map((res: Response) => {
       return res || {}
     }),
