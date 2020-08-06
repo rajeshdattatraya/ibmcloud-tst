@@ -68,7 +68,64 @@
       </table>
     </div>
 
-    <br>
+    <br/>
+
+    <!-- This Div block will conditionaly display the open position details-->
+    <div class="card" >
+      <div class="card-header"><b> Assign candidate to a open position&nbsp;&nbsp;&nbsp;</b>
+        <a  data-toggle="modal" href="#positionListModal"><b> Click here </b></a>
+      </div>
+    </div>
+      <div id="positionListModal" class="modal fade"  tabindex="-1" role="dialog">
+        <!-- This Div block will conditionaly display the open position details-->
+        <div   class="modal-dialog vertical-align-center modal-lg">
+
+          <div class="modal-content vertical-align-center">
+
+          <div class="modal-header">
+            <h4 class="modal-title"><b> Open Position Details</b></h4>
+            <button type="button" class="Close" data-dismiss="modal" aria-label="Close"><span> &times; </span></button>
+            
+          </div>
+
+            <div class="form-group modal-body" style="width: 100%;">
+              <!-- Operations candidate list -->
+              <table class="table table-bordered" style="width: 100%;">
+                  <thead class="table-success">
+                      <tr style="background-color:powderblue">
+                          <th scope="col" width="4%">Action</th>
+                          <th scope="col" width="20%">Open Position</th>
+                          <th scope="col" width="20%">Job Role</th>
+                          <th scope="col" width="20%">Line of Business</th>
+                          <th scope="col" width="20%">Position Location</th>
+                          <th scope="col" width="20%">Rate Card Role</th>
+                          <th scope="col" width="22%">Competency Level</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let openPosition of openPositionsList | paginate: {id:'positions_pagination', itemsPerPage:itemsPerPage,
+                      currentPage:page, totalItems:openPositionsList.length} ">
+                          <td class="text-center" width="4%">
+                            <a href="javascript:void(0);" (click)="assignCandidate(openPosition.JRSS, openPosition._id);"> Select</a>
+                          </td>
+                          <td width="20%">{{openPosition.positionName}}</td>
+                          <td width="20%">{{openPosition.JRSS}}</td>
+                          <td width="20%">{{openPosition.lineOfBusiness}}</td>
+                          <td width="20%">{{openPosition.positionLocation}}</td>
+                          <td width="20%">{{openPosition.rateCardJobRole}}</td>
+                          <td width="22%">{{openPosition.competencyLevel}}</td>
+                      </tr>
+                  </tbody>
+              </table>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-success " style="background-color:#0043CE;" data-dismiss="modal">Close</button>
+              </div>
+          </div>
+          </div>
+       </div>
+      </div>
+
+   <br>
 
     <!-- This Div block will conditionaly display the open position details-->
     <div class="card" *ngIf="positionID != undefined || positionID != null">
@@ -96,17 +153,16 @@
             <td  width="25%">{{positionDetails.competencyLevel}}</td>
           </tr>
   
-  
         </tbody>
          </table>
         </div>
    </div>
   
   
-   <br>
   
     <!-- This Div block will conditionaly Caluclate Gross Profit fields and button-->
     <div class="card"  class="form-group" *ngIf="positionID != undefined || positionID != null">
+      <br>
       <div class="card-header table-success" style="background-color:powderblue"><b> Gross Profit Details</b></div>
       <div class="card-body">
   
@@ -179,7 +235,6 @@
 
 
   </div>
-    <br>
     <div class="card">
     <div class="card-header" style="background-color:powderblue"><b>Please enter details to assign a candidate to a particular project</b></div>
     <div class="card-body">

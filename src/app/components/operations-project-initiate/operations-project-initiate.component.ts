@@ -8,6 +8,7 @@ import {TechnicalInterviewListComponent} from '../technical-interview-list/techn
 import { SendEmail } from './../../model/sendEmail';
 import { OpenPositionService } from 'src/app/service/openPosition.service';
 import { PositionsService } from '../open-positions-list/positions.service';
+declare var $: any;
 
 @Component({
   selector: 'app-operations-project-initiate',
@@ -60,6 +61,8 @@ export class OperationsProjectInitiateComponent implements OnInit {
         if (this.positionID != null ||  this.positionID != undefined) {
           this.readOpenPositionsByPositionID();
         }
+
+        this.listAllOpenPositions()
         //Sprint8 End
    }
 
@@ -210,6 +213,38 @@ candidateBand ='';
 candidateLOB ='';
 positionID;
 positionStatus='Close';
+openPositionsList:any = [];
+
+pageChange:any;
+jrssSelected=false;
+itemsPerPage = 10;
+page=1;
+linkPosition=false;
+
+  // To Read the Open Position
+  listAllOpenPositions() {
+    const status="Open";
+  this.positionsService.listAllOpenPositions(this.account, status).subscribe((data) => {
+    this.openPositionsList = data;
+    
+  })
+}
+
+assignCandidate(jrss, positionID) {
+  this.jrssSelected=jrss; 
+  this.positionID=positionID;
+  if (this.positionID != null ||  this.positionID != undefined) {
+    this.readOpenPositionsByPositionID();
+    $("#positionListModal").modal("hide");
+  }
+ 
+}
+
+
+
+redirectToFindCandidates() {
+  alert('positionID*** '+this.positionID)
+}
 
 /*Get position details by position id */
 
