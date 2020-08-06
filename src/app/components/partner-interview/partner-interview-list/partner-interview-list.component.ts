@@ -5,9 +5,8 @@ import { browserRefresh } from '../../../app.component';
 import { PartnerDetails } from './../../../model/PartnerDetails';
 import { appConfig } from './../../../model/appConfig';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-
 import {TechnicalInterviewListComponent} from '../../technical-interview-list/technical-interview-list.component';
-import { isEmpty } from 'rxjs/operators';
+declare var $: any;
 
 @Component({
   selector: 'app-partner-interview-list',
@@ -115,7 +114,10 @@ export class PartnerInterviewListComponent implements OnChanges {
       this.partnerFeedbackForm.value.partnerFeedback,this.userName,new Date(), "Skipped");
       this.apiService.updateExceptionalApprovalForStage4(partnerDetails,this.emailSelected,this.quizNumber).subscribe(res => {
         window.alert('Successfully provided exceptional approval');
-        window.location.reload();
+        this.getPartnerInterviewList();
+        this.readResult();
+        $("#myModal").modal("hide");
+        //window.location.reload();
       }, (error) => {
         console.log(error);
       })

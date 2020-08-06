@@ -7,6 +7,7 @@ import { DatePipe } from '@angular/common';
 import { saveAs } from 'file-saver';
 import { Injectable } from '@angular/core';
 import { appConfig } from './../../model/appConfig';
+declare var $: any;
 
 @Component({
   selector: 'app-technical-interview-list',
@@ -146,16 +147,16 @@ export class TechnicalInterviewListComponent implements OnInit {
   //submit
   onSubmit() {
     this.submitted = true;
-    
     this.apiService.updateExceptionalApproval(this.emailSelected, this.quizNumber,  this.smeFeedbackForm.value.smeFeedback).subscribe(res => {
       window.alert('Successfully moved candidate to next stage');
       this.showModal = false;
-      window.location.reload();
+      this.getTechnicalInterviewList();
+      $("#myModal").modal("hide");
     }, (error) => {
       console.log(error);
     })
-
   }
+
   exceptionalApproval() {
     if (this.emailSelected == "") {
       alert("Please select the candidate")
