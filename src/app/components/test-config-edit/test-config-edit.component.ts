@@ -23,6 +23,7 @@ export class TestConfigEditComponent implements OnInit {
   passingScore:number;
   TestConfigs:any = [];
   userName: String = "admin";
+  account: any;
   oldJRSS: String = "";
   testConfigID: String = "";
 
@@ -42,6 +43,10 @@ export class TestConfigEditComponent implements OnInit {
     actRoute.queryParams.subscribe(
           params => this.config.currentPage= params['page']?params['page']:1 );
       this.browserRefresh = browserRefresh;
+      if (!this.browserRefresh) {
+          this.userName = this.router.getCurrentNavigation().extras.state.username;
+          this.account = this.router.getCurrentNavigation().extras.state.account;
+      }
       this.getAllJRSS();
       let id = this.actRoute.snapshot.paramMap.get('id');
       this.getTestConfig(id);
@@ -79,7 +84,7 @@ export class TestConfigEditComponent implements OnInit {
       if (this.testConfigID == "") {
         alert("Please select the test configuration record")
       } else {
-        this.router.navigate(['/testconfig-edit/', this.testConfigID]);
+        this.router.navigate(['/testconfig-edit/', this.testConfigID], {state: {username:this.userName,account:this.account}});
       }
     }
 

@@ -24,6 +24,7 @@ export class TestConfigAddComponent implements OnInit {
   TestConfigs:any = [];
   TestConfigDetails:any = [];
   userName: String = "admin";
+  account: any;
   testConfigID: String = "";
 
   constructor(
@@ -42,6 +43,10 @@ export class TestConfigAddComponent implements OnInit {
       actRoute.queryParams.subscribe(
             params => this.config.currentPage= params['page']?params['page']:1 );
       this.browserRefresh = browserRefresh;
+      if (!this.browserRefresh) {
+          this.userName = this.router.getCurrentNavigation().extras.state.username;
+          this.account = this.router.getCurrentNavigation().extras.state.account;
+      }
       this.mainForm();
       this.readJrss();
       this.getAllTestConfigs();
@@ -84,7 +89,7 @@ export class TestConfigAddComponent implements OnInit {
       if (this.testConfigID == "") {
         alert("Please select the test configuration record");
       } else {
-        this.router.navigate(['/testconfig-edit/', this.testConfigID]);
+        this.router.navigate(['/testconfig-edit/', this.testConfigID], {state: {username:this.userName,account:this.account}});
       }
     }
 
@@ -103,7 +108,7 @@ export class TestConfigAddComponent implements OnInit {
 
 
     onSubmit() {
-        this.submitted = true;        
+        this.submitted = true;
         if (!this.testConfigAddForm.valid) {          
           return false;
         } else {

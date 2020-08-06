@@ -2,6 +2,7 @@ import { Component, OnInit, ɵConsole } from '@angular/core';
 import { ApiService } from './../../service/api.service';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Workflow } from './../../model/workflow';
+import { browserRefresh } from '../../app.component';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,11 +11,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./workflow-config.component.css']
 })
 export class WorkflowConfigComponent implements OnInit {
+  public browserRefresh: boolean;
   submitted = false;
   formReset = false;
   workFlowForm: FormGroup;
   JRSS: any = [];
   userName: String = "admin";
+  account: any;
   jrssDocId: String = "";
   stage1: boolean = false;
   stage2: boolean = false;
@@ -24,6 +27,11 @@ export class WorkflowConfigComponent implements OnInit {
   preTechQuestion;
 
   constructor(public fb: FormBuilder, private apiService: ApiService, private router: Router) {
+    this.browserRefresh = browserRefresh;
+    if (!this.browserRefresh) {
+        this.userName = this.router.getCurrentNavigation().extras.state.username;
+        this.account = this.router.getCurrentNavigation().extras.state.account;
+    }
     this.mainForm();
     this.readJrss();
     }

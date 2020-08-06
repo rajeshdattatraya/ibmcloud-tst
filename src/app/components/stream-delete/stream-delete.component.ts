@@ -17,6 +17,7 @@ export class StreamDeleteComponent implements OnInit {
   streamDeleteForm: FormGroup;
   JRSS:any = [];
   userName: String = "admin";
+  account: any;
   submitted = false;
   techStreamArray:any = [];
   technologyStream:any= [];
@@ -38,7 +39,11 @@ export class StreamDeleteComponent implements OnInit {
       itemsPerPage: 5,
       totalItems:0
     };
-
+    this.browserRefresh = browserRefresh;
+    if (!this.browserRefresh) {
+        this.userName = this.router.getCurrentNavigation().extras.state.username;
+        this.account = this.router.getCurrentNavigation().extras.state.account;
+    }
     actRoute.queryParams.subscribe(
       params => this.config.currentPage= params['page']?params['page']:1 );
   }
@@ -152,7 +157,7 @@ pageChange(newPage: number) {
 
 //Cancel
 cancelForm(){
-  this.ngZone.run(() => this.router.navigateByUrl('/stream-create',{state:{username:this.userName}}))
+  this.ngZone.run(() => this.router.navigateByUrl('/stream-create',{state: {username:this.userName,account:this.account}}))
 }
 
 readJrssDocId(){
@@ -175,7 +180,7 @@ onSubmit() {
         console.log('Technology Stream deleted successfully!');
         alert('Technology Stream deleted successfully!');
         this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
-             this.router.navigate(['/delete-stream/',this.jrssId]));
+             this.router.navigate(['/delete-stream/',this.jrssId], {state: {username:this.userName,account:this.account}}));
         }, (error) => {
         console.log(error);
         })

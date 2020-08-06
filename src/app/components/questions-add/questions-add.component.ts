@@ -4,6 +4,7 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { FormGroup, FormArray,FormBuilder, Validators } from "@angular/forms";
 import { Question } from 'src/app/model/questions';
 import { ResourceLoader } from '@angular/compiler';
+import { browserRefresh } from '../../app.component';
 import * as XLSX from 'xlsx';
 
 
@@ -13,11 +14,13 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./questions-add.component.css']
 })
 export class QuestionsAddComponent implements OnInit {
+  public browserRefresh: boolean;
   submitted = false;
   formReset = false;
   questionForm: FormGroup;
   uploadFile: String = "Please select a file";
   userName: String = "admin";
+  account:any;
   JRSS:any = [];
   technologyStream:any = [];
   QuestionTypes:any = ['SingleSelect','MultiSelect'];
@@ -28,10 +31,15 @@ export class QuestionsAddComponent implements OnInit {
   file: File;
   arrayBuffer: any;
   filelist: any;
-  constructor(public fb: FormBuilder,
-                  private router: Router,
-                  private ngZone: NgZone,
-                  private apiService: ApiService) { this.readJRSS();this.mainForm();}
+  constructor(public fb: FormBuilder,private router: Router,private ngZone: NgZone,private apiService: ApiService) {
+      this.browserRefresh = browserRefresh;
+      if (!this.browserRefresh) {
+          this.userName = this.router.getCurrentNavigation().extras.state.username;
+          this.account = this.router.getCurrentNavigation().extras.state.account;
+      }
+      this.readJRSS();
+      this.mainForm();
+  }
 
   ngOnInit() {this.apiService.getQuestionID().subscribe(
     (res) => {  
@@ -180,7 +188,7 @@ export class QuestionsAddComponent implements OnInit {
               window.confirm('Succesfully added to QuestionBank');
               this.formReset = true;
               this.questionForm.reset();
-              this.ngZone.run(() => this.router.navigateByUrl('/manage-questionbank'))
+              this.ngZone.run(() => this.router.navigateByUrl('/manage-questionbank',{state:{username:this.userName,account:this.account}}))
             }, (error) => {
               console.log(error);
             }); 

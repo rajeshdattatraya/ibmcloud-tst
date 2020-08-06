@@ -17,7 +17,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ViewTestresultsListComponent implements OnChanges {
-
+  public browserRefresh: boolean;
   @Input() groupFilters: Object;
   @Input() searchByKeyword: string;
   users: any[] = [];
@@ -25,7 +25,7 @@ export class ViewTestresultsListComponent implements OnChanges {
   filters: Object;
   filteredUsers: any[] = [];
   userResultUri: string = appConfig.baseUri + '/result';
-  public browserRefresh: boolean;
+
   Result: any = [];
   config: any;
   query = "";
@@ -43,6 +43,7 @@ export class ViewTestresultsListComponent implements OnChanges {
   correctAnswerCount:number=0;
   displayContractorUIFields: Boolean = false;
   displayRegularUIFields: Boolean = true;
+  account: any;
 
 
   constructor(private ref: ChangeDetectorRef, private http: HttpClient, private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
@@ -51,6 +52,11 @@ export class ViewTestresultsListComponent implements OnChanges {
       itemsPerPage: appConfig.itemsPerPage,
       totalItems: appConfig.totalItems
     };
+    this.browserRefresh = browserRefresh;
+    if (!this.browserRefresh) {
+        this.userName = this.router.getCurrentNavigation().extras.state.username;
+        this.account = this.router.getCurrentNavigation().extras.state.account;
+    }
     route.queryParams.subscribe(
       params => this.config.currentPage = params['page'] ? params['page'] : 1);
 
