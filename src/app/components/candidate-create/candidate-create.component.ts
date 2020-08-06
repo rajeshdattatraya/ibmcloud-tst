@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import { ApiService } from './../../service/api.service';
 import { OpenPositionService } from './../../service/openPosition.service';
+import { PositionsService } from 'src/app/components/open-positions-list/positions.service';
 import { Candidate } from './../../model/candidate';
 import { CandidateContractor } from './../../model/candidateContractor';
 import { UserDetails } from './../../model/userDetails';
@@ -58,6 +59,7 @@ export class CandidateCreateComponent implements OnInit {
   displayOpenPositionFields: boolean = false;
   Account:any = [];
   AccountArray:any=[];
+  account;
 
   constructor(
     public fb: FormBuilder,
@@ -65,11 +67,13 @@ export class CandidateCreateComponent implements OnInit {
     private ngZone: NgZone,
     private apiService: ApiService,
     private resultPageService: ResultPageService,
-    private openPositionService: OpenPositionService
+    private openPositionService: OpenPositionService,
+    private positionsService: PositionsService
   ) {
     this.browserRefresh = browserRefresh;
     if (!this.browserRefresh) {
       this.userName = this.router.getCurrentNavigation().extras.state.username;
+      this.account = this.router.getCurrentNavigation().extras.state.account;
     }
     this.password = appConfig.defaultPassword;
     this.quizNumber = 1;
@@ -344,7 +348,7 @@ export class CandidateCreateComponent implements OnInit {
               this.apiService.createCandidate(candidate).subscribe(
               (res) => {
                           console.log('Candidate successfully created!')
-                          this.ngZone.run(() => this.router.navigateByUrl('/candidates-list',{state:{username:this.userName}}))
+                          this.ngZone.run(() => this.router.navigateByUrl('/candidates-list',{state:{username:this.userName,account:this.account}}))
                         }, (error) => {
                           console.log(error);
                         })
@@ -429,7 +433,8 @@ export class CandidateCreateComponent implements OnInit {
 }
     //get all open positions
     getOpenPositionDetails() {
-        this.openPositionService.getAllOpenPositions().subscribe((data) => {
+        let status = "Open";
+        this.positionsService.listAllOpenPositions(this.account, status).subscribe((data) => {
             this.OpenPositions = data;
         })
     }
@@ -535,7 +540,7 @@ export class CandidateCreateComponent implements OnInit {
 
      //Cancel
      cancelForm(){
-       this.ngZone.run(() => this.router.navigateByUrl('/candidates-list',{state:{username:this.userName}}))
+       this.ngZone.run(() => this.router.navigateByUrl('/candidates-list',{state:{username:this.userName,account:this.account}}))
      }
 
 }

@@ -25,6 +25,7 @@ export class CandidateListComponent implements OnInit {
   candidateUserName;
   index;
   isRowSelected = false;
+  account: any;
 
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
     this.config = {
@@ -35,6 +36,7 @@ export class CandidateListComponent implements OnInit {
     this.browserRefresh = browserRefresh;
     if (!this.browserRefresh) {
         this.userName = this.router.getCurrentNavigation().extras.state.username;
+        this.account = this.router.getCurrentNavigation().extras.state.account;
     }
     route.queryParams.subscribe(
     params => this.config.currentPage= params['page']?params['page']:1 );
@@ -91,7 +93,7 @@ export class CandidateListComponent implements OnInit {
     if (this.isRowSelected == false){
       alert("Please select the user");
       }else{
-      this.router.navigate(['/edit-candidate/', this.candidateId, this.candidateUsersId], {state: {username:this.userName}});
+      this.router.navigate(['/edit-candidate/', this.candidateId, this.candidateUsersId], {state: {username:this.userName,account:this.account}});
       }
     } 
 	

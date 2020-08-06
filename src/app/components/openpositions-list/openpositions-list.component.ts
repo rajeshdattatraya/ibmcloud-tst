@@ -4,6 +4,7 @@ import { ActivatedRoute,Router } from '@angular/router';
 import { browserRefresh } from '../../app.component';
 import { appConfig } from './../../model/appConfig';
 import { OpenPositionService } from './../../service/openPosition.service';
+import { PositionsService } from 'src/app/components/open-positions-list/positions.service';
 
 @Component({
   selector: 'app-openpositions-list',
@@ -26,7 +27,8 @@ export class OpenpositionsListComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private ngZone: NgZone,
-        private openPositionService: OpenPositionService) {
+        private openPositionService: OpenPositionService,
+        private positionsService: PositionsService) {
         this.config = {
               currentPage: appConfig.currentPage,
               itemsPerPage: appConfig.itemsPerPage,
@@ -52,7 +54,8 @@ export class OpenpositionsListComponent implements OnInit {
 
    // To Read the Open Position
    readOpenPosition(){
-     this.openPositionService.getAllOpenPositions().subscribe((data) => {
+     let status = "Open";
+     this.positionsService.listAllOpenPositions(this.account, status).subscribe((data) => {
       this.OpenPositions = data;
      })
    }

@@ -23,6 +23,7 @@ export class AdminuserCreateComponent implements OnInit {
   Band:any = [];
   quizNumber: number;
   userName: String = "admin";
+  account: any;
   password: String = "";
   currDate: Date ;
   technologyStream:any= [];
@@ -42,7 +43,11 @@ export class AdminuserCreateComponent implements OnInit {
     private ngZone: NgZone,
     private apiService: ApiService
   ) {
-    
+    this.browserRefresh = browserRefresh;
+    if (!this.browserRefresh) {
+        this.userName = this.router.getCurrentNavigation().extras.state.username;
+        this.account = this.router.getCurrentNavigation().extras.state.account;
+    }
     this.password = appConfig.defaultPassword;
     this.quizNumber = 1;
     this.mainForm();
@@ -150,7 +155,7 @@ export class AdminuserCreateComponent implements OnInit {
     if(this.isRowSelected == false){
       alert("Please select the user");
       }else{
-      this.router.navigate(['/edit-user/', this.docid]);
+      this.router.navigate(['/edit-user/', this.docid],{state:{username:this.userName,account:this.account}});
       }
     }
 
@@ -198,7 +203,7 @@ export class AdminuserCreateComponent implements OnInit {
                           console.log('User successfully created!')
                           alert('User successfully created!');
                           this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
-                          this.router.navigate(['/adminuser-create']));
+                          this.router.navigate(['/adminuser-create'],{state:{username:this.userName,account:this.account}}));
                        }, (error) => {
                           console.log(error);
                        });

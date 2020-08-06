@@ -4,6 +4,7 @@ import { Component, OnInit,NgZone } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { ApiService } from './../../service/api.service';
 import { OpenPositionService } from './../../service/openPosition.service';
+import { PositionsService } from 'src/app/components/open-positions-list/positions.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms";
 import { DatePipe } from '@angular/common';
 import { browserRefresh } from '../../app.component';
@@ -52,6 +53,7 @@ export class CandidateEditComponent implements OnInit {
   OJRSS: any= [];
   UserLOB: any = [];
   displayOpenPositionFields: boolean = false;
+  account: any;
 
   constructor(
     public fb: FormBuilder,
@@ -59,12 +61,14 @@ export class CandidateEditComponent implements OnInit {
     private apiService: ApiService,
     private ngZone: NgZone,
     private openPositionService: OpenPositionService,
+    private positionsService: PositionsService,
     private router: Router,
     private datePipe: DatePipe
   ) {
     this.browserRefresh = browserRefresh;
     if (!this.browserRefresh) {
         this.username = this.router.getCurrentNavigation().extras.state.username;
+        this.account = this.router.getCurrentNavigation().extras.state.account;
     }    
     this.readJrss();
   }
@@ -467,7 +471,7 @@ export class CandidateEditComponent implements OnInit {
                     console.log(error);
                     })  
                   this.apiService.updateCandidate(can_id, updatedCandidate).subscribe(res => {
-                    this.router.navigateByUrl('/candidates-list', {state:{username:this.username}});
+                    this.router.navigateByUrl('/candidates-list', {state:{username:this.username,account:this.account}});
                     console.log('Candidate Details updated successfully!');
                     }, (error) => {
                     console.log(error);
@@ -576,7 +580,7 @@ export class CandidateEditComponent implements OnInit {
                         console.log(error);
                         })  
                       this.apiService.updateCandidate(can_id, updatedCandidate).subscribe(res => {
-                        this.router.navigateByUrl('/candidates-list', {state:{username:this.username}});
+                        this.router.navigateByUrl('/candidates-list', {state:{username:this.username,account:this.account}});
                         console.log('Candidate Details updated successfully!');
                         }, (error) => {
                         console.log(error);
@@ -603,7 +607,7 @@ export class CandidateEditComponent implements OnInit {
 
    //Cancel
    cancelForm(){
-     this.ngZone.run(() => this.router.navigateByUrl('/candidates-list',{state:{username:this.username}}))
+     this.ngZone.run(() => this.router.navigateByUrl('/candidates-list',{state:{username:this.username,account:this.account}}))
    }
 
    //Update Userline of business
@@ -640,7 +644,8 @@ export class CandidateEditComponent implements OnInit {
 
   //get all open positions
   getOpenPositionDetails() {
-      this.openPositionService.getAllOpenPositions().subscribe((data) => {
+      let status = "Open";
+      this.positionsService.listAllOpenPositions(this.account, status).subscribe((data) => {
           this.OpenPositions = data;
       })
   }

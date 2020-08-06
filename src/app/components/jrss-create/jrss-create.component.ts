@@ -19,6 +19,7 @@ export class JrssCreateComponent implements OnInit {
   jrssForm: FormGroup;
   Jrss:any = [];
   userName: String = "admin";
+  account: any;
   config: any;
 
   constructor(
@@ -33,6 +34,11 @@ export class JrssCreateComponent implements OnInit {
                 itemsPerPage: appConfig.itemsPerPage,
                 totalItems: appConfig.totalItems
       };
+      this.browserRefresh = browserRefresh;
+      if (!this.browserRefresh) {
+          this.userName = this.router.getCurrentNavigation().extras.state.username;
+          this.account = this.router.getCurrentNavigation().extras.state.account;
+      }
       actRoute.queryParams.subscribe(
             params => this.config.currentPage= params['page']?params['page']:1 );
       this.readJrss();
@@ -124,7 +130,7 @@ export class JrssCreateComponent implements OnInit {
             (res) => {
               console.log('JRSS successfully saved!')
              this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
-             this.router.navigate(['/jrss-create']));
+             this.router.navigate(['/jrss-create'], {state: {username:this.userName,account:this.account}}));
             }, (error) => {
               console.log(error);
             });
