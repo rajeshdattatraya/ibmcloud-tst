@@ -23,7 +23,7 @@
 		  <label  [class.has-error]="LocalVariable.invalid" for="{{preTechQAndA.preTechQuestion}}"><!--To display questions as entered with line breaks-->
           <pre><b> {{i+1}}.&nbsp;{{preTechQAndA.preTechQuestion}}</b></pre>
         </label>
-        <textarea  id="{{preTechQAndA.preTechQuestion}}"   [readonly]="stage2Completed"
+        <textarea  id="{{preTechQAndA.preTechQuestion}}"   [readonly]="stage2Completed" maxlength="3000" 
 		  name = "{{preTechQAndA.preTechQuestion}}" [ngClass]="{ 'is-invalid': preTechAssessmentForm.submitted && LocalVariable.invalid }"
 		  [(ngModel)]= "preTechQAndA.answer" class="form-control"  #LocalVariable="ngModel" required></textarea>
 		

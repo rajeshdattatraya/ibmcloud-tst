@@ -98,13 +98,27 @@
           <div class="col-sm-6">
           <select class="custom-select form-control" (change)="updateUserroleProfile($event.target.value)"
                   formControlName="userrole" id="inputUserrole3" [ngClass]="{ 'is-invalid': submitted && myForm.userrole.errors }">
-            <option value="">Choose...</option>
+            <option disabled value="">Choose...</option>
             <option *ngFor="let userrole of Userrole" value="{{userrole.userrole}}">{{userrole.userrole}}
             </option>
           </select>
             <div *ngIf="submitted && myForm.userrole.errors" class="invalid-feedback">
               <div *ngIf="myForm.userrole.errors.required">User role is required</div>
             </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputAccount3" class="col-sm-4 col-form-label">Account</label>
+          <div class="col-sm-6">
+          <select class="custom-select form-control" (change)="updateAccountProfile($event.target.value)"
+                  formControlName="account" id="inputAccount3" [ngClass]="{ 'is-invalid': submitted && myForm.account.errors }" >              
+            <option disabled value="">Choose...</option>
+            <option *ngFor="let account of Account" value="{{account.account}}">{{account.account}}
+            </option>
+          </select>
+          <div *ngIf="submitted && myForm.account.errors" class="invalid-feedback" >
+            <div *ngIf="myForm.account.errors.required">Account is required</div>
+          </div>
           </div>
         </div>
         <div class="form-group">
@@ -128,9 +142,10 @@
     <thead class="table-success">
     <tr style="background-color:powderblue">
       <th scope="col center" class="float-center text-center" width="5%">Action</th>
-      <th scope="col" class="float-center text-center" width="33%">Name</th>
-      <th scope="col" class="float-center text-center" width="34%">Email</th>
-      <th scope="col" class="float-center text-center" width="23%">Role</th>
+      <th scope="col" class="float-center text-center" width="30%">Name</th>
+      <th scope="col" class="float-center text-center" width="30%">Email</th>
+      <th scope="col" class="float-center text-center" width="20%">Role</th>
+      <th scope="col" class="float-center text-center" width="15%">Account</th>
     </tr>
     </thead>
     <tbody>
@@ -142,6 +157,7 @@
       <td *ngIf="adminuser.username.length > 0" width="5%" class="float-center text-center"> {{adminuser.name}} </td>
       <td *ngIf="adminuser.username.length > 0" width="5%" class="float-center text-center" > {{adminuser.username}} </td>
       <td *ngIf="adminuser.username.length > 0" width="5%" class="float-center text-center" > {{adminuser.accessLevel}}</td>
+      <td *ngIf="adminuser.username.length > 0" width="5%" class="float-center text-center" > {{adminuser.account}}</td>
     </tr>
     </tbody>
   </table>

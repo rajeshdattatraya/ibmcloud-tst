@@ -53,6 +53,7 @@ import { OpenPositionsListComponent } from './components/open-positions-list/ope
 import { EligibleCandidatesComponent } from './components/eligible-candidates/eligible-candidates.component';
 import { EligibleCandidatesFilterPipe } from './components/eligible-candidates/filterByJRSS.pipe';
 import { QuestionAddBulkSectorsmeComponent } from './components/question-add-bulk-sectorsme/question-add-bulk-sectorsme.component';
+import { QuestionsAddSectorsmeComponent } from './components/questions-add-sectorsme/questions-add-sectorsme.component';
 
 
 export let browserRefresh = false;
@@ -99,7 +100,8 @@ export let browserRefresh = false;
     OpenPositionsListComponent,
     EligibleCandidatesComponent,
     EligibleCandidatesFilterPipe,
-    QuestionAddBulkSectorsmeComponent 
+    QuestionAddBulkSectorsmeComponent,
+    QuestionsAddSectorsmeComponent 
 	
     ],
   imports: [

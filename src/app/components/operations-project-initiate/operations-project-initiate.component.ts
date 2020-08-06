@@ -7,6 +7,7 @@ import { OperationsDetails } from './../../model/OperationsDetails';
 import {TechnicalInterviewListComponent} from '../technical-interview-list/technical-interview-list.component';
 import { SendEmail } from './../../model/sendEmail';
 import { OpenPositionService } from 'src/app/service/openPosition.service';
+import { PositionsService } from '../open-positions-list/positions.service';
 
 @Component({
   selector: 'app-operations-project-initiate',
@@ -34,7 +35,8 @@ export class OperationsProjectInitiateComponent implements OnInit {
   private router: Router,
   private ngZone: NgZone,
   private apiService: ApiService,
-  private openPositionService: OpenPositionService) {
+  private openPositionService: OpenPositionService,
+  private positionsService: PositionsService) {
        this.userName = this.router.getCurrentNavigation().extras.state.username;          
        this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;  
        this.account = this.router.getCurrentNavigation().extras.state.account;  
@@ -147,6 +149,16 @@ get myForm(){
               window.alert("Project Assignment detail is successfully submitted");
               console.log("Operations stage status successfully updated to Results table!");
 
+            // method to close the position;
+            if (this.positionID != null ||  this.positionID != undefined) {
+              this.positionsService.closePositionByID(this.positionID, this.positionStatus).subscribe(
+                (res) => {
+                    console.log("Position closed successfully");            
+                });
+              
+            }
+           
+            //******/
               // Send notification to the candidate
               let sendEmailObject = new SendEmail(fromAddress, toAddress, emailSubject, emailMessage);
               this.apiService.sendEmail(sendEmailObject).subscribe(
@@ -196,7 +208,8 @@ rateCardRole='';
 candidateLocation='';
 candidateBand ='';
 candidateLOB ='';
-positionID='';
+positionID;
+positionStatus='Close';
 
 /*Get position details by position id */
 

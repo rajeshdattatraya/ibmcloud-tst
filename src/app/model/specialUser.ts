@@ -11,8 +11,9 @@ export class SpecialUser {
     DateOfJoining:Date;
     userLoggedin:string;
     name: string;
+    account: string;
 
-    constructor(username,password,quizNumber,status,acessLevel,createdBy,createdDate,updatedBy,updatedDate,DateOfJoining,userLoggedin,name){
+    constructor(username,password,quizNumber,status,acessLevel,createdBy,createdDate,updatedBy,updatedDate,DateOfJoining,userLoggedin,name,account){
         this.username = username;
         this.password = password;
         this.quizNumber = quizNumber;
@@ -25,6 +26,7 @@ export class SpecialUser {
         this.DateOfJoining = DateOfJoining;
         this.userLoggedin = userLoggedin;
         this.name = name;
+        this.account = account;
     }
 
 } 

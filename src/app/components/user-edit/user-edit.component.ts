@@ -38,6 +38,7 @@ export class UserEditComponent implements OnInit {
   UpdatedBy: String = "";
   userLoggedin: String = "";
   email: String = "";
+  Account:any = [];
   
   constructor(
     public fb: FormBuilder,
@@ -52,6 +53,7 @@ export class UserEditComponent implements OnInit {
     //this.mainForm();
     this.readUserrole();    
     this.getAllSpecialUsers();
+    this.readAccount();
   }
 
   ngOnInit() {
@@ -69,6 +71,7 @@ export class UserEditComponent implements OnInit {
       employeeName: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.pattern('[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,3}$')]],
       userrole: ['', [Validators.required]],
+      account: ['', [Validators.required]],
     })
 
 
@@ -80,6 +83,7 @@ export class UserEditComponent implements OnInit {
       employeeName: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.pattern('[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,3}$')]],
       userrole: ['', [Validators.required]],
+      account: ['', [Validators.required]]
     })
   }
 
@@ -90,10 +94,24 @@ export class UserEditComponent implements OnInit {
       })
    }
 
+   // Get all Acconts
+   readAccount(){
+     this.apiService.getAccounts().subscribe((data) => {
+      this.Account = data;
+     })
+   }
+
    // Choose userrole with select dropdown
    updateUserroleProfile(e){
     this.editForm.get('userrole').setValue(e, {
     onlySelf: true
+    })
+  }
+
+  // Choose account with select dropdown
+  updateAccountProfile(e){
+    this.editForm.get('account').setValue(e, {
+      onlySelf: true
     })
   }
 
@@ -126,7 +144,8 @@ getUser(id) {
     this.editForm.setValue({
       employeeName: data['name'],
       email: data['username'],
-      userrole: data['accessLevel']
+      userrole: data['accessLevel'],
+      account: data['account']
     });
     this.email = data['username'];
     this.password = data['password'];
@@ -159,7 +178,8 @@ onSubmit() {
     new Date(),
     new Date(),
     this.userLoggedin,
-    this.editForm.value.employeeName
+    this.editForm.value.employeeName,
+    this.editForm.value.account
     );
 
     let user_id = this.actRoute.snapshot.paramMap.get('docid');

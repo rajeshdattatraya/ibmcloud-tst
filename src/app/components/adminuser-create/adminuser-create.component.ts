@@ -34,6 +34,7 @@ export class AdminuserCreateComponent implements OnInit {
   index;
   docid;
   isRowSelected = false;
+  Account:any = [];
 
   constructor(
     public fb: FormBuilder,
@@ -47,6 +48,7 @@ export class AdminuserCreateComponent implements OnInit {
     this.mainForm();
     this.readUserrole();    
     this.getAllSpecialUsers();
+    this.readAccount();
   }
 
   ngOnInit() {
@@ -63,6 +65,7 @@ export class AdminuserCreateComponent implements OnInit {
       employeeName: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.pattern('[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,3}$')]],
       userrole: ['', [Validators.required]],
+      account: ['', [Validators.required]],
     })
   }
 
@@ -72,6 +75,13 @@ export class AdminuserCreateComponent implements OnInit {
       this.Userrole = data;
       })
    }
+
+    // Choose account with select dropdown
+    updateAccountProfile(e){
+       this.candidateForm.get('account').setValue(e, {
+       onlySelf: true
+       })
+    }
 
    // Choose userrole with select dropdown
    updateUserroleProfile(e){
@@ -91,6 +101,13 @@ export class AdminuserCreateComponent implements OnInit {
     this.AdminUsers = data;
     })
 }
+
+    // Get all Acconts
+    readAccount(){
+      this.apiService.getAccounts().subscribe((data) => {
+      this.Account = data;
+      })
+    }
 
 // Delete the selected user
   //To remove candidate
@@ -157,7 +174,8 @@ export class AdminuserCreateComponent implements OnInit {
      new Date(),
      this.candidateForm.value.dateOfJoining,
      "false",
-     this.candidateForm.value.employeeName
+     this.candidateForm.value.employeeName,
+     this.candidateForm.value.account
      );
 
 
@@ -165,14 +183,11 @@ export class AdminuserCreateComponent implements OnInit {
      
     if (!this.candidateForm.valid) {
       return false;
-    } else  {
-        console.log("in candidate-create.ts");
+    } else  {        
         this.apiService.findUniqueUserEmail(this.candidateForm.value.email).subscribe(
-          (res) => {
-            console.log('res.count inside response ' + res.count)
+          (res) => {            
            if (res.count > 0)
-           {
-              console.log('res.count inside if ' + res.count)
+           {              
               window.confirm("Please use another Email ID");
             } 
             else 
