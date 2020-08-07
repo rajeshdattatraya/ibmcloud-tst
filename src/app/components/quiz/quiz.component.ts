@@ -32,7 +32,6 @@ export class QuizComponent implements OnInit {
   disableNextButton:boolean=true;
   jrss:any;
   technologyStream:any;
-  band:any;
 
   timer: any = null;
   startTime: Date;
@@ -51,9 +50,6 @@ export class QuizComponent implements OnInit {
   status = "Flag";
   timeLeft = '';
   isSubmittedAnswers:boolean = false;
-  bandInt: number;
-  complexityLevel: any;
-  questionsobj = { questions:[] };
   
   constructor(
     private router: Router,
@@ -141,21 +137,11 @@ ngOnInit() {
     (res) => {      
       this.jrss=res['JRSS'];
       this.technologyStream=res['technologyStream'];
-      this.band=res['band'];
-      console.log("band values is " +this.band);
-      let str = this.band;
-      str = this.band.substring(0, 1);
-      this.bandInt = parseInt(str);
-     // this.questionObj = {};
-      this.complexityLevel = "Complex";
-      console.log("Band int value is " +this.bandInt);
-      if(this.bandInt >=7 ){
-        this.testconfigService.findTestConfigByJRSS(this.jrss).subscribe(
-          (data) => {
-          this.noOfQuestions = data['noOfQuestions'];
-          console.log('No of question' +this.noOfQuestions);
-          this.configDuration = data['testDuration']*60;
-          this.quizService.getQuizQuestions(this.noOfQuestions, this.userName,this.technologyStream,this.complexityLevel).subscribe(res => {
+      this.testconfigService.findTestConfigByJRSS(this.jrss).subscribe(
+         (data) => {
+         this.noOfQuestions = data['noOfQuestions'];
+         this.configDuration = data['testDuration']*60;
+         this.quizService.getQuizQuestions(this.noOfQuestions, this.userName,this.technologyStream).subscribe(res => {
                  this.questions = res;
          }, (error) => {
          console.log(error);
@@ -163,14 +149,7 @@ ngOnInit() {
       }, (error) => {
           console.log(error);
       });
-     }
-       })
-
-       console.log(" before response" );
-     //  this.questions=this.questionObj;
-
-       console.log(" after response" );
-      
+    });
     this.questions.forEach((question) => { 
 		question.options.forEach((option) => { option.checked = ""; });
 	  });
