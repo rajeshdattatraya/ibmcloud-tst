@@ -198,7 +198,13 @@ resetForm(){
 }
 //Cancel
 cancelForm(){
-  this.ngZone.run(() => this.router.navigateByUrl('/operations-candidate-list',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
+  if (this.displayPositionDropDown) {
+    this.ngZone.run(() => this.router.navigateByUrl('/operations-candidate-list',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
+  } else {
+    this.ngZone.run(() => this.router.navigateByUrl('/open-positions-list',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
+  }
+  
+  
 }
 
 //*************** Sprint 8 coding -  added sections to display open positions and to GP calculations  ********************/
