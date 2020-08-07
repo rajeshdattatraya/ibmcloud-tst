@@ -103,7 +103,7 @@
         </div>
 
         <div class="form-group row" *ngIf="displayRegularUIFields">
-          <label for="inputUserLOB" class="col-sm-4 col-form-label">User Line Of Business</label>
+          <label for="inputUserLOB" class="col-sm-4 col-form-label">Candidate Line Of Business</label>
           <div class="col-sm-6">
             <select class="custom-select form-control" (change)="updateUserLOBProfile($event.target.value)"
                     formControlName="userLOB" id="inputUserLOB" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.userLOB.errors }">
@@ -112,7 +112,7 @@
               </option>
             </select>
             <div *ngIf="!formReset && submitted && myForm.userLOB.errors" class="invalid-feedback">
-              <div *ngIf="myForm.userLOB.errors.required">User Line Of Business is required</div>
+              <div *ngIf="myForm.userLOB.errors.required">Candidate Line Of Business is required</div>
             </div>
           </div>
         </div>
@@ -210,7 +210,7 @@
           </div>
         </div>
         <br/>
-        <div class="panel-group">
+        <div class="panel-group" *ngIf="displayRegularUIFields">
           <div class="panel panel-default">
             <div class="card-header" style="background-color:powderblue">
               <h6 class="panel-title">
@@ -219,7 +219,7 @@
             </div>
             <div id="collapse1" class="panel-collapse collapse" *ngIf="displayGPCalculate">
               <div class="panel-body">
-                <h6><b>Please select Open Position and User Location to calculate Gross Profit</b></h6>
+                <h6><b>Please select Open Position and Candidate Location to calculate Gross Profit</b></h6>
                 <br/>
                 <div [formGroup]="myOpenPositionGroup" class="form-group row">
                   <label for="inputPositionName" class="col-sm-4 col-form-label">Open Position</label>

@@ -137,13 +137,13 @@ downloadCandidateDetails()
 			this.candidate = new Candidate(data['employeeName'],data['employeeType'],
 			data['email'], data['band'], data['JRSS'], data['technologyStream'], data[ 'phoneNumber'], data['dateOfJoining'],
 			data['createdBy'], data['createdDate'], data['updatedBy'], data['updatedDate'],
-			data['username'], data['resumeName'], data['resumeData'], data['account'],data['userLOB'],data['grossProfit'],data['userPositionLocation']);
+			data['username'], data['resumeName'], data['resumeData'], data['account'],data['userLOB'],data['grossProfit'],data['userPositionLocation'],data['openPositionName']);
 		  }
 		  if (data['employeeType'] == 'Contractor') {
 			this.candidate = new Candidate(data['employeeName'],data['employeeType'],
 			data['email'], '', data['JRSS'], data['technologyStream'], data[ 'phoneNumber'], data['dateOfJoining'],
 			data['createdBy'], data['createdDate'], data['updatedBy'], data['updatedDate'],
-			data['username'], data['resumeName'], data['resumeData'], data['account'],'','','');
+			data['username'], data['resumeName'], data['resumeData'], data['account'],'','','','');
 		  }
 		});
     

@@ -32,6 +32,6 @@ export class CandidateContractor {
     this.username = username;
     this.resumeName = resumeName;
     this.resumeData = resumeData;
-    this.account == account;
+    this.account = account;
    }
 }

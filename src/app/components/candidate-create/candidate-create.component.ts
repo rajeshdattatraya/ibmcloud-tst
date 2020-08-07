@@ -279,7 +279,8 @@ export class CandidateCreateComponent implements OnInit {
       this.candidateForm.value.account,
       this.candidateForm.value.userLOB,
       this.myOpenPositionGroup.value.grossProfit,
-      this.myOpenPositionGroup.value.userPositionLocation
+      this.myOpenPositionGroup.value.userPositionLocation,
+      this.myOpenPositionGroup.value.positionName
       );
     }
     console.log("this.candidateForm.value.employeeType",this.candidateForm.value.employeeType);

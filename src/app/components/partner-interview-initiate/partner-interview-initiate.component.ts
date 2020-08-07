@@ -111,8 +111,24 @@ export class PartnerInterviewInitiateComponent implements OnInit {
                   finalResult: this.result,
                   partnerFeedback: this.feedback
       });
-      this.myOpenPositionGroup.get('grossProfit').setValue(this.partnerInterviewDetails[0].result_users[0].grossProfit);
-      this.myOpenPositionGroup.get('userPositionLocation').setValue(this.partnerInterviewDetails[0].result_users[0].userPositionLocation);
+
+      this.openPositionService.readOpenPositionByPositionName(this.partnerInterviewDetails[0].result_users[0].openPositionName).subscribe((openPositionData) => {
+          this.LineOfBusiness.push(openPositionData['lineOfBusiness']);
+          this.CompetencyLevel.push(openPositionData['competencyLevel']);
+          this.PositionLocation.push(openPositionData['positionLocation']);
+          this.RateCardJobRole.push(openPositionData['rateCardJobRole']);
+          this.myOpenPositionGroup.setValue({
+                positionName: openPositionData['positionName'],
+                rateCardJobRole: openPositionData['rateCardJobRole'],
+                lineOfBusiness: openPositionData['lineOfBusiness'],
+                positionLocation: openPositionData['positionLocation'],
+                competencyLevel : openPositionData['competencyLevel'],
+                userPositionLocation: this.partnerInterviewDetails[0].result_users[0].userPositionLocation,
+                grossProfit: this.partnerInterviewDetails[0].result_users[0].grossProfit
+
+          });
+          this.displayOpenPositionFields = true;
+      }) ;
     });
   }
 

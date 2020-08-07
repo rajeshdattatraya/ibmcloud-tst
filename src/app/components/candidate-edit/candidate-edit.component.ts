@@ -99,7 +99,6 @@ export class CandidateEditComponent implements OnInit {
     })
     this.myOpenPositionGroup = this.fb.group({
           positionName: '',
-          JRSS:'',
           rateCardJobRole: '',
           lineOfBusiness: '',
           positionLocation: '',
@@ -213,10 +212,7 @@ export class CandidateEditComponent implements OnInit {
       if (data['employeeType'] == undefined) {
           data['employeeType'] = 'Regular'
       }
-      console.log('grossProfit',data['grossProfit']);
-       console.log('userPositionLocation',data['userPositionLocation']);
       if (data['employeeType'] == 'Regular') {
-
        this.displayContractorUIFields = false;
        this.displayRegularUIFields = true;
         this.editForm.setValue({
@@ -231,17 +227,24 @@ export class CandidateEditComponent implements OnInit {
           account: data['account'],
           userLOB: data['userLOB']
         });
-        this.myOpenPositionGroup.setValue({
-          positionName: '',
-          JRSS:'',
-          rateCardJobRole: '',
-          lineOfBusiness: '',
-          positionLocation: '',
-          competencyLevel:'',
-          grossProfit: data['grossProfit'],
-          userPositionLocation: data['userPositionLocation']
-        });
-      }
+        this.openPositionService.readOpenPositionByPositionName(data['openPositionName']).subscribe((openPositionData) => {
+            this.LineOfBusiness.push(openPositionData['lineOfBusiness']);
+            this.CompetencyLevel.push(openPositionData['competencyLevel']);
+            this.PositionLocation.push(openPositionData['positionLocation']);
+            this.RateCardJobRole.push(openPositionData['rateCardJobRole']);
+            this.myOpenPositionGroup.setValue({
+                  positionName: openPositionData['positionName'],
+                  rateCardJobRole: openPositionData['rateCardJobRole'],
+                  lineOfBusiness: openPositionData['lineOfBusiness'],
+                  positionLocation: openPositionData['positionLocation'],
+                  competencyLevel : openPositionData['competencyLevel'],
+                  userPositionLocation: data['userPositionLocation'],
+                  grossProfit: data['grossProfit']
+
+            });
+            this.displayOpenPositionFields = true;
+        }) ;
+       }
       if (data['employeeType'] == 'Contractor') {
         this.displayContractorUIFields = true;
         this.displayRegularUIFields = false;
@@ -259,7 +262,6 @@ export class CandidateEditComponent implements OnInit {
         });
         this.myOpenPositionGroup.setValue({
           positionName: '',
-          JRSS:'',
           rateCardJobRole: '',
           lineOfBusiness: '',
           positionLocation: '',
@@ -289,13 +291,13 @@ export class CandidateEditComponent implements OnInit {
         data['email'], data['band'], data['JRSS'], data['technologyStream'], data[ 'phoneNumber'], data['dateOfJoining'],
         data['createdBy'], data['createdDate'], data['updatedBy'], data['updatedDate'],
         data['username'], data['resumeName'], data['resumeData'], data['account'],
-        data['userLOB'],data['grossProfit'],data['userPositionLocation']);
+        data['userLOB'],data['grossProfit'],data['userPositionLocation'], data['openPositionName']);
       }
       if (data['employeeType'] == 'Contractor') {
         this.candidate = new Candidate(data['employeeName'],data['employeeType'],
         data['email'], '', data['JRSS'], data['technologyStream'], data[ 'phoneNumber'], data['dateOfJoining'],
         data['createdBy'], data['createdDate'], data['updatedBy'], data['updatedDate'],
-        data['username'], data['resumeName'], data['resumeData'], data['account'],'','','');
+        data['username'], data['resumeName'], data['resumeData'], data['account'],'','','','');
       }
     });
   }
@@ -402,7 +404,8 @@ export class CandidateEditComponent implements OnInit {
         this.editForm.value.account,
         this.editForm.value.userLOB,
         this.myOpenPositionGroup.value.grossProfit,
-        this.myOpenPositionGroup.value.userPositionLocation
+        this.myOpenPositionGroup.value.userPositionLocation,
+        this.myOpenPositionGroup.value.positionName
         );
       }
       //Candidate details for a Contractor employee whose resume is not selected
@@ -422,6 +425,7 @@ export class CandidateEditComponent implements OnInit {
         this.candidate.resumeName,
         this.candidate.resumeData,
         this.editForm.value.account,
+        '',
         '',
         '',
         ''
@@ -511,7 +515,8 @@ export class CandidateEditComponent implements OnInit {
           this.editForm.value.account,
           this.editForm.value.userLOB,
           this.myOpenPositionGroup.value.grossProfit,
-          this.myOpenPositionGroup.value.userPositionLocation
+          this.myOpenPositionGroup.value.userPositionLocation,
+          this.myOpenPositionGroup.value.positionName
           );
         }
         //Candidate details for a contractor employee whose resume is selected
@@ -531,6 +536,7 @@ export class CandidateEditComponent implements OnInit {
           this.candidate.resumeName,
           this.candidate.resumeData,
           this.editForm.value.account,
+          '',
           '',
           '',
           ''
@@ -625,7 +631,6 @@ export class CandidateEditComponent implements OnInit {
    mainOpenForm() {
        this.myOpenPositionGroup = new FormGroup({
          positionName: new FormControl(),
-         JRSS: new FormControl(),
          rateCardJobRole: new FormControl(),
          lineOfBusiness: new FormControl(),
          positionLocation: new FormControl(),
