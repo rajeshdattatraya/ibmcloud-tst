@@ -428,7 +428,6 @@ export class CandidateCreateComponent implements OnInit {
     //get all open positions
     getOpenPositionDetails() {
         let status = "Open";
-        console.log("job role",this.candidateForm.value.JRSS);
         if (this.candidateForm.value.JRSS == '') {
           window.alert("Please select candidate Job Role");
           this.displayGPCalculate = false;

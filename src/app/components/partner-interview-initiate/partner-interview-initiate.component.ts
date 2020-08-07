@@ -39,7 +39,6 @@ export class PartnerInterviewInitiateComponent implements OnInit {
    UserPositionLocation:any = [];
    RateCardJobRole:any = [];
    OpenPosition: any= [];
-   OJRSS: any= [];
    UserLOB: any = [];
    Band:any = [];
    band: any;
@@ -216,10 +215,8 @@ export class PartnerInterviewInitiateComponent implements OnInit {
                     this.CompetencyLevel.push(data['competencyLevel']);
                     this.PositionLocation.push(data['positionLocation']);
                     this.RateCardJobRole.push(data['rateCardJobRole']);
-                    this.OJRSS.push(data['JRSS']);
                   this.myOpenPositionGroup.setValue({
                         positionName: data['positionName'],
-                        JRSS: data['JRSS'],
                         rateCardJobRole: data['rateCardJobRole'],
                         lineOfBusiness: data['lineOfBusiness'],
                         positionLocation: data['positionLocation'],
@@ -281,9 +278,15 @@ export class PartnerInterviewInitiateComponent implements OnInit {
 
      //get all open positions
      getOpenPositionDetails() {
-         this.openPositionService.getAllOpenPositions().subscribe((data) => {
-             this.OpenPositions = data;
-         })
+         let status = "Open";
+         if (this.partnerInterviewDetails[0].result_users[0].JRSS == '') {
+           window.alert("Please select candidate Job Role");
+           return false;
+         } else {
+             this.openPositionService.listAllOpenPositionsBYJRSS(this.account, status,this.partnerInterviewDetails[0].result_users[0].JRSS).subscribe((data) => {
+                this.OpenPositions = data;
+             })
+         }
          this.myOpenPositionGroup.get('grossProfit').setValue(this.partnerInterviewDetails[0].result_users[0].grossProfit);
          this.myOpenPositionGroup.get('userPositionLocation').setValue(this.partnerInterviewDetails[0].result_users[0].userPositionLocation);
          this.band = this.partnerInterviewDetails[0].result_users[0].band;
@@ -308,7 +311,6 @@ export class PartnerInterviewInitiateComponent implements OnInit {
      mainOpenForm() {
          this.myOpenPositionGroup = new FormGroup({
            positionName: new FormControl(),
-           JRSS: new FormControl(),
            rateCardJobRole: new FormControl(),
            lineOfBusiness: new FormControl(),
            positionLocation: new FormControl(),

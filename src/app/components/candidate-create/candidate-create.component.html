@@ -277,7 +277,7 @@
                 </div>
 
                 <div [formGroup]="myOpenPositionGroup" class="form-group row">
-                  <label for="inputUserPositionLocation" class="col-sm-4 col-form-label">User Location</label>
+                  <label for="inputUserPositionLocation" class="col-sm-4 col-form-label">Candidate Location</label>
                   <div class="col-sm-6">
                     <select class="custom-select form-control" (change)="updateUserPositionLocationProfile($event.target.value)" id="inputUserPositionLocation" formControlName="userPositionLocation"
                             [ngClass]="{ 'is-invalid': !formReset && submitted && myOpenForm.userPositionLocation.errors }">
