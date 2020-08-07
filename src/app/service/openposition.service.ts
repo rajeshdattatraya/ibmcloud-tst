@@ -32,6 +32,17 @@ export class OpenPositionService {
       return this.http.get(`${this.baseUri}`);
     }
 
+    //Get all open positions by Job Role
+    listAllOpenPositionsBYJRSS(account, status,JRSS) {
+      let url = `${this.baseUri}/listAllOpenPositionsBYJRSS/${account}/${status}/${JRSS}`;
+      return this.http.get(url, {headers: this.headers}).pipe(
+        map((res: Response) => {
+          return res || {}
+        }),
+        catchError(this.errorMgmt)
+      )
+    }
+
     readOpenPositionByPositionName(name): Observable<any> {
        let url = `${this.baseUri}/readOpenPositionByPositionName/${name}`;
        return this.http.get(url, {headers: this.headers}).pipe(

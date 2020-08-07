@@ -4,7 +4,6 @@ import { Component, OnInit,NgZone } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { ApiService } from './../../service/api.service';
 import { OpenPositionService } from './../../service/openPosition.service';
-import { PositionsService } from 'src/app/components/open-positions-list/positions.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms";
 import { DatePipe } from '@angular/common';
 import { browserRefresh } from '../../app.component';
@@ -50,9 +49,9 @@ export class CandidateEditComponent implements OnInit {
   UserPositionLocation:any = [];
   RateCardJobRole:any = [];
   OpenPosition: any= [];
-  OJRSS: any= [];
   UserLOB: any = [];
   displayOpenPositionFields: boolean = false;
+  displayGPCalculate: boolean = false;
   account: any;
 
   constructor(
@@ -61,7 +60,6 @@ export class CandidateEditComponent implements OnInit {
     private apiService: ApiService,
     private ngZone: NgZone,
     private openPositionService: OpenPositionService,
-    private positionsService: PositionsService,
     private router: Router,
     private datePipe: DatePipe
   ) {
@@ -144,6 +142,7 @@ export class CandidateEditComponent implements OnInit {
       }
     }    
     console.log("technology stream",this.technologyStream)
+    this.getOpenPositionDetails();
   } 
 
   // Choose options with select-dropdown
@@ -645,9 +644,16 @@ export class CandidateEditComponent implements OnInit {
   //get all open positions
   getOpenPositionDetails() {
       let status = "Open";
-      this.positionsService.listAllOpenPositions(this.account, status).subscribe((data) => {
-          this.OpenPositions = data;
-      })
+      if (this.editForm.value.JRSS == '') {
+        window.alert("Please select candidate Job Role");
+        this.displayGPCalculate = false;
+        return false;
+      } else {
+          this.displayGPCalculate = true;
+          this.openPositionService.listAllOpenPositionsBYJRSS(this.account, status,this.editForm.value.JRSS).subscribe((data) => {
+             this.OpenPositions = data;
+          })
+       }
   }
 
     updateOpenPositionProfile(positionName) {
@@ -656,10 +662,8 @@ export class CandidateEditComponent implements OnInit {
               this.CompetencyLevel.push(data['competencyLevel']);
               this.PositionLocation.push(data['positionLocation']);
               this.RateCardJobRole.push(data['rateCardJobRole']);
-              this.OJRSS.push(data['JRSS']);
             this.myOpenPositionGroup.setValue({
                   positionName: data['positionName'],
-                  JRSS: data['JRSS'],
                   rateCardJobRole: data['rateCardJobRole'],
                   lineOfBusiness: data['lineOfBusiness'],
                   positionLocation: data['positionLocation'],

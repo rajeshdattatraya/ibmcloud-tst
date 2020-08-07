@@ -1,7 +1,6 @@
 import { Router } from '@angular/router';
 import { ApiService } from './../../service/api.service';
 import { OpenPositionService } from './../../service/openPosition.service';
-import { PositionsService } from 'src/app/components/open-positions-list/positions.service';
 import { Candidate } from './../../model/candidate';
 import { CandidateContractor } from './../../model/candidateContractor';
 import { UserDetails } from './../../model/userDetails';
@@ -54,36 +53,30 @@ export class CandidateCreateComponent implements OnInit {
   UserPositionLocation:any = [];
   RateCardJobRole:any = [];
   OpenPosition: any= [];
-  OJRSS: any= [];
   UserLOB: any = [];
   displayOpenPositionFields: boolean = false;
+  displayGPCalculate: boolean = false;
   Account:any = [];
   AccountArray:any=[];
   account;
 
-  constructor(
-    public fb: FormBuilder,
-    private router: Router,
-    private ngZone: NgZone,
-    private apiService: ApiService,
-    private resultPageService: ResultPageService,
-    private openPositionService: OpenPositionService,
-    private positionsService: PositionsService
-  ) {
-    this.browserRefresh = browserRefresh;
-    if (!this.browserRefresh) {
-      this.userName = this.router.getCurrentNavigation().extras.state.username;
-      this.account = this.router.getCurrentNavigation().extras.state.account;
-    }
-    this.password = appConfig.defaultPassword;
-    this.quizNumber = 1;
-    this.readBand();
-    this.mainForm();
-    this.readJrss();
-    this.mainOpenForm();
-    this.readUserPositionLocation();
-    this.readUserLineOfBusiness();
-    this.readAccount();
+  constructor(public fb: FormBuilder,private router: Router,private ngZone: NgZone,
+    private apiService: ApiService,private resultPageService: ResultPageService,
+    private openPositionService: OpenPositionService) {
+      this.browserRefresh = browserRefresh;
+      if (!this.browserRefresh) {
+        this.userName = this.router.getCurrentNavigation().extras.state.username;
+        this.account = this.router.getCurrentNavigation().extras.state.account;
+      }
+      this.password = appConfig.defaultPassword;
+      this.quizNumber = 1;
+      this.readBand();
+      this.mainForm();
+      this.readJrss();
+      this.mainOpenForm();
+      this.readUserPositionLocation();
+      this.readUserLineOfBusiness();
+      this.readAccount();
   }
 
   ngOnInit() {
@@ -137,7 +130,8 @@ export class CandidateCreateComponent implements OnInit {
         
       }
     }
-    }    
+    }
+    this.getOpenPositionDetails() ;
     
   } 
 
@@ -434,9 +428,17 @@ export class CandidateCreateComponent implements OnInit {
     //get all open positions
     getOpenPositionDetails() {
         let status = "Open";
-        this.positionsService.listAllOpenPositions(this.account, status).subscribe((data) => {
+        console.log("job role",this.candidateForm.value.JRSS);
+        if (this.candidateForm.value.JRSS == '') {
+          window.alert("Please select candidate Job Role");
+          this.displayGPCalculate = false;
+          return false;
+        } else {
+            this.displayGPCalculate = true;
+            this.openPositionService.listAllOpenPositionsBYJRSS(this.account, status,this.candidateForm.value.JRSS).subscribe((data) => {
             this.OpenPositions = data;
         })
+        }
     }
 
     updateOpenPositionProfile(positionName) {
@@ -445,10 +447,8 @@ export class CandidateCreateComponent implements OnInit {
               this.CompetencyLevel.push(data['competencyLevel']);
               this.PositionLocation.push(data['positionLocation']);
               this.RateCardJobRole.push(data['rateCardJobRole']);
-              this.OJRSS.push(data['JRSS']);
             this.myOpenPositionGroup.setValue({
                   positionName: data['positionName'],
-                  JRSS: data['JRSS'],
                   rateCardJobRole: data['rateCardJobRole'],
                   lineOfBusiness: data['lineOfBusiness'],
                   positionLocation: data['positionLocation'],
@@ -464,7 +464,6 @@ export class CandidateCreateComponent implements OnInit {
     mainOpenForm() {
         this.myOpenPositionGroup = new FormGroup({
           positionName: new FormControl(),
-          JRSS: new FormControl(),
           rateCardJobRole: new FormControl(),
           lineOfBusiness: new FormControl(),
           positionLocation: new FormControl(),

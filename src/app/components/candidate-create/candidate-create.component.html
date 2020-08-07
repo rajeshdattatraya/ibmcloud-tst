@@ -217,7 +217,7 @@
                 <a data-toggle="collapse" href="#collapse1" (click)="getOpenPositionDetails()"><b>Calculate Gross Profit(Optional)</b></a>
               </h6>
             </div>
-            <div id="collapse1" class="panel-collapse collapse">
+            <div id="collapse1" class="panel-collapse collapse" *ngIf="displayGPCalculate">
               <div class="panel-body">
                 <h6><b>Please select Open Position and User Location to calculate Gross Profit</b></h6>
                 <br/>
@@ -236,30 +236,12 @@
                 </div>
 
                 <div [formGroup]="myOpenPositionGroup" class="form-group row" *ngIf="displayOpenPositionFields">
-                  <label for="inputJobRole" class="col-sm-4 col-form-label">Job Role</label>
-                  <div class="col-sm-6">
-                    <select class="custom-select form-control"
-                            formControlName="JRSS" id="inputJobRole" [ngClass]="{ 'is-invalid': !formReset && submitted && myOpenForm.JRSS.errors }">
-                      <option *ngFor="let data of OJRSS" value="{{data}}">{{data}}
-                      </option>
-                    </select>
-                    <div *ngIf="!formReset && submitted && myOpenForm.JRSS.errors" class="invalid-feedback">
-                      <div *ngIf="myOpenForm.JRSS.errors.required">Job Role is required</div>
-                    </div>
-                  </div>
-                </div>
-
-
-                <div [formGroup]="myOpenPositionGroup" class="form-group row" *ngIf="displayOpenPositionFields">
                   <label for="inputLineOfBusiness" class="col-sm-4 col-form-label">Line Of Business</label>
                   <div class="col-sm-6">
                     <select class="custom-select form-control"  id="inputLineOfBusiness" formControlName="lineOfBusiness"
                             [ngClass]="{ 'is-invalid': !formReset && submitted && myOpenForm.lineOfBusiness.errors }">
                       <option *ngFor="let data of LineOfBusiness" value="{{data}}" >{{data}}</option>
                     </select>
-                    <div *ngIf="!formReset && submitted && myOpenForm.lineOfBusiness.errors" class="invalid-feedback">
-                      <div *ngIf="myOpenForm.lineOfBusiness.errors.required">Line Of Business is required</div>
-                    </div>
                   </div>
                 </div>
 
@@ -270,9 +252,6 @@
                             [ngClass]="{ 'is-invalid': !formReset && submitted && myOpenForm.positionLocation.errors }">
                       <option *ngFor="let data of PositionLocation" value="{{data}}" >{{data}}</option>
                     </select>
-                    <div *ngIf="!formReset && submitted && myOpenForm.positionLocation.errors" class="invalid-feedback">
-                      <div *ngIf="myOpenForm.positionLocation.errors.required">Position Location is required</div>
-                    </div>
                   </div>
                 </div>
 
@@ -284,9 +263,6 @@
                       <option *ngFor="let data of RateCardJobRole" value="{{data}}">{{data}}
                       </option>
                     </select>
-                    <div *ngIf="!formReset && submitted && myOpenForm.rateCardJobRole.errors" class="invalid-feedback">
-                      <div *ngIf="myOpenForm.rateCardJobRole.errors.required">Rate Card Job Role is required</div>
-                    </div>
                   </div>
                 </div>
 
@@ -297,9 +273,6 @@
                             [ngClass]="{ 'is-invalid': !formReset && submitted && myOpenForm.competencyLevel.errors }">
                       <option *ngFor="let data of CompetencyLevel" value="{{data}}" >{{data}}</option>
                     </select>
-                    <div *ngIf="!formReset && submitted && myOpenForm.competencyLevel.errors" class="invalid-feedback">
-                      <div *ngIf="myOpenForm.competencyLevel.errors.required">Competency Level is required</div>
-                    </div>
                   </div>
                 </div>
 
@@ -311,9 +284,6 @@
                       <option value="">Choose...</option>
                       <option *ngFor="let data of UserPositionLocation" value="{{data.positionLocation}}" >{{data.positionLocation}}</option>
                     </select>
-                    <div *ngIf="!formReset && submitted && myOpenForm.userPositionLocation.errors" class="invalid-feedback">
-                      <div *ngIf="myOpenForm.userPositionLocation.errors.required">User Location is required</div>
-                    </div>
                   </div>
                 </div>
 
