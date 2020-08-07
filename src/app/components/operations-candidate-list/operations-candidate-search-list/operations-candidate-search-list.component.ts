@@ -79,7 +79,7 @@ onSelectionChange(value) {
 }
 
 getOperationsCandidateList(){
-  if(this.account =='sector'){
+  if(this.account.toLocaleLowerCase() =='sector'){
 this.apiService.getOperationsCandidateList().subscribe((data) => {
     
       this.operationsCandidateList = data;
@@ -120,7 +120,7 @@ filterUserList(filters: any, users: any): void {
 
 // To Read the Results
 readResult() {
-  if(this.account !=='sector'){ 
+  if(this.account.toLocaleLowerCase() !=='sector'){ 
   this.apiService.getOperationsAccountCandidateList(this.account).subscribe((data) => {
     this.Result = data;
     this.users = data
