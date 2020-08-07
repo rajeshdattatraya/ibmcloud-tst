@@ -54,14 +54,13 @@ export class OperationsProjectInitiateComponent implements OnInit {
             this.router.navigate(['/login-component']);
         }
         //Sprint8 start
-        this.readLineOfBusiness();
-        this.readPositionLocation();
-        this.readCompetencyLevel();
-        this.readRateCardJobRole();
         if (this.positionID != null ||  this.positionID != undefined) {
           this.readOpenPositionsByPositionID();
+        } else {
+          //if position is not already selected then display the positions in dropdown 
+          this.displayPositionDropDown=true;
         }
-
+        this.readPositionLocation();
         this.listAllOpenPositions()
         //Sprint8 End
    }
@@ -113,7 +112,10 @@ get myForm(){
       }
 
       //Sprint8 start
+      console.log('***** Candidate location list**** ',this.operationsProjectDetails[0].result_users[0]);
+      
       this.candidateLocation = this.operationsProjectDetails[0].result_users[0].userPositionLocation;
+      console.log('***** this.candidateLocation **** ',this.candidateLocation);
       this.grossProfit = this.operationsProjectDetails[0].result_users[0].grossProfit;
       this.candidateLOB = this.operationsProjectDetails[0].result_users[0].userLOB;
       this.candidateBand = this.operationsProjectDetails[0].result_users[0].band;
@@ -123,6 +125,12 @@ get myForm(){
   }
 
   onSubmit(id) {
+
+    if (this.positionID === null ||  this.positionID === undefined) {
+      window.alert("Please select an appropriate position for the selected candidate.");
+              return false;
+    }
+
     this.submitted = true;
 
     // Set Email parameters
@@ -190,7 +198,13 @@ resetForm(){
 }
 //Cancel
 cancelForm(){
-  this.ngZone.run(() => this.router.navigateByUrl('/operations-candidate-list',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
+  if (this.displayPositionDropDown) {
+    this.ngZone.run(() => this.router.navigateByUrl('/operations-candidate-list',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
+  } else {
+    this.ngZone.run(() => this.router.navigateByUrl('/open-positions-list',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
+  }
+  
+  
 }
 
 //*************** Sprint 8 coding -  added sections to display open positions and to GP calculations  ********************/
@@ -220,6 +234,8 @@ jrssSelected=false;
 itemsPerPage = 10;
 page=1;
 linkPosition=false;
+displayPositionDetails=false;
+displayPositionDropDown=false;
 
   // To Read the Open Position
   listAllOpenPositions() {
@@ -230,21 +246,29 @@ linkPosition=false;
   })
 }
 
-assignCandidate(jrss, positionID) {
-  this.jrssSelected=jrss; 
-  this.positionID=positionID;
+getSelectedPositionDetails(positionID) {
+  this.displayPositionDetails = true;
+  this.positionID = positionID
   if (this.positionID != null ||  this.positionID != undefined) {
     this.readOpenPositionsByPositionID();
-    $("#positionListModal").modal("hide");
+   
   }
- 
 }
 
+ // Get all PositionLocation
 
+ readPositionLocation(){
 
-redirectToFindCandidates() {
-  alert('positionID*** '+this.positionID)
+  this.openPositionService.getPositionLocations().subscribe((data) => {
+
+     this.positionLocation = data;
+
+    
+
+  })
+
 }
+
 
 /*Get position details by position id */
 
@@ -256,52 +280,20 @@ redirectToFindCandidates() {
     this.rateCardLocation = data['positionLocation']
     this.rateCardRole = data['rateCardJobRole']
     this.rateCardComplexityLevel= data['competencyLevel']
+    this.calculateGP();
     
   })
 }
-
-// Get all LineOfBusiness
-readLineOfBusiness(){
-  this.openPositionService.getLineOfBusiness().subscribe((data) => {
-   this.lineOfBusiness = data;
-  ;
-  })
-}
-
-    // Get all PositionLocation
-    readPositionLocation(){
-      this.openPositionService.getPositionLocations().subscribe((data) => {
-         this.positionLocation = data;
-        
-      })
-   }
-
-     // Get all CompetencyLevel
-     readCompetencyLevel(){
-      this.openPositionService.getCompetencyLevels().subscribe((data) => {
-          this.competencyLevel = data;
-
-          
-      })
-   }
-   
-
-    // Get all RateCardJobRole
-     readRateCardJobRole(){
-        this.openPositionService.getRateCardJobRoles().subscribe((data) => {
-          this.rateCardJobRole = data;
-        })
-     }
 
 
      calculateGP() {
 
       if (this.rateCardLocation == null || this.rateCardLocation == '' ) {
-         window.alert("Please select Open Position/User Position Location");
+         window.alert("Please select Open Position/Candidate Position Location");
          return false;
       }
       if (this.rateCardLOB == null || this.rateCardLOB == '' ) {
-         window.alert("Please select User Line Of Business/Band");
+         window.alert("Please select Candidate Line Of Business/Band");
          return false;
       }
       let GP: number = 0;
@@ -309,18 +301,18 @@ readLineOfBusiness(){
       let costCardValue: number = 0;
       let costCardCode = ""
       let rateCardCode = ""
-      rateCardCode = this.rateCardLOB+" - "+this.rateCardLocation+" - "+
-                     this.rateCardRole+" - "+this.rateCardComplexityLevel;
+       rateCardCode = this.rateCardLOB + " - " + this.rateCardLocation + " - " +
+         this.rateCardRole + " - " + this.rateCardComplexityLevel;
 
-      if (this.candidateBand == 'Exec'
-            || this.candidateBand == 'Apprentice'
-            || this.candidateBand == 'Graduate') {
-          costCardCode = this.candidateLocation+" - "+this.candidateLOB
-                         +" - "+this.candidateBand
-         } else {
-          costCardCode = this.candidateLocation+" - "+this.candidateLOB
-                          +" - Band-"+this.candidateBand
-         }
+       if (this.candidateBand == 'Exec'
+         || this.candidateBand == 'Apprentice'
+         || this.candidateBand == 'Graduate') {
+         costCardCode = this.candidateLocation + " - " + this.candidateLOB
+           + " - " + this.candidateBand
+       } else {
+         costCardCode = this.candidateLocation + " - " + this.candidateLOB
+           + " - Band-" + this.candidateBand
+       }
 
      this.openPositionService.readRateCardsByRateCardCode(rateCardCode).subscribe((data) => {
         rateCardValue = data['rateCardValue'];
@@ -330,9 +322,12 @@ readLineOfBusiness(){
            console.log(" ** costCardValue ",costCardValue+ "rateCardValue **",rateCardValue);
            
            if (costCardValue == null || rateCardValue == null) {
-              window.alert("No data available for this open position and candidate details.");
+              window.alert("No cost details available for the candidate location.");
               return false;
-           } else {
+           } else if (costCardValue == null ) {
+            window.alert("No rate card details available for the selected position.");
+            return false;
+         } else {
             this.grossProfit = Math.round(((rateCardValue-costCardValue)/costCardValue)*100)
            }
         })
