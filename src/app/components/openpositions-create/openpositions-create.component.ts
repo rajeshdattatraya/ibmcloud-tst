@@ -21,6 +21,7 @@ export class OpenpositionsCreateComponent implements OnInit {
   submitted = false;
   formReset = false;
   Account:any = [];
+  AccountArray:any = [];
   JRSS:any = []
   JRSSFull:any = [];
 
@@ -98,6 +99,12 @@ export class OpenpositionsCreateComponent implements OnInit {
     readAccount(){
       this.apiService.getAccounts().subscribe((data) => {
       this.Account = data;
+      //Remove 'sector' from Account collection
+      for (var accValue of this.Account){
+          if(accValue.account !== 'sector') {
+            this.AccountArray.push(accValue.account);
+          }
+      }
       })
     }
     // Choose account with select dropdown

@@ -41,6 +41,7 @@ export class CandidateEditComponent implements OnInit {
   displayContractorUIFields: Boolean = false;
   displayRegularUIFields: Boolean = true;
   Account:any = [];
+  AccountArray:any = [];
 
   OpenPositions: any = [];
   LineOfBusiness:any = [];
@@ -190,6 +191,12 @@ export class CandidateEditComponent implements OnInit {
     readAccount(){
       this.apiService.getAccounts().subscribe((data) => {
       this.Account = data;
+      //Remove 'sector' from Account collection
+      for (var accValue of this.Account){
+          if(accValue.account !== 'sector') {
+            this.AccountArray.push(accValue.account);
+          }
+      }
       })
     }
   // Getter to access form control

@@ -204,7 +204,7 @@
             <select class="custom-select form-control" (change)="updateAccountProfile($event.target.value)"
               formControlName="account" id="inputAccount3" [ngClass]="{ 'is-invalid': submitted && myForm.account.errors }">
               <option value="">Choose...</option>
-              <option *ngFor="let account of Account" value="{{account.account}}">{{account.account}}
+              <option *ngFor="let account of AccountArray" value="{{account}}">{{account}}
               </option>
             </select>
             <div *ngIf="submitted && myForm.account.errors" class="invalid-feedback" >
