@@ -6,6 +6,7 @@ import { PartnerDetails } from './../../../model/PartnerDetails';
 import { appConfig } from './../../../model/appConfig';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import {TechnicalInterviewListComponent} from '../../technical-interview-list/technical-interview-list.component';
+import { SendEmail } from './../../../model/sendEmail';
 declare var $: any;
 
 @Component({
@@ -44,9 +45,17 @@ export class PartnerInterviewListComponent implements OnChanges {
   submitted = false;
   displayContractorUIFields: Boolean = false;
   displayRegularUIFields: Boolean = true;
+  error = '';
   account: String = ""; 
+  usersDetail:any = [];
+  usersArray:any = [];
+  fromAddress: String = "";
+  emailSubject: String = "";
+  emailMessage: String = "";
+  toAddress: String = "";
+  partnerInterviewDetails : any = [];
 
-  constructor(private cv:TechnicalInterviewListComponent,private route: ActivatedRoute, private router: Router, private apiService: ApiService,private ngZone: NgZone,private fb: FormBuilder) {
+  constructor(private actRoute: ActivatedRoute, private cv:TechnicalInterviewListComponent,private route: ActivatedRoute, private router: Router, private apiService: ApiService,private ngZone: NgZone,private fb: FormBuilder) {
       this.config = {
         currentPage: appConfig.currentPage,
         itemsPerPage: appConfig.itemsPerPage,
@@ -58,6 +67,9 @@ export class PartnerInterviewListComponent implements OnChanges {
           this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
           this.account = this.router.getCurrentNavigation().extras.state.account;
       }
+      // let id = this.actRoute.snapshot.paramMap.get('id');
+      // console.log("ID="+id);
+      // this.readPartnerInterviewDetails(id);
       route.queryParams.subscribe(
       params => this.config.currentPage= params['page']?params['page']:1 );
       this.getPartnerInterviewList();
@@ -107,8 +119,45 @@ export class PartnerInterviewListComponent implements OnChanges {
   get myForm() {
     return this.partnerFeedbackForm.controls;
   }
+
+  //Read candidate details
+  // readPartnerInterviewDetails(id) {
+  //   console.log("readPartnerInterviewDetails="+id);
+  //   this.apiService.readPartnerInterviewDetails(id).subscribe(data => {
+  //     this.partnerInterviewDetails = data;
+  //   })
+  // }
+
+ // Set email notification parameters
+  setEmailNotificationDetails(){        
+    this.apiService.getUserByAccessLevel("management").subscribe( (res) => {
+    this.usersDetail = res;             
+    this.usersArray = [];
+    for (var value of this.usersDetail){           
+      this.usersArray.push(value.username);        
+    }              
+    this.toAddress = this.usersArray;        
+    }, (error) => {
+      this.error = 'Error found while getting username from Users table'
+      console.log(error);
+    });
+  
+    this.fromAddress = this.userName;            
+    this.emailSubject = "Candidate Assignment Notification";            
+    // this.emailMessage = "Dear Team,<br><p>This is to formally notify that candidate " 
+    //     + this.partnerInterviewDetails[0].result_users[0].employeeName 
+    //     + " is added to the queue for job role " + this.partnerInterviewDetails[0].result_users[0].JRSS 
+    //     + ".</p><p>Please validate the candidate for new project assignment.</p>\
+    //     <p>Regards, <br>DWP Partner Team</p>"; 
+    
+    this.emailMessage = "Dear Team,<br><p>This is to formally notify that candidate is added to the queue for job role.</p><p>Please validate the candidate for new project assignment.</p>\
+        <p>Regards, <br>DWP Partner Team</p>"; 
+  }
+  
   onSubmit() {
     this.submitted = true;
+    this.setEmailNotificationDetails();
+
     if(this.partnerFeedbackForm.value.partnerFeedback.length>0){
       let partnerDetails = new PartnerDetails("Exceptional Approval Given",
       this.partnerFeedbackForm.value.partnerFeedback,this.userName,new Date(), "Skipped");
@@ -117,6 +166,16 @@ export class PartnerInterviewListComponent implements OnChanges {
         this.getPartnerInterviewList();
         this.readResult();
         $("#myModal").modal("hide");
+
+        // Send notification to the operation team                        
+        let sendEmailObject = new SendEmail(this.fromAddress, this.toAddress, this.emailSubject, this.emailMessage);
+        this.apiService.sendEmail(sendEmailObject).subscribe(
+          (res) => {
+            console.log("[Partner List Exceptional Approval] - Email sent successfully to " + this.toAddress);            
+          }, (error) => {
+             console.log("[Partner List Exceptional Approval] - Error occurred while sending email to " + this.toAddress);
+             console.log(error);
+        });        
         //window.location.reload();
       }, (error) => {
         console.log(error);

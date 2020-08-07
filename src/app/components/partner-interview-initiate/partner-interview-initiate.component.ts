@@ -32,19 +32,24 @@ export class PartnerInterviewInitiateComponent implements OnInit {
   usersArray:any = [];
   account: String = "";
 
-   OpenPositions: any = [];
-   LineOfBusiness:any = [];
-   CompetencyLevel:any = [];
-   PositionLocation:any = [];
-   UserPositionLocation:any = [];
-   RateCardJobRole:any = [];
-   OpenPosition: any= [];
-   UserLOB: any = [];
-   Band:any = [];
-   band: any;
-   userLOB: any;
-   displayOpenPositionFields: boolean = false;
+  OpenPositions: any = [];
+  LineOfBusiness:any = [];
+  CompetencyLevel:any = [];
+  PositionLocation:any = [];
+  UserPositionLocation:any = [];
+  RateCardJobRole:any = [];
+  OpenPosition: any= [];
+  UserLOB: any = [];
+  Band:any = [];
+  band: any;
+  userLOB: any;
+  displayOpenPositionFields: boolean = false;
 
+  fromAddress: String = "";
+  emailSubject: String = "";
+  emailMessage: String = "";
+  toAddress: String = "";
+   
  constructor(private cv:TechnicalInterviewListComponent,public fb: FormBuilder, private actRoute: ActivatedRoute, private router: Router,private ngZone: NgZone,
   private apiService: ApiService, private openPositionService: OpenPositionService) {
        this.userName = this.router.getCurrentNavigation().extras.state.username;
@@ -132,31 +137,32 @@ export class PartnerInterviewInitiateComponent implements OnInit {
     });
   }
 
-   onSubmit(id) {
+  // Set email notification parameters
+  setEmailNotificationDetails(){        
+    this.apiService.getUserByAccessLevel("management").subscribe( (res) => {
+      this.usersDetail = res;             
+      this.usersArray = [];
+        for (var value of this.usersDetail){           
+          this.usersArray.push(value.username);        
+        }              
+        this.toAddress = this.usersArray;        
+        }, (error) => {
+            this.error = '[Partner toAddress]Error found while getting username from Users table'
+            console.log(error);
+    });
+
+    this.fromAddress = this.userName;            
+    this.emailSubject = "Candidate Assignment Notification";            
+    this.emailMessage = "Dear Team,<br><p>This is to formally notify that candidate " 
+      + this.partnerInterviewDetails[0].result_users[0].employeeName 
+      + " is added to the queue for job role " + this.partnerInterviewDetails[0].result_users[0].JRSS 
+      + ".</p><p>Please validate the candidate for new project assignment.</p>\
+      <p>Regards, <br>DWP Partner Team</p>"; 
+  } 
+
+  onSubmit(id) {
           this.submitted = true;
-
-          // Set Email parameters
-          let toAddress = "";
-          this.apiService.getUserByAccessLevel("management").subscribe( (res) => {
-              this.usersDetail = res;             
-              this.usersArray = [];
-              for (var value of this.usersDetail){           
-                  this.usersArray.push(value.username);        
-              }              
-              toAddress = this.usersArray;        
-          }, (error) => {
-                this.error = 'Error found while getting username from Users table'
-                console.log(error);
-      
-              });       
-
-          let fromAddress = this.userName;            
-          let emailSubject = "Candidate Assignment Notification";            
-          let emailMessage = "Dear Team,<br><p>This is to formally notify that candidate " 
-            + this.partnerInterviewDetails[0].result_users[0].employeeName 
-            + " is added to the queue for job role " + this.partnerInterviewDetails[0].result_users[0].JRSS 
-            + ".</p><p>Please validate the candidate for new project assignment.</p>\
-            <p>Regards, <br>DWP Partner Team</p>"; 
+          this.setEmailNotificationDetails();         
             
           if (!this.partnerFeedbackForm.valid) {
             return false;
@@ -170,24 +176,25 @@ export class PartnerInterviewInitiateComponent implements OnInit {
               this.partnerFeedbackForm.value.partnerFeedback,this.userName,new Date(), this.stage4_status);
 
           this.apiService.savePartnerFeedBack(id, partnerDetails).subscribe(
-                      (res) => {
-                        console.log('Partner Details successfully created!')
-                        window.alert("Partner's interview detail is successfully submitted"); 
+                (res) => {
+                  console.log('Partner Details successfully created!')
+                  window.alert("Partner's interview detail is successfully submitted"); 
 
-                        // Send notification to the candidate                        
-                        let sendEmailObject = new SendEmail(fromAddress, toAddress, emailSubject, emailMessage);
-                        this.apiService.sendEmail(sendEmailObject).subscribe(
-                        (res) => {
-                            console.log("Email sent successfully to " + toAddress);            
-                         }, (error) => {
-                            console.log("Error occurred while sending email to " + toAddress);
-                            console.log(error);
-                        });
-
-                        this.ngZone.run(() => this.router.navigateByUrl('/partner-list',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
-                      }, (error) => {
+                  // Send notification to the operation team                        
+                  let sendEmailObject = new SendEmail(this.fromAddress, this.toAddress, this.emailSubject, this.emailMessage);
+                  this.apiService.sendEmail(sendEmailObject).subscribe(
+                    (res) => {
+                      console.log("[Partner Initiate Interview] - Email sent successfully to " + this.toAddress);            
+                    }, (error) => {
+                        console.log("[Partner Initiate Interview] - Error occurred while sending email to " + this.toAddress);
                         console.log(error);
-                      });
+                   });
+
+                  // Navigate to partner-list page
+                  this.ngZone.run(() => this.router.navigateByUrl('/partner-list',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
+              }, (error) => {
+                  console.log(error);
+            });
           }
    }
 
@@ -201,7 +208,8 @@ export class PartnerInterviewInitiateComponent implements OnInit {
         this.ngZone.run(() => this.router.navigateByUrl('/partner-list',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
     }
 
-     exceptionalApproval(emailSelected, quizNumber) {       
+    exceptionalApproval(emailSelected, quizNumber) { 
+        this.setEmailNotificationDetails();      
          if (window.confirm('Are you sure to provide exceptional approval?')) {
             if (this.partnerFeedbackForm.value.partnerFeedback == "") {
               alert("Please enter feedback");
@@ -210,8 +218,20 @@ export class PartnerInterviewInitiateComponent implements OnInit {
               let partnerDetails = new PartnerDetails("Exceptional Approval Given",
                             this.partnerFeedbackForm.value.partnerFeedback,this.userName,new Date(), this.stage4_status);
               this.apiService.updateExceptionalApprovalForStage4(partnerDetails,emailSelected,quizNumber).subscribe(res => {
-                window.alert('Successfully provided exceptional approval');
-                this.ngZone.run(() => this.router.navigateByUrl('/partner-list',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
+              window.alert('Successfully provided exceptional approval');
+                
+              // Send notification to the operation team                        
+              let sendEmailObject = new SendEmail(this.fromAddress, this.toAddress, this.emailSubject, this.emailMessage);
+              this.apiService.sendEmail(sendEmailObject).subscribe(
+                (res) => {
+                    console.log("[Partner Interview Exceptional Approval] - Email sent successfully to " + this.toAddress);            
+                 }, (error) => {
+                    console.log("[Partner Interview Exceptional Approval] - Error occurred while sending email to " + this.toAddress);
+                    console.log(error);
+              });
+
+              // Navigate to partner-list page
+              this.ngZone.run(() => this.router.navigateByUrl('/partner-list',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
               }, (error) => {
                 console.log(error);
               })
