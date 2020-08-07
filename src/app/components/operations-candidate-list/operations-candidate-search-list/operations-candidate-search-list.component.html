@@ -25,11 +25,11 @@
                 <input type="radio" name="radiogroup" (change)="onSelectionChange(operationsList.userName)">
               </td>
               <td width="12%"><a href="#myModal" (click)="getCandidateDetails(operationsList.userName)" class="col-4 cursor-pointer" data-toggle="modal" >{{operationsList.result_users[0].employeeName}}</a></td>
+              <td *ngIf="account=='sector' || account=='Sector'" width="25%">{{operationsList.result_users[0].account}}</td>
               <td  width="20%"><a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(operationsList.userName,operationsList.quizNumber,operationsList.result_users[0].employeeName,operationsList.userScore,operationsList.createdDate)" class="col-4 cursor-pointer" data-toggle="modal" *ngIf="operationsList.userScore!=null">{{operationsList.userScore}}%</a><p *ngIf="operationsList.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p></td>
               <td  width="23%">{{operationsList.smeResult}}</td>
               <td  width="23%">{{operationsList.managementResult}}</td>
               <td width="20%"><a href="#" (click)="downloadCandidateResume(operationsList.userName)" routerLinkActive="active" class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
-              <td *ngIf="account=='sector' || account=='Sector'" width="25%">{{operationsList.result_users[0].account}}</td>
             </tbody>
       </table>
     <div  class="float-right text-right" *ngIf="Result.length > 0">

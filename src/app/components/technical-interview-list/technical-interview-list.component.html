@@ -84,6 +84,7 @@
           </td>
           <td width="20%"><a href="#myModal" (click)="getCandidateDetails(TechnicalInterview.userName)" class="col-4 cursor-pointer" data-toggle="modal" >{{TechnicalInterview.result_users[0].employeeName}}</a></td>
           <td  width="25%">{{TechnicalInterview.result_users[0].JRSS}}</td>
+          <td *ngIf="account=='sector' || account=='Sector'" width="25%">{{TechnicalInterview.result_users[0].account}}</td> 
           <td  width="17%"><a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(TechnicalInterview.userName,TechnicalInterview.quizNumber,TechnicalInterview.result_users[0].employeeName,TechnicalInterview.userScore,TechnicalInterview.createdDate)" class="col-4 cursor-pointer" data-toggle="modal" *ngIf="TechnicalInterview.userScore!=null">{{TechnicalInterview.userScore}}%</a><p *ngIf="TechnicalInterview.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p></td>
           <td *ngIf="TechnicalInterview.stage2_status=='Skipped'" width="20%"><a href="#" (click)="skipMethod()" routerLinkActive="active"  class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
           <td *ngIf="TechnicalInterview.stage2_status=='Completed'" width="20%">
@@ -93,7 +94,6 @@
               </a>
           </td>
           <td width="20%"><a href="#" (click)="downloadCandidateResume(TechnicalInterview.userName)" routerLinkActive="active" class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
-          <td *ngIf="account=='sector' || account=='Sector'" width="25%">{{TechnicalInterview.result_users[0].account}}</td> 
         </tr>
         </tbody>
       </table>
