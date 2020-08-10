@@ -51,7 +51,6 @@ export class CandidateEditComponent implements OnInit {
   RateCardJobRole:any = [];
   OpenPosition: any= [];
   UserLOB: any = [];
-  displayOpenPositionFields: boolean = false;
   displayGPCalculate: boolean = false;
   account: any;
 
@@ -249,7 +248,6 @@ export class CandidateEditComponent implements OnInit {
                   grossProfit: data['grossProfit']
 
             });
-            this.displayOpenPositionFields = true;
         }) ;
        }
       if (data['employeeType'] == 'Contractor') {
@@ -684,7 +682,6 @@ export class CandidateEditComponent implements OnInit {
                   grossProfit: ''
 
             });
-            this.displayOpenPositionFields = true;
          })
     }
    // Choose user position location with select dropdown

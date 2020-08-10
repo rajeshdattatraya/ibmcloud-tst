@@ -505,7 +505,7 @@ export class CandidateCreateComponent implements OnInit {
             this.openPositionService.readCostCardsByCostCardCode(costCardCode).subscribe((data) => {
                costCardValue = data['costCardValue'];
                if (costCardValue == null || rateCardValue == null) {
-                  window.alert("No data available for this open position and candidate details.");
+                  window.alert("Candidate location and line of business are not compatible, please check the data and calculate GP again.");
                   return false;
                } else {
                   GP = Math.round(((rateCardValue-costCardValue)/costCardValue)*100)
