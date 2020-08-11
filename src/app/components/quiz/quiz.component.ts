@@ -32,6 +32,7 @@ export class QuizComponent implements OnInit {
   disableNextButton:boolean=true;
   jrss:any;
   technologyStream:any;
+  band:any;
 
   timer: any = null;
   startTime: Date;
@@ -50,6 +51,12 @@ export class QuizComponent implements OnInit {
   status = "Flag";
   timeLeft = '';
   isSubmittedAnswers:boolean = false;
+  bandInt: number;
+  complexityLevel:string = "";
+  complexityLevelArray:any=[];
+  questionObj: {};
+  isLastelemnt:boolean = false;
+  temp ;
   
   constructor(
     private router: Router,
@@ -137,11 +144,21 @@ ngOnInit() {
     (res) => {      
       this.jrss=res['JRSS'];
       this.technologyStream=res['technologyStream'];
-      this.testconfigService.findTestConfigByJRSS(this.jrss).subscribe(
-         (data) => {
-         this.noOfQuestions = data['noOfQuestions'];
-         this.configDuration = data['testDuration']*60;
-         this.quizService.getQuizQuestions(this.noOfQuestions, this.userName,this.technologyStream).subscribe(res => {
+      this.band=res['band'];
+      console.log("band values is " +this.band);
+      let str = this.band;
+      str = this.band.substring(0, 1);
+      this.bandInt = parseInt(str);
+      this.questionObj = {};
+      this.complexityLevel = "Complex";
+      console.log("Band int value is " +this.bandInt);
+      if(this.bandInt >=7 ){
+         this.testconfigService.findTestConfigByJRSS(this.jrss).subscribe(
+          (data) => {
+          this.noOfQuestions = data['noOfQuestions'];
+          console.log('No of question' +this.noOfQuestions);
+          this.configDuration = data['testDuration']*60;
+          this.quizService.getQuizQuestions(this.noOfQuestions, this.userName,this.technologyStream,this.complexityLevel).subscribe(res => {
                  this.questions = res;
          }, (error) => {
          console.log(error);
@@ -149,7 +166,87 @@ ngOnInit() {
       }, (error) => {
           console.log(error);
       });
+     } 
+    //else start
+     else{
+
+      this.testconfigService.findTestConfigByJRSS(this.jrss).subscribe(
+        (data) => {
+          this.noOfQuestions = data['noOfQuestions'];
+          this.configDuration = data['testDuration']*60;
+          this.temp=this.noOfQuestions;
+          this.isLastelemnt=false;
+
+       var complexityLevelArray =['Simple', 'Medium', 'Complex'];
+       complexityLevelArray.forEach(complexity =>{
+       console.log("Complexity inside else " +complexity);
+       
+    let temp1=0;
+    
+    var last_element = complexityLevelArray[complexityLevelArray.length - 1];
+
+    if ((last_element===complexity) && !(this.isLastelemnt))
+    {
+      this.isLastelemnt=true;
+      console.log(" loop is at the last iteration");
+    }
+  
+    if((complexity === "Simple" ) && !(this.isLastelemnt)){
+     temp1 = Math.round(this.noOfQuestions * 0.4);
+      this.temp = this.temp - temp1;
+       }
+    
+ if((complexity === "Medium") && !(this.isLastelemnt)){
+    temp1 = Math.round(this.noOfQuestions * 0.3);
+      this.temp = this.temp - temp1;
+      }
+  
+  if((complexity === "Complex") && !(this.isLastelemnt)){
+    temp1 = Math.round(this.noOfQuestions * 0.3);
+      this.temp = this.temp - temp1;
+     } 
+   
+    let currentsetq;
+      if (this.isLastelemnt)
+      {
+        currentsetq=this.temp;
+      }
+      else
+      {
+        currentsetq=temp1;
+      }
+       
+         this.quizService.getQuizQuestions(currentsetq, this.userName,this.technologyStream,complexity).subscribe(res => {
+           
+            //create a temparary array of questions for the responses received 
+            let tempQuestions:any = [];
+            tempQuestions=res;
+          //loop through each question and add that to a final array of questions
+            tempQuestions.forEach(element => {
+              this.questions.push(element);
+              console.log("element ** ", element)
+
+            });
+
+    }, (error) => {
+    console.log(error);
+    })
+  
+    }
+    ,(error) => {
+        console.log(error);
+    });//
+  
+     
     });
+  
+
+}
+//else end
+
+ 
+       })
+      
     this.questions.forEach((question) => { 
 		question.options.forEach((option) => { option.checked = ""; });
 	  });
