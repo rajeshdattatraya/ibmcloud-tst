@@ -21,11 +21,11 @@ export class PartnerInterviewSearchComponent implements OnInit {
   ngOnInit(): void {
     this.buildForm();
   }
-  buildForm(): void {
-    console.log('here in build form of search component')
+  buildForm(): void {    
     this.form = this.fb.group({
       employeeName: new FormControl(''),
-      JRSS: new FormControl('')
+      JRSS: new FormControl(''),
+      account: new FormControl('')
     });
   }
 
