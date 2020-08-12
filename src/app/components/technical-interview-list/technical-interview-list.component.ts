@@ -64,7 +64,8 @@ export class TechnicalInterviewListComponent implements OnInit {
     }
     this.form = this.fb.group({
       employeeName: new FormControl(''),
-      JRSS: new FormControl('')
+      JRSS: new FormControl(''),
+      account: new FormControl('')
     });
     route.queryParams.subscribe(
       params => this.config.currentPage = params['page'] ? params['page'] : 1);
@@ -213,7 +214,7 @@ export class TechnicalInterviewListComponent implements OnInit {
 
     const filterUser = user => {
       let result = keys.map(key => {
-        if (key == "employeeName" || key == "JRSS") {
+        if (key == "employeeName" || key == "JRSS" || key == "account") {
           if (user.result_users[0][key]) {
             return String(user.result_users[0][key]).toLowerCase().startsWith(String(filters[key]).toLowerCase())
           }
