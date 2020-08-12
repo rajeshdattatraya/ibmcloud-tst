@@ -147,7 +147,7 @@ export class WorkflowConfigComponent implements OnInit {
         console.log('Workflow details updated successfully!');
         alert('Workflow details added successfully');
         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
-          this.router.navigate(['/workflow-config']));
+          this.router.navigate(['/workflow-config'] , { state: { username: this.userName,account: this.account }}));
       }, (error) => {
         console.log(error);
       })
