@@ -47,7 +47,8 @@ export class TechnicalInterviewListComponent implements OnInit {
   displayContractorUIFields: Boolean = false;
   displayRegularUIFields: Boolean = true;
   candidateDetails: any = [];
-
+  AccountData:any = [];
+  AccountList:any=[];
 
   constructor(private datePipe: DatePipe, private route: ActivatedRoute, private router: Router, private apiService: ApiService, private ngZone: NgZone, private fb: FormBuilder) {
     this.config = {
@@ -71,6 +72,7 @@ export class TechnicalInterviewListComponent implements OnInit {
       params => this.config.currentPage = params['page'] ? params['page'] : 1);
     this.getTechnicalInterviewList();
     this.mainForm();
+    this.readAccount();
   }
 
   @ViewChild('content') content: any;
@@ -92,7 +94,25 @@ export class TechnicalInterviewListComponent implements OnInit {
     alert('Stage skipped');
   }
 
+  // Get all Accounts
+  readAccount(){
+    this.apiService.getAccounts().subscribe((data) => {
+    this.AccountData = data;
+    //Remove 'sector' from Account collection
+    for (var accValue of this.AccountData){    
+        if(accValue.account.toLowerCase() !== 'sector' ) {
+          this.AccountList.push(accValue.account);             
+        }            
+    }      
+    })
+  }
 
+    // Choose account result with select dropdown
+    updateAccountDetails(e) {
+      this.form.get('account').setValue(e, {
+      onlySelf: true
+      })
+    }
 
 
   //To read candidate details
