@@ -164,13 +164,13 @@ export class CandidateCreateComponent implements OnInit {
        })
     }
 
-    // Get all Acconts
+    // Get all Accounts
     readAccount(){
       this.apiService.getAccounts().subscribe((data) => {
       this.Account = data;
       //Remove 'sector' from Account collection
       for (var accValue of this.Account){    
-          if(accValue.account !== 'sector') {
+          if(accValue.account.toLowerCase() !== 'sector') {
             this.AccountArray.push(accValue.account);             
           }            
       }      
