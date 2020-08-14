@@ -66,21 +66,23 @@
       <div class="panel panel-default">
         <div class="card-header" style="background-color:powderblue">
           <h6 class="panel-title">
-            <a data-toggle="collapse" href="#collapse1" (click)="getOpenPositionDetails()"><b>Calculate Gross Profit(Optional)</b></a>
+            <a data-toggle="collapse" href="#collapse1" (click)="getOpenPositionDetails()"><b>Calculate Gross Profit(Optional)</b>
+              <p><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Open Position Details
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Candidate Details</b></p></a>
           </h6>
         </div>
         <div id="collapse1" class="panel-collapse collapse">
           <div class="panel-body">
-            <h6><b>Please select open position, Candidate location to calculate GP again.</b></h6>
             <br/>
-            <p><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Open Position Details
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Candidate Details</b></p>
+            <h6><b>Please select Open Position and Candidate details below to calculate Gross Profit</b></h6>
+            <br/>
             <table>
               <tbody>
               <tr>
@@ -100,14 +102,10 @@
                 </div>
                 </td>
                 <td width="50%">
-                  <div [formGroup]="myOpenPositionGroup" class="form-group row">
-                    <label for="inputUserPositionLocation" class="col-sm-4 col-form-label">Candidate Location</label>
+                  <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Candidate Line Of Business</label>
                     <div class="col-sm-6">
-                      <select class="custom-select form-control" (change)="updateUserPositionLocationProfile($event.target.value)" id="inputUserPositionLocation" formControlName="userPositionLocation"
-                              [ngClass]="{ 'is-invalid': !formReset && submitted && myOpenForm.userPositionLocation.errors }">
-                        <option value="">Choose...</option>
-                        <option *ngFor="let data of UserPositionLocation" value="{{data.positionLocation}}" >{{data.positionLocation}}</option>
-                      </select>
+                      {{this.partnerInterviewDetails[0].result_users[0].userLOB}}
                     </div>
                   </div>
                 </td>
@@ -128,10 +126,14 @@
                   </div>
                 </td>
                 <td width="50%">
-                  <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Candidate Line Of Business</label>
+                  <div [formGroup]="myOpenPositionGroup" class="form-group row">
+                    <label for="inputUserPositionLocation" class="col-sm-4 col-form-label">Candidate Location</label>
                     <div class="col-sm-6">
-                      {{this.partnerInterviewDetails[0].result_users[0].userLOB}}
+                      <select class="custom-select form-control" (change)="updateUserPositionLocationProfile($event.target.value)" id="inputUserPositionLocation" formControlName="userPositionLocation"
+                              [ngClass]="{ 'is-invalid': !formReset && submitted && myOpenForm.userPositionLocation.errors }">
+                        <option value="">Choose...</option>
+                        <option *ngFor="let data of UserPositionLocation" value="{{data.positionLocation}}" >{{data.positionLocation}}</option>
+                      </select>
                     </div>
                   </div>
                 </td>
@@ -189,7 +191,7 @@
                 <td width="90%">
                   <div [formGroup]="myOpenPositionGroup" class="form-group row">
                     <label for="inputGP" class="col-sm-4 col-form-label">Gross Profit(%)</label>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                       <input class="form-control" readonly type="text" formControlName="grossProfit" id="inputGP">
                     </div>
                     <div>

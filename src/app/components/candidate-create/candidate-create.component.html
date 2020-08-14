@@ -101,6 +101,50 @@
           <div class="col-sm-6"><i><b><font style="font-size:12px">[This field is used as username.]</font></b></i></div>
         </div>
 
+        <div class="form-group row" *ngIf="displayRegularUIFields">
+          <label for="inputUserLOB" class="col-sm-4 col-form-label">Candidate Line Of Business</label>
+          <div class="col-sm-6">
+            <select class="custom-select form-control" (change)="updateUserLOBProfile($event.target.value)"
+                    formControlName="userLOB" id="inputUserLOB" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.userLOB.errors }">
+              <option value="">Choose...</option>
+              <option *ngFor="let userLOB of UserLOB" value="{{userLOB.lob}}">{{userLOB.lob}}
+              </option>
+            </select>
+            <div *ngIf="!formReset && submitted && myForm.userLOB.errors" class="invalid-feedback">
+              <div *ngIf="myForm.userLOB.errors.required">Candidate Line Of Business is required</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row" *ngIf="displayRegularUIFields">
+          <label for="inputUserPositionLocation" class="col-sm-4 col-form-label">Candidate Location</label>
+          <div class="col-sm-6">
+            <select class="custom-select form-control" (change)="updateUserPositionLocationProfile($event.target.value)" id="inputUserPositionLocation" formControlName="userPositionLocation"
+                    [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.userPositionLocation.errors }">
+              <option value="">Choose...</option>
+              <option *ngFor="let data of UserPositionLocation" value="{{data.positionLocation}}" >{{data.positionLocation}}</option>
+            </select>
+            <div *ngIf="!formReset && submitted && myForm.userPositionLocation.errors" class="invalid-feedback">
+              <div *ngIf="myForm.userPositionLocation.errors.required">Candidate Location is required</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row" *ngIf="displayRegularUIFields">
+          <label for="inputBand3" class="col-sm-4 col-form-label">Band</label>
+          <div class="col-sm-6">
+            <select class="custom-select form-control" (change)="updateBandProfile($event.target.value)"
+                    formControlName="band" id="inputBand3" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.band.errors }">
+              <option value="">Choose...</option>
+              <option *ngFor="let band of Band" value="{{band.band}}">{{band.band}}
+              </option>
+            </select>
+            <div *ngIf="!formReset && submitted && myForm.band.errors" class="invalid-feedback">
+              <div *ngIf="myForm.band.errors.required">Band is required</div>
+            </div>
+          </div>
+        </div>
+
         <div class="form-group row">
           <label for="inputJRSS3" class="col-sm-4 col-form-label">Job Role</label>
           <div class="col-sm-6">
@@ -183,22 +227,24 @@
           <div class="panel panel-default">
             <div class="card-header" style="background-color:powderblue">
               <h6 class="panel-title">
-                <a data-toggle="collapse" href="#collapse1" (click)="getOpenPositionDetails()"><b>Calculate Gross Profit(Optional)</b></a>
-              </h6>
-            </div>
-            <div id="collapse1" class="panel-collapse collapse" *ngIf="displayGPCalculate">
-              <div class="panel-body">
-                <h6><b>Please select Open Position and Candidate details below to calculate Gross Profit</b></h6>
-                <br/>
+                <a data-toggle="collapse" href="#collapse1" (click)="getOpenPositionDetails()"><b>Calculate Gross Profit(Optional)</b>
                 <p><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Open Position Details
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Open Position Details
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Candidate Details</b></p>
-                <table>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Candidate Details</b></p></a>
+              </h6>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse" *ngIf="displayGPCalculate">
+              <div class="panel-body">
+                <br/>
+                <h6><b>Please select Open Position and Candidate details below to calculate Gross Profit</b></h6>
+                <br/>
+                 <table>
                   <tbody>
                   <tr>
                     <td width="50%">
@@ -217,13 +263,14 @@
                       </div>
                     </td>
                     <td width="50%">
-                     <div [formGroup]="myOpenPositionGroup" class="form-group row">
-                        <label for="inputUserPositionLocation" class="col-sm-4 col-form-label">Candidate Location</label>
+                      <div [formGroup]="myOpenPositionGroup" class="form-group row">
+                        <label for="inputGPUserLOB" class="col-sm-4 col-form-label">Candidate Line Of Business</label>
                         <div class="col-sm-6">
-                          <select class="custom-select form-control" (change)="updateUserPositionLocationProfile($event.target.value)" id="inputUserPositionLocation" formControlName="userPositionLocation"
-                                  [ngClass]="{ 'is-invalid': !formReset && submitted && myOpenForm.userPositionLocation.errors }">
+                          <select class="custom-select form-control" (change)="updateGPUserLOBProfile($event.target.value)"
+                                  formControlName="gpUserLOB" id="inputGPUserLOB">
                             <option value="">Choose...</option>
-                            <option *ngFor="let data of UserPositionLocation" value="{{data.positionLocation}}" >{{data.positionLocation}}</option>
+                            <option *ngFor="let userLOB of UserLOB" value="{{userLOB.lob}}">{{userLOB.lob}}
+                            </option>
                           </select>
                         </div>
                       </div>
@@ -242,18 +289,13 @@
                       </div>
                     </td>
                     <td width="50%">
-                      <div class="form-group row" *ngIf="displayRegularUIFields">
-                        <label for="inputUserLOB" class="col-sm-4 col-form-label">Candidate Line Of Business</label>
+                      <div [formGroup]="myOpenPositionGroup" class="form-group row">
+                        <label for="inputGPUserPositionLocation" class="col-sm-4 col-form-label">Candidate Location</label>
                         <div class="col-sm-6">
-                          <select class="custom-select form-control" (change)="updateUserLOBProfile($event.target.value)"
-                                  formControlName="userLOB" id="inputUserLOB" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.userLOB.errors }">
+                          <select class="custom-select form-control" (change)="updateGPUserPositionLocationProfile($event.target.value)" id="inputGPUserPositionLocation" formControlName="gpUserPositionLocation">
                             <option value="">Choose...</option>
-                            <option *ngFor="let userLOB of UserLOB" value="{{userLOB.lob}}">{{userLOB.lob}}
-                            </option>
+                            <option *ngFor="let data of UserPositionLocation" value="{{data.positionLocation}}" >{{data.positionLocation}}</option>
                           </select>
-                          <div *ngIf="!formReset && submitted && myForm.userLOB.errors" class="invalid-feedback">
-                            <div *ngIf="myForm.userLOB.errors.required">Candidate Line Of Business is required</div>
-                          </div>
                         </div>
                       </div>
                     </td>
@@ -271,18 +313,15 @@
                       </div>
                     </td>
                     <td width="50%">
-                      <div class="form-group row" *ngIf="displayRegularUIFields">
-                        <label for="inputBand3" class="col-sm-4 col-form-label">Band</label>
+                      <div [formGroup]="myOpenPositionGroup" class="form-group row">
+                        <label for="inputGpUserBand" class="col-sm-4 col-form-label">Band</label>
                         <div class="col-sm-6">
-                          <select class="custom-select form-control" (change)="updateBandProfile($event.target.value)"
-                                  formControlName="band" id="inputBand3" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.band.errors }">
+                          <select class="custom-select form-control" (change)="updateGPUserBandProfile($event.target.value)"
+                                  formControlName="gpUserBand" id="inputGpUserBand">
                             <option value="">Choose...</option>
                             <option *ngFor="let band of Band" value="{{band.band}}">{{band.band}}
                             </option>
                           </select>
-                          <div *ngIf="!formReset && submitted && myForm.band.errors" class="invalid-feedback">
-                            <div *ngIf="myForm.band.errors.required">Band is required</div>
-                          </div>
                         </div>
                       </div>
                     </td>
@@ -319,12 +358,12 @@
                     <td width="90%">
                   <div [formGroup]="myOpenPositionGroup" class="form-group row">
                     <label for="inputGP" class="col-sm-4 col-form-label">Gross Profit(%)</label>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                       <input class="form-control" readonly type="text" formControlName="grossProfit" id="inputGP">
                     </div>
                     <div>
                       &nbsp;&nbsp;&nbsp;
-                      <button style="background-color:#0043CE;" class="btn btn-success btn-sm" type="button" (click)="calculateGP()">Calculate GP</button>
+                      <button style="background-color:#0043CE;" class="btn btn-success btn-sm" type="button" (click)="calculateGP(this.myOpenPositionGroup.value.gpUserPositionLocation,this.myOpenPositionGroup.value.gpUserLOB,this.myOpenPositionGroup.value.gpUserBand,this.myOpenPositionGroup.value.positionName)">Calculate GP</button>
                     </div>
                   </div>
                     </td>

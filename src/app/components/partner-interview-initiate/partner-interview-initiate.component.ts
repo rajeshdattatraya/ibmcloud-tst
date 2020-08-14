@@ -283,8 +283,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
             window.alert("Please select Open Position/User Position Location");
             return false;
          }
-         if (this.userLOB == null || this.band == null ||
-             this.userLOB == '' || this.band == '') {
+         if (this.userLOB == null || this.band == null || this.userLOB == '' || this.band == '') {
             window.alert("Please select User Line Of Business/Band");
             return false;
          }
@@ -295,16 +294,12 @@ export class PartnerInterviewInitiateComponent implements OnInit {
          let rateCardCode = ""
          rateCardCode = this.myOpenPositionGroup.value.lineOfBusiness+" - "+this.myOpenPositionGroup.value.positionLocation+" - "+
                         this.myOpenPositionGroup.value.rateCardJobRole+" - "+this.myOpenPositionGroup.value.competencyLevel;
-        this.openPositionService.readRateCardsByRateCardCode(rateCardCode).subscribe((data) => {
+         this.openPositionService.readRateCardsByRateCardCode(rateCardCode).subscribe((data) => {
            rateCardValue = data['rateCardValue'];
-            if (this.band == 'Exec'
-               || this.band == 'Apprentice'
-               || this.band == 'Graduate') {
-             costCardCode = this.myOpenPositionGroup.value.userPositionLocation+" - "+this.userLOB
-                            +" - "+this.band
+            if (this.band == 'Exec' || this.band == 'Apprentice' || this.band == 'Graduate') {
+             costCardCode = this.myOpenPositionGroup.value.userPositionLocation+" - "+this.userLOB+" - "+this.band
             } else {
-             costCardCode = this.myOpenPositionGroup.value.userPositionLocation+" - "+this.userLOB
-                             +" - Band-"+this.band
+             costCardCode = this.myOpenPositionGroup.value.userPositionLocation+" - "+this.userLOB+" - Band-"+this.band
             }
            this.openPositionService.readCostCardsByCostCardCode(costCardCode).subscribe((data) => {
               costCardValue = data['costCardValue'];
