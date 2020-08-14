@@ -46,7 +46,7 @@ import { OpenPositionsListComponent } from './components/open-positions-list/ope
 import { EligibleCandidatesComponent } from './components/eligible-candidates/eligible-candidates.component';
 import { QuestionAddBulkSectorsmeComponent } from './components/question-add-bulk-sectorsme/question-add-bulk-sectorsme.component';
 import { QuestionsAddSectorsmeComponent } from './components/questions-add-sectorsme/questions-add-sectorsme.component';
-
+import { SuperadminUserCreateComponent } from './components/superadmin-user-create/superadmin-user-create.component'
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login-component' },
   { path: '', loadChildren: './components/view-testresults/user.module#UserModule'},
@@ -97,6 +97,7 @@ const routes: Routes = [
   { path: 'eligible-candidates', component: EligibleCandidatesComponent },
   { path: 'manage-questionbank-bulk-sectorsme', component:QuestionAddBulkSectorsmeComponent},
   { path: 'manage-questionbank-sectorsme', component:QuestionsAddSectorsmeComponent},
+  { path: 'superadmin-user-create' , component:SuperadminUserCreateComponent}
 ];
 
 @NgModule({
