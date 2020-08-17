@@ -8,13 +8,24 @@
           <tr width="100%">
             <td width="20%"><div class="col-sm-4"><label>Name: </label></div></td>
             <td width="35%"><div class="form-group row"><div class="col-sm-8"><input type="search" #candiateName formControlName="employeeName" placeholder="Search using Candidate Name" id="search4" aria-label="Search" >
-            </div></div></td>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <button class="btn btn-sm btn-primary" style="background-color:#0043CE;" (click)="search(form.value)">Search</button>
-              &nbsp;&nbsp;&nbsp;&nbsp;
-             <button type="reset" class="btn btn-sm btn-primary" style="background-color:#0043CE;">Clear</button>
+            </div></div></td> 
+            <td width="32%" *ngIf="account=='sector' || account=='Sector' || account=='SECTOR'"><div class="col-sm-10"><label>Account: </label></div></td> 
+            <td width="20%" *ngIf="account=='sector' || account=='Sector' || account=='SECTOR'"><div class="form-group row"><div class="col-sm-12"><select type="search" #account formControlName="account" placeholder="Search using Account" class="custom-select form-control" (change)="updateAccountDetails($event.target.value)"
+                      style="width:200%"  id="search4" aria-label="Search" mdbInput>
+                  <option value="">Choose...</option>
+                  <option *ngFor="let account of AccountList" value="{{account}}">{{account}}
+                  </option>
+                </select>
+              </div></div></td>
           </tr>
         </table>
+        <div class="form-group">
+          <div class="row justify-content-center"> &nbsp;&nbsp;&nbsp;    
+            <button class="btn btn-sm btn-primary" style="background-color:#0043CE;" (click)="search(form.value)">Search</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="reset" class="btn btn-sm btn-primary" style="background-color:#0043CE;">Clear</button>
+          </div>
+        </div>
       </div>
     </form>
     </div>

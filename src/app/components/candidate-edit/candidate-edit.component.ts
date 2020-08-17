@@ -51,9 +51,10 @@ export class CandidateEditComponent implements OnInit {
   RateCardJobRole:any = [];
   OpenPosition: any= [];
   UserLOB: any = [];
-  displayOpenPositionFields: boolean = false;
   displayGPCalculate: boolean = false;
   account: any;
+  grossProfit: any;
+  gpCount: number = 0;
 
   constructor(
     public fb: FormBuilder,
@@ -96,7 +97,8 @@ export class CandidateEditComponent implements OnInit {
       phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
       dateOfJoining: ['', [Validators.required]],
       account: ['', [Validators.required]],
-      userLOB: ['']
+      userLOB: [''],
+      userPositionLocation: ['']
     })
     this.myOpenPositionGroup = this.fb.group({
           positionName: '',
@@ -105,7 +107,9 @@ export class CandidateEditComponent implements OnInit {
           positionLocation: '',
           competencyLevel:'',
           grossProfit: '',
-          userPositionLocation: ''
+          gpUserPositionLocation: '',
+          gpUserLOB: '',
+          gpUserBand: ''
     })
   }
   // Get all Jrss
@@ -141,7 +145,6 @@ export class CandidateEditComponent implements OnInit {
         }       
       }
     }    
-    console.log("technology stream",this.technologyStream)
     this.getOpenPositionDetails();
   } 
 
@@ -157,6 +160,8 @@ export class CandidateEditComponent implements OnInit {
       this.editForm.get('band').setValue(e, {
         onlySelf: true
       })
+      this.myOpenPositionGroup.get('gpUserBand').setValue(e);
+      this.gpCount = 0;
     }
 
   // Choose options with select-dropdown
@@ -193,7 +198,7 @@ export class CandidateEditComponent implements OnInit {
       this.Account = data;
       //Remove 'sector' from Account collection
       for (var accValue of this.Account){
-          if(accValue.account !== 'sector') {
+         if(accValue.account.toLowerCase() !== 'sector') {
             this.AccountArray.push(accValue.account);
           }
       }
@@ -232,7 +237,8 @@ export class CandidateEditComponent implements OnInit {
           phoneNumber: data['phoneNumber'],
           dateOfJoining : this.datePipe.transform(data['dateOfJoining'], 'yyyy-MM-dd'),
           account: data['account'],
-          userLOB: data['userLOB']
+          userLOB: data['userLOB'],
+          userPositionLocation: data['userPositionLocation']
         });
         this.openPositionService.readOpenPositionByPositionName(data['openPositionName']).subscribe((openPositionData) => {
             this.LineOfBusiness.push(openPositionData['lineOfBusiness']);
@@ -245,11 +251,12 @@ export class CandidateEditComponent implements OnInit {
                   lineOfBusiness: openPositionData['lineOfBusiness'],
                   positionLocation: openPositionData['positionLocation'],
                   competencyLevel : openPositionData['competencyLevel'],
-                  userPositionLocation: data['userPositionLocation'],
-                  grossProfit: data['grossProfit']
+                  gpUserPositionLocation: data['userPositionLocation'],
+                  grossProfit: data['grossProfit'],
+                  gpUserLOB: data['userLOB'],
+                  gpUserBand: data['band']
 
             });
-            this.displayOpenPositionFields = true;
         }) ;
        }
       if (data['employeeType'] == 'Contractor') {
@@ -265,7 +272,9 @@ export class CandidateEditComponent implements OnInit {
           phoneNumber: data['phoneNumber'],
           dateOfJoining : this.datePipe.transform(data['dateOfJoining'], 'yyyy-MM-dd'),
           account: data['account'],
-          userLOB: ''
+          userLOB: '',
+          userPositionLocation: ''
+
         });
         this.myOpenPositionGroup.setValue({
           positionName: '',
@@ -274,7 +283,9 @@ export class CandidateEditComponent implements OnInit {
           positionLocation: '',
           competencyLevel:'',
           grossProfit: '',
-          userPositionLocation: ''
+          gpUserPositionLocation: '',
+          gpUserLOB: '',
+          gpUserBand:''
         })
       }
       this.technologyStream = [];
@@ -326,17 +337,15 @@ export class CandidateEditComponent implements OnInit {
       }
       this.resumeBlob =  new Blob([ab], {type: mimeString});
       
-      if (this.resumeName1 == "ResumeEmpty.doc")
-      {
+      if (this.resumeName1 == "ResumeEmpty.doc") {
         this.resumeUploaded=false;
-      }else{
+      } else {
         this.resumeUploaded = true;
       }
       });    
   }
 
-  downloadResume()
-  {
+  downloadResume() {
     saveAs(this.resumeBlob,this.resumeName1);
   }
   
@@ -361,7 +370,8 @@ export class CandidateEditComponent implements OnInit {
       phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
       dateOfJoining: ['', [Validators.required]],
       account: [''],
-      userLOB: ['']
+      userLOB: [''],
+      userPositionLocation: ['']
       })
   }
  
@@ -376,81 +386,44 @@ export class CandidateEditComponent implements OnInit {
       return true;
     }
   }
-  addResume(event)     
-  {
-  this.editCandResume= event.target.files[0]; 
+
+  //Add resume
+  addResume(event) {
+    this.editCandResume= event.target.files[0];
   }
+
+  //submit button
   onSubmit() {    
     this.submitted = true;
 
      // Technology Stream
-     if( typeof(this.editForm.value.technologyStream) == 'object' )  
-     { 
+     if( typeof(this.editForm.value.technologyStream) == 'object' ) {
       this.editForm.value.technologyStream = this.editForm.value.technologyStream.join(',');
      }
      let updatedCandidate;
-     if(!this.editCandResume)
-     {
+     if(!this.editCandResume) {
       console.log("Resume is not selected");
       //Candidate details for a regular employee whose resume is not selected
       if (this.editForm.value.employeeType == 'Regular') {
         updatedCandidate = new Candidate(this.editForm.value.employeeName,this.editForm.value.employeeType,
-        this.editForm.value.email,
-        this.editForm.value.band,
-        this.editForm.value.JRSS,
-        this.editForm.value.technologyStream,
-        this.editForm.value.phoneNumber,
-        this.editForm.value.dateOfJoining,
-        this.candidate.createdBy,
-        this.candidate.createdDate,
-        this.username,
-        new Date(),
-        this.editForm.value.email,
-        this.candidate.resumeName,
-        this.candidate.resumeData,
-        this.editForm.value.account,
-        this.editForm.value.userLOB,
-        this.myOpenPositionGroup.value.grossProfit,
-        this.myOpenPositionGroup.value.userPositionLocation,
-        this.myOpenPositionGroup.value.positionName
-        );
+        this.editForm.value.email, this.editForm.value.band, this.editForm.value.JRSS,this.editForm.value.technologyStream,
+        this.editForm.value.phoneNumber, this.editForm.value.dateOfJoining,this.candidate.createdBy,this.candidate.createdDate,
+        this.username,new Date(),this.editForm.value.email,this.candidate.resumeName,this.candidate.resumeData,
+        this.editForm.value.account,this.editForm.value.userLOB,this.grossProfit,this.editForm.value.userPositionLocation,
+        this.myOpenPositionGroup.value.positionName);
       }
       //Candidate details for a Contractor employee whose resume is not selected
       if (this.editForm.value.employeeType == 'Contractor') {
         updatedCandidate = new Candidate(this.editForm.value.employeeName,this.editForm.value.employeeType,
-        this.editForm.value.email,
-        '',
-        this.editForm.value.JRSS,
-        this.editForm.value.technologyStream,
-        this.editForm.value.phoneNumber,
-        this.editForm.value.dateOfJoining,
-        this.candidate.createdBy,
-        this.candidate.createdDate,
-        this.username,
-        new Date(),
-        this.editForm.value.email,
-        this.candidate.resumeName,
-        this.candidate.resumeData,
-        this.editForm.value.account,
-        '',
-        '',
-        '',
-        ''
-        );
+        this.editForm.value.email,'',this.editForm.value.JRSS,this.editForm.value.technologyStream,
+        this.editForm.value.phoneNumber,this.editForm.value.dateOfJoining,this.candidate.createdBy,
+        this.candidate.createdDate,this.username,new Date(),this.editForm.value.email,this.candidate.resumeName,
+        this.candidate.resumeData,this.editForm.value.account,'','','','');
       }
 
-      let updatedUser = new UserDetails(this.editForm.value.email,
-        this.user.password,
-        this.user.quizNumber,
-        this.user.status,
-        this.user.accessLevel,
-        this.user.createdBy,
-        this.user.CreatedDate,
-        this.username,
-        new Date(),
-        this.editForm.value.dateOfJoining,
-        this.user.userLoggedin
-        );
+      let updatedUser = new UserDetails(this.editForm.value.email,this.user.password,this.user.quizNumber,this.user.status,
+        this.user.accessLevel,this.user.createdBy,this.user.CreatedDate,this.username,new Date(),this.editForm.value.dateOfJoining,
+        this.user.userLoggedin);
 
         let formDate = new Date(this.editForm.value.dateOfJoining)
         this.currDate = new Date();
@@ -458,110 +431,72 @@ export class CandidateEditComponent implements OnInit {
         if (!this.editForm.valid) {
           return false;
         } else {
+          if (this.editForm.value.employeeType == 'Regular' ) {
+            if (this.editForm.value.band == '' || this.editForm.value.userLOB == ''
+                || this.editForm.value.userPositionLocation == '') {
+              window.confirm("Please select Candidate Line Of Business/Candidate Location/Band");
+              return false;
+            }
+          }
           if ( formDate > this.currDate) {
             window.confirm("Date Of Joining is a future date. Please verify.")
-           } else {       
-          this.apiService.findUniqueUsername(this.editForm.value.email).subscribe(
-            (res) => {
-              console.log('res.count inside response ' + res.count)
-              if (res.count > 0 && (this.editForm.value.email != this.candidate.email))
-                {
+          } else {
+             this.apiService.findUniqueUsername(this.editForm.value.email).subscribe((res) => {
+              if (res.count > 0 && (this.editForm.value.email != this.candidate.email)) {
                   window.confirm("Please use another Email ID");
-                } 
-                else 
-                {
-                if ((res.count > 0 || res.count == 0) && ((this.editForm.value.email != this.candidate.email) || (this.editForm.value.email == this.candidate.email)))
-                {
+              } else {
+                if ((res.count > 0 || res.count == 0) && ((this.editForm.value.email != this.candidate.email)
+                  || (this.editForm.value.email == this.candidate.email))) {
                   if (window.confirm('Are you sure?')) {
                   let can_id = this.actRoute.snapshot.paramMap.get('id');
                   let user_id = this.actRoute.snapshot.paramMap.get('user_id');
                   this.apiService.updateUserDetails(user_id, updatedUser).subscribe(res => {
                     console.log('User Details updated successfully!');
-                    }, (error) => {
+                  }, (error) => {
                     console.log(error);
-                    })  
+                  })
                   this.apiService.updateCandidate(can_id, updatedCandidate).subscribe(res => {
                     this.router.navigateByUrl('/candidates-list', {state:{username:this.username,account:this.account}});
                     console.log('Candidate Details updated successfully!');
-                    }, (error) => {
+                  }, (error) => {
                     console.log(error);
-                    })
-                   }
+                  })
                   }
                 }
+              }
             }, (error) => {
               console.log(error);
           })
         }
-        }
-    } else{
+      }
+    } else {
         this.candidate.resumeName=this.editCandResume.name;
         console.log("New resume uploaded: "+this.candidate.resumeName)
   
         let reader = new FileReader();
         reader.readAsDataURL(this.editCandResume);
         reader.onload = (e) => {    
-        console.log("this.candidate.resumeData inside loop: "+reader.result);
         this.candidate.resumeData=<String>reader.result;
         //Candidate details for a regular employee whose resume is selected
         if (this.editForm.value.employeeType == 'Regular') {
-          updatedCandidate = new Candidate(this.editForm.value.employeeName,this.editForm.value.employeeType,
-          this.editForm.value.email,
-          this.editForm.value.band,
-          this.editForm.value.JRSS,
-          this.editForm.value.technologyStream,
-          this.editForm.value.phoneNumber,
-          this.editForm.value.dateOfJoining,
-          this.candidate.createdBy,
-          this.candidate.createdDate,
-          this.username,
-          new Date(),
-          this.editForm.value.email,
-          this.candidate.resumeName,
-          this.candidate.resumeData,
-          this.editForm.value.account,
-          this.editForm.value.userLOB,
-          this.myOpenPositionGroup.value.grossProfit,
-          this.myOpenPositionGroup.value.userPositionLocation,
-          this.myOpenPositionGroup.value.positionName
-          );
+          updatedCandidate = new Candidate(this.editForm.value.employeeName,this.editForm.value.employeeType, this.editForm.value.email,
+          this.editForm.value.band,this.editForm.value.JRSS,this.editForm.value.technologyStream,this.editForm.value.phoneNumber,
+          this.editForm.value.dateOfJoining,this.candidate.createdBy,this.candidate.createdDate,this.username,new Date(),
+          this.editForm.value.email,this.candidate.resumeName,this.candidate.resumeData,this.editForm.value.account,this.editForm.value.userLOB,
+          this.grossProfit,this.editForm.value.userPositionLocation,this.myOpenPositionGroup.value.positionName);
         }
         //Candidate details for a contractor employee whose resume is selected
         if (this.editForm.value.employeeType == 'Contractor') {
           updatedCandidate = new Candidate(this.editForm.value.employeeName,this.editForm.value.employeeType,
-          this.editForm.value.email,
-          '',
-          this.editForm.value.JRSS,
-          this.editForm.value.technologyStream,
-          this.editForm.value.phoneNumber,
-          this.editForm.value.dateOfJoining,
-          this.candidate.createdBy,
-          this.candidate.createdDate,
-          this.username,
-          new Date(),
-          this.editForm.value.email,
-          this.candidate.resumeName,
-          this.candidate.resumeData,
-          this.editForm.value.account,
-          '',
-          '',
-          '',
-          ''
-          );
+          this.editForm.value.email,'',this.editForm.value.JRSS,this.editForm.value.technologyStream,this.editForm.value.phoneNumber,
+          this.editForm.value.dateOfJoining,this.candidate.createdBy,this.candidate.createdDate,this.username,new Date(),
+          this.editForm.value.email,this.candidate.resumeName,this.candidate.resumeData,this.editForm.value.account,'',
+          '','','');
         }
 
-          let updatedUser = new UserDetails(this.editForm.value.email,
-            this.user.password,
-            this.user.quizNumber,
-            this.user.status,
-            this.user.accessLevel,
-            this.user.createdBy,
-            this.user.CreatedDate,
-            this.username,
-            new Date(),
-            this.editForm.value.dateOfJoining,
-            this.user.userLoggedin
-            );
+        let updatedUser = new UserDetails(this.editForm.value.email,this.user.password,this.user.quizNumber,this.user.status,
+            this.user.accessLevel,this.user.createdBy,this.user.CreatedDate,this.username,new Date(),this.editForm.value.dateOfJoining,
+            this.user.userLoggedin);
     
             let formDate = new Date(this.editForm.value.dateOfJoining)
             this.currDate = new Date();
@@ -569,46 +504,47 @@ export class CandidateEditComponent implements OnInit {
             if (!this.editForm.valid) {
               return false;
             } else {
+              if (this.editForm.value.employeeType == 'Regular' ) {
+                if (this.editForm.value.band == '' || this.editForm.value.userLOB == ''
+                    || this.editForm.value.userPositionLocation == '') {
+                  window.confirm("Please select Candidate Line Of Business/Candidate Location/Band");
+                  return false;
+                }
+              }
               if ( formDate > this.currDate) {
                 window.confirm("Date Of Joining is a future date. Please verify.")
-               } else {       
-              this.apiService.findUniqueUsername(this.editForm.value.email).subscribe(
-                (res) => {
-                  console.log('res.count inside response ' + res.count)
-                  if (res.count > 0 && (this.editForm.value.email != this.candidate.email))
-                    {
+              } else {
+              this.apiService.findUniqueUsername(this.editForm.value.email).subscribe((res) => {
+                  if (res.count > 0 && (this.editForm.value.email != this.candidate.email)) {
                       window.confirm("Please use another Email ID");
-                    } 
-                    else 
-                    {
-                    if ((res.count > 0 || res.count == 0) && ((this.editForm.value.email != this.candidate.email) || (this.editForm.value.email == this.candidate.email)))
-                    {
+                  } else {
+                    if ((res.count > 0 || res.count == 0) && ((this.editForm.value.email != this.candidate.email)
+                        || (this.editForm.value.email == this.candidate.email))) {
                       if (window.confirm('Are you sure?')) {
-                      let can_id = this.actRoute.snapshot.paramMap.get('id');
-                      let user_id = this.actRoute.snapshot.paramMap.get('user_id');
-                      this.apiService.updateUserDetails(user_id, updatedUser).subscribe(res => {
-                        console.log('User Details updated successfully!');
-                        }, (error) => {
-                        console.log(error);
-                        })  
-                      this.apiService.updateCandidate(can_id, updatedCandidate).subscribe(res => {
-                        this.router.navigateByUrl('/candidates-list', {state:{username:this.username,account:this.account}});
-                        console.log('Candidate Details updated successfully!');
-                        }, (error) => {
-                        console.log(error);
-                        })
-                       }
+                          let can_id = this.actRoute.snapshot.paramMap.get('id');
+                          let user_id = this.actRoute.snapshot.paramMap.get('user_id');
+                          this.apiService.updateUserDetails(user_id, updatedUser).subscribe(res => {
+                            console.log('User Details updated successfully!');
+                          }, (error) => {
+                            console.log(error);
+                          })
+                          this.apiService.updateCandidate(can_id, updatedCandidate).subscribe(res => {
+                            this.router.navigateByUrl('/candidates-list', {state:{username:this.username,account:this.account}});
+                            console.log('Candidate Details updated successfully!');
+                          }, (error) => {
+                          console.log(error);
+                          })
                       }
                     }
+                  }
                 }, (error) => {
                   console.log(error);
               })
             }
-            }
-      }
-      
+        }
     }
     }
+  }
 
    //Reset
    resetForm(){
@@ -627,12 +563,11 @@ export class CandidateEditComponent implements OnInit {
        this.editForm.get('userLOB').setValue(e, {
          onlySelf: true
        })
-       if (this.editForm.value.userLOB == 'HCAM/Landed') {
-           e = 'HCAM';
-       }
-       this.apiService.readBandsByLOB(e).subscribe((data) => {
-         this.Band = data
-       })
+      this.apiService.readBandsByLOB(e).subscribe((data) => {
+          this.Band = data
+      })
+      this.myOpenPositionGroup.get('gpUserLOB').setValue(e);
+      this.gpCount = 0;
    }
 
    mainOpenForm() {
@@ -642,10 +577,13 @@ export class CandidateEditComponent implements OnInit {
          lineOfBusiness: new FormControl(),
          positionLocation: new FormControl(),
          competencyLevel:new FormControl(),
-         userPositionLocation:new FormControl(),
+         gpUserPositionLocation:new FormControl(),
+         gpUserLOB: new FormControl(),
+         gpUserBand: new FormControl(),
          grossProfit:new FormControl()
        })
-     }
+   }
+
   // Get all PositionLocation
   readUserPositionLocation(){
      this.openPositionService.getPositionLocations().subscribe((data) => {
@@ -664,47 +602,76 @@ export class CandidateEditComponent implements OnInit {
           this.displayGPCalculate = true;
           this.openPositionService.listAllOpenPositionsBYJRSS(this.account, status,this.editForm.value.JRSS).subscribe((data) => {
              this.OpenPositions = data;
+             this.myOpenPositionGroup.get('gpUserPositionLocation').setValue(this.editForm.value.userPositionLocation);
+             this.myOpenPositionGroup.get('gpUserLOB').setValue(this.editForm.value.userLOB);
+             this.myOpenPositionGroup.get('gpUserBand').setValue(this.editForm.value.band);
           })
        }
   }
 
-    updateOpenPositionProfile(positionName) {
-         this.openPositionService.readOpenPositionByPositionName(positionName).subscribe((data) => {
-              this.LineOfBusiness.push(data['lineOfBusiness']);
-              this.CompetencyLevel.push(data['competencyLevel']);
-              this.PositionLocation.push(data['positionLocation']);
-              this.RateCardJobRole.push(data['rateCardJobRole']);
-            this.myOpenPositionGroup.setValue({
-                  positionName: data['positionName'],
-                  rateCardJobRole: data['rateCardJobRole'],
-                  lineOfBusiness: data['lineOfBusiness'],
-                  positionLocation: data['positionLocation'],
-                  competencyLevel : data['competencyLevel'],
-                  userPositionLocation: '',
-                  grossProfit: ''
+  updateOpenPositionProfile(positionName) {
+       this.openPositionService.readOpenPositionByPositionName(positionName).subscribe((data) => {
+            this.LineOfBusiness.push(data['lineOfBusiness']);
+            this.CompetencyLevel.push(data['competencyLevel']);
+            this.PositionLocation.push(data['positionLocation']);
+            this.RateCardJobRole.push(data['rateCardJobRole']);
+          this.myOpenPositionGroup.setValue({
+                positionName: data['positionName'],
+                rateCardJobRole: data['rateCardJobRole'],
+                lineOfBusiness: data['lineOfBusiness'],
+                positionLocation: data['positionLocation'],
+                competencyLevel : data['competencyLevel'],
+                gpUserPositionLocation: this.editForm.value.userPositionLocation,
+                gpUserLOB: this.editForm.value.userLOB,
+                gpUserBand: this.editForm.value.band,
+                grossProfit: ''
 
-            });
-            this.displayOpenPositionFields = true;
-         })
-    }
+          });
+       })
+  }
+
    // Choose user position location with select dropdown
    updateUserPositionLocationProfile(e){
-     this.myOpenPositionGroup.get('userPositionLocation').setValue(e, {
+     this.editForm.get('userPositionLocation').setValue(e, {
      onlySelf: true
      })
+     this.myOpenPositionGroup.get('gpUserPositionLocation').setValue(e);
+     this.gpCount = 0;
    }
 
-    calculateGP() {
-      if (this.myOpenPositionGroup.value.userPositionLocation == null || this.myOpenPositionGroup.value.positionName == null
-          || this.myOpenPositionGroup.value.userPositionLocation == '' || this.myOpenPositionGroup.value.positionName == '') {
+   //Update Userline of business
+   updateGPUserLOBProfile(e) {
+     this.myOpenPositionGroup.get('gpUserLOB').setValue(e, {
+       onlySelf: true
+     });
+      this.apiService.readBandsByLOB(e).subscribe((data) => {
+       this.Band = data;
+      });
+      this.gpCount = 1;
+   }
+
+   // Choose band with select dropdown
+   updateGPUserBandProfile(e){
+     this.myOpenPositionGroup.get('gpUserBand').setValue(e, {
+     onlySelf: true
+     })
+     this.gpCount = 1;
+   }
+
+    // Choose user position location with select dropdown
+   updateGPUserPositionLocationProfile(e){
+     this.myOpenPositionGroup.get('gpUserPositionLocation').setValue(e, {
+     onlySelf: true
+     })
+     this.gpCount = 1;
+   }
+
+    calculateGP(gpUserPositionLocation,userLOB,band,positionName) {
+      if (gpUserPositionLocation == null || positionName == null || gpUserPositionLocation == '' || positionName == '') {
          window.alert("Please select Open Position/User Position Location");
          return false;
       }
-
-      console.log("this.editForm.value.userLOB ",this.editForm.value.userLOB );
-      console.log("this.editForm.value.band ",this.editForm.value.band );
-      if (this.editForm.value.userLOB == null || this.editForm.value.band == null ||
-          this.editForm.value.userLOB == '' || this.editForm.value.band == '') {
+      if (userLOB == null || band == null || userLOB == '' || band == '') {
          window.alert("Please select User Line Of Business/Band");
          return false;
       }
@@ -715,30 +682,30 @@ export class CandidateEditComponent implements OnInit {
       let rateCardCode = ""
       rateCardCode = this.myOpenPositionGroup.value.lineOfBusiness+" - "+this.myOpenPositionGroup.value.positionLocation+" - "+
                      this.myOpenPositionGroup.value.rateCardJobRole+" - "+this.myOpenPositionGroup.value.competencyLevel;
-     this.openPositionService.readRateCardsByRateCardCode(rateCardCode).subscribe((data) => {
-        rateCardValue = data['rateCardValue'];
-         if (this.editForm.value.band == 'Exec'
-            || this.editForm.value.band == 'Apprentice'
-            || this.editForm.value.band == 'Graduate') {
-          costCardCode = this.myOpenPositionGroup.value.userPositionLocation+" - "+this.editForm.value.userLOB
-                         +" - "+this.editForm.value.band
+      console.log("RateCardCode ** : ",rateCardCode);
+      this.openPositionService.readRateCardsByRateCardCode(rateCardCode).subscribe((data) => {
+         rateCardValue = data['rateCardValue'];
+         if (band == 'Exec' || band == 'Apprentice' || band == 'Graduate') {
+          costCardCode = gpUserPositionLocation+" - "+userLOB+" - "+band
          } else {
-          costCardCode = this.myOpenPositionGroup.value.userPositionLocation+" - "+this.editForm.value.userLOB
-                          +" - Band-"+this.editForm.value.band
+          costCardCode = gpUserPositionLocation+" - "+userLOB+" - Band-"+band
          }
-        this.openPositionService.readCostCardsByCostCardCode(costCardCode).subscribe((data) => {
+         console.log("CostCardCode ** : ",costCardCode);
+         this.openPositionService.readCostCardsByCostCardCode(costCardCode).subscribe((data) => {
            costCardValue = data['costCardValue'];
            if (costCardValue == null || rateCardValue == null) {
-              window.alert("No data available for this open position and candidate details.");
+              window.alert("Candidate location and line of business are not compatible, please check the data and calculate GP again.");
               return false;
            } else {
               GP = Math.round(((rateCardValue-costCardValue)/costCardValue)*100)
            }
+           if (this.gpCount == 0) {
+             this.grossProfit  = GP;
+           }
+           this.gpCount = this.gpCount+1;
            this.myOpenPositionGroup.get('grossProfit').setValue(GP);
         })
      })
   }
-
-
 
 }

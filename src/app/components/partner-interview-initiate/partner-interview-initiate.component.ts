@@ -5,6 +5,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from "@angular/forms"
 import { ActivatedRoute, Router } from '@angular/router';
 import { browserRefresh } from '../../app.component';
 import { PartnerDetails } from './../../model/PartnerDetails';
+import { CandidateGPDetails } from './../../model/candidateGPDetails';
 import {TechnicalInterviewListComponent} from '../technical-interview-list/technical-interview-list.component';
 import { SendEmail } from './../../model/sendEmail';
 
@@ -43,7 +44,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
   Band:any = [];
   band: any;
   userLOB: any;
-  displayOpenPositionFields: boolean = false;
+  candidateID: any;
 
   fromAddress: String = "";
   emailSubject: String = "";
@@ -116,7 +117,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
                   finalResult: this.result,
                   partnerFeedback: this.feedback
       });
-
+      this.candidateID = this.partnerInterviewDetails[0].result_users[0]._id;
       this.openPositionService.readOpenPositionByPositionName(this.partnerInterviewDetails[0].result_users[0].openPositionName).subscribe((openPositionData) => {
           this.LineOfBusiness.push(openPositionData['lineOfBusiness']);
           this.CompetencyLevel.push(openPositionData['competencyLevel']);
@@ -132,7 +133,6 @@ export class PartnerInterviewInitiateComponent implements OnInit {
                 grossProfit: this.partnerInterviewDetails[0].result_users[0].grossProfit
 
           });
-          this.displayOpenPositionFields = true;
       }) ;
     });
   }
@@ -189,6 +189,14 @@ export class PartnerInterviewInitiateComponent implements OnInit {
                         console.log("[Partner Initiate Interview] - Error occurred while sending email to " + this.toAddress);
                         console.log(error);
                    });
+
+                   //Save open position name , candidate location and grossProfit in candidate collection
+                   let candidateDetails = new CandidateGPDetails(this.myOpenPositionGroup.value.grossProfit,
+                   this.myOpenPositionGroup.value.userPositionLocation,this.myOpenPositionGroup.value.positionName);
+                   console.log("candidateID",this.candidateID);
+                    this.apiService.updateCandidate(this.candidateID, candidateDetails).subscribe((data)=> {
+                      console.log('Candidate Details successfully updated!')
+                    });
 
                   // Navigate to partner-list page
                   this.ngZone.run(() => this.router.navigateByUrl('/partner-list',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
@@ -260,7 +268,6 @@ export class PartnerInterviewInitiateComponent implements OnInit {
                         userPositionLocation: '',
                         grossProfit: ''
                   });
-                  this.displayOpenPositionFields = true;
                })
       }
 
@@ -276,8 +283,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
             window.alert("Please select Open Position/User Position Location");
             return false;
          }
-         if (this.userLOB == null || this.band == null ||
-             this.userLOB == '' || this.band == '') {
+         if (this.userLOB == null || this.band == null || this.userLOB == '' || this.band == '') {
             window.alert("Please select User Line Of Business/Band");
             return false;
          }
@@ -288,21 +294,17 @@ export class PartnerInterviewInitiateComponent implements OnInit {
          let rateCardCode = ""
          rateCardCode = this.myOpenPositionGroup.value.lineOfBusiness+" - "+this.myOpenPositionGroup.value.positionLocation+" - "+
                         this.myOpenPositionGroup.value.rateCardJobRole+" - "+this.myOpenPositionGroup.value.competencyLevel;
-        this.openPositionService.readRateCardsByRateCardCode(rateCardCode).subscribe((data) => {
+         this.openPositionService.readRateCardsByRateCardCode(rateCardCode).subscribe((data) => {
            rateCardValue = data['rateCardValue'];
-            if (this.band == 'Exec'
-               || this.band == 'Apprentice'
-               || this.band == 'Graduate') {
-             costCardCode = this.myOpenPositionGroup.value.userPositionLocation+" - "+this.userLOB
-                            +" - "+this.band
+            if (this.band == 'Exec' || this.band == 'Apprentice' || this.band == 'Graduate') {
+             costCardCode = this.myOpenPositionGroup.value.userPositionLocation+" - "+this.userLOB+" - "+this.band
             } else {
-             costCardCode = this.myOpenPositionGroup.value.userPositionLocation+" - "+this.userLOB
-                             +" - Band-"+this.band
+             costCardCode = this.myOpenPositionGroup.value.userPositionLocation+" - "+this.userLOB+" - Band-"+this.band
             }
            this.openPositionService.readCostCardsByCostCardCode(costCardCode).subscribe((data) => {
               costCardValue = data['costCardValue'];
               if (costCardValue == null || rateCardValue == null) {
-                 window.alert("No data available for this open position and candidate details.");
+                 window.alert("Candidate location and line of business are not compatible, please check the data and calculate GP again.");
                  return false;
               } else {
                  GP = Math.round(((rateCardValue-costCardValue)/costCardValue)*100)

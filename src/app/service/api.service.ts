@@ -632,6 +632,17 @@ findAllUser(): Observable<any> {
     )
 }
 
+//Get all admin users and check if any user already present with the same email id in Users table
+findSectorAdminAndAccountUsers(): Observable<any> {
+  let url = `${this.baseUserroleUri}/findAllAdminUser`;
+  return this.http.get(url, {headers: this.headers}).pipe(
+    map((res: Response) => {
+      return res || {}
+    }),
+    catchError(this.errorMgmt)
+    )
+}
+
 
 // Delete a user
 deleteUser(username): Observable<any> {
@@ -701,4 +712,14 @@ getAccounts() {
   return this.http.get(`${this.baseAccountUri}`);
 }
 
+ // Get all accounts
+ getfewAccounts(): Observable<any> {
+   let url = `${this.userResultUri}/fewAccounts`;
+   return this.http.get(url, {headers: this.headers}).pipe(
+        map((res: Response) => {
+          return res || {}
+        }),
+        catchError(this.errorMgmt)
+   )
+ }
 }

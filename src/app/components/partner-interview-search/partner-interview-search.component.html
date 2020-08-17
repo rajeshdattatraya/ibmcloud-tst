@@ -13,6 +13,16 @@
             <td width="30%"><div class="form-group row"><div class="col-sm-8"><input type="search" #jrss formControlName="JRSS" placeholder="Search using Job Role" id="search4" aria-label="Search" mdbInput>
             </div></div></td>
           </tr>
+          <tr width="100%" *ngIf="account=='sector' || account=='Sector' || account=='SECTOR'">
+            <td width="25%"><div class="col-sm-10"><label>Account: </label></div></td>
+            <td width="35%"><div class="form-group row"><div class="col-sm-12"><select type="search" #account formControlName="account" placeholder="Search using Account" class="custom-select form-control" (change)="updateAccountDetails($event.target.value)"
+                         style="width:60%" id="search4" aria-label="Search" mdbInput>
+                  <option value="">Choose...</option>
+                  <option *ngFor="let account of AccountList" value="{{account}}">{{account}}
+                  </option>
+                </select>
+              </div></div></td>
+          </tr>
         </table>
         <div class="form-group">
           <div class="row justify-content-center"> &nbsp;&nbsp;&nbsp;    

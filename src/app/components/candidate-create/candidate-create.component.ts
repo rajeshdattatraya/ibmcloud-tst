@@ -34,7 +34,7 @@ export class CandidateCreateComponent implements OnInit {
   password: String = "";
   currDate: Date ;
   technologyStream:any= [];
-  skillArray:any= [];  
+  skillArray:any= [];
   resume: File;
   resumeText: any;
   EmployeeType:any = ['Regular','Contractor'];
@@ -54,11 +54,12 @@ export class CandidateCreateComponent implements OnInit {
   RateCardJobRole:any = [];
   OpenPosition: any= [];
   UserLOB: any = [];
-  displayOpenPositionFields: boolean = false;
   displayGPCalculate: boolean = false;
   Account:any = [];
   AccountArray:any=[];
   account;
+  grossProfit: any;
+  gpCount: number = 0;
 
   constructor(public fb: FormBuilder,private router: Router,private ngZone: NgZone,
     private apiService: ApiService,private resultPageService: ResultPageService,
@@ -95,11 +96,12 @@ export class CandidateCreateComponent implements OnInit {
       dateOfJoining: ['', Validators.required],
       candidateResume: [''],
       account: ['', [Validators.required]],
-      userLOB: ['']
+      userLOB: [''],
+      userPositionLocation: ['']
     })
   }
  // Get all Jrss
- readJrss(){  
+ readJrss(){
   this.apiService.getJRSS().subscribe((data) => {
   this.JRSSFull = data;
   for(var i=0; i<this.JRSSFull.length; i++)
@@ -120,26 +122,36 @@ export class CandidateCreateComponent implements OnInit {
   updateJrssProfile(e){
     this.candidateForm.get('JRSS').setValue(e, {
       onlySelf: true
-    })      
+    })
     // Get technologyStream from JRSS
-    for (var jrss of this.JRSS){      
-      if(jrss.jrss == e){   
-        this.technologyStream = [];   
-        for (var skill of jrss.technologyStream){          
-          this.technologyStream.push(skill);          
-        
+    for (var jrss of this.JRSS){
+      if(jrss.jrss == e){
+        this.technologyStream = [];
+        for (var skill of jrss.technologyStream){
+          this.technologyStream.push(skill);
+
       }
     }
     }
     this.getOpenPositionDetails() ;
-    
-  } 
+
+  }
 
   // Choose band with select dropdown
     updateBandProfile(e){
       this.candidateForm.get('band').setValue(e, {
       onlySelf: true
       })
+      this.myOpenPositionGroup.get('gpUserBand').setValue(e);
+      this.gpCount = 0;
+    }
+
+    // Choose band with select dropdown
+    updateGPUserBandProfile(e){
+      this.myOpenPositionGroup.get('gpUserBand').setValue(e, {
+      onlySelf: true
+      })
+      this.gpCount = 1;
     }
 
   // Choose employee type with select dropdown
@@ -169,14 +181,14 @@ export class CandidateCreateComponent implements OnInit {
       this.apiService.getAccounts().subscribe((data) => {
       this.Account = data;
       //Remove 'sector' from Account collection
-      for (var accValue of this.Account){    
-          if(accValue.account !== 'sector') {
-            this.AccountArray.push(accValue.account);             
-          }            
-      }      
+      for (var accValue of this.Account){
+          if(accValue.account.toLowerCase() !== 'sector') {
+            this.AccountArray.push(accValue.account);
+          }
+      }
       })
     }
-    
+
     // Choose account with select dropdown
     updateAccountProfile(e){
       this.candidateForm.get('account').setValue(e, {
@@ -195,12 +207,23 @@ export class CandidateCreateComponent implements OnInit {
         this.candidateForm.get('userLOB').setValue(e, {
           onlySelf: true
         })
-        if (this.candidateForm.value.userLOB == 'HCAM/Landed') {
-            e = 'HCAM';
-        }
+
         this.apiService.readBandsByLOB(e).subscribe((data) => {
           this.Band = data
         })
+        this.myOpenPositionGroup.get('gpUserLOB').setValue(e);
+        this.gpCount = 0;
+    }
+
+    //Update Userline of business
+    updateGPUserLOBProfile(e) {
+        this.myOpenPositionGroup.get('gpUserLOB').setValue(e, {
+          onlySelf: true
+        })
+        this.apiService.readBandsByLOB(e).subscribe((data) => {
+          this.Band = data
+        })
+        this.gpCount = 1;
     }
 
   // Getter to access form control
@@ -213,6 +236,7 @@ export class CandidateCreateComponent implements OnInit {
     return this.myOpenPositionGroup.controls;
   }
 
+  //Exit
   canExit(): boolean{
     if (this.candidateForm.dirty && !this.submitted){
       if(window.confirm("You have unsaved data in the Create Candidate form. Please confirm if you still want to proceed to new page")){
@@ -224,27 +248,30 @@ export class CandidateCreateComponent implements OnInit {
       return true;
     }
   }
-  addResume(event)     
-  {
-  this.resume= event.target.files[0]; 
+
+  //Add Resume
+  addResume(event) {
+    this.resume= event.target.files[0];
   }
+
+  // Submit button
   onSubmit() {
-    this.submitted = true; 
+    this.submitted = true;
     // Encrypt the password
     var base64Key = CryptoJS.enc.Base64.parse("2b7e151628aed2a6abf7158809cf4f3c");
     var ivMode = CryptoJS.enc.Base64.parse("3ad77bb40d7a3660a89ecaf32466ef97");
     this.password = CryptoJS.AES.encrypt(appConfig.defaultPassword.trim(),base64Key,{ iv: ivMode }).toString();
-    this.password = this.password.replace("/","=rk=");    
-     
+    this.password = this.password.replace("/","=rk=");
+
     // Technology Stream
     this.skillArray = [];
-    for (var stream of this.candidateForm.value.technologyStream)  {        
+    for (var stream of this.candidateForm.value.technologyStream)  {
       if(this.skillArray.indexOf(stream.value == -1)){
-          this.skillArray.push(stream.value);  
-      }     
+          this.skillArray.push(stream.value);
+      }
     }
-    this.candidateForm.value.technologyStream = this.skillArray.join(',');    
-    
+    this.candidateForm.value.technologyStream = this.skillArray.join(',');
+
     //Check if resume is not selected
     if(!this.resume){
       let bufferLength = 10;
@@ -257,9 +284,8 @@ export class CandidateCreateComponent implements OnInit {
     }
     let reader = new FileReader();
     reader.readAsDataURL(this.resume);
-    reader.onload = (e) => {    
+    reader.onload = (e) => {
     this.resumeText = reader.result;
-
     let candidate;
     if (this.candidateForm.value.employeeType == 'Regular' ) {
       candidate = new Candidate(this.candidateForm.value.employeeName,this.candidateForm.value.employeeType,
@@ -278,13 +304,11 @@ export class CandidateCreateComponent implements OnInit {
       this.resumeText,
       this.candidateForm.value.account,
       this.candidateForm.value.userLOB,
-      this.myOpenPositionGroup.value.grossProfit,
-      this.myOpenPositionGroup.value.userPositionLocation,
+      this.grossProfit,
+      this.candidateForm.value.userPositionLocation,
       this.myOpenPositionGroup.value.positionName
       );
     }
-    console.log("this.candidateForm.value.employeeType",this.candidateForm.value.employeeType);
-
     if (this.candidateForm.value.employeeType == 'Contractor' ) {
       candidate = new CandidateContractor(this.candidateForm.value.employeeName,this.candidateForm.value.employeeType,
       this.candidateForm.value.email,
@@ -301,8 +325,8 @@ export class CandidateCreateComponent implements OnInit {
       this.resumeText,
       this.candidateForm.value.account
       );
-    } 
- 
+    }
+
     let user = new UserDetails(this.candidateForm.value.email,
      this.password,
      this.quizNumber,
@@ -318,109 +342,107 @@ export class CandidateCreateComponent implements OnInit {
 
      let formDate = new Date(this.candidateForm.value.dateOfJoining);
      this.currDate = new Date();
-      console.log("this.candidateForm.valid", this.candidateForm.valid);
-    if (!this.candidateForm.valid) {
-      return false;
-    } else {
-      if ( formDate > this.currDate) {
-        window.confirm("Date Of Joining is a future date. Please verify.")
-       } else {
-        this.apiService.findUniqueUsername(this.candidateForm.value.email).subscribe(
-          (res) => {
-           if (res.count > 0)
-           {
-              window.confirm("Please use another Email ID");
-            } 
-            else 
-            {
-            if (res.count == 0)
-            { this.apiService.createUserDetails(user).subscribe(
-              (res) => {
-                          console.log('User successfully created!')
-                       }, (error) => {
-                          console.log(error);
-                       });
-              this.apiService.createCandidate(candidate).subscribe(
-              (res) => {
-                          console.log('Candidate successfully created!')
-                          this.ngZone.run(() => this.router.navigateByUrl('/candidates-list',{state:{username:this.userName,account:this.account}}))
-                        }, (error) => {
-                          console.log(error);
-                        })
-              //Create Candidate details in Results collection, in case the Stage1 and Stage2 are skipped.
-              this.apiService.getJrss(this.candidateForm.value.JRSS).subscribe((res) => {
-                  if (res['stage1_OnlineTechAssessment']) {
-                    this.stage1 = "Not Started";
-                  } else {
-                    this.stage1 = "Skipped";
-                  }
-                  if (res['stage2_PreTechAssessment']) {
-                    this.stage2 = "Not Started";
-                  } else {
-                    this.stage2 = "Skipped";
-                  }
-                  if (res['stage3_TechAssessment']) {
-                    this.stage3 = "Not Started";
-                  } else {
-                    this.stage3 = "Skipped";
-                  }
-                  if (res['stage4_ManagementInterview']) {
-                    this.stage4 = "Not Started";
-                  } else {
-                    this.stage4 = "Skipped";
-                  }
-                  if (res['stage5_ProjectAllocation']) {
-                    this.stage5 = "Not Started";
-                  } else {
-                    this.stage5 = "Skipped";
-                  }
-                  if (this.stage1 == 'Skipped') {
-                  console.log("Stage 1 is skipped for this JRSS");
-                  //Initialzing the user Result workflow collection
-                  let userResultWokFlow = new UserResultWorkFlow(this.candidateForm.value.email, '','',
-                  this.quizNumber, this.stage1, this.stage2, this.stage3, this.stage4, this.stage5);
-                  //Create Collecetion in User table.
-                  this.resultPageService.saveResult(userResultWokFlow).subscribe(
-                    (res) => {
-                      console.log('Results for the user have been successfully created if Stage 1 is skipped');
-                    }, (error) => {
-                      console.log(error);
-                    });
-                  } else{
-                    console.log("Stage 1 is not skipped for this JRSS");
-                  }
-                
-                });
-
-
-                 //Send email notification for taking the assessment test given that candidate is created.
-                // Set Email parameters
-                let fromAddress = "Talent.Sourcing@in.ibm.com";
-                let toAddress = this.candidateForm.value.email;    
-                let emailSubject = "Candidate Registration Successful in Talent Sourcing Tool";   
-                let emailMessage = "Dear " + this.candidateForm.value.employeeName + ",<br><br> \
-                We would like to confirm, your details have been successfully registered in Talent Sourcing Tool, DWP.<br>\
-                To attend the online assessment test please login to the tool using below details.<br>\
-                Access link: <a href='url'>https://tatclientapp.mybluemix.net</a><br>\
-                User Name : " +this.candidateForm.value.email+ "<br>\
-                Defalut Password : welcome <br>\
-                Please change the default password when you login for first time and then go ahead with the online test<br>&emsp;&emsp;&emsp;\
-                <p>Regards, <br>DWP Operations Team";    
-
-                  // Send notification to the candidate
-                  let sendEmailObject = new SendEmail(fromAddress, toAddress, emailSubject, emailMessage);
-                  this.apiService.sendEmail(sendEmailObject).subscribe(
-                    (res) => {
-                        console.log("Email sent successfully to " + this.candidateForm.value.email);            
-                    }, (error) => {
-                        console.log("Error occurred while sending email to " + this.candidateForm.value.email);
+     console.log("this.candidateForm.valid", this.candidateForm.valid);
+      if (!this.candidateForm.valid) {
+        return false;
+      } else {
+        if (this.candidateForm.value.employeeType == 'Regular' ) {
+            if (this.candidateForm.value.band == '' || this.candidateForm.value.userLOB == ''
+                || this.candidateForm.value.userPositionLocation == '') {
+            window.confirm("Please select Candidate Line Of Business/Candidate Location/Band");
+            return false;
+            }
+        }
+        if ( formDate > this.currDate) {
+          window.confirm("Date Of Joining is a future date. Please verify.")
+         } else {
+          this.apiService.findUniqueUsername(this.candidateForm.value.email).subscribe((res) => {
+             if (res.count > 0) {
+                window.confirm("Please use another Email ID");
+             } else {
+              if (res.count == 0)
+              {
+                this.apiService.createUserDetails(user).subscribe((res) => {
+                    console.log('User successfully created!')
+                 }, (error) => {
+                    console.log(error);
+                 });
+                this.apiService.createCandidate(candidate).subscribe((res) => {
+                    console.log('Candidate successfully created!')
+                    this.ngZone.run(() => this.router.navigateByUrl('/candidates-list',{state:{username:this.userName,account:this.account}}))
+                }, (error) => {
+                    console.log(error);
+                })
+                //Create Candidate details in Results collection, in case the Stage1 and Stage2 are skipped.
+                this.apiService.getJrss(this.candidateForm.value.JRSS).subscribe((res) => {
+                    if (res['stage1_OnlineTechAssessment']) {
+                      this.stage1 = "Not Started";
+                    } else {
+                      this.stage1 = "Skipped";
+                    }
+                    if (res['stage2_PreTechAssessment']) {
+                      this.stage2 = "Not Started";
+                    } else {
+                      this.stage2 = "Skipped";
+                    }
+                    if (res['stage3_TechAssessment']) {
+                      this.stage3 = "Not Started";
+                    } else {
+                      this.stage3 = "Skipped";
+                    }
+                    if (res['stage4_ManagementInterview']) {
+                      this.stage4 = "Not Started";
+                    } else {
+                      this.stage4 = "Skipped";
+                    }
+                    if (res['stage5_ProjectAllocation']) {
+                      this.stage5 = "Not Started";
+                    } else {
+                      this.stage5 = "Skipped";
+                    }
+                    if (this.stage1 == 'Skipped') {
+                    console.log("Stage 1 is skipped for this JRSS");
+                    //Initializing the user Result workflow collection
+                    let userResultWokFlow = new UserResultWorkFlow(this.candidateForm.value.email, '','',
+                    this.quizNumber, this.stage1, this.stage2, this.stage3, this.stage4, this.stage5);
+                    //Create Collection in User table.
+                    this.resultPageService.saveResult(userResultWokFlow).subscribe((res) => {
+                        console.log('Results for the user have been successfully created if Stage 1 is skipped');
+                      }, (error) => {
                         console.log(error);
+                    });
+                    } else {
+                      console.log("Stage 1 is not skipped for this JRSS");
+                    }
                   });
 
+                  //Send email notification for taking the assessment test given that candidate is created. Set Email parameters
+                  let fromAddress = "Talent.Sourcing@in.ibm.com";
+                  let toAddress = this.candidateForm.value.email;
+                  let emailSubject = "Candidate Registration Successful in Talent Sourcing Tool";
+                  let emailMessage = "Dear " + this.candidateForm.value.employeeName + ",<br><br> \
+                  We would like to confirm, your details have been successfully registered in Talent Sourcing Tool, DWP.<br>\
+                  To attend the online assessment test please login to the tool using below details.<br>\
+                  Access link: <a href='url'>https://tatclientapp.mybluemix.net</a><br>\
+                  User Name : " +this.candidateForm.value.email+ "<br>\
+                  Defalut Password : welcome <br>\
+                  Please change the default password when you login for first time and then go ahead with the online test<br>&emsp;&emsp;&emsp;\
+                  <p>Regards, <br>DWP Operations Team";
 
-            }}       
-          }, (error) => {
-      console.log(error);
+                    // Send notification to the candidate
+                    let sendEmailObject = new SendEmail(fromAddress, toAddress, emailSubject, emailMessage);
+                    this.apiService.sendEmail(sendEmailObject).subscribe(
+                      (res) => {
+                          console.log("Email sent successfully to " + this.candidateForm.value.email);
+                      }, (error) => {
+                          console.log("Error occurred while sending email to " + this.candidateForm.value.email);
+                          console.log(error);
+                    });
+
+
+              }}
+            }, (error) => {
+        console.log(error);
     })
   }
   }
@@ -437,6 +459,9 @@ export class CandidateCreateComponent implements OnInit {
             this.displayGPCalculate = true;
             this.openPositionService.listAllOpenPositionsBYJRSS(this.account, status,this.candidateForm.value.JRSS).subscribe((data) => {
             this.OpenPositions = data;
+             this.myOpenPositionGroup.get('gpUserPositionLocation').setValue(this.candidateForm.value.userPositionLocation);
+             this.myOpenPositionGroup.get('gpUserLOB').setValue(this.candidateForm.value.userLOB);
+             this.myOpenPositionGroup.get('gpUserBand').setValue(this.candidateForm.value.band);
         })
         }
     }
@@ -453,11 +478,12 @@ export class CandidateCreateComponent implements OnInit {
                   lineOfBusiness: data['lineOfBusiness'],
                   positionLocation: data['positionLocation'],
                   competencyLevel : data['competencyLevel'],
-                  userPositionLocation: '',
+                  gpUserPositionLocation: this.candidateForm.value.userPositionLocation,
+                  gpUserLOB: this.candidateForm.value.userLOB,
+                  gpUserBand: this.candidateForm.value.band,
                   grossProfit: ''
 
             });
-            this.displayOpenPositionFields = true;
          })
     }
 
@@ -468,19 +494,19 @@ export class CandidateCreateComponent implements OnInit {
           lineOfBusiness: new FormControl(),
           positionLocation: new FormControl(),
           competencyLevel:new FormControl(),
-          userPositionLocation:new FormControl(),
+          gpUserPositionLocation:new FormControl(),
+          gpUserLOB:new FormControl(),
+          gpUserBand:new FormControl(),
           grossProfit:new FormControl()
         })
       }
 
-      calculateGP() {
-          if (this.myOpenPositionGroup.value.userPositionLocation == null || this.myOpenPositionGroup.value.positionName == null
-              || this.myOpenPositionGroup.value.userPositionLocation == '' || this.myOpenPositionGroup.value.positionName == '') {
+      calculateGP(gpUserPositionLocation,userLOB,band,positionName) {
+          if (gpUserPositionLocation == null || positionName == null || gpUserPositionLocation == '' || positionName == '') {
              window.alert("Please select Open Position/User Position Location");
              return false;
           }
-          if (this.candidateForm.value.userLOB == null || this.candidateForm.value.band == null ||
-              this.candidateForm.value.userLOB == '' || this.candidateForm.value.band == '') {
+          if (userLOB == null || band == null || userLOB == '' || band  == '') {
              window.alert("Please select User Line Of Business/Band");
              return false;
           }
@@ -491,25 +517,28 @@ export class CandidateCreateComponent implements OnInit {
           let rateCardCode = ""
           rateCardCode = this.myOpenPositionGroup.value.lineOfBusiness+" - "+this.myOpenPositionGroup.value.positionLocation+" - "+
                          this.myOpenPositionGroup.value.rateCardJobRole+" - "+this.myOpenPositionGroup.value.competencyLevel;
+          console.log("RateCardCode ** : ",rateCardCode);
          this.openPositionService.readRateCardsByRateCardCode(rateCardCode).subscribe((data) => {
             rateCardValue = data['rateCardValue'];
-             if (this.candidateForm.value.band == 'Exec'
-                || this.candidateForm.value.band == 'Apprentice'
-                || this.candidateForm.value.band == 'Graduate') {
-              costCardCode = this.myOpenPositionGroup.value.userPositionLocation+" - "+this.candidateForm.value.userLOB
-                             +" - "+this.candidateForm.value.band
+             if (band == 'Exec' || band == 'Apprentice' || band == 'Graduate') {
+              costCardCode = gpUserPositionLocation+" - "+userLOB+" - "+ band
              } else {
-              costCardCode = this.myOpenPositionGroup.value.userPositionLocation+" - "+this.candidateForm.value.userLOB
-                              +" - Band-"+this.candidateForm.value.band
+              costCardCode = gpUserPositionLocation+" - "+userLOB+" - Band-"+band
              }
+              console.log("CostCardCode ** : ",costCardCode);
             this.openPositionService.readCostCardsByCostCardCode(costCardCode).subscribe((data) => {
                costCardValue = data['costCardValue'];
                if (costCardValue == null || rateCardValue == null) {
-                  window.alert("No data available for this open position and candidate details.");
+                  window.alert("Candidate location and line of business are not compatible, please check the data and calculate GP again.");
                   return false;
                } else {
                   GP = Math.round(((rateCardValue-costCardValue)/costCardValue)*100)
                }
+               if (this.gpCount == 0) {
+                  this.grossProfit  = GP;
+                  console.log("this.grossProfit",this.grossProfit);
+               }
+               this.gpCount = this.gpCount+1;
                this.myOpenPositionGroup.get('grossProfit').setValue(GP);
             })
          })
@@ -525,10 +554,20 @@ export class CandidateCreateComponent implements OnInit {
 
      // Choose user position location with select dropdown
      updateUserPositionLocationProfile(e){
-       this.myOpenPositionGroup.get('userPositionLocation').setValue(e, {
+       this.candidateForm.get('userPositionLocation').setValue(e, {
        onlySelf: true
        })
+       this.myOpenPositionGroup.get('gpUserPositionLocation').setValue(e);
+       this.gpCount = 0;
      }
+
+     // Choose user position location with select dropdown
+    updateGPUserPositionLocationProfile(e){
+      this.myOpenPositionGroup.get('gpUserPositionLocation').setValue(e, {
+      onlySelf: true
+      })
+      this.gpCount = 1;
+    }
 
      //Reset
      resetForm(){

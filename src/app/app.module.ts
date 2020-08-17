@@ -54,6 +54,7 @@ import { EligibleCandidatesComponent } from './components/eligible-candidates/el
 import { EligibleCandidatesFilterPipe } from './components/eligible-candidates/filterByJRSS.pipe';
 import { QuestionAddBulkSectorsmeComponent } from './components/question-add-bulk-sectorsme/question-add-bulk-sectorsme.component';
 import { QuestionsAddSectorsmeComponent } from './components/questions-add-sectorsme/questions-add-sectorsme.component';
+import { SuperadminUserCreateComponent } from './components/superadmin-user-create/superadmin-user-create.component';
 
 
 export let browserRefresh = false;
@@ -101,8 +102,8 @@ export let browserRefresh = false;
     EligibleCandidatesComponent,
     EligibleCandidatesFilterPipe,
     QuestionAddBulkSectorsmeComponent,
-    QuestionsAddSectorsmeComponent 
-	
+    QuestionsAddSectorsmeComponent,
+    SuperadminUserCreateComponent	
     ],
   imports: [
     BrowserModule,

@@ -246,7 +246,7 @@ export class PartnerInterviewListComponent implements OnChanges {
     const keys = Object.keys(filters);
     const filterUser = user => {
       let result = keys.map(key => {
-        if (key == "employeeName" || key == "JRSS") {
+        if (key == "employeeName" || key == "JRSS" || key == "account")  {
           if (user.result_users[0][key]) {
             return String(user.result_users[0][key]).toLowerCase().startsWith(String(filters[key]).toLowerCase())
           }
