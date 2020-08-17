@@ -59,9 +59,11 @@ export class OperationsProjectInitiateComponent implements OnInit {
         } else {
           //if position is not already selected then display the positions in dropdown 
           this.displayPositionDropDown=true;
+         
+          
         }
         this.readPositionLocation();
-        this.listAllOpenPositions()
+       
         //Sprint8 End
    }
 
@@ -112,13 +114,16 @@ get myForm(){
       }
 
       //Sprint8 start
-      console.log('***** Candidate location list**** ',this.operationsProjectDetails[0].result_users[0]);
-      
       this.candidateLocation = this.operationsProjectDetails[0].result_users[0].userPositionLocation;
-      console.log('***** this.candidateLocation **** ',this.candidateLocation);
       this.grossProfit = this.operationsProjectDetails[0].result_users[0].grossProfit;
       this.candidateLOB = this.operationsProjectDetails[0].result_users[0].userLOB;
       this.candidateBand = this.operationsProjectDetails[0].result_users[0].band;
+      this.candidateJRSS = this.operationsProjectDetails[0].result_users[0].JRSS;
+      this.positionName = this.operationsProjectDetails[0].result_users[0].openPositionName;
+      this.oldCandidateLocation = this.candidateLocation;
+      this.readOpenPositionsByPositionName();
+
+      this.listAllOpenPositions()
       //Sprint8 End
 
     });
@@ -215,7 +220,7 @@ rateCardJobRole:any=[];
 positionLocation:any=[];
 OJRSS: any= [];
 lineOfBusiness:any=[];
-JRSS;
+candidateJRSS='';;
 displayOpenPositionFields=true;
 positionDetails:any = [];
 rateCardLOB='';
@@ -236,14 +241,31 @@ page=1;
 linkPosition=false;
 displayPositionDetails=false;
 displayPositionDropDown=false;
+positionName;
 
-  // To Read the Open Position
+  // To Read the Open Position by JRSS
   listAllOpenPositions() {
     const status="Open";
-  this.positionsService.listAllOpenPositions(this.account, status).subscribe((data) => {
-    this.openPositionsList = data;
+  //this.positionsService.listAllOpenPositions(this.account, status).subscribe((data) => {
+   // this.openPositionsList = data;
+
+    this.openPositionService.listAllOpenPositionsBYJRSS(this.account, 
+      status,this.candidateJRSS).subscribe((data) => {
+      this.openPositionsList = data;
     
   })
+}
+
+
+oldCandidateLocation;
+getGPByCandidateLocation(userSelectedCandidateLocation) {
+  this.displayPositionDetails = true;
+  if (userSelectedCandidateLocation != null ||  userSelectedCandidateLocation != undefined) {
+    
+    this.candidateLocation = userSelectedCandidateLocation;
+    this.calculateGP();
+   
+  }
 }
 
 getSelectedPositionDetails(positionID) {
@@ -256,18 +278,12 @@ getSelectedPositionDetails(positionID) {
 }
 
  // Get all PositionLocation
-
  readPositionLocation(){
-
   this.openPositionService.getPositionLocations().subscribe((data) => {
-
      this.positionLocation = data;
-
-    
-
-  })
-
+  });
 }
+
 
 
 /*Get position details by position id */
@@ -280,6 +296,22 @@ getSelectedPositionDetails(positionID) {
     this.rateCardLocation = data['positionLocation']
     this.rateCardRole = data['rateCardJobRole']
     this.rateCardComplexityLevel= data['competencyLevel']
+    this.calculateGP();
+    
+  })
+}
+
+
+ // To Read the Open Position by position Name
+ readOpenPositionsByPositionName() {
+  this.displayPositionDetails = true;
+  this.openPositionService.readOpenPositionByPositionName(this.positionName).subscribe((data) => {
+    this.positionDetails = data;
+    this.rateCardLOB = data['lineOfBusiness']
+    this.rateCardLocation = data['positionLocation']
+    this.rateCardRole = data['rateCardJobRole']
+    this.rateCardComplexityLevel= data['competencyLevel']
+    this.positionID = data['_id'];
     this.calculateGP();
     
   })
@@ -319,15 +351,19 @@ getSelectedPositionDetails(positionID) {
          
         this.openPositionService.readCostCardsByCostCardCode(costCardCode).subscribe((data) => {
            costCardValue = data['costCardValue'];
-           console.log(" ** costCardValue ",costCardValue+ "rateCardValue **",rateCardValue);
-           
-           if (costCardValue == null || rateCardValue == null) {
-              window.alert("No cost details available for the candidate location.");
+          
+           if (rateCardValue == null) {
+              window.alert("No cost details available, choose a different position.");
+              
+              this.candidateLocation = this.oldCandidateLocation;
+              console.log("this.candidateLocation",this.candidateLocation);
               return false;
            } else if (costCardValue == null ) {
-            window.alert("No rate card details available for the selected position.");
+            window.alert("No rate card details available, choose a different candidate location.");
+            this.candidateLocation = this.oldCandidateLocation;
             return false;
          } else {
+          this.oldCandidateLocation = this.candidateLocation;
             this.grossProfit = Math.round(((rateCardValue-costCardValue)/costCardValue)*100)
            }
         })

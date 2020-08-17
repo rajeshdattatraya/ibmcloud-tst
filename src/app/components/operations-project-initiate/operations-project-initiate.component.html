@@ -18,7 +18,7 @@
   <div class="card">
     <div class="modal-header table-success" style="background-color:powderblue"><b>View Candidate Details</b></div>
     <div class="card-body">
-      <table>
+      <table striped="true">
         <tbody>
         <tr>
           <td  width="25%"><label>Name:</label></td>
@@ -75,39 +75,29 @@
           <b>Open Position and Gross Profit Details </b>
         </div>
         <div class="panel-body"  *ngIf="displayPositionDropDown">
-
-
           <div  class="card-body">
-
             <table>
               <tbody>
               <tr>
                 <td  width="25%"><label>Open Position:</label></td>
                 <td  width="25%">
-                  <select required class="custom-select form-control" aria-placeholder="Select a position" (change)="getSelectedPositionDetails($event.target.value)"
-                      formControlName="positionName" id="inputPositionName" >
+                  <select required class="custom-select form-control"  [(ngModel)]= "positionID"  name= "positionID" 
+                  aria-placeholder="Select a position" (change)="getSelectedPositionDetails($event.target.value)"
+                       id="positionID" >
                       <option value="undefined" disabled selected >Select a position</option>
                      <option *ngFor="let openPosition of openPositionsList" value="{{openPosition._id}}">{{openPosition.positionName}}</option>
                   </select>
                 </td>
               </tr>
-  
             </tbody>
              </table>
-       
-          </div>
-
-           
+        </div>
       </div>
 
-   <br>
-
-    <!-- This Div block will conditionaly display the open position details-->
+      <!-- This Div block will conditionaly display the open position details-->
     <div class="card" *ngIf="displayPositionDetails || positionID != undefined || positionID != null">
-      <div class="card-header table-success" *ngIf="displayPositionDetails" style="background-color:powderblue">
-        <b> Open Position Details</b>
-      </div>
-      <div class="card-header table-success" *ngIf="!displayPositionDetails" style="background-color:powderblue">
+     
+      <div class="card-header table-success" style="background-color:powderblue">
         <b> Open Position and Gross Profit Details</b>
       </div>
       <div class="card-body">
@@ -133,11 +123,22 @@
             <td  width="25%">{{positionDetails.competencyLevel}}</td>
           </tr>
   
-          <br>
-          <tr *ngIf="!displayPositionDropDown">
+          <tr>
+            <td  width="25%"><hr></td>
+            <td  width="25%"><hr></td>
+            <td  width="25%"><hr></td>
+            <td  width="25%"><hr></td>
+        </tr>
+          <tr >
             <td  width="15%"><label>Candidate Location:</label></td>
             <td  width="30%">
-              {{candidateLocation}}
+
+              <select  class="custom-select form-control" id="candidateLocation"  name= "candidateLocation"  
+              [(ngModel)]= "candidateLocation" (change)="getGPByCandidateLocation($event.target.value)" >
+                <option value="" disabled selected >Select a location</option>
+                <option *ngFor="let data of positionLocation" value="{{data.positionLocation}}" >{{data.positionLocation}}</option>
+              </select>
+  
             </td>
             
             <td  width="15%"><label>&nbsp;&nbsp;Gross Profit(%):</label></td>
@@ -152,7 +153,7 @@
   
   
   
-    <!-- This Div block will conditionaly Caluclate Gross Profit fields and button-->
+    <!-- This Div block will conditionaly Caluclate Gross Profit fields and button
     <div class="card"  class="form-group" *ngIf="displayPositionDetails">
       <br>
       <div class="card-header table-success" style="background-color:powderblue"><b> Gross Profit Details</b></div>
@@ -164,11 +165,7 @@
            <tr>
             <td  width="15%"><label>Candidate Location:</label></td>
             <td  width="30%">
-              <select  class="custom-select form-control" id="candidateLocation"  name= "candidateLocation"  [(ngModel)]= "candidateLocation" >
-                <option value="" disabled selected >Select a location</option>
-                <option *ngFor="let data of positionLocation" value="{{data.positionLocation}}" >{{data.positionLocation}}</option>
-              </select>
-  
+              
             </td>
             
             <td  width="15%"><label>&nbsp;&nbsp;Gross Profit(%):</label></td>
@@ -187,6 +184,7 @@
          </table>
         </div>
    </div>  
+   -->
       <br>
 
 
@@ -224,7 +222,8 @@
             </div>
           </div>
         </div>
-        <div class="form-group row">
+  <!--    Commented out based on sprint 8 feedback from Amit
+     <div class="form-group row">
           <label for="inputProjectName" class="col-sm-4 col-form-label">Project Name:</label>
           <div class="col-sm-4" style="size:50px">
             <input class="form-control" type="text" formControlName="projectName" id="inputProjectName" [ngClass]="{ 'is-invalid': submitted && myForm.projectName.errors }">
@@ -233,6 +232,7 @@
             </div>
           </div>
         </div>
+        -->
         <div class="form-group row">
           <label for="inputPosition" class="col-sm-4 col-form-label" >Position:</label>
           <div class="col-sm-4" style="size:50px">
