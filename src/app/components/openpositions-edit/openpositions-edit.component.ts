@@ -191,6 +191,10 @@ export class OpenpositionsEditComponent implements OnInit {
 
     onSubmit() {
         this.submitted = true;
+        this.formReset = false;
+        if (!this.openPositionForm.valid) {
+          return false;
+        } else {
         let openPositionID = this.actRoute.snapshot.paramMap.get('id');
         let openPositionDetails = new OpenPosition(
         this.openPositionForm.value.positionName,
@@ -213,6 +217,7 @@ export class OpenpositionsEditComponent implements OnInit {
               }, (error) => {
                 console.log(error);
               });
+        }
     }
 
      //Reset

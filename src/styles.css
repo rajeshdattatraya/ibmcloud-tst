@@ -13,14 +13,29 @@ body {
   float: right;
   margin: 8px;
 }
+
 table {
-  width: 100%;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    min-width: 500px;
+}
+
+th.mat-header-cell {
+    text-align: left;
+    max-width: 300px;
 }
 
 th.mat-sort-header-sorted {
   color: black;
 }
+.example-full-width {
+  width: 50%;
+}
 
+.open-full-width {
+  width: 80%;
+}
 
 
 

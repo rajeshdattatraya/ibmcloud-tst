@@ -175,10 +175,11 @@ export class OpenpositionsCreateComponent implements OnInit {
     }
 
     onSubmit() {
+        this.submitted = true;
+        this.formReset = false;
         if (!this.openPositionForm.valid) {
           return false;
         } else {
-        this.submitted = true;
         let openPosition = new OpenPosition(
         this.openPositionForm.value.positionName,
         this.openPositionForm.value.JRSS,

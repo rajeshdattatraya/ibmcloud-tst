@@ -1,10 +1,14 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone,ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute,Router } from '@angular/router';
 import { browserRefresh } from '../../app.component';
 import { appConfig } from './../../model/appConfig';
 import { OpenPositionService } from './../../service/openPosition.service';
+import { OpenPositionDetail } from './../../model/openPositionDetail';
 import { PositionsService } from 'src/app/components/open-positions-list/positions.service';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator'
+import {MatSort} from '@angular/material/sort';
 
 @Component({
   selector: 'app-openpositions-list',
@@ -21,7 +25,13 @@ export class OpenpositionsListComponent implements OnInit {
   openPositionID;
   index;
   account: String ="";
+  loading = true;
+  dataSource = new MatTableDataSource<OpenPositionDetail>();
 
+  displayedColumns = ['Action','positionName', 'account','JRSS','lineOfBusiness','positionLocation','rateCardJobRole','competencyLevel'];
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
         private route: ActivatedRoute,
@@ -29,27 +39,21 @@ export class OpenpositionsListComponent implements OnInit {
         private ngZone: NgZone,
         private openPositionService: OpenPositionService,
         private positionsService: PositionsService) {
-        this.config = {
-              currentPage: appConfig.currentPage,
-              itemsPerPage: appConfig.itemsPerPage,
-              totalItems:appConfig.totalItems
-        };
         this.browserRefresh = browserRefresh;
         if (!this.browserRefresh) {
             this.userName = this.router.getCurrentNavigation().extras.state.username;
             this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
             this.account = this.router.getCurrentNavigation().extras.state.account;
         }
-      route.queryParams.subscribe(
-      params => this.config.currentPage= params['page']?params['page']:1 );
-      this.readOpenPosition();
     }
 
     ngOnInit(): void {
+        this.readOpenPosition();
     }
 
-    pageChange(newPage: number) {
-          this.router.navigate(['/openpositions-list'], { queryParams: { page: newPage } });
+    ngAfterViewInit(): void {
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
     }
 
    // To Read the Open Position
@@ -57,21 +61,21 @@ export class OpenpositionsListComponent implements OnInit {
      let status = "Open";
      this.positionsService.listAllOpenPositions(this.account, status).subscribe((data) => {
       this.OpenPositions = data;
+      this.dataSource.data = data as OpenPositionDetail[];
      })
    }
 
      //To remove open position
-     removeOpenPosition(openPositionID,index) {
+     removeOpenPosition(openPositionID) {
        if(this.isRowSelected == false){
          alert("Please select the Open Position");
        } else {
        if(window.confirm('Are you sure?')) {
            this.openPositionService.deleteOpenPosition(openPositionID).subscribe((data) => {
-             this.OpenPositions.splice(index, 1);
+              this.readOpenPosition();
+              this.isRowSelected = false;
            }
          )
-         this.readOpenPosition();
-         this.isRowSelected = false;
        }
      }
      }
@@ -84,10 +88,9 @@ export class OpenpositionsListComponent implements OnInit {
        }
      }
 
-
-     onSelectionChange(openPositionID,i){
+     onSelectionChange(openPositionID){
        this.openPositionID=openPositionID;
-       this.index=i;
        this.isRowSelected = true;
      }
+
 }

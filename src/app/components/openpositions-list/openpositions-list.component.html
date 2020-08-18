@@ -1,4 +1,3 @@
-<nav class="navbar navbar-expand-lg navbar-light table-success" style="background-color:powderblue">
   <div *ngIf="accessLevel === 'partner'" class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav">
       <li class="nav-item">
@@ -47,112 +46,108 @@
       </li>
     </ul>
   </div>
-  <div *ngIf="accessLevel === 'admin'" class="collapse navbar-collapse" id="navbarNavDropdown">
-    <ul class="navbar-nav">
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" routerLink="/candidates-list" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <b>Manage User</b>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" routerLink="/create-candidate" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add Candidate</a>
-          <a class="dropdown-item" routerLink="/adminuser-create"routerLinkActive="active">Add User</a>
-          <a class="dropdown-item" routerLink="/candidates-list" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">View Candidate</a>
-        </div>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" routerLink="/manage-questionbank" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <b>Manage Questions</b>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" routerLink="/manage-questionbank" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add Question</a>
-          <a class="dropdown-item" routerLink="/manage-questionbank-bulk" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add Bulk Question</a>
-        </div>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" routerLink="/jrss-create" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <b>Manage Metadata</b>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" routerLink="/jrss-create" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add Job Role</a>
-          <a class="dropdown-item" routerLink="/stream-create" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add Technology Stream</a>
-          <a class="dropdown-item" routerLink="/testconfig-add" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add Test Configuration</a>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/workflow-config" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">
-          <b>Manage WorkFlow</b>
-        </a>
-      </li>
-      <li class="nav-item dropdown active">
-        <a class="nav-link dropdown-toggle" routerLink="/openpositions-list" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <b>Manage Open Seats</b>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" routerLink="/openpositions-create" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add Open Seat</a>
-          <a class="dropdown-item" routerLink="/openpositions-list" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">View Open Seats</a>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/view-testresults" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active"><b>Test Results</b></a>
-      </li>
-    </ul>
+  <div *ngIf="accessLevel === 'admin'">
+    <mat-toolbar  color="primary">
+      <mat-toolbar-row>
+        <a  mat-button  [matMenuTriggerFor]="users" routerLink="/candidates-list" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Manage Users</a>
+        <mat-menu #users="matMenu">
+          <a mat-menu-item routerLink="/create-candidate" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add Candidate</a>
+          <a mat-menu-item routerLink="/adminuser-create" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add User</a>
+          <a mat-menu-item routerLink="/candidates-list" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">View Candidate</a>
+        </mat-menu>
+        <a  mat-button  [matMenuTriggerFor]="users" routerLink="/manage-questionbank" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Manage Questions</a>
+        <mat-menu #questions="matMenu">
+          <a mat-menu-item  routerLink="/manage-questionbank" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add Question</a>
+          <a mat-menu-item  routerLink="/manage-questionbank-bulk" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add Bulk Question</a>
+        </mat-menu>
+        <a  mat-button  [matMenuTriggerFor]="users" routerLink="/jrss-create" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Manage Metadata</a>
+        <mat-menu #metadata="matMenu">
+          <a mat-menu-item  routerLink="/jrss-create" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add Job Role</a>
+          <a mat-menu-item  routerLink="/stream-create" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add Technology Stream</a>
+          <a mat-menu-item  routerLink="/testconfig-add" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add Test Configuration</a>
+        </mat-menu>
+        <a  mat-button  routerLink="/workflow-config" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Manage WorkFlows</a>
+        <a  mat-button  [matMenuTriggerFor]="openpositions" routerLink="/openpositions-list" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Manage OpenSeats</a>
+        <mat-menu #openpositions="matMenu">
+          <a mat-menu-item routerLink="/openpositions-create" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add Open Seat</a>
+          <a mat-menu-item routerLink="/openpositions-list" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">View Open Seats</a>
+        </mat-menu>
+        <a  mat-button  routerLink="/view-testresults" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Test Results</a>
+        <a  mat-button  routerLink="/login-component" routerLinkActive="active">Logout</a>
+      </mat-toolbar-row>
+    </mat-toolbar>
   </div>
-  <div *ngIf="accessLevel === 'management' || accessLevel === 'partner' || accessLevel === 'admin'">
-    <ul class="navbar-nav navbar-right">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/login-component" routerLinkActive="active"><b>Logout</b></a>
-      </li>
-    </ul>
-  </div>
-</nav>
-<br>
+  <br/>
 
 <div class="float-left text-left">
   <h4 class="my-0 mr-md-auto font-weight-normal">View Open Positions</h4></div>
 <br/><br>
 
-<!-- No data message -->
-<p *ngIf="OpenPositions.length <= 0" class="no-data text-center">There is no open position added yet!</p>
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
-<!-- Candidate list -->
-<table class="table table-bordered" *ngIf="OpenPositions.length > 0">
-  <thead class="table-success" >
-  <tr style="background-color:powderblue">
-    <th scope="col center" class="float-center text-center" width="5%">Action</th>
-    <th scope="col" class="float-center text-center" width="20%">Open Position Name</th>
-    <th scope="col" class="float-center text-center" width="10%">Account</th>
-    <th scope="col" class="float-center text-center" width="15%">Job Role</th>
-    <th scope="col" class="float-center text-center" width="10%">Line Of Business</th>
-    <th scope="col" class="float-center text-center" width="10%">Position Location</th>
-    <th scope="col" class="float-center text-center" width="20%">Rate Card Job Role</th>
-    <th scope="col" class="float-center text-center" width="10%">Competency Level</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let openPosition of OpenPositions | paginate: config; let i = index">
-    <td class="float-center text-center" width="5%">
-      <input type="radio" name="radiogroup" (change)="onSelectionChange(openPosition._id,i)">
-    </td>
-    <td width="20%" class="float-center text-center">{{openPosition.positionName}}</td>
-    <td width="10%" class="float-center text-center">{{openPosition.account}}</td>
-    <td width="15%" class="float-center text-center">{{openPosition.JRSS}}</td>
-    <td width="10%" class="float-center text-center">{{openPosition.lineOfBusiness}}</td>
-    <td width="10%" class="float-center text-center">{{openPosition.positionLocation}}</td>
-    <td width="20%" class="float-center text-center">{{openPosition.rateCardJobRole}}</td>
-    <td width="10%" class="float-center text-center">{{openPosition.competencyLevel}}</td>
-  </tr>
-  </tbody>
-</table>
+      <!-- ID Column -->
+      <ng-container matColumnDef="Action">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+        <td mat-cell *matCellDef="let row"> <mat-radio-button (change)="onSelectionChange(row._id)"></mat-radio-button>
+        </td>
+      </ng-container>
+      <!-- ID Column -->
+      <ng-container matColumnDef="positionName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+        <td mat-cell *matCellDef="let row"> {{row.positionName}} </td>
+      </ng-container>
+
+      <!-- Progress Column -->
+      <ng-container matColumnDef="account">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Account </th>
+        <td mat-cell *matCellDef="let row"> {{row.account}}</td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="JRSS">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Job Role </th>
+        <td mat-cell *matCellDef="let row"> {{row.JRSS}} </td>
+      </ng-container>
+
+      <!-- Color Column -->
+      <ng-container matColumnDef="lineOfBusiness">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Line Of Business </th>
+        <td mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.lineOfBusiness}} </td>
+      </ng-container>
+
+      <!-- Color Column -->
+      <ng-container matColumnDef="positionLocation">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Position Location </th>
+        <td mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.positionLocation}} </td>
+      </ng-container>
+
+      <!-- Color Column -->
+      <ng-container matColumnDef="rateCardJobRole">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Rate Card Job Role </th>
+        <td mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.rateCardJobRole}} </td>
+      </ng-container>
+
+      <!-- Color Column -->
+      <ng-container matColumnDef="competencyLevel">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Competency Level </th>
+        <td mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.competencyLevel}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [length]="this.OpenPositions.length" [pageSize]="5" [pageSizeOptions]="[5,10,15,25,50,100]"></mat-paginator>
+  </div>
+  <br/>
 <div  class="float-right text-right" *ngIf="OpenPositions.length > 0">
   <a class="edit" (click)="invokeEdit()">
-    <button type="button" class="btn btn-primary" style="background-color:#0043CE;">Edit</button>&nbsp;
+    <button mat-raised-button color="primary">Edit</button>&nbsp;
   </a>
-  <a class="delete" (click)="removeOpenPosition(openPositionID,index)">
-    <button type="button" class="btn btn-primary" style="background-color:#0043CE;">Delete</button>&nbsp;
+  <a class="delete" (click)="removeOpenPosition(openPositionID)">
+    <button mat-raised-button color="primary">Delete</button>&nbsp;
   </a>
 </div>
-<div *ngIf="OpenPositions.length > 0">
-  <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
-</div>
+
 
 
