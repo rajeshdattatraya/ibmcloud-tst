@@ -139,7 +139,7 @@
           <tr>
             <td>
               <mat-form-field class="open-full-width">
-                <mat-select placeholder="Line Of Business"  (change)="updatePositionLocationProfile($event.target.value)"
+                <mat-select placeholder="Position Location"  (change)="updatePositionLocationProfile($event.target.value)"
                         name="positionLocation" required formControlName="positionLocation" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.positionLocation.errors }">
                   <mat-option value="">Choose...</mat-option>
                   <mat-option *ngFor="let data of PositionLocation" value="{{data.positionLocation}}" >{{data.positionLocation}}</mat-option>
