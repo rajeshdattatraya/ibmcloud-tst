@@ -1,17 +1,13 @@
 <nav class="navbar navbar-expand-sm" style="background-color:#0043CE;">
   <h4 class="my-0 mr-md-auto font-weight-normal"> <img src="assets/images/ibmlogo.jpg" width="90"
-    height="50"></h4>
+                                                       height="50"></h4>
   <h6 class="my-0 mr-md-auto font-weight-normal" style="text-align: center; font-family:serif; color: white; ">{{title}}</h6>
 </nav>
 <div class="container">
   <br>
-  <div class="card">
-    <div class="card-body">
-      <router-outlet></router-outlet>
-    </div>
-  </div>
+  <router-outlet></router-outlet>
 </div>
-
+<br>
 <footer class="footer">
   <div class="container">
     <span>All Rights Reserved 2020 @IBM</span>

@@ -1,68 +1,75 @@
-<div class="col-md-6 offset-md-3 mt-5" >
-  <br />
-  <div class="card" *ngIf="mode=='login'">
-    <body style="background-color:powderblue;">
-      <h6 class="card-header">Please login with provided credentials.</h6> 
-      </body>
-    <div class="card-body">
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-          <label for="username"><b>Username</b></label>
-          <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f1.username.errors }" />
-          <div *ngIf="submitted && f1.username.errors" class="invalid-feedback">
-            <div *ngIf="f1.username.errors.required">Username is required</div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="password"><b>Password</b></label>
-          <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f1.password.errors }" />
-          <div *ngIf="submitted && f1.password.errors" class="invalid-feedback">
-            <div *ngIf="f1.password.errors.required">Password is required</div>
-          </div>
-        </div>
-        <button [disabled]="loading" class="btn btn-primary" style="background-color:#0043CE;" >
-          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-          Login
-        </button>&nbsp;&nbsp;&nbsp;
-        
-        <button type="button" class="btn btn-primary" style="background-color:#0043CE;" (click)="forgotPassword()">Forgot password</button>         
-        <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
-        &nbsp;&nbsp;&nbsp;
+<div *ngIf="mode=='login'">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title>Login</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <h6>Please login with provided credentials.</h6>
+      <form [formGroup]="loginForm">
+        <table class="example-full-width" cellspacing="0">
+          <tr>
+            <td>
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Username" formControlName="username" name="username" required [ngClass]="{ 'is-invalid': submitted && f1.username.errors }">
+                <div *ngIf="submitted && f1.username.errors" class="invalid-feedback">
+                  <div *ngIf="f1.username.errors.required">Username is required</div>
+                </div>
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td><mat-form-field class="example-full-width">
+              <input matInput placeholder="Password" formControlName="password" type="password" name="password" required [ngClass]="{ 'is-invalid': submitted && f1.password.errors }" >
+              <div *ngIf="submitted && f1.password.errors" class="invalid-feedback">
+                <div *ngIf="f1.password.errors.required">Password is required</div>
+              </div>
+            </mat-form-field></td>
+          </tr></table>
       </form>
-    </div>
-  </div>
-  <div *ngIf="mode=='forgotPassword'">
-    <div class="card">
-      <body style="background-color:powderblue;">
-        <h6 class="card-header">Please provide Username and Date of joining if you are regular employee or Date of birth if you are contractor.</h6>
-        </body>
-  </div>
-  <div class="card-body">
-    <form [formGroup]="forgotPasswordForm" (ngSubmit)="onforgotPasswordSubmit()">
-      <div class="form-group">
-        <label for="username"><b>Username</b></label>
-        <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': forgotSubmitted && forgotPwd.username.errors }" />
-        <div *ngIf="forgotSubmitted && forgotPwd.username.errors" class="invalid-feedback">          
-          <div *ngIf="forgotPwd.username.errors?.required">Username is required</div>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="Dateofjoining"><b>DateOfJoining/DateOfBirth</b></label>
-        <input type="date" formControlName="Dateofjoining" class="form-control" [ngClass]="{ 'is-invalid': forgotSubmitted && forgotPwd.Dateofjoining.errors }" />
-        <div *ngIf="forgotSubmitted && forgotPwd.Dateofjoining.errors" class="invalid-feedback">
-          <div *ngIf="forgotPwd.Dateofjoining.errors?.required">DateOfJoining/DateOfBirth is required</div>
-        </div>
-      </div>
-      <button [disabled]="loading" class="btn btn-primary" style="background-color:#0043CE;" >
-        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-        Submit
-      </button>
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      <button class="btn btn-primary" style="background-color:#0043CE;" (click)="cancelForm()">Cancel</button>
-      <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>      &nbsp;&nbsp;&nbsp;
-    </form>
-  </div>
-  <br />
-  <div><footer></footer></div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="onSubmit()">Login</button>
+      <button mat-raised-button color="primary" (click)="forgotPassword()">Forgot password</button>
+    </mat-card-actions>
+    <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+    &nbsp;&nbsp;&nbsp;
+  </mat-card>
+</div>
 
+
+<div *ngIf="mode=='forgotPassword'">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title>Login</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <h6>Please provide Username and Date of joining if you are regular employee or Date of birth if you are contractor.</h6>
+      <form [formGroup]="forgotPasswordForm">
+        <table class="example-full-width" cellspacing="0">
+          <tr>
+            <td>
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Username" formControlName="username" name="username" required [ngClass]="{ 'is-invalid': forgotSubmitted && forgotPwd.username.errors }">
+                <div *ngIf="forgotSubmitted && forgotPwd.username.errors" class="invalid-feedback">
+                  <div *ngIf="forgotPwd.username.errors?.required">Username is required</div>
+                </div>
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td><mat-form-field class="example-full-width">
+              <input matInput type="date" placeholder="DateOfJoining/DateOfBirth" formControlName="Dateofjoining" name="Dateofjoining" required [ngClass]="{ 'is-invalid': forgotSubmitted && forgotPwd.Dateofjoining.errors }" >
+              <div *ngIf="forgotSubmitted && forgotPwd.Dateofjoining.errors" class="invalid-feedback">
+                <div *ngIf="forgotPwd.Dateofjoining.errors?.required">DateOfJoining/DateOfBirth is required</div>
+              </div>
+            </mat-form-field></td>
+          </tr></table>
+      </form>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="onforgotPasswordSubmit()">Submit</button>
+      <button mat-raised-button color="primary" (click)="cancelForm()">Cancel</button>
+    </mat-card-actions>
+    <div *ngIf="error" class="alert alert-danger">{{error}}</div>      &nbsp;&nbsp;&nbsp;
+  </mat-card>
 </div>

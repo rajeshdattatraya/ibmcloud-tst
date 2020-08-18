@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule }   from '@angular/forms';
@@ -54,8 +55,7 @@ import { EligibleCandidatesComponent } from './components/eligible-candidates/el
 import { EligibleCandidatesFilterPipe } from './components/eligible-candidates/filterByJRSS.pipe';
 import { QuestionAddBulkSectorsmeComponent } from './components/question-add-bulk-sectorsme/question-add-bulk-sectorsme.component';
 import { QuestionsAddSectorsmeComponent } from './components/questions-add-sectorsme/questions-add-sectorsme.component';
-import { SuperadminUserCreateComponent } from './components/superadmin-user-create/superadmin-user-create.component';
-
+import { TATMaterialModule } from  './material.module';
 
 export let browserRefresh = false;
 
@@ -78,8 +78,8 @@ export let browserRefresh = false;
     TestConfigAddComponent,
     TestConfigEditComponent,
     JrssCreateComponent,
-    StreamCreateComponent,   
-    PartnerInterviewInitiateComponent,   
+    StreamCreateComponent,
+    PartnerInterviewInitiateComponent,
     OperationsProjectInitiateComponent,
     TechnicalInterviewListComponent,
     PreTechFormComponent,
@@ -102,11 +102,13 @@ export let browserRefresh = false;
     EligibleCandidatesComponent,
     EligibleCandidatesFilterPipe,
     QuestionAddBulkSectorsmeComponent,
-    QuestionsAddSectorsmeComponent,
-    SuperadminUserCreateComponent	
+    QuestionsAddSectorsmeComponent
+
     ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+    TATMaterialModule,
     NgxPaginationModule,
 	  FormsModule,
     AppRoutingModule,

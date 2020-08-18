@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import { ApiService } from './../../service/api.service';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
 import { browserRefresh } from '../../app.component';
 import { appConfig } from './../../model/appConfig';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator'
+import {MatSort} from '@angular/material/sort';
 
 @Component({
   selector: 'app-candidate-list',
@@ -26,51 +29,54 @@ export class CandidateListComponent implements OnInit {
   index;
   isRowSelected = false;
   account: any;
+  loading = true;
+  dataSource = new MatTableDataSource(this.Candidate);
+
+  displayedColumns = ['Action','employeeName', 'username','band','JRSS','phoneNumber','status','quizNumber','Action1'];
+  pageSize = 6;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
-    this.config = {
-      currentPage: appConfig.currentPage,
-      itemsPerPage: appConfig.itemsPerPage,
-      totalItems:appConfig.totalItems
-    };
+
     this.browserRefresh = browserRefresh;
     if (!this.browserRefresh) {
         this.userName = this.router.getCurrentNavigation().extras.state.username;
         this.account = this.router.getCurrentNavigation().extras.state.account;
     }
-    route.queryParams.subscribe(
-    params => this.config.currentPage= params['page']?params['page']:1 );
     this.readCandidate();
   }
 
   ngOnInit() {
     this.browserRefresh = browserRefresh;
-    // if (this.browserRefresh) {
-    //     if (window.confirm('Your account will be deactivated. You need to contact administrator to login again. Are you sure?')) {
-    //       this.router.navigate(['/login-component']);
-    //     }
-    // }
+    setTimeout(() => {
+        this.loading = false;
+    }, 2000);
   }
-
-  pageChange(newPage: number) {
-        this.router.navigate(['/candidates-list'], { queryParams: { page: newPage } });
+  ngAfterViewInit (){
+    console.log("this.dataSource",this.dataSource);
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+    console.log("this.dataSource.sort",this.dataSource.sort);
   }
 
   // To Read the Candidate
   readCandidate(){
-    this.apiService.getCandidates().subscribe((data) => {
+    return (this.apiService.getCandidates().subscribe((data) => {
      this.Candidate = data;
-      
+      this.dataSource = new MatTableDataSource(this.Candidate);
       this.Candidate.forEach(candidate => {
         candidate.candidate_users.forEach(user => {
-          if (user.status == 'Active' && user.userLoggedin === 'true' ){ candidate.state='Clear\xa0Session'; } 
-		      else if (user.status == 'Active' )  { candidate.state='Disable'; } 
+          if (user.status == 'Active' && user.userLoggedin === 'true' ){ candidate.state='Clear\xa0Session'; }
+		      else if (user.status == 'Active' )  { candidate.state='Disable'; }
           else {candidate.state='Enable'; }
 	       });
-      }); 
+      });
 
-      
+
     })
+    )
   }
 
   //To remove candidate
