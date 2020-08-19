@@ -3,7 +3,7 @@ import { ApiService } from './../../service/api.service';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
 import { browserRefresh } from '../../app.component';
-import { appConfig } from './../../model/appConfig';
+import { CandidateDetails } from './../../model/candidateDetails';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator'
 import {MatSort} from '@angular/material/sort';
@@ -30,10 +30,9 @@ export class CandidateListComponent implements OnInit {
   isRowSelected = false;
   account: any;
   loading = true;
-  dataSource = new MatTableDataSource(this.Candidate);
+  dataSource = new MatTableDataSource<CandidateDetails>();
 
   displayedColumns = ['Action','employeeName', 'username','band','JRSS','phoneNumber','status','quizNumber','Action1'];
-  pageSize = 6;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -45,27 +44,26 @@ export class CandidateListComponent implements OnInit {
         this.userName = this.router.getCurrentNavigation().extras.state.username;
         this.account = this.router.getCurrentNavigation().extras.state.account;
     }
-    this.readCandidate();
+
   }
 
   ngOnInit() {
     this.browserRefresh = browserRefresh;
+    this.readCandidate();
     setTimeout(() => {
         this.loading = false;
     }, 2000);
   }
   ngAfterViewInit (){
-    console.log("this.dataSource",this.dataSource);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
-    console.log("this.dataSource.sort",this.dataSource.sort);
   }
 
   // To Read the Candidate
   readCandidate(){
     return (this.apiService.getCandidates().subscribe((data) => {
-     this.Candidate = data;
-      this.dataSource = new MatTableDataSource(this.Candidate);
+      this.Candidate = data;
+      this.dataSource.data = data as CandidateDetails[];
       this.Candidate.forEach(candidate => {
         candidate.candidate_users.forEach(user => {
           if (user.status == 'Active' && user.userLoggedin === 'true' ){ candidate.state='Clear\xa0Session'; }

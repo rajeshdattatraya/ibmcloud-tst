@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone,ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { TestConfigService } from './../../service/testconfig.service';
@@ -6,6 +6,9 @@ import { ApiService } from './../../service/api.service';
 import { TestConfig } from './../../model/testConfig';
 import { browserRefresh } from '../../app.component';
 import { appConfig } from './../../model/appConfig';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator'
+import {MatSort} from '@angular/material/sort';
 
 @Component({
   selector: 'app-test-config-edit',
@@ -27,6 +30,12 @@ export class TestConfigEditComponent implements OnInit {
   oldJRSS: String = "";
   testConfigID: String = "";
 
+  dataSource = new MatTableDataSource<TestConfig>();
+  displayedColumns = ['Action','JRSS', 'noOfQuestions','testDuration','passingScore'];
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
   constructor(
       public fb: FormBuilder,
       private router: Router,
@@ -35,13 +44,6 @@ export class TestConfigEditComponent implements OnInit {
       private testconfigService: TestConfigService,
       private apiService: ApiService
     ) {
-      this.config = {
-                currentPage: appConfig.currentPage,
-                itemsPerPage: appConfig.itemsPerPage,
-                totalItems: appConfig.totalItems
-      };
-    actRoute.queryParams.subscribe(
-          params => this.config.currentPage= params['page']?params['page']:1 );
       this.browserRefresh = browserRefresh;
       if (!this.browserRefresh) {
           this.userName = this.router.getCurrentNavigation().extras.state.username;
@@ -67,6 +69,11 @@ export class TestConfigEditComponent implements OnInit {
             testDuration: ['', [Validators. required, Validators.pattern('^[0-9]+$')]],
             passingScore: ['', [Validators. required, Validators.pattern('^[0-9]+$')]]
       })
+    }
+
+    ngAfterViewInit (){
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
     }
 
      // Get all Jrss
@@ -95,10 +102,6 @@ export class TestConfigEditComponent implements OnInit {
       })
     }
 
-    pageChange(newPage: number) {
-          this.router.navigate(['/testconfig-add'], { queryParams: { page: newPage } });
-    }
-
     getTestConfig(id) {
         this.testconfigService.getTestConfig(id).subscribe(data => {          
           this.testConfigEditForm.setValue({
@@ -124,6 +127,7 @@ export class TestConfigEditComponent implements OnInit {
     getAllTestConfigs(){
         this.testconfigService.getAllTestConfigs().subscribe((data) => {
         this.TestConfigs = data;
+        this.dataSource.data = data as TestConfig[];
         })
     }
 
@@ -150,7 +154,7 @@ export class TestConfigEditComponent implements OnInit {
               this.testconfigService.updateTestConfig(id, testConfig)
                   .subscribe(res => {
                     this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
-                    this.router.navigate(['/testconfig-add']));
+                    this.router.navigate(['/testconfig-add'], {state: {username:this.userName,account:this.account}}));
                     console.log('Content updated successfully!')
                   }, (error) => {
                     console.log(error)
