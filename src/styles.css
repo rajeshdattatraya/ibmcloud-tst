@@ -69,3 +69,10 @@ th.mat-sort-header-sorted {
   margin-right: 10px;
   margin-left: 20px;
 }
+.question-full-width {
+  width: 40%;
+}
+
+.question-text-width {
+  width: 60%;
+}
