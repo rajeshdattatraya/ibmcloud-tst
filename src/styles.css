@@ -15,7 +15,7 @@ body {
 }
 
 .login-card {
-   background-color: #E0FFFF;
+   background-color: white;
    width: 100%;
 }
 
@@ -62,4 +62,10 @@ th.mat-sort-header-sorted {
 .mat-form-field-ripple {
  /*change color of underline when focused*/
  background-color: black !important;;
+}
+.app-container {
+  background-color: #F5F5F5 !important;
+  width:98%;
+  margin-right: 10px;
+  margin-left: 20px;
 }

@@ -10,7 +10,7 @@ export let browserRefresh = false;
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnDestroy {
-  title = 'TALENT SOURCING TOOL';
+  title = 'Talent Sourcing Tool';
   subscription: Subscription;
 
   constructor(private router: Router) {
