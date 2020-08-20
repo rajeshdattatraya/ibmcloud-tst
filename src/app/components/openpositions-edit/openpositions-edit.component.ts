@@ -72,7 +72,7 @@ export class OpenpositionsEditComponent implements OnInit {
   }
   // Choose account with select dropdown
   updateAccountProfile(e){
-    this.openPositionForm.get('account').setValue(e, {
+    this.openPositionForm.get('account').setValue(e.value, {
     onlySelf: true
     })
   }
@@ -151,35 +151,35 @@ export class OpenpositionsEditComponent implements OnInit {
 
    // Choose Job Role with select dropdown
    updateJobRoleProfile(e){
-     this.openPositionForm.get('JRSS').setValue(e, {
+     this.openPositionForm.get('JRSS').setValue(e.value, {
        onlySelf: true
      })
    }
 
     // Choose Rate Card Job Role with select dropdown
     updateRateCardJobRoleProfile(e){
-      this.openPositionForm.get('rateCardJobRole').setValue(e, {
+      this.openPositionForm.get('rateCardJobRole').setValue(e.value, {
         onlySelf: true
       })
     }
 
      // Choose Line of business with select dropdown
      updateLineOfBusinessProfile(e){
-       this.openPositionForm.get('lineOfBusiness').setValue(e, {
+       this.openPositionForm.get('lineOfBusiness').setValue(e.value, {
          onlySelf: true
        })
      }
 
     // Choose Position Location with select dropdown
     updatePositionLocationProfile(e){
-      this.openPositionForm.get('positionLocation').setValue(e, {
+      this.openPositionForm.get('positionLocation').setValue(e.value, {
         onlySelf: true
       })
     }
 
     // Choose Competency Level with select dropdown
     updateCompetencyLevelProfile(e){
-      this.openPositionForm.get('competencyLevel').setValue(e, {
+      this.openPositionForm.get('competencyLevel').setValue(e.value, {
         onlySelf: true
       })
     }

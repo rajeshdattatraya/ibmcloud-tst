@@ -14,6 +14,11 @@ body {
   margin: 8px;
 }
 
+.login-card {
+   background-color: #E0FFFF;
+   width: 100%;
+}
+
 table {
     width: 100%;
     overflow-x: auto;
@@ -24,18 +29,34 @@ table {
 th.mat-header-cell {
     text-align: left;
     max-width: 300px;
+    font-size: 10pt;
+    font-weight: bold;
+    background-color: #3C68C6;
+    color: white;
 }
 
 th.mat-sort-header-sorted {
-  color: black;
+  color: white;
 }
 .example-full-width {
   width: 50%;
+  font-size: 10pt;
 }
 
 .open-full-width {
   width: 80%;
 }
 
+.mat-form-field-label {
+  /*change color of label*/
+  color: black !important;
+}
+.mat-form-field-underline {
+  /*change color of underline*/
+  background-color: black !important;
+}
 
-
+.mat-form-field-ripple {
+ /*change color of underline when focused*/
+ background-color: black !important;;
+}

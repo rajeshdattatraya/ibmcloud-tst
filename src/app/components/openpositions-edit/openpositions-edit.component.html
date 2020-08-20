@@ -98,7 +98,7 @@
           </td>
           <td>
             <mat-form-field class="open-full-width">
-              <mat-select placeholder="Account"  (change)="updateAccountProfile($event.target.value)"
+              <mat-select placeholder="Account"  (selectionChange)="updateAccountProfile($event)"
                           formControlName="account" required id="account" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.account.errors }" >
                 <mat-option value="">Choose...</mat-option>
                 <mat-option *ngFor="let account of AccountArray" value="{{account}}">{{account}}
@@ -113,7 +113,7 @@
         <tr>
           <td>
             <mat-form-field class="open-full-width">
-              <mat-select placeholder="Job Role" (change)="updateJobRoleProfile($event.target.value)"
+              <mat-select placeholder="Job Role" (selectionChange)="updateJobRoleProfile($event)"
                           formControlName="JRSS" required name="JRSS" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.JRSS.errors }">
                 <mat-option value="">Choose...</mat-option>
                 <mat-option *ngFor="let jrss of JRSS" value="{{jrss.jrss}}">{{jrss.jrss}}
@@ -126,7 +126,7 @@
           </td>
           <td>
             <mat-form-field class="open-full-width">
-              <mat-select placeholder="Line Of Business" (change)="updateLineOfBusinessProfile($event.target.value)"
+              <mat-select placeholder="Line Of Business" (selectionChange)="updateLineOfBusinessProfile($event)"
                           name="lineOfBusiness" required formControlName="lineOfBusiness" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.lineOfBusiness.errors }">
                 <mat-option value="">Choose...</mat-option>
                 <mat-option *ngFor="let data of LineOfBusiness" value="{{data.lob}}" >{{data.lob}}</mat-option>
@@ -141,7 +141,7 @@
         <tr>
           <td>
             <mat-form-field class="open-full-width">
-              <mat-select placeholder="Position Location"  (change)="updatePositionLocationProfile($event.target.value)"
+              <mat-select placeholder="Position Location"  (selectionChange)="updatePositionLocationProfile($event)"
                           name="positionLocation" required formControlName="positionLocation" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.positionLocation.errors }">
                 <mat-option value="">Choose...</mat-option>
                 <mat-option *ngFor="let data of PositionLocation" value="{{data.positionLocation}}" >{{data.positionLocation}}</mat-option>
@@ -153,7 +153,7 @@
           </td>
           <td>
             <mat-form-field class="open-full-width">
-              <mat-select placeholder="Rate Card Job Role" (change)="updateRateCardJobRoleProfile($event.target.value)"
+              <mat-select placeholder="Rate Card Job Role" (selectionChange)="updateRateCardJobRoleProfile($event)"
                           formControlName="rateCardJobRole" required name="rateCardJobRole" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.rateCardJobRole.errors }">
                 <mat-option value="">Choose...</mat-option>
                 <mat-option *ngFor="let data of RateCardJobRole" value="{{data.rateCardJobRole}}">{{data.rateCardJobRole}}
@@ -168,7 +168,7 @@
         <tr>
           <td>
             <mat-form-field class="open-full-width">
-              <mat-select placeholder="Competency Level" (change)="updateCompetencyLevelProfile($event.target.value)"
+              <mat-select placeholder="Competency Level" (selectionChange)="updateCompetencyLevelProfile($event)"
                           name="inputCompetencyLevel" required formControlName="competencyLevel" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.competencyLevel.errors }">
                 <mat-option value="">Choose...</mat-option>
                 <mat-option *ngFor="let data of CompetencyLevel" value="{{data.competencyLevel}}" >{{data.competencyLevel}}</mat-option>
