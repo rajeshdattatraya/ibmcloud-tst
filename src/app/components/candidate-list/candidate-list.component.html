@@ -31,13 +31,42 @@
 <div class="float-left text-left">
   <h4 class="my-0 mr-md-auto font-weight-normal">View Candidates</h4></div>
 <br/><br>
-
+<mat-card class="login-card">
+  <mat-header>
+    <mat-card-title class="example-card-title">Search</mat-card-title>
+  </mat-header>
+<table>
+  <tr>
+    <td>
+        <mat-form-field>
+          <input matInput (keyup)="applyFilter($event.target.value,'employeeName')" placeholder="Name">
+        </mat-form-field>
+    </td>
+    <td>
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value,'username')" placeholder="Email">
+      </mat-form-field>
+    </td>
+    <td>
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value,'band')" placeholder="Band">
+      </mat-form-field>
+    </td>
+    <td>
+        <mat-form-field>
+          <input matInput (keyup)="applyFilter($event.target.value,'JRSS')" placeholder="Job Role">
+        </mat-form-field>
+    </td>
+  </tr>
+</table>
+</mat-card>
+<br>
 <div class="mat-elevation-z8">
   <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
     <!-- ID Column -->
     <ng-container matColumnDef="Action">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Select </th>
       <td mat-cell *matCellDef="let row"> <mat-radio-button></mat-radio-button>
       </td>
     </ng-container>

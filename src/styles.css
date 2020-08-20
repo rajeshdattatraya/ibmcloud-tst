@@ -31,7 +31,7 @@ th.mat-header-cell {
     max-width: 300px;
     font-size: 10pt;
     font-weight: bold;
-    background-color: #3C68C6;
+    background-color: #2554C7;
     color: white;
 }
 
@@ -46,7 +46,10 @@ th.mat-sort-header-sorted {
 .open-full-width {
   width: 80%;
 }
-
+.example-card-title {
+  font-size: 12pt;
+  font-weight: bold;
+}
 .mat-form-field-label {
   /*change color of label*/
   color: black !important;

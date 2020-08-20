@@ -29,6 +29,7 @@ export class CandidateListComponent implements OnInit {
   index;
   isRowSelected = false;
   account: any;
+  filterObj = {};
   loading = true;
   dataSource = new MatTableDataSource<CandidateDetails>();
 
@@ -49,6 +50,12 @@ export class CandidateListComponent implements OnInit {
 
   ngOnInit() {
     this.browserRefresh = browserRefresh;
+    this.dataSource.filterPredicate = (data, filter) => {
+        if(data[this.filterObj['key']] && this.filterObj['key']) {
+            return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
+        }
+        return false;
+    }
     this.readCandidate();
     setTimeout(() => {
         this.loading = false;
@@ -167,5 +174,13 @@ export class CandidateListComponent implements OnInit {
           console.log("Error found while fetching records from Users table - " + error);
       });      
 } // End of updateCandidateStatus
+
+  applyFilter(filterValue: string,key: string) {
+    this.filterObj = {
+          value: filterValue.trim().toLowerCase(),
+          key: key
+    }
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 
 }
