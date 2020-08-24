@@ -64,6 +64,20 @@ getPreTechniaclQuestions(jrss,userName): Observable<any> {
   )
   }
 
+
+    // Get questions based on username
+getQuestions(account): Observable<any> {
+  let url = `${this.baseQuestionUri}/getQuestionanire/${account}`;
+
+  return this.http.get(url, {headers: this.headers}).pipe(
+    map((res: Response) => {
+      return res || {}
+    }),
+    catchError(this.errorMgmt)
+  )
+  }
+
+
   // GET Candidate JRSS
   getCandidateJrss(username): Observable<any> {
     let url = `${this.baseUri}/candidatejrss/${username}`;
@@ -94,7 +108,7 @@ getPreTechniaclQuestions(jrss,userName): Observable<any> {
   }
 
     // get max Question
-    getQuestionID(): Observable<any> {   
+    getQuestionID(): Observable<any> {
       let url = `${this.baseUri}/getMaxQuestionID`;
       return this.http.get(url, {headers: this.headers}).pipe(
         map((res: Response) => {
@@ -191,7 +205,7 @@ getPreTechniaclQuestions(jrss,userName): Observable<any> {
       return res || {}
     }),
     catchError(this.errorMgmt)
-  )
+    )
 }
 
 // Get Users table records based on username
@@ -478,7 +492,7 @@ readPartnerInterviewDetails(userName): Observable<any> {
 }
 
 //savePartnerFeedBack
-  savePartnerFeedBack(id,data): Observable<any> { 
+  savePartnerFeedBack(id,data): Observable<any> {
     let url = `${this.userResultUri}/updatePartnerDetails/${id}`;
     return this.http.post(url, data)
       .pipe(
@@ -688,7 +702,7 @@ viewCandidateInterviewStatus(id): Observable<any> {
 }
 
 // Send Email
-sendEmail(data): Observable<any> {  
+sendEmail(data): Observable<any> {
   let url = `${this.sendEmailUri}/sendEmail`;
   return this.http.post(url, data)
     .pipe(
@@ -710,7 +724,21 @@ getUserByRole(id): Observable<any> {
 // Get all accounts
 getAccounts() {
   return this.http.get(`${this.baseAccountUri}`);
+
 }
+
+// Get all questions based on account
+viewQuizQuestions(userName,account) {
+  let url = `${this.baseQuestionUri}/${userName}/${account}`;
+  console.log('url----'+url);
+  return this.http.get(url, {headers: this.headers}).pipe(
+    map((res: Response) => {
+    return res || {}
+    }),
+    catchError(this.errorMgmt)
+  )
+}
+
 
  // Get all accounts
  getfewAccounts(): Observable<any> {

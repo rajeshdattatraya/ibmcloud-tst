@@ -29,66 +29,54 @@
   </mat-toolbar-row>
 </mat-toolbar>
 <br/>
-  <div>
-    <h4 class="my-0 mr-md-auto font-weight-normal">Workflow Configuration</h4>
-    <br/>
-    <h6 class="my-0 mr-md-auto font-weight-normal">Please check the required recruitment process stages for the selected Job Role</h6>
-    <br/>
-  </div>
+  <div class="float-left text-left">
+    <h4 class="my-0 mr-md-auto font-weight-normal">View Questions</h4></div>
+    <br/><br>
+    
+     
+      <!-- Question list -->
+    
+        
+      <div  *ngIf="Questions.length > 0">
+       <div *ngFor="let question of Questions | paginate: config; let i = index">
+        <label class="font-weight-normal" style="width:1000px">
+          <!--To display questions as entered with line breaks-->
+          <input id = "{{question.questionID}}" type="radio" name="radiogroup"/> 
+          {{question.question}}
+        </label>
+      
+        <div  class="float-right text-right" *ngIf="Questions.length > 0">
+          <a class="edit" (click)="invokeEdit()">
+            <button type="button" class="btn btn-primary" style="background-color:#0043CE;">Edit</button>&nbsp;
+        </a>
+        <a class="delete" (click)="removeQuestion(questionID)">
+            <button type="button" class="btn btn-primary" style="background-color:#0043CE;">Delete</button>&nbsp;
+        </a>    
+        </div>
 
-<mat-card class="login-card">
-  <mat-card-header>
-  </mat-card-header>
-  <mat-card-content>
-    <form [formGroup]="workFlowForm">
-      <table class="open-full-width" cellspacing="0">
-        <tr>
-          <td>
-            <mat-form-field class="example-full-width">
-              <mat-select placeholder="Job Role" required (selectionChange)="updateJrssProfile($event)"
-                      formControlName="JRSS" name="JRSS" id="JRSS" required [ngClass]="{ 'is-invalid': submitted && myForm.JRSS.errors }">
-                <mat-option value="">Choose...</mat-option>
-                <mat-option *ngFor="let jrss of JRSS" value="{{jrss.jrss}}">{{jrss.jrss}}
-                </mat-option>
-              </mat-select>
-              <div *ngIf="submitted && myForm.JRSS.errors" class="invalid-feedback">
-                <div *ngIf="myForm.JRSS.errors.required">JRSS is required</div>
-              </div>
-            </mat-form-field>
-          </td>
-        </tr>
-        <tr>
-            <mat-checkbox formControlName="stage1OnlineTechAssessment" name="stage1OnlineTechAssessment" [checked]="stage1">
-              Online Technical Assessment
-            </mat-checkbox>
-        </tr>
-        <tr>
-            <mat-checkbox (change)="preTechQuestionCheck($event)" formControlName="stage2PreTechAssessment" name="stage2PreTechAssessment" [checked]="stage2">
-              Pre-technical Interview Assessment Form
-            </mat-checkbox>
-        </tr>
-        <tr>
-            <mat-checkbox formControlName="stage3TechAssessment" name="stage3TechAssessment" [checked]="stage3">
-              Technical Interview
-            </mat-checkbox>
-        </tr>
-        <tr>
-            <mat-checkbox formControlName="stage4ManagementInterview" name="stage4ManagementInterview" [checked]="stage4">
-              Partner Interview
-            </mat-checkbox>
-        </tr>
-        <tr>
-            <mat-checkbox formControlName="stage5ProjectAllocation" name="stage5ProjectAllocation" [checked]="stage5">
-              Project Assignment
-            </mat-checkbox>
-        </tr>
-      </table>
-    </form>
-  </mat-card-content>
-  <mat-card-actions>
-    <div class="row justify-content-center">
-      <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
-    </div>
-  </mat-card-actions>
-</mat-card>       &nbsp;&nbsp;&nbsp;&nbsp;
+        <div *ngFor="let option of question.options">
+          <div *ngIf="question.questionType =='MultiSelect' && question ">
+            <label class="font-weight-normal" >
+              <input id="{{option.optionID}}" type="checkbox"  [(ngModel)]="option.selected" />
+              {{option.option}} 
+              
+            </label>
+          </div>
+          
+  
+          <div *ngIf="question.questionType =='SingleSelect' && question" style="width:1100px">
+            <input id="{{option.optionID}}"   [checked]="option.checked" type="radio" name="options"  />  
+            {{option.option}}
+           
+          </div>
+        </div>
+       <br> <br/>
+        </div>
+      
+        </div>
+      
+        
 
+<<div *ngIf="Questions.length > 0">
+        <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
+      </div>

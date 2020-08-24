@@ -58,6 +58,7 @@ import { ViewTestresultsComponent } from './components/view-testresults/view-tes
 import { TATMaterialModule } from  './material.module';
 import { SuperadminUserCreateComponent } from './components/superadmin-user-create/superadmin-user-create.component';
 import { TechIntSchedulerComponent } from './components/tech-int-scheduler/tech-int-scheduler.component';
+import { ViewQuestionComponent } from './components/view-question/view-question.component';
 import {FullCalendarModule} from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -112,7 +113,8 @@ export let browserRefresh = false;
     QuestionsAddSectorsmeComponent,
     ViewTestresultsComponent,
     SuperadminUserCreateComponent,
-    TechIntSchedulerComponent
+    TechIntSchedulerComponent,
+    ViewQuestionComponent,
 
     ],
   imports: [

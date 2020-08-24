@@ -10,7 +10,8 @@
 	  <mat-menu #questions="matMenu">
 		<a mat-menu-item  routerLink="/manage-questionbank" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add Question</a>
 		<a mat-menu-item  routerLink="/manage-questionbank-bulk" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add Bulk Question</a>
-	  </mat-menu>
+      <a mat-menu-item  routerLink="/view-questionbank" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active"> View Question</a>
+    </mat-menu>
 	  <a  mat-button  [matMenuTriggerFor]="metadata" routerLink="/jrss-create" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Manage Metadata</a>
 	  <mat-menu #metadata="matMenu">
 		<a mat-menu-item  routerLink="/jrss-create" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add Job Role</a>
