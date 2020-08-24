@@ -26,13 +26,30 @@ table {
     min-width: 500px;
 }
 
+.mat-toolbar {
+    background-color: #2554C7;
+    color: white;
+    font-size: 12pt;
+    font-weight: bold;
+}
+
+
 th.mat-header-cell {
     text-align: left;
     max-width: 300px;
     font-size: 10pt;
-    font-weight: bold;
     background-color: #2554C7;
     color: white;
+}
+
+.mat-button:hover {
+  color: black;
+  background-color: #F5F5F5 !important;
+}
+
+.mat-button {
+  color: white;
+  background-color: #2554C7;
 }
 
 th.mat-sort-header-sorted {
