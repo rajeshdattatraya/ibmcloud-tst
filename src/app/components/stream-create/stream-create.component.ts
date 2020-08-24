@@ -66,6 +66,13 @@ export class StreamCreateComponent implements OnInit {
 
   ngOnInit(): void {
     this.browserRefresh = browserRefresh;
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      switch(property) {
+        case 'jrss': return item[1];
+        case 'technologyStream': return item[2];
+        default: return item[property];
+      }
+   };
   }
   ngAfterViewInit (){
     this.dataSource.sort = this.sort;
