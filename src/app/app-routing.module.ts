@@ -47,6 +47,9 @@ import { EligibleCandidatesComponent } from './components/eligible-candidates/el
 import { QuestionAddBulkSectorsmeComponent } from './components/question-add-bulk-sectorsme/question-add-bulk-sectorsme.component';
 import { QuestionsAddSectorsmeComponent } from './components/questions-add-sectorsme/questions-add-sectorsme.component';
 import { SuperadminUserCreateComponent } from './components/superadmin-user-create/superadmin-user-create.component'
+import { TechIntSchedulerComponent } from './components/tech-int-scheduler/tech-int-scheduler.component';
+
+
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login-component' },
   { path: '', loadChildren: './components/dashboard/dashboard-user.module#DashboardUserModule'},
@@ -96,7 +99,8 @@ const routes: Routes = [
   { path: 'eligible-candidates', component: EligibleCandidatesComponent },
   { path: 'manage-questionbank-bulk-sectorsme', component:QuestionAddBulkSectorsmeComponent},
   { path: 'manage-questionbank-sectorsme', component:QuestionsAddSectorsmeComponent},
-  { path: 'superadmin-user-create' , component:SuperadminUserCreateComponent}
+  { path: 'superadmin-user-create' , component:SuperadminUserCreateComponent},
+  { path: 'interview_scheduler', component: TechIntSchedulerComponent },
 ];
 
 @NgModule({

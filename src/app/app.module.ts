@@ -56,6 +56,13 @@ import { QuestionAddBulkSectorsmeComponent } from './components/question-add-bul
 import { QuestionsAddSectorsmeComponent } from './components/questions-add-sectorsme/questions-add-sectorsme.component';
 import { ViewTestresultsComponent } from './components/view-testresults/view-testresults.component';
 import { TATMaterialModule } from  './material.module';
+import { SuperadminUserCreateComponent } from './components/superadmin-user-create/superadmin-user-create.component';
+import { TechIntSchedulerComponent } from './components/tech-int-scheduler/tech-int-scheduler.component';
+import {FullCalendarModule} from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
 
 export let browserRefresh = false;
 
@@ -103,11 +110,14 @@ export let browserRefresh = false;
     EligibleCandidatesFilterPipe,
     QuestionAddBulkSectorsmeComponent,
     QuestionsAddSectorsmeComponent,
-    ViewTestresultsComponent
+    ViewTestresultsComponent,
+    SuperadminUserCreateComponent,
+    TechIntSchedulerComponent
 
     ],
   imports: [
     BrowserModule,
+    FullCalendarModule,
     BrowserAnimationsModule,
     TATMaterialModule,
     NgxPaginationModule,

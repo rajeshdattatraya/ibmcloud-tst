@@ -20,10 +20,11 @@ export class Candidate {
    grossProfit:string;
    userPositionLocation:string;
    openPositionName:string;
+   positionID:string;
 
    constructor(employeeName,employeeType, email,band,JRSS,technologyStream,phoneNumber
    ,dateOfJoining,createdBy,createdDate,updatedBy,updatedDate,username,resumeName,resumeData,account,userLOB,
-   grossProfit,userPositionLocation,openPositionName) {
+   grossProfit,userPositionLocation,openPositionName,positionID) {
     this.employeeName = employeeName;
     this.employeeType = employeeType;
     this.email = email;
@@ -44,5 +45,6 @@ export class Candidate {
     this.grossProfit = grossProfit;
     this.userPositionLocation = userPositionLocation;
     this.openPositionName = openPositionName;
+    this.positionID = positionID;
    }
 }

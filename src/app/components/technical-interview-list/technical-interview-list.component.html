@@ -1,133 +1,144 @@
 <nav class="navbar navbar-expand-lg navbar-light table-success" style="background-color:powderblue">
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/technical-interview-list" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active"><b>Technical Interview</b></a>
-        </li>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/technical-interview-list" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active"><b>Technical Interview</b></a>
+      </li>
 
-        <li *ngIf="account=='sector'" class="nav-item dropdown active">
-          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <li *ngIf="account=='sector'" class="nav-item dropdown active">
+        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <b>Manage Questions</b><span class="sr-only">(current)</span>
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" routerLink="/manage-questionbank-sectorsme" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active">Add Question</a>
-            <a class="dropdown-item" routerLink="/manage-questionbank-bulk-sectorsme" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active">Add Bulk Question</a>
-            
-          </div>
-        </li>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" routerLink="/manage-questionbank-sectorsme" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active">Add Question</a>
+          <a class="dropdown-item" routerLink="/manage-questionbank-bulk-sectorsme" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active">Add Bulk Question</a>
 
-      </ul>
-    </div>
-    <div>
-      <ul class="navbar-nav navbar-right">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/login-component" routerLinkActive="active"><b>Logout</b></a>
-        </li>
-      </ul>
-    </div>
-  </nav>
-  <br>
-  <div class="card w-85">
-    <div class="card-header"><i><b><font style="font-size:14px">Enter Search Criteria</font></b></i></div>
-    <div class="card-body">
-      <form novalidate [formGroup]="form">
-        <div>
-          <br>
-
-          <table>
-            <tr width="100%">
-              <td width="20%"><div class="col-sm-4"><label>Name: </label></div></td>
-              <td width="35%"><div class="form-group row"><div class="col-sm-8"><input type="search" #candiateName formControlName="employeeName" placeholder="Search using Candidate Name" id="search4" aria-label="Search" >
-              </div></div></td>
-              <td width="25%"><div class="col-sm-6"><label>Job Role: </label></div></td>
-              <td width="30%"><div class="form-group row"><div class="col-sm-8"><input type="search" #jrss formControlName="JRSS" placeholder="Search using Job Role" id="search4" aria-label="Search" mdbInput>
-              </div></div></td>
-            </tr>
-            <tr width="100%" *ngIf="account=='sector' || account=='Sector' || account=='SECTOR'">
-              <td width="25%"><div class="col-sm-10"><label>Account: </label></div></td>
-              <td width="35%"><div class="form-group row"><div class="col-sm-12"><select type="search" #account formControlName="account" placeholder="Search using Account" class="custom-select form-control" (change)="updateAccountDetails($event.target.value)"
-                           style="width:60%" id="search4" aria-label="Search" mdbInput>
-                    <option value="">Choose...</option>
-                    <option *ngFor="let account of AccountList" value="{{account}}">{{account}}
-                    </option>
-                  </select>
-                </div></div></td>
-            </tr>
-          </table>
-          <div class="form-group">
-            <div class="row justify-content-center"> &nbsp;&nbsp;&nbsp;    
-              <button class="btn btn-sm btn-primary" style="background-color:#0043CE;" (click)="search(form.value)">Search</button>
-              &nbsp;&nbsp;&nbsp;&nbsp;
-              <button type="reset" class="btn btn-sm btn-primary" style="background-color:#0043CE;">Clear</button>
-            </div>
-          </div>
         </div>
-      </form>
-    </div>
+      </li>
+
+    </ul>
   </div>
   <div>
-    <div>
-      <h4 class="my-0 mr-md-auto font-weight-normal">Technical Interview Assessment Queue</h4>
-      <br/>
-    </div>
-      <!-- No data message -->
-      <p *ngIf="TechnicalInterviewList.length <= 0" class="no-data text-center">There are no records in Technical Interview Assessment Queue</p>
+    <ul class="navbar-nav navbar-right">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/login-component" routerLinkActive="active"><b>Logout</b></a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<br>
+<div class="card w-85">
+  <div class="card-header"><i><b><font style="font-size:14px">Enter Search Criteria</font></b></i></div>
+  <div class="card-body">
+    <form novalidate [formGroup]="form">
+      <div>
+        <br>
 
-      <!-- Technical Interview list -->
-      <table class="table table-bordered" *ngIf="TechnicalInterviewList.length > 0">
-        <thead class="table-success">
-          <tr style="background-color:powderblue">
-          <th scope="col" width="5%">Action</th>
-          <th scope="col" width="20%">Name</th>
-          <th scope="col" width="25%">Job Role</th>
-          <th *ngIf="account=='sector' || account=='Sector'" scope="col" width="17%">Account</th>
-          <th scope="col" width="15%">Online Test Result</th>
-          <th scope="col" width="20%">Pre-Technical Interview Assessment Form</th>
-          <th scope="col" width="17%">CV Download</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let TechnicalInterview of TechnicalInterviewList | paginate: config; let i = index">
-          <td  class="text-center edit-block" width="5%">
-            <input type="radio" name="radiogroup"
-                   (change)="onSelectionChange(TechnicalInterview.userName,TechnicalInterview.quizNumber)">
-          </td>
-          <td width="20%"><a href="#myModal" (click)="getCandidateDetails(TechnicalInterview.userName)" class="col-4 cursor-pointer" data-toggle="modal" >{{TechnicalInterview.result_users[0].employeeName}}</a></td>
-          <td  width="25%">{{TechnicalInterview.result_users[0].JRSS}}</td>
-          <td *ngIf="account=='sector' || account=='Sector'" width="25%">{{TechnicalInterview.result_users[0].account}}</td> 
-          <td  width="17%"><a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(TechnicalInterview.userName,TechnicalInterview.quizNumber,TechnicalInterview.result_users[0].employeeName,TechnicalInterview.userScore,TechnicalInterview.createdDate)" class="col-4 cursor-pointer" data-toggle="modal" *ngIf="TechnicalInterview.userScore!=null">{{TechnicalInterview.userScore}}%</a><p *ngIf="TechnicalInterview.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p></td>
-          <td *ngIf="TechnicalInterview.stage2_status=='Skipped'" width="20%"><a href="#" (click)="skipMethod()" routerLinkActive="active"  class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
-          <td *ngIf="TechnicalInterview.stage2_status=='Completed'" width="20%">
-              <a class="col-4 cursor-pointer" [routerLink]="['/pre-technical-interview-form/',TechnicalInterview.result_users[0].JRSS, TechnicalInterview.userName]"
-              [state]="{jrss:TechnicalInterview.result_users[0].JRSS,username:TechnicalInterview.result_users[0].username,access:'tech-list',account:this.account}">
-              Click here
-              </a>
-          </td>
-          <td width="20%"><a href="#" (click)="downloadCandidateResume(TechnicalInterview.userName)" routerLinkActive="active" class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
-        </tr>
-        </tbody>
-      </table>
+        <table>
+          <tr width="100%">
+            <td width="20%"><div class="col-sm-4"><label>Name: </label></div></td>
+            <td width="35%"><div class="form-group row"><div class="col-sm-8"><input type="search" #candiateName formControlName="employeeName" placeholder="Search using Candidate Name" id="search4" aria-label="Search" >
+            </div></div></td>
+            <td width="25%"><div class="col-sm-6"><label>Job Role: </label></div></td>
+            <td width="30%"><div class="form-group row"><div class="col-sm-8"><input type="search" #jrss formControlName="JRSS" placeholder="Search using Job Role" id="search4" aria-label="Search" mdbInput>
+            </div></div></td>
+          </tr>
+          <tr width="100%" *ngIf="account=='sector' || account=='Sector' || account=='SECTOR'">
+            <td width="25%"><div class="col-sm-10"><label>Account: </label></div></td>
+            <td width="35%"><div class="form-group row"><div class="col-sm-12"><select type="search" #account formControlName="account" placeholder="Search using Account" class="custom-select form-control" (change)="updateAccountDetails($event.target.value)"
+                                                                                       style="width:60%" id="search4" aria-label="Search" mdbInput>
+              <option value="">Choose...</option>
+              <option *ngFor="let account of AccountList" value="{{account}}">{{account}}
+              </option>
+            </select>
+            </div></div></td>
+          </tr>
+        </table>
+        <div class="form-group">
+          <div class="row justify-content-center"> &nbsp;&nbsp;&nbsp;
+            <button class="btn btn-sm btn-primary" style="background-color:#0043CE;" (click)="search(form.value)">Search</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="reset" class="btn btn-sm btn-primary" style="background-color:#0043CE;">Clear</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div>
+  <div>
+    <h4 class="my-0 mr-md-auto font-weight-normal">Technical Interview Assessment Queue</h4>
+    <br/>
+  </div>
+  <!-- No data message -->
+  <p *ngIf="TechnicalInterviewList.length <= 0" class="no-data text-center">There are no records in Technical Interview Assessment Queue</p>
 
-      <div  class="float-right text-right" *ngIf="TechnicalInterviewList.length > 0">
-       <span (click)="exceptionalApproval()">
-              <button type="button"class="btn btn-success btn-sm" style="background-color:#0043CE;" data-toggle="modal" data-target="#myModal" >Exceptional Approval</button>
-              
+  <!-- Technical Interview list -->
+  <table class="table table-bordered" *ngIf="TechnicalInterviewList.length > 0">
+    <thead class="table-success">
+    <tr style="background-color:powderblue">
+      <th scope="col" width="5%">Action</th>
+      <th scope="col" width="20%">Name</th>
+      <th scope="col" width="25%">Job Role</th>
+      <th *ngIf="account=='sector' || account=='Sector'" scope="col" width="17%">Account</th>
+      <th scope="col" width="15%">Online Test Result</th>
+      <th scope="col" width="20%">Pre-Technical Interview Assessment Form</th>
+      <th scope="col" width="17%">CV Download</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let TechnicalInterview of TechnicalInterviewList | paginate: config; let i = index">
+      <td  class="text-center edit-block" width="5%">
+        <input type="radio" name="radiogroup"
+               (change)="onSelectionChange(TechnicalInterview.userName,TechnicalInterview.quizNumber)">
+      </td>
+      <td width="20%"><a href="#myModal" (click)="getCandidateDetails(TechnicalInterview.userName)" class="col-4 cursor-pointer" data-toggle="modal" >{{TechnicalInterview.result_users[0].employeeName}}</a></td>
+      <td  width="25%">{{TechnicalInterview.result_users[0].JRSS}}</td>
+      <td *ngIf="account=='sector' || account=='Sector'" width="25%">{{TechnicalInterview.result_users[0].account}}</td>
+      <td  width="17%"><a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(TechnicalInterview.userName,TechnicalInterview.quizNumber,TechnicalInterview.result_users[0].employeeName,TechnicalInterview.userScore,TechnicalInterview.createdDate)" class="col-4 cursor-pointer" data-toggle="modal" *ngIf="TechnicalInterview.userScore!=null">{{TechnicalInterview.userScore}}%</a><p *ngIf="TechnicalInterview.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p></td>
+      <td *ngIf="TechnicalInterview.stage2_status=='Skipped'" width="20%"><a href="#" (click)="skipMethod()" routerLinkActive="active"  class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
+      <td *ngIf="TechnicalInterview.stage2_status=='Completed'" width="20%">
+        <a class="col-4 cursor-pointer" [routerLink]="['/pre-technical-interview-form/',TechnicalInterview.result_users[0].JRSS, TechnicalInterview.userName]"
+           [state]="{jrss:TechnicalInterview.result_users[0].JRSS,username:TechnicalInterview.result_users[0].username,access:'tech-list',account:this.account}">
+          Click here
+        </a>
+      </td>
+      <td width="20%"><a href="#" (click)="downloadCandidateResume(TechnicalInterview.userName)" routerLinkActive="active" class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div  class="float-right text-right" *ngIf="TechnicalInterviewList.length > 0">
+
+        <span (click)="scheduleInterview()">
+          <button type="button"class="btn btn-success btn-sm" style="background-color:#0043CE;"
+                  data-toggle="modal" data-target="#calendarModal" >
+            Schedule Interview
+          </button>
+
+   </span>
+    &nbsp;
+
+    <span (click)="exceptionalApproval()">
+              <button type="button"class="btn btn-success btn-sm" style="background-color:#0043CE;"
+                      data-toggle="modal" data-target="#myModal" >Exceptional Approval</button>
+
        </span>
-            &nbsp;
-       <span (click)="initiateInterview()">
+    &nbsp;
+    <span (click)="initiateInterview()">
               <button type="button" class="btn btn-success btn-sm" style="background-color:#0043CE;">Initiate Interview</button>&nbsp;
        </span>
-      </div>
-    <div *ngIf="TechnicalInterviewList.length > 0">
-        <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
-      </div>
   </div>
+  <div *ngIf="TechnicalInterviewList.length > 0">
+    <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
+  </div>
+</div>
 
 <!-- Modal Code starts. -->
 <div id="assessmentModal" class="modal fade" role="dialog">
   <div class="modal-dialog modal-lg">
     <!-- Modal content-->
-     <div class="modal-content">
+    <div class="modal-content">
       <!-- <div *ngIf="assessmentDetails.quizNumber == this.quizNumber"> -->
       <div class="modal-header table-success" style="background-color:powderblue">
         <h4 class="modal-title">Candidate Assessment Details</h4>
@@ -156,142 +167,163 @@
         <div *ngFor="let questions of answer.userAttemptedQs" >
           <table  style="table-layout: fixed; width: 100%">
             <tbody>
-              <tr>
-                <td width="2%">
-                  <div  *ngIf="answer.userAnswerID==questions.answerID">
-                    <img src="assets/images/success.jpg" width="20" height="20"/>
-                  </div>
-                  <div  *ngIf="answer.userAnswerID!= questions.answerID">
-                    <img src="assets/images/failure.jpg" width="20" height="20"/>
-                  </div>
-                </td><td><b>{{i+1}}){{questions.question}}?</b></td>
-              </tr>
-              <tr></tr>
-              <tr  *ngFor="let questionOption of questions.options;let k=index">
-                <td  width="2%"></td>
-                <td>{{k+1}}){{questionOption.option}} </td>
-              </tr>
-              <tr><td  width="2%"></td>
-                <td style="color:black"><pre>Candidate Answer: {{answer.userAnswerID}}    Correct Answer:  {{questions.answerID}}
+            <tr>
+              <td width="2%">
+                <div  *ngIf="answer.userAnswerID==questions.answerID">
+                  <img src="assets/images/success.jpg" width="20" height="20"/>
+                </div>
+                <div  *ngIf="answer.userAnswerID!= questions.answerID">
+                  <img src="assets/images/failure.jpg" width="20" height="20"/>
+                </div>
+              </td><td><b>{{i+1}}){{questions.question}}?</b></td>
+            </tr>
+            <tr></tr>
+            <tr  *ngFor="let questionOption of questions.options;let k=index">
+              <td  width="2%"></td>
+              <td>{{k+1}}){{questionOption.option}} </td>
+            </tr>
+            <tr><td  width="2%"></td>
+              <td style="color:black"><pre>Candidate Answer: {{answer.userAnswerID}}    Correct Answer:  {{questions.answerID}}
                   </pre> </td></tr>
-              <tr></tr>
-              </tbody>
+            <tr></tr>
+            </tbody>
           </table>
         </div>
       </div>
       <div class="modal-footer table-success" style="background-color:powderblue">
         <button type="button" class="btn btn-primary" style="background-color:#0043CE;"  data-dismiss="modal">Close</button>
-      <!-- </div> -->
-    </div>
+        <!-- </div> -->
+      </div>
     </div>
 
   </div>
 </div>
 
-<div class="container">
+<div class="container" >
+
+
+  <!-- Sprin8 - modal for calendar events -->
+  <div class="modal fade" id="calendarModal"  tabindex="-1" data-keyboard="false" data-backdrop="static"  aria-labelledby="exampleModalLongTitle" role="dialog" #calendarContent>
+    <div class="modal-dialog modal-lg" style="width: 1000px !important;  height:600px !important;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body" >
+          <app-tech-int-scheduler [candidateEmail]="emailSelected" ></app-tech-int-scheduler>-
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
 
   <!-- The Modal -->
   <div class="modal" id="myModal"  *ngIf="showModal" #content>
     <div class="modal-dialog">
-     <div class="modal-content">
-      <!-- <div *ngIf="assessmentDetails.quizNumber == this.quizNumber"> -->
-      <div class="modal-header table-success" style="background-color:powderblue">
-        <h4 class="modal-title">SME Feedback:</h4>
-         
-        
-<button type="button" class="close" data-dismiss="modal">&times;</button>
+      <div class="modal-content">
+        <!-- <div *ngIf="assessmentDetails.quizNumber == this.quizNumber"> -->
+        <div class="modal-header table-success" style="background-color:powderblue">
+          <h4 class="modal-title">SME Feedback:</h4>
+
+
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
-        
+
         <!-- Modal body -->
         <div class="modal-body">
           <form novalidate [formGroup]="smeFeedbackForm">
         <textarea class="form-control" id="inputsmeFeedback" type="textarea" rows="5" cols="50"  maxlength="3000" formControlName="smeFeedback" [ngClass]="{ 'is-invalid': submitted && myForm.smeFeedback.errors }">
         </textarea>
-          <div class="col-sm-6"><i><b><font style="font-size:12px">[Max 3000 Characters]</font></b></i></div>
-          <!-- error -->
-        <div *ngIf="submitted && myForm.smeFeedback.errors" class="invalid-feedback">
-          <div *ngIf="myForm.smeFeedback.errors.required">Enter your feedback</div>
-        </div>
-        
-        <div class="form-group row">
-          <label class="col-sm-6 col-form-label"></label>
-          <div class="col-sm-10"></div>
-          <div class="col-sm-20 text-center" style="width:1150px">
-          <button type="submit" class="btn btn-success btn-sm" style="background-color:#0043CE;"  (click)="onSubmit()">Submit</button>&nbsp;&nbsp;
-          <button type="reset" class="btn btn-success btn-sm"  style="background-color:#0043CE;"  >Clear</button>&nbsp;&nbsp;          
-          <button type="button" class="btn btn-success btn-sm" style="background-color:#0043CE;"  data-dismiss="modal">Cancel</button>
-          
-          </div>
-        </div>
-      
+            <div class="col-sm-6"><i><b><font style="font-size:12px">[Max 3000 Characters]</font></b></i></div>
+            <!-- error -->
+            <div *ngIf="submitted && myForm.smeFeedback.errors" class="invalid-feedback">
+              <div *ngIf="myForm.smeFeedback.errors.required">Enter your feedback</div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-sm-6 col-form-label"></label>
+              <div class="col-sm-10"></div>
+              <div class="col-sm-20 text-center" style="width:1150px">
+                <button type="submit" class="btn btn-success btn-sm" style="background-color:#0043CE;"  (click)="onSubmit()">Submit</button>&nbsp;&nbsp;
+                <button type="reset" class="btn btn-success btn-sm"  style="background-color:#0043CE;"  >Clear</button>&nbsp;&nbsp;
+                <button type="button" class="btn btn-success btn-sm" style="background-color:#0043CE;"  data-dismiss="modal">Cancel</button>
+
+              </div>
+            </div>
+
           </form>
         </div>
-        
+
       </div>
     </div>
   </div>
 
   <!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog modal-lg">
+  <div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
 
-    <!-- Modal content-->
-    <div class="modal-content" >
-      <div class="modal-header table-success" style="background-color:powderblue">
-        <h4 class="modal-title">View Candidate Details</h4>
-        <button type="button"  class="close" data-dismiss="modal">&times;</button>
+      <!-- Modal content-->
+      <div class="modal-content" >
+        <div class="modal-header table-success" style="background-color:powderblue">
+          <h4 class="modal-title">View Candidate Details</h4>
+          <button type="button"  class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body" *ngIf="mode=='displayModalBody'">
+          <table>
+            <tr>
+              <td><label class="col-sm-8 col-form-label">Name:</label></td>
+              <td>&nbsp;{{this.candidateDetails[0].employeeName}}</td>
+            </tr>
+            <tr>
+              <td><label class="col-sm-8 col-form-label">Email:</label></td>
+              <td>&nbsp;{{this.candidateDetails[0].email}}</td>
+            </tr>
+            <tr *ngIf="displayRegularUIFields">
+              <td><label class="col-sm-10 col-form-label">Band:</label></td>
+              <td>&nbsp;{{this.candidateDetails[0].band}}</td>
+            </tr>
+            <tr>
+              <td><label class="col-sm-10 col-form-label">Job Role:</label></td>
+              <td>&nbsp;{{this.candidateDetails[0].JRSS}}</td>
+            </tr>
+            <tr>
+              <td><label class="col-sm-10 col-form-label">Technology Stream:</label></td>
+              <td>&nbsp;{{this.candidateDetails[0].technologyStream}}</td>
+            </tr>
+            <tr>
+              <td><label class="col-sm-10 col-form-label">Phone Number:</label></td>
+              <td>&nbsp;{{this.candidateDetails[0].phoneNumber}}</td>
+            </tr>
+            <tr *ngIf="displayRegularUIFields">
+              <td><label class="col-sm-10 col-form-label">Date of Joining:</label></td>
+              <td>&nbsp;{{this.candidateDetails[0].dateOfJoining.split('T')[0]}}</td>
+            </tr>
+            <tr *ngIf="displayContractorUIFields">
+              <td><label class="col-sm-10 col-form-label">Date of Birth:</label></td>
+              <td>&nbsp;{{this.candidateDetails[0].dateOfJoining.split('T')[0]}}</td>
+            </tr>
+            <tr>
+              <td><label class="col-sm-10 col-form-label">Status:</label></td>
+              <td>&nbsp;{{this.candidateDetails[0].candidate_users[0].status}}</td>
+            </tr>
+            <tr>
+              <td><label class="col-sm-10 col-form-label">Quiz Attempts:</label></td>
+              <td>&nbsp;{{this.candidateDetails[0].candidate_users[0].quizNumber}}</td>
+            </tr>
+          </table>
+        </div>
+        <div class="modal-footer table-success" style="background-color:powderblue">
+          <button type="button" style="background-color:#0043CE;"  class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
       </div>
-      <div class="modal-body" *ngIf="mode=='displayModalBody'">
-        <table>
-          <tr>
-            <td><label class="col-sm-8 col-form-label">Name:</label></td>
-            <td>&nbsp;{{this.candidateDetails[0].employeeName}}</td>
-          </tr>
-          <tr>
-            <td><label class="col-sm-8 col-form-label">Email:</label></td>
-            <td>&nbsp;{{this.candidateDetails[0].email}}</td>
-          </tr>
-          <tr *ngIf="displayRegularUIFields">
-            <td><label class="col-sm-10 col-form-label">Band:</label></td>
-            <td>&nbsp;{{this.candidateDetails[0].band}}</td>
-          </tr>
-          <tr>
-            <td><label class="col-sm-10 col-form-label">Job Role:</label></td>
-            <td>&nbsp;{{this.candidateDetails[0].JRSS}}</td>
-          </tr>
-          <tr>
-            <td><label class="col-sm-10 col-form-label">Technology Stream:</label></td>
-            <td>&nbsp;{{this.candidateDetails[0].technologyStream}}</td>
-          </tr>
-          <tr>
-            <td><label class="col-sm-10 col-form-label">Phone Number:</label></td>
-            <td>&nbsp;{{this.candidateDetails[0].phoneNumber}}</td>
-          </tr>
-          <tr *ngIf="displayRegularUIFields">
-            <td><label class="col-sm-10 col-form-label">Date of Joining:</label></td>
-            <td>&nbsp;{{this.candidateDetails[0].dateOfJoining.split('T')[0]}}</td>
-          </tr>
-          <tr *ngIf="displayContractorUIFields">
-            <td><label class="col-sm-10 col-form-label">Date of Birth:</label></td>
-            <td>&nbsp;{{this.candidateDetails[0].dateOfJoining.split('T')[0]}}</td>
-          </tr>
-          <tr>
-            <td><label class="col-sm-10 col-form-label">Status:</label></td>
-            <td>&nbsp;{{this.candidateDetails[0].candidate_users[0].status}}</td>
-          </tr>
-          <tr>
-            <td><label class="col-sm-10 col-form-label">Quiz Attempts:</label></td>
-            <td>&nbsp;{{this.candidateDetails[0].candidate_users[0].quizNumber}}</td>
-          </tr>
-        </table>
-      </div>
-      <div class="modal-footer table-success" style="background-color:powderblue">
-        <button type="button" style="background-color:#0043CE;"  class="btn btn-primary" data-dismiss="modal">Close</button>
-      </div>
+
     </div>
-
   </div>
-</div>
-  
+
 </div>
 <!-- Code Ends.-->

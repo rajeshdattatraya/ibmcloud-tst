@@ -50,18 +50,20 @@ export class TechnicalInterviewListComponent implements OnInit {
   AccountData:any = [];
   AccountList:any=[];
 
+  showCalendar: boolean = false;
+
   constructor(private datePipe: DatePipe, private route: ActivatedRoute, private router: Router, private apiService: ApiService, private ngZone: NgZone, private fb: FormBuilder) {
     this.config = {
       currentPage: appConfig.currentPage,
       itemsPerPage: appConfig.itemsPerPage,
       totalItems: appConfig.totalItems
     };
-    
+
     this.browserRefresh = browserRefresh;
     if (!this.browserRefresh) {
       this.userName = this.router.getCurrentNavigation().extras.state.username;
       this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
-      this.account = this.router.getCurrentNavigation().extras.state.account; 
+      this.account = this.router.getCurrentNavigation().extras.state.account;
     }
     this.form = this.fb.group({
       employeeName: new FormControl(''),
@@ -76,8 +78,9 @@ export class TechnicalInterviewListComponent implements OnInit {
   }
 
   @ViewChild('content') content: any;
+  @ViewChild('calendarContent') calendarContent: any;
   ngOnInit(): void {
-    
+
   }
 
 
@@ -99,11 +102,11 @@ export class TechnicalInterviewListComponent implements OnInit {
     this.apiService.getAccounts().subscribe((data) => {
     this.AccountData = data;
     //Remove 'sector' from Account collection
-    for (var accValue of this.AccountData){    
+    for (var accValue of this.AccountData){
         if(accValue.account.toLowerCase() !== 'sector' ) {
-          this.AccountList.push(accValue.account);             
-        }            
-    }      
+          this.AccountList.push(accValue.account);
+        }
+    }
     })
   }
 
@@ -129,11 +132,11 @@ export class TechnicalInterviewListComponent implements OnInit {
          }
     })
 }
-  
+
   //To download candidate's CV if uploaded
   downloadCandidateResume(id) {
     this.apiService.getCandidateJrss(id).subscribe(data => {
-      //Get resume Data    
+      //Get resume Data
       this.resumeName1 = data['resumeName'];
       let resumeData1: String = data['resumeData'];
 
@@ -190,6 +193,16 @@ export class TechnicalInterviewListComponent implements OnInit {
         this.showModal = false;
       }
     }
+  }
+
+
+
+
+  scheduleInterview() {
+    if (this.emailSelected == "") {
+      alert("Please select a candidate")
+    }
+
   }
   initiateInterview() {
     if (this.emailSelected == "") {

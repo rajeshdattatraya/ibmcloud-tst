@@ -48,6 +48,7 @@ export class CandidateCreateComponent implements OnInit {
   stage5;
   OpenPositions: any = [];
   LineOfBusiness:any = [];
+  PositionID:any = [];
   CompetencyLevel:any = [];
   PositionLocation:any = [];
   UserPositionLocation:any = [];
@@ -306,7 +307,8 @@ export class CandidateCreateComponent implements OnInit {
       this.candidateForm.value.userLOB,
       this.grossProfit,
       this.candidateForm.value.userPositionLocation,
-      this.myOpenPositionGroup.value.positionName
+      this.myOpenPositionGroup.value.positionName,
+      this.myOpenPositionGroup.value.positionID
       );
     }
     if (this.candidateForm.value.employeeType == 'Contractor' ) {
@@ -472,6 +474,7 @@ export class CandidateCreateComponent implements OnInit {
               this.CompetencyLevel.push(data['competencyLevel']);
               this.PositionLocation.push(data['positionLocation']);
               this.RateCardJobRole.push(data['rateCardJobRole']);
+              this.PositionID.push(data['positionID']);
             this.myOpenPositionGroup.setValue({
                   positionName: data['positionName'],
                   rateCardJobRole: data['rateCardJobRole'],
@@ -481,7 +484,8 @@ export class CandidateCreateComponent implements OnInit {
                   gpUserPositionLocation: this.candidateForm.value.userPositionLocation,
                   gpUserLOB: this.candidateForm.value.userLOB,
                   gpUserBand: this.candidateForm.value.band,
-                  grossProfit: ''
+                  grossProfit: '',
+                  positionID: data['positionID']
 
             });
          })
@@ -497,7 +501,8 @@ export class CandidateCreateComponent implements OnInit {
           gpUserPositionLocation:new FormControl(),
           gpUserLOB:new FormControl(),
           gpUserBand:new FormControl(),
-          grossProfit:new FormControl()
+          grossProfit:new FormControl(),
+          positionID: new FormControl()
         })
       }
 
