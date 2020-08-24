@@ -1,120 +1,121 @@
-    <p *ngIf="Result.length <= 0" class="no-data text-center">There are no records in dashboard</p>
+<p *ngIf="Result.length <= 0" class="no-data text-center">There are no records in dashboard</p>
 
-    <!-- Dashboard list -->
-    <table class="table table-bordered" *ngIf="Result.length > 0">
-      <thead class="table-success">
-      <tr style="background-color:powderblue">
-        <th scope="col">Action</th>
-        <th scope="col" width="16%">Name</th>
-        <th scope="col" width="25%">Job Role</th>
-        <th scope="col" width="10%">Online Test Score</th>
-        <th scope="col" width="12%">Online Test Result</th>
-        <th scope="col" width="15%">Tech Interview Result</th>
-        <th scope="col" width="17%">Partner Interview Result</th>
-        <th scope="col" width="17%">Assigned To Project</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let result of Result | paginate: config; let i = index">
-        <td><input type="radio" name="candidateRadio" value="result._id" (click)="setCandidateID(result._id)"></td>
-        <td  width="16%">{{result.result_users[0].employeeName}}</td>
-        <td  width="25%">{{result.result_users[0].JRSS}}</td>
-        <td  width="10%"><a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(result.userName,result.quizNumber,result.result_users[0].employeeName,result.userScore,result.createdDate)" class="col-4 cursor-pointer" data-toggle="modal" *ngIf="result.userScore!=null">{{result.userScore}}%</a><p *ngIf="result.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p></td>
-        <td  width="12%">{{result.userResult}}</td>
-        <td  width="15%">{{result.smeResult}}</td>
-        <td  width="17%">{{result.managementResult}}</td>
-        <td  width="17%">
-          <div *ngIf="result.stage5_status == 'Completed'">Assigned</div>
-          <div *ngIf="result.stage5_status == 'Not Started'">Unassigned</div>
-          <div *ngIf="result.stage5_status == 'Skipped'">-</div>
-          <div *ngIf="result.stage5_status == null ">-</div>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-    <div  class="float-right text-right" *ngIf="Result.length > 0">
-      <button class="btn btn-sm btn-primary" style="background-color:#0043CE;" data-toggle="modal" href="#candidateModal" (click)="viewDetails()">View Details</button>
-    </div>
-    <div *ngIf="Result.length > 0">
-    <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
-    </div>
+<!-- Dashboard list -->
+<table class="table table-bordered" *ngIf="Result.length > 0">
+  <thead class="table-success">
+  <tr style="background-color:powderblue">
+    <th scope="col">Action</th>
+    <th scope="col" width="16%">Name</th>
+    <th scope="col" width="25%">Job Role</th>
+    <th scope="col" width="10%">Online Test Score</th>
+    <!--<th scope="col" width="12%">Online Test Result</th>-->
+    <th scope="col" width="15%">Tech Interview Result</th>
+    <th scope="col" width="17%">Partner Interview Result</th>
+    <th scope="col" width="17%">Assigned To Project</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let result of Result | paginate: config; let i = index">
+    <td><input type="radio" name="candidateRadio" value="result._id" (click)="setCandidateID(result._id)"></td>
+    <td  width="16%">{{result.result_users[0].employeeName}}</td>
+    <td  width="25%">{{result.result_users[0].JRSS}}</td>
+    <td *ngIf="result.userResult==='Pass'" width="10%"><a style="color:rgb(0, 128, 43);" href="#assessmentModal"  (click)="getCandidateAssessmentDetails(result.userName,result.quizNumber,result.result_users[0].employeeName,result.userScore,result.createdDate)" class="col-4 cursor-pointer" data-toggle="modal" *ngIf="result.userScore!=null"><b>{{result.userScore}}%</b></a><p *ngIf="result.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p></td>
+    <td *ngIf="result.userResult==='Fail'" width="10%"><a style="color:Red;" href="#assessmentModal"  (click)="getCandidateAssessmentDetails(result.userName,result.quizNumber,result.result_users[0].employeeName,result.userScore,result.createdDate)" class="col-4 cursor-pointer" data-toggle="modal" *ngIf="result.userScore!=null"><b>{{result.userScore}}%</b></a><p *ngIf="result.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p></td>
+    <!--<td  width="12%">{{result.userResult}}</td>-->
+    <td  width="15%">{{result.smeResult}}</td>
+    <td  width="17%">{{result.managementResult}}</td>
+    <td  width="17%">
+      <div *ngIf="result.stage5_status == 'Completed'">Assigned</div>
+      <div *ngIf="result.stage5_status == 'Not Started'">Unassigned</div>
+      <div *ngIf="result.stage5_status == 'Skipped'">-</div>
+      <div *ngIf="result.stage5_status == null ">-</div>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<div  class="float-right text-right" *ngIf="Result.length > 0">
+  <button class="btn btn-sm btn-primary" style="background-color:#0043CE;" data-toggle="modal" href="#candidateModal" (click)="viewDetails()">View Details</button>
+</div>
+<div *ngIf="Result.length > 0">
+  <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
+</div>
 
-    <!-- Modal window to view candidate details-->
-    <!-- Modal -->
-    <div id="candidateModal" class="modal fade" role="dialog" *ngIf="mode=='displayModalBody'">
-      <div class="modal-dialog modal-lg">
+<!-- Modal window to view candidate details-->
+<!-- Modal -->
+<div id="candidateModal" class="modal fade" role="dialog" *ngIf="mode=='displayModalBody'">
+  <div class="modal-dialog modal-lg">
 
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header" style="background-color:powderblue">
-            <h4 class="modal-title"><b>View Candidate Details</b></h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-          <div class="modal-body">
-            <div class="card">
-              <div class="card-header" style="background-color:powderblue">Candidate details</div>
-              <div class="card-body">
-              <table>
-                <tr>
-                  <td width="25%"><label>Name:</label></td>
-                  <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].employeeName}}</td>
-                  <td width="25%"><label>Email:</label></td>
-                  <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].email}}</td>
-                </tr>
-                <tr *ngIf="displayRegularUIFields">
-                  <td width="25%"><label>Band:</label></td>
-                  <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].band}}</td>
-                  <td width="20%"><label>Job Role:</label></td>
-                  <td width="35%">&nbsp;{{this.dashboardDetails[0].result_users[0].JRSS}}</td>
-                </tr>
-                <tr *ngIf="displayContractorUIFields">
-                  <td width="25%">Job Role:</td>
-                  <td width="30%">{{this.dashboardDetails[0].result_users[0].JRSS}}</td>
-                  <td width="20%"><label></label></td>
-                  <td width="35%">&nbsp;</td>
-                </tr>
-                <tr *ngIf="displayRegularUIFields">
-                  <td width="25%"><label>Date of Joining:</label></td>
-                  <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].dateOfJoining.split('T')[0]}}</td>
-                  <td width="25%"><label>Phone Number:</label></td>
-                  <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].phoneNumber}}</td>
-                </tr>
-                <tr *ngIf="displayContractorUIFields">
-                  <td width="25%"><label>Date of Birth:</label></td>
-                  <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].dateOfJoining.split('T')[0]}}</td>
-                  <td width="25%"><label>Phone Number:</label></td>
-                  <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].phoneNumber}}</td>
-                </tr>
-                <tr>
-                  <td width="25%"><label>Technology Stream:</label></td>
-                  <td colspan="3" width="75%">&nbsp;{{this.dashboardDetails[0].result_users[0].technologyStream}}</td>
-                </tr>
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header" style="background-color:powderblue">
+        <h4 class="modal-title"><b>View Candidate Details</b></h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="card">
+          <div class="card-header" style="background-color:powderblue">Candidate details</div>
+          <div class="card-body">
+            <table>
+              <tr>
+                <td width="25%"><label>Name:</label></td>
+                <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].employeeName}}</td>
+                <td width="25%"><label>Email:</label></td>
+                <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].email}}</td>
+              </tr>
+              <tr *ngIf="displayRegularUIFields">
+                <td width="25%"><label>Band:</label></td>
+                <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].band}}</td>
+                <td width="20%"><label>Job Role:</label></td>
+                <td width="35%">&nbsp;{{this.dashboardDetails[0].result_users[0].JRSS}}</td>
+              </tr>
+              <tr *ngIf="displayContractorUIFields">
+                <td width="25%">Job Role:</td>
+                <td width="30%">{{this.dashboardDetails[0].result_users[0].JRSS}}</td>
+                <td width="20%"><label></label></td>
+                <td width="35%">&nbsp;</td>
+              </tr>
+              <tr *ngIf="displayRegularUIFields">
+                <td width="25%"><label>Date of Joining:</label></td>
+                <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].dateOfJoining.split('T')[0]}}</td>
+                <td width="25%"><label>Phone Number:</label></td>
+                <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].phoneNumber}}</td>
+              </tr>
+              <tr *ngIf="displayContractorUIFields">
+                <td width="25%"><label>Date of Birth:</label></td>
+                <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].dateOfJoining.split('T')[0]}}</td>
+                <td width="25%"><label>Phone Number:</label></td>
+                <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].phoneNumber}}</td>
+              </tr>
+              <tr>
+                <td width="25%"><label>Technology Stream:</label></td>
+                <td colspan="3" width="75%">&nbsp;{{this.dashboardDetails[0].result_users[0].technologyStream}}</td>
+              </tr>
             </table>
-              </div>
-            </div>
-            <div class="card">
-            <div class="card-header" style="background-color:powderblue">Online Test Details</div>
-            <div class="card-body">
-              <table>
-                <tr>
-                  <td width="25%"><label>Online Test Result:</label></td>
-                  <td width="25%" *ngIf="this.dashboardDetails[0].userScore!=null">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{this.dashboardDetails[0].userScore}}%</td>
-                  <td width="25%" *ngIf="this.dashboardDetails[0].userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;N/A</td>
-                  <td width="25%"></td>
-                  <td width="25%"></td>
-                </tr>
-              </table>
-            </div>
           </div>
+        </div>
+        <div class="card">
+          <div class="card-header" style="background-color:powderblue">Online Test Details</div>
+          <div class="card-body">
+            <table>
+              <tr>
+                <td width="25%"><label>Online Test Result:</label></td>
+                <td width="25%" *ngIf="this.dashboardDetails[0].userScore!=null">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{this.dashboardDetails[0].userScore}}%</td>
+                <td width="25%" *ngIf="this.dashboardDetails[0].userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;N/A</td>
+                <td width="25%"></td>
+                <td width="25%"></td>
+              </tr>
+            </table>
+          </div>
+        </div>
 
-          <div class="card" *ngIf="displayTechInterview">
+        <div class="card" *ngIf="displayTechInterview">
           <div class="card-header" style="background-color:powderblue">Technical Interview Details</div>
           <div class="card-body">
             <table>
               <tr>
-                 <td  width="25%"><label>Technical Interview Score:</label></td>
-                 <td  width="25%" *ngIf="this.dashboardDetails[0].avgTechScore!=null">{{this.dashboardDetails[0].avgTechScore}}/10</td>
-                 <td  width="25%" *ngIf="this.dashboardDetails[0].avgTechScore==null">N/A</td>
+                <td  width="25%"><label>Technical Interview Score:</label></td>
+                <td  width="25%" *ngIf="this.dashboardDetails[0].avgTechScore!=null">{{this.dashboardDetails[0].avgTechScore}}/10</td>
+                <td  width="25%" *ngIf="this.dashboardDetails[0].avgTechScore==null">N/A</td>
               </tr>
               <tr>
                 <td width="25%"><label>SME Result:</label></td>
@@ -129,55 +130,55 @@
         </div>
 
         <div class="card" *ngIf="displayPartnerInterview">
-        <div class="card-header" style="background-color:powderblue">Partner Interview Details</div>
-        <div class="card-body">
-          <table>
-            <tr>
-              <td width="25%"><label>Partner Result:</label></td>
-              <td colspan="3" width="75%">&nbsp;{{this.dashboardDetails[0].managementResult}}</td>
-            </tr>
-            <tr>
-              <td width="25%"><label>Partner FeedBack:</label></td>
-              <td colspan="3" width="75%">&nbsp;<textarea type="textArea" maxlength="3000" cols="50" disabled readonly value="{{this.dashboardDetails[0].managementFeedback}}"></textarea></td>
-            </tr>
-          </table>
-        </div>
-      </div>
-
-      <div class="card" *ngIf="displayProjectAssign">
-      <div class="card-header" style="background-color:powderblue">Project Assignment Details</div>
-      <div class="card-body">
-        <table>
-          <tr>
-            <td width="20%"><label>Location:</label></td>
-            <td width="30%">&nbsp;{{this.dashboardDetails[0].result_projectAlloc[0].location}}</td>
-            <td width="20%"><label>ProjectName:</label></td>
-            <td width="30%">&nbsp;{{this.dashboardDetails[0].result_projectAlloc[0].projectName}}</td>
-          </tr>
-          <tr>
-            <td width="20%"><label>Client:</label></td>
-            <td width="30%">&nbsp;{{this.dashboardDetails[0].result_projectAlloc[0].clientProject}}</td>
-            <td width="20%"><label>Position:</label></td>
-            <td width="30%">&nbsp;{{this.dashboardDetails[0].result_projectAlloc[0].position}}</td>
-          </tr>
-          <tr>
-            <td width="20%"><label>Comments:</label></td>
-            <td width="30%">&nbsp;{{this.dashboardDetails[0].result_projectAlloc[0].comments}}</td>
-            <td width="20%"><label>&nbsp;</label></td>
-            <td width="30%">&nbsp;&nbsp;</td>
-          </tr>
-        </table>
-      </div>
-    </div>
-
+          <div class="card-header" style="background-color:powderblue">Partner Interview Details</div>
+          <div class="card-body">
+            <table>
+              <tr>
+                <td width="25%"><label>Partner Result:</label></td>
+                <td colspan="3" width="75%">&nbsp;{{this.dashboardDetails[0].managementResult}}</td>
+              </tr>
+              <tr>
+                <td width="25%"><label>Partner FeedBack:</label></td>
+                <td colspan="3" width="75%">&nbsp;<textarea type="textArea" maxlength="3000" cols="50" disabled readonly value="{{this.dashboardDetails[0].managementFeedback}}"></textarea></td>
+              </tr>
+            </table>
           </div>
-          <div class="modal-footer" style="background-color:powderblue">
-            <button type="button" class="btn btn-primary" style="background-color:#0043CE;" data-dismiss="modal">Close</button>
+        </div>
+
+        <div class="card" *ngIf="displayProjectAssign">
+          <div class="card-header" style="background-color:powderblue">Project Assignment Details</div>
+          <div class="card-body">
+            <table>
+              <tr>
+                <td width="20%"><label>Location:</label></td>
+                <td width="30%">&nbsp;{{this.dashboardDetails[0].result_projectAlloc[0].location}}</td>
+                <td width="20%"><label>ProjectName:</label></td>
+                <td width="30%">&nbsp;{{this.dashboardDetails[0].result_projectAlloc[0].projectName}}</td>
+              </tr>
+              <tr>
+                <td width="20%"><label>Client:</label></td>
+                <td width="30%">&nbsp;{{this.dashboardDetails[0].result_projectAlloc[0].clientProject}}</td>
+                <td width="20%"><label>Position:</label></td>
+                <td width="30%">&nbsp;{{this.dashboardDetails[0].result_projectAlloc[0].position}}</td>
+              </tr>
+              <tr>
+                <td width="20%"><label>Comments:</label></td>
+                <td width="30%">&nbsp;{{this.dashboardDetails[0].result_projectAlloc[0].comments}}</td>
+                <td width="20%"><label>&nbsp;</label></td>
+                <td width="30%">&nbsp;&nbsp;</td>
+              </tr>
+            </table>
           </div>
         </div>
 
       </div>
+      <div class="modal-footer" style="background-color:powderblue">
+        <button type="button" class="btn btn-primary" style="background-color:#0043CE;" data-dismiss="modal">Close</button>
+      </div>
     </div>
+
+  </div>
+</div>
 
 
 <!-- Below Candidate Assessment Details added by A.George on 22June2020.-->
@@ -186,7 +187,7 @@
 <div id="assessmentModal" class="modal fade" role="dialog">
   <div class="modal-dialog modal-lg">
     <!-- Modal content-->
-     <div class="modal-content">
+    <div class="modal-content">
       <!-- <div *ngIf="assessmentDetails.quizNumber == this.quizNumber"> -->
       <div class="modal-header" style="background-color:powderblue">
         <h4 class="modal-title">Candidate Assessment Details</h4>
@@ -215,33 +216,33 @@
         <div *ngFor="let questions of answer.userAttemptedQs" >
           <table  style="table-layout: fixed; width: 100%">
             <tbody>
-              <tr>
-                <td width="2%">
-                  <div  *ngIf="answer.userAnswerID==questions.answerID">
-                    <img src="assets/images/success.jpg" width="20" height="20"/>
-                  </div>
-                  <div  *ngIf="answer.userAnswerID!= questions.answerID">
-                    <img src="assets/images/failure.jpg" width="20" height="20"/>
-                  </div>
-                </td><td><b>{{i+1}}){{questions.question}}?</b></td>
-              </tr>
-              <tr></tr>
-              <tr  *ngFor="let questionOption of questions.options;let k=index">
-                <td  width="2%"></td>
-                <td>{{k+1}}){{questionOption.option}} </td>
-              </tr>
-              <tr><td  width="2%"></td>
-                <td style="color:black"><pre>Candidate Answer: {{answer.userAnswerID}}    Correct Answer:  {{questions.answerID}}
+            <tr>
+              <td width="2%">
+                <div  *ngIf="answer.userAnswerID==questions.answerID">
+                  <img src="assets/images/success.jpg" width="20" height="20"/>
+                </div>
+                <div  *ngIf="answer.userAnswerID!= questions.answerID">
+                  <img src="assets/images/failure.jpg" width="20" height="20"/>
+                </div>
+              </td><td><b>{{i+1}}){{questions.question}}?</b></td>
+            </tr>
+            <tr></tr>
+            <tr  *ngFor="let questionOption of questions.options;let k=index">
+              <td  width="2%"></td>
+              <td>{{k+1}}){{questionOption.option}} </td>
+            </tr>
+            <tr><td  width="2%"></td>
+              <td style="color:black"><pre>Candidate Answer: {{answer.userAnswerID}}    Correct Answer:  {{questions.answerID}}
                   </pre> </td></tr>
-              <tr></tr>
-              </tbody>
+            <tr></tr>
+            </tbody>
           </table>
         </div>
       </div>
       <div class="modal-footer" style="background-color:powderblue">
         <button type="button" style="background-color:#0043CE;" class="btn btn-primary" data-dismiss="modal">Close</button>
-      <!-- </div> -->
-    </div>
+        <!-- </div> -->
+      </div>
     </div>
 
   </div>

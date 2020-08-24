@@ -32,6 +32,22 @@ export class OpenPositionService {
       return this.http.get(`${this.baseUri}`);
     }
 
+        // Get the latest positionID
+        getLatestPositionID() {
+          return this.http.get(`${this.baseUri}/readLatestPositionID`);
+        }
+
+        // Get the latest positionID
+        getLatestPositionID2(): Observable<any> {
+        let url = `${this.baseUri}/readLatestPositionID}`;
+        return this.http.get(url, {headers: this.headers}).pipe(
+          map((res: Response) => {
+            return res || {}
+          }),
+          catchError(this.errorMgmt)
+          )
+      }
+
     //Get all open positions by Job Role
     listAllOpenPositionsBYJRSS(account, status,JRSS) {
       let url = `${this.baseUri}/listAllOpenPositionsBYJRSS/${account}/${status}/${JRSS}`;

@@ -47,7 +47,7 @@
     </ul>
   </div>
   <div *ngIf="accessLevel === 'admin'">
-    <mat-toolba>
+    <mat-toolbar>
       <mat-toolbar-row>
         <a  mat-button  [matMenuTriggerFor]="users" routerLink="/candidates-list" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Manage Users</a>
         <mat-menu #users="matMenu">
@@ -75,7 +75,7 @@
         <a  mat-button  routerLink="/view-testresults" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Test Results</a>
         <a  mat-button  routerLink="/login-component" routerLinkActive="active">Logout</a>
        </mat-toolbar-row>
-    </mat-toolba>
+    </mat-toolbar>
   </div>
 <br/>
   <div class="float-left text-left">

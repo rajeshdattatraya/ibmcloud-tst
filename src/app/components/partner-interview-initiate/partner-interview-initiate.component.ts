@@ -35,6 +35,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
 
   OpenPositions: any = [];
   LineOfBusiness:any = [];
+  PositionID :any = [];
   CompetencyLevel:any = [];
   PositionLocation:any = [];
   UserPositionLocation:any = [];
@@ -50,7 +51,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
   emailSubject: String = "";
   emailMessage: String = "";
   toAddress: String = "";
-   
+
  constructor(private cv:TechnicalInterviewListComponent,public fb: FormBuilder, private actRoute: ActivatedRoute, private router: Router,private ngZone: NgZone,
   private apiService: ApiService, private openPositionService: OpenPositionService) {
        this.userName = this.router.getCurrentNavigation().extras.state.username;
@@ -71,7 +72,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
              this.router.navigate(['/login-component']);
         }
    }
-   
+
 
   mainForm() {
       this.partnerFeedbackForm = this.fb.group({
@@ -83,14 +84,14 @@ export class PartnerInterviewInitiateComponent implements OnInit {
   get myForm(){
         return this.partnerFeedbackForm.controls;
   }
-  
+
   skipMethod(){
     alert('Stage skipped');
   }
 
    //To download candidate's CV if uploaded
    downloadCandidateResume(id){
-    this.cv.downloadCandidateResume(id) 
+    this.cv.downloadCandidateResume(id)
   }
 
   // Choose FinalResult with select dropdown
@@ -120,6 +121,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
       this.candidateID = this.partnerInterviewDetails[0].result_users[0]._id;
       this.openPositionService.readOpenPositionByPositionName(this.partnerInterviewDetails[0].result_users[0].openPositionName).subscribe((openPositionData) => {
           this.LineOfBusiness.push(openPositionData['lineOfBusiness']);
+          this.PositionID.push(openPositionData['positionID']);
           this.CompetencyLevel.push(openPositionData['competencyLevel']);
           this.PositionLocation.push(openPositionData['positionLocation']);
           this.RateCardJobRole.push(openPositionData['rateCardJobRole']);
@@ -127,6 +129,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
                 positionName: openPositionData['positionName'],
                 rateCardJobRole: openPositionData['rateCardJobRole'],
                 lineOfBusiness: openPositionData['lineOfBusiness'],
+                positionID: openPositionData['positionID'],
                 positionLocation: openPositionData['positionLocation'],
                 competencyLevel : openPositionData['competencyLevel'],
                 userPositionLocation: this.partnerInterviewDetails[0].result_users[0].userPositionLocation,
@@ -138,32 +141,32 @@ export class PartnerInterviewInitiateComponent implements OnInit {
   }
 
   // Set email notification parameters
-  setEmailNotificationDetails(){        
+  setEmailNotificationDetails(){
     this.apiService.getUserByAccessLevel("management").subscribe( (res) => {
-      this.usersDetail = res;             
+      this.usersDetail = res;
       this.usersArray = [];
-        for (var value of this.usersDetail){           
-          this.usersArray.push(value.username);        
-        }              
-        this.toAddress = this.usersArray;        
+        for (var value of this.usersDetail){
+          this.usersArray.push(value.username);
+        }
+        this.toAddress = this.usersArray;
         }, (error) => {
             this.error = '[Partner toAddress]Error found while getting username from Users table'
             console.log(error);
     });
 
-    this.fromAddress = this.userName;            
-    this.emailSubject = "Candidate Assignment Notification";            
-    this.emailMessage = "Dear Team,<br><p>This is to formally notify that candidate " 
-      + this.partnerInterviewDetails[0].result_users[0].employeeName 
-      + " is added to the queue for job role " + this.partnerInterviewDetails[0].result_users[0].JRSS 
+    this.fromAddress = this.userName;
+    this.emailSubject = "Candidate Assignment Notification";
+    this.emailMessage = "Dear Team,<br><p>This is to formally notify that candidate "
+      + this.partnerInterviewDetails[0].result_users[0].employeeName
+      + " is added to the queue for job role " + this.partnerInterviewDetails[0].result_users[0].JRSS
       + ".</p><p>Please validate the candidate for new project assignment.</p>\
-      <p>Regards, <br>DWP Partner Team</p>"; 
-  } 
+      <p>Regards, <br>DWP Partner Team</p>";
+  }
 
   onSubmit(id) {
           this.submitted = true;
-          this.setEmailNotificationDetails();         
-            
+          this.setEmailNotificationDetails();
+
           if (!this.partnerFeedbackForm.valid) {
             return false;
           } else {
@@ -178,13 +181,13 @@ export class PartnerInterviewInitiateComponent implements OnInit {
           this.apiService.savePartnerFeedBack(id, partnerDetails).subscribe(
                 (res) => {
                   console.log('Partner Details successfully created!')
-                  window.alert("Partner's interview detail is successfully submitted"); 
+                  window.alert("Partner's interview detail is successfully submitted");
 
-                  // Send notification to the operation team                        
+                  // Send notification to the operation team
                   let sendEmailObject = new SendEmail(this.fromAddress, this.toAddress, this.emailSubject, this.emailMessage);
                   this.apiService.sendEmail(sendEmailObject).subscribe(
                     (res) => {
-                      console.log("[Partner Initiate Interview] - Email sent successfully to " + this.toAddress);            
+                      console.log("[Partner Initiate Interview] - Email sent successfully to " + this.toAddress);
                     }, (error) => {
                         console.log("[Partner Initiate Interview] - Error occurred while sending email to " + this.toAddress);
                         console.log(error);
@@ -216,23 +219,23 @@ export class PartnerInterviewInitiateComponent implements OnInit {
         this.ngZone.run(() => this.router.navigateByUrl('/partner-list',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
     }
 
-    exceptionalApproval(emailSelected, quizNumber) { 
-        this.setEmailNotificationDetails();      
+    exceptionalApproval(emailSelected, quizNumber) {
+        this.setEmailNotificationDetails();
          if (window.confirm('Are you sure to provide exceptional approval?')) {
             if (this.partnerFeedbackForm.value.partnerFeedback == "") {
               alert("Please enter feedback");
-            } else {             
+            } else {
               this.stage4_status = "Completed";
               let partnerDetails = new PartnerDetails("Exceptional Approval Given",
                             this.partnerFeedbackForm.value.partnerFeedback,this.userName,new Date(), this.stage4_status);
               this.apiService.updateExceptionalApprovalForStage4(partnerDetails,emailSelected,quizNumber).subscribe(res => {
               window.alert('Successfully provided exceptional approval');
-                
-              // Send notification to the operation team                        
+
+              // Send notification to the operation team
               let sendEmailObject = new SendEmail(this.fromAddress, this.toAddress, this.emailSubject, this.emailMessage);
               this.apiService.sendEmail(sendEmailObject).subscribe(
                 (res) => {
-                    console.log("[Partner Interview Exceptional Approval] - Email sent successfully to " + this.toAddress);            
+                    console.log("[Partner Interview Exceptional Approval] - Email sent successfully to " + this.toAddress);
                  }, (error) => {
                     console.log("[Partner Interview Exceptional Approval] - Error occurred while sending email to " + this.toAddress);
                     console.log(error);
@@ -256,6 +259,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
       updateOpenPositionProfile(positionName) {
                this.openPositionService.readOpenPositionByPositionName(positionName).subscribe((data) => {
                     this.LineOfBusiness.push(data['lineOfBusiness']);
+                    this.PositionID.push(data['positionID']);
                     this.CompetencyLevel.push(data['competencyLevel']);
                     this.PositionLocation.push(data['positionLocation']);
                     this.RateCardJobRole.push(data['rateCardJobRole']);
@@ -263,6 +267,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
                         positionName: data['positionName'],
                         rateCardJobRole: data['rateCardJobRole'],
                         lineOfBusiness: data['lineOfBusiness'],
+                        positionID: data['positionID'],
                         positionLocation: data['positionLocation'],
                         competencyLevel : data['competencyLevel'],
                         userPositionLocation: '',
@@ -351,6 +356,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
            positionName: new FormControl(),
            rateCardJobRole: new FormControl(),
            lineOfBusiness: new FormControl(),
+           positionID: new FormControl(),
            positionLocation: new FormControl(),
            competencyLevel:new FormControl(),
            userPositionLocation:new FormControl(),

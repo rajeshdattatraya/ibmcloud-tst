@@ -1,112 +1,114 @@
 <nav class="navbar navbar-expand-lg navbar-light table-success" style="background-color:powderblue">
-    <div *ngIf="accessLevel === 'partner'" class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/partner-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Partner Interview</b></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/operations-candidate-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Project Assignment</b></a>
-        </li>
-  
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/open-positions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Open Positions</b></a>
-        </li>
-  
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/dashboard" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Dashboard</b></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/report" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Report</b></a>
-        </li>
-  
-      </ul>
-    </div>
-    <div *ngIf="accessLevel === 'management'" class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" routerLink="/openpositions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <b>Manage Open Seats</b>
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" routerLink="/openpositions-create" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Add Open Seat</a>
-              <a class="dropdown-item" routerLink="/openpositions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">View Open Seats</a>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/operations-candidate-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Project Assignment</b></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/open-positions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Open Positions</b></a>
-          </li>
-  
-          
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/viewinterview-status" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Exception Approval</b></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/dashboard" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Dashboard</b></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/report" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Report</b></a>
-          </li>
-        </ul>
-    </div>
-    <div *ngIf="accessLevel === 'management' || accessLevel === 'partner' ">
-      <ul class="navbar-nav navbar-right">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/login-component" routerLinkActive="active"><b>Logout</b></a>
-        </li>
-      </ul>
-    </div>
-   
-    </nav>
-    <br>
+  <div *ngIf="accessLevel === 'partner'" class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/partner-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Partner Interview</b></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/operations-candidate-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Project Assignment</b></a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/open-positions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Open Positions</b></a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/dashboard" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Dashboard</b></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/report" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Report</b></a>
+      </li>
+
+    </ul>
+  </div>
+  <div *ngIf="accessLevel === 'management'" class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" routerLink="/openpositions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <b>Manage Open Seats</b>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" routerLink="/openpositions-create" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Add Open Seat</a>
+          <a class="dropdown-item" routerLink="/openpositions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">View Open Seats</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/operations-candidate-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Project Assignment</b></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/open-positions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Open Positions</b></a>
+      </li>
+
+
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/viewinterview-status" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Exception Approval</b></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/dashboard" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Dashboard</b></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/report" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Report</b></a>
+      </li>
+    </ul>
+  </div>
+  <div *ngIf="accessLevel === 'management' || accessLevel === 'partner' ">
+    <ul class="navbar-nav navbar-right">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/login-component" routerLinkActive="active"><b>Logout</b></a>
+      </li>
+    </ul>
+  </div>
+
+</nav>
+<br>
 
 <div>
-    <h4 class="my-0 mr-md-auto font-weight-normal">Open Positions List</h4>
-    <br />
+  <h4 class="my-0 mr-md-auto font-weight-normal">Open Positions List</h4>
+  <br />
 </div>
 <!-- No data found message -->
 <p class="no-data text-center" *ngIf="openPositionsList.length <= 0">There are no open positions</p>
 <div class="form-group">
-    <!-- Operations candidate list -->
-    <table class="table table-bordered">
-        <thead class="table-success">
-            <tr style="background-color:powderblue">
-                <th scope="col center" width="4%">Action</th>
-                <th scope="col" width="14%">Open Position</th>
-                <th scope="col" width="18%">Job Role</th>
-                <th scope="col" width="16%">Line of Business</th>
-                <th scope="col" width="16%">Position Location</th>
-                <th scope="col" width="15%">Rate Card Role</th>
-                <th scope="col" width="22%">Competency Level</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let openPosition of openPositionsList | paginate: {id:'positions_pagination', itemsPerPage:itemsPerPage,
+  <!-- Operations candidate list -->
+  <table class="table table-bordered">
+    <thead class="table-success">
+    <tr style="background-color:powderblue">
+      <th scope="col center" width="4%">Action</th>
+      <th scope="col" width="12%">Open Position</th>
+      <th scope="col" width="10%">Position ID</th>
+      <th scope="col" width="16%">Job Role</th>
+      <th scope="col" width="14%">Line of Business</th>
+      <th scope="col" width="14%">Position Location</th>
+      <th scope="col" width="15%">Rate Card Role</th>
+      <th scope="col" width="20%">Competency Level</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let openPosition of openPositionsList | paginate: {id:'positions_pagination', itemsPerPage:itemsPerPage,
             currentPage:page, totalItems:openPositionsList.length} ">
-                <td class="text-center" width="4%">
-                    <input type="radio" name="jrssSelected"  (change)="jrssSelected=openPosition.JRSS; positionID=openPosition._id">
-                </td>
-                <td width="14%">{{openPosition.positionName}}</td>
-                <td width="18%">{{openPosition.JRSS}}</td>
-                <td width="16%">{{openPosition.lineOfBusiness}}</td>
-                <td width="16%">{{openPosition.positionLocation}}</td>
-                <td width="15%">{{openPosition.rateCardJobRole}}</td>
-                <td width="22%">{{openPosition.competencyLevel}}</td>
-            </tr>
-        </tbody>
-    </table>
+      <td class="text-center" width="4%">
+        <input type="radio" name="jrssSelected"  (change)="jrssSelected=openPosition.JRSS; positionID=openPosition._id">
+      </td>
+      <td width="12%">{{openPosition.positionName}}</td>
+      <td width="10%">{{openPosition.positionID}}</td>
+      <td width="16%">{{openPosition.JRSS}}</td>
+      <td width="14%">{{openPosition.lineOfBusiness}}</td>
+      <td width="14%">{{openPosition.positionLocation}}</td>
+      <td width="15%">{{openPosition.rateCardJobRole}}</td>
+      <td width="20%">{{openPosition.competencyLevel}}</td>
+    </tr>
+    </tbody>
+  </table>
 </div>
 <div class="float-right text-right">
     <span>
         <button type="button" style="background-color:#0043CE;" class="btn btn-success btn-sm"
-            (click)="redirectToFindCandidates()">Find Candidate</button>&nbsp;
+                (click)="redirectToFindCandidates()">Find Candidate</button>&nbsp;
     </span>
 </div>
 <div *ngIf="openPositionsList.length > 0">
-    <pagination-controls (pageChange)="(page=$event)" id="positions_pagination" directionLinks="true"></pagination-controls>
-  </div>
+  <pagination-controls (pageChange)="(page=$event)" id="positions_pagination" directionLinks="true"></pagination-controls>
+</div>
 
 
 <!-- Code Ends.-->
