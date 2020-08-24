@@ -1,10 +1,13 @@
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ApiService } from './../../service/api.service';
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { JRSS } from './../../model/jrss';
 import { browserRefresh } from '../../app.component';
 import { appConfig } from './../../model/appConfig';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator'
+import {MatSort} from '@angular/material/sort';
 
 @Component({
   selector: 'app-stream-create',
@@ -30,6 +33,11 @@ export class StreamCreateComponent implements OnInit {
   jrssObject: any= [];
   jrssObjectArray:any = [];  
   techStreamCollection:any = [];  
+  dataSource = new MatTableDataSource<JRSS>();
+  displayedColumns = ['Action','jrss', 'technologyStream'];
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     public fb: FormBuilder,
@@ -59,7 +67,10 @@ export class StreamCreateComponent implements OnInit {
   ngOnInit(): void {
     this.browserRefresh = browserRefresh;
   }
-
+  ngAfterViewInit (){
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
   mainForm() {
     this.streamCreateForm = this.fb.group({
       JRSS: ['', [Validators.required]],
@@ -72,15 +83,16 @@ export class StreamCreateComponent implements OnInit {
    readJrss(){
     this.apiService.getJRSS().subscribe((data) => {
     this.JRSS = data;
-
+    //this.dataSource.data=data as JRSS[];
     // Get technologyStream from JRSS
     for (var jrss of this.JRSS){     
         this.techStreamArray = [];
         for (var skill of jrss.technologyStream){          
-          this.techStreamArray.push(skill.value);         
+          this.techStreamArray.push(skill.value);        
         }        
         this.jrssObject = [jrss._id, jrss.jrss, this.techStreamArray];
-        this.jrssObjectArray.push(this.jrssObject);          
+        this.jrssObjectArray.push(this.jrssObject);  
+        this.dataSource.data=this.jrssObjectArray as JRSS[];         
     }  
     });        
   }
