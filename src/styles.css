@@ -76,3 +76,8 @@ th.mat-sort-header-sorted {
 .question-text-width {
   width: 60%;
 }
+
+.mat-sort-header-arrow {
+color: #fff !important;
+opacity: 1 !important;
+}

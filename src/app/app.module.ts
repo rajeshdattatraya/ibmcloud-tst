@@ -27,7 +27,6 @@ import { TestConfigAddComponent } from './components/test-config-add/test-config
 import { TestConfigEditComponent } from './components/test-config-edit/test-config-edit.component';
 import { JrssCreateComponent } from './components/jrss-create/jrss-create.component';
 import { StreamCreateComponent } from './components/stream-create/stream-create.component';
-import { UserModule} from './components/view-testresults/user.module';
 import { DashboardUserModule } from './components/dashboard/dashboard-user.module';
 import { OperationsUserModule } from './components/operations-candidate-list/operations-user.module';
 import { PartnerUserModule } from './components/partner-interview/partner-user.module';
@@ -55,6 +54,7 @@ import { EligibleCandidatesComponent } from './components/eligible-candidates/el
 import { EligibleCandidatesFilterPipe } from './components/eligible-candidates/filterByJRSS.pipe';
 import { QuestionAddBulkSectorsmeComponent } from './components/question-add-bulk-sectorsme/question-add-bulk-sectorsme.component';
 import { QuestionsAddSectorsmeComponent } from './components/questions-add-sectorsme/questions-add-sectorsme.component';
+import { ViewTestresultsComponent } from './components/view-testresults/view-testresults.component';
 import { TATMaterialModule } from  './material.module';
 
 export let browserRefresh = false;
@@ -97,12 +97,13 @@ export let browserRefresh = false;
     OpenpositionsListComponent,
     OpenpositionsCreateComponent,
     OpenpositionsEditComponent,
-	ProjectAssignmentComponent,
+	  ProjectAssignmentComponent,
     OpenPositionsListComponent,
     EligibleCandidatesComponent,
     EligibleCandidatesFilterPipe,
     QuestionAddBulkSectorsmeComponent,
-    QuestionsAddSectorsmeComponent
+    QuestionsAddSectorsmeComponent,
+    ViewTestresultsComponent
 
     ],
   imports: [
@@ -114,7 +115,6 @@ export let browserRefresh = false;
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    UserModule,
     DashboardUserModule,
     OperationsUserModule,
     PartnerUserModule,

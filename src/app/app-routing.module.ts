@@ -49,7 +49,6 @@ import { QuestionsAddSectorsmeComponent } from './components/questions-add-secto
 import { SuperadminUserCreateComponent } from './components/superadmin-user-create/superadmin-user-create.component'
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login-component' },
-  { path: '', loadChildren: './components/view-testresults/user.module#UserModule'},
   { path: '', loadChildren: './components/dashboard/dashboard-user.module#DashboardUserModule'},
   { path: '', loadChildren: './components/operations-candidate-list/operations-user.module#OperationsUserModule'},
   { path: '', loadChildren: './components/partner-interview/partner-user.module#PartnerUserModule'},
