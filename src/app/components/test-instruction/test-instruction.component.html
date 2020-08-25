@@ -1,17 +1,25 @@
-<form (ngSubmit)="onSubmit()" >
-  <div>
-  <h4 class="text-center">Please read the instructions below</h4>
-     <br>
-     <ol>The test contains <b>{{numOfQuestions}} questions</b> in total to be completed in <b>{{numOfMins}} mins.</b></ol>
-     <ol>You have an option to <b>navigate between questions</b> and <b>Flag</b> a question to review them later.</ol>
-     <ol>The <b>Summary button</b> at the bottom of the page provides an option to navigate to any question and view the questions flagged.</ol>
-     <ol>It is <b>mandatory</b> to answer all the questions before finishing the exam.</ol>
-     <br/>
-     <p class="text-center">
-      <button [disabled]="loading">
-        <span *ngIf="loading" style="background-color:#0043CE;"  class="spinner-border spinner-border-sm mr-1"></span>
-        Start Exam
-      </button>
-      
-    </div>
-  </form>
+<!-- Test Instruction Page -->
+<mat-card class="login-card">
+  <mat-card-header></mat-card-header>
+  <mat-card-content>
+    <form>
+      <table class="open-full-width" cellspacing="0"> 
+        <div>
+            <h4 class="text-center">Please read the instructions below</h4>
+            <br>
+            <ol>The test contains <b>{{numOfQuestions}} questions</b> in total to be completed in <b>{{numOfMins}} mins.</b></ol>
+            <ol>You have an option to <b>navigate between questions</b> and <b>Flag</b> a question to review them later.</ol>
+            <ol>The <b>Summary button</b> at the bottom of the page provides an option to navigate to any question and view the questions flagged.</ol>
+            <ol>It is <b>mandatory</b> to answer all the questions before finishing the exam.</ol>
+            <br/>      
+        </div>
+      </table>
+    </form>
+  </mat-card-content>
+  <br/>
+  <mat-card-actions>
+      <div class="row justify-content-center">
+        <button mat-raised-button color="primary" (click)="onSubmit()">Start Exam</button>
+      </div>
+  </mat-card-actions>
+</mat-card>
