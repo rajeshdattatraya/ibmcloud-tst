@@ -34,8 +34,14 @@
         </mat-form-field>
       </td>
       <td>
-        <mat-form-field>
+        <mat-form-field *ngIf="account=='sector' || account=='Sector' || account=='SECTOR'">
+            <input matInput (keyup)="applyFilter($event.target.value,'account')" placeholder="Account"> 
           <input matInput (keyup)="applyFilter($event.target.value,'account')" placeholder="Account">
+            <input matInput (keyup)="applyFilter($event.target.value,'account')" placeholder="Account"> 
+          <input matInput (keyup)="applyFilter($event.target.value,'account')" placeholder="Account">
+            <input matInput (keyup)="applyFilter($event.target.value,'account')" placeholder="Account"> 
+          <input matInput (keyup)="applyFilter($event.target.value,'account')" placeholder="Account">
+            <input matInput (keyup)="applyFilter($event.target.value,'account')" placeholder="Account"> 
         </mat-form-field>
       </td>
     </tr>
