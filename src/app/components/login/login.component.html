@@ -1,10 +1,10 @@
-<div *ngIf="mode=='login'">
+<div *ngIf="mode=='login'" class="col-md-8 offset-md-3 mt-5">
   <mat-card class="login-card">
     <mat-card-header>
-      <mat-card-title style="color:black">Login</mat-card-title>
+      <mat-card-title>Login</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <h6 style="color:black">Please login with provided credentials.</h6>
+      <p>Please login with provided credentials.</p>
       <form [formGroup]="loginForm">
         <table class="example-full-width" cellspacing="0">
           <tr>
@@ -28,8 +28,10 @@
       </form>
     </mat-card-content>
     <mat-card-actions>
+      <div class="row justify-content-center">
       <button mat-raised-button color="primary" (click)="onSubmit()">Login</button>
       <button mat-raised-button color="primary" (click)="forgotPassword()">Forgot password</button>
+      </div>
     </mat-card-actions>
     <div *ngIf="error" class="alert alert-danger">{{error}}</div>
     &nbsp;&nbsp;&nbsp;
@@ -37,13 +39,13 @@
 </div>
 
 
-<div *ngIf="mode=='forgotPassword'">
+<div *ngIf="mode=='forgotPassword'" class="col-md-8 offset-md-3 mt-5">
   <mat-card class="login-card">
     <mat-card-header>
-      <mat-card-title>Login</mat-card-title>
+      <mat-card-title>Confirm User</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <h6>Please provide Username and Date of joining if you are regular employee or Date of birth if you are contractor.</h6>
+      <p>Please provide Username and Date of joining if you are regular employee or Date of birth if you are contractor.</p>
       <form [formGroup]="forgotPasswordForm">
         <table class="example-full-width" cellspacing="0">
           <tr>
@@ -67,8 +69,10 @@
       </form>
     </mat-card-content>
     <mat-card-actions>
+      <div class="row justify-content-center">
       <button mat-raised-button color="primary" (click)="onforgotPasswordSubmit()">Submit</button>
       <button mat-raised-button color="primary" (click)="cancelForm()">Cancel</button>
+      </div>
     </mat-card-actions>
     <div *ngIf="error" class="alert alert-danger">{{error}}</div>      &nbsp;&nbsp;&nbsp;
   </mat-card>

@@ -1,132 +1,137 @@
-<nav class="navbar navbar-expand-lg navbar-light table-success" style="background-color:powderblue">
-	<div class="collapse navbar-collapse" id="navbarNavDropdown">
-		<ul class="navbar-nav">
-			<li class="nav-item">
-				<a class="nav-link" routerLink="/superadmin-user-create" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<b>Manage User</b>
-				</a>
-			</li>
-		</ul>
-	</div>
-	<div>
-		<ul class="navbar-nav navbar-right">
-			<li class="nav-item">
-				<a class="nav-link" routerLink="/login-component" routerLinkActive="active">
-					<b>Logout</b>
-				</a>
-			</li>
-		</ul>
-	</div>
-</nav>
+<mat-toolbar>
+  <mat-toolbar-row>
+    <a mat-button  routerLink="/superadmin-user-create" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <b>Manage User</b>
+    </a>
+    <span class="flexExpand">
+    <a mat-button  routerLink="/login-component" routerLinkActive="active"><b>Logout</b></a>
+    </span>
+  </mat-toolbar-row>
+</mat-toolbar>
 <br/>
 <div>
   <h4 class="my-0 mr-md-auto font-weight-normal">Add User</h4>
   <br/>
-</div>  
-<div class="card">
-    <div class="card-body">
-      <form [formGroup]="candidateForm" (ngSubmit)="onSubmit()" >
-        <div class="form-group row">
-          <label for="inputName" class="col-sm-4 col-form-label">Name</label>
-          <div class="col-sm-6">
-          <input class="form-control" type="text" formControlName="employeeName" id="inputName" [ngClass]="{ 'is-invalid': submitted && myForm.employeeName.errors }">
-            <div *ngIf="submitted && myForm.employeeName.errors" class="invalid-feedback">
-              <div *ngIf="myForm.employeeName.errors.required">Name is required</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group row">
-          <label for="inputEmail3" class="col-sm-4 col-form-label">Email</label>
-          <div class="col-sm-6">
-          <input class="form-control" type="text" formControlName="email" id="inputEmail3" [ngClass]="{ 'is-invalid': submitted && myForm.email.errors }">
-            <div *ngIf="submitted && myForm.email.errors" class="invalid-feedback">
-              <div *ngIf="myForm.email.errors.required">Email is required</div>
-              <div *ngIf="myForm.email.errors.pattern">Invalid Email</div>
-            </div>
-          </div>
-          <div class="col-sm-6"><i><b><font style="font-size:12px">[This field is used as username.]</font></b></i></div>
-
-        </div>
-
-        <div class="form-group row">
-          <label for="inputUserrole3" class="col-sm-4 col-form-label">User role</label>
-          <div class="col-sm-6">
-          <select class="custom-select form-control" (change)="updateUserroleProfile($event.target.value)"
-                  formControlName="userrole" id="inputUserrole3" [ngClass]="{ 'is-invalid': submitted && myForm.userrole.errors }">
-            <option disabled value="">Choose...</option>
-            <option *ngFor="let userrole of Userrole" value="{{userrole.userrole}}">{{userrole.userrole}}
-            </option>
-          </select>
-            <div *ngIf="submitted && myForm.userrole.errors" class="invalid-feedback">
-              <div *ngIf="myForm.userrole.errors.required">User role is required</div>
-            </div>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="inputAccount3" class="col-sm-4 col-form-label">Account</label>
-          <div class="col-sm-6">
-          <select class="custom-select form-control" (change)="updateAccountProfile($event.target.value)"
-                  formControlName="account" id="inputAccount3" [ngClass]="{ 'is-invalid': submitted && myForm.account.errors }" >              
-            <option disabled value="">Choose...</option>
-            <option *ngFor="let account of AccountList" value="{{account}}">{{account}}
-            </option>
-          </select>
-          <div *ngIf="submitted && myForm.account.errors" class="invalid-feedback" >
-            <div *ngIf="myForm.account.errors.required">Account is required</div>
-          </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <button class="btn btn-primary" style="background-color:#0043CE;" type="submit">Register</button>
-        </div>
-        <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
-            &nbsp;&nbsp;&nbsp;
-      </form>
-  </div><!-- form card register -->
 </div>
-
+<mat-card class="login-card">
+  <mat-card-header>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="candidateForm">
+      <table class="open-full-width" cellspacing="0">
+        <tr>
+          <td>
+            <mat-form-field class="open-full-width">
+              <input matInput placeholder="Name" type="text" formControlName="employeeName" id="employeeName" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.employeeName.errors }">
+              <div *ngIf="!formReset && submitted && myForm.employeeName.errors" class="invalid-feedback">
+                <div *ngIf="myForm.employeeName.errors.required">Name is required</div>
+              </div>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field class="open-full-width">
+              <input matInput placeholder="Email [This field is used as username.]" type="text" formControlName="email" id="inputEmail3" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.email.errors }">
+              <div *ngIf="!formReset && submitted && myForm.email.errors" class="invalid-feedback">
+                <div *ngIf="myForm.email.errors.required">Email is required</div>
+                <div *ngIf="myForm.email.errors.pattern">Invalid Email</div>
+              </div>
+              <div class="col-sm-8">
+                <i><b><font style="font-size:12px"></font></b></i>
+              </div>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field class="open-full-width">
+              <mat-select placeholder="User Role" (selectionChange)="updateUserroleProfile($event.value)"
+                      formControlName="userrole" id="userrole" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.userrole.errors }">
+                <mat-option disabled value="">Choose...</mat-option>
+                <mat-option *ngFor="let userrole of Userrole" value="{{userrole.userrole}}">{{userrole.userrole}}
+                </mat-option>
+              </mat-select>
+              <div *ngIf="!formReset && submitted && myForm.userrole.errors" class="invalid-feedback">
+                <div *ngIf="myForm.userrole.errors.required">User role is required</div>
+              </div>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field class="open-full-width">
+            <mat-select placeholder="Account" (selectionChange)="updateAccountProfile($event.value)"
+                    formControlName="account" id="account" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.account.errors }" >
+              <mat-option disabled value="">Choose...</mat-option>
+              <mat-option *ngFor="let account of AccountList" value="{{account}}">{{account}}
+              </mat-option>
+            </mat-select>
+            <div *ngIf="!formReset && submitted && myForm.account.errors" class="invalid-feedback" >
+              <div *ngIf="myForm.account.errors.required">Account is required</div>
+            </div>
+            </mat-form-field>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <div class="row justify-content-center">
+      <button mat-raised-button color="primary" (click)="onSubmit()">Register</button>
+      <button mat-raised-button color="primary" (click)="clearForm()">Clear</button>
+    </div>
+  </mat-card-actions>
+  <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+  &nbsp;&nbsp;&nbsp;
+</mat-card>
 <br/>
 <h4 class="my-0 mr-md-auto font-weight-normal">Users List</h4>
 <br/>
-
 <!-- No data message -->
 <p *ngIf="AdminUsers.length <= 0" class="no-data text-center">There are no records added yet!</p>
-  
-  <!-- Admin users list -->
-  <table class="table table-bordered" *ngIf="AdminUsers.length > 0">
-    <thead class="table-success">
-    <tr style="background-color:powderblue">
-      <th scope="col center" class="float-center text-center" width="5%">Action</th>
-      <th scope="col" class="float-center text-center" width="30%">Name</th>
-      <th scope="col" class="float-center text-center" width="30%">Email</th>
-      <th scope="col" class="float-center text-center" width="20%">Role</th>
-      <th scope="col" class="float-center text-center" width="15%">Account</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let adminuser of AdminUsers; let i = index">
-      <td *ngIf="adminuser.username.length > 0" class="float-center text-center" width="5%">
-        <input type="radio" name="radiogroup"
-                   (change)="onSelectionChange(adminuser.username,adminuser._id,i)">         
+
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+    <!-- ID Column -->
+    <ng-container matColumnDef="Action">
+      <th mat-header-cell *matHeaderCellDef> Action </th>
+      <td mat-cell *matCellDef="let row;let i = index"> <mat-radio-button (change)="onSelectionChange(row.username,row._id,i)"></mat-radio-button>
       </td>
-      <td *ngIf="adminuser.username.length > 0" width="5%" class="float-center text-center"> {{adminuser.name}} </td>
-      <td *ngIf="adminuser.username.length > 0" width="5%" class="float-center text-center" > {{adminuser.username}} </td>
-      <td *ngIf="adminuser.username.length > 0" width="5%" class="float-center text-center" > {{adminuser.accessLevel}}</td>
-      <td *ngIf="adminuser.username.length > 0" width="5%" class="float-center text-center" > {{adminuser.account}}</td>
-    </tr>
-    </tbody>
+    </ng-container>
+    <!-- ID Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+      <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+    </ng-container>
+
+    <!-- Progress Column -->
+    <ng-container matColumnDef="username">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+      <td mat-cell *matCellDef="let row"> {{row.username}}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="accessLevel">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Role </th>
+      <td mat-cell *matCellDef="let row"> {{row.accessLevel}} </td>
+    </ng-container>
+
+    <!-- Color Column -->
+    <ng-container matColumnDef="account">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Account </th>
+      <td mat-cell *matCellDef="let row"> {{row.account}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-
-  <div  class="float-right text-right" *ngIf="AdminUsers.length > 0">
-        <a class="edit" (click)="invokeEdit()">
-            <button  type="button" class="btn btn-primary" style="background-color:#0043CE;" type="button" class="btn btn-primary">Edit</button>&nbsp;
-       </a>
-
-    <div  class="float-right text-right" *ngIf="AdminUsers.length > 0">
-        <a class="delete" (click)="removeUser(username,index)">
-            <button type="button" class="btn btn-primary" style="background-color:#0043CE;" type="button" class="btn btn-primary">Delete</button>&nbsp;
-        </a> 
- 
-    </div>
+  <mat-paginator [length]="this.AdminUsers.length" [pageSize]="5" [pageSizeOptions]="[5,10,15,25,50,100]"></mat-paginator>
 </div>
+<br/>
+<div  class="float-right text-right" *ngIf="AdminUsers.length > 0">
+  <a class="edit"  (click)="invokeEdit()">
+    <button mat-raised-button color="primary">Edit</button>&nbsp;
+  </a>
+  <a class="delete" (click)="removeUser(username,index)">
+    <button mat-raised-button color="primary">Delete</button>&nbsp;
+  </a>
+</div>
+
