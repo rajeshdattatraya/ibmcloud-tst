@@ -1,71 +1,47 @@
-<nav class="navbar navbar-expand-lg navbar-light table-success" style="background-color:powderblue">
-  <div class="collapse navbar-collapse" id="navbarNavDropdown">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/technical-interview-list" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active"><b>Technical Interview</b></a>
-      </li>
-
-      <li *ngIf="account=='sector'" class="nav-item dropdown active">
-        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <b>Manage Questions</b><span class="sr-only">(current)</span>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" routerLink="/manage-questionbank-sectorsme" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active">Add Question</a>
-          <a class="dropdown-item" routerLink="/manage-questionbank-bulk-sectorsme" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active">Add Bulk Question</a>
-           <a class="dropdown-item" routerLink="/view-questionbank" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active">View Question</a>
-        </div>
-      </li>
-
-    </ul>
-  </div>
-  <div>
-    <ul class="navbar-nav navbar-right">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/login-component" routerLinkActive="active"><b>Logout</b></a>
-      </li>
-    </ul>
-  </div>
-</nav>
-<br>
-<div class="card w-85">
-  <div class="card-header"><i><b><font style="font-size:14px">Enter Search Criteria</font></b></i></div>
-  <div class="card-body">
-    <form novalidate [formGroup]="form">
-      <div>
-        <br>
-
-        <table>
-          <tr width="100%">
-            <td width="20%"><div class="col-sm-4"><label>Name: </label></div></td>
-            <td width="35%"><div class="form-group row"><div class="col-sm-8"><input type="search" #candiateName formControlName="employeeName" placeholder="Search using Candidate Name" id="search4" aria-label="Search" >
-            </div></div></td>
-            <td width="25%"><div class="col-sm-6"><label>Job Role: </label></div></td>
-            <td width="30%"><div class="form-group row"><div class="col-sm-8"><input type="search" #jrss formControlName="JRSS" placeholder="Search using Job Role" id="search4" aria-label="Search" mdbInput>
-            </div></div></td>
-          </tr>
-          <tr width="100%" *ngIf="account=='sector' || account=='Sector' || account=='SECTOR'">
-            <td width="25%"><div class="col-sm-10"><label>Account: </label></div></td>
-            <td width="35%"><div class="form-group row"><div class="col-sm-12"><select type="search" #account formControlName="account" placeholder="Search using Account" class="custom-select form-control" (change)="updateAccountDetails($event.target.value)"
-                                                                                       style="width:60%" id="search4" aria-label="Search" mdbInput>
-              <option value="">Choose...</option>
-              <option *ngFor="let account of AccountList" value="{{account}}">{{account}}
-              </option>
-            </select>
-            </div></div></td>
-          </tr>
-        </table>
-        <div class="form-group">
-          <div class="row justify-content-center"> &nbsp;&nbsp;&nbsp;
-            <button class="btn btn-sm btn-primary" style="background-color:#0043CE;" (click)="search(form.value)">Search</button>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <button type="reset" class="btn btn-sm btn-primary" style="background-color:#0043CE;">Clear</button>
-          </div>
-        </div>
+<mat-toolbar>
+  <mat-toolbar-row>
+    <a  mat-button  routerLink="/technical-interview-list" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active"><b>Technical Interview</b></a>
+    <li *ngIf="account=='sector'" class="nav-item dropdown active">
+      <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <b>Manage Questions</b><span class="sr-only">(current)</span>
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+        <a class="dropdown-item" routerLink="/manage-questionbank-sectorsme" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active">Add Question</a>
+        <a class="dropdown-item" routerLink="/manage-questionbank-bulk-sectorsme" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active">Add Bulk Question</a>
+        <a class="dropdown-item" routerLink="/view-questionbank" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active">View Question</a>
       </div>
-    </form>
-  </div>
-</div>
-<div>
+    </li>
+    <span class="flexExpand">
+    <a  mat-button  routerLink="/login-component" routerLinkActive="active"  class="btn1"><b>Logout</b></a>
+    </span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<br>
+<mat-card class="login-card">
+  <mat-card-header>
+    <mat-card-title class="example-card-title">Search</mat-card-title>
+  </mat-card-header>
+  <table>
+    <tr>
+      <td>
+        <mat-form-field>
+          <input matInput (keyup)="applyFilter($event.target.value,'employeeName')" placeholder="Name">
+        </mat-form-field>
+      </td>
+      <td>
+        <mat-form-field>
+          <input matInput (keyup)="applyFilter($event.target.value,'JRSS')" placeholder="Job Role">
+        </mat-form-field>
+      </td>
+      <td>
+        <mat-form-field>
+          <input matInput (keyup)="applyFilter($event.target.value,'account')" placeholder="Account">
+        </mat-form-field>
+      </td>
+    </tr>
+  </table>
+</mat-card>
+<br>
   <div>
     <h4 class="my-0 mr-md-auto font-weight-normal">Technical Interview Assessment Queue</h4>
     <br/>
@@ -74,65 +50,83 @@
   <p *ngIf="TechnicalInterviewList.length <= 0" class="no-data text-center">There are no records in Technical Interview Assessment Queue</p>
 
   <!-- Technical Interview list -->
-  <table class="table table-bordered" *ngIf="TechnicalInterviewList.length > 0">
-    <thead class="table-success">
-    <tr style="background-color:powderblue">
-      <th scope="col" width="5%">Action</th>
-      <th scope="col" width="20%">Name</th>
-      <th scope="col" width="25%">Job Role</th>
-      <th *ngIf="account=='sector' || account=='Sector'" scope="col" width="17%">Account</th>
-      <th scope="col" width="15%">Online Test Result</th>
-      <th scope="col" width="20%">Pre-Technical Interview Assessment Form</th>
-      <th scope="col" width="17%">CV Download</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let TechnicalInterview of TechnicalInterviewList | paginate: config; let i = index">
-      <td  class="text-center edit-block" width="5%">
-        <input type="radio" name="radiogroup"
-               (change)="onSelectionChange(TechnicalInterview.userName,TechnicalInterview.quizNumber)">
-      </td>
-      <td width="20%"><a href="#myModal" (click)="getCandidateDetails(TechnicalInterview.userName)" class="col-4 cursor-pointer" data-toggle="modal" >{{TechnicalInterview.result_users[0].employeeName}}</a></td>
-      <td  width="25%">{{TechnicalInterview.result_users[0].JRSS}}</td>
-      <td *ngIf="account=='sector' || account=='Sector'" width="25%">{{TechnicalInterview.result_users[0].account}}</td>
-      <td  width="17%"><a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(TechnicalInterview.userName,TechnicalInterview.quizNumber,TechnicalInterview.result_users[0].employeeName,TechnicalInterview.userScore,TechnicalInterview.createdDate)" class="col-4 cursor-pointer" data-toggle="modal" *ngIf="TechnicalInterview.userScore!=null">{{TechnicalInterview.userScore}}%</a><p *ngIf="TechnicalInterview.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p></td>
-      <td *ngIf="TechnicalInterview.stage2_status=='Skipped'" width="20%"><a href="#" (click)="skipMethod()" routerLinkActive="active"  class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
-      <td *ngIf="TechnicalInterview.stage2_status=='Completed'" width="20%">
-        <a class="col-4 cursor-pointer" [routerLink]="['/pre-technical-interview-form/',TechnicalInterview.result_users[0].JRSS, TechnicalInterview.userName]"
-           [state]="{jrss:TechnicalInterview.result_users[0].JRSS,username:TechnicalInterview.result_users[0].username,access:'tech-list',account:this.account}">
-          Click here
-        </a>
-      </td>
-      <td width="20%"><a href="#" (click)="downloadCandidateResume(TechnicalInterview.userName)" routerLinkActive="active" class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
-    </tr>
-    </tbody>
-  </table>
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
+      <!-- ID Column -->
+      <ng-container matColumnDef="Action">
+        <th mat-header-cell *matHeaderCellDef> Select </th>
+        <td mat-cell *matCellDef="let row"> <mat-radio-button (change)="onSelectionChange(row.userName,row.quizNumber)"></mat-radio-button>
+        </td>
+      </ng-container>
+
+      <!-- ID Column -->
+      <ng-container matColumnDef="employeeName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+        <td mat-cell *matCellDef="let row"><a href="#myModal" (click)="getCandidateDetails(row.userName)" class="col-4 cursor-pointer" data-toggle="modal" >{{row.result_users[0].employeeName}}</a>
+        </td>
+      </ng-container>
+
+      <!-- ID Column -->
+      <ng-container matColumnDef="JRSS">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Job Role </th>
+        <td mat-cell *matCellDef="let row">{{row.result_users[0].JRSS}}</td>
+      </ng-container>
+
+      <!-- ID Column -->
+      <ng-container matColumnDef="account">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Account </th>
+        <td mat-cell *matCellDef="let row">{{row.result_users[0].account}}</td>
+      </ng-container>
+
+      <!-- ID Column -->
+      <ng-container matColumnDef="userScore">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Online Test Result </th>
+        <td mat-cell *matCellDef="let row"> <a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users[0].employeeName,row.userScore,row.createdDate)" class="col-4 cursor-pointer" data-toggle="modal" *ngIf="row.userScore!=null">{{row.userScore}}%</a><p *ngIf="row.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p>
+        </td>
+      </ng-container>
+
+      <!-- ID Column -->
+      <ng-container matColumnDef="preTechForm">
+        <th mat-header-cell *matHeaderCellDef> Pre-Technical Interview Assessment Form </th>
+        <td mat-cell *matCellDef="let row">
+          <div *ngIf="row.stage2_status=='Completed'">
+              <a class="col-4 cursor-pointer" [routerLink]="['/pre-technical-interview-form/',row.result_users[0].JRSS, row.userName]"
+                                               [state]="{jrss:row.result_users[0].JRSS,username:row.result_users[0].username,access:'tech-list',account:this.account}">
+              Click here
+            </a>
+          </div>
+          <div *ngIf="row.stage2_status=='Skipped'">
+            <a href="#" (click)="skipMethod()" routerLinkActive="active"  class="col-4 cursor-pointer" data-toggle="modal">
+              Click here
+            </a>
+          </div>
+        </td>
+      </ng-container>
+
+
+      <!-- ID Column -->
+      <ng-container matColumnDef="cvDownload">
+        <th mat-header-cell *matHeaderCellDef> CV Download </th>
+        <td mat-cell *matCellDef="let row"><a href="#" (click)="downloadCandidateResume(row.userName)" routerLinkActive="active" class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [length]="this.TechnicalInterviewList.length" [pageSize]="5" [pageSizeOptions]="[5,10,15,25,50,100]"></mat-paginator>
+  </div>
+  <br/>
   <div  class="float-right text-right" *ngIf="TechnicalInterviewList.length > 0">
-
         <span (click)="scheduleInterview()">
-          <button type="button"class="btn btn-success btn-sm" style="background-color:#0043CE;"
-                  data-toggle="modal" data-target="#calendarModal" >
-            Schedule Interview
-          </button>
-
-   </span>
-    &nbsp;
-
-    <span (click)="exceptionalApproval()">
-              <button type="button"class="btn btn-success btn-sm" style="background-color:#0043CE;"
-                      data-toggle="modal" data-target="#myModal" >Exceptional Approval</button>
-
-       </span>
-    &nbsp;
-    <span (click)="initiateInterview()">
-              <button type="button" class="btn btn-success btn-sm" style="background-color:#0043CE;">Initiate Interview</button>&nbsp;
-       </span>
+          <button mat-raised-button color="primary" data-toggle="modal" data-target="#calendarModal" >Schedule Interview</button>
+        </span> &nbsp;
+        <span (click)="exceptionalApproval()">
+              <button mat-raised-button color="primary" data-toggle="modal" data-target="#myExceptionModal" >Exceptional Approval</button>
+        </span>   &nbsp;
+        <span (click)="initiateInterview()">
+              <button mat-raised-button color="primary">Initiate Interview</button>&nbsp;
+        </span>
   </div>
-  <div *ngIf="TechnicalInterviewList.length > 0">
-    <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
-  </div>
-</div>
 
 <!-- Modal Code starts. -->
 <div id="assessmentModal" class="modal fade" role="dialog">
@@ -223,7 +217,7 @@
 
 
   <!-- The Modal -->
-  <div class="modal" id="myModal"  *ngIf="showModal" #content>
+  <div class="modal" id="myExceptionModal"  *ngIf="showModal" #content>
     <div class="modal-dialog">
       <div class="modal-content">
         <!-- <div *ngIf="assessmentDetails.quizNumber == this.quizNumber"> -->

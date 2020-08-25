@@ -7,6 +7,13 @@ import { DatePipe } from '@angular/common';
 import { saveAs } from 'file-saver';
 import { Injectable } from '@angular/core';
 import { appConfig } from './../../model/appConfig';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator'
+import {MatSort} from '@angular/material/sort'
+import { Candidate } from './../../model/candidate';
+import { ViewResult } from './../../model/viewResult';
+
+
 declare var $: any;
 
 @Component({
@@ -49,16 +56,17 @@ export class TechnicalInterviewListComponent implements OnInit {
   candidateDetails: any = [];
   AccountData:any = [];
   AccountList:any=[];
-
+  filterObj = {};
+  loading = true;
+  dataSource = new MatTableDataSource<ViewResult>();
   showCalendar: boolean = false;
+  displayedColumns = ['Action','employeeName', 'JRSS','account','userScore','preTechForm','cvDownload'];
+
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(private datePipe: DatePipe, private route: ActivatedRoute, private router: Router, private apiService: ApiService, private ngZone: NgZone, private fb: FormBuilder) {
-    this.config = {
-      currentPage: appConfig.currentPage,
-      itemsPerPage: appConfig.itemsPerPage,
-      totalItems: appConfig.totalItems
-    };
-
     this.browserRefresh = browserRefresh;
     if (!this.browserRefresh) {
       this.userName = this.router.getCurrentNavigation().extras.state.username;
@@ -70,8 +78,7 @@ export class TechnicalInterviewListComponent implements OnInit {
       JRSS: new FormControl(''),
       account: new FormControl('')
     });
-    route.queryParams.subscribe(
-      params => this.config.currentPage = params['page'] ? params['page'] : 1);
+
     this.getTechnicalInterviewList();
     this.mainForm();
     this.readAccount();
@@ -80,7 +87,32 @@ export class TechnicalInterviewListComponent implements OnInit {
   @ViewChild('content') content: any;
   @ViewChild('calendarContent') calendarContent: any;
   ngOnInit(): void {
+      this.browserRefresh = browserRefresh;
+  this.dataSource.filterPredicate = (data: any, filter) => {
+        const dataStr =JSON.stringify(data).toLowerCase();
+        return dataStr.indexOf(filter) != -1;
+  }
 
+  this.dataSource.sortingDataAccessor = (item, property) => {
+      switch(property) {
+        case 'result_users[0].employeeName': return item.result_users[0].employeeName;
+        case 'result_users[0].JRSS': return item.result_users[0].JRSS;
+        default: return item[property];
+      }
+   }
+  }
+
+  ngAfterViewInit (){
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
+
+  applyFilter(filterValue: string,key: string) {
+    this.filterObj = {
+          value: filterValue.trim().toLowerCase(),
+          key: key
+    }
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
 
@@ -122,7 +154,9 @@ export class TechnicalInterviewListComponent implements OnInit {
   getCandidateDetails(username) {
     this.mode="displayModalBody";
     this.apiService.getCandidateDetails(username).subscribe((data) => {
+      console.log('coming here---'+username);
          this.candidateDetails = data;
+         this.dataSource.data = data as ViewResult[];
          if (this.candidateDetails[0].employeeType == 'Contractor') {
               this.displayContractorUIFields = true;
               this.displayRegularUIFields = false;
@@ -163,11 +197,6 @@ export class TechnicalInterviewListComponent implements OnInit {
     });
   }
 
-  pageChange(newPage: number) {
-    this.router.navigate(['/technical-interview-list'], { queryParams: { page: newPage } });
-  }
-
-
   //submit
   onSubmit() {
     this.submitted = true;
@@ -183,7 +212,8 @@ export class TechnicalInterviewListComponent implements OnInit {
 
   exceptionalApproval() {
     if (this.emailSelected == "") {
-      alert("Please select the candidate")
+      alert("Please select the candidate");
+      return false;
     }
     else {
       if (window.confirm("Are you sure you want to provide exception approval?")) {
@@ -224,12 +254,14 @@ export class TechnicalInterviewListComponent implements OnInit {
       this.apiService.getTechnicalInterviewAccountList(this.account).subscribe((data) => {
         this.TechnicalInterviewList = data;
         this.technicalInterviewCandidateList = data;
+        this.dataSource.data = data as ViewResult[];
       })
     }
     else{
     this.apiService.getTechnicalInterviewList().subscribe((data) => {
       this.TechnicalInterviewList = data;
       this.technicalInterviewCandidateList = data;
+      this.dataSource.data = data as ViewResult[];
     })
    }
   }
