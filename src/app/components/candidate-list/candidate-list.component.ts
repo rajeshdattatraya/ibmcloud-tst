@@ -35,6 +35,10 @@ export class CandidateListComponent implements OnInit {
   displayRegularUIFields: Boolean = true;
 
   filterObj = {};
+  nameFilter: string;
+  emailFilter: string;
+  bandFilter: string;
+  jrssFilter: string;
   loading = true;
   dataSource = new MatTableDataSource<CandidateDetails>();
 
@@ -201,6 +205,14 @@ export class CandidateListComponent implements OnInit {
                  this.displayRegularUIFields = true;
             }
        })
+   }
+
+   clearFilters() {
+      this.dataSource.filter = '';
+      this.nameFilter = '';
+      this.emailFilter = '';
+      this.bandFilter = '';
+      this.jrssFilter = '';
    }
 
 }

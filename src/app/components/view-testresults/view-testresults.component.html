@@ -40,21 +40,26 @@
     <tr>
       <td>
         <mat-form-field>
-          <input matInput (keyup)="applyFilter($event.target.value,'employeeName')" placeholder="Name">
+          <input matInput [(ngModel)]="nameFilter" #ctrl="ngModel" (keyup)="applyFilter($event.target.value,'employeeName')" placeholder="Name">
         </mat-form-field>
       </td>
       <td>
         <mat-form-field>
-          <input matInput (keyup)="applyFilter($event.target.value,'userName')" placeholder="Email">
+          <input matInput [(ngModel)]="emailFilter" #ctrl="ngModel"  (keyup)="applyFilter($event.target.value,'userName')" placeholder="Email">
         </mat-form-field>
       </td>
       <td>
         <mat-form-field>
-          <input matInput (keyup)="applyFilter($event.target.value,'JRSS')" placeholder="Job Role">
+          <input matInput [(ngModel)]="jrssFilter" #ctrl="ngModel" (keyup)="applyFilter($event.target.value,'JRSS')" placeholder="Job Role">
         </mat-form-field>
       </td>
     </tr>
   </table>
+  <mat-card-actions>
+    <div class="row justify-content-center">
+      <button mat-raised-button color="primary" aria-label="Clear" (click)="clearFilters()">Clear</button>
+    </div>
+  </mat-card-actions>
 </mat-card>
 <br>
 <div class="mat-elevation-z8">
@@ -106,7 +111,7 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; let even = even; columns: displayedColumns;" [ngClass]="{gray: even}"></tr>
   </table>
-  <mat-paginator [length]="this.Result.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  <mat-paginator [length]="this.Result.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
 </div>
 <!-- code Start -->
 <div id="myModal" class="modal fade" role="dialog">
