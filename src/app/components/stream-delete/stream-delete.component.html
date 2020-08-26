@@ -78,7 +78,6 @@
 		</div>
 	</mat-card-actions>
 </mat-card>
-
 	<br/>
 	<br/>
 	<div>
@@ -86,23 +85,21 @@
 	</div>
 	<!-- No data found message -->
 	<p *ngIf="JRSS.length <= 0" class="no-data text-center">There is no Technology Stream List added yet!</p>
-	  
-		<!-- Technology Stream list -->      
-		<table class="table table-bordered" *ngIf="JRSS.length > 0" >
-		  <thead class="table-success">
-		  <tr style="background-color:powderblue">          
-			  <th scope="col" width="35%">Job Role</th>          
-			  <th scope="col" width="65%">Technology Stream</th>    
-		   </tr>
-		  </thead>
-		  <tbody>
-		    <tr *ngFor="let jrss of jrssObjectArray | paginate: config; let i = index">
-				<td  width="12%">{{jrss[0]}}</td>      
-				<td  width="12%">{{jrss[1]}}</td>                  
-		    </tr>
-		  </tbody>
-	  </table>  
-	  
-	  <div *ngIf="JRSS.length > 0">
-			<pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
-	  </div>	
+	<!-- Technology Stream list -->  
+	<div class="mat-elevation-z8">
+		<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+			<!-- Job Role -->
+			<ng-container matColumnDef="jrss">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header> Job Role </th>
+				<td mat-cell *matCellDef="let row">{{row[0]}}</td>
+			</ng-container>
+			<!-- Technology Stream -->
+			<ng-container matColumnDef="technologyStream">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header> Technology Stream </th>
+				<td mat-cell *matCellDef="let row">{{row[1]}}</td>
+			</ng-container>
+			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+			<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+   		</table>
+   		<mat-paginator [length]="this.JRSS.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+	</div>
