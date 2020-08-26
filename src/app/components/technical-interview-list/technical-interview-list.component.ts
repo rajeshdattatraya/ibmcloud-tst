@@ -156,7 +156,6 @@ export class TechnicalInterviewListComponent implements OnInit {
     this.apiService.getCandidateDetails(username).subscribe((data) => {
       console.log('coming here---'+username);
          this.candidateDetails = data;
-         this.dataSource.data = data as ViewResult[];
          if (this.candidateDetails[0].employeeType == 'Contractor') {
               this.displayContractorUIFields = true;
               this.displayRegularUIFields = false;
