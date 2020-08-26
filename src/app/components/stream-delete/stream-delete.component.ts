@@ -1,9 +1,12 @@
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ApiService } from './../../service/api.service';
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { JRSS } from './../../model/jrss';
 import { browserRefresh } from '../../app.component';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator'
+import {MatSort} from '@angular/material/sort';
 
 @Component({
   selector: 'app-stream-delete',
@@ -26,6 +29,11 @@ export class StreamDeleteComponent implements OnInit {
   jrssDocId: String = "";
   jrssId = '';  
   currentJrssArray:any = [];
+  dataSource = new MatTableDataSource<JRSS>();
+  displayedColumns = ['jrss', 'technologyStream'];
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     public fb: FormBuilder,
@@ -55,6 +63,14 @@ export class StreamDeleteComponent implements OnInit {
              this.router.navigate(['/login-component']);
           }
       } 
+      this.dataSource.sortingDataAccessor = (item, property) => {
+        switch(property) {
+          case 'jrss': return item[1];
+          case 'technologyStream': return item[2];
+          default: return item[property];
+        }
+     };
+
       this.mainForm();
       this.readJrss();      
       this.jrssId = this.actRoute.snapshot.paramMap.get('id');      
@@ -63,8 +79,12 @@ export class StreamDeleteComponent implements OnInit {
         JRSS: ['', [Validators.required]],
         technologyStream :['', [Validators.required]]
       })
-
   } 
+
+  ngAfterViewInit (){
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
 
   mainForm() {
     this.streamDeleteForm = this.fb.group({
@@ -86,6 +106,7 @@ export class StreamDeleteComponent implements OnInit {
         }        
         this.jrssObject = [jrss.jrss, this.techStreamArray];
         this.jrssObjectArray.push(this.jrssObject);  
+        this.dataSource.data=this.jrssObjectArray as JRSS[];  
     } 
     })
   }
