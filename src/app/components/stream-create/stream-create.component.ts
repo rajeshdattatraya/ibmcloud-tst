@@ -35,6 +35,7 @@ export class StreamCreateComponent implements OnInit {
   techStreamCollection:any = [];  
   dataSource = new MatTableDataSource<JRSS>();
   displayedColumns = ['Action','jrss', 'technologyStream'];
+  formReset = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -172,6 +173,7 @@ pageChange(newPage: number) {
 
   onSubmit() {
     this.submitted = true;
+    this.formReset = false;
     this.duplicateTechStream = false;
     this.readJrssDocId();
     if (!this.streamCreateForm.valid) {
@@ -189,5 +191,10 @@ pageChange(newPage: number) {
         console.log(error);
         })
       }
-}
+  }
+  clearForm() {
+    this.formReset = true;
+    this.streamCreateForm.reset();
+  }
+
 }
