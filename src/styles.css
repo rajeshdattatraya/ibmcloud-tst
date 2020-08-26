@@ -94,6 +94,13 @@ th.mat-sort-header-sorted {
   width: 60%;
 }
 
+.stream-full-width {
+  width: 100%;
+}
+.stream-half-width {
+  width: 50%;
+}
+
 .mat-sort-header-arrow {
 color: #fff !important;
 opacity: 1 !important;

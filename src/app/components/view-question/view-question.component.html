@@ -32,50 +32,50 @@
   <div class="float-left text-left">
     <h4 class="my-0 mr-md-auto font-weight-normal">View Questions</h4></div>
     <br/><br>
-    
-     
+
+
       <!-- Question list -->
-    
-        
+
+
       <div  *ngIf="Questions.length > 0">
        <div *ngFor="let question of Questions | paginate: config; let i = index">
         <label class="font-weight-normal" style="width:1000px">
           <!--To display questions as entered with line breaks-->
-          <input id = "{{question.questionID}}" type="radio" name="radiogroup"/> 
+          <input id = "{{question.questionID}}" type="radio" name="radiogroup" (change)="onSelectionChange(question.questionID,i)"/>
           {{question.question}}
         </label>
-      
+
         <div  class="float-right text-right" *ngIf="Questions.length > 0">
           <a class="edit" (click)="invokeEdit()">
             <button type="button" class="btn btn-primary" style="background-color:#0043CE;">Edit</button>&nbsp;
         </a>
-        <a class="delete" (click)="removeQuestion(questionID)">
+        <a class="delete" (click)="removeQuestion(question._id)">
             <button type="button" class="btn btn-primary" style="background-color:#0043CE;">Delete</button>&nbsp;
-        </a>    
+        </a>
         </div>
 
         <div *ngFor="let option of question.options">
           <div *ngIf="question.questionType =='MultiSelect' && question ">
             <label class="font-weight-normal" >
               <input id="{{option.optionID}}" type="checkbox"  [(ngModel)]="option.selected" />
-              {{option.option}} 
-              
+              {{option.option}}
+
             </label>
           </div>
-          
-  
+
+
           <div *ngIf="question.questionType =='SingleSelect' && question" style="width:1100px">
-            <input id="{{option.optionID}}"   [checked]="option.checked" type="radio" name="options"  />  
+            <input id="{{option.optionID}}"   [checked]="option.checked" type="radio" name="options"  />
             {{option.option}}
-           
+
           </div>
         </div>
        <br> <br/>
         </div>
-      
+
         </div>
-      
-        
+
+
 
 <<div *ngIf="Questions.length > 0">
         <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>

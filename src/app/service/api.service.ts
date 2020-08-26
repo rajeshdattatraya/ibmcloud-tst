@@ -36,7 +36,7 @@ getpreTechQuestions(jrss) {
   let url = `${this.basePreTechQuestionnaireUri}/${jrss}/admin`;
   return this.http.get(`${this.basePreTechQuestionnaireUri}/${jrss}/admin`);
 }
- 
+
 // Get all JRSS
 getJRSSPreTech(jrssName) {
   let url = `${this.baseJrssUri}/getJrssPreTech/${jrssName}`;
@@ -750,4 +750,13 @@ viewQuizQuestions(userName,account) {
         catchError(this.errorMgmt)
    )
  }
+
+ // Delete Question
+ deleteQuestion(id): Observable<any> {
+  let url = `${this.baseQuestionUri}/delete/${id}`;
+  return this.http.delete(url, { headers: this.headers }).pipe(
+    catchError(this.errorMgmt)
+  )
+}
+
 }

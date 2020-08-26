@@ -15,7 +15,7 @@ import { Question } from 'src/app/model/questions';
 })
 export class ViewQuestionComponent implements OnInit {
   public browserRefresh: boolean;
-  
+
   userName: String = "";
   accessLevel: String = "";
   account:String = "";
@@ -38,7 +38,7 @@ export class ViewQuestionComponent implements OnInit {
         this.account = this.router.getCurrentNavigation().extras.state.account;
         console.log("Account value" +this.account );
     }
-     
+
     route.queryParams.subscribe(
       params => this.config.currentPage= params['page']?params['page']:1 );
       this.readQuestion();
@@ -66,18 +66,28 @@ invokeEdit(){
 }
 
 removeQuestion(questionID){
-
+  if(this.isRowSelected == false){
+    alert("Please select the Question");
+  }else{
+  if(window.confirm('Are you sure?')) {
+      this.apiService.deleteQuestion(questionID).subscribe((data) => {
+      //  this.Candidate.splice(index, 1);
+      this.readQuestion();
+      });
+    }
+  }
+   this.isRowSelected = false;
 }
-   
+
 
     onSelectionChange(questionsID,i){
       this.Questions.questionID=questionsID;
       this.index=i;
       this.isRowSelected = true;
     }
-     
-      
-  
-  
+
+
+
+
 
 }

@@ -40,51 +40,51 @@
 	<mat-card-content>
 		<form [formGroup]="streamCreateForm" (ngSubmit)="onSubmit()">
 		  <table class="open-full-width" cellspacing="0">
-		  <tr>
-		   <td> 
-			<mat-form-field class="open-full-width">
-				<mat-label>Job Role</mat-label>
-				<mat-select placeholder="Job Role" formControlName="JRSS" (selectionChange)="updateJrssProfile($event.value)">
-				  <mat-option *ngFor="let jrss of JRSS" value="{{jrss.jrss}}">{{jrss.jrss}}
-				  </mat-option>
-				</mat-select>
-				<div *ngIf="submitted && myForm.JRSS.errors" class="invalid-feedback">
-				  <div *ngIf="myForm.JRSS.errors.required">Job Role is required</div>
-				</div>
-			</mat-form-field>
-		</td>
-		<td>
-			<mat-form-field class="open-full-width">
-				<mat-label class="col-sm-4 col-form-label">Existing Technology Stream Mapped</mat-label>
-				<mat-select class="form-control" class="custom-select form-control"
-						formControlName="existingTechnologyStream" name="technologyStream">
-				  <mat-option *ngFor="let data of existingTechnologyStream" [value]="data">{{data.value}}
-				  </mat-option>
-				</mat-select>
-			</mat-form-field>
-		</td>
-	</tr>
-	<tr>
-	  <td>
-			<mat-form-field class="open-full-width">
-				<mat-select placeholder="New Technology Stream To Be Mapped" formControlName="technologyStream" (selectionChange)="updateStreamProfile($event.value)">
-				  <mat-option *ngFor="let stream of techStreamCollection" value="{{stream.technologyStream}}">{{stream.technologyStream}}
-				  </mat-option>
-				</mat-select>
-				<div *ngIf="submitted && myForm.technologyStream.errors" class="invalid-feedback">
-				  <div *ngIf="myForm.technologyStream.errors.required">Technology Stream is required</div>
-				</div>
-			</mat-form-field>
-		</td>
-		<td>
-			<mat-form-field class="open-full-width">
-				<input matInput placeholder="Add New Technology Stream (If not available)" >
-				<a class="edit" [routerLink]="['/stream-add']">
-					<a href="#" routerLinkActive="active">Click here</a>	
-				 </a>	
-			</mat-form-field>
-        	</td>
-		</tr>
+		  	<tr>
+				<td> 
+					<!-- Job Role -->			
+					<mat-form-field class="stream-half-width">					
+						<mat-select placeholder="Job Role" formControlName="JRSS" (selectionChange)="updateJrssProfile($event.value)" [ngClass]="{ 'is-invalid': submitted && myForm.JRSS.errors }">
+							<mat-option *ngFor="let jrss of JRSS" value="{{jrss.jrss}}">{{jrss.jrss}}</mat-option>
+						</mat-select>
+						<div *ngIf="submitted && myForm.JRSS.errors" class="invalid-feedback">
+						<div *ngIf="myForm.JRSS.errors.required">Job Role is required</div>
+						</div>
+					</mat-form-field>
+				</td>
+				<td>			
+					<!-- Existing Technology Stream Mapped -->
+					<mat-form-field class="stream-full-width">
+						<mat-select placeholder="Existing Technology Stream Mapped" formControlName="existingTechnologyStream" id="technologyStream">
+							<mat-option *ngFor="let data of existingTechnologyStream" [value]="data">{{data.value}}</mat-option>
+					</mat-select>
+					</mat-form-field>
+				</td>
+			</tr>
+			<tr>
+	  			<td>
+					<!-- New Technology Stream To Be Mapped -->
+					<mat-form-field class="stream-half-width">
+						<mat-select placeholder="New Technology Stream To Be Mapped" formControlName="technologyStream" (selectionChange)="updateStreamProfile($event.value)" [ngClass]="{ 'is-invalid': submitted && myForm.technologyStream.errors }">
+							<mat-option *ngFor="let stream of techStreamCollection" value="{{stream.technologyStream}}">{{stream.technologyStream}}</mat-option>
+						</mat-select>
+						<div *ngIf="submitted && myForm.technologyStream.errors" class="invalid-feedback">
+						<div *ngIf="myForm.technologyStream.errors.required">Technology Stream is required</div>
+						</div>
+					</mat-form-field>
+				</td>
+			</tr>
+			<br/>
+				<tr>
+				<td>
+					<!-- Add New Technology Stream (If not available) -->
+					<label>Add New Technology Stream (If not available)</label>
+						<a class="edit" [routerLink]="['/stream-add']">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<td><a href="#" routerLinkActive="active">Click here</a></td>
+						 </a>					
+				</td>
+				</tr>
+			
 	   </table> 
 	</form>
 	</mat-card-content>
