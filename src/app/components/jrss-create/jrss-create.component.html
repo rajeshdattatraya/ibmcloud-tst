@@ -43,8 +43,8 @@
             <tr>
               <td>
                 <mat-form-field class="example-full-width">
-                <input matInput placeholder="Job Role" formControlName="jrss" name="jrss" [ngClass]="{ 'is-invalid': submitted && myForm.jrss.errors }">
-                <div *ngIf="submitted && myForm.jrss.errors" class="invalid-feedback">
+                <input matInput placeholder="Job Role" formControlName="jrss" name="jrss" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.jrss.errors }">
+                <div *ngIf="!formReset && submitted && myForm.jrss.errors" class="invalid-feedback">
                   <div *ngIf="myForm.jrss.errors.required">Job Role is required</div>
                 </div>
                 </mat-form-field>
@@ -57,6 +57,7 @@
   <mat-card-actions>
     <div class="row justify-content-center">
       <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
+      <button mat-raised-button color="primary" (click)="clearForm()">Clear</button>
     </div>
   </mat-card-actions>
   </mat-card>
@@ -72,7 +73,7 @@
   <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
     <!-- ID Column -->
     <ng-container matColumnDef="Action">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
+      <th mat-header-cell *matHeaderCellDef> No. </th>
       <td mat-cell *matCellDef="let row;let i = index"> {{i+1}}</td>
     </ng-container>
     <!-- ID Column -->
@@ -83,7 +84,7 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; let even = even; columns: displayedColumns;" [ngClass]="{gray: even}"></tr>
   </table>
-  <mat-paginator [length]="this.Jrss.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  <mat-paginator [length]="this.Jrss.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
 
 
   
