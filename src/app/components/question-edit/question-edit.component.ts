@@ -160,6 +160,11 @@ export class QuestionEditComponent implements OnInit {
       return this.technologyStream;
     }
 
+    cancelForm(){
+      this.ngZone.run(() => this.router.navigateByUrl('/view-questionbank',{state:{username:this.userName,account:this.account}}));
+    }
+
+
     onSubmit() {
         this.submitted = true;
         this.formReset = false;
