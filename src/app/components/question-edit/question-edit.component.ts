@@ -47,17 +47,13 @@ export class QuestionEditComponent implements OnInit {
      this.question_id = this.actRoute.snapshot.paramMap.get('id');
 
     this.apiService.getQuestion(this.question_id).subscribe( res => {
-      console.log("Question Id Recieved from URL : "+this.question_id);
-      console.log(">>> Response Returned .. "+ res.JSON);
-      for(var key in res)
-   {
-      console.log("key: " + key + ", value: " + res[key])
-   }
+//      for(var key in res)
+  // {
+    //  console.log("key: " + key + ", value: " + res[key])
+  // }
 
    for (var i of res['options']){
           this.options.push(i.option);
-      console.log(i.option);
-
   }
 
       this.editquestionForm.setValue({
@@ -139,7 +135,7 @@ export class QuestionEditComponent implements OnInit {
           this.technologyStream.push(skill);
         }
       }
-           console.log("Technical Stream getjrss: "+ JSON.stringify(this.technologyStream));
+           //console.log("Technical Stream getjrss: "+ JSON.stringify(this.technologyStream));
     })
 
     }
@@ -169,7 +165,7 @@ export class QuestionEditComponent implements OnInit {
         this.submitted = true;
         this.formReset = false;
         if (!this.editquestionForm.valid) {
-          console.log('error part');
+          //console.log('error part');
           return false;
         } else {
           this.answerArray=[];
@@ -180,11 +176,11 @@ export class QuestionEditComponent implements OnInit {
               alert("Answers not selected");
             } else if(!(this.editquestionForm.value.option4 || this.editquestionForm.value.option3)
             &&(this.editquestionForm.value.option4checkbox || this.editquestionForm.value.option3checkbox)){
-              console.log('else if only 2 options');
+              //console.log('else if only 2 options');
               alert("You can't select answers where options are empty   ");
             }else if(!(this.editquestionForm.value.option4)
             &&(this.editquestionForm.value.option4checkbox)){
-              console.log('else if only 3 options');
+              //console.log('else if only 3 options');
               alert("You can't select answers where options are empty   ");
             }else if(!(this.editquestionForm.value.option3) && (this.editquestionForm.value.option4)){
               alert("You can't fill option4 leaving option3 empty");
@@ -215,7 +211,7 @@ export class QuestionEditComponent implements OnInit {
               this.editquestionForm.value.options=this.optionsArray;
                 //Validation for singleSelect
                 if((this.editquestionForm.value.questionType=="SingleSelect")&& (this.answerArray.toString().length)>1)
-                {console.log("only one"+this.editquestionForm.value.answerID)
+                {//console.log("only one"+this.editquestionForm.value.answerID)
                 alert("Only one option can be selected as the questionType is SingleSelect");
                 return false;
               }
@@ -241,7 +237,7 @@ export class QuestionEditComponent implements OnInit {
             if(confirm('Do you want to update the Question?')){
               this.apiService.updateQuestion(this.question_id,this.editquestionForm.value).subscribe(
                 (res) => {
-                  console.log('Question successfully updated!');
+                  //console.log('Question successfully updated!');
                   this.formReset = true;
                   this.editquestionForm.reset();
                   this.ngZone.run(() => this.router.navigateByUrl('/view-questionbank',{state:{username:this.userName,account:this.account}}));
