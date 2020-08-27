@@ -111,10 +111,10 @@
                 <mat-form-field class="example-full-width">
                 <mat-select placeholder="Final Result" formControlName="finalResult" [ngClass]="{ 'is-invalid': submitted && myForm.finalResult.errors }">
                   <mat-option value="">Choose...</mat-option>
-                  <mat-option id="Strongly Recommended">Strongly Recommended</mat-option>
-                  <mat-option id="Recommended">Recommended</mat-option>
-                  <mat-option id="Not Suitable">Not Suitable</mat-option>
-                  <mat-option id="StandBy">StandBy</mat-option>
+                  <mat-option value="Strongly Recommended">Strongly Recommended</mat-option>
+                  <mat-option value="Recommended">Recommended</mat-option>
+                  <mat-option value="Not Suitable">Not Suitable</mat-option>
+                  <mat-option value="StandBy">StandBy</mat-option>
                 </mat-select>
                 <div *ngIf="submitted && myForm.finalResult.errors" class="invalid-feedback">
                   <div *ngIf="myForm.finalResult.errors.required">Final Result is required</div>

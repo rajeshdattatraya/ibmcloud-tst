@@ -97,6 +97,8 @@ export class TechnicalInterviewListComponent implements OnInit {
       switch(property) {
         case 'result_users[0].employeeName': return item.result_users[0].employeeName;
         case 'result_users[0].JRSS': return item.result_users[0].JRSS;
+        case 'userScore': return item.userScore;
+        case 'result_users[0].account': return item.result_users[0].account;
         default: return item[property];
       }
    }
