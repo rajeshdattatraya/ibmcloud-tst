@@ -52,6 +52,24 @@ th.mat-header-cell {
   background-color: #2554C7;
 }
 
+.matButtonSpace {
+  color: white;
+  background-color: #2554C7;
+  width: 30%;
+}
+
+.matButtonSmallSpace {
+  color: white;
+  background-color: #2554C7;
+  width: 20%;
+}
+
+.matButtonLargeSpace {
+  color: white;
+  background-color: #2554C7;
+  width: 40%;
+}
+
 th.mat-sort-header-sorted {
   color: white;
 }

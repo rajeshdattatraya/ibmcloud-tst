@@ -54,7 +54,6 @@ const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login-component' },
   { path: '', loadChildren: './components/dashboard/dashboard-user.module#DashboardUserModule'},
   { path: '', loadChildren: './components/operations-candidate-list/operations-user.module#OperationsUserModule'},
-  { path: '', loadChildren: './components/partner-interview/partner-user.module#PartnerUserModule'},
   { path: 'create-band', component: BandCreateComponent },
   { path: 'take-quiz', component: QuizComponent },
   { path: 'result-page', component: ResultPageComponent },

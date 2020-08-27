@@ -29,7 +29,7 @@ import { JrssCreateComponent } from './components/jrss-create/jrss-create.compon
 import { StreamCreateComponent } from './components/stream-create/stream-create.component';
 import { DashboardUserModule } from './components/dashboard/dashboard-user.module';
 import { OperationsUserModule } from './components/operations-candidate-list/operations-user.module';
-import { PartnerUserModule } from './components/partner-interview/partner-user.module';
+import { PartnerInterviewComponent } from './components/partner-interview/partner-interview.component';
 import { PartnerInterviewInitiateComponent } from './components/partner-interview-initiate/partner-interview-initiate.component';
 import { OperationsProjectInitiateComponent } from './components/operations-project-initiate/operations-project-initiate.component';
 import { TechnicalInterviewListComponent } from './components/technical-interview-list/technical-interview-list.component';
@@ -87,6 +87,7 @@ export let browserRefresh = false;
     TestConfigEditComponent,
     JrssCreateComponent,
     StreamCreateComponent,
+    PartnerInterviewComponent,
     PartnerInterviewInitiateComponent,
     OperationsProjectInitiateComponent,
     TechnicalInterviewListComponent,
@@ -129,7 +130,6 @@ export let browserRefresh = false;
     HttpClientModule,
     DashboardUserModule,
     OperationsUserModule,
-    PartnerUserModule,
     [ NgxPaginationModule ],
     BackButtonDisableModule.forRoot({
       preserveScrollPosition: true
