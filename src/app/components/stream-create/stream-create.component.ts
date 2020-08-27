@@ -171,11 +171,24 @@ pageChange(newPage: number) {
     }
   }
 
+  checkforquestions(){
+
+    this.apiService.checkForQuestions(this.streamCreateForm.value.technologyStream).subscribe(res => {
+      console.log('Technology stream has questions as the count is '+res.count);
+      alert('Technology Stream added successfully');
+       }, (error) => {
+      console.log(error);
+      })
+
+
+  }
+
   onSubmit() {
     this.submitted = true;
     this.formReset = false;
     this.duplicateTechStream = false;
     this.readJrssDocId();
+    this.checkforquestions();
     if (!this.streamCreateForm.valid) {
       return false;
     } else if(this.duplicateTechStream){

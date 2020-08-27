@@ -78,6 +78,18 @@ getQuestions(account): Observable<any> {
   }
 
 
+  checkForQuestions(technologyStream): Observable<any> {
+    let url = `${this.baseQuestionUri}/${technologyStream}`;
+  
+    return this.http.get(url, {headers: this.headers}).pipe(
+      map((res: Response) => {
+        return res || {}
+      }),
+      catchError(this.errorMgmt)
+    )
+    }
+
+
   // GET Candidate JRSS
   getCandidateJrss(username): Observable<any> {
     let url = `${this.baseUri}/candidatejrss/${username}`;
