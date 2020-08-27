@@ -78,11 +78,20 @@ getQuestions(account): Observable<any> {
   }
 
 
+  //Update Question
+  updateQuestion(id, data): Observable<any> {
+    let url = `${this.baseUri}/quiz/updatequestion/${id}`;
+    console.log("The URL is "+url);
+    return this.http.put(url, data, { headers: this.headers }).pipe(
+      catchError(this.errorMgmt)
+    )
+  }
+
   checkForQuestions(technologyStream): Observable<any> {
     let url = `${this.baseQuestionUri}/1/${technologyStream}`;
 
     console.log("The Url1 is "+url);
-  
+
     return this.http.get(url, {headers: this.headers}).pipe(
      map((res: Response) => {
         return res || {}
@@ -120,6 +129,19 @@ getQuestions(account): Observable<any> {
         catchError(this.errorMgmt)
       )
   }
+
+    // Get Question
+  getQuestion(id): Observable<any> {
+    let url = `${this.baseUri}/quiz/read/${id}`;
+    console.log(">>> URL Is"+ url);
+    return this.http.get(url, {headers: this.headers}).pipe(
+      map((res: Response) => {
+        return res || {}
+      }),
+      catchError(this.errorMgmt)
+    )
+  }
+
 
     // get max Question
     getQuestionID(): Observable<any> {

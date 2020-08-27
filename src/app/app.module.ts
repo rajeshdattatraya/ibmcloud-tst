@@ -64,6 +64,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
+import { QuestionEditComponent } from './components/question-edit/question-edit.component';
 
 export let browserRefresh = false;
 
@@ -116,6 +117,7 @@ export let browserRefresh = false;
     SuperadminUserCreateComponent,
     TechIntSchedulerComponent,
     ViewQuestionComponent,
+    QuestionEditComponent,
 
     ],
   imports: [

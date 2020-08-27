@@ -62,7 +62,16 @@ export class ViewQuestionComponent implements OnInit {
   })
 }
 
-invokeEdit(){
+invokeEdit(questionID){
+
+  if (this.isRowSelected == false){
+    alert("Please select the user");
+    }else{
+      console.log("Clicked on the question in view screen"+questionID);
+    //this.router.navigate(['/question-edit/', this.candidateId, this.candidateUsersId], {state: {username:this.userName,account:this.account}});
+    this.router.navigate(['/question-edit/',questionID], {state: {username:this.userName,account:this.account}});
+    }
+
 }
 
 removeQuestion(questionID){

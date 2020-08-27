@@ -49,6 +49,7 @@ import { QuestionsAddSectorsmeComponent } from './components/questions-add-secto
 import { SuperadminUserCreateComponent } from './components/superadmin-user-create/superadmin-user-create.component'
 import { TechIntSchedulerComponent } from './components/tech-int-scheduler/tech-int-scheduler.component';
 import {ViewQuestionComponent } from './components/view-question/view-question.component';
+import { QuestionEditComponent } from './components/question-edit/question-edit.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login-component' },
@@ -101,6 +102,7 @@ const routes: Routes = [
   { path: 'superadmin-user-create' , component:SuperadminUserCreateComponent},
   { path: 'interview_scheduler', component: TechIntSchedulerComponent },
   { path: 'view-questionbank', component:ViewQuestionComponent},
+  { path: 'question-edit/:id', component:QuestionEditComponent}
 ];
 
 @NgModule({

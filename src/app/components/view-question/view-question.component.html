@@ -46,7 +46,7 @@
         </label>
 
         <div  class="float-right text-right" *ngIf="Questions.length > 0">
-          <a class="edit" (click)="invokeEdit()">
+          <a class="edit" (click)="invokeEdit(question._id)">
             <button type="button" class="btn btn-primary" style="background-color:#0043CE;">Edit</button>&nbsp;
         </a>
         <a class="delete" (click)="removeQuestion(question._id)">
