@@ -79,10 +79,12 @@ getQuestions(account): Observable<any> {
 
 
   checkForQuestions(technologyStream): Observable<any> {
-    let url = `${this.baseQuestionUri}/${technologyStream}`;
+    let url = `${this.baseQuestionUri}/1/${technologyStream}`;
+
+    console.log("The Url1 is "+url);
   
     return this.http.get(url, {headers: this.headers}).pipe(
-      map((res: Response) => {
+     map((res: Response) => {
         return res || {}
       }),
       catchError(this.errorMgmt)
