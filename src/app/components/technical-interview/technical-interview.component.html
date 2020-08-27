@@ -124,12 +124,14 @@
             </tr>
             <br/>
             <tr>
-              <td><mat-label>Technical Feedback</mat-label><br><b><i><font style="font-size:10px">(Max 3000 characters)</font></i></b></td>
-              <td colspan="2">
-                <textarea class="form-control" type="textarea" rows="5" cols="50"  maxlength="3000" formControlName="feedback" [ngClass]="{ 'is-invalid': submitted && myForm.feedback.errors}"></textarea>
+              <td colspan="3">
+                <mat-form-field class="open-full-width">
+                <mat-label>Technology Stream(Max 3000 characters) </mat-label>
+                <textarea  matInput [rows]="5" [cols]="50" formControlName="feedback" [maxLength]="3000" [ngClass]="{ 'is-invalid': submitted && myForm.feedback.errors}"></textarea>
                 <div *ngIf="submitted && myForm.feedback.errors" class="invalid-feedback">
                   <div *ngIf="myForm.feedback.errors.required">Feedback is required</div>
                 </div>
+                </mat-form-field>
               </td>
             </tr>
             <br/>
