@@ -1,8 +1,8 @@
 <mat-toolbar>
   <mat-toolbar-row>
-    <a  mat-button ><b>Initiate Technical Interview</b></a>
+    <a><mat-label ><b>Initiate Technical Interview</b></mat-label></a>
     <span class="flexExpand">
-    <a  mat-button  routerLink="/login-component" routerLinkActive="active"  class="btn1"><b>Logout</b></a>
+    <a  mat-button routerLink="/login-component" routerLinkActive="active"  class="btn1"><b>Logout</b></a>
     </span>
   </mat-toolbar-row>
 </mat-toolbar>
@@ -61,7 +61,6 @@
             <tr>
               <td colspan="4" width="100%" ><mat-label style="font-style:italic;"><B>Select Technical Area For Assessment:</B></mat-label></td>
             </tr>
-
             <br/>
             <tr *ngFor="let dynamic of dynamicArray; let i = index;" [formGroupName]="i">
               <td>
@@ -96,7 +95,7 @@
         <mat-card-content>
           <table style="table-layout: fixed" >
             <tr>
-              <td  width="100%" colspan="4"><label><B>Calculate Final Score:</B></label></td>
+              <td  width="100%" colspan="4"><mat-label style="font-style:italic;"><B>Calculate Final Score:</B></mat-label></td>
             </tr>
             <br/>
             <tr>
@@ -126,7 +125,7 @@
             <br/>
             <tr>
               <td><mat-label>Technical Feedback</mat-label><br><b><i><font style="font-size:10px">(Max 3000 characters)</font></i></b></td>
-              <td colspan="3">
+              <td colspan="2">
                 <textarea class="form-control" type="textarea" rows="5" cols="50"  maxlength="3000" formControlName="feedback" [ngClass]="{ 'is-invalid': submitted && myForm.feedback.errors}"></textarea>
                 <div *ngIf="submitted && myForm.feedback.errors" class="invalid-feedback">
                   <div *ngIf="myForm.feedback.errors.required">Feedback is required</div>
