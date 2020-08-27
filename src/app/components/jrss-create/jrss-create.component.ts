@@ -20,6 +20,7 @@ export class JrssCreateComponent implements OnInit {
   public nullJrss : boolean;
   public browserRefresh: boolean;
   submitted = false;
+  formReset = false;
   jrssForm: FormGroup;
   Jrss:any = [];
   userName: String = "admin";
@@ -125,6 +126,7 @@ export class JrssCreateComponent implements OnInit {
 
     onSubmit() {
         this.submitted = true;
+        this.formReset = false;
         this.duplicateJrss = false;
         this.nullJrss = false;
         this.checkDuplicateJrss();
@@ -146,4 +148,9 @@ export class JrssCreateComponent implements OnInit {
             });
         }
       }
+
+    clearForm() {
+        this.formReset = true;
+        this.jrssForm.reset();
+    }
 }
