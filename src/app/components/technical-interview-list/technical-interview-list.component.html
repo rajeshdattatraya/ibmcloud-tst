@@ -196,78 +196,80 @@
         </span>
   </div>
 
+  
 <!-- Modal Code starts. -->
 <div id="assessmentModal" class="modal fade" role="dialog">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <!-- Modal content-->
-    <div class="modal-content">
+    <div   class="modal-content">
       <!-- <div *ngIf="assessmentDetails.quizNumber == this.quizNumber"> -->
       <div class="modal-header table-success" style="background-color:#f5f5f5;color:black">
         <h4 class="modal-title">Candidate Assessment Details</h4>
         <button type="button"  class="close" data-dismiss="modal">&times;</button>
       </div>
-      <div class="modal-body" *ngIf="mode=='displayAssessmentModalBod'">
+      <div class="modal-body" *ngIf="mode=='displayAssessmentModalBody'">
         <mat-card>
           <mat-card-content>
-        <table style="table-layout: fixed; width: 100%">
-          <thead>
-          <tr>
-            <td scope="col" width="10%">{{this.userName}}'s answers</td>
-            <td scope="col" width="10%">Attempt No : {{this.quizNumber}}</td>
-            <td scope="col" width="10%"> Date : {{ this.assesmentDate.substring(0,10) }}</td>
-            <td scope="col" width="10%"> Score : {{ this.userScore }}%</td>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <td colspan="4" scope="col" style="font-size:x-small;color:black;font-style: italic;">
-              You have correctly answered {{this.correctAnswerCount}} questions out of  {{this.questionCount}}
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </mat-card-content>
-    </mat-card>
-      </div>
-      <div *ngFor="let answer of this.candidateAssessmentDetails.results;let i=index">
-        <div *ngFor="let questions of answer.userAttemptedQs" >
-          <mat-card>
-            <mat-card-content>
-          <table  style="table-layout: fixed; width: 100%">
-            <tbody>
-            <tr>
-              <td width="2%">
-                <div  *ngIf="answer.userAnswerID==questions.answerID">
-                  <img src="assets/images/success.jpg" width="20" height="20"/>
-                </div>
-                <div  *ngIf="answer.userAnswerID!= questions.answerID">
-                  <img src="assets/images/failure.jpg" width="20" height="20"/>
-                </div>
-              </td><td><b>{{i+1}}){{questions.question}}?</b></td>
-            </tr>
-            <tr></tr>
-            <tr  *ngFor="let questionOption of questions.options;let k=index">
-              <td  width="2%"></td>
-              <td>{{k+1}}){{questionOption.option}} </td>
-            </tr>
-            <tr><td  width="2%"></td>
-              <td style="color:black"><pre>Candidate Answer: {{answer.userAnswerID}}    Correct Answer:  {{questions.answerID}}
-                  </pre> </td></tr>
-            <tr></tr>
-            </tbody>
-          </table>
-        </mat-card-content>
-      </mat-card>
+            <table style="table-layout: fixed; width: 100%">
+              <thead>
+              <tr>
+                <td scope="col" width="10%">{{this.userName}}'s answers</td>
+                <td scope="col" width="10%">Attempt No : {{this.quizNumber}}</td>
+                <td scope="col" width="10%"> Date : {{ this.assesmentDate.substring(0,10) }}</td>
+                <td scope="col" width="10%"> Score : {{ this.userScore }}%</td>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td colspan="4" scope="col" style="color:black;font-style: italic;">
+                  You have correctly answered {{this.correctAnswerCount}} questions out of  {{this.questionCount}}
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </mat-card-content>
+        </mat-card>
+        <br/>
+        <div *ngFor="let answer of this.candidateAssessmentDetails.results;let i=index">
+          <div *ngFor="let questions of answer.userAttemptedQs" >
+            <mat-card>
+              <mat-card-content>
+                <table  style="table-layout: fixed; width: 100%">
+                  <tbody>
+                  <tr>
+                    <td width="2%">
+                      <div  *ngIf="answer.userAnswerID==questions.answerID">
+                        <img src="assets/images/success.jpg" width="20" height="20"/>
+                      </div>
+                      <div  *ngIf="answer.userAnswerID!= questions.answerID">
+                        <img src="assets/images/failure.jpg" width="20" height="20"/>
+                      </div>
+                    </td><td><b>{{i+1}}){{questions.question}}?</b></td>
+                  </tr>
+                  <tr></tr>
+                  <tr  *ngFor="let questionOption of questions.options;let k=index">
+                    <td  width="2%"></td>
+                    <td>{{k+1}}){{questionOption.option}} </td>
+                  </tr>
+                  <tr><td  width="2%"></td>
+                    <td style="color:black">Candidate Answer: {{answer.userAnswerID}}    Correct Answer:  {{questions.answerID}}
+                    </td></tr>
+                  <tr></tr>
+                  </tbody>
+                </table>
+              </mat-card-content>
+            </mat-card>
+          </div>
         </div>
       </div>
       <div class="modal-footer table-success" style="background-color:#f5f5f5;color:black">
         <button mat-raised-button color="primary" data-dismiss="modal">Close</button>
-        <!-- </div> -->
       </div>
     </div>
 
   </div>
 </div>
+<!-- Code Ends.-->
 
 <div class="container" >
 
@@ -350,30 +352,21 @@
             <tr>
               <td><mat-label class="col-sm-8 col-form-label">Name:</mat-label></td>
               <td>&nbsp;{{this.candidateDetails[0].employeeName}}</td>
-            </tr>
-            <tr>
               <td><mat-label class="col-sm-8 col-form-label">Email:</mat-label></td>
               <td>&nbsp;{{this.candidateDetails[0].email}}</td>
             </tr>
             <tr *ngIf="displayRegularUIFields">
               <td><mat-label class="col-sm-10 col-form-label">Band:</mat-label></td>
               <td>&nbsp;{{this.candidateDetails[0].band}}</td>
+              <td><mat-label class="col-sm-10 col-form-label">Date of Joining:</mat-label></td>
+              <td>&nbsp;{{this.candidateDetails[0].dateOfJoining.split('T')[0]}}</td>
             </tr>
             <tr>
               <td><mat-label class="col-sm-10 col-form-label">Job Role:</mat-label></td>
               <td>&nbsp;{{this.candidateDetails[0].JRSS}}</td>
-            </tr>
-            <tr>
               <td><mat-label class="col-sm-10 col-form-label">Technology Stream:</mat-label></td>
               <td>&nbsp;{{this.candidateDetails[0].technologyStream}}</td>
-            </tr>
-            <tr>
-              <td><mat-label class="col-sm-10 col-form-label">Phone Number:</mat-label></td>
-              <td>&nbsp;{{this.candidateDetails[0].phoneNumber}}</td>
-            </tr>
-            <tr *ngIf="displayRegularUIFields">
-              <td><mat-label class="col-sm-10 col-form-label">Date of Joining:</mat-label></td>
-              <td>&nbsp;{{this.candidateDetails[0].dateOfJoining.split('T')[0]}}</td>
+             
             </tr>
             <tr *ngIf="displayContractorUIFields">
               <td><mat-label class="col-sm-10 col-form-label">Date of Birth:</mat-label></td>
@@ -382,11 +375,14 @@
             <tr>
               <td><mat-label class="col-sm-10 col-form-label">Status:</mat-label></td>
               <td>&nbsp;{{this.candidateDetails[0].candidate_users[0].status}}</td>
-            </tr>
-            <tr>
               <td><mat-label class="col-sm-10 col-form-label">Quiz Attempts:</mat-label></td>
               <td>&nbsp;{{this.candidateDetails[0].candidate_users[0].quizNumber}}</td>
             </tr>
+            <tr>
+              <td><mat-label class="col-sm-10 col-form-label">Phone Number:</mat-label></td>
+              <td>&nbsp;{{this.candidateDetails[0].phoneNumber}}</td>
+            </tr>
+
           </table>
         </mat-card-content>
       </mat-card>
