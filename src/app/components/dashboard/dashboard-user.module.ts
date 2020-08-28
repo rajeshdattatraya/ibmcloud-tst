@@ -8,9 +8,10 @@ import { DashboardUserRoutes } from './dashboard-user-routing.module';
 import { ApiService } from './../../service/api.service';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DashboardListComponent } from './dashboard-list/dashboard-list.component';
+import { TATMaterialModule } from  './../../material.module';
 
 @NgModule({
-  imports:      [ CommonModule, FormsModule, ReactiveFormsModule, DashboardUserRoutes,NgxPaginationModule ],
+  imports:      [ TATMaterialModule, CommonModule, FormsModule, ReactiveFormsModule, DashboardUserRoutes,NgxPaginationModule ],
   declarations: [ DashboardComponent, DashboardSearchComponent,  DashboardFilterPipe, DashboardListComponent ],
   providers: [ ApiService ]
 })

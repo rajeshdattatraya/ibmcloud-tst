@@ -1,67 +1,34 @@
-<nav class="navbar navbar-expand-lg navbar-light table-success" style="background-color:powderblue">
-  <div *ngIf="accessLevel === 'partner'" class="collapse navbar-collapse" id="navbarNavDropdown">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/partner-list" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Partner Interview</b></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/operations-candidate-list" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Project Assignment</b></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/open-positions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Open Positions</b></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/dashboard" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Dashboard</b></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/report" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Report</b></a>
-      </li>
-
-    </ul>
+ <mat-toolbar>
+    <mat-toolbar-row>
+	<div *ngIf="accessLevel === 'partner'" >
+	 <a  mat-button  [matMenuTriggerFor]="ManageOpenSeats" routerLink="/openpositions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Manage Open Seats</a>
+      <mat-menu #ManageOpenSeats="matMenu">
+        <a mat-menu-item routerLink="/openpositions-create" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Add Open Seat</a>
+        <a mat-menu-item routerLink="/openpositions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">View Open Seats</a>
+      </mat-menu>
+	  
+	<a  mat-button   routerLink="/partner-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Partner Interview</a>
+	<a  mat-button   routerLink="/operations-candidate-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Project Assignment</a>
+	<a  mat-button   routerLink="/open-positions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Open Positions</a>
+    <a  mat-button   routerLink="/dashboard" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Dashboard</a>
+	<a  mat-button   routerLink="/report" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Report</a>
+	</div>
+  
+	  
+	  
+	 <div *ngIf="accessLevel === 'management'" >
+        <a mat-button routerLink="/operations-candidate-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Project Assignment</b></a>
+        <a mat-button routerLink="/open-positions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Open Positions</b></a>
+        <a mat-button routerLink="/viewinterview-status" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Exception Approval</b></a>
+        <a mat-button routerLink="/dashboard" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Dashboard</b></a>
+        <a mat-button routerLink="/report" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Report</b></a>
   </div>
-  <div *ngIf="accessLevel === 'management'" class="collapse navbar-collapse" id="navbarNavDropdown">
-    <ul class="navbar-nav">
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" routerLink="/openpositions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <b>Manage Open Seats</b>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" routerLink="/openpositions-create" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Add Open Seat</a>
-          <a class="dropdown-item" routerLink="/openpositions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">View Open Seats</a>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/operations-candidate-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Project Assignment</b></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/open-positions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Open Positions</b></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/viewinterview-status" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Exception Approval</b></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/dashboard" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Dashboard</b></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/report" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Report</b></a>
-      </li>
-    </ul>
-  </div>
-  <div *ngIf="accessLevel === 'management'">
-    <ul class="navbar-nav navbar-right">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/login-component" routerLinkActive="active"><b>Logout</b></a>
-      </li>
-    </ul>
-  </div>
-  <div *ngIf="accessLevel === 'partner'">
-    <ul class="navbar-nav navbar-right">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/login-component" routerLinkActive="active"><b>Logout</b></a>
-      </li>
-    </ul>
-  </div>
-</nav>
+  
+  <span class="flexExpand">
+          <a mat-button routerLink="/login-component" routerLinkActive="active">Logout</a>
+      </span>
+  </mat-toolbar-row>
+</mat-toolbar>
 <br>
 <div>
   <app-dashboard-search (groupFilters)="filters = $event"></app-dashboard-search>

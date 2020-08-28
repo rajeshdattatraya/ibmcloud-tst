@@ -1,79 +1,96 @@
-<div class="card w-100">
-<div class="card-header"><i><b><font style="font-size:14px">Enter Search Criteria</font></b></i></div>
-<div class="card-body">
+<mat-card class="login-card">
+<mat-card-header>
+  <mat-card-title class="example-card-title">Enter Search Criteria</mat-card-title>
+</mat-card-header>
+
+<mat-card-content>
 <form novalidate [formGroup]="form">
   <div>
     <br>
-    <table>
-    <tr width="100%">
-      <td width="20%"><div class="col-sm-4"><label>Name: </label></div></td>
-      <td width="35%"><div class="form-group row"><div class="col-sm-8"><input type="search" #candiateName formControlName="employeeName" placeholder="Search using Candidate Name" id="search4" aria-label="Search" >
-      </div></div></td>
-      <td width="20%"><div class="col-sm-6"><label>Job Role: </label></div></td>
-      <td width="35%"><div class="form-group row"><div class="col-sm-8"><input type="search" #jrss formControlName="JRSS" placeholder="Search using Job Role" id="search4" aria-label="Search" mdbInput>
-        </div></div></td>
+    <table class="open-full-width" cellspacing="0">
+    <tr>
+      <td>
+	  <mat-form-field>
+		<input matInput type="search" #candiateName formControlName="employeeName" placeholder="Name" id="search4" aria-label="Search" >
+      </mat-form-field>
+	  </td>
+      <td>
+	  <mat-form-field>
+		<input matInput type="search" #jrss formControlName="JRSS" placeholder="Job Role" id="search4" aria-label="Search" >
+	  </mat-form-field>
+        </td>
+		
+	  <td>
+	  <mat-form-field>
+		<mat-select matInput type="search" #stage5_status formControlName="stage5_status" placeholder="Assigned To project" (change)="updateAssignedToProjectProfile($event.target.value)"
+             id="search4" aria-label="Search" >
+            <mat-option value="" disabled selected >Choose...</mat-option>
+            <mat-option *ngFor="let assigned of AssignedToProject" value="{{assigned}}">{{assigned}}</mat-option>
+          </mat-select>
+		  
+		  </mat-form-field>
+        </td>
     </tr>
-    <tr width="100%">
-      <td width="30%"><div class="col-sm-10"><label>Assigned To project: </label></div></td>
-      <td width="20%"><div class="form-group row"><div class="col-sm-12"><select type="search" #stage5_status formControlName="stage5_status" placeholder="Search using Assigned To Project" class="custom-select form-control" (change)="updateAssignedToProjectProfile($event.target.value)"
-                   style="width:65%" id="search4" aria-label="Search" mdbInput>
-            <option value="">Choose...</option>
-            <option *ngFor="let assigned of AssignedToProject" value="{{assigned}}">{{assigned}}
-            </option>
-          </select>
-        </div></div></td>
-      <td width="30%"><div class="col-sm-10"><label>Partner Interview Result: </label></div></td>
-      <td width="20%"><div class="form-group row"><div class="col-sm-12">
-        <select type="search" #managementResult formControlName="managementResult" placeholder="Search using Partner Interview Result" class="custom-select form-control" (change)="updatePartnerInterviewResultProfile($event.target.value)"
-                id="search4" aria-label="Search" mdbInput>
-          <option value="">Choose...</option>
-          <option *ngFor="let partnerResult of PartnerInterviewResult" value="{{partnerResult}}">{{partnerResult}}
-          </option>
-        </select>
-      </div></div></td>
+    <tr>
+        
+      <td>
+	  <mat-form-field>
+        <mat-select matInput type="search" #userResult formControlName="userResult" placeholder="Online Test Result"  (change)="updateOnlineResultProfile($event.target.value)"
+           id="search4" aria-label="Search" >
+          <mat-option value="" disabled selected >Choose...</mat-option>
+          <mat-option *ngFor="let onlineResult of OnlineResult" value="{{onlineResult}}">{{onlineResult}}</mat-option>
+        </mat-select>
+		</mat-form-field>
+      </td>
+	  
+      <td >
+	  <mat-form-field>
+        <mat-select matInput type="search" #smeResult formControlName="smeResult" placeholder="Technical Interview Result"  (change)="updateTechInterviewResultProfile($event.target.value)"
+            id="search4" aria-label="Search" >
+        <mat-option value="" disabled selected >Choose...</mat-option>
+        <mat-option *ngFor="let techInterview of TechInterviewResult" value="{{techInterview}}">{{techInterview}} </mat-option>
+      </mat-select>
+	  </mat-form-field>
+      </td>
+	  
+	  <td >
+	  <mat-form-field>
+        <mat-select  matInput type="search" #managementResult formControlName="managementResult" placeholder="Partner Interview Result" (change)="updatePartnerInterviewResultProfile($event.target.value)"
+                id="search4" aria-label="Search" >
+          <mat-option value="" disabled selected >Choose...</mat-option>
+          <mat-option *ngFor="let partnerResult of PartnerInterviewResult" value="{{partnerResult}}">{{partnerResult}} </mat-option>
+        </mat-select>
+		</mat-form-field>
+      </td>
+    
     </tr>
-    <tr width="100%">
-      <td width="30%"><div class="col-sm-10"><label>Tech Interview Result: </label></div></td>
-      <td width="20%"><div class="form-group row"><div class="col-sm-12">
-        <select type="search" #smeResult formControlName="smeResult" placeholder="Search using Technical Interview Result" class="custom-select form-control" (change)="updateTechInterviewResultProfile($event.target.value)"
-                style="width:65%" id="search4" aria-label="Search" mdbInput>
-        <option value="">Choose...</option>
-        <option *ngFor="let techInterview of TechInterviewResult" value="{{techInterview}}">{{techInterview}}
-        </option>
-      </select>
-      </div></div></td>
-      <td width="30%"><div class="col-sm-10"><label>Online Test Result: </label></div></td>
-      <td width="20%"><div class="form-group row"><div class="col-sm-12">
-        <select type="search" #userResult formControlName="userResult" placeholder="Search using Online Test Result" class="custom-select form-control" (change)="updateOnlineResultProfile($event.target.value)"
-                style="width:99%" id="search4" aria-label="Search" mdbInput>
-          <option value="">Choose...</option>
-          <option *ngFor="let onlineResult of OnlineResult" value="{{onlineResult}}">{{onlineResult}}
-          </option>
-        </select>
-      </div></div></td>
-    </tr>
-      <tr width="100%">
-        <td width="30%"><div class="col-sm-10"><label class="control-label" for="fromDate"> From Date: </label></div></td>
-        <td width="20%"><div class="form-group row"><div class="col-sm-12">
-          <input style="width:65%" type="date" formControlName="fromDate" placeholder="From Date"
+      <tr>
+        <td>
+          <mat-form-field>
+		  <input matInput style="width:65%" type="date" formControlName="fromDate" placeholder="From Date"
           id="fromDate" aria-label="Search">
-        </div></div></td>
-        <td width="30%"><div class="col-sm-10"> <label class="control-label" for="toDate"> To Date: </label></div></td>
-        <td width="20%"><div class="form-group row"><div class="col-sm-12">
-          <input style="width:99%" type="date" formControlName="toDate" placeholder="To Date" id="toDate"
-                 aria-label="Search" />
-         </div></div></td>
+		  </mat-form-field>
+       </td>
+        <td>
+		  <mat-form-field>
+		  <input matInput style="width:99%" type="date" formControlName="toDate" placeholder="To Date" id="toDate"
+                 aria-label="Search">
+				 </mat-form-field>
+				</td>
       </tr>
     </table>
-    <div class="form-group">
+	
+	
+	
+    <mat-card-actions>
       <div class="row justify-content-center"> &nbsp;&nbsp;&nbsp;
-        <button class="btn btn-sm btn-primary" style="background-color:#0043CE;" (click)="search(form.value)">Search</button>
+        <button mat-raised-button color="primary" (click)="search(form.value)">Search</button>
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <button type="reset" class="btn btn-sm btn-primary" style="background-color:#0043CE;">Clear</button>
+        <button type="reset" mat-raised-button color="primary">Clear</button>
       </div>
-    </div>
-  </div>
+	</mat-card-actions>  </div>
 </form>
-</div>
-</div>
+</mat-card-content>
+</mat-card>
+
 
