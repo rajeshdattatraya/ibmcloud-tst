@@ -161,6 +161,11 @@ getUser(id) {
   });
 }
 
+//Cancel
+cancelForm(){
+  this.ngZone.run(() => this.router.navigateByUrl('/adminuser-create',{state:{username:this.userName,account:this.account}}));   
+}
+
 onSubmit() {
   this.submitted = true; 
   let updatedUser = new SpecialUser(this.editForm.value.email,
