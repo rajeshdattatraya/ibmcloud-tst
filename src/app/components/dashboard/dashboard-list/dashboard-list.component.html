@@ -58,12 +58,18 @@
 	<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 	<tr mat-row *matRowDef="let row; let even = even; columns: displayedColumns;" [ngClass]="{gray: even}"></tr>
 </table>
-<div  class="float-right text-right" *ngIf="Result.length > 0">
-  <button class="btn btn-sm btn-primary" style="background-color:#0043CE;" data-toggle="modal" href="#candidateModal" (click)="viewDetails()">View Details</button>
-</div>
 <div *ngIf="Result.length > 0">
   <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
 </div>
+
+<br/>
+<div  class="float-right text-right" *ngIf="Result.length > 0">
+      <span (click)="viewDetails()">
+      <button mat-raised-button color="primary" data-toggle="modal" data-target="#candidateModal">View Details</button>
+      </span>
+</div>
+
+
 
 <!-- Modal window to view candidate details-->
 <!-- Modal -->
