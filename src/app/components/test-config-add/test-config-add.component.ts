@@ -29,7 +29,7 @@ export class TestConfigAddComponent implements OnInit {
   userName: String = "admin";
   account: any;
   testConfigID: String = "";
-
+  formReset = false;
   dataSource = new MatTableDataSource<TestConfig>();
   displayedColumns = ['Action','JRSS', 'noOfQuestions','testDuration','passingScore'];
 
@@ -114,6 +114,7 @@ export class TestConfigAddComponent implements OnInit {
 
     onSubmit() {
         this.submitted = true;
+        this.formReset = false;
         if (!this.testConfigAddForm.valid) {          
           return false;
         } else {
@@ -151,5 +152,9 @@ export class TestConfigAddComponent implements OnInit {
 
     }
 
+    clearForm() {
+      this.formReset = true;
+      this.testConfigAddForm.reset();
+    }
 
 }

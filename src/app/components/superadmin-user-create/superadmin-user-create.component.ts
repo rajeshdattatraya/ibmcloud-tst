@@ -2,12 +2,16 @@ import { Router } from '@angular/router';
 import { ApiService } from './../../service/api.service';
 import { Candidate } from './../../model/candidate';
 import { UserDetails } from './../../model/userDetails';
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone,ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { appConfig } from './../../model/appConfig';
+import { User } from './../../model/user';
 import { browserRefresh } from '../../app.component';
 import * as CryptoJS from 'crypto-js';
 import { SpecialUser } from './../../model/specialUser';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator'
+import {MatSort} from '@angular/material/sort';
 
 @Component({
   selector: 'app-superadmin-user-create',
@@ -18,6 +22,7 @@ export class SuperadminUserCreateComponent implements OnInit {
 
   error = '';
   public browserRefresh: boolean;
+  formReset = false;
   submitted = false;
   candidateForm: FormGroup;
   JRSS:any = []
@@ -40,7 +45,12 @@ export class SuperadminUserCreateComponent implements OnInit {
   AccountList:any=[];
   selectedUserrole: String = "";
 
+  loading = true;
+  dataSource = new MatTableDataSource<User>();
+  displayedColumns = ['Action','name', 'username','accessLevel','account'];
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     public fb: FormBuilder,
@@ -68,6 +78,11 @@ export class SuperadminUserCreateComponent implements OnInit {
            this.router.navigate(['/login-component']);
         }
     }
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 
   mainForm() {
@@ -124,6 +139,7 @@ export class SuperadminUserCreateComponent implements OnInit {
   getAllSpecialUsers(){
     this.apiService.findSectorAdminAndAccountUsers().subscribe((data) => {
     this.AdminUsers = data;
+    this.dataSource.data = data as User[];
     })
 }
 
@@ -189,7 +205,8 @@ export class SuperadminUserCreateComponent implements OnInit {
     }
 
   onSubmit() {
-    this.submitted = true; 
+    this.submitted = true;
+    this.formReset = false;
     // Encrypt the password
     var base64Key = CryptoJS.enc.Base64.parse("2b7e151628aed2a6abf7158809cf4f3c");
     var ivMode = CryptoJS.enc.Base64.parse("3ad77bb40d7a3660a89ecaf32466ef97");
@@ -246,4 +263,8 @@ export class SuperadminUserCreateComponent implements OnInit {
   
 }
 
+  clearForm() {
+      this.formReset = true;
+      this.candidateForm.reset();
+  }
 }

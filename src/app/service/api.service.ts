@@ -36,7 +36,7 @@ getpreTechQuestions(jrss) {
   let url = `${this.basePreTechQuestionnaireUri}/${jrss}/admin`;
   return this.http.get(`${this.basePreTechQuestionnaireUri}/${jrss}/admin`);
 }
- 
+
 // Get all JRSS
 getJRSSPreTech(jrssName) {
   let url = `${this.baseJrssUri}/getJrssPreTech/${jrssName}`;
@@ -78,6 +78,29 @@ getQuestions(account): Observable<any> {
   }
 
 
+  //Update Question
+  updateQuestion(id, data): Observable<any> {
+    let url = `${this.baseUri}/quiz/updatequestion/${id}`;
+    console.log("The URL is "+url);
+    return this.http.put(url, data, { headers: this.headers }).pipe(
+      catchError(this.errorMgmt)
+    )
+  }
+
+  checkForQuestions(technologyStream): Observable<any> {
+    let url = `${this.baseQuestionUri}/1/${technologyStream}`;
+
+    console.log("The Url1 is "+url);
+
+    return this.http.get(url, {headers: this.headers}).pipe(
+     map((res: Response) => {
+        return res || {}
+      }),
+      catchError(this.errorMgmt)
+    )
+    }
+
+
   // GET Candidate JRSS
   getCandidateJrss(username): Observable<any> {
     let url = `${this.baseUri}/candidatejrss/${username}`;
@@ -106,6 +129,19 @@ getQuestions(account): Observable<any> {
         catchError(this.errorMgmt)
       )
   }
+
+    // Get Question
+  getQuestion(id): Observable<any> {
+    let url = `${this.baseUri}/quiz/read/${id}`;
+    console.log(">>> URL Is"+ url);
+    return this.http.get(url, {headers: this.headers}).pipe(
+      map((res: Response) => {
+        return res || {}
+      }),
+      catchError(this.errorMgmt)
+    )
+  }
+
 
     // get max Question
     getQuestionID(): Observable<any> {
@@ -750,4 +786,13 @@ viewQuizQuestions(userName,account) {
         catchError(this.errorMgmt)
    )
  }
+
+ // Delete Question
+ deleteQuestion(id): Observable<any> {
+  let url = `${this.baseQuestionUri}/delete/${id}`;
+  return this.http.delete(url, { headers: this.headers }).pipe(
+    catchError(this.errorMgmt)
+  )
+}
+
 }

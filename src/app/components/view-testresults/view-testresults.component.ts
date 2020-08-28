@@ -41,6 +41,9 @@ export class ViewTestresultsComponent {
   displayRegularUIFields: Boolean = true;
 
   filterObj = {};
+  nameFilter: string;
+  emailFilter: string;
+  jrssFilter: string;
   loading = true;
   dataSource = new MatTableDataSource<ViewResult>();
 
@@ -135,4 +138,11 @@ export class ViewTestresultsComponent {
      }
      this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+
+   clearFilters() {
+      this.dataSource.filter = '';
+      this.nameFilter = '';
+      this.emailFilter = '';
+      this.jrssFilter = '';
+   }
 }

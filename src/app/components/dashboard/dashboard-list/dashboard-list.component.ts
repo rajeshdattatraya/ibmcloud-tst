@@ -5,6 +5,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { browserRefresh } from '../../../app.component';
 import { Dashboard } from './../../../model/dashboard';
 import { appConfig } from './../../../model/appConfig';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator'
+import {MatSort} from '@angular/material/sort';
 
 
 @Component({
@@ -21,6 +24,8 @@ export class DashboardListComponent implements OnChanges {
   filters: Object;
   filteredUsers: any[] = [];
   Result: any = [];
+  
+  dataSource = new MatTableDataSource<any>();
 
   public browserRefresh: boolean;
   DashboardList: any = [];
@@ -43,6 +48,7 @@ export class DashboardListComponent implements OnChanges {
   displayRegularUIFields: Boolean = true;
   filterKey : string = "";
   account: String = "";
+displayedColumns = ['Action','employeeName', 'JRSS','userResult','SMEResult','PartnerResult','AssignedToProject'];
 
 
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
@@ -106,6 +112,7 @@ export class DashboardListComponent implements OnChanges {
       }
       this.filteredUsers = this.users.filter(filterUser);
       this.Result = this.filteredUsers
+	  this.dataSource.data = this.Result;
     }
 
 
@@ -123,6 +130,7 @@ export class DashboardListComponent implements OnChanges {
     readResult() {
       this.apiService.getDashboardList().subscribe((data) => {
         this.Result = data;
+		this.dataSource.data = this.Result;
         this.users = data
         this.filteredUsers = this.filteredUsers.length > 0 ? this.filteredUsers : this.users;
       })

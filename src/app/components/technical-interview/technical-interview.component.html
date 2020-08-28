@@ -1,162 +1,157 @@
-<nav class="navbar navbar-expand-lg navbar-light table-success" style="background-color:powderblue">
-  <div class="collapse navbar-collapse" id="navbarNavDropdown">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" routerLinkActive="active" ><b>Initiate Technical Interview</b></a>
-      </li>
-    </ul>
-  </div>
-  <div>
-    <ul class="navbar-nav navbar-right">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/login-component" routerLinkActive="active"><b>Logout</b></a>
-      </li>
-    </ul>
-  </div>
-</nav>
-  <br/>
-  <div>
-    <div class="card">
-    <div style="background-color:powderblue" class="card-header"><b>View Candidate Details</b></div>
+<mat-toolbar>
+  <mat-toolbar-row>
+    <a mat-button routerLink="#" routerLinkActive="active">Initiate Technical Interview</a>
+    <span class="flexExpand">
+    <a  mat-button routerLink="/login-component" routerLinkActive="active">Logout</a>
+    </span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<br/>
+<div>
+  <div class="card">
+    <div style="background-color:#2554C7;color:white;font-size:10pt" class="card-header">View Candidate Details</div>
     <div class="card-body">
-    <table>
-      <tbody>
-      <tr>
-        <td  width="25%"><label>Name:</label></td>
-        <td  width="25%">{{this.candidateInterviewDetails[0].result_users[0].employeeName}}</td>
-        <td  width="25%"><label>JRSS:</label></td>
-        <td  width="25%">{{this.candidateInterviewDetails[0].result_users[0].JRSS}}</td>
-      </tr>
-      <tr>
-        <td  width="25%"><label>Technology Stream:</label></td>
-        <td  width="25%">{{this.candidateInterviewDetails[0].result_users[0].technologyStream}}</td>
-        <td  width="25%"><label>Online Assessment Score:</label></td>
-        <td  width="25%" *ngIf="this.candidateInterviewDetails[0].userScore!=null">{{this.candidateInterviewDetails[0].userScore}}%</td>
-        <p *ngIf="this.candidateInterviewDetails[0].userScore==null">N/A</p>
-      </tr>
-      <tr>
-        <td  width="25%"><label>You can download CV here:</label></td>
-        <td width="20%"><a href="#" (click)="downloadCandidateResume(this.candidateInterviewDetails[0].userName)" routerLinkActive="active" class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
-        <td  width="25%"><label>You can access the Pre-Technical-Interview form here:</label></td>
-        <td *ngIf="this.candidateInterviewDetails[0].stage2_status=='Skipped'" width="20%"><a href="#" (click)="skipMethod()" routerLinkActive="active"  class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
-        <td *ngIf="this.candidateInterviewDetails[0].stage2_status=='Completed'">
-            <a class="edit" [routerLink]="['/pre-technical-interview-form/',this.candidateInterviewDetails[0].result_users[0].JRSS, this.candidateInterviewDetails[0].userName]" [state]="{jrss:this.candidateInterviewDetails[0].result_users[0].JRSS,quizId:this.candidateInterviewDetails[0].quizNumber,username:this.candidateInterviewDetails[0].result_users[0].username,access:'tech-interview-initiate',account:this.account}">
-              <td  width="25%"><a href="#" routerLinkActive="active">Click here</a></td>
-            </a>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+      <mat-card class="login-card">
+        <mat-card-content>
+          <table>
+            <tr>
+              <td><mat-label>Name:</mat-label></td>
+              <td>{{this.candidateInterviewDetails[0].result_users[0].employeeName}}</td>
+              <td><mat-label>JRSS:</mat-label></td>
+              <td>{{this.candidateInterviewDetails[0].result_users[0].JRSS}}</td>
+            </tr>
+            <tr>
+              <td><mat-label>Technology Stream:</mat-label></td>
+              <td>{{this.candidateInterviewDetails[0].result_users[0].technologyStream}}</td>
+              <td><mat-label>Online Assessment Score:</mat-label></td>
+              <td *ngIf="this.candidateInterviewDetails[0].userScore!=null">{{this.candidateInterviewDetails[0].userScore}}%</td>
+              <p *ngIf="this.candidateInterviewDetails[0].userScore==null">N/A</p>
+            </tr>
+            <tr>
+              <td><mat-label>You can download CV here:</mat-label></td>
+              <td><a href="#" (click)="downloadCandidateResume(this.candidateInterviewDetails[0].userName)" routerLinkActive="active" data-toggle="modal">Click here</a></td>
+              <td><mat-label>You can access the Pre-Technical-Interview form here:</mat-label></td>
+              <td>
+                <div  *ngIf="this.candidateInterviewDetails[0].stage2_status=='Skipped'">
+                  <a href="#" (click)="skipMethod()" routerLinkActive="active"  class="col-4 cursor-pointer" data-toggle="modal">Click here</a>
+                </div>
+                <div *ngIf="this.candidateInterviewDetails[0].stage2_status=='Completed'">
+                <a class="edit" [routerLink]="['/pre-technical-interview-form/',this.candidateInterviewDetails[0].result_users[0].JRSS, this.candidateInterviewDetails[0].userName]" [state]="{jrss:this.candidateInterviewDetails[0].result_users[0].JRSS,quizId:this.candidateInterviewDetails[0].quizNumber,username:this.candidateInterviewDetails[0].result_users[0].username,access:'tech-interview-initiate',account:this.account}">
+                    <a href="#" routerLinkActive="active">Click here</a>
+                </a>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
 </div>
+
 <br>
 <!-- Dynamic Form Table -->
-  <div class="card">
-    <div style="background-color:powderblue" class="card-header"><b>Please enter feedback here</b></div>
-    <div class="card-body">
+<div class="card">
+  <div style="background-color:#2554C7;color:white;font-size:10pt" class="card-header">Please enter feedback here</div>
+  <div class="card-body">
     <form [formGroup]="techskillForm" (ngSubmit)="onSubmit()">
-      <table  formArrayName="techStream">
-        <tr>
-          <td colspan="4" width="100%" ><label style="font-style:italic;"><B>Select Technical Area For Assessment:</B></label></td>
-        </tr>
-        <br/>
-        <tr>
-          <td  width="25%" ><label><b>Technology Stream</b></label></td>
-          <td  width="25%"><label><b>Score:</b></label><b>(1-10)</b></td>
-          <td  width="25%"></td>
-          <td  width="25%"></td>
-        </tr>
+      <mat-card class="login-card">
+        <mat-card-content>
+          <table  formArrayName="techStream">
+            <tr>
+              <td colspan="4" width="100%" ><mat-label><B>Select Technical Area For Assessment:</B></mat-label></td>
+            </tr>
+            <br/>
+            <tr *ngFor="let dynamic of dynamicArray; let i = index;" [formGroupName]="i">
+              <td>
+                <mat-form-field class="open-full-width">
+                  <mat-label>Technology Stream</mat-label>
+                  <mat-select placeholder="Technology Stream" formControlName="technologyStream" (selectionChange)="changeSelectTechStream(i)" [ngModel]="dynamic[i].value">
+                    <ng-container *ngFor="let ts of dynamic;" >
+                      <mat-option *ngIf="!this.selectedTechStream.includes(ts.value) || this.selectedTechStream[i]==ts.value" value="{{ts.value}}"> <!--[ngValue]="ts.value"-->
+                        {{ts.value}}
+                      </mat-option>
+                    </ng-container>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field class="open-full-width">
+                  <input matInput placeholder="Score(1-10)" type="text" formControlName="score" (blur)="averageCalc($event.value)" (keypress)="isNumber($event,i)" id="score" >
+                </mat-form-field>
+              </td>
+              <td colspan="2"  width="50%" *ngIf="dynamicArray.length == i+1">
+                &nbsp;&nbsp;
+                <a> <img src="assets/images/add.jpg" width="25" height="25" (click)="addTechStream(i)"> </a>
+                &nbsp;&nbsp;
+                <a> <img src="assets/images/remove.jpg" width="25" height="25" (click)="removeTechStream(i)"> </a>
+              </td>
+            </tr>
+          </table>
+        </mat-card-content>
+      </mat-card>
+      <br>
+      <mat-card class="login-card">
+        <mat-card-content>
+          <table>
+            <tr>
+              <td  width="100%" colspan="2"><mat-label><B>Calculate Final Score:</B></mat-label></td>
+            </tr>
 
-        <tr *ngFor="let dynamic of dynamicArray; let i = index;" [formGroupName]="i">
-          <td  width="25%">
-              <select class="form-control" formControlName="technologyStream" (change)="changeSelectTechStream(i)" [ngModel]="dynamic[i].value"> <!--[ngModel]="dynamic[i].value"-->
-                <ng-container *ngFor="let ts of dynamic;" >
-                    <option *ngIf="!this.selectedTechStream.includes(ts.value) || this.selectedTechStream[i]==ts.value" [value]="ts.value" [ngValue]="ts.value"> <!--[ngValue]="ts.value"-->
-                      {{ts.value}}
-                    </option>
-                </ng-container>
-              </select>
-          </td>
-          <td width="25%">
-              <input type="text" size="5" formControlName="score" class="form-control" (change)="averageCalc($event.target.value)" (keypress)="isNumber($event,i)">
-              <!-- [ngClass]="{ 'is-invalid': submitted && myForm.finalscore.errors}"
-              <div *ngIf="submitted && myForm.score.errors" class="invalid-feedback">
-                <div *ngIf="myForm.score.errors.required">Score is required.Value between 1 & 10</div>
-              </div> -->
-            </td>
-          <td colspan="2"  width="50%" *ngIf="dynamicArray.length == i+1">
-            &nbsp;&nbsp;
-            <a> <img src="assets/images/add.jpg" width="25" height="25" (click)="addTechStream(i)"> </a>
-            <!-- <button type="button" (click)="addQuantity(i)" class="btn btn-secondary">Add</button> -->
-           &nbsp;&nbsp;
-           <a> <img src="assets/images/remove.jpg" width="25" height="25" (click)="removeTechStream(i)"> </a>
-            <!-- <button (click)="removeQuantity(i)" class="btn btn-secondary">Remove</button> -->
-          </td>
-        </tr>
-      </table>
-<br>
-      <table style="table-layout: fixed" >
-        <tr>
-          <td  width="100%" colspan="4"><label><B>Calculate Final Score:</B></label></td>
-        </tr>
-        <br/>
-        <tr>
-          <td><label>Final Score</label></td>
-          <td><input class="form-control" formControlName="finalscore" size="10" type="text" value={{this.averageScore}}  [ngClass]="{ 'is-invalid': submitted && myForm.finalscore.errors}" disabled>
-            <!-- [ngClass]="{ 'is-invalid': submitted && myForm.finalscore.errors}" -->
-             <div *ngIf="submitted && myForm.finalscore.errors" class="invalid-feedback">
-              <div *ngIf="myForm.finalscore.errors.required">Final Score should be greather than 0.</div>
-            </div>
-          </td>
-          <td><label>Final Result</label></td>
-          <td>
-             <select formControlName="finalResult" class="form-control" [ngClass]="{ 'is-invalid': submitted && myForm.finalResult.errors }">
-              <option value="">Choose...</option>
-              <option id="Strongly Recommended">Strongly Recommended</option>
-              <option id="Recommended">Recommended</option>
-              <option id="Not Suitable">Not Suitable</option>
-              <option id="StandBy">StandBy</option>
-             </select>
-             <div *ngIf="submitted && myForm.finalResult.errors" class="invalid-feedback">
-              <div *ngIf="myForm.finalResult.errors.required">Final Result is required</div>
-            </div>
-            </td>
-        </tr>
-        <!--        <tr>
-          <td><label style="color: mediumpurple">Technical SME Name</label></td>
-          <td><input type="text" class="form-control" formControlName="smeName" size="10" [ngClass]="{ 'is-invalid': submitted && myForm.smeName.errors}"/>
-            <div *ngIf="submitted && myForm.smeName.errors" class="invalid-feedback">
-              <div *ngIf="myForm.smeName.errors.required">Name is required</div>
-            </div>
-          </td>
-          <td></td>
-          <td>
-          </td>
-        </tr>
-        -->
+            <tr>
+              <td>
+                <mat-form-field class="open-full-width">
+                <input matInput placeholder="Final Score" formControlName="finalscore" size="5" type="text" value={{this.averageScore}}  [ngClass]="{ 'is-invalid': submitted && myForm.finalscore.errors}" readonly>
+                <div *ngIf="submitted && myForm.finalscore.errors" class="invalid-feedback">
+                  <div *ngIf="myForm.finalscore.errors.required">Final Score should be greather than 0.</div>
+                </div>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field class="open-full-width">
+                <mat-select placeholder="Final Result" formControlName="finalResult" [ngClass]="{ 'is-invalid': submitted && myForm.finalResult.errors }">
+                  <mat-option value="">Choose...</mat-option>
+                  <mat-option value="Strongly Recommended">Strongly Recommended</mat-option>
+                  <mat-option value="Recommended">Recommended</mat-option>
+                  <mat-option value="Not Suitable">Not Suitable</mat-option>
+                  <mat-option value="StandBy">StandBy</mat-option>
+                </mat-select>
+                <div *ngIf="submitted && myForm.finalResult.errors" class="invalid-feedback">
+                  <div *ngIf="myForm.finalResult.errors.required">Final Result is required</div>
+                </div>
+                </mat-form-field>
+              </td>
+            </tr>
 
-        <br/>
-        <tr>
-          <td><label>Technical Feedback</label><br><b><i><font style="font-size:10px">(Max 3000 characters)</font></i></b></td>
-          <td colspan="3">
-            <textarea class="form-control" type="textarea" rows="5" cols="50"  maxlength="3000" formControlName="feedback" [ngClass]="{ 'is-invalid': submitted && myForm.feedback.errors}"></textarea>
-            <div *ngIf="submitted && myForm.feedback.errors" class="invalid-feedback">
-              <div *ngIf="myForm.feedback.errors.required">Feedback is required</div>
-            </div>
-          </td>
-        </tr>
-        <br/>
-      </table>
+            <tr>
+              <td colspan="2">
+                <mat-form-field class="open-full-width">
+                 <textarea  matInput placeholder="Technology Stream(Max 3000 characters)" [rows]="5" [cols]="50" formControlName="feedback" [maxLength]="3000" [ngClass]="{ 'is-invalid': submitted && myForm.feedback.errors}"></textarea>
+                <div *ngIf="submitted && myForm.feedback.errors" class="invalid-feedback">
+                  <div *ngIf="myForm.feedback.errors.required">Feedback is required</div>
+                </div>
+                </mat-form-field>
+              </td>
+            </tr>
+          </table>
+        </mat-card-content>
+      </mat-card>
+      <br/>
       <div class="text-center" style="width: 1000px">
-        <button  type="submit" style="background-color:#0043CE;" class="btn btn-success btn-sm" style="background-color:#0043CE;" >Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;
-        <button  type="reset" style="background-color:#0043CE;" (click)="resetForm()" class="btn btn-success btn-sm" style="background-color:#0043CE;">Clear</button>&nbsp;&nbsp;&nbsp;&nbsp;
-        <button  type="button" style="background-color:#0043CE;" (click)="cancelForm()" class="btn btn-success btn-sm" style="background-color:#0043CE;">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
-        <button type="button"style="background-color:#0043CE;" class="btn btn-success btn-sm" (click)="exceptionalApproval(this.candidateInterviewDetails[0].userName,this.candidateInterviewDetails[0].quizNumber)">Exceptional Approval</button>
+        <span>
+        <button mat-raised-button  color="primary" type="submit">Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;
+      </span>
+        <span (click)="resetForm()">
+        <button mat-raised-button  color="primary" type="reset">Clear</button>&nbsp;&nbsp;&nbsp;&nbsp;
+      </span>
+        <span (click)="cancelForm()">
+        <button mat-raised-button color="primary" type="button">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
+      </span>
+        <span (click)="exceptionalApproval(this.candidateInterviewDetails[0].userName,this.candidateInterviewDetails[0].quizNumber)">
+        <button mat-raised-button color="primary" type="button">Exceptional Approval</button>
+      </span>
       </div>
-  <!-- {{this.techskillForm.value | json}} -->
-  </form>
+      <!-- {{this.techskillForm.value | json}} -->
+    </form>
   </div>
-  </div>
-
-
+</div>

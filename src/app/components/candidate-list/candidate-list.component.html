@@ -40,26 +40,31 @@
   <tr>
     <td>
         <mat-form-field>
-          <input matInput (keyup)="applyFilter($event.target.value,'employeeName')" placeholder="Name">
+          <input matInput [(ngModel)]="nameFilter" #ctrl="ngModel" (keyup)="applyFilter($event.target.value,'employeeName')" placeholder="Name">
         </mat-form-field>
     </td>
     <td>
       <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value,'username')" placeholder="Email">
+        <input matInput [(ngModel)]="emailFilter" #ctrl="ngModel" (keyup)="applyFilter($event.target.value,'username')" placeholder="Email">
       </mat-form-field>
     </td>
     <td>
       <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value,'band')" placeholder="Band">
+        <input matInput [(ngModel)]="bandFilter" #ctrl="ngModel" (keyup)="applyFilter($event.target.value,'band')" placeholder="Band">
       </mat-form-field>
     </td>
     <td>
         <mat-form-field>
-          <input matInput (keyup)="applyFilter($event.target.value,'JRSS')" placeholder="Job Role">
+          <input matInput [(ngModel)]="jrssFilter" #ctrl="ngModel" (keyup)="applyFilter($event.target.value,'JRSS')" placeholder="Job Role">
         </mat-form-field>
     </td>
   </tr>
 </table>
+  <mat-card-actions>
+    <div class="row justify-content-center">
+        <button mat-raised-button color="primary" aria-label="Clear" (click)="clearFilters()">Clear</button>
+    </div>
+  </mat-card-actions>
 </mat-card>
 <br>
 <div class="mat-elevation-z8">
@@ -68,13 +73,13 @@
     <!-- ID Column -->
     <ng-container matColumnDef="Action">
       <th mat-header-cell *matHeaderCellDef> Select </th>
-      <td mat-cell *matCellDef="let row"> <mat-radio-button></mat-radio-button>
+      <td mat-cell *matCellDef="let row;let i=index"><mat-radio-button (change)="onSelectionChange(row._id, row.candidate_users[0]._id,row.username,i)"></mat-radio-button>
       </td>
     </ng-container>
     <!-- ID Column -->
     <ng-container matColumnDef="employeeName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-      <td mat-cell *matCellDef="let row"> {{row.employeeName}} </td>
+      <td mat-cell *matCellDef="let row"><a href="#myModal" (click)="getCandidateDetails(row.username)" class="col-4 cursor-pointer" data-toggle="modal" > {{row.employeeName}}</a> </td>
     </ng-container>
 
     <!-- Progress Column -->
@@ -116,14 +121,21 @@
     <!-- ID Column -->
     <ng-container matColumnDef="Action1">
       <th mat-header-cell *matHeaderCellDef> Action </th>
-      <td mat-cell *matCellDef="let row">  <a>
-        <button mat-raised-button color="primary">Enable</button></a></td>
+      <td mat-cell *matCellDef="let row;let i=index">  <a>
+        <button mat-raised-button color="primary" (click)="updateCandidateStatus(row, i)">Enable</button></a></td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-row *matRowDef="let row; let even = even; columns: displayedColumns;" [ngClass]="{gray: even}"></tr>
   </table>
-  <mat-paginator [length]="this.Candidate.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  <table>
+    <tr *ngIf="!dataSource.data.length">
+      <td style="text-align: center;" [attr.colspan]="displayedColumns.length">
+        No Records Found!
+      </td>
+    </tr>
+  </table>
+  <mat-paginator [length]="this.Candidate.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
 </div>
 <br/>
 <div  class="float-right text-right" *ngIf="Candidate.length > 0">
@@ -134,5 +146,67 @@
     <button mat-raised-button color="primary">Delete</button>&nbsp;
   </a>
 </div>
+
+
+<!-- code Start -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+
+    <!-- Modal content-->
+    <div class="modal-content" >
+      <div class="modal-header table-success" style="background-color:#f5f5f5;color:black">
+        <h4 class="modal-title">View Candidate Details</h4>
+        <button type="button"  class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body" *ngIf="mode=='displayModalBody'">
+        <mat-card>
+          <mat-card-content>
+            <table>
+              <tr>
+                <td><mat-label>Name:</mat-label></td>
+                <td>&nbsp;{{this.candidateDetails[0].employeeName}}</td>
+                <td><mat-label>Email:</mat-label></td>
+                <td>&nbsp;{{this.candidateDetails[0].email}}</td>
+              </tr>
+              <tr *ngIf="displayRegularUIFields">
+                <td><mat-label>Band:</mat-label></td>
+                <td>&nbsp;{{this.candidateDetails[0].band}}</td>
+                <td><mat-label>Job Role:</mat-label></td>
+                <td>&nbsp;{{this.candidateDetails[0].JRSS}}</td>
+              </tr>
+              <tr>
+                <td><mat-label>Technology Stream:</mat-label></td>
+                <td>&nbsp;{{this.candidateDetails[0].technologyStream}}</td>
+                <td><mat-label>Phone Number:</mat-label></td>
+                <td>&nbsp;{{this.candidateDetails[0].phoneNumber}}</td>
+              </tr>
+              <tr>
+                <td><mat-label>Status:</mat-label></td>
+                <td>&nbsp;{{this.candidateDetails[0].candidate_users[0].status}}</td>
+                <td><mat-label>Quiz Attempts:</mat-label></td>
+                <td>&nbsp;{{this.candidateDetails[0].candidate_users[0].quizNumber}}</td>
+              </tr>
+              <tr *ngIf="displayRegularUIFields">
+                <td><mat-label>Date of Joining:</mat-label></td>
+                <td>&nbsp;{{this.candidateDetails[0].dateOfJoining.split('T')[0]}}</td>
+              </tr>
+              <tr *ngIf="displayContractorUIFields">
+                <td><mat-label>Date of Birth:</mat-label></td>
+                <td>&nbsp;{{this.candidateDetails[0].dateOfJoining.split('T')[0]}}</td>
+                <td><mat-label>Job Role:</mat-label></td>
+                <td>&nbsp;{{this.candidateDetails[0].JRSS}}</td>
+              </tr>
+            </table>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="modal-footer table-success" style="background-color:#f5f5f5;color:black">
+        <button mat-raised-button color="primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 
 

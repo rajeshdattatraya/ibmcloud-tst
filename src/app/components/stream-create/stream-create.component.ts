@@ -35,6 +35,8 @@ export class StreamCreateComponent implements OnInit {
   techStreamCollection:any = [];  
   dataSource = new MatTableDataSource<JRSS>();
   displayedColumns = ['Action','jrss', 'technologyStream'];
+  formReset = false;
+  questionsmappedtotechstream = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -170,15 +172,44 @@ pageChange(newPage: number) {
     }
   }
 
+  checkforquestions(){
+    this.apiService.checkForQuestions(this.streamCreateForm.value.technologyStream).subscribe(res => {
+      console.log('Technology stream has questions as the count is '+res.count);   
+      if(res.count==0)  
+      {
+        this.questionsmappedtotechstream = false;
+        console.log("The value is "+!this.questionsmappedtotechstream);
+      }
+      else if(res.count>0)
+      {
+        this.questionsmappedtotechstream = true;
+        console.log("The value is "+!this.questionsmappedtotechstream);
+      }
+       }, (error) => {
+      console.log(error);
+      })
+
+
+  }
+
   onSubmit() {
     this.submitted = true;
+    this.formReset = false;
     this.duplicateTechStream = false;
     this.readJrssDocId();
+    this.checkforquestions();
     if (!this.streamCreateForm.valid) {
+      console.log('here101');
       return false;
     } else if(this.duplicateTechStream){
+      console.log('here102');
       this.error = 'This entry is already existing';
-    }else{      
+    } else if(!this.questionsmappedtotechstream)
+    {  console.log('here103');
+      alert('The technology stream '+this.streamCreateForm.value.technologyStream+' should have atleast one question mapped to it before being mapped to a job rule!');
+    }    
+    else{      
+      console.log('here104');
       this.currentJrssArray.technologyStream.push({key:this.streamCreateForm.value.technologyStream, value:this.streamCreateForm.value.technologyStream});
       this.apiService.updateTechStream(this.jrssDocId, JSON.stringify(this.currentJrssArray)).subscribe(res => {
         console.log('Technology stream updated successfully!');
@@ -189,5 +220,10 @@ pageChange(newPage: number) {
         console.log(error);
         })
       }
-}
+  }
+  clearForm() {
+    this.formReset = true;
+    this.streamCreateForm.reset();
+  }
+
 }

@@ -78,10 +78,7 @@ export class UserEditComponent implements OnInit {
       email: ['', [Validators.required, Validators.pattern('[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,3}$')]],
       userrole: ['', [Validators.required]],
       account: ['', [Validators.required]],
-    })
-
-
-    
+    })    
   }
 
   mainForm() {
@@ -160,19 +157,17 @@ getUser(id) {
     this.createdBy = data['createdBy'];
     this.CreatedDate = data['CreatedDate'];
     this.UpdatedBy = data['UpdatedBy'];
-    //this.UpdatedDate
     this.userLoggedin=data['userLoggedin'];
   });
-
-
 }
 
+//Cancel
+cancelForm(){
+  this.ngZone.run(() => this.router.navigateByUrl('/adminuser-create',{state:{username:this.userName,account:this.account}}));   
+}
 
 onSubmit() {
   this.submitted = true; 
-  // Encrypt the password
-
-
   let updatedUser = new SpecialUser(this.editForm.value.email,
     this.password,
     this.quizNumber,
@@ -187,11 +182,8 @@ onSubmit() {
     this.editForm.value.employeeName,
     this.editForm.value.account
     );
-
     let user_id = this.actRoute.snapshot.paramMap.get('docid');
-
-
-   this.currDate = new Date();
+    this.currDate = new Date();
    
   if (!this.editForm.valid) {
     return false;
@@ -221,6 +213,4 @@ onSubmit() {
 }
 
 }
-
-
 }

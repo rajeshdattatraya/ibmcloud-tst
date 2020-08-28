@@ -40,21 +40,26 @@
     <tr>
       <td>
         <mat-form-field>
-          <input matInput (keyup)="applyFilter($event.target.value,'employeeName')" placeholder="Name">
+          <input matInput [(ngModel)]="nameFilter" #ctrl="ngModel" (keyup)="applyFilter($event.target.value,'employeeName')" placeholder="Name">
         </mat-form-field>
       </td>
       <td>
         <mat-form-field>
-          <input matInput (keyup)="applyFilter($event.target.value,'userName')" placeholder="Email">
+          <input matInput [(ngModel)]="emailFilter" #ctrl="ngModel"  (keyup)="applyFilter($event.target.value,'userName')" placeholder="Email">
         </mat-form-field>
       </td>
       <td>
         <mat-form-field>
-          <input matInput (keyup)="applyFilter($event.target.value,'JRSS')" placeholder="Job Role">
+          <input matInput [(ngModel)]="jrssFilter" #ctrl="ngModel" (keyup)="applyFilter($event.target.value,'JRSS')" placeholder="Job Role">
         </mat-form-field>
       </td>
     </tr>
   </table>
+  <mat-card-actions>
+    <div class="row justify-content-center">
+      <button mat-raised-button color="primary" aria-label="Clear" (click)="clearFilters()">Clear</button>
+    </div>
+  </mat-card-actions>
 </mat-card>
 <br>
 <div class="mat-elevation-z8">
@@ -104,66 +109,64 @@
       </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-row *matRowDef="let row; let even = even; columns: displayedColumns;" [ngClass]="{gray: even}"></tr>
   </table>
-  <mat-paginator [length]="this.Result.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  <mat-paginator [length]="this.Result.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
 </div>
 <!-- code Start -->
 <div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
 
     <!-- Modal content-->
     <div class="modal-content" >
-      <div class="modal-header table-success" style="background-color:powderblue">
+      <div class="modal-header table-success" style="background-color:#f5f5f5;color:black">
         <h4 class="modal-title">View Candidate Details</h4>
         <button type="button"  class="close" data-dismiss="modal">&times;</button>
       </div>
       <div class="modal-body" *ngIf="mode=='displayModalBody'">
-        <table>
-          <tr>
-            <td><label class="col-sm-8 col-form-label">Name:</label></td>
-            <td>&nbsp;{{this.candidateDetails[0].employeeName}}</td>
-          </tr>
-          <tr>
-            <td><label class="col-sm-8 col-form-label">Email:</label></td>
-            <td>&nbsp;{{this.candidateDetails[0].email}}</td>
-          </tr>
-          <tr *ngIf="displayRegularUIFields">
-            <td><label class="col-sm-10 col-form-label">Band:</label></td>
-            <td>&nbsp;{{this.candidateDetails[0].band}}</td>
-          </tr>
-          <tr>
-            <td><label class="col-sm-10 col-form-label">Job Role:</label></td>
-            <td>&nbsp;{{this.candidateDetails[0].JRSS}}</td>
-          </tr>
-          <tr>
-            <td><label class="col-sm-10 col-form-label">Technology Stream:</label></td>
-            <td>&nbsp;{{this.candidateDetails[0].technologyStream}}</td>
-          </tr>
-          <tr>
-            <td><label class="col-sm-10 col-form-label">Phone Number:</label></td>
-            <td>&nbsp;{{this.candidateDetails[0].phoneNumber}}</td>
-          </tr>
-          <tr *ngIf="displayRegularUIFields">
-            <td><label class="col-sm-10 col-form-label">Date of Joining:</label></td>
-            <td>&nbsp;{{this.candidateDetails[0].dateOfJoining.split('T')[0]}}</td>
-          </tr>
-          <tr *ngIf="displayContractorUIFields">
-            <td><label class="col-sm-10 col-form-label">Date of Birth:</label></td>
-            <td>&nbsp;{{this.candidateDetails[0].dateOfJoining.split('T')[0]}}</td>
-          </tr>
-          <tr>
-            <td><label class="col-sm-10 col-form-label">Status:</label></td>
-            <td>&nbsp;{{this.candidateDetails[0].candidate_users[0].status}}</td>
-          </tr>
-          <tr>
-            <td><label class="col-sm-10 col-form-label">Quiz Attempts:</label></td>
-            <td>&nbsp;{{this.candidateDetails[0].candidate_users[0].quizNumber}}</td>
-          </tr>
-        </table>
+        <mat-card>
+          <mat-card-content>
+            <table>
+              <tr>
+                <td><mat-label>Name:</mat-label></td>
+                <td>&nbsp;{{this.candidateDetails[0].employeeName}}</td>
+                <td><mat-label>Email:</mat-label></td>
+                <td>&nbsp;{{this.candidateDetails[0].email}}</td>
+              </tr>
+              <tr *ngIf="displayRegularUIFields">
+                <td><mat-label>Band:</mat-label></td>
+                <td>&nbsp;{{this.candidateDetails[0].band}}</td>
+                <td><mat-label>Job Role:</mat-label></td>
+                <td>&nbsp;{{this.candidateDetails[0].JRSS}}</td>
+              </tr>
+              <tr>
+                <td><mat-label>Technology Stream:</mat-label></td>
+                <td>&nbsp;{{this.candidateDetails[0].technologyStream}}</td>
+                <td><mat-label>Phone Number:</mat-label></td>
+                <td>&nbsp;{{this.candidateDetails[0].phoneNumber}}</td>
+              </tr>
+              <tr>
+                <td><mat-label>Status:</mat-label></td>
+                <td>&nbsp;{{this.candidateDetails[0].candidate_users[0].status}}</td>
+                <td><mat-label>Quiz Attempts:</mat-label></td>
+                <td>&nbsp;{{this.candidateDetails[0].candidate_users[0].quizNumber}}</td>
+              </tr>
+              <tr *ngIf="displayRegularUIFields">
+                <td><mat-label>Date of Joining:</mat-label></td>
+                <td>&nbsp;{{this.candidateDetails[0].dateOfJoining.split('T')[0]}}</td>
+              </tr>
+              <tr *ngIf="displayContractorUIFields">
+                <td><mat-label>Date of Birth:</mat-label></td>
+                <td>&nbsp;{{this.candidateDetails[0].dateOfJoining.split('T')[0]}}</td>
+                <td><mat-label>Job Role:</mat-label></td>
+                <td>&nbsp;{{this.candidateDetails[0].JRSS}}</td>
+              </tr>
+            </table>
+          </mat-card-content>
+        </mat-card>
       </div>
-      <div class="modal-footer table-success" style="background-color:powderblue">
-        <button mat-raised-button data-dismiss="modal">Close</button>
+      <div class="modal-footer table-success" style="background-color:#f5f5f5;color:black">
+        <button mat-raised-button color="primary" data-dismiss="modal">Close</button>
       </div>
     </div>
 
@@ -176,15 +179,17 @@
 
 <!-- Modal Code starts. -->
 <div id="assessmentModal" class="modal fade" role="dialog">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <!-- Modal content-->
     <div class="modal-content">
       <!-- <div *ngIf="assessmentDetails.quizNumber == this.quizNumber"> -->
-      <div class="modal-header table-success" style="background-color:powderblue">
+      <div class="modal-header table-success" style="background-color:#f5f5f5;color:black">
         <h4 class="modal-title">Candidate Assessment Details</h4>
         <button type="button"  class="close" data-dismiss="modal">&times;</button>
       </div>
       <div class="modal-body" *ngIf="mode=='displayAssessmentModalBody'">
+        <mat-card>
+          <mat-card-content>
         <table style="table-layout: fixed; width: 100%">
           <thead>
           <tr>
@@ -196,15 +201,19 @@
           </thead>
           <tbody>
           <tr>
-            <td colspan="4" scope="col" style="font-size:x-small;color:black;font-style: italic;">
+            <td colspan="4" scope="col" style="color:black;font-style: italic;">
               You have correctly answered {{this.correctAnswerCount}} questions out of  {{this.questionCount}}
             </td>
           </tr>
           </tbody>
         </table>
-      </div>
+        </mat-card-content>
+        </mat-card>
+      <br/>
       <div *ngFor="let answer of this.candidateAssessmentDetails.results;let i=index">
         <div *ngFor="let questions of answer.userAttemptedQs" >
+          <mat-card>
+            <mat-card-content>
           <table  style="table-layout: fixed; width: 100%">
             <tbody>
             <tr>
@@ -223,15 +232,18 @@
               <td>{{k+1}}){{questionOption.option}} </td>
             </tr>
             <tr><td  width="2%"></td>
-              <td style="color:black"><pre>Candidate Answer: {{answer.userAnswerID}}    Correct Answer:  {{questions.answerID}}
-                  </pre> </td></tr>
+              <td style="color:black">Candidate Answer: {{answer.userAnswerID}}    Correct Answer:  {{questions.answerID}}
+              </td></tr>
             <tr></tr>
             </tbody>
           </table>
+          </mat-card-content>
+        </mat-card>
         </div>
       </div>
-      <div class="modal-footer table-success" style="background-color:powderblue">
-        <button mat-raised-button data-dismiss="modal">Close</button>
+      </div>
+      <div class="modal-footer table-success" style="background-color:#f5f5f5;color:black">
+        <button mat-raised-button color="primary" data-dismiss="modal">Close</button>
       </div>
     </div>
 

@@ -29,8 +29,8 @@ export class StreamAddComponent implements OnInit {
   ) {
     this.browserRefresh = browserRefresh;
     if (!this.browserRefresh) {
-        this.userName = this.router.getCurrentNavigation().extras.state.username;
-        this.account = this.router.getCurrentNavigation().extras.state.account;
+        //this.userName = this.router.getCurrentNavigation().extras.state.username;
+        //this.account = this.router.getCurrentNavigation().extras.state.account;
     }
     this.readTechStream();
     this.mainForm();

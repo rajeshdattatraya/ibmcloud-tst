@@ -136,6 +136,10 @@ export class TestConfigEditComponent implements OnInit {
       return this.testConfigEditForm.controls;
     }
 
+    //Cancel
+    cancelForm(){
+      this.ngZone.run(() => this.router.navigateByUrl('/testconfig-add', {state: {username:this.userName,account:this.account}}))
+    }
 
     onSubmit() {
         this.submitted = true;

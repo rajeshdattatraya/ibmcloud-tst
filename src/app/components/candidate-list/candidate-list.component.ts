@@ -17,6 +17,8 @@ import {MatSort} from '@angular/material/sort';
 export class CandidateListComponent implements OnInit {
   public browserRefresh: boolean;
   Candidate:any = [];
+  candidateDetails: any = [];
+  mode: any;
   config: any;
   state = "Activate";
   error = "";
@@ -29,7 +31,14 @@ export class CandidateListComponent implements OnInit {
   index;
   isRowSelected = false;
   account: any;
+  displayContractorUIFields: Boolean = false;
+  displayRegularUIFields: Boolean = true;
+
   filterObj = {};
+  nameFilter: string;
+  emailFilter: string;
+  bandFilter: string;
+  jrssFilter: string;
   loading = true;
   dataSource = new MatTableDataSource<CandidateDetails>();
 
@@ -182,5 +191,28 @@ export class CandidateListComponent implements OnInit {
     }
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+
+   //To read candidate details
+   getCandidateDetails(username) {
+       this.mode="displayModalBody";
+       this.apiService.getCandidateDetails(username).subscribe((data) => {
+            this.candidateDetails = data;
+            if (this.candidateDetails[0].employeeType == 'Contractor') {
+                 this.displayContractorUIFields = true;
+                 this.displayRegularUIFields = false;
+            } else {
+                 this.displayContractorUIFields = false;
+                 this.displayRegularUIFields = true;
+            }
+       })
+   }
+
+   clearFilters() {
+      this.dataSource.filter = '';
+      this.nameFilter = '';
+      this.emailFilter = '';
+      this.bandFilter = '';
+      this.jrssFilter = '';
+   }
 
 }

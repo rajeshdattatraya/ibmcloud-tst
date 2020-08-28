@@ -1,0 +1,161 @@
+<mat-toolbar>
+  <mat-toolbar-row>
+    <a  mat-button  [matMenuTriggerFor]="users" routerLink="/candidates-list" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Manage Users</a>
+    <mat-menu #users="matMenu">
+      <a mat-menu-item routerLink="/create-candidate" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add Candidate</a>
+      <a mat-menu-item routerLink="/adminuser-create" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add User</a>
+      <a mat-menu-item routerLink="/candidates-list" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">View Candidate</a>
+    </mat-menu>
+    <a  mat-button  [matMenuTriggerFor]="questions" routerLink="/manage-questionbank" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Manage Questions</a>
+    <mat-menu #questions="matMenu">
+      <a mat-menu-item  routerLink="/manage-questionbank" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add Question</a>
+      <a mat-menu-item  routerLink="/manage-questionbank-bulk" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add Bulk Question</a>
+      <a mat-menu-item  routerLink="/view-questionbank" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active"> View Question</a>
+    </mat-menu>
+    <a  mat-button  [matMenuTriggerFor]="metadata" routerLink="/jrss-create" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Manage Metadata</a>
+    <mat-menu #metadata="matMenu">
+      <a mat-menu-item  routerLink="/jrss-create" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add Job Role</a>
+      <a mat-menu-item  routerLink="/stream-create" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add Technology Stream</a>
+      <a mat-menu-item  routerLink="/testconfig-add" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add Test Configuration</a>
+    </mat-menu>
+    <a  mat-button  routerLink="/workflow-config" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Manage WorkFlows</a>
+    <a  mat-button  [matMenuTriggerFor]="openpositions" routerLink="/openpositions-list" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Manage OpenSeats</a>
+    <mat-menu #openpositions="matMenu">
+      <a mat-menu-item routerLink="/openpositions-create" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add Open Seat</a>
+      <a mat-menu-item routerLink="/openpositions-list" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">View Open Seats</a>
+    </mat-menu>
+    <a  mat-button  routerLink="/view-testresults" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Test Results</a>
+    <a  mat-button  routerLink="/login-component" routerLinkActive="active">Logout</a>
+  </mat-toolbar-row>
+</mat-toolbar><br/>
+<div>
+  <h4 class="my-0 mr-md-auto font-weight-normal">Edit Question</h4>
+  <br/>
+</div>
+  <!-- form card register -->
+<div class="card">
+  <div class="card-body">
+    <form [formGroup]="editquestionForm" (ngSubmit)="onSubmit()" >
+    <p style="color:red;">*All fields are mandatory</p>
+          <div class="form-group row">
+        <label for="inputTechnologyStream" class="col-sm-4 col-form-label">Technology Stream</label>
+        <div class="col-sm-8">
+          <select class="custom-select form-control" (change)="updateTechnologyStream($event.target.value)"
+                  formControlName="technologyStream" id="inputTechnologyStream" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.technologyStream.errors }">
+            <option value="">Choose...</option>
+            <option *ngFor="let data of technologyStream" value="{{data.value}}">{{data.value}}
+            </option>
+          </select>
+          <div *ngIf="!formReset && submitted && myForm.technologyStream.errors" class="invalid-feedback">
+            <div *ngIf="myForm.technologyStream.errors.required">Technology Stream is required</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+    <label for="inputQuestionType" class="col-sm-4 col-form-label">Question Type</label>
+    <div class="col-sm-8">
+      <select class="custom-select form-control" (change)="updateQuestionTypes($event.target.value)"
+           formControlName="questionType" id="inputQuestionType" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.questionType.errors }">
+      <option value="">Choose...</option>
+      <option *ngFor="let questionType of QuestionTypes" value="{{questionType}}">{{questionType}}
+      </option>
+      </select>
+      <div *ngIf="!formReset && submitted && myForm.questionType.errors" class="invalid-feedback">
+      <div *ngIf="myForm.questionType.errors.required">Choose QuestionType</div>
+      </div>
+    </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="inputComplexityLevel" class="col-sm-4 col-form-label">Complexity Level</label>
+      <div class="col-sm-8">
+        <select class="custom-select form-control" (change)="updateComplexityLevel($event.target.value)"
+                formControlName="complexityLevel" id="inputComplexityLevel" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.complexityLevel.errors }">
+          <option value="">Choose...</option>
+          <option *ngFor="let complexityLevel of ComplexityLevel" value="{{complexityLevel}}">{{complexityLevel}}
+          </option>
+        </select>
+        <div *ngIf="!formReset && submitted && myForm.complexityLevel.errors" class="invalid-feedback">
+          <div *ngIf="myForm.complexityLevel.errors.required">Choose ComplexityLevel</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+    <label for="inputVerify3" class="col-sm-4 col-form-label">Question</label>
+    <div class="col-sm-8">
+      <textarea class="form-control" type="textarea" rows="5" cols="50"  formControlName="question" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.question.errors }">
+      </textarea>
+      <!-- error -->
+      <div *ngIf="!formReset && submitted && myForm.question.errors" class="invalid-feedback">
+       <div *ngIf="myForm.question.errors.required">Enter your Question</div>
+      </div>
+    </div>
+    </div>
+    <div class="form-group row" >
+    <div class="col-sm-8"></div>
+    <label for="inputVerify3" class="col-sm-4 col-form-label" ><b>Select correct Answer here</b></label>
+    </div>
+    <div class="form-group row" >
+    <label for="inputVerify3" class="col-sm-4 col-form-label">Option 1</label>
+    <div class="col-sm-6">
+      <input class="form-control" type="text"  formControlName="option1" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.option1.errors }">
+    <!-- error -->
+    <div *ngIf="!formReset && submitted && myForm.option1.errors"  class="invalid-feedback" >
+      <div *ngIf="myForm.option1.errors.required">Enter Option1</div>
+    </div>
+    </div>
+    <div>
+      <input class="form-control" type="checkbox" formControlName="option1checkbox" style="width: 70px">
+    </div>
+    </div>
+    <div class="form-group row" >
+    <label for="inputVerify3" class="col-sm-4 col-form-label">Option 2</label>
+    <div class="col-sm-6">
+      <input class="form-control" type="text"  formControlName="option2" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.option2.errors }">
+      <!-- error -->
+      <div *ngIf="!formReset && submitted && myForm.option2.errors"  class="invalid-feedback" >
+      <div *ngIf="myForm.option2.errors.required">Enter Option2</div>
+      </div>
+    </div>
+    <div>
+      <input class="form-control" type="checkbox" formControlName="option2checkbox" style="width: 70px">
+    </div>
+    </div>
+    <div class="form-group row" >
+    <label for="inputVerify3" class="col-sm-4 col-form-label">Option 3</label>
+    <div class="col-sm-6">
+      <input class="form-control" type="text"  formControlName="option3" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.option3.errors }">
+      <!-- error -->
+      <div *ngIf="!formReset && submitted && myForm.option3.errors"  class="invalid-feedback" >
+      <div *ngIf="myForm.option3.errors.required">Enter Option3</div>
+      </div>
+    </div>
+    <div>
+      <input class="form-control" type="checkbox" formControlName="option3checkbox" style="width: 70px">
+    </div>
+    </div>
+    <div class="form-group row" >
+    <label for="inputVerify3" class="col-sm-4 col-form-label">Option 4</label>
+    <div class="col-sm-6">
+      <input class="form-control" type="text"  formControlName="option4" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.option4.errors }">
+      <!-- error -->
+      <div *ngIf="!formReset && submitted && myForm.option4.errors"  class="invalid-feedback" >
+      <div *ngIf="myForm.option4.errors.required">Enter Option4</div>
+      </div>
+    </div>
+    <div>
+      <input class="form-control" type="checkbox" formControlName="option4checkbox" style="width: 70px">
+    </div>
+    </div>
+    <div class="form-group">
+    <div class="row justify-content-center">
+    <button class="btn btn-success btn-lg" style="background-color:#0043CE;" type="submit">Update Question</button>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <button style="background-color:#0043CE;" class="btn btn-success btn-lg" type="button" (click)="cancelForm()">Cancel</button>
+    </div>
+    </div>
+  </form>
+</div><!-- form card register -->
+</div>
+
