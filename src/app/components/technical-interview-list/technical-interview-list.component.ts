@@ -60,7 +60,7 @@ export class TechnicalInterviewListComponent implements OnInit {
   loading = true;
   dataSource = new MatTableDataSource<ViewResult>();
   showCalendar: boolean = false;
-  displayedColumns = ['Action','employeeName', 'JRSS','account','userScore','preTechForm','cvDownload'];
+  displayedColumns = ['Action','result_users[0].employeeName', 'result_users[0].JRSS','result_users[0].account','userScore','preTechForm','cvDownload'];
 
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
