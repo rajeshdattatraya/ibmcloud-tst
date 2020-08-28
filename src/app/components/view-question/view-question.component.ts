@@ -3,10 +3,11 @@ import { ActivatedRoute,Router } from '@angular/router';
 import { ApiService } from './../../service/api.service';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { browserRefresh } from '../../app.component';
-import { QuizService } from './../../components/quiz/quiz.service';
 import { appConfig } from '../../model/appConfig';
-import { Question } from 'src/app/model/questions';
-//import { ActivatedRoute, Router } from '@angular/router';
+import { Question } from '../../model/questions';
+import { MatTableDataSource } from '@angular/material/table';
+import {MatSort} from '@angular/material/sort';
+import {MatPaginator} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-view-question',
@@ -24,6 +25,14 @@ export class ViewQuestionComponent implements OnInit {
   index;
   questionID;
   isRowSelected: boolean;
+  dataSource = new MatTableDataSource<Question>();
+
+  displayedColumns = ['Action','Question','Option'];
+  optionArray: any[];
+  questionObj: any[];
+  questionObjectArray: any = [];
+  paginator: MatPaginator;
+  sort: MatSort;
 
   constructor(public fb: FormBuilder,private router: Router, private apiService: ApiService,private route: ActivatedRoute) {
       this.config = {
@@ -46,20 +55,38 @@ export class ViewQuestionComponent implements OnInit {
 
   ngOnInit() {
     this.browserRefresh = browserRefresh;
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      switch(property) {
+        case 'question': return item[1];
+        case 'option': return item[2];
+        default: return item[property];
+      }
+   };
   }
 
-  pageChange(newPage: number) {
-    this.router.navigate(['/view-questionbank'], { queryParams: { page: newPage } });
-    console.log("Page Change");
-}
+  ngAfterViewInit (){
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
 
+  
 
 //Get all questions
   readQuestion(){
     this.apiService.viewQuizQuestions(this.userName,this.account).subscribe((data) => {
       this.Questions = data;
-      console.log("Questions" +this.Questions.length);
-  })
+      for (var question of this.Questions){     
+        this.optionArray = [];
+        console.log("Options" +question.options);
+        for (var option of question.options){          
+          this.optionArray.push(option.option); 
+          //let split = this.optionArray.join('.</br>');       
+        }        
+        this.questionObj = [question.question, this.optionArray];
+        this.questionObjectArray.push(this.questionObj);  
+        this.dataSource.data=this.questionObjectArray as Question[];  
+        }  
+       })
 }
 
 invokeEdit(questionID){

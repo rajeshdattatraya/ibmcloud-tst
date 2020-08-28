@@ -4,7 +4,10 @@ import { ReportService } from './report.service';
 import { browserRefresh } from '../../app.component';
 import { DatePipe } from '@angular/common'
 import { appConfig } from './../../model/appConfig';
-
+import { ReportStats } from './../../model/reportStats';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator'
+import {MatSort} from '@angular/material/sort';
 
 @Component({
   selector: 'app-report',
@@ -28,6 +31,11 @@ export class ReportComponent implements OnInit {
   from_Date: any;
   to_Date: any;
   searchJrss: string;
+  dataSource = new MatTableDataSource<ReportStats>();
+
+  displayedColumns = ['JRSS', 'registeredCandidates','passedOnlineTest', 'passedTechInterview','passedPartnerInterview','assignedToProject'];
+  filterObj: { value: string; key: string; };
+
 
 
   constructor(
@@ -90,6 +98,7 @@ export class ReportComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadReportData();
+    
   }
 
 
@@ -173,9 +182,18 @@ export class ReportComponent implements OnInit {
 
     Object.keys(this.reportObj).forEach((key) => {
       this.reportData.push(Object.entries(this.reportObj[key]));
+      this.dataSource.data = this.reportData as ReportStats[];
+      console.log("Datasource data"  +this.dataSource.data);
     });
   }
 
+  applyFilter(filterValue: string,key: string) {
+    this.filterObj = {
+          value: filterValue.trim().toLowerCase(),
+          key: key
+    }
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 
 }
 
