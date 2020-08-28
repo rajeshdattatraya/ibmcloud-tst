@@ -56,7 +56,7 @@
   <p *ngIf="TechnicalInterviewList.length <= 0" class="no-data text-center">There are no records in Technical Interview Assessment Queue</p>
 
   <!-- Technical Interview list -->
-  <div class="mat-elevation-z8">
+  <div class="mat-elevation-z8" *ngIf="account=='sector' || account=='Sector' || account=='SECTOR'">
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
       <!-- ID Column -->
@@ -116,11 +116,73 @@
         <th mat-header-cell *matHeaderCellDef> CV Download </th>
         <td mat-cell *matCellDef="let row"><a href="#" (click)="downloadCandidateResume(row.userName)" routerLinkActive="active" class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
       </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsSector"></tr>
+      <tr mat-row *matRowDef="let row; let even = even; columns: displayedColumnsSector; "[ngClass]="{gray: even}" ></tr>
+    </table>
+    <mat-paginator [length]="this.TechnicalInterviewList.length" [pageSize]="5" [pageSizeOptions]="[5,10,15,25,50,100]" showFirstLastButtons></mat-paginator>
+  </div>
+
+  <!-- Technical Interview list -->
+  <div class="mat-elevation-z8" *ngIf="!(account=='sector' || account=='Sector' || account=='SECTOR')">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+      <!-- ID Column -->
+      <ng-container matColumnDef="Action">
+        <th mat-header-cell *matHeaderCellDef> Select </th>
+        <td mat-cell *matCellDef="let row"> <mat-radio-button (change)="onSelectionChange(row.userName,row.quizNumber)"></mat-radio-button>
+        </td>
+      </ng-container>
+
+      <!-- ID Column -->
+      <ng-container matColumnDef="result_users[0].employeeName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+        <td mat-cell *matCellDef="let row"><a href="#myModal" (click)="getCandidateDetails(row.userName)" class="col-4 cursor-pointer" data-toggle="modal" >{{row.result_users[0].employeeName}}</a>
+        </td>
+      </ng-container>
+
+      <!-- ID Column -->
+      <ng-container matColumnDef="result_users[0].JRSS">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Job Role </th>
+        <td mat-cell *matCellDef="let row">{{row.result_users[0].JRSS}}</td>
+      </ng-container>
+
+      <!-- ID Column -->
+      <ng-container matColumnDef="userScore">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Online Test Result </th>
+        <td mat-cell *matCellDef="let row"> <a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users[0].employeeName,row.userScore,row.createdDate)" class="col-4 cursor-pointer" data-toggle="modal" *ngIf="row.userScore!=null">{{row.userScore}}%</a><p *ngIf="row.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p>
+        </td>
+      </ng-container>
+
+      <!-- ID Column -->
+      <ng-container matColumnDef="preTechForm">
+        <th mat-header-cell *matHeaderCellDef> Pre-Technical Interview Assessment Form </th>
+        <td mat-cell *matCellDef="let row">
+          <div *ngIf="row.stage2_status=='Completed'">
+              <a class="col-4 cursor-pointer" [routerLink]="['/pre-technical-interview-form/',row.result_users[0].JRSS, row.userName]"
+                                               [state]="{jrss:row.result_users[0].JRSS,username:row.result_users[0].username,access:'tech-list',account:this.account}">
+              Click here
+            </a>
+          </div>
+          <div *ngIf="row.stage2_status=='Skipped'">
+            <a href="#" (click)="skipMethod()" routerLinkActive="active"  class="col-4 cursor-pointer" data-toggle="modal">
+              Click here
+            </a>
+          </div>
+        </td>
+      </ng-container>
+
+
+      <!-- ID Column -->
+      <ng-container matColumnDef="cvDownload">
+        <th mat-header-cell *matHeaderCellDef> CV Download </th>
+        <td mat-cell *matCellDef="let row"><a href="#" (click)="downloadCandidateResume(row.userName)" routerLinkActive="active" class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
+      </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; let even = even; columns: displayedColumns; "[ngClass]="{gray: even}" ></tr>
     </table>
     <mat-paginator [length]="this.TechnicalInterviewList.length" [pageSize]="5" [pageSizeOptions]="[5,10,15,25,50,100]" showFirstLastButtons></mat-paginator>
   </div>
+  
   <br/>
   <div  class="float-right text-right" *ngIf="TechnicalInterviewList.length > 0">
         <span (click)="scheduleInterview()">
