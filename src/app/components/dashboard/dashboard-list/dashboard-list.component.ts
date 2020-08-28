@@ -48,7 +48,7 @@ export class DashboardListComponent implements OnChanges {
   displayRegularUIFields: Boolean = true;
   filterKey : string = "";
   account: String = "";
-displayedColumns = ['Action','positionName', 'account','JRSS','lineOfBusiness','positionLocation','rateCardJobRole','competencyLevel'];
+displayedColumns = ['Action','employeeName', 'JRSS','userResult','SMEResult','PartnerResult','AssignedToProject'];
 
 
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
