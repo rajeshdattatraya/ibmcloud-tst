@@ -71,8 +71,7 @@ export class OperationsProjectInitiateComponent implements OnInit {
     this.operationsProjectForm = this.fb.group({
       projectLocation: ['', [Validators.required]],
       clientProject: ['', [Validators.required]],
-      projectName: ['', [Validators.required]],
-      projectPosition: ['', [Validators.required]],
+       projectPosition: ['', [Validators.required]],
       managementComments: ['', [Validators.required]]
     })
 }
@@ -151,10 +150,15 @@ get myForm(){
         <p>Regards, <br>DWP Operations Team</p>";
     
     if (!this.operationsProjectForm.valid) {
+      console.log("this.operationsProjectForm", this.operationsProjectForm.value);
       return false;
     } else {
-    let operationsDetails = new OperationsDetails(this.operationsProjectDetails[0].result_users[0].username, this.operationsProjectForm.value.projectLocation,this.operationsProjectForm.value.clientProject,
-      this.operationsProjectForm.value.projectName, this.operationsProjectForm.value.projectPosition, this.operationsProjectForm.value.managementComments, this.userName, new Date());
+    let operationsDetails = new OperationsDetails(this.operationsProjectDetails[0].result_users[0].username, 
+                              this.operationsProjectForm.value.projectLocation,
+                              this.operationsProjectForm.value.clientProject,
+                              this.operationsProjectForm.value.projectPosition, 
+                              this.operationsProjectForm.value.managementComments, 
+                              this.userName, new Date());
 
     // Insert into projectAlloc table
     this.apiService.insertOperationsDetails(operationsDetails).subscribe(
