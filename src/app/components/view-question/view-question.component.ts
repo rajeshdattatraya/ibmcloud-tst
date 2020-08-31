@@ -45,7 +45,7 @@ export class ViewQuestionComponent implements OnInit {
         this.userName = this.router.getCurrentNavigation().extras.state.username;
         this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
         this.account = this.router.getCurrentNavigation().extras.state.account;
-        console.log("Account value" +this.account );
+
     }
 
     route.queryParams.subscribe(
@@ -64,60 +64,62 @@ export class ViewQuestionComponent implements OnInit {
    };
   }
 
+
   ngAfterViewInit (){
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
 
-  
+
 
 //Get all questions
   readQuestion(){
-    this.apiService.viewQuizQuestions(this.userName,this.account).subscribe((data) => {
+      this.questionObjectArray = [];
+      this.Questions =[];
+      this.apiService.viewQuizQuestions(this.userName,this.account).subscribe((data) => {
       this.Questions = data;
-      for (var question of this.Questions){     
+      for (var question of this.Questions){
         this.optionArray = [];
-        console.log("Options" +question.options);
-        for (var option of question.options){          
-          this.optionArray.push(option.option); 
-          //let split = this.optionArray.join('.</br>');       
-        }        
-        this.questionObj = [question.question, this.optionArray];
-        this.questionObjectArray.push(this.questionObj);  
-        this.dataSource.data=this.questionObjectArray as Question[];  
-        }  
-       })
-}
 
-invokeEdit(questionID){
+        for (var option of question.options){
+          this.optionArray.push(option.option);
+        }
+        this.questionObj = [question._id, question.question, this.optionArray];
+        this.questionObjectArray.push(this.questionObj);
+        this.dataSource.data=this.questionObjectArray as Question[];
+        }
+       })
+  }
+
+invokeEdit(){
 
   if (this.isRowSelected == false){
-    alert("Please select the user");
+    alert("Please select the Question");
     }else{
-      console.log("Clicked on the question in view screen"+questionID);
-    //this.router.navigate(['/question-edit/', this.candidateId, this.candidateUsersId], {state: {username:this.userName,account:this.account}});
-    this.router.navigate(['/question-edit/',questionID], {state: {username:this.userName,account:this.account}});
+    this.isRowSelected = false;
+    this.router.navigate(['/question-edit/',this.questionID], {state: {username:this.userName,account:this.account}});
     }
 
 }
 
-removeQuestion(questionID){
+removeQuestion(){
   if(this.isRowSelected == false){
     alert("Please select the Question");
   }else{
   if(window.confirm('Are you sure?')) {
-      this.apiService.deleteQuestion(questionID).subscribe((data) => {
-      //  this.Candidate.splice(index, 1);
+      this.apiService.deleteQuestion(this.questionID).subscribe((data) => {
+        //this.Questions.splice(this.index, 1);
+        this.isRowSelected = false;
       this.readQuestion();
-      });
+     });
     }
   }
-   this.isRowSelected = false;
+
 }
 
 
     onSelectionChange(questionsID,i){
-      this.Questions.questionID=questionsID;
+      this.questionID=questionsID;
       this.index=i;
       this.isRowSelected = true;
     }
