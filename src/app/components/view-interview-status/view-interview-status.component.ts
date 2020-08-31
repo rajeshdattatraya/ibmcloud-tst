@@ -1,4 +1,4 @@
-import { Component, OnInit,NgZone } from '@angular/core';
+import { Component, OnInit,NgZone,ViewChild } from '@angular/core';
 import { ApiService } from './../../service/api.service';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,7 +7,9 @@ import { appConfig } from './../../model/appConfig';
 import { ResultPageService } from './../../components/result-page/result-page.service';
 import { ExceptionApprovalDetail } from './../../model/exceptionalApprovalDetail';
 import { ResultStatus } from './../../model/resultStatus';
-
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator'
+import {MatSort} from '@angular/material/sort';
 
 @Component({
   selector: 'app-view-interview-status',
@@ -39,27 +41,44 @@ export class ViewInterviewStatusComponent implements OnInit {
   quizNumber = 1;
   userScore = "";
 
+
+  loading = true;
+  dataSource = new MatTableDataSource<ExceptionApprovalDetail>();
+  displayedColumns = ['Action','employeeName', 'JRSS','onlineTestResult','technicalInterviewResult','partnerInterviewResult'];
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
   constructor(private route: ActivatedRoute, private router: Router, private resultPageService: ResultPageService,
               private apiService: ApiService,public fb: FormBuilder,private ngZone: NgZone) {
-    this.config = {
-      currentPage: appConfig.currentPage,
-      itemsPerPage: appConfig.itemsPerPage,
-      totalItems:appConfig.totalItems
-    };
     this.browserRefresh = browserRefresh;
     if (!this.browserRefresh) {
         this.userName = this.router.getCurrentNavigation().extras.state.username;
         this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
         this.account = this.router.getCurrentNavigation().extras.state.account;
       }
-    route.queryParams.subscribe(
-    params => this.config.currentPage= params['page']?params['page']:1 );
     this.getCandidateInterviewStatus();
   }
 
 
   ngOnInit(): void {
+  this.dataSource.sortingDataAccessor = (item, property) => {
+        switch(property) {
+          case 'employeeName': return item.employeeName;
+          case 'JRSS': return item.JRSS;
+          case 'onlineTestResult': return item.onlineTestResult;
+          case 'technicalInterviewResult': return item.technicalInterviewResult;
+          case 'partnerInterviewResult': return item.partnerInterviewResult;
+          default: return item[property];
+        }
+     }
   }
+
+  ngAfterViewInit (){
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
+
 
   getCandidateInterviewStatus(){
     this.apiService.getCandidateInterviewStatus().subscribe((data) => {
@@ -91,6 +110,8 @@ export class ViewInterviewStatusComponent implements OnInit {
             this.onlineTestResult = "N/A";
           } else if (result.stage1_status == 'Completed' && result.userScore != null) {
              this.onlineTestResult = result.userScore + "%";
+          }  else if (result.stage1_status == 'Completed' && result.userScore == null) {
+             this.onlineTestResult = "N/A";
           }
 
           if (result.stage3_status == 'Not Started') {
@@ -116,13 +137,10 @@ export class ViewInterviewStatusComponent implements OnInit {
                                         this.partnerInterviewResult,this.canUserId,this.canUserName,this.resultId));
       }
       });
+      this.dataSource.data = this.exceptionalApprovalList as ExceptionApprovalDetail[];
+
     })
   }
-
-  pageChange(newPage: number) {
-        this.router.navigate(['/viewinterview-status'], { queryParams: { page: newPage } });
-  }
-
   onSelectionChange(id,candidateUserName,resultId,i){
     this.candidateUserId=id;
     this.resultId=resultId;
