@@ -54,6 +54,9 @@ export class PartnerInterviewComponent implements OnChanges {
   toAddress: String = "";
   partnerInterviewDetails : any = [];
   filterObj = {};
+  nameFilter: string;
+  accountFilter: string;
+  jrssFilter: string;
   dataSource = new MatTableDataSource<ViewResult>();
   displayedColumnsSector = ['Action','result_users[0].employeeName', 'result_users[0].JRSS','result_users[0].account','userScore','smeResult','cvDownload'];
   displayedColumns = ['Action','result_users[0].employeeName', 'result_users[0].JRSS','userScore','smeResult','cvDownload'];
@@ -266,6 +269,13 @@ export class PartnerInterviewComponent implements OnChanges {
           key: key
     }
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  clearFilters() {
+        this.dataSource.filter = '';
+        this.nameFilter = '';
+        this.accountFilter = '';
+        this.jrssFilter = '';
   }
 
 }

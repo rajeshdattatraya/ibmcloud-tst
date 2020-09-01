@@ -57,6 +57,9 @@ export class TechnicalInterviewListComponent implements OnInit {
   AccountData:any = [];
   AccountList:any=[];
   filterObj = {};
+  nameFilter: string;
+  accountFilter: string;
+  jrssFilter: string;
   loading = true;
   dataSource = new MatTableDataSource<ViewResult>();
   showCalendar: boolean = false;
@@ -315,4 +318,13 @@ export class TechnicalInterviewListComponent implements OnInit {
 
     })
   }
+
+ clearFilters() {
+        this.dataSource.filter = '';
+        this.nameFilter = '';
+        this.accountFilter = '';
+        this.jrssFilter = '';
+ }
+
+
 }

@@ -33,31 +33,43 @@
 </div>
 <br>
 
+<form #reportForm="ngForm" name="form" (ngSubmit)=" reportForm.form.valid">
 <mat-card class="login-card">
   <mat-card-header>
-    <mat-card-title class="example-card-title">Enter Search Criteria</mat-card-title>
+    <mat-card-title class="example-card-title">Search</mat-card-title>
   </mat-card-header>
-  
-  <table>
-    <tr>
-      <td>
-          <mat-form-field>
-            <input matInput (keyup)="applyFilter($event.target.value,'fromDate')" placeholder="From Date">
-          </mat-form-field>
-      </td>
-      <td>
-        <mat-form-field>
-          <input matInput (keyup)="applyFilter($event.target.value,'toDate')" placeholder="To Date">
-        </mat-form-field>
-      </td>
-      <td>
-        <mat-form-field>
-          <input matInput (keyup)="applyFilter($event.target.value,'jrss')" placeholder="Job Role">
-        </mat-form-field>
-      </td>
-     </tr>
-  </table>
+
+  <div class="form-group row">
+    <div class="col-sm-3">
+      <mat-form-field>
+      <input matInput type="date" placeholder="From Date" name="fromDate" [(ngModel)]="fromDate" placeholder="From Date"
+             id="fromDate" aria-label="Search">
+      </mat-form-field>
+    </div>
+    <div class="col-sm-3">
+      <mat-form-field>
+      <input matInput type="date" placeholder="To Date" name="toDate" [(ngModel)]="toDate" placeholder="To Date" id="toDate"
+             aria-label="Search"  #LocalVariable="ngModel"  [ngClass]="{  invalid:(toDate != null || toDate > currDate )}" />
+      </mat-form-field>
+    </div>
+
+    <div *ngIf=" LocalVariable.invalid" class="invalid-feedback">
+      This field is required.
+    </div>
+    <div class="col-sm-3">
+      <mat-form-field>
+      <input matInput placeholder="Job Role" type="text" name="jrss" [(ngModel)]="jrss" placeholder="Search by Job Role"
+             id="JRSS" aria-label="Search">
+      </mat-form-field>
+    </div>
+  </div>
+  <mat-card-actions>
+    <div class="row justify-content-center">
+      <button type="reset" mat-raised-button  color="primary" >Clear</button>
+    </div>
+  </mat-card-actions>
   </mat-card>
+</form>
   <br>
 
     <div class="mat-elevation-z8">
@@ -88,10 +100,10 @@
     
   
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-row *matRowDef="let row; let even = even; columns: displayedColumns;" [ngClass]="{gray: even}"></tr>
       </table>
    
-      <mat-paginator [length]="this.reportResponse.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+      <mat-paginator [length]="this.dataSource.data.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
     </div>
     <br/>
 

@@ -19,21 +19,26 @@
   <tr>
     <td>
       <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value,'employeeName')" placeholder="Name">
+        <input matInput [(ngModel)]="nameFilter" (keyup)="applyFilter($event.target.value,'employeeName')" placeholder="Name">
       </mat-form-field>
     </td>
     <td>
       <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value,'JRSS')" placeholder="Job Role">
+        <input matInput [(ngModel)]="jrssFilter" (keyup)="applyFilter($event.target.value,'JRSS')" placeholder="Job Role">
       </mat-form-field>
     </td>
     <td>
       <mat-form-field *ngIf="account=='sector' || account=='Sector' || account=='SECTOR'">
-        <input matInput (keyup)="applyFilter($event.target.value,'account')" placeholder="Account">
+        <input matInput [(ngModel)]="accountFilter" (keyup)="applyFilter($event.target.value,'account')" placeholder="Account">
       </mat-form-field>
     </td>
   </tr>
 </table>
+  <mat-card-actions>
+    <div class="row justify-content-center">
+      <button mat-raised-button color="primary" aria-label="Clear" (click)="clearFilters()">Clear</button>
+    </div>
+  </mat-card-actions>
 </mat-card>
 <br>
 <div>

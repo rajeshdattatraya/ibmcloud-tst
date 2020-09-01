@@ -91,6 +91,7 @@ export class ReportComponent implements OnInit {
       });
      
       this.reportData = reportDataByJrss;
+      this.dataSource.data = this.reportData as ReportStats[];
     } 
   }
 // ****************************** end of getter and setter methods **********************************
@@ -122,7 +123,7 @@ export class ReportComponent implements OnInit {
 
   //*************** Filter by from Date and To Date method ************* 
   searchFilter() {
-
+    console.log("search filter");
     let stage1Count = 0;
     let stage3Count = 0;
     let stage4Count = 0;
@@ -139,11 +140,13 @@ export class ReportComponent implements OnInit {
     } else {
       fromDate = Date.parse(this.from_Date);
     }
+        console.log("fromDate filter",fromDate);
     if (!this.to_Date) {
       toDate = Date.parse("9999-01-01");
     } else {
       toDate = Date.parse(this.to_Date);
     }
+            console.log("toDate filter",toDate);
     //this.datepipe.transform(new Date("9999-01-01"),'yyyy-MM-dd');
 
     this.reportResponse.forEach((item) => {
@@ -152,6 +155,7 @@ export class ReportComponent implements OnInit {
 
       if (registeredDate >= fromDate && registeredDate <= toDate) {
         if (this.reportObj[item.JRSS]) {
+         console.log("JRSS filter",item.JRSS);
           stage1Count = this.reportObj[item.JRSS].stage1Count;
           stage3Count = this.reportObj[item.JRSS].stage3Count;
           stage4Count = this.reportObj[item.JRSS].stage4Count;
