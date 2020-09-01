@@ -1,4 +1,4 @@
-import { Component, OnInit , NgZone} from '@angular/core';
+import { Component, OnInit , NgZone, ViewChild} from '@angular/core';
 import { ActivatedRoute,Router } from '@angular/router';
 import { ApiService } from './../../service/api.service';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
@@ -31,8 +31,8 @@ export class ViewQuestionComponent implements OnInit {
   optionArray: any[];
   questionObj: any[];
   questionObjectArray: any = [];
-  paginator: MatPaginator;
-  sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(public fb: FormBuilder,private router: Router, private apiService: ApiService,private route: ActivatedRoute) {
       this.config = {
@@ -86,8 +86,8 @@ export class ViewQuestionComponent implements OnInit {
         }
         this.questionObj = [question._id, question.question, this.optionArray];
         this.questionObjectArray.push(this.questionObj);
-        this.dataSource.data=this.questionObjectArray as Question[];
         }
+         this.dataSource.data=this.questionObjectArray as Question[];
        })
   }
 

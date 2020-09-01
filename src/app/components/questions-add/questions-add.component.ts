@@ -194,7 +194,11 @@ export class QuestionsAddComponent implements OnInit {
             }); 
           }
         }
-      } 
+      }
+
+    cancelForm(){
+      this.ngZone.run(() => this.router.navigateByUrl('/view-questionbank',{state:{username:this.userName,account:this.account}}));
+    }
 }
 
 
