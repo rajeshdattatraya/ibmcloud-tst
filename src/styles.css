@@ -140,3 +140,6 @@ opacity: 1 !important;
  font-size: 18px;
  padding-left: 0px;
 }
+hr.class-1 {
+        border: 1px solid black;
+}

@@ -1,271 +1,227 @@
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color:powderblue">
-  <div class="collapse navbar-collapse" id="navbarNavDropdown">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" routerLinkActive="active"><b>Project Assignment</b></a>
-      </li>
-    </ul>
-  </div>
-  <div>
-    <ul class="navbar-nav navbar-right">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/login-component" routerLinkActive="active"><b>Logout</b></a>
-      </li>
-    </ul>
-  </div>
-</nav>
+<mat-toolbar>
+  <mat-toolbar-row>
+    <a mat-button routerLink="#" routerLinkActive="active">Project Assignment</a>
+    <span class="flexExpand">
+      <a mat-button routerLink="/login-component" routerLinkActive="active">Logout</a>
+    </span>
+  </mat-toolbar-row>
+</mat-toolbar>
 <br/>
 <div class="card">
-  <div class="modal-header table-success" style="background-color:powderblue"><b>View Candidate Details</b></div>
+  <div style="background-color:#2554C7;color:white;font-size:10pt" class="card-header">View Candidate Details</div>
   <div class="card-body">
-    <table striped="true">
-      <tbody>
-      <tr>
-        <td  width="25%"><label>Name:</label></td>
-        <td  width="25%">{{this.operationsProjectDetails[0].result_users[0].employeeName}}</td>
-        <td  width="25%"><label>Job Role:</label></td>
-        <td  width="25%">{{this.operationsProjectDetails[0].result_users[0].JRSS}}</td>
-      </tr>
-      <tr>
-        <td  width="25%"><label>Technology Stream:</label></td>
-        <td  width="25%">{{this.operationsProjectDetails[0].result_users[0].technologyStream}}</td>
-        <td  width="25%"><label>Online Test Result:</label></td>
-        <td  width="25%" *ngIf="this.operationsProjectDetails[0].userScore!=null">{{this.operationsProjectDetails[0].userScore}}%</td>
-        <p *ngIf="this.operationsProjectDetails[0].userScore==null">N/A</p>
-      </tr>
-      <tr>
-        <td  width="25%"><label>You can download CV here:</label></td>
-        <td width="20%"><a href="#" (click)="downloadCandidateResume(this.operationsProjectDetails[0].userName)" routerLinkActive="active" class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
-        <td  width="25%"><label>You can access the Pre-Technical-Interview form here:</label></td>
-        <td *ngIf="this.operationsProjectDetails[0].stage2_status=='Skipped'" width="20%"><a href="#" (click)="skipMethod()" routerLinkActive="active"  class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
-        <td *ngIf="this.operationsProjectDetails[0].stage2_status=='Completed'">
-          <a class="edit" [routerLink]="['/pre-technical-interview-form/',this.operationsProjectDetails[0].result_users[0].JRSS, this.operationsProjectDetails[0].userName]" [state]="{jrss:this.operationsProjectDetails[0].result_users[0].JRSS,username:this.operationsProjectDetails[0].result_users[0].username,access:'operation-interview-initiate',accessLevel:this.accessLevel,account:this.account}">
-        <td  width="25%"><a href="#" routerLinkActive="active">Click here</a></td>
-        </a>
-        </td>
-      </tr>
-      <tr *ngIf="displayTechInterviewFields">
-        <td  width="25%"><label>Technical Interview Score:</label></td>
-        <td  width="25%">{{this.operationsProjectDetails[0].avgTechScore}}/10</td>
-        <td  width="25%"><label>Technical Interview Result:</label></td>
-        <td  width="25%">{{this.operationsProjectDetails[0].smeResult}}</td>
-      </tr>
-      <tr *ngIf="displayTechInterviewFields">
-        <td  width="25%"><label>Technical Interview Feedback:</label></td>
-        <td  colspan="3" width="75%"><textarea disabled readonly maxlength="3000" cols="90" value="{{this.operationsProjectDetails[0].smeFeedback}}"></textarea></td>
-      </tr>
-      <tr *ngIf="displayPartnerInterviewFields">
-        <td  width="25%"><label>Partner Interview Feedback:</label></td>
-        <td  colspan="3" width="75%"><textarea disabled readonly maxlength="3000" cols="90" value="{{this.operationsProjectDetails[0].managementFeedback}}"></textarea></td>
-      </tr>
-      <tr *ngIf="displayPartnerInterviewFields">
-        <td  width="25%"><label>Partner Interview Result:</label></td>
-        <td  width="25%">{{this.operationsProjectDetails[0].managementResult}}</td>
-        <td width="25%"></td>
-        <td width="25%"></td>
-      </tr>
-      </tbody>
-    </table>
+    <mat-card class="login-card">
+      <mat-card-content>
+        <table striped="true">
+          <tbody>
+          <tr>
+            <td><mat-label>Name:</mat-label></td>
+            <td>{{this.operationsProjectDetails[0].result_users[0].employeeName}}</td>
+            <td><mat-label>Job Role:</mat-label></td>
+            <td>{{this.operationsProjectDetails[0].result_users[0].JRSS}}</td>
+          </tr>
+          <tr>
+            <td><mat-label>Technology Stream:</mat-label></td>
+            <td>{{this.operationsProjectDetails[0].result_users[0].technologyStream}}</td>
+            <td><mat-label>Online Test Result:</mat-label></td>
+            <td *ngIf="this.operationsProjectDetails[0].userScore!=null">{{this.operationsProjectDetails[0].userScore}}%</td>
+            <p *ngIf="this.operationsProjectDetails[0].userScore==null">N/A</p>
+          </tr>
+          <tr>
+            <td><mat-label>You can download CV here:</mat-label></td>
+            <td><a href="#" (click)="downloadCandidateResume(this.operationsProjectDetails[0].userName)" routerLinkActive="active" data-toggle="modal">Click here</a></td>
+            <td><mat-label>You can access the Pre-Technical-Interview form here:</mat-label></td>
+            <td>
+              <div  *ngIf="this.operationsProjectDetails[0].stage2_status=='Skipped'">
+                <a href="#" (click)="skipMethod()" routerLinkActive="active" data-toggle="modal">Click here</a>
+              </div>
+              <div *ngIf="this.operationsProjectDetails[0].stage2_status=='Completed'">
+                <a class="edit" [routerLink]="['/pre-technical-interview-form/',this.operationsProjectDetails[0].result_users[0].JRSS, this.operationsProjectDetails[0].userName]" [state]="{jrss:this.operationsProjectDetails[0].result_users[0].JRSS,username:this.operationsProjectDetails[0].result_users[0].username,access:'operation-interview-initiate',accessLevel:this.accessLevel,account:this.account}">
+                  <a href="#" routerLinkActive="active">Click here</a>
+                </a>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="displayTechInterviewFields">
+            <td><mat-label>Technical Interview Score:</mat-label></td>
+            <td>{{this.operationsProjectDetails[0].avgTechScore}}/10</td>
+            <td><mat-label>Technical Interview Result:</mat-label></td>
+            <td>{{this.operationsProjectDetails[0].smeResult}}</td>
+          </tr>
+          <tr *ngIf="displayTechInterviewFields">
+            <td><mat-label>Technical Interview Feedback:</mat-label></td>
+            <td  colspan="4"><textarea matInput type="textArea" disabled readonly maxlength="3000" cols="90" value="{{this.operationsProjectDetails[0].smeFeedback}}"></textarea></td>
+          </tr>
+          <tr *ngIf="displayPartnerInterviewFields">
+            <td><mat-label>Partner Interview Feedback:</mat-label></td>
+            <td  colspan="4"><textarea matInput type="textArea" disabled readonly maxlength="3000" cols="90" value="{{this.operationsProjectDetails[0].managementFeedback}}"></textarea></td>
+          </tr>
+          <tr *ngIf="displayPartnerInterviewFields">
+            <td><mat-label>Partner Interview Result:</mat-label></td>
+            <td>{{this.operationsProjectDetails[0].managementResult}}</td>
+            <td></td>
+            <td></td>
+          </tr>
+          </tbody>
+        </table>
+      </mat-card-content>
+    </mat-card>
   </div>
-
+</div>
 
   <div id="positionListModal"  >
     <br>
-    <div class="card-header" style="background-color:powderblue" *ngIf="displayPositionDropDown">
-      <b>Open Position and Gross Profit Details </b>
+    <div class="card-header" style="background-color:#2554C7;color:white;font-size:10pt" *ngIf="displayPositionDropDown">
+      Open Position and Gross Profit Details
     </div>
     <div class="panel-body"  *ngIf="displayPositionDropDown">
-      <div  class="card-body">
+        <mat-card>
+          <mat-card-content>
         <table>
           <tbody>
           <tr>
-            <td  width="25%"><label>Open Position:</label></td>
-            <td  width="25%">
-              <select required class="custom-select form-control"  [(ngModel)]= "positionID"  name= "positionID"
-                      aria-placeholder="Select a position" (change)="getSelectedPositionDetails($event.target.value)"
-                      id="positionID" >
-                <option value="undefined" disabled selected >Select a position</option>
-                <option *ngFor="let openPosition of openPositionsList" value="{{openPosition._id}}">{{openPosition.positionName}}</option>
-              </select>
+            <td>
+              <mat-form-field class="open-full-width">
+                <mat-select placeholder="Open Position" required [(ngModel)]= "positionID"  name= "positionID"
+                            (selectionChange)="getSelectedPositionDetails($event.value)"
+                            id="positionID" >
+                  <mat-option value="undefined" disabled selected >Select a position</mat-option>
+                  <mat-option *ngFor="let openPosition of openPositionsList" value="{{openPosition._id}}">{{openPosition.positionName}}</mat-option>
+                </mat-select>
+              </mat-form-field>
             </td>
           </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- This Div block will conditionaly display the open position details-->
-    <div class="card" *ngIf="displayPositionDetails || positionID != undefined || positionID != null">
-
-      <div class="card-header table-success" style="background-color:powderblue">
-        <b> Open Position and Gross Profit Details</b>
-      </div>
-      <div class="card-body">
-        <table>
-          <tbody>
-          <tr>
-            <td  width="25%"><label>Position Name:</label></td>
-            <td  width="25%">{{positionDetails.positionName}}</td>
-            <td  width="25%"><label>Job Role:</label></td>
-            <td  width="25%">{{positionDetails.JRSS}}</td>
+            <tr *ngIf="displayPositionDetails || positionID != undefined || positionID != null">
+            <td><mat-label>Position Name:</mat-label></td>
+            <td>{{positionDetails.positionName}}</td>
+            <td><mat-label>Job Role:</mat-label></td>
+            <td>{{positionDetails.JRSS}}</td>
           </tr>
-
-          <tr>
-            <td  width="25%"><label>Position ID:</label></td>
-            <td  width="25%">{{positionDetails.positionID}}</td>
-            <td  width="25%"><label>Line of Business:</label></td>
-            <td  width="25%">{{positionDetails.lineOfBusiness}}</td>
+          <tr *ngIf="displayPositionDetails || positionID != undefined || positionID != null">
+            <td><mat-label>Position ID:</mat-label></td>
+            <td>{{positionDetails.positionID}}</td>
+            <td><mat-label>Line of Business:</mat-label></td>
+            <td>{{positionDetails.lineOfBusiness}}</td>
+          </tr>
+          <tr *ngIf="displayPositionDetails || positionID != undefined || positionID != null">
+            <td><mat-label>Position Location:</mat-label></td>
+            <td>{{positionDetails.positionLocation}}</td>
+            <td><mat-label>Rate Card Role:</mat-label></td>
+            <td>{{positionDetails.rateCardJobRole}}</td>
+          </tr>
+          <tr *ngIf="displayPositionDetails || positionID != undefined || positionID != null">
+            <td><mat-label>Competency Level:</mat-label></td>
+            <td>{{positionDetails.competencyLevel}}</td>
+            <td></td>
+            <td></td>
           </tr>
           <tr>
-            <td  width="25%"><label>Position Location:</label></td>
-            <td  width="25%">{{positionDetails.positionLocation}}</td>
-            <td  width="25%"><label>Rate Card Role:</label></td>
-            <td  width="25%">{{positionDetails.rateCardJobRole}}</td>
+            <td colspan="4"><hr class="class-1"></td>
           </tr>
           <tr>
-            <td  width="25%"><label>Competency Level:</label></td>
-            <td  width="25%">{{positionDetails.competencyLevel}}</td>
-          </tr>
-
-          <tr>
-            <td  width="25%"><hr></td>
-            <td  width="25%"><hr></td>
-            <td  width="25%"><hr></td>
-            <td  width="25%"><hr></td>
+            <td><mat-label>Candidate Line Of Business:</mat-label></td>
+            <td>{{this.candidateLOB}}</td>
+            <td><mat-label>Band</mat-label></td>
+            <td>{{this.candidateLocation}}</td>
           </tr>
           <tr >
-            <td  width="15%"><label>Candidate Location:</label></td>
-            <td  width="30%">
-
-              <select  class="custom-select form-control" id="candidateLocation"  name= "candidateLocation"
-                       [(ngModel)]= "candidateLocation" (change)="getGPByCandidateLocation($event.target.value)" >
-                <option value="" disabled selected >Select a location</option>
-                <option *ngFor="let data of positionLocation" value="{{data.positionLocation}}" >{{data.positionLocation}}</option>
-              </select>
-
+            <td>
+              <mat-form-field class="open-full-width">
+                <mat-select placeholder="Candidate Location" id="candidateLocation"  name= "candidateLocation"
+                            [(ngModel)]= "candidateLocation" (selectionChange)="getGPByCandidateLocation($event.value)" >
+                  <mat-option value="" disabled selected >Select a location</mat-option>
+                  <mat-option *ngFor="let data of positionLocation" value="{{data.positionLocation}}" >{{data.positionLocation}}</mat-option>
+                </mat-select>
+              </mat-form-field>
             </td>
-
-            <td  width="15%"><label>&nbsp;&nbsp;Gross Profit(%):</label></td>
-            <td  width="30%"> {{grossProfit}}</td>
-          </tr>
-
-
+            <td><mat-label>Gross Profit(%):</mat-label></td>
+            <td> {{grossProfit}}</td>
+        </tr>
           </tbody>
         </table>
-      </div>
+          </mat-card-content>
+        </mat-card>
     </div>
-
-
-
-    <!-- This Div block will conditionaly Caluclate Gross Profit fields and button
-    <div class="card"  class="form-group" *ngIf="displayPositionDetails">
-      <br>
-      <div class="card-header table-success" style="background-color:powderblue"><b> Gross Profit Details</b></div>
-      <div class="card-body">
-  
-        <table width="100%">
-          <tbody>
-        
-           <tr>
-            <td  width="15%"><label>Candidate Location:</label></td>
-            <td  width="30%">
-              
-            </td>
-            
-            <td  width="15%"><label>&nbsp;&nbsp;Gross Profit(%):</label></td>
-            <td  width="30%"> {{grossProfit}}</td>
-          </tr>
-          <tr>
-            <td  width="15%"></td>
-            <td  width="30%"></td>
-            <td  width="15%"></td>
-            <td  width="40%"> 
-              <button style="background-color:#0043CE;" class="btn btn-success btn-sm" type="button" (click)="calculateGP()">
-                Calculate GP</button></td>
-          </tr>
-
-         </tbody>
-         </table>
-        </div>
-   </div>  
-   -->
-    <br>
-
-
   </div>
-  <div class="card">
-    <div class="card-header" style="background-color:powderblue"><b>Please enter details to assign a candidate to a particular project</b></div>
-    <div class="card-body">
+<br>
 
-      <form [formGroup]="operationsProjectForm" (ngSubmit)="onSubmit(this.operationsProjectDetails[0]._id)" >
-        <div class="form-group row">
-          <label for="inputLocation" class="col-sm-4 col-form-label">Location:</label>
-          <div class="col-sm-4" style="size:50px">
-            <select class="custom-select form-control" (change)="updateLocation($event.target.value)"
-                    formControlName="projectLocation" id="inputLocation" [ngClass]="{ 'is-invalid': submitted && myForm.projectLocation.errors }">
-              <option value="" disabled>Choose...</option>
-              <option *ngFor="let location of ProjectLocation" value="{{location}}">{{location}}
-              </option>
-            </select>
-            <div *ngIf="submitted && myForm.projectLocation.errors" class="invalid-feedback">
-              <div *ngIf="myForm.projectLocation.errors.required">Location is required</div>
-            </div>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="inputClientProject" class="col-sm-4 col-form-label">Client:</label>
-          <div class="col-sm-4" style="size:50px">
-            <select class="custom-select form-control" (change)="updateClientProject($event.target.value)"
-                    formControlName="clientProject" id="inputClientProject" [ngClass]="{ 'is-invalid': submitted && myForm.clientProject.errors }">
-              <option value="" disabled>Choose...</option>
-              <option *ngFor="let clientProject of ClientProject" value="{{clientProject}}">{{clientProject}}
-              </option>
-            </select>
-            <div *ngIf="submitted && myForm.clientProject.errors" class="invalid-feedback">
-              <div *ngIf="myForm.clientProject.errors.required">Client is required</div>
-            </div>
-          </div>
-        </div>
-        <!--    Commented out based on sprint 8 feedback from Amit
-           <div class="form-group row">
-                <label for="inputProjectName" class="col-sm-4 col-form-label">Project Name:</label>
-                <div class="col-sm-4" style="size:50px">
-                  <input class="form-control" type="text" formControlName="projectName" id="inputProjectName" [ngClass]="{ 'is-invalid': submitted && myForm.projectName.errors }">
-                  <div *ngIf="submitted && myForm.projectName.errors" class="invalid-feedback">
-                    <div *ngIf="myForm.projectName.errors.required">Project Name is required</div>
+<div class="card">
+  <div class="card-header" style="background-color:#2554C7;color:white;font-size:10pt">Please enter details to assign a candidate to a particular project</div>
+  <div class="card-body">
+    <form [formGroup]="operationsProjectForm" (ngSubmit)="onSubmit(this.operationsProjectDetails[0]._id)" >
+      <mat-card>
+        <mat-card-content>
+          <table>
+            <tr>
+              <td>
+                <mat-form-field class="open-full-width">
+                  <mat-select placeholder="Location" (selectionChange)="updateLocation($event.value)"
+                              formControlName="projectLocation" id="inputLocation" [ngClass]="{ 'is-invalid': submitted && myForm.projectLocation.errors }">
+                    <mat-option value="" disabled>Choose...</mat-option>
+                    <mat-option *ngFor="let location of ProjectLocation" value="{{location}}">{{location}}
+                    </mat-option>
+                  </mat-select>
+                  <div *ngIf="submitted && myForm.projectLocation.errors" class="invalid-feedback">
+                    <div *ngIf="myForm.projectLocation.errors.required">Location is required</div>
+                  </div>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field class="open-full-width">
+                  <mat-select placeholder="Client" (selectionChange)="updateClientProject($event.value)"
+                              formControlName="clientProject" id="inputClientProject" [ngClass]="{ 'is-invalid': submitted && myForm.clientProject.errors }">
+                    <mat-option value="" disabled>Choose...</mat-option>
+                    <mat-option *ngFor="let clientProject of ClientProject" value="{{clientProject}}">{{clientProject}}
+                    </mat-option>
+                  </mat-select>
+                  <div *ngIf="submitted && myForm.clientProject.errors" class="invalid-feedback">
+                    <div *ngIf="myForm.clientProject.errors.required">Client is required</div>
+                  </div>
+                </mat-form-field>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <mat-form-field  class="open-full-width">
+                  <input matInput placeholder="Position" formControlName="projectPosition" id="inputPosition" [ngClass]="{ 'is-invalid': submitted && myForm.projectPosition.errors }">
+                  <div *ngIf="submitted && myForm.projectPosition.errors" class="invalid-feedback">
+                    <div *ngIf="myForm.projectPosition.errors.required">Position is required</div>
+                  </div>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field class="open-full-width">
+                       <textarea matInput placeholder="Comments: [Max 3000 Characters]" id="inputComments" type="textarea" rows="2" cols="50"  maxlength="3000" formControlName="managementComments" [ngClass]="{ 'is-invalid': submitted && myForm.managementComments.errors }">
+                       </textarea>
+                  <!-- error -->
+                  <div *ngIf="submitted && myForm.managementComments.errors" class="invalid-feedback">
+                    <div *ngIf="myForm.managementComments.errors.required">Enter your Comments</div>
+                  </div>
+                </mat-form-field>
+              </td>
+            </tr>
+          </table>
+
+          <!--    Commented out based on sprint 8 feedback from Amit
+             <div class="form-group row">
+                  <label for="inputProjectName" class="col-sm-4 col-form-label">Project Name:</label>
+                  <div class="col-sm-4" style="size:50px">
+                    <input class="form-control" type="text" formControlName="projectName" id="inputProjectName" [ngClass]="{ 'is-invalid': submitted && myForm.projectName.errors }">
+                    <div *ngIf="submitted && myForm.projectName.errors" class="invalid-feedback">
+                      <div *ngIf="myForm.projectName.errors.required">Project Name is required</div>
+                    </div>
                   </div>
                 </div>
-              </div>
-              -->
-        <div class="form-group row">
-          <label for="inputPosition" class="col-sm-4 col-form-label" >Position:</label>
-          <div class="col-sm-4" style="size:50px">
-            <input class="form-control" type="text" formControlName="projectPosition" id="inputPosition" [ngClass]="{ 'is-invalid': submitted && myForm.projectPosition.errors }">
-            <div *ngIf="submitted && myForm.projectPosition.errors" class="invalid-feedback">
-              <div *ngIf="myForm.projectPosition.errors.required">Position is required</div>
-            </div>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="inputComments" class="col-sm-4 col-form-label" >Comments:</label>
-          <div class="col-sm-8">
-        <textarea class="form-control" id="inputComments" type="textarea" rows="2" cols="50"  maxlength="3000" formControlName="managementComments" [ngClass]="{ 'is-invalid': submitted && myForm.managementComments.errors }">
-        </textarea>
-            <div class="col-sm-6"><i><b><font style="font-size:12px">[Max 3000 Characters]</font></b></i></div>
-            <!-- error -->
-            <div *ngIf="submitted && myForm.managementComments.errors" class="invalid-feedback">
-              <div *ngIf="myForm.managementComments.errors.required">Enter your Comments</div>
-            </div>
-          </div>
-
-        </div>
+                -->
+        </mat-card-content>
+      </mat-card>
+      <br/>
         <div class="text-center" style="width: 1000px">
-          <button type="submit" style="background-color:#0043CE;" class="btn btn-success btn-sm">Submit</button>&nbsp;&nbsp;
-          <button type="button" style="background-color:#0043CE;" class="btn btn-success btn-sm" (click)="resetForm()">Clear</button>&nbsp;&nbsp;
-          <button type="button" style="background-color:#0043CE;" class="btn btn-success btn-sm" (click)="cancelForm()">Cancel</button>
+          <button mat-raised-button color="primary" type="button"  (click)="onSubmit(this.operationsProjectDetails[0]._id)">Submit</button>&nbsp;&nbsp;
+          <button mat-raised-button color="primary" type="button"  (click)="resetForm()">Clear</button>&nbsp;&nbsp;
+          <button mat-raised-button color="primary" type="button" (click)="cancelForm()">Cancel</button>
         </div>
-      </form>
-    </div>
+    </form>
   </div>
-
+</div>
 

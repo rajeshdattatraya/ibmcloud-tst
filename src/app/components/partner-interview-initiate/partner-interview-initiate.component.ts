@@ -34,12 +34,12 @@ export class PartnerInterviewInitiateComponent implements OnInit {
   account: String = "";
 
   OpenPositions: any = [];
-  LineOfBusiness:any = [];
-  PositionID :any = [];
-  CompetencyLevel:any = [];
-  PositionLocation:any = [];
+  lineOfBusiness:any ;
+  positionID :any;
+  competencyLevel:any;
+  positionLocation:any;
   UserPositionLocation:any = [];
-  RateCardJobRole:any = [];
+  rateCardJobRole:any ;
   OpenPosition: any= [];
   UserLOB: any = [];
   Band:any = [];
@@ -51,6 +51,8 @@ export class PartnerInterviewInitiateComponent implements OnInit {
   emailSubject: String = "";
   emailMessage: String = "";
   toAddress: String = "";
+  displayPositionDetails = false;
+  grossProfit;
 
  constructor(private cv:TechnicalInterviewListComponent,public fb: FormBuilder, private actRoute: ActivatedRoute, private router: Router,private ngZone: NgZone,
   private apiService: ApiService, private openPositionService: OpenPositionService) {
@@ -119,12 +121,13 @@ export class PartnerInterviewInitiateComponent implements OnInit {
                   partnerFeedback: this.feedback
       });
       this.candidateID = this.partnerInterviewDetails[0].result_users[0]._id;
+      this.grossProfit = this.partnerInterviewDetails[0].result_users[0].grossProfit;
       this.openPositionService.readOpenPositionByPositionName(this.partnerInterviewDetails[0].result_users[0].openPositionName).subscribe((openPositionData) => {
-          this.LineOfBusiness.push(openPositionData['lineOfBusiness']);
-          this.PositionID.push(openPositionData['positionID']);
-          this.CompetencyLevel.push(openPositionData['competencyLevel']);
-          this.PositionLocation.push(openPositionData['positionLocation']);
-          this.RateCardJobRole.push(openPositionData['rateCardJobRole']);
+          this.lineOfBusiness = openPositionData['lineOfBusiness'];
+          this.positionID = openPositionData['positionID'];
+          this.competencyLevel = openPositionData['competencyLevel'];
+          this.positionLocation = openPositionData['positionLocation'];
+          this.rateCardJobRole =  openPositionData['rateCardJobRole'];
           this.myOpenPositionGroup.setValue({
                 positionName: openPositionData['positionName'],
                 rateCardJobRole: openPositionData['rateCardJobRole'],
@@ -136,6 +139,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
                 grossProfit: this.partnerInterviewDetails[0].result_users[0].grossProfit
 
           });
+          this.displayPositionDetails = true;
       }) ;
     });
   }
@@ -258,11 +262,11 @@ export class PartnerInterviewInitiateComponent implements OnInit {
 
       updateOpenPositionProfile(positionName) {
                this.openPositionService.readOpenPositionByPositionName(positionName).subscribe((data) => {
-                    this.LineOfBusiness.push(data['lineOfBusiness']);
-                    this.PositionID.push(data['positionID']);
-                    this.CompetencyLevel.push(data['competencyLevel']);
-                    this.PositionLocation.push(data['positionLocation']);
-                    this.RateCardJobRole.push(data['rateCardJobRole']);
+                    this.lineOfBusiness = data['lineOfBusiness'];
+                    this.positionID = data['positionID'];
+                    this.competencyLevel = data['competencyLevel'];
+                    this.positionLocation = data['positionLocation'];
+                    this.rateCardJobRole = data['rateCardJobRole'];
                   this.myOpenPositionGroup.setValue({
                         positionName: data['positionName'],
                         rateCardJobRole: data['rateCardJobRole'],
@@ -274,6 +278,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
                         grossProfit: ''
                   });
                })
+               this.displayPositionDetails = true;
       }
 
       // Choose user position location with select dropdown
@@ -315,6 +320,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
                  GP = Math.round(((rateCardValue-costCardValue)/costCardValue)*100)
               }
               this.myOpenPositionGroup.get('grossProfit').setValue(GP);
+              this.grossProfit = GP;
            })
         })
      }
