@@ -22,7 +22,7 @@
   </mat-toolbar-row>
 </mat-toolbar>
 <br>
-<div>
+<div class="mat-elevation-z8">
   <app-dashboard-search (groupFilters)="filters = $event"></app-dashboard-search>
   <br/>
   <app-dashboard-list [groupFilters]="filters" [searchByKeyword]="searchText"></app-dashboard-list>

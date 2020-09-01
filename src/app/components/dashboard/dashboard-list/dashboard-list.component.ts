@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnChanges, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { ApiService } from './../../../service/api.service';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,6 +19,10 @@ export class DashboardListComponent implements OnChanges {
 
   @Input() groupFilters: Object;
   @Input() searchByKeyword: string;
+  
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
   users: any[] = [];
   searchText: string;
   filters: Object;
@@ -194,5 +198,23 @@ displayedColumns = ['Action','employeeName', 'JRSS','userResult','SMEResult','Pa
      })
   }
 
+
+
+  @ViewChild(MatSort) set matSort(ms: MatSort) {
+    this.sort = ms;
+    this.setDataSourceAttributes();
+  }
+
+  @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
+    this.paginator = mp;
+    this.setDataSourceAttributes();
+  }
+
+  setDataSourceAttributes() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+
+  }
+  
 
   }
