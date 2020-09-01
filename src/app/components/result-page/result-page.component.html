@@ -1,16 +1,22 @@
-<div>
-  <h4>{{mode}}<br>{{displayMsg}}
+<mat-card>
+  <mat-card-content>{{mode}}<br>{{displayMsg}}
 <br><br>
 <div *ngIf="numberOfCorrectAns >=passingScore">
   You have scored  <b><strong><mark>{{scorePercentage}}%</mark></strong></b> and thus you are selected for the next technical round.<br><br>
-  <div *ngIf="stage2_status!='Skipped'"> 
-    <nav class="nav nav-pills flex-column flex-sm-row">
-      So, please fill up the
-      <a class="nav-link" routerLink="/pre-tech-form" routerLinkActive="active" [state]="{userName:this.username,mode:'instructions'}" >pre-technical interview form</a>
-    </nav>
-    </div>
+    <table>
+      <tr>
+      <td>
+        <div *ngIf="stage2_status!='Skipped'">
+          <mat-label>So, please fill up the </mat-label>
+        <a class="edit" [routerLink]="['/pre-tech-form']" [state]="{userName:this.username,mode:'instructions'}">
+          <a href="#" routerLinkActive="active">pre-technical interview form</a>
+        </a>
+        </div>  
+      </td>
+    </tr>
+    </table>
 </div>
 <br>
 Thank You!
-</h4>
-  </div>
+</mat-card-content>
+</mat-card>
