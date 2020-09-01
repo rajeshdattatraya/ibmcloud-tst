@@ -165,24 +165,23 @@ export class PartnerInterviewComponent implements OnChanges {
 
    initiateInterview() {
      if (this.emailSelected == "") {
-       alert("Please select the candidate")
-     }
-     else {
+       alert("Please select the candidate");
+       return false;
+     } else {
        this.router.navigate(['/initiate-partner-interview/', this.emailSelected], { state: { username: this.userName, accessLevel: this.accessLevel, account: this.account } })
      }
    }
 
   exceptionalApproval() {
     if (this.emailSelected == "") {
-      alert("please select the candidate")
-    }
-    else {
+      alert("Please select the candidate");
+      return false;
+    } else {
       if (window.confirm("Are you sure you want to provide exemption approval?")) {
         this.showModal = true;
         this.content.open();
         this.partnerFeedbackForm.reset;
-      }
-      else {
+      } else {
         this.showModal = false;
       }
     }

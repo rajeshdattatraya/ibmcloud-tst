@@ -168,7 +168,7 @@
 <br/>
 <div  class="float-right text-right" *ngIf="Result.length > 0">
       <span (click)="exceptionalApproval()">
-      <button mat-raised-button color="primary" data-toggle="modal" data-target="#myModal">Exceptional Approval</button>
+      <button mat-raised-button color="primary" data-toggle="modal" data-target="#myExceptionModal">Exceptional Approval</button>
       </span>
       &nbsp;
       <span (click)="initiateInterview()">
@@ -256,11 +256,11 @@
 <div class="container">
 
   <!-- The Modal -->
-  <div class="modal" id="myModal"  *ngIf="showModal" #content>
+  <div class="modal" id="myExceptionModal"  *ngIf="showModal" #content>
     <div class="modal-dialog">
       <div class="modal-content">
         <!-- <div *ngIf="assessmentDetails.quizNumber == this.quizNumber"> -->
-        <div class="modal-header table-success" style="background-color:powderblue">
+        <div class="modal-header table-success" style="background-color:#f5f5f5;color:black">
           <h4 class="modal-title">Partner Feedback:</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
@@ -280,9 +280,9 @@
               <label class="col-sm-6 col-form-label"></label>
               <div class="col-sm-10"></div>
               <div class="col-sm-20 text-center" style="width:1150px">
-                <button type="submit" class="btn btn-success btn-sm" style="background-color:#0043CE;"  (click)="onSubmit()">Submit</button>&nbsp;&nbsp;
-                <button type="reset" class="btn btn-success btn-sm"  style="background-color:#0043CE;"  >Clear</button>&nbsp;&nbsp;
-                <button type="button" class="btn btn-success btn-sm"  style="background-color:#0043CE;"  data-dismiss="modal">Cancel</button>
+                <button type="submit" color="primary" mat-raised-button (click)="onSubmit()">Submit</button>&nbsp;&nbsp;
+                <button type="reset"  color="primary" mat-raised-button>Clear</button>&nbsp;&nbsp;
+                <button type="button" color="primary" mat-raised-button data-dismiss="modal">Cancel</button>
 
               </div>
             </div>
