@@ -1,8 +1,9 @@
 <p *ngIf="Result.length <= 0" class="no-data text-center">There are no records in dashboard</p>
 
-
-<div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8"  *ngIf="Result.length > 0">
+<div >
+  <mat-card  class="mat-elevation-z8">
+    <mat-card-content>
+    <table mat-table [dataSource]="dataSource" matSort   *ngIf="Result.length > 0">
 	
 	
 	<ng-container matColumnDef="Action">
@@ -58,16 +59,20 @@
 	<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 	<tr mat-row *matRowDef="let row; let even = even; columns: displayedColumns;" [ngClass]="{gray: even}"></tr>
 </table>
-<div *ngIf="Result.length > 0">
-  <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
-</div>
 
-<br/>
-<div  class="float-right text-right" *ngIf="Result.length > 0">
-      <span (click)="viewDetails()">
-      <button mat-raised-button color="primary" data-toggle="modal" data-target="#candidateModal">View Details</button>
-      </span>
+<mat-paginator *ngIf="Result.length > 0" [length]="this.Result.length" [pageSize]="5" [pageSizeOptions]="[5,10,15,25,50,100]" showFirstLastButtons></mat-paginator>
+
+</mat-card-content>
+</mat-card>
 </div>
+<br/>
+  <div  class="float-right text-right"  *ngIf="Result.length > 0">
+    <span>
+    <button mat-raised-button color="primary" (click)="viewDetails()" data-toggle="modal" data-target="#candidateModal">View Details</button>
+    </span>
+    
+  </div>
+  <br/> <br/>
 
 
 
@@ -78,14 +83,15 @@
 
     <!-- Modal content-->
     <div class="modal-content">
-      <div class="modal-header" style="background-color:powderblue">
+      <div class="modal-header">
         <h4 class="modal-title"><b>View Candidate Details</b></h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <div class="modal-body">
-        <div class="card">
-          <div class="card-header" style="background-color:powderblue">Candidate details</div>
-          <div class="card-body">
+
+        <mat-card class="mat-elevation-z8">
+          <mat-card-content>
+              <mat-card-title>Candidate Details</mat-card-title> 
             <table>
               <tr>
                 <td width="25%"><label>Name:</label></td>
@@ -122,11 +128,12 @@
                 <td colspan="3" width="75%">&nbsp;{{this.dashboardDetails[0].result_users[0].technologyStream}}</td>
               </tr>
             </table>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-header" style="background-color:powderblue">Online Test Details</div>
-          <div class="card-body">
+            </mat-card-content>
+           </mat-card>
+           
+           <mat-card class="mat-elevation-z8">
+            <mat-card-content>
+              <mat-card-title>Online Test Details</mat-card-title> 
             <table>
               <tr>
                 <td width="25%"><label>Online Test Result:</label></td>
@@ -136,12 +143,14 @@
                 <td width="25%"></td>
               </tr>
             </table>
-          </div>
-        </div>
+          </mat-card-content>
+        </mat-card>
 
-        <div class="card" *ngIf="displayTechInterview">
-          <div class="card-header" style="background-color:powderblue">Technical Interview Details</div>
-          <div class="card-body">
+       
+        <div  *ngIf="displayTechInterview" >
+          <mat-card class="mat-elevation-z8">
+            <mat-card-title>Technical Interview Details</mat-card-title> 
+            <mat-card-content>
             <table>
               <tr>
                 <td  width="25%"><label>Technical Interview Score:</label></td>
@@ -157,12 +166,16 @@
                 <td colspan="3" width="75%">&nbsp;<textarea type="textArea" maxlength="3000" cols="50" disabled readonly value="{{this.dashboardDetails[0].smeFeedback}}"></textarea></td>
               </tr>
             </table>
-          </div>
+          </mat-card-content>
+        </mat-card>
         </div>
 
-        <div class="card" *ngIf="displayPartnerInterview">
-          <div class="card-header" style="background-color:powderblue">Partner Interview Details</div>
-          <div class="card-body">
+        <div *ngIf="displayPartnerInterview">
+
+          <mat-card class="mat-elevation-z8">
+            <mat-card-title>Partner Interview Details</mat-card-title> 
+            <mat-card-content>
+
             <table>
               <tr>
                 <td width="25%"><label>Partner Result:</label></td>
@@ -173,12 +186,15 @@
                 <td colspan="3" width="75%">&nbsp;<textarea type="textArea" maxlength="3000" cols="50" disabled readonly value="{{this.dashboardDetails[0].managementFeedback}}"></textarea></td>
               </tr>
             </table>
-          </div>
+          </mat-card-content>
+        </mat-card>
         </div>
 
-        <div class="card" *ngIf="displayProjectAssign">
-          <div class="card-header" style="background-color:powderblue">Project Assignment Details</div>
-          <div class="card-body">
+        <div *ngIf="displayProjectAssign">
+
+          <mat-card class="mat-elevation-z8" >
+            <mat-card-title>Project Assignment Details</mat-card-title> 
+            <mat-card-content>
             <table>
               <tr>
                 <td width="20%"><label>Location:</label></td>
@@ -199,15 +215,18 @@
                 <td width="30%">&nbsp;&nbsp;</td>
               </tr>
             </table>
-          </div>
+          </mat-card-content>
+        </mat-card>
         </div>
 
       </div>
-      <div class="modal-footer" style="background-color:powderblue">
-        <button type="button" class="btn btn-primary" style="background-color:#0043CE;" data-dismiss="modal">Close</button>
-      </div>
-    </div>
 
+     
+
+   </div>
+   <div class="modal-footer table-success" style="background-color:#f5f5f5;color:black">
+    <button mat-raised-button color="primary" data-dismiss="modal">Close</button>
+  </div>
   </div>
 </div>
 
@@ -220,18 +239,21 @@
     <!-- Modal content-->
     <div class="modal-content">
       <!-- <div *ngIf="assessmentDetails.quizNumber == this.quizNumber"> -->
-      <div class="modal-header" style="background-color:powderblue">
+      <div class="modal-header">
         <h4 class="modal-title">Candidate Assessment Details</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <div class="modal-body" *ngIf="mode=='displayAssessmentModalBody'">
+        <mat-card class="mat-elevation-z8">
+          <mat-card-content>
+            
         <table style="table-layout: fixed; width: 100%">
           <thead>
           <tr>
-            <td scope="col" width="10%">{{this.userName}}'s answers</td>
-            <td scope="col" width="10%">Attempt No : {{this.quizNumber}}</td>
-            <td scope="col" width="10%"> Date : {{ this.assesmentDate.substring(0,10) }}</td>
-            <td scope="col" width="10%"> Score : {{ this.userScore }}%</td>
+            <td scope="col" width="10%"><b>{{this.userName}}'s answers</b></td>
+            <td scope="col" width="10%"><b>Attempt No : {{this.quizNumber}}</b></td>
+            <td scope="col" width="10%"><b> Date : {{ this.assesmentDate.substring(0,10) }}</b></td>
+            <td scope="col" width="10%"> <b>Score : {{ this.userScore }}%</b></td>
           </tr>
           </thead>
           <tbody>
@@ -242,7 +264,7 @@
           </tr>
           </tbody>
         </table>
-      </div>
+     <br/>
       <div *ngFor="let answer of this.candidateAssessmentDetails.results;let i=index">
         <div *ngFor="let questions of answer.userAttemptedQs" >
           <table  style="table-layout: fixed; width: 100%">
@@ -268,14 +290,18 @@
             <tr></tr>
             </tbody>
           </table>
+
         </div>
       </div>
-      <div class="modal-footer" style="background-color:powderblue">
-        <button type="button" style="background-color:#0043CE;" class="btn btn-primary" data-dismiss="modal">Close</button>
-        <!-- </div> -->
+
+    </mat-card-content>
+  </mat-card>
+</div>
+
+      <div class="modal-footer table-success" style="background-color:#f5f5f5;color:black">
+        <button mat-raised-button color="primary" data-dismiss="modal">Close</button>
       </div>
     </div>
 
-  </div>
 </div>
 <!-- Code Ends.-->
