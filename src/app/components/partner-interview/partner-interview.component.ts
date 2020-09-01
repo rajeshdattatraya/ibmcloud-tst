@@ -106,6 +106,12 @@ export class PartnerInterviewComponent implements OnChanges {
        }
       this.readResult();
   }
+
+    ngAfterViewInit (){
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+    }
+
     getCandidateAssessmentDetails(userid,quizId,username,userScore,createdDate) {
       this.userName=username;
       this.quizNumber=quizId;
