@@ -9,6 +9,10 @@
 <br/>
 
 <div  class="card-body" *ngIf="mode !='instructions'" >
+  <mat-card class="login-card">
+    <mat-card-header>
+    </mat-card-header>
+    <mat-card-content>
   <form #preTechAssessmentForm="ngForm"  name= "form" (ngSubmit)="mode= 'Submit'; preTechAssessmentForm.form.valid && submitPreTechForm(preTechQuesAndAns)" >
     <div>
       <div *ngFor="let preTechQAndA of preTechQuesAndAns; let i = index" >
@@ -17,7 +21,7 @@
             <label  [class.has-error]="LocalVariable.invalid" for="{{preTechQAndA.preTechQuestion}}"><!--To display questions as entered with line breaks-->
                 <pre><b> {{i+1}}.&nbsp;{{preTechQAndA.preTechQuestion}}</b></pre>
               </label>
-              <textarea  id="{{preTechQAndA.preTechQuestion}}"   [readonly]="stage2Completed" maxlength="3000" 
+              <textarea id="{{preTechQAndA.preTechQuestion}}"   [readonly]="stage2Completed" maxlength="3000" 
             name = "{{preTechQAndA.preTechQuestion}}" [ngClass]="{ 'is-invalid': preTechAssessmentForm.submitted && LocalVariable.invalid }"
             [(ngModel)]= "preTechQAndA.answer" class="form-control"  #LocalVariable="ngModel" required></textarea>
           
@@ -35,7 +39,7 @@
       <div class="row col-sm-8">
         <label><b>Upload resume if updated version available</b></label><hr><hr>
         <div class="row col-sm-8">
-          <input class="form-control" type="file" id="resumeFile" (change)="addResume($event)" size="50">
+          <input type="file" id="resumeFile" (change)="addResume($event)" size="50">
         </div><hr><hr>
         <button mat-raised-button color="primary" aria-label="Clear" type="button" class="btn btn-primary" style="background-color:#0043CE;" (click)="uploadResume()">Upload Resume</button>
       </div>
@@ -49,6 +53,8 @@
         <button mat-raised-button color="primary" aria-label="Clear" type="button"  style="background-color:#0043CE;" class="btn btn-primary"  (click)="close()"> Close </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </div>
   </form>
+</mat-card-content>
+</mat-card>
   &nbsp;&nbsp;
 </div> 
  
