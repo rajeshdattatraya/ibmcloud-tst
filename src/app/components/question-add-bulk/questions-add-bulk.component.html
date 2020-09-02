@@ -46,7 +46,7 @@
         <tr>
           <td>
             <mat-form-field class="question-full-width">
-              <mat-select placeholder="Technology Stream"  (change)="updateTechnologyStream($event.target.value)"
+              <mat-select placeholder="Technology Stream"  (selectionChange)="updateTechnologyStream($event.value)"
                   formControlName="technologyStream" required id="inputTechnologyStream" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.technologyStream.errors }" >
                   <mat-option value="">Choose...</mat-option>
                   <mat-option *ngFor="let data of technologyStream" value="{{data.value}}">{{data.value}}</mat-option>
@@ -86,6 +86,7 @@
       <div class="row justify-content-center">
         <button mat-raised-button color="primary" (click)="bulkUploadFile()">Upload File</button>
         <button mat-raised-button color="primary" (click)="resetForm()">Reset</button>
+        <button mat-raised-button color="primary" (click)="cancelForm()">Cancel</button>
       </div>
     </mat-card-actions>
 </mat-card>
