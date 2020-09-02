@@ -156,7 +156,7 @@
           <td>
             <!-- Mobile No -->
             <mat-form-field class="open-full-width">
-              <input matInput placeholder="Mobile No" formControlName="phoneNumber" name="phoneNumber" required [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.phoneNumber.errors }">
+              <input matInput placeholder="Mobile No" formControlName="phoneNumber" name="phoneNumber" maxlength="10" required [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.phoneNumber.errors }">
               <div *ngIf="!formReset && submitted && myForm.phoneNumber.errors" class="invalid-feedback">
                 <div *ngIf="myForm.phoneNumber.errors.required">Mobile No is required</div>
                 <div *ngIf="myForm.phoneNumber.errors.pattern">Invalid Phone Number</div>                
@@ -199,12 +199,12 @@
           <td>
             <!-- Candidate Resume -->
             <div class="form-group row">
-              <label class="col-sm-6 col-form-label">Candidate Resume</label>
+              <label class="col-sm-4 col-form-label">Candidate Resume</label>
               <div class="col-sm-6">
                 <input type="file" formControlName="candidateResume" id="candidateResumeID" (change)="addResume($event)" size="50">
               </div>
             </div>
-          </td>>
+          </td>&nbsp;
         </tr>
         <br/>
       </div>
