@@ -197,7 +197,7 @@ pageChange(newPage: number) {
     this.formReset = false;
     this.duplicateTechStream = false;
     this.readJrssDocId();
-    this.checkforquestions();
+    //this.checkforquestions();
     if (!this.streamCreateForm.valid) {
       console.log('here101');
       return false;
