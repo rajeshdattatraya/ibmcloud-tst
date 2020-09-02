@@ -68,6 +68,14 @@ import { QuestionEditComponent } from './components/question-edit/question-edit.
 
 export let browserRefresh = false;
 
+FullCalendarModule.registerPlugins([ 
+  dayGridPlugin,
+  interactionPlugin,
+  timeGridPlugin,
+  listPlugin
+
+]);
+
 @NgModule({
   declarations: [
     AppComponent,

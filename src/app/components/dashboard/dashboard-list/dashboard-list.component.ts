@@ -52,7 +52,7 @@ export class DashboardListComponent implements OnChanges {
   displayRegularUIFields: Boolean = true;
   filterKey : string = "";
   account: String = "";
-displayedColumns = ['Action','employeeName', 'JRSS','userResult','SMEResult','PartnerResult','AssignedToProject'];
+displayedColumns = ['Action','employeeName', 'JRSS','userResult','smeResult','managementResult','stage5_status'];
 
 
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
@@ -85,6 +85,25 @@ displayedColumns = ['Action','employeeName', 'JRSS','userResult','SMEResult','Pa
               this.router.navigate(['/login-component']);
         }
         this.readResult();
+
+
+        this.dataSource.filterPredicate = (data: any, filter) => {
+          const dataStr =JSON.stringify(data).toLowerCase();
+          return dataStr.indexOf(filter) != -1;
+    }
+  
+    this.dataSource.sortingDataAccessor = (item, property) => {
+        switch(property) {
+          case 'employeeName': return item.result_users[0].employeeName;
+          case 'JRSS': return item.result_users[0].JRSS;
+          case 'userResult': return item.userScore;
+          case 'smeResult': return item.smeResult;
+          case 'managementResult': return item.managementResult;
+          case 'stage5_status': return item.stage5_status;
+          default: return item[property];
+        }
+     }
+
     }
 
     filterUserList(filters: any, users: any): void {

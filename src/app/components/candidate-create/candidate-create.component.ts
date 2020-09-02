@@ -265,13 +265,14 @@ export class CandidateCreateComponent implements OnInit {
     this.password = this.password.replace("/","=rk=");
 
     // Technology Stream
-    this.skillArray = [];
-    for (var stream of this.candidateForm.value.technologyStream)  {
-      if(this.skillArray.indexOf(stream.value == -1)){
-          this.skillArray.push(stream.value);
-      }
-    }
-    this.candidateForm.value.technologyStream = this.skillArray.join(',');
+    // this.skillArray = [];
+    // for (var stream of this.candidateForm.value.technologyStream)  {
+    //   if(this.skillArray.indexOf(stream.value == -1)){
+    //       this.skillArray.push(stream.value);
+    //   }
+    // }
+    //this.candidateForm.value.technologyStream = this.skillArray.join(',');
+    this.candidateForm.value.technologyStream = this.candidateForm.value.technologyStream.join(',');
 
     //Check if resume is not selected
     if(!this.resume){
