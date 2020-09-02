@@ -70,14 +70,13 @@
         <tr>
           <td>
             <mat-form-field class="open-full-width">
-            <input matInput placeholder="Email" formControlName="email" name="email" 
+            <input matInput placeholder="Email [This field is used as username.]" formControlName="email" name="email" 
             [ngClass]="{ 'is-invalid': submitted && myForm.email.errors }">
             <div *ngIf="submitted && myForm.email.errors" class="invalid-feedback">
               <div *ngIf="myForm.email.errors.required">Email is required</div>
               <div *ngIf="myForm.email.errors.pattern">Invalid Email</div>
             </div>
-            </mat-form-field>
-            <div class="col-sm-6"><i><b><font style="font-size:12px">[This field is used as username.]</font></b></i></div>
+            </mat-form-field>            
           </td>
           <td>
             <div  *ngIf="displayRegularUIFields">
@@ -211,7 +210,7 @@
               <div class="row">
                 <label class="col-sm-4 col-form-label">Candidate Resume</label>
                 <div class="col-sm-6">
-                  <input class="form-control" type="file" (change)="addResume($event)" size="50">
+                  <input type="file" (change)="addResume($event)" size="50">
                 </div>
               </div>
               <br/>
@@ -221,7 +220,7 @@
                   <button class="btn btn-primary" style="background-color:#0043CE;" type="button" (click)="downloadResume()">Download</button>
                 </div>
               </div>
-            </td>
+            </td>&nbsp;
           </tr>
 
       <br/>
@@ -231,17 +230,16 @@
           <mat-toolbar>
             <mat-toolbar-row> 
               <h6>
-              <a data-toggle="collapse" href="#collapse1" (click)="getOpenPositionDetails()"><b>Calculate Gross Profit(Optional)</b>
-                <p><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Open Position Details
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Candidate Details</b></p></a>
-              </h6>
+                <a data-toggle="collapse" href="#collapse1" (click)="getOpenPositionDetails()"><b>Calculate Gross Profit(Optional)</b>
+                  <p><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;Open Position Details&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                      
+                    &nbsp;&nbsp;&nbsp;&nbsp;Candidate Details&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></p></a>
+              </h6> 
             </mat-toolbar-row> 
           </mat-toolbar>
           <div id="collapse1" class="panel-collapse collapse" *ngIf="displayGPCalculate">
