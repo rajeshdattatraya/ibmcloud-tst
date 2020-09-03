@@ -199,7 +199,7 @@ export class TechnicalInterviewComponent implements OnInit {
   }
 //Cancel
  cancelForm(){
-     this.ngZone.run(() => this.router.navigateByUrl('/technical-interview-list',{state:{username:this.loginUser,account:this.account}}))
+     this.ngZone.run(() => this.router.navigateByUrl('/technical-interview-list',{state:{username:this.loginUser,accessLevel:this.accessLevel,account:this.account}}))
  }
 
  isNumber(evt,rowCount) {

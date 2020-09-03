@@ -1,39 +1,4 @@
-<div *ngIf="accessLevel === 'partner'">
-  <mat-toolbar>
-    <mat-toolbar-row>
-      <a mat-button  class="matButtonSpace" routerLink="/partner-list" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Partner Interview</a>
-      <a mat-button  class="matButtonSpace" routerLink="/operations-candidate-list" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Project Assignment</a>
-      <a mat-button  class="matButtonSpace" routerLink="/open-positions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Open Positions</a>
-      <a mat-button  class="matButtonSmallSpace" routerLink="/dashboard" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Dashboard</a>
-      <a mat-button  class="matButtonSmallSpace" routerLink="/report" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Report</a>
-      <span class="flexExpand">
-          <a mat-button routerLink="/login-component" routerLinkActive="active">Logout</a>
-      </span>
-    </mat-toolbar-row>
-  </mat-toolbar>
-</div>
-<div *ngIf="accessLevel === 'management'">
-  <mat-toolbar>
-    <mat-toolbar-row>
-      <a  mat-button  class="matButtonLargeSpace" [matMenuTriggerFor]="openpositions" routerLink="/openpositions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Manage OpenSeats</a>
-      <mat-menu #openpositions="matMenu">
-        <a mat-menu-item routerLink="/openpositions-create" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Add Open Seat</a>
-        <a mat-menu-item routerLink="/openpositions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">View Open Seats</a>
-      </mat-menu>
-      <a mat-button  class="matButtonLargeSpace" routerLink="/operations-candidate-list" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Project Assignment</a>
-      <a mat-button  class="matButtonLargeSpace" routerLink="/open-positions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Open Positions</a>
-      <a mat-button  class="matButtonLargeSpace" routerLink="/viewinterview-status" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Exception Approval</a>
-      <a mat-button  class="matButtonSmallSpace" routerLink="/dashboard" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Dashboard</a>
-      <a mat-button  class="matButtonSmallSpace" routerLink="/report" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Report</a>
-      <span class="flexExpand">
-          <a mat-button routerLink="/login-component" routerLinkActive="active">Logout</a>
-      </span>
-    </mat-toolbar-row>
-  </mat-toolbar>
-</div>
-<div *ngIf="accessLevel === 'admin'">
-  <app-navigation></app-navigation>
-</div>
+<app-navigation></app-navigation>
 <br/>
 <div class="float-left text-left">
   <h4 class="my-0 mr-md-auto font-weight-normal">Update Open Position/Seat</h4></div>
