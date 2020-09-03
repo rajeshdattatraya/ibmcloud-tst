@@ -29,6 +29,7 @@ export class OpenpositionsEditComponent implements OnInit {
   RateCardJobRole:any = [];
   Account:any = [];
   AccountArray:any = [];
+  positionID: number = 0;
 
 
   constructor(
@@ -88,6 +89,7 @@ export class OpenpositionsEditComponent implements OnInit {
             positionLocation: data['positionLocation'],
             competencyLevel : data['competencyLevel']
           });
+          this.positionID = data['positionID'];
     });
   }
 
@@ -190,14 +192,15 @@ export class OpenpositionsEditComponent implements OnInit {
     }
 
     onSubmit() {
+        if (!this.openPositionForm.valid) {
+              return false;
+        } else {
         this.submitted = true;
         this.formReset = false;
-        if (!this.openPositionForm.valid) {
-          return false;
-        } else {
         let openPositionID = this.actRoute.snapshot.paramMap.get('id');
         let openPositionDetails = new OpenPosition(
         this.openPositionForm.value.positionName,
+        this.positionID,
         this.openPositionForm.value.JRSS,
         this.openPositionForm.value.rateCardJobRole,
         this.openPositionForm.value.lineOfBusiness,

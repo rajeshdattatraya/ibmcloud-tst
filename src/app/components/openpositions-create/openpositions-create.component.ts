@@ -29,6 +29,8 @@ export class OpenpositionsCreateComponent implements OnInit {
   CompetencyLevel:any = [];
   PositionLocation:any = [];
   RateCardJobRole:any = [];
+  PositionIDObj:any = [];
+  positionID : Number = 0;
 
 
   constructor(
@@ -50,6 +52,7 @@ export class OpenpositionsCreateComponent implements OnInit {
       this.readLineOfBusiness();
       this.readJrss();
       this.readAccount();
+      this.readLatestPositionID();
   }
 
   ngOnInit(): void {
@@ -93,6 +96,14 @@ export class OpenpositionsCreateComponent implements OnInit {
        this.openPositionService.getLineOfBusiness().subscribe((data) => {
        this.LineOfBusiness = data;
        })
+    }
+
+    // Get the latest positionID and increment 1
+    readLatestPositionID(){
+      this.openPositionService.getLatestPositionID().subscribe((data) => {
+      this.PositionIDObj = data;
+      this.positionID = parseInt(JSON. stringify(data))+1;
+      })
     }
 
     // Get all Acconts
@@ -175,13 +186,14 @@ export class OpenpositionsCreateComponent implements OnInit {
     }
 
     onSubmit() {
-        this.submitted = true;
-        this.formReset = false;
         if (!this.openPositionForm.valid) {
           return false;
         } else {
+        this.submitted = true;
+        this.formReset = false;
         let openPosition = new OpenPosition(
         this.openPositionForm.value.positionName,
+        this.positionID,
         this.openPositionForm.value.JRSS,
         this.openPositionForm.value.rateCardJobRole,
         this.openPositionForm.value.lineOfBusiness,

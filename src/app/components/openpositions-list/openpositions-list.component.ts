@@ -28,7 +28,7 @@ export class OpenpositionsListComponent implements OnInit {
   loading = true;
   dataSource = new MatTableDataSource<OpenPositionDetail>();
 
-  displayedColumns = ['Action','positionName', 'account','JRSS','lineOfBusiness','positionLocation','rateCardJobRole','competencyLevel'];
+  displayedColumns = ['Action','positionName', 'positionID', 'account','JRSS','lineOfBusiness','positionLocation','rateCardJobRole','competencyLevel'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
