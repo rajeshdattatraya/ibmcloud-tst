@@ -88,7 +88,7 @@ getQuestions(account): Observable<any> {
   }
 
   checkForQuestions(technologyStream): Observable<any> {
-    let url = `${this.baseQuestionUri}/1/CountQuestions/${technologyStream}`;
+    let url = `${this.baseQuestionUri}/Count/Questions/${technologyStream}`;
 
     console.log("The Url1 is "+url);
 
