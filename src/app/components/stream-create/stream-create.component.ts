@@ -163,7 +163,7 @@ pageChange(newPage: number) {
       if(res.count==0)  
       {
         this.questionsmappedtotechstream = false;
-        alert('The technology stream '+this.streamCreateForm.value.technologyStream+' should have atleast one question mapped to it before being mapped to a job rule!');
+        alert('The technology stream '+this.streamCreateForm.value.technologyStream+' should have atleast one question mapped to it before being mapped to a job role!');
       }
       else if(res.count>0)
       {

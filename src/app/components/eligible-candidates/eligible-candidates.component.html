@@ -1,72 +1,37 @@
-<nav class="navbar navbar-expand-lg navbar-light table-success" style="background-color:powderblue">
-  <div *ngIf="accessLevel === 'partner'" class="collapse navbar-collapse" id="navbarNavDropdown">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/partner-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Partner Interview</b></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/operations-candidate-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Project Assignment</b></a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/open-positions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Open Positions</b></a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/dashboard" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Dashboard</b></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/report" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Report</b></a>
-      </li>
-
-    </ul>
-  </div>
-  <div *ngIf="accessLevel === 'management'" class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" routerLink="/openpositions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <b>Manage Open Seats</b>
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" routerLink="/openpositions-create" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Add Open Seat</a>
-            <a class="dropdown-item" routerLink="/openpositions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">View Open Seats</a>
-          </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/operations-candidate-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Project Assignment</b></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/open-positions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Open Positions</b></a>
-        </li>
-
-        
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/viewinterview-status" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Exception Approval</b></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/dashboard" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Dashboard</b></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/report" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active"><b>Report</b></a>
-        </li>
-      </ul>
+<div *ngIf="accessLevel === 'partner'">
+  <mat-toolbar>
+    <mat-toolbar-row>
+      <a mat-button  class="matButtonSpace" routerLink="/partner-list" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Partner Interview</a>
+      <a mat-button  class="matButtonSpace" routerLink="/operations-candidate-list" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Project Assignment</a>
+      <a mat-button  class="matButtonSpace" routerLink="/open-positions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Open Positions</a>
+      <a mat-button  class="matButtonSmallSpace" routerLink="/dashboard" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Dashboard</a>
+      <a mat-button  class="matButtonSmallSpace" routerLink="/report" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Report</a>
+      <span class="flexExpand">
+          <a mat-button routerLink="/login-component" routerLinkActive="active">Logout</a>
+      </span>
+    </mat-toolbar-row>
+  </mat-toolbar>
   </div>
   <div *ngIf="accessLevel === 'management'">
-    <ul class="navbar-nav navbar-right">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/login-component" routerLinkActive="active"><b>Logout</b></a>
-      </li>
-    </ul>
+    <mat-toolbar>
+      <mat-toolbar-row>
+        <a  mat-button  class="matButtonLargeSpace" [matMenuTriggerFor]="openpositions" routerLink="/openpositions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Manage OpenSeats</a>
+        <mat-menu #openpositions="matMenu">
+          <a mat-menu-item routerLink="/openpositions-create" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Add Open Seat</a>
+          <a mat-menu-item routerLink="/openpositions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">View Open Seats</a>
+        </mat-menu>
+        <a mat-button  class="matButtonLargeSpace" routerLink="/operations-candidate-list" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Project Assignment</a>
+        <a mat-button  class="matButtonLargeSpace" routerLink="/open-positions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Open Positions</a>
+        <a mat-button  class="matButtonLargeSpace" routerLink="/viewinterview-status" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Exception Approval</a>
+        <a mat-button  class="matButtonSmallSpace" routerLink="/dashboard" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Dashboard</a>
+        <a mat-button  class="matButtonSmallSpace" routerLink="/report" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Report</a>
+        <span class="flexExpand">
+          <a mat-button routerLink="/login-component" routerLinkActive="active">Logout</a>
+      </span>
+      </mat-toolbar-row>
+    </mat-toolbar>
   </div>
-  <div *ngIf="accessLevel === 'partner'">
-    <ul class="navbar-nav navbar-right">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/login-component" routerLinkActive="active"><b>Logout</b></a>
-      </li>
-    </ul>
-  </div>
-  </nav>
-  <br>
+<br>
 
 <div>
     <h4 class="my-0 mr-md-auto font-weight-normal" >List of eligible candidates for the job role - {{jrss}}</h4>
@@ -76,42 +41,70 @@
     <!-- No data found message -->
     <p *ngIf="Result.length <= 0" class="no-data text-center">There are no records in Project Assignment Queue</p>
 
+
+          
     <!-- Operations candidate list -->
-    <table class="table table-bordered" *ngIf="Result.length > 0">
-      <thead class="table-success">
-      <tr style="background-color:powderblue">
-        <th scope="col center" width="5%">Action</th>
-        <th scope="col" width="12%">Name</th>
-        <th scope="col" width="20%">Online Test Result</th>
-        <th scope="col" width="23%">Technical Interview Result</th>
-        <th scope="col" width="23%">Partner Interview Result</th>
-        <th scope="col" width="13%">CV Download</th>
-      </tr>
-      </thead>
-      <tbody>
-          <tr *ngFor="let operationsList of Result | filterByJRSS:jrss | paginate: {id:'positions_pagination', 
-          itemsPerPage:itemsPerPage,
-          currentPage:page, totalItems:Result.length}">
-            <td  class="text-center edit-block" width="5%">
-              <input type="radio" name="radiogroup" (change)="emailSelected = operationsList.userName">
-            </td>
-            <td width="12%"><a href="#myModal" (click)="getCandidateDetails(operationsList.userName)" class="col-4 cursor-pointer" data-toggle="modal" >{{operationsList.result_users[0].employeeName}}</a></td>
-            <td  width="20%"><a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(operationsList.userName,operationsList.quizNumber,operationsList.result_users[0].employeeName,operationsList.userScore,operationsList.createdDate)" class="col-4 cursor-pointer" data-toggle="modal" *ngIf="operationsList.userScore!=null">{{operationsList.userScore}}%</a><p *ngIf="operationsList.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p></td>
-            <td  width="23%">{{operationsList.smeResult}}</td>
-            <td  width="23%">{{operationsList.managementResult}}</td>
-            <td width="20%"><a href="#" (click)="downloadCandidateResume(operationsList.userName)" routerLinkActive="active" class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
-          </tbody>
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+      <ng-container matColumnDef="Action">
+        <th mat-header-cell *matHeaderCellDef> Select </th>
+        <td mat-cell *matCellDef="let row"> <mat-radio-button name="emailSelected"  
+          (change)="emailSelected = row.userName"></mat-radio-button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="employeeName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+        <td mat-cell *matCellDef="let row"> <a href="#myModal" (click)="getCandidateDetails(row.userName)"
+          class="col-4 cursor-pointer" data-toggle="modal" >{{row.result_users[0].employeeName}}</a> </td>
+      </ng-container>
+
+      <ng-container matColumnDef="userScore">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Online Test Result </th>
+        <td mat-cell *matCellDef="let row"> 
+          <a href="#assessmentModal"  
+                (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,
+                row.result_users[0].employeeName,row.userScore,row.createdDate)" 
+              class="col-4 cursor-pointer" data-toggle="modal" 
+              *ngIf="row.userScore!=null">{{row.userScore}}%</a>
+              <p *ngIf="row.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p>
+        
+        </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="smeResult">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Technical Interview Result</th>
+        <td mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.smeResult}} </td>
+      </ng-container>
+	  
+	  <ng-container matColumnDef="managementResult">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Partner Interview Result</th>
+        <td mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.managementResult}} </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="cvDownload">
+        <th mat-header-cell *matHeaderCellDef> CV Download </th>
+        <td mat-cell *matCellDef="let row">
+          <a href="#" (click)="downloadCandidateResume(row.userName)" routerLinkActive="active" 
+          class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; let even = even; columns: displayedColumns;" [ngClass]="{gray: even}"></tr>
+
     </table>
+ 
+  <div *ngIf="Result.length > 0">
+    <mat-paginator [length]="Result.length" [pageSize]="5" [pageSizeOptions]="[5,10,15,25,50,100]" showFirstLastButtons></mat-paginator>
+  </div>
   <div  class="float-right text-right" *ngIf="Result.length > 0">
+    <br/>
     <span (click)="assignProject()">
        <button type="button" style="background-color:#0043CE;" class="btn btn-success btn-sm">Assign Project</button>&nbsp;
     </span>
   </div>
-  <div *ngIf="Result.length > 0">
-    <pagination-controls (pageChange)="(page=$event)" id="positions_pagination"
-    directionLinks="true"></pagination-controls>
-  </div>
-
 
   <!-- Modal Code starts. -->
 <div id="assessmentModal" class="modal fade" role="dialog">
