@@ -125,7 +125,6 @@ export class QuestionAddBulkSectorsmeComponent implements OnInit {
            this.technologyStream.push(skill);
          }
        }
-            console.log("Technical Stream getjrss: "+ JSON.stringify(this.technologyStream));
      })
    
     }
@@ -375,4 +374,12 @@ export class QuestionAddBulkSectorsmeComponent implements OnInit {
     this.file = null;
     (<HTMLInputElement>document.getElementById('fileName')).value = "";
   }
+
+  updateAccount(event) {
+    this.questionForm.value.account = event.source.value;
+  }
+  cancelForm(){
+    this.ngZone.run(() => this.router.navigateByUrl('/view-questionbank',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
+  }
+
 }

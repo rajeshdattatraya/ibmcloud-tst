@@ -41,9 +41,8 @@
 	<mat-card-content>
 		<form [formGroup]="candidateForm">
 		  <table class="open-full-width" cellspacing="0">
-        <div>
 		  		<tr>
-            <td width="50%"> 
+            <td width="50%">
               <!-- Name -->
               <mat-form-field class="open-full-width">
                 <input matInput placeholder="Name" formControlName="employeeName" name="employeeName" required [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.employeeName.errors }">
@@ -52,7 +51,6 @@
                 </div>
               </mat-form-field>  
             </td>
-            <!-- <td></td> -->
             <td width="70%">
               <!-- Type -->
               <mat-form-field class="open-full-width">
@@ -156,7 +154,7 @@
           <td>
             <!-- Mobile No -->
             <mat-form-field class="open-full-width">
-              <input matInput placeholder="Mobile No" formControlName="phoneNumber" name="phoneNumber" required [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.phoneNumber.errors }">
+              <input matInput placeholder="Mobile No" formControlName="phoneNumber" name="phoneNumber" maxlength="10" required [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.phoneNumber.errors }">
               <div *ngIf="!formReset && submitted && myForm.phoneNumber.errors" class="invalid-feedback">
                 <div *ngIf="myForm.phoneNumber.errors.required">Mobile No is required</div>
                 <div *ngIf="myForm.phoneNumber.errors.pattern">Invalid Phone Number</div>                
@@ -199,44 +197,32 @@
           <td>
             <!-- Candidate Resume -->
             <div class="form-group row">
-              <label class="col-sm-6 col-form-label">Candidate Resume</label>
-              <div class="col-sm-6">
-                <input type="file" formControlName="candidateResume" id="candidateResumeID" (change)="addResume($event)" size="50">
-              </div>
+              &nbsp;&nbsp;&nbsp;
+              <mat-label>Candidate Resume</mat-label>&nbsp;&nbsp;&nbsp;
+              <input type="file" formControlName="candidateResume" id="candidateResumeID" (change)="addResume($event)" size="50">
             </div>
-          </td>>
+          </td>&nbsp;
         </tr>
+      </table>
+    </form>
+  </mat-card-content>
+</mat-card>
         <br/>
-      </div>
 
       <div  *ngIf="displayRegularUIFields">
-        <div>
-          <mat-toolbar>
-            <mat-toolbar-row>             
-                <h6>
-                  <a data-toggle="collapse" href="#collapse1" (click)="getOpenPositionDetails()"><b>Calculate Gross Profit(Optional)</b>
-                    <p><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Open Position Details
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Candidate Details&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></p></a>
-                </h6>            
-            </mat-toolbar-row>
-          </mat-toolbar>
+              <div class="card-header" style="background-color:#2554C7;color:white;font-size:10pt">
+                  <a data-toggle="collapse" href="#collapse1" (click)="getOpenPositionDetails()" style="color:white;font-size:10pt">Calculate Gross Profit(Optional)</a>
+              </div>
           <div id="collapse1" class="panel-collapse collapse" *ngIf="displayGPCalculate">
-            <div class="panel-body">
-              <br/>
-              <h6><b>Please select Open Position and Candidate details below to calculate Gross Profit</b></h6>
-              <br/>
-
+              <mat-card>
+                <mat-card-content>
+                  <p><b>Please select Open Position</b></p>
+                  <form [formGroup]="myOpenPositionGroup">
+                    <table>
+                      <tbody>
                   <tr>
-                    <td width="50%">
+                    <td>
                       <mat-form-field class="open-full-width">
-                        <div [formGroup]="myOpenPositionGroup" >
                           <mat-select placeholder="Open Position"  (selectionChange)="updateOpenPositionProfile($event.value)"
                           formControlName="positionName" id="inputPositionName" [ngClass]="{ 'is-invalid': !formReset && submitted && myOpenForm.positionName.errors }">
                           <mat-option *ngFor="let data of OpenPositions" value="{{data.positionName}}">{{data.positionName}} </mat-option>
@@ -244,32 +230,42 @@
                           <div *ngIf="!formReset && submitted && myOpenForm.positionName.errors" class="invalid-feedback">
                             <div *ngIf="myOpenForm.positionName.errors.required">Open Position is required</div>
                           </div>
-                        </div>
                       </mat-form-field>
                     </td>
-                    
-                    <td width="70%">
+                  </tr>
+                  <tr *ngIf="displayPositionDetails">
+                    <td><mat-label>Position ID:</mat-label></td>
+                    <td>{{this.positionID}}</td>
+                    <td><mat-label>Line Of Business:</mat-label></td>
+                    <td>{{this.lineOfBusiness}}</td>
+                  </tr>
+                  <tr *ngIf="displayPositionDetails">
+                    <td><mat-label>Position Location:</mat-label></td>
+                    <td>{{this.positionLocation}}</td>
+                    <td><mat-label>Rate Card Job Role:</mat-label></td>
+                    <td>{{this.rateCardJobRole}}</td>
+                  </tr>
+                  <tr *ngIf="displayPositionDetails">
+                    <td><mat-label>Competency Level:</mat-label></td>
+                    <td>{{this.competencyLevel}}</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td colspan="4"><hr class="class-1"></td>
+                  </tr>
+                  <tr>
+                    <td colspan="4"><b>Please select Candidate Location</b></td>
+                  </tr>
+                  <br/>
+                   <tr>
+                    <td>
                       <mat-form-field class="open-full-width">
-                        <div [formGroup]="myOpenPositionGroup" >
                           <mat-select placeholder="Candidate Line Of Business"  (selectionChange)="updateGPUserLOBProfile($event.value)"
                           formControlName="gpUserLOB" id="inputGPUserLOB" [ngClass]="{ 'is-invalid': !formReset && submitted && myOpenForm.gpUserLOB.errors }">
                           <mat-option *ngFor="let userLOB of UserLOB" value="{{userLOB.lob}}">{{userLOB.lob}} </mat-option>
                           </mat-select>
-                        </div>
-                      </mat-form-field>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      <mat-form-field class="open-full-width">
-                        <div [formGroup]="myOpenPositionGroup" >
-                          <mat-select placeholder="Position ID"  
-                          formControlName="positionID" id="inputPositionID" [ngClass]="{ 'is-invalid': !formReset && submitted && myOpenForm.positionID.errors }">
-                          <mat-option *ngFor="let data of PositionID" value="{{data}}" >{{data}} </mat-option>
-                          </mat-select>
-                        </div>
-                      </mat-form-field>
+                          </mat-form-field>
                     </td>
                     <td>
                       <mat-form-field class="open-full-width">
@@ -282,18 +278,7 @@
                       </mat-form-field>
                     </td>
                   </tr>
-
                   <tr>
-                    <td>
-                      <mat-form-field class="open-full-width">
-                        <div [formGroup]="myOpenPositionGroup" >
-                          <mat-select placeholder="Line Of Business"  
-                          formControlName="lineOfBusiness" id="inputLineOfBusiness" [ngClass]="{ 'is-invalid': !formReset && submitted && myOpenForm.lineOfBusiness.errors }">
-                          <mat-option *ngFor="let data of LineOfBusiness" value="{{data}}" >{{data}} </mat-option>
-                          </mat-select>
-                        </div>
-                      </mat-form-field>
-                    </td>
                     <td>
                       <mat-form-field class="open-full-width">
                         <div [formGroup]="myOpenPositionGroup" >
@@ -304,76 +289,24 @@
                         </div>
                       </mat-form-field>
                     </td>
-                  </tr>
-                  <tr>
+                    <td><mat-label>Gross Profit(%):&nbsp;</mat-label>{{gp}}</td>
                     <td>
-                      <mat-form-field class="open-full-width">
-                        <div [formGroup]="myOpenPositionGroup" >
-                          <mat-select placeholder="Position Location"  
-                          formControlName="positionLocation" id="inputPositionLocation" [ngClass]="{ 'is-invalid': !formReset && submitted && myOpenForm.positionLocation.errors }">
-                          <mat-option *ngFor="let data of PositionLocation" value="{{data}}" >{{data}} </mat-option>
-                          </mat-select>
-                        </div>
-                      </mat-form-field>
+                        <button type="button" mat-raised-button color="primary" (click)="calculateGP(this.myOpenPositionGroup.value.gpUserPositionLocation,this.myOpenPositionGroup.value.gpUserLOB,this.myOpenPositionGroup.value.gpUserBand,this.myOpenPositionGroup.value.positionName)">Calculate GP</button>
                     </td>
+                    <td></td>
                   </tr>
-                  <tr>
-                    <td>
-                      <mat-form-field class="open-full-width">
-                        <div [formGroup]="myOpenPositionGroup" >
-                          <mat-select placeholder="Rate Card Job Role"  
-                          formControlName="rateCardJobRole" id="inputRateCardJobRole" 
-                          [ngClass]="{ 'is-invalid': !formReset && submitted && myOpenForm.rateCardJobRole.errors }">
-                          <mat-option *ngFor="let data of RateCardJobRole" value="{{data}}">{{data}} </mat-option>
-                          </mat-select>
-                        </div>
-                      </mat-form-field>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <mat-form-field class="open-full-width">
-                        <div [formGroup]="myOpenPositionGroup" >
-                          <mat-select placeholder="Competency Level"  
-                          formControlName="competencyLevel" id="inputCompetencyLevel" 
-                          [ngClass]="{ 'is-invalid': !formReset && submitted && myOpenForm.competencyLevel.errors }">
-                          <mat-option *ngFor="let data of CompetencyLevel" value="{{data}}" >{{data}} </mat-option>
-                          </mat-select>
-                        </div>
-                      </mat-form-field>
-                    </td>
-                  </tr>
-                <tr>
-                  <td width="5%">
-                  <td width="90%">
-                    <div [formGroup]="myOpenPositionGroup" class="form-group row">
-                      <label for="inputGP" class="col-sm-4 col-form-label">Gross Profit(%)</label>
-                      <div class="col-sm-3">
-                        <input class="form-control" readonly type="text" formControlName="grossProfit" id="inputGP">
-                      </div>
-                      <div>
-                        &nbsp;&nbsp;&nbsp;
-                        <button style="background-color:#0043CE;" class="btn btn-success btn-sm" type="button" (click)="calculateGP(this.myOpenPositionGroup.value.gpUserPositionLocation,this.myOpenPositionGroup.value.gpUserLOB,this.myOpenPositionGroup.value.gpUserBand,this.myOpenPositionGroup.value.positionName)">Calculate GP</button>
-                      </div>
-                    </div>
-                  </td>
-                  <td width="5%">
-                </tr>
-
-            </div>
+              </tbody>
+              </table>
+                  </form>
+                </mat-card-content>
+              </mat-card>
           </div>
-        </div>
       </div>
-      <br/>
 
-    </table> 
-  </form>
-    </mat-card-content>
-    <mat-card-actions>
-    <div class="row justify-content-center">
-      <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
-      <button mat-raised-button color="primary" (click)="resetForm()">Reset</button>
-      <button mat-raised-button color="primary" (click)="cancelForm()">Cancel</button>
-    </div>
-    </mat-card-actions>
-</mat-card>
+<br/>
+  <div class="row justify-content-center">
+    <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>&nbsp;&nbsp;&nbsp;
+    <button mat-raised-button color="primary" (click)="resetForm()">Reset</button>&nbsp;&nbsp;&nbsp;
+    <button mat-raised-button color="primary" (click)="cancelForm()">Cancel</button>
+  </div>
+

@@ -47,7 +47,7 @@
             <tr>
               <td>
                 <mat-form-field class="question-full-width">
-                  <mat-select placeholder="Technology Stream"  (change)="updateTechnologyStream($event.target.value)"
+                  <mat-select placeholder="Technology Stream"  (selectionChange)="updateTechnologyStream($event.value)"
                           formControlName="technologyStream" required id="inputTechnologyStream" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.technologyStream.errors }" >
                     <mat-option value="">Choose...</mat-option>
                     <mat-option *ngFor="let data of technologyStream" value="{{data.value}}">{{data.value}}</mat-option>
@@ -79,7 +79,7 @@
             <tr>
               <td>
               <mat-form-field class="question-full-width">
-                <mat-select placeholder="Complexity Level"  (change)="updateComplexityLevel($event.target.value)"
+                <mat-select placeholder="Complexity Level"  (selectionChange)="updateComplexityLevel($event.value)"
                         formControlName="complexityLevel" required id="inputComplexityLevel" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.complexityLevel.errors }" >
                   <mat-option value="">Choose...</mat-option>
                   <mat-option *ngFor="let complexityLevel of ComplexityLevel" value="{{complexityLevel}}">{{complexityLevel}}</mat-option>
@@ -166,6 +166,7 @@
   <mat-card-actions>
     <div class="row justify-content-center">
       <button mat-raised-button color="primary" (click)="onSubmit()">Add Question</button>
+      <button mat-raised-button color="primary" type="button" (click)="resetForm()">Reset</button>
       <button mat-raised-button color="primary" type="button" (click)="cancelForm()">Cancel</button>
     </div>
   </mat-card-actions>

@@ -1,99 +1,94 @@
-<nav class="navbar navbar-expand-lg navbar-light table-success" style="background-color:powderblue">
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
-        
-        <li class="nav-item">
-            <a class="nav-link" routerLink="/technical-interview-list" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active"><b>Technical Interview</b></a>
-        </li>
-
-        <li class="nav-item dropdown active">
-          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <b>Manage Questions</b><span class="sr-only">(current)</span>
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" routerLink="/manage-questionbank-sectorsme" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active">Add Question</a>
-            <a class="dropdown-item" routerLink="/manage-questionbank-bulk-sectorsme" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active">Add Bulk Question</a>
-            
-          </div>
-        </li>
-        
-      </ul>
-    </div>
-    <div>
-      <ul class="navbar-nav navbar-right">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/login-component" routerLinkActive="active"><b>Logout</b></a>
-        </li>
-      </ul>
-    </div>
-  </nav>
+<mat-toolbar>
+  <mat-toolbar-row>
+    <a  mat-button class="matButtonSmallSpace"  routerLink="/technical-interview-list" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active">Technical Interview</a>
+    <a  mat-button  class="matButtonSmallSpace" [matMenuTriggerFor]="questionssector" routerLink="/manage-questionbank-sectorsme" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Manage Questions</a>
+    <mat-menu #questionssector="matMenu">
+      <a class="dropdown-item" routerLink="/manage-questionbank-sectorsme" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active">Add Question</a>
+      <a class="dropdown-item" routerLink="/manage-questionbank-bulk-sectorsme" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active">Add Bulk Question</a>
+      <a class="dropdown-item" routerLink="/view-questionbank" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active">View Question</a>
+    </mat-menu>
+    <span class="flexExpand">
+    <a  mat-button  routerLink="/login-component" routerLinkActive="active">Logout</a>
+    </span>
+  </mat-toolbar-row>
+</mat-toolbar>
   <br/>
   <div>
     <h4 class="my-0 mr-md-auto font-weight-normal">Add Bulk Questions</h4>
     <br/>
   </div>
       <!-- form Test Config -->
-      <div class="card">
-      <div class="card-body">
+<mat-card class="login-card">
+  <mat-card-header></mat-card-header>
+  <mat-card-content>
         <form [formGroup]="questionForm" (ngSubmit)="bulkUploadFile()">
+          <table class="open-full-width" cellspacing="0">
+            <tr>
+              <td>
+                <mat-form-field class="open-full-width">
+                <mat-select multiple  placeholder="Account"  formControlName="account" id="inputAccount"
+                        [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.account.errors }">
+                  <mat-option value="">Choose...</mat-option>
+                  <mat-option *ngFor="let account of Account" [value]="account" (onSelectionChange)="updateAccount($event)">{{account.account}}
+                  </mat-option>
+                </mat-select>
+                <div *ngIf="!formReset && submitted && myForm.account.errors" class="invalid-feedback">
+                  <div *ngIf="myForm.account.errors.required">Account is required</div>
+                </div>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field class="open-full-width">
+                  <mat-select placeholder="Technology Stream"  (selectionChange)="updateTechnologyStream($event.value)"
+                          formControlName="technologyStream" id="inputTechnologyStream" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.technologyStream.errors }">
+                    <mat-option value="">Choose...</mat-option>
+                    <mat-option *ngFor="let data of technologyStream" value="{{data.value}}">{{data.value}}
+                    </mat-option>
+                  </mat-select>
+                  <div *ngIf="!formReset && submitted && myForm.technologyStream.errors" class="invalid-feedback">
+                    <div *ngIf="myForm.technologyStream.errors.required">Technology Stream is required</div>
+                  </div>
+                </mat-form-field>
+              </td>
+            </tr>
 
-        <div class="form-group row">
-            <label for="inputAccount" class="col-sm-4 col-form-label">Account</label>
-            <div class="col-sm-8">
-            <select multiple class="custom-select form-control" formControlName="account" id="inputAccount" 
-            [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.account.errors }">
-                <option value="">Choose...</option>
-                <option *ngFor="let account of Account" [ngValue]="account">{{account.account}}
-                </option>
-            </select> 
-            <div *ngIf="!formReset && submitted && myForm.account.errors" class="invalid-feedback">
-                <div *ngIf="myForm.account.errors.required">Account is required</div>
-              </div>
-            </div>
-            </div>
-
-          <div class="form-group row">
-            <label for="inputTechnologyStream" class="col-sm-4 col-form-label">Technology Stream</label>
-            <div class="col-sm-8">
-              <select class="custom-select form-control" (change)="updateTechnologyStream($event.target.value)"
-                      formControlName="technologyStream" id="inputTechnologyStream" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.technologyStream.errors }">
-                <option value="">Choose...</option>
-                <option *ngFor="let data of technologyStream" value="{{data.value}}">{{data.value}}
-                </option>
-              </select>
-              <div *ngIf="!formReset && submitted && myForm.technologyStream.errors" class="invalid-feedback">
-                <div *ngIf="myForm.technologyStream.errors.required">Technology Stream is required</div>
-              </div>
-            </div>
-          </div>
-  
-          <div class="row justify-content-center">
-            <div class="col-md-4">
-            <div class="col-sm-16">
+            <tr>
+              <td colspan="2">
+          <div class="float-left text-left">
               <p style="color:blue;" (click)="bulkUploadTemplate()"><span style="cursor:pointer"><u>Bulk Upload Template</u></span></p>
-            </div>
           </div>
-          </div>
-             
-      <div class="row justify-content-center">
-        <label for="inputTechnologyStream" class="col-sm-4 col-form-label">Upload Bulk Questions File</label>
-        <div class="col-sm-8">
-          <input type="file" id="fileName" (change)="addfile($event)" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" size="50">
-        </div>
-        <div class="col-md-4">
-        <div class="col-sm-16" >
-          <button type="button" class="btn btn-success btn-lg" style="background-color:#0043CE;" (click)="bulkUploadFile()">Upload File</button> &nbsp;&nbsp;&nbsp;&nbsp;
-          <button type="button" class="btn btn-success btn-lg" style="background-color:#0043CE;" (click)="resetForm()">Reset</button>
-        </div>
-        </div>
-      </div>
-      <br>
-        <div class="row justify-content-center">
-          <p><b>{{ bulkUploadQuestions }} out of {{ totalBulkQuestions }} questions uploaded</b></p>
-        </div>
+          <br>
+              </td>
+            </tr>
+
+          <tr>
+            <td colspan="2">
+              <div class="float-left text-right">
+                <label for="inputTechnologyStream" >Upload Bulk Questions File</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="file" id="fileName" (change)="addfile($event)" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" size="50">
+              </div>
+            </td>
+          </tr>
+
+          <br/>
+
+            <tr>
+              <td colspan="2">
+                  <p><b>{{ bulkUploadQuestions }} out of {{ totalBulkQuestions }} questions uploaded</b></p>
+              </td>
+            </tr>
+          </table>
         </form>
-    </div>
-  </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <div class="row justify-content-center">
+            <button type="button" mat-raised-button color="primary" (click)="bulkUploadFile()">Upload File</button>
+            <button type="button" mat-raised-button color="primary" (click)="resetForm()">Reset</button>
+            <button type="button" mat-raised-button color="primary" (click)="cancelForm()">Cancel</button>
+      </div>
+    </mat-card-actions>
+</mat-card>
+
   
   
   

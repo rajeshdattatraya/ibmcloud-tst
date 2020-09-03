@@ -44,19 +44,20 @@ export class CandidateEditComponent implements OnInit {
   AccountArray:any = [];
 
   OpenPositions: any = [];
-  LineOfBusiness:any = [];
-  PositionID:any = [];
-  CompetencyLevel:any = [];
-  PositionLocation:any = [];
+  lineOfBusiness:any;
+  positionID:any;
+  competencyLevel:any;
+  positionLocation:any;
   UserPositionLocation:any = [];
-  RateCardJobRole:any = [];
+  rateCardJobRole:any;
   OpenPosition: any= [];
   UserLOB: any = [];
   displayGPCalculate: boolean = false;
   account: any;
   grossProfit: any;
   gpCount: number = 0;
-
+  gp: any;
+  displayPositionDetails = false;
   constructor(
     public fb: FormBuilder,
     private actRoute: ActivatedRoute,
@@ -229,13 +230,14 @@ export class CandidateEditComponent implements OnInit {
       if (data['employeeType'] == 'Regular') {
        this.displayContractorUIFields = false;
        this.displayRegularUIFields = true;
+       this.stream = data['technologyStream'].split(",");
         this.editForm.setValue({
           employeeName: data['employeeName'],
           employeeType: data['employeeType'],
           email: data['email'],
           band: data['band'],
           JRSS: data['JRSS'],
-          technologyStream: data['technologyStream'],
+          technologyStream: this.stream,
           phoneNumber: data['phoneNumber'],
           dateOfJoining : this.datePipe.transform(data['dateOfJoining'], 'yyyy-MM-dd'),
           account: data['account'],
@@ -243,11 +245,11 @@ export class CandidateEditComponent implements OnInit {
           userPositionLocation: data['userPositionLocation']
         });
         this.openPositionService.readOpenPositionByPositionName(data['openPositionName']).subscribe((openPositionData) => {
-            this.LineOfBusiness.push(openPositionData['lineOfBusiness']);
-            this.CompetencyLevel.push(openPositionData['competencyLevel']);
-            this.PositionLocation.push(openPositionData['positionLocation']);
-            this.RateCardJobRole.push(openPositionData['rateCardJobRole']);
-            this.PositionID.push(openPositionData['positionID']);
+            this.lineOfBusiness = openPositionData['lineOfBusiness'];
+            this.competencyLevel = openPositionData['competencyLevel'];
+            this.positionLocation = openPositionData['positionLocation'];
+            this.rateCardJobRole = openPositionData['rateCardJobRole'];
+            this.positionID = openPositionData['positionID'];
             this.myOpenPositionGroup.setValue({
                   positionName: openPositionData['positionName'],
                   positionID: openPositionData['positionID'],
@@ -261,6 +263,7 @@ export class CandidateEditComponent implements OnInit {
                   gpUserBand: data['band']
 
             });
+            this.displayPositionDetails = true;
         }) ;
        }
       if (data['employeeType'] == 'Contractor') {
@@ -272,7 +275,7 @@ export class CandidateEditComponent implements OnInit {
           email: data['email'],
           band: '',
           JRSS: data['JRSS'],
-          technologyStream: data['technologyStream'],
+          technologyStream: this.stream,
           phoneNumber: data['phoneNumber'],
           dateOfJoining : this.datePipe.transform(data['dateOfJoining'], 'yyyy-MM-dd'),
           account: data['account'],
@@ -295,7 +298,7 @@ export class CandidateEditComponent implements OnInit {
       }
       this.technologyStream = [];
       // Get technologyStream from JRSS
-      this.stream = this.editForm.value.technologyStream.split(",");
+      //this.stream = this.editForm.value.technologyStream.split(",");
       for (var jrss of this.JRSS){
         if(jrss.jrss == this.editForm.value.JRSS){
           this.technologyStream = [];
@@ -617,10 +620,10 @@ export class CandidateEditComponent implements OnInit {
 
   updateOpenPositionProfile(positionName) {
        this.openPositionService.readOpenPositionByPositionName(positionName).subscribe((data) => {
-            this.LineOfBusiness.push(data['lineOfBusiness']);
-            this.CompetencyLevel.push(data['competencyLevel']);
-            this.PositionLocation.push(data['positionLocation']);
-            this.RateCardJobRole.push(data['rateCardJobRole']);
+            this.lineOfBusiness = data['lineOfBusiness'];
+            this.competencyLevel = data['competencyLevel'];
+            this.positionLocation = data['positionLocation'];
+            this.rateCardJobRole = data['rateCardJobRole'];
           this.myOpenPositionGroup.setValue({
                 positionName: data['positionName'],
                 rateCardJobRole: data['rateCardJobRole'],
@@ -634,6 +637,7 @@ export class CandidateEditComponent implements OnInit {
                 grossProfit: ''
 
           });
+          this.displayPositionDetails = true;
        })
   }
 
@@ -711,6 +715,7 @@ export class CandidateEditComponent implements OnInit {
            }
            this.gpCount = this.gpCount+1;
            this.myOpenPositionGroup.get('grossProfit').setValue(GP);
+           this.gp = GP;
         })
      })
   }

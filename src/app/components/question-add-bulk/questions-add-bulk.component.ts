@@ -343,6 +343,10 @@ export class QuestionsAddBulkComponent implements OnInit {
     this.file = null;
     (<HTMLInputElement>document.getElementById('fileName')).value = "";
   }
+
+  cancelForm(){
+    this.ngZone.run(() => this.router.navigateByUrl('/view-questionbank',{state:{username:this.userName,account:this.account}}));
+  }
 }
 
 

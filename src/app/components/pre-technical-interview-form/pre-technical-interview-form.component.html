@@ -1,22 +1,17 @@
 
-<nav class="navbar navbar-expand-lg navbar-light table-success" style="background-color:powderblue">
-  <div class="collapse navbar-collapse" id="navbarNavDropdown">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" routerLinkActive="active"><b>Pre Technical Interview Form</b></a>
-      </li>
-    </ul>
-  </div>
-  <div>
-    <ul class="navbar-nav navbar-right">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/login-component" routerLinkActive="active"><b>Logout</b></a>
-      </li>
-    </ul>
-  </div>
-</nav>
- 
+<mat-toolbar>
+  <mat-toolbar-row>
+    <span><a  mat-button routerLink="." routerLinkActive="active">Pre Technical Interview Form</a></span>
+    <span class="flexExpand">       
+        <a  mat-button  routerLink="/login-component" routerLinkActive="active">Logout</a>
+    </span>
+  </mat-toolbar-row>
+</mat-toolbar> 
 <div *ngFor="let preTechQAndA of preTechQuesAndAns;let i=index">
+  <mat-card class="login-card">
+    <mat-card-header>
+    </mat-card-header>
+    <mat-card-content>
   <table>
     <tbody>
       <tr>
@@ -27,11 +22,13 @@
       </tr>
       </tbody>
   </table>
+</mat-card-content>
+</mat-card>
 </div>
 
  <div class="text-center" style="width: 1000px">
       <span (click)="close()">
-        <button type="button" style="background-color:#0043CE;" class="btn btn-primary">Close</button>&nbsp;
+        <button mat-raised-button color="primary" aria-label="Clear" type="button" style="background-color:#0043CE;" class="btn btn-primary">Close</button>&nbsp;
       </span>
   </div>
   

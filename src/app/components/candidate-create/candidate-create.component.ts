@@ -47,12 +47,12 @@ export class CandidateCreateComponent implements OnInit {
   stage4;
   stage5;
   OpenPositions: any = [];
-  LineOfBusiness:any = [];
-  PositionID:any = [];
-  CompetencyLevel:any = [];
-  PositionLocation:any = [];
+  lineOfBusiness:any;
+  positionID:any;
+  competencyLevel:any;
+  positionLocation:any;
   UserPositionLocation:any = [];
-  RateCardJobRole:any = [];
+  rateCardJobRole:any;
   OpenPosition: any= [];
   UserLOB: any = [];
   displayGPCalculate: boolean = false;
@@ -61,6 +61,8 @@ export class CandidateCreateComponent implements OnInit {
   account;
   grossProfit: any;
   gpCount: number = 0;
+  gp:any;
+  displayPositionDetails = false;
 
   constructor(public fb: FormBuilder,private router: Router,private ngZone: NgZone,
     private apiService: ApiService,private resultPageService: ResultPageService,
@@ -471,11 +473,11 @@ export class CandidateCreateComponent implements OnInit {
 
     updateOpenPositionProfile(positionName) {
          this.openPositionService.readOpenPositionByPositionName(positionName).subscribe((data) => {
-              this.LineOfBusiness.push(data['lineOfBusiness']);
-              this.CompetencyLevel.push(data['competencyLevel']);
-              this.PositionLocation.push(data['positionLocation']);
-              this.RateCardJobRole.push(data['rateCardJobRole']);
-              this.PositionID.push(data['positionID']);
+              this.lineOfBusiness = data['lineOfBusiness'];
+              this.competencyLevel = data['competencyLevel'];
+              this.positionLocation = data['positionLocation'];
+              this.rateCardJobRole = data['rateCardJobRole'];
+              this.positionID = data['positionID'];
             this.myOpenPositionGroup.setValue({
                   positionName: data['positionName'],
                   rateCardJobRole: data['rateCardJobRole'],
@@ -489,6 +491,7 @@ export class CandidateCreateComponent implements OnInit {
                   positionID: data['positionID']
 
             });
+              this.displayPositionDetails = true;
          })
     }
 
@@ -546,6 +549,7 @@ export class CandidateCreateComponent implements OnInit {
                }
                this.gpCount = this.gpCount+1;
                this.myOpenPositionGroup.get('grossProfit').setValue(GP);
+               this.gp = GP;
             })
          })
       }
