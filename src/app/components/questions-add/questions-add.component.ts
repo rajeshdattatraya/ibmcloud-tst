@@ -21,6 +21,7 @@ export class QuestionsAddComponent implements OnInit {
   uploadFile: String = "Please select a file";
   userName: String = "admin";
   account:any;
+  accessLevel:any;
   JRSS:any = [];
   technologyStream:any = [];
   QuestionTypes:any = ['SingleSelect','MultiSelect'];
@@ -36,6 +37,7 @@ export class QuestionsAddComponent implements OnInit {
       if (!this.browserRefresh) {
           this.userName = this.router.getCurrentNavigation().extras.state.username;
           this.account = this.router.getCurrentNavigation().extras.state.account;
+          this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
       }
       this.readTechStream();
       this.mainForm();
@@ -183,7 +185,7 @@ export class QuestionsAddComponent implements OnInit {
               window.confirm('Succesfully added to QuestionBank');
               this.formReset = true;
               this.questionForm.reset();
-              this.ngZone.run(() => this.router.navigateByUrl('/manage-questionbank',{state:{username:this.userName,account:this.account}}))
+              this.ngZone.run(() => this.router.navigateByUrl('/manage-questionbank',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
             }, (error) => {
               console.log(error);
             }); 
@@ -192,7 +194,7 @@ export class QuestionsAddComponent implements OnInit {
       }
 
     cancelForm(){
-      this.ngZone.run(() => this.router.navigateByUrl('/view-questionbank',{state:{username:this.userName,account:this.account}}));
+      this.ngZone.run(() => this.router.navigateByUrl('/view-questionbank',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
     }
      resetForm() {
         this.formReset = true;

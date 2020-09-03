@@ -54,6 +54,7 @@ export class CandidateEditComponent implements OnInit {
   UserLOB: any = [];
   displayGPCalculate: boolean = false;
   account: any;
+  accessLevel:any;
   grossProfit: any;
   gpCount: number = 0;
   gp: any;
@@ -71,6 +72,7 @@ export class CandidateEditComponent implements OnInit {
     if (!this.browserRefresh) {
         this.username = this.router.getCurrentNavigation().extras.state.username;
         this.account = this.router.getCurrentNavigation().extras.state.account;
+        this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
     }
     this.readJrss();
   }
@@ -464,7 +466,7 @@ export class CandidateEditComponent implements OnInit {
                     console.log(error);
                   })
                   this.apiService.updateCandidate(can_id, updatedCandidate).subscribe(res => {
-                    this.router.navigateByUrl('/candidates-list', {state:{username:this.username,account:this.account}});
+                    this.router.navigateByUrl('/candidates-list', {state:{username:this.username,accessLevel:this.accessLevel,account:this.account}});
                     console.log('Candidate Details updated successfully!');
                   }, (error) => {
                     console.log(error);
@@ -537,7 +539,7 @@ export class CandidateEditComponent implements OnInit {
                             console.log(error);
                           })
                           this.apiService.updateCandidate(can_id, updatedCandidate).subscribe(res => {
-                            this.router.navigateByUrl('/candidates-list', {state:{username:this.username,account:this.account}});
+                            this.router.navigateByUrl('/candidates-list', {state:{username:this.username,accessLevel:this.accessLevel,account:this.account}});
                             console.log('Candidate Details updated successfully!');
                           }, (error) => {
                           console.log(error);
@@ -563,7 +565,7 @@ export class CandidateEditComponent implements OnInit {
 
    //Cancel
    cancelForm(){
-     this.ngZone.run(() => this.router.navigateByUrl('/candidates-list',{state:{username:this.username,account:this.account}}))
+     this.ngZone.run(() => this.router.navigateByUrl('/candidates-list',{state:{username:this.username,accessLevel:this.accessLevel,account:this.account}}))
    }
 
    //Update Userline of business

@@ -20,8 +20,9 @@ export class StreamCreateComponent implements OnInit {
   public browserRefresh: boolean;
   streamCreateForm: FormGroup;
   JRSS:any = [];
-  userName: String = "admin";t
+  userName: String = "admin";
   account: any;
+  accessLevel:any;
   submitted = false;
   jrssDocId: String = "";
   currentJrssArray:any = [];
@@ -54,6 +55,7 @@ export class StreamCreateComponent implements OnInit {
     if (!this.browserRefresh) {
         this.userName = this.router.getCurrentNavigation().extras.state.username;
         this.account = this.router.getCurrentNavigation().extras.state.account;
+        this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
     }
     route.queryParams.subscribe(
       params => this.config.currentPage= params['page']?params['page']:1 );
@@ -113,7 +115,7 @@ onSelectionChange(jrssId,jrssName) {
     if (this.jrssId == undefined) {
       alert("Please select the technology stream record");
     } else {
-      this.router.navigate(['/delete-stream/', this.jrssId], {state: {username:this.userName,account:this.account}});
+      this.router.navigate(['/delete-stream/', this.jrssId], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}});
     }
  }
 pageChange(newPage: number) {
@@ -173,7 +175,7 @@ pageChange(newPage: number) {
           console.log('Technology stream updated successfully!');
           alert('Technology Stream added successfully');
           this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
-              this.router.navigate(['/stream-create'], {state: {username:this.userName,account:this.account}}));
+              this.router.navigate(['/stream-create'], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
           }, (error) => {
           console.log(error);
         })

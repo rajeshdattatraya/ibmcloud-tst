@@ -21,6 +21,7 @@ export class QuestionEditComponent implements OnInit {
   uploadFile: String = "Please select a file";
   userName: String = "admin";
   account:any;
+  accessLevel:any;
   JRSS:any = [];
   technologyStream:any = [];
   QuestionTypes:any = ['SingleSelect','MultiSelect'];
@@ -38,6 +39,7 @@ export class QuestionEditComponent implements OnInit {
       if (!this.browserRefresh) {
           this.userName = this.router.getCurrentNavigation().extras.state.username;
           this.account = this.router.getCurrentNavigation().extras.state.account;
+          this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
       }
       this.readTechStream();
       this.mainForm();
@@ -152,7 +154,7 @@ export class QuestionEditComponent implements OnInit {
     }
 
     cancelForm(){
-      this.ngZone.run(() => this.router.navigateByUrl('/view-questionbank',{state:{username:this.userName,account:this.account}}));
+      this.ngZone.run(() => this.router.navigateByUrl('/view-questionbank',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
     }
 
 
@@ -225,7 +227,7 @@ export class QuestionEditComponent implements OnInit {
                return false;
              }
 
-              //this.ngZone.run(() => this.router.navigateByUrl('/manage-questionbank',{state:{username:this.userName,account:this.account}}))
+              //this.ngZone.run(() => this.router.navigateByUrl('/manage-questionbank',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
             }, (error) => {
               console.log(error);
             }); */
@@ -236,7 +238,7 @@ export class QuestionEditComponent implements OnInit {
                   //console.log('Question successfully updated!');
                   this.formReset = true;
                   this.editquestionForm.reset();
-                  this.ngZone.run(() => this.router.navigateByUrl('/view-questionbank',{state:{username:this.userName,account:this.account}}));
+                  this.ngZone.run(() => this.router.navigateByUrl('/view-questionbank',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
                   //this.ngZone.run(() => this.router.navigateByUrl('/edit-question/5f35440c307bc06254cd782f',{state:{username:this.userName,account:this.account}}))
                  //this.ngZone.run(() => this.router.navigateByUrl('/login-component',{state:{username:this.userName,account:this.account}}))
 

@@ -44,6 +44,9 @@ export class OpenpositionsListComponent implements OnInit {
             this.userName = this.router.getCurrentNavigation().extras.state.username;
             this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
             this.account = this.router.getCurrentNavigation().extras.state.account;
+            console.log("this.accesslevel",this.accessLevel);
+            console.log("this.userName",this.userName);
+            console.log("this.account",this.account);
         }
     }
 

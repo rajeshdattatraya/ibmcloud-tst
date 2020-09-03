@@ -22,6 +22,7 @@ export class UserEditComponent implements OnInit {
   quizNumber: number;
   userName: String = "admin";
   account: any;
+  accessLevel:any;
   password: String = "";
   currDate: Date ;
   technologyStream:any= [];
@@ -56,6 +57,7 @@ export class UserEditComponent implements OnInit {
     if (!this.browserRefresh) {
         this.userName = this.router.getCurrentNavigation().extras.state.username;
         this.account = this.router.getCurrentNavigation().extras.state.account;
+        this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
     }
     this.readUserrole();    
     this.getAllSpecialUsers();
@@ -163,7 +165,7 @@ getUser(id) {
 
 //Cancel
 cancelForm(){
-  this.ngZone.run(() => this.router.navigateByUrl('/adminuser-create',{state:{username:this.userName,account:this.account}}));   
+  this.ngZone.run(() => this.router.navigateByUrl('/adminuser-create',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
 }
 
 onSubmit() {
@@ -200,7 +202,7 @@ onSubmit() {
                         console.log('User successfully updated!')
                         alert('User successfully updated!');
                         this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
-                        this.router.navigate(['/adminuser-create'],{state:{username:this.userName,account:this.account}}));
+                        this.router.navigate(['/adminuser-create'],{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
                      }, (error) => {
                         console.log(error);
                      });

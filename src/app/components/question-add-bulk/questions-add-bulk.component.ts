@@ -18,6 +18,7 @@ export class QuestionsAddBulkComponent implements OnInit {
   questionForm: FormGroup;
   userName: String = "admin";
   account: any;
+  accessLevel:any;
   JRSS:any = [];
   technologyStream:any = [];
   QuestionTypes:any = ['SingleSelect','MultiSelect'];
@@ -37,6 +38,7 @@ export class QuestionsAddBulkComponent implements OnInit {
     if (!this.browserRefresh) {
         this.userName = this.router.getCurrentNavigation().extras.state.username;
         this.account = this.router.getCurrentNavigation().extras.state.account;
+        this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
     }
       this.readTechStream();
       this.mainForm();
@@ -340,7 +342,7 @@ export class QuestionsAddBulkComponent implements OnInit {
   }
 
   cancelForm(){
-    this.ngZone.run(() => this.router.navigateByUrl('/view-questionbank',{state:{username:this.userName,account:this.account}}));
+    this.ngZone.run(() => this.router.navigateByUrl('/view-questionbank',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
   }
 }
 

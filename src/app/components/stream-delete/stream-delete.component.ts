@@ -21,6 +21,7 @@ export class StreamDeleteComponent implements OnInit {
   JRSS:any = [];
   userName: String = "admin";
   account: any;
+  accessLevel: any;
   submitted = false;
   techStreamArray:any = [];
   technologyStream:any= [];
@@ -51,6 +52,7 @@ export class StreamDeleteComponent implements OnInit {
     if (!this.browserRefresh) {
         this.userName = this.router.getCurrentNavigation().extras.state.username;
         this.account = this.router.getCurrentNavigation().extras.state.account;
+        this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
     }
     actRoute.queryParams.subscribe(
       params => this.config.currentPage= params['page']?params['page']:1 );
@@ -178,7 +180,7 @@ pageChange(newPage: number) {
 
 //Cancel
 cancelForm(){
-  this.ngZone.run(() => this.router.navigateByUrl('/stream-create',{state: {username:this.userName,account:this.account}}))
+  this.ngZone.run(() => this.router.navigateByUrl('/stream-create',{state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
 }
 
 readJrssDocId(){
@@ -201,7 +203,7 @@ onSubmit() {
         console.log('Technology Stream deleted successfully!');
         alert('Technology Stream deleted successfully!');
         this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
-             this.router.navigate(['/delete-stream/',this.jrssId], {state: {username:this.userName,account:this.account}}));
+             this.router.navigate(['/delete-stream/',this.jrssId], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
         }, (error) => {
         console.log(error);
         })

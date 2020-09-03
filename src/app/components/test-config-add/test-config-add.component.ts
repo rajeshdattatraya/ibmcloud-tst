@@ -28,6 +28,7 @@ export class TestConfigAddComponent implements OnInit {
   TestConfigDetails:any = [];
   userName: String = "admin";
   account: any;
+  accessLevel:any;
   testConfigID: String = "";
   formReset = false;
   dataSource = new MatTableDataSource<TestConfig>();
@@ -48,6 +49,7 @@ export class TestConfigAddComponent implements OnInit {
       if (!this.browserRefresh) {
           this.userName = this.router.getCurrentNavigation().extras.state.username;
           this.account = this.router.getCurrentNavigation().extras.state.account;
+          this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
       }
       this.mainForm();
       this.readJrss();
@@ -93,7 +95,7 @@ export class TestConfigAddComponent implements OnInit {
       if (this.testConfigID == "") {
         alert("Please select the test configuration record");
       } else {
-        this.router.navigate(['/testconfig-edit/', this.testConfigID], {state: {username:this.userName,account:this.account}});
+        this.router.navigate(['/testconfig-edit/', this.testConfigID], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}});
       }
     }
 
@@ -132,7 +134,7 @@ export class TestConfigAddComponent implements OnInit {
                   this.testconfigService.updateTestConfig(id, testConfig)
                      .subscribe(res => {
                        this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
-                       this.router.navigate(['/testconfig-add'], {state: {username:this.userName,account:this.account}}));
+                       this.router.navigate(['/testconfig-add'], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
                        console.log('Content updated successfully!')
                      }, (error) => {
                        console.log(error)
@@ -142,7 +144,7 @@ export class TestConfigAddComponent implements OnInit {
                      (res) => {
                       console.log('Test Config successfully saved!')
                       this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
-                      this.router.navigate(['/testconfig-add'], {state: {username:this.userName,account:this.account}}));
+                      this.router.navigate(['/testconfig-add'], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
                      }, (error) => {
                        console.log(error);
                   });

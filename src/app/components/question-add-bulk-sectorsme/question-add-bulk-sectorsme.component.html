@@ -1,17 +1,4 @@
-<mat-toolbar>
-  <mat-toolbar-row>
-    <a  mat-button class="matButtonSmallSpace"  routerLink="/technical-interview-list" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active">Technical Interview</a>
-    <a  mat-button  class="matButtonSmallSpace" [matMenuTriggerFor]="questionssector" routerLink="/manage-questionbank-sectorsme" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Manage Questions</a>
-    <mat-menu #questionssector="matMenu">
-      <a class="dropdown-item" routerLink="/manage-questionbank-sectorsme" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active">Add Question</a>
-      <a class="dropdown-item" routerLink="/manage-questionbank-bulk-sectorsme" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active">Add Bulk Question</a>
-      <a class="dropdown-item" routerLink="/view-questionbank" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active">View Question</a>
-    </mat-menu>
-    <span class="flexExpand">
-    <a  mat-button  routerLink="/login-component" routerLinkActive="active">Logout</a>
-    </span>
-  </mat-toolbar-row>
-</mat-toolbar>
+<app-navigation></app-navigation>
   <br/>
   <div>
     <h4 class="my-0 mr-md-auto font-weight-normal">Add Bulk Questions</h4>

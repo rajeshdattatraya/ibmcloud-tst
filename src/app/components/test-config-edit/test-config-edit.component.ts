@@ -27,6 +27,7 @@ export class TestConfigEditComponent implements OnInit {
   TestConfigs:any = [];
   userName: String = "admin";
   account: any;
+  accessLevel:any;
   oldJRSS: String = "";
   testConfigID: String = "";
 
@@ -48,6 +49,7 @@ export class TestConfigEditComponent implements OnInit {
       if (!this.browserRefresh) {
           this.userName = this.router.getCurrentNavigation().extras.state.username;
           this.account = this.router.getCurrentNavigation().extras.state.account;
+          this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
       }
       this.getAllJRSS();
       let id = this.actRoute.snapshot.paramMap.get('id');
@@ -91,7 +93,7 @@ export class TestConfigEditComponent implements OnInit {
       if (this.testConfigID == "") {
         alert("Please select the test configuration record")
       } else {
-        this.router.navigate(['/testconfig-edit/', this.testConfigID], {state: {username:this.userName,account:this.account}});
+        this.router.navigate(['/testconfig-edit/', this.testConfigID], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}});
       }
     }
 
@@ -138,7 +140,7 @@ export class TestConfigEditComponent implements OnInit {
 
     //Cancel
     cancelForm(){
-      this.ngZone.run(() => this.router.navigateByUrl('/testconfig-add', {state: {username:this.userName,account:this.account}}))
+      this.ngZone.run(() => this.router.navigateByUrl('/testconfig-add', {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
     }
 
     onSubmit() {
@@ -158,7 +160,7 @@ export class TestConfigEditComponent implements OnInit {
               this.testconfigService.updateTestConfig(id, testConfig)
                   .subscribe(res => {
                     this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
-                    this.router.navigate(['/testconfig-add'], {state: {username:this.userName,account:this.account}}));
+                    this.router.navigate(['/testconfig-add'], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
                     console.log('Content updated successfully!')
                   }, (error) => {
                     console.log(error)

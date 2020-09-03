@@ -59,6 +59,7 @@ export class CandidateCreateComponent implements OnInit {
   Account:any = [];
   AccountArray:any=[];
   account;
+  accessLevel;
   grossProfit: any;
   gpCount: number = 0;
   gp:any;
@@ -71,6 +72,7 @@ export class CandidateCreateComponent implements OnInit {
       if (!this.browserRefresh) {
         this.userName = this.router.getCurrentNavigation().extras.state.username;
         this.account = this.router.getCurrentNavigation().extras.state.account;
+        this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
       }
       this.password = appConfig.defaultPassword;
       this.quizNumber = 1;
@@ -374,7 +376,7 @@ export class CandidateCreateComponent implements OnInit {
                  });
                 this.apiService.createCandidate(candidate).subscribe((res) => {
                     console.log('Candidate successfully created!')
-                    this.ngZone.run(() => this.router.navigateByUrl('/candidates-list',{state:{username:this.userName,account:this.account}}))
+                    this.ngZone.run(() => this.router.navigateByUrl('/candidates-list',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
                 }, (error) => {
                     console.log(error);
                 })
@@ -588,7 +590,7 @@ export class CandidateCreateComponent implements OnInit {
 
      //Cancel
      cancelForm(){
-       this.ngZone.run(() => this.router.navigateByUrl('/candidates-list',{state:{username:this.userName,account:this.account}}))
+       this.ngZone.run(() => this.router.navigateByUrl('/candidates-list',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
      }
 
 }

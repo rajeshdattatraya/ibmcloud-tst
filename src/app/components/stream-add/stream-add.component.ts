@@ -20,6 +20,7 @@ export class StreamAddComponent implements OnInit {
   techStreamArray:any = [];
   userName: String = "admin";
   account: any;
+  accessLevel:any;
 
   constructor(
     public fb: FormBuilder,
@@ -29,8 +30,9 @@ export class StreamAddComponent implements OnInit {
   ) {
     this.browserRefresh = browserRefresh;
     if (!this.browserRefresh) {
-        //this.userName = this.router.getCurrentNavigation().extras.state.username;
-        //this.account = this.router.getCurrentNavigation().extras.state.account;
+        this.userName = this.router.getCurrentNavigation().extras.state.username;
+        this.account = this.router.getCurrentNavigation().extras.state.account;
+        this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
     }
     this.readTechStream();
     this.mainForm();
@@ -42,7 +44,7 @@ ngOnInit() {
 
 //Cancel
 cancelForm(){
-  this.ngZone.run(() => this.router.navigateByUrl('/stream-create',{state: {username:this.userName,account:this.account}}))
+  this.ngZone.run(() => this.router.navigateByUrl('/stream-create',{state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
 }
 
 // Read data from techStream table
@@ -97,7 +99,7 @@ onSubmit() {
             console.log('New Technology Stream added successfully!');
             alert('New Technology Stream added successfully!');
             this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
-            this.router.navigate(['/stream-create'], {state: {username:this.userName,account:this.account}}));
+            this.router.navigate(['/stream-create'], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
         }, (error) => {
             console.log(error);
       });

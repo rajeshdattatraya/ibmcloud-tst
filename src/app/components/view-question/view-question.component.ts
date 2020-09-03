@@ -97,7 +97,7 @@ invokeEdit(){
     alert("Please select the Question");
     }else{
     this.isRowSelected = false;
-    this.router.navigate(['/question-edit/',this.questionID], {state: {username:this.userName,account:this.account}});
+    this.router.navigate(['/question-edit/',this.questionID], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}});
     }
 
 }

@@ -25,6 +25,7 @@ export class JrssCreateComponent implements OnInit {
   Jrss:any = [];
   userName: String = "admin";
   account: any;
+  accessLevel:any;
   config: any;
 
   loading = true;
@@ -45,6 +46,7 @@ export class JrssCreateComponent implements OnInit {
       if (!this.browserRefresh) {
           this.userName = this.router.getCurrentNavigation().extras.state.username;
           this.account = this.router.getCurrentNavigation().extras.state.account;
+          this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
       }
       this.mainForm();
     }
@@ -142,7 +144,7 @@ export class JrssCreateComponent implements OnInit {
             (res) => {
               console.log('JRSS successfully saved!')
              this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
-             this.router.navigate(['/jrss-create'], {state: {username:this.userName,account:this.account}}));
+             this.router.navigate(['/jrss-create'], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
             }, (error) => {
               console.log(error);
             });

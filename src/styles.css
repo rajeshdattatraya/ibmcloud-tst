@@ -131,6 +131,11 @@ opacity: 1 !important;
   width:100%;
 }
 
+.flexRight {
+  flex: 1 1 auto;
+  text-align:right;
+}
+
 .gray {
  background-color: #f5f5f5
 }

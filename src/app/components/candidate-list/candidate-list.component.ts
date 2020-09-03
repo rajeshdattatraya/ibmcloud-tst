@@ -31,6 +31,7 @@ export class CandidateListComponent implements OnInit {
   index;
   isRowSelected = false;
   account: any;
+  accessLevel:any;
   displayContractorUIFields: Boolean = false;
   displayRegularUIFields: Boolean = true;
 
@@ -53,6 +54,7 @@ export class CandidateListComponent implements OnInit {
     if (!this.browserRefresh) {
         this.userName = this.router.getCurrentNavigation().extras.state.username;
         this.account = this.router.getCurrentNavigation().extras.state.account;
+        this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
     }
 
   }
@@ -113,7 +115,7 @@ export class CandidateListComponent implements OnInit {
     if (this.isRowSelected == false){
       alert("Please select the user");
       }else{
-      this.router.navigate(['/edit-candidate/', this.candidateId, this.candidateUsersId], {state: {username:this.userName,account:this.account}});
+      this.router.navigate(['/edit-candidate/', this.candidateId, this.candidateUsersId], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}});
       }
     } 
 	

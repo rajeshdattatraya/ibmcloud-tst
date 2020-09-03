@@ -29,6 +29,7 @@ export class AdminuserCreateComponent implements OnInit {
   quizNumber: number;
   userName: String = "admin";
   account: any;
+  accessLevel:any;
   password: String = "";
   currDate: Date ;
   technologyStream:any= [];
@@ -59,6 +60,7 @@ export class AdminuserCreateComponent implements OnInit {
     if (!this.browserRefresh) {
         this.userName = this.router.getCurrentNavigation().extras.state.username;
         this.account = this.router.getCurrentNavigation().extras.state.account;
+        this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
     }
     this.password = appConfig.defaultPassword;
     this.quizNumber = 1;
@@ -172,7 +174,7 @@ export class AdminuserCreateComponent implements OnInit {
     if(this.isRowSelected == false){
       alert("Please select the user");
       }else{
-      this.router.navigate(['/edit-user/', this.docid],{state:{username:this.userName,account:this.account}});
+      this.router.navigate(['/edit-user/', this.docid],{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}});
       }
     }
 
@@ -221,7 +223,7 @@ export class AdminuserCreateComponent implements OnInit {
                           console.log('User successfully created!')
                           alert('User successfully created!');
                           this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
-                          this.router.navigate(['/adminuser-create'],{state:{username:this.userName,account:this.account}}));
+                          this.router.navigate(['/adminuser-create'],{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
                        }, (error) => {
                           console.log(error);
                        });
