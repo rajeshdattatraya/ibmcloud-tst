@@ -39,7 +39,7 @@ export class QuestionEditComponent implements OnInit {
           this.userName = this.router.getCurrentNavigation().extras.state.username;
           this.account = this.router.getCurrentNavigation().extras.state.account;
       }
-      this.readJRSS();
+      this.readTechStream();
       this.mainForm();
   }
 
@@ -72,6 +72,7 @@ export class QuestionEditComponent implements OnInit {
         option4checkbox:(res['answerID'] as string).includes('4') ? true :false,
         answerID:[],
         questionID:res['questionID'],
+        account:res['account']
       });
       if(!isNaN(res.questionID))    {
       this.questionID=res.questionID;}
@@ -99,6 +100,7 @@ export class QuestionEditComponent implements OnInit {
         option4checkbox:[],
         answerID:[],
         questionID:[],
+        account:[]
 
 
       })
@@ -126,19 +128,12 @@ export class QuestionEditComponent implements OnInit {
 
 
     // Get all Technology streams of all JRSS
-    readJRSS(){
-       this.apiService.getJRSS().subscribe((data) => {
-       this.JRSS = data;
-       this.technologyStream = [];
-     for (var jrss of this.JRSS){
-        for (var skill of jrss.technologyStream){
-          this.technologyStream.push(skill);
-        }
-      }
-           //console.log("Technical Stream getjrss: "+ JSON.stringify(this.technologyStream));
-    })
-
-    }
+    readTechStream(){
+       this.apiService.getTechStream().subscribe((data) => {
+           this.technologyStream = data;
+       });
+       console.log("Master technologyStream: "+ JSON.stringify(this.technologyStream));
+     }
 
     // Choose QuestionType with select dropdown
     updateQuestionTypes(e){
@@ -217,6 +212,7 @@ export class QuestionEditComponent implements OnInit {
               }
               this.questionID++;
               this.editquestionForm.value.questionID=this.questionID;
+              this.editquestionForm.value.account=this.account;
 
          /*  this.apiService.updateQuestion(this.question_id,this.editquestionForm.value).subscribe(
             (res) => {

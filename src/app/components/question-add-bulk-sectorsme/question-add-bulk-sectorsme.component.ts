@@ -39,7 +39,7 @@ export class QuestionAddBulkSectorsmeComponent implements OnInit {
                   private router: Router,
                   private ngZone: NgZone,
                   private apiService: ApiService) { 
-                    this.readJRSS();this.mainForm();
+                    this.readTechStream();this.mainForm();
                     this.readAccount();
                     this.browserRefresh = browserRefresh;
                     if (!this.browserRefresh){
@@ -115,19 +115,13 @@ export class QuestionAddBulkSectorsmeComponent implements OnInit {
       }
 
 
-    // Get all Bands
-    readJRSS(){
-      this.apiService.getJRSS().subscribe((data) => {
-        this.JRSS = data;
-        this.technologyStream = [];
-      for (var jrss of this.JRSS){
-         for (var skill of jrss.technologyStream){
-           this.technologyStream.push(skill);
-         }
-       }
-     })
-   
-    }
+    // Get all Tech Streams
+    readTechStream(){
+       this.apiService.getTechStream().subscribe((data) => {
+           this.technologyStream = data;
+       });
+       console.log("Master technologyStream: "+ JSON.stringify(this.technologyStream));
+     }
 
       // Get all Acconts
   readAccount(){

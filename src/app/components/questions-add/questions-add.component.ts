@@ -37,7 +37,7 @@ export class QuestionsAddComponent implements OnInit {
           this.userName = this.router.getCurrentNavigation().extras.state.username;
           this.account = this.router.getCurrentNavigation().extras.state.account;
       }
-      this.readJRSS();
+      this.readTechStream();
       this.mainForm();
   }
 
@@ -68,6 +68,7 @@ export class QuestionsAddComponent implements OnInit {
         option4checkbox:[],
         answerID:[],
         questionID:[],
+        account: []
         
        
       })
@@ -95,19 +96,12 @@ export class QuestionsAddComponent implements OnInit {
 
 
     // Get all Technology streams of all JRSS
-    readJRSS(){
-       this.apiService.getJRSS().subscribe((data) => {
-       this.JRSS = data;
-       this.technologyStream = [];
-     for (var jrss of this.JRSS){
-        for (var skill of jrss.technologyStream){
-          this.technologyStream.push(skill);
-        }
-      }
-           console.log("Technical Stream getjrss: "+ JSON.stringify(this.technologyStream));
-    })
-  
-    }
+    readTechStream(){
+       this.apiService.getTechStream().subscribe((data) => {
+           this.technologyStream = data;
+       });
+       console.log("Master technologyStream: "+ JSON.stringify(this.technologyStream));
+     }
   
     // Choose QuestionType with select dropdown
     updateQuestionTypes(e){
@@ -181,6 +175,7 @@ export class QuestionsAddComponent implements OnInit {
               }       
               this.questionID++;                
               this.questionForm.value.questionID=this.questionID;
+              this.questionForm.value.account=this.account;
               
           this.apiService.createQuestion(this.questionForm.value).subscribe(
             (res) => {

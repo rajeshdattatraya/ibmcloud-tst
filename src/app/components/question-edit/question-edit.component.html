@@ -50,7 +50,7 @@
               <mat-select placeholder="Technology Stream"  (change)="updateTechnologyStream($event.target.value)"
                           formControlName="technologyStream" required id="inputTechnologyStream" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.technologyStream.errors }" >
                 <mat-option value="">Choose...</mat-option>
-                <mat-option *ngFor="let data of technologyStream" value="{{data.value}}">{{data.value}}</mat-option>
+                <mat-option *ngFor="let data of technologyStream" value="{{data.technologyStream}}">{{data.technologyStream}}</mat-option>
               </mat-select>
               <div *ngIf="!formReset && submitted && myForm.technologyStream.errors" class="invalid-feedback" >
                 <div *ngIf="myForm.technologyStream.errors.required">Technology Stream is required</div>

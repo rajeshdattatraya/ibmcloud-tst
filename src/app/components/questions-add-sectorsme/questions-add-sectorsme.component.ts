@@ -39,7 +39,7 @@ export class QuestionsAddSectorsmeComponent implements OnInit {
                   private router: Router,
                   private ngZone: NgZone,
                   private apiService: ApiService) { 
-                    this.readJRSS();this.mainForm();
+                    this.readTechStream();this.mainForm();
                     this.readAccount();
                     this.browserRefresh = browserRefresh;
                     if (!this.browserRefresh){
@@ -109,18 +109,11 @@ export class QuestionsAddSectorsmeComponent implements OnInit {
   }
 
     // Get all Technology streams of all JRSS
-    readJRSS(){
-       this.apiService.getJRSS().subscribe((data) => {
-       this.JRSS = data;
-       this.technologyStream = [];
-     for (var jrss of this.JRSS){
-        for (var skill of jrss.technologyStream){
-          this.technologyStream.push(skill);
-        }
-      }
-           console.log("Technical Stream getjrss: "+ JSON.stringify(this.technologyStream));
-    })
-  
+    readTechStream(){
+       this.apiService.getTechStream().subscribe((data) => {
+           this.technologyStream = data;
+       });
+       console.log("Master technologyStream: "+ JSON.stringify(this.technologyStream));
     }
   
     // Choose QuestionType with select dropdown
