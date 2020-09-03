@@ -8,7 +8,6 @@ import { appConfig } from './../../model/appConfig';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator'
 import {MatSort} from '@angular/material/sort';
-
 @Component({
   selector: 'app-stream-create',
   templateUrl: './stream-create.component.html',
@@ -37,10 +36,8 @@ export class StreamCreateComponent implements OnInit {
   displayedColumns = ['Action','jrss', 'technologyStream'];
   formReset = false;
   questionsmappedtotechstream = false;
-
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-
   constructor(
     public fb: FormBuilder,
     private router: Router,
@@ -60,12 +57,10 @@ export class StreamCreateComponent implements OnInit {
     }
     route.queryParams.subscribe(
       params => this.config.currentPage= params['page']?params['page']:1 );
-
     this.mainForm();
     this.readJrss();
     this.readTechStream();
   }
-
   ngOnInit(): void {
     this.browserRefresh = browserRefresh;
     this.dataSource.sortingDataAccessor = (item, property) => {
@@ -87,7 +82,6 @@ export class StreamCreateComponent implements OnInit {
       existingTechnologyStream: ['']
     })
   }
-  
    // Get all Jrss
    readJrss(){
     this.apiService.getJRSS().subscribe((data) => {
@@ -105,19 +99,16 @@ export class StreamCreateComponent implements OnInit {
     }  
     });        
   }
-
   // Get all TechStream
   readTechStream(){
     this.apiService.getTechStream().subscribe((data) => {
     this.techStreamCollection = data;    
     });        
   }
-
 onSelectionChange(jrssId,jrssName) {
   this.jrssId = jrssId;
   this.jrssName = jrssName;   
 }
-
  deleteTechStream() {
     if (this.jrssId == undefined) {
       alert("Please select the technology stream record");
@@ -125,7 +116,6 @@ onSelectionChange(jrssId,jrssName) {
       this.router.navigate(['/delete-stream/', this.jrssId], {state: {username:this.userName,account:this.account}});
     }
  }
-
 pageChange(newPage: number) {
   this.router.navigate(['/stream-create'], { queryParams: { page: newPage } });
 }
@@ -144,19 +134,16 @@ pageChange(newPage: number) {
       }
     }    
   }
-
    // Choose designation with select dropdown 
    updateStreamProfile(e){
     this.streamCreateForm.get('technologyStream').setValue(e, {
       onlySelf: true
     })
   }
-
   // Getter to access form control
   get myForm(){
     return this.streamCreateForm.controls;
   }
-
   readJrssDocId(){
     for (var jrss of this.JRSS){
       if(jrss.jrss == this.streamCreateForm.value.JRSS){
@@ -167,63 +154,51 @@ pageChange(newPage: number) {
             this.duplicateTechStream = true;
           }
         }
-        
       }
     }
   }
-
   checkforquestions(){
     this.apiService.checkForQuestions(this.streamCreateForm.value.technologyStream).subscribe(res => {
       console.log('Technology stream has questions as the count is '+res.count);   
       if(res.count==0)  
       {
         this.questionsmappedtotechstream = false;
-        console.log("The value is "+!this.questionsmappedtotechstream);
+        alert('The technology stream '+this.streamCreateForm.value.technologyStream+' should have atleast one question mapped to it before being mapped to a job rule!');
       }
       else if(res.count>0)
       {
         this.questionsmappedtotechstream = true;
-        console.log("The value is "+!this.questionsmappedtotechstream);
+        this.currentJrssArray.technologyStream.push({key:this.streamCreateForm.value.technologyStream, value:this.streamCreateForm.value.technologyStream});
+        this.apiService.updateTechStream(this.jrssDocId, JSON.stringify(this.currentJrssArray)).subscribe(res => {
+          console.log('Technology stream updated successfully!');
+          alert('Technology Stream added successfully');
+          this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
+              this.router.navigate(['/stream-create'], {state: {username:this.userName,account:this.account}}));
+          }, (error) => {
+          console.log(error);
+        })
       }
        }, (error) => {
       console.log(error);
       })
-
-
   }
-
   onSubmit() {
     this.submitted = true;
     this.formReset = false;
     this.duplicateTechStream = false;
     this.readJrssDocId();
-    //this.checkforquestions();
+    this.checkforquestions();
     if (!this.streamCreateForm.valid) {
-      console.log('here101');
+     
       return false;
     } else if(this.duplicateTechStream){
-      console.log('here102');
+      
       this.error = 'This entry is already existing';
-    } else if(!this.questionsmappedtotechstream)
-    {  console.log('here103');
-      alert('The technology stream '+this.streamCreateForm.value.technologyStream+' should have atleast one question mapped to it before being mapped to a job rule!');
-    }    
-    else{      
-      console.log('here104');
-      this.currentJrssArray.technologyStream.push({key:this.streamCreateForm.value.technologyStream, value:this.streamCreateForm.value.technologyStream});
-      this.apiService.updateTechStream(this.jrssDocId, JSON.stringify(this.currentJrssArray)).subscribe(res => {
-        console.log('Technology stream updated successfully!');
-        alert('Technology Stream added successfully');
-        this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
-             this.router.navigate(['/stream-create'], {state: {username:this.userName,account:this.account}}));
-        }, (error) => {
-        console.log(error);
-        })
-      }
+    } 
+    
   }
   clearForm() {
     this.formReset = true;
     this.streamCreateForm.reset();
   }
-
 }
