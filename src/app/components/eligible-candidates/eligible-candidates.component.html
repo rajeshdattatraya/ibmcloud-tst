@@ -33,18 +33,18 @@
   </div>
 <br>
 
-<div>
+<div matSort class="mat-elevation-z8">
     <h4 class="my-0 mr-md-auto font-weight-normal" >List of eligible candidates for the job role - {{jrss}}</h4>
     <br/>
 
-  </div>
+  
     <!-- No data found message -->
     <p *ngIf="Result.length <= 0" class="no-data text-center">There are no records in Project Assignment Queue</p>
 
 
           
     <!-- Operations candidate list -->
-    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" >
 
       <ng-container matColumnDef="Action">
         <th mat-header-cell *matHeaderCellDef> Select </th>
@@ -99,11 +99,14 @@
   <div *ngIf="Result.length > 0">
     <mat-paginator [length]="Result.length" [pageSize]="5" [pageSizeOptions]="[5,10,15,25,50,100]" showFirstLastButtons></mat-paginator>
   </div>
+  
+</div>
+<br/>
   <div  class="float-right text-right" *ngIf="Result.length > 0">
-    <br/>
     <span (click)="assignProject()">
-       <button type="button" style="background-color:#0043CE;" class="btn btn-success btn-sm">Assign Project</button>&nbsp;
+       <button type="button" mat-raised-button color="primary">Assign Project</button>&nbsp;
     </span>
+    <br/>
   </div>
 
   <!-- Modal Code starts. -->
@@ -112,18 +115,22 @@
   <!-- Modal content-->
    <div class="modal-content">
     <!-- <div *ngIf="assessmentDetails.quizNumber == this.quizNumber"> -->
-    <div class="modal-header table-success" style="background-color:powderblue">
+      <div class="modal-header table-success" style="background-color:#f5f5f5;color:black">
       <h4 class="modal-title">Candidate Assessment Details</h4>
       <button type="button" class="close" data-dismiss="modal">&times;</button>
     </div>
+
+    <mat-card>
+      <mat-card-content>
     <div class="modal-body" *ngIf="mode=='displayAssessmentModalBody'">
-      <table style="table-layout: fixed; width: 100%">
+     
+      <table>
         <thead>
         <tr>
-          <td scope="col" width="10%">{{this.userName}}'s answers</td>
-          <td scope="col" width="10%">Attempt No : {{this.quizNumber}}</td>
-          <td scope="col" width="10%"> Date : {{ this.assesmentDate.substring(0,10) }}</td>
-          <td scope="col" width="10%"> Score : {{ this.userScore }}%</td>
+          <td scope="col" width="10%"><b>{{this.userName}}'s answers</b></td>
+          <td scope="col" width="10%"><b>Attempt No : </b>{{this.quizNumber}}</td>
+          <td scope="col" width="10%"><b> Date : </b>{{ this.assesmentDate.substring(0,10) }}</td>
+          <td scope="col" width="10%"><b> Score : </b>{{ this.userScore }}%</td>
         </tr>
         </thead>
         <tbody>
@@ -137,7 +144,7 @@
     </div>
     <div *ngFor="let answer of this.candidateAssessmentDetails.results;let i=index">
       <div *ngFor="let questions of answer.userAttemptedQs" >
-        <table  style="table-layout: fixed; width: 100%">
+        <table  >
           <tbody>
             <tr>
               <td width="2%">
@@ -155,15 +162,18 @@
               <td>{{k+1}}){{questionOption.option}} </td>
             </tr>
             <tr><td  width="2%"></td>
-              <td style="color:black"><pre>Candidate Answer: {{answer.userAnswerID}}    Correct Answer:  {{questions.answerID}}
+              <td style="color:black"><pre><b>Candidate Answer: </b>{{answer.userAnswerID}}   <b> Correct Answer:</b>  {{questions.answerID}}
                 </pre> </td></tr>
             <tr></tr>
             </tbody>
         </table>
       </div>
     </div>
-    <div class="modal-footer table-success" style="background-color:powderblue">
-      <button type="button" style="background-color:#0043CE;" class="btn btn-primary" data-dismiss="modal">Close</button>
+
+  </mat-card-content>
+</mat-card>
+      <div class="modal-footer table-success" style="background-color:#f5f5f5;color:black">
+      <button type="button" mat-raised-button color="primary"  data-dismiss="modal">Close</button>
     <!-- </div> -->
   </div>
   </div>
@@ -178,56 +188,61 @@
 
   <!-- Modal content-->
   <div class="modal-content" >
-    <div class="modal-header table-success" style="background-color:powderblue">
+    <div class="modal-header table-success" style="background-color:#f5f5f5;color:black">
       <h4 class="modal-title">View Candidate Details</h4>
       <button type="button"  class="close" data-dismiss="modal">&times;</button>
     </div>
+    <mat-card>
+      <mat-card-content>
     <div class="modal-body" *ngIf="mode=='displayModalBody'">
-      <table>
+      <table class="mat-elevation-z8">
         <tr>
-          <td><label class="col-sm-8 col-form-label">Name:</label></td>
+          <td><label class="col-sm-8 col-form-label"><b>Name:</b></label></td>
           <td>&nbsp;{{this.candidateDetails[0].employeeName}}</td>
         </tr>
         <tr>
-          <td><label class="col-sm-8 col-form-label">Email:</label></td>
+          <td><label class="col-sm-8 col-form-label"><b>Email:</b></label></td>
           <td>&nbsp;{{this.candidateDetails[0].email}}</td>
         </tr>
         <tr *ngIf="displayRegularUIFields">
-          <td><label class="col-sm-10 col-form-label">Band:</label></td>
+          <td><label class="col-sm-10 col-form-label"><b>Band:</b></label></td>
           <td>&nbsp;{{this.candidateDetails[0].band}}</td>
         </tr>
         <tr>
-          <td><label class="col-sm-10 col-form-label">Job Role:</label></td>
+          <td><label class="col-sm-10 col-form-label"><b>Job Role:</b></label></td>
           <td>&nbsp;{{this.candidateDetails[0].JRSS}}</td>
         </tr>
         <tr>
-          <td><label class="col-sm-10 col-form-label">Technology Stream:</label></td>
+          <td><label class="col-sm-10 col-form-label"><b>Technology Stream:</b></label></td>
           <td>&nbsp;{{this.candidateDetails[0].technologyStream}}</td>
         </tr>
         <tr>
-          <td><label class="col-sm-10 col-form-label">Phone Number:</label></td>
+          <td><label class="col-sm-10 col-form-label"><b>Phone Number:</b></label></td>
           <td>&nbsp;{{this.candidateDetails[0].phoneNumber}}</td>
         </tr>
         <tr *ngIf="displayRegularUIFields">
-          <td><label class="col-sm-10 col-form-label">Date of Joining:</label></td>
+          <td><label class="col-sm-10 col-form-label"><b>Date of Joining:</b></label></td>
           <td>&nbsp;{{this.candidateDetails[0].dateOfJoining.split('T')[0]}}</td>
         </tr>
         <tr *ngIf="displayContractorUIFields">
-          <td><label class="col-sm-10 col-form-label">Date of Birth:</label></td>
+          <td><label class="col-sm-10 col-form-label"><b>Date of Birth:</b></label></td>
           <td>&nbsp;{{this.candidateDetails[0].dateOfJoining.split('T')[0]}}</td>
         </tr>
         <tr>
-          <td><label class="col-sm-10 col-form-label">Status:</label></td>
+          <td><label class="col-sm-10 col-form-label"><b>Status:</b></label></td>
           <td>&nbsp;{{this.candidateDetails[0].candidate_users[0].status}}</td>
         </tr>
         <tr>
-          <td><label class="col-sm-10 col-form-label">Quiz Attempts:</label></td>
+          <td><label class="col-sm-10 col-form-label"><b>Quiz Attempts:</b></label></td>
           <td>&nbsp;{{this.candidateDetails[0].candidate_users[0].quizNumber}}</td>
         </tr>
       </table>
+   
     </div>
-    <div class="modal-footer table-success" style="background-color:powderblue">
-      <button type="button" style="background-color:#0043CE;"  class="btn btn-primary" data-dismiss="modal">Close</button>
+  </mat-card-content>
+</mat-card>
+    <div class="modal-footer table-success" style="background-color:#f5f5f5;color:black">
+      <button type="button" mat-raised-button color="primary" data-dismiss="modal">Close</button>
     </div>
   </div>
 
