@@ -230,13 +230,14 @@ export class CandidateEditComponent implements OnInit {
       if (data['employeeType'] == 'Regular') {
        this.displayContractorUIFields = false;
        this.displayRegularUIFields = true;
+       this.stream = data['technologyStream'].split(",");
         this.editForm.setValue({
           employeeName: data['employeeName'],
           employeeType: data['employeeType'],
           email: data['email'],
           band: data['band'],
           JRSS: data['JRSS'],
-          technologyStream: data['technologyStream'],
+          technologyStream: this.stream,
           phoneNumber: data['phoneNumber'],
           dateOfJoining : this.datePipe.transform(data['dateOfJoining'], 'yyyy-MM-dd'),
           account: data['account'],
@@ -274,7 +275,7 @@ export class CandidateEditComponent implements OnInit {
           email: data['email'],
           band: '',
           JRSS: data['JRSS'],
-          technologyStream: data['technologyStream'],
+          technologyStream: this.stream,
           phoneNumber: data['phoneNumber'],
           dateOfJoining : this.datePipe.transform(data['dateOfJoining'], 'yyyy-MM-dd'),
           account: data['account'],
@@ -297,7 +298,7 @@ export class CandidateEditComponent implements OnInit {
       }
       this.technologyStream = [];
       // Get technologyStream from JRSS
-      this.stream = this.editForm.value.technologyStream.split(",");
+      //this.stream = this.editForm.value.technologyStream.split(",");
       for (var jrss of this.JRSS){
         if(jrss.jrss == this.editForm.value.JRSS){
           this.technologyStream = [];

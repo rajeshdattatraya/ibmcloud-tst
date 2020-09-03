@@ -143,19 +143,16 @@
             </mat-form-field>
           </td>
           <td>
-            <div class="form-group row">
-              <label for="inputSkill3" class="col-sm-4 col-form-label">Technology Stream</label>
-              <div class="col-sm-6">
-                <select multiple class="custom-select form-control" id="inputSkill3" formControlName="technologyStream"
+            <mat-form-field class="open-full-width">
+                <mat-select multiple placeholder="Technology Stream" id="inputSkill3" formControlName="technologyStream"
                         [ngClass]="{ 'is-invalid': submitted && myForm.technologyStream.errors }">
-                  <option value="" disabled>Choose technology stream</option>
-                  <option *ngFor="let data of technologyStream" selected='{{data.isSelected}}'>{{data.value}}</option>
-                </select>
+                  <mat-option value="" disabled>Choose technology stream</mat-option>
+                  <mat-option *ngFor="let data of technologyStream" [value]="data.value">{{data.value}}</mat-option>
+                </mat-select>
                 <div *ngIf="submitted && myForm.technologyStream.errors" class="invalid-feedback">
                   <div *ngIf="myForm.technologyStream.errors.required">Technology Stream is required</div>
                 </div>
-              </div>
-            </div>
+            </mat-form-field>
           </td>
         </tr>
         <tr>
