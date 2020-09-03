@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges,OnInit } from '@angular/core';
+import { Component, Input, OnChanges,OnInit, ViewChild } from '@angular/core';
 import { ApiService } from './../../service/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { browserRefresh } from '../../app.component';
@@ -6,6 +6,9 @@ import { appConfig } from './../../model/appConfig';
 import {TechnicalInterviewListComponent} from '../technical-interview-list/technical-interview-list.component';
 
 import {OperationsCandidateSearchListComponent} from '../operations-candidate-list/operations-candidate-search-list/operations-candidate-search-list.component';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 
 
@@ -21,6 +24,13 @@ export class EligibleCandidatesComponent implements OnInit {
  
   @Input() groupFilters: Object;
   @Input() searchByKeyword: string;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
+  dataSource = new MatTableDataSource<any>();
+
+  
   users: any[] = [];
   filterByJRSS: Object;
   filteredUsers: any[] = [];
@@ -46,7 +56,7 @@ export class EligibleCandidatesComponent implements OnInit {
   itemsPerPage=appConfig.itemsPerPage;
   account='';
   positionID='';
-
+  displayedColumns = ['Action','employeeName', 'userScore','smeResult','managementResult','cvDownload'];
 
   constructor(
   private cv:TechnicalInterviewListComponent,
@@ -91,6 +101,7 @@ getOperationsCandidateList(){
 readResult() {
   this.apiService.getOperationsCandidateList().subscribe((data) => {
     this.Result = data;
+    this.dataSource.data = this.Result;
     this.users = data
     this.filteredUsers = this.filteredUsers.length > 0 ? this.filteredUsers : this.users;
   })
