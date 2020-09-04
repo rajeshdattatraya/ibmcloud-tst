@@ -83,7 +83,16 @@ export class EligibleCandidatesComponent implements OnInit {
       }
       this.readResult();
      
-    
+      this.dataSource.sortingDataAccessor = (item, property) => {
+        switch(property) {
+          case 'employeeName': return item.result_users[0].employeeName;
+          case 'userResult': return item.userScore;
+          case 'smeResult': return item.smeResult;
+          case 'managementResult': return item.managementResult;
+          default: return item[property];
+        }
+     }
+
  }
 
 
@@ -151,5 +160,23 @@ getCandidateAssessmentDetails(userid,quizId,username,userScore,createdDate) {
       )
     }
   }
+
+
+  @ViewChild(MatSort) set matSort(ms: MatSort) {
+    this.sort = ms;
+    this.setDataSourceAttributes();
+  }
+
+  @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
+    this.paginator = mp;
+    this.setDataSourceAttributes();
+  }
+
+  setDataSourceAttributes() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+
+  }
+  
 
 }
