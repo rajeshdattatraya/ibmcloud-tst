@@ -1,5 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone,ViewChild } from '@angular/core';
 import { ReportService } from './report.service';
 import { browserRefresh } from '../../app.component';
 import { DatePipe } from '@angular/common'
@@ -33,10 +33,11 @@ export class ReportComponent implements OnInit {
   searchJrss: string;
   dataSource = new MatTableDataSource<ReportStats>();
 
-  displayedColumns = ['JRSS', 'registeredCandidates','passedOnlineTest', 'passedTechInterview','passedPartnerInterview','assignedToProject'];
+  displayedColumns = ['row[0][1]', 'row[1][1]','row[2][1]', 'row[3][1]','row[4][1]','row[5][1]'];
   filterObj: { value: string; key: string; };
 
-
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private router: Router,
@@ -98,8 +99,23 @@ export class ReportComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.dataSource.sortingDataAccessor = (item, property) => {
+        switch(property) {
+          case 'row[0][1]': return item[0][1];
+          case 'row[1][1]': return item[1][1];
+          case 'row[2][1]': return item[2][1];
+          case 'row[3][1]': return item[3][1];
+          case 'row[4][1]': return item[4][1];
+          default: return property;
+        }
+     };
     this.loadReportData();
     
+  }
+
+  ngAfterViewInit (){
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 
 
