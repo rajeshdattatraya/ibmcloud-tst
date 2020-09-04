@@ -98,11 +98,14 @@ export class OpenpositionsCreateComponent implements OnInit {
        })
     }
 
-    // Get the latest positionID and increment 1
+    // Get the latest positionID and increment 1 
     readLatestPositionID(){
       this.openPositionService.getLatestPositionID().subscribe((data) => {
-      this.PositionIDObj = data;
-      this.positionID = parseInt(JSON. stringify(data))+1;
+      if(data[0] == undefined){
+        this.positionID = 1;
+      }else{
+        this.positionID = parseInt(data[0].positionID)+1;
+      }
       })
     }
 
