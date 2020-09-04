@@ -37,7 +37,7 @@
               </div>
               <div *ngIf="this.operationsProjectDetails[0].stage2_status=='Completed'">
                 <a class="edit" [routerLink]="['/pre-technical-interview-form/',this.operationsProjectDetails[0].result_users[0].JRSS, this.operationsProjectDetails[0].userName]" [state]="{jrss:this.operationsProjectDetails[0].result_users[0].JRSS,username:this.operationsProjectDetails[0].result_users[0].username,access:'operation-interview-initiate',accessLevel:this.accessLevel,account:this.account}">
-                  <a href="#" routerLinkActive="active">Click here</a>
+                Click here
                 </a>
               </div>
             </td>
@@ -120,9 +120,9 @@
           </tr>
           <tr>
             <td><mat-label>Candidate Line Of Business:</mat-label></td>
-            <td>{{this.candidateLOB}}</td>
+            <td>{{this.operationsProjectDetails[0].result_users[0].userLOB}}</td>
             <td><mat-label>Band</mat-label></td>
-            <td>{{this.candidateLocation}}</td>
+            <td>{{this.operationsProjectDetails[0].result_users[0].band}}</td>
           </tr>
           <tr >
             <td>
@@ -136,6 +136,7 @@
             </td>
             <td><mat-label>Gross Profit(%):</mat-label></td>
             <td> {{grossProfit}}</td>
+            <td></td>
         </tr>
           </tbody>
         </table>

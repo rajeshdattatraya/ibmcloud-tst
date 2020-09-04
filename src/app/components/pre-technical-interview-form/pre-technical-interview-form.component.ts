@@ -58,10 +58,10 @@ export class PreTechnicalInterviewFormComponent implements OnInit {
       this.router.navigate(['/technical-list/', this.userName], { state: { username: this.userName, quizId:this.quizNumber, accessLevel: this.accessLevel, account:this.account } })
      }
      if(this.access =='partner-interview-initiate'){
-      this.router.navigate(['/initiate-partner-interview/', this.userName], { state: { username: this.userName, accessLevel: this.accessLevel } })
+      this.router.navigate(['/initiate-partner-interview/', this.userName], { state: { username: this.userName, accessLevel: this.accessLevel,account:this.account } })
      }
      if(this.access =='operation-interview-initiate'){
-      this.router.navigate(['/initiate-operations-project/', this.userName], { state: { username: this.userName, accessLevel: this.accessLevel } })
+      this.router.navigate(['/initiate-operations-project/', this.userName], { state: { username: this.userName, accessLevel: this.accessLevel,account:this.account } })
      }
   }
 
