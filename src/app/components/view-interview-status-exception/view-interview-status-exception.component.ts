@@ -187,7 +187,7 @@ export class ViewInterviewStatusExceptionComponent implements OnInit {
           this.resultPageService.updateResult(resultStatus,this.resultId, this.candidateUserName).subscribe(
             (res) => {
               console.log('Results table updated successfully');
-              this.ngZone.run(() => this.router.navigateByUrl('/viewinterview-status',{state:{username:this.userName,accessLevel:this.accessLevel}}))
+              this.ngZone.run(() => this.router.navigateByUrl('/viewinterview-status',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
             }, (error) => {
               console.log(error);
             });
