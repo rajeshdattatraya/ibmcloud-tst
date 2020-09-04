@@ -11,8 +11,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 
 
-
-
 @Component({
   selector: 'app-eligible-candidates',
   templateUrl: './eligible-candidates.component.html',
@@ -77,13 +75,18 @@ export class EligibleCandidatesComponent implements OnInit {
 
 
  ngOnInit() {
+
       this.browserRefresh = browserRefresh;
       if (this.browserRefresh) {
             window.alert('You will be redirecting to login again.');
             this.router.navigate(['/login-component']);
       }
       this.readResult();
+     
+    
  }
+
+
 
  //To download candidate's CV if uploaded
  downloadCandidateResume(id){
@@ -101,9 +104,11 @@ getOperationsCandidateList(){
 readResult() {
   this.apiService.getOperationsCandidateList().subscribe((data) => {
     this.Result = data;
-    this.dataSource.data = this.Result;
+    this.dataSource.data = this.Result.filter(singleItem => 
+      singleItem.result_users[0].JRSS.toLowerCase() == this.jrss.toLowerCase() );
     this.users = data
     this.filteredUsers = this.filteredUsers.length > 0 ? this.filteredUsers : this.users;
+    
   })
 }
 
