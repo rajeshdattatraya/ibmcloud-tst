@@ -44,12 +44,8 @@
   <div class="row text-center" *ngIf="mode =='finish'">
 
     <div>
-      <label>We noticed that you still have unanswered questions. &nbsp;</label>
+      <label>We noticed that you still have unanswered questions. Hence, please go back to test by clicking here <button type="button" mat-raised-button color="primary" class="btn btn-primary" (click)="mode = 'quiz'">Back</button></label>
     </div>
-    <br/>
-    <div> <label>Hence, please go back to test by clicking here <button type="button" mat-raised-button color="primary" class="btn btn-primary" (click)="mode = 'quiz'">Back</button></label>
-    </div>
-
     <br/>
     <div>
       <label><p>If you want to view the current summary, click here
