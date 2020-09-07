@@ -1,4 +1,20 @@
-<nav class="navbar navbar-expand-lg navbar-light table-success" style="background-color:powderblue">
+<mat-toolbar>
+  <mat-toolbar-row>
+      <a mat-button  class="matButtonLargeSpace" routerLink="/openpositions-list" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Manage Open Seats</a>
+      <a mat-button  class="matButtonLargeSpace" routerLink="/operations-candidate-list" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Project Assignment</a>
+      <a mat-button  class="matButtonSpace" routerLink="/open-positions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Open Positions</a>
+      <a mat-button  class="matButtonLargeSpace" routerLink="/viewinterview-status" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Exception Approval</a>
+      <a mat-button  class="matButtonSmallSpace" routerLink="/dashboard" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Dashboard</a>
+      <a mat-button  class="matButtonSmallSpace" routerLink="/report" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Report</a>
+      <span class="flexExpand">
+          <a mat-button routerLink="/login-component" routerLinkActive="active">Logout</a>
+      </span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<br>
+
+
+<!-- <nav class="navbar navbar-expand-lg navbar-light table-success" style="background-color:powderblue">
   <div *ngIf="accessLevel === 'partner'" class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav">
       <li class="nav-item">
@@ -65,7 +81,7 @@
       </li>
     </ul>
   </div>
-  </nav>
+  </nav> -->
   <br>
 
   <div>
