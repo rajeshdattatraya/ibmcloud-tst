@@ -8,10 +8,11 @@ import { ApiService } from '../../service/api.service';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { OperationsCandidateSearchListComponent } from '../operations-candidate-list/operations-candidate-search-list/operations-candidate-search-list.component';
 import { OperationsCandidateSearchComponent } from '../operations-candidate-search/operations-candidate-search.component';
+import { TATMaterialModule } from  '../../../app/material.module';
 
 
 @NgModule({
-  imports:      [ CommonModule, FormsModule, ReactiveFormsModule, OperationsUserRoutes,NgxPaginationModule ],
+  imports:      [ TATMaterialModule, CommonModule, FormsModule, ReactiveFormsModule, OperationsUserRoutes,NgxPaginationModule ],
   declarations: [ OperationsCandidateListComponent, OperationsCandidateSearchComponent,  OperationsFilterPipe, OperationsCandidateSearchListComponent ],
   providers: [ ApiService ]
 })
