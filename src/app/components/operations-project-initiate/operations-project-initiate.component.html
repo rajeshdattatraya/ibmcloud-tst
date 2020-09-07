@@ -69,82 +69,79 @@
   </div>
 </div>
 
-  <div id="positionListModal"  >
-    <br>
-    <div class="card-header" style="background-color:#2554C7;color:white;font-size:10pt" *ngIf="displayPositionDropDown">
-      Open Position and Gross Profit Details
-    </div>
-    <div class="panel-body"  *ngIf="displayPositionDropDown">
-        <mat-card>
-          <mat-card-content>
-        <table>
-          <tbody>
-          <tr>
-            <td>
-              <mat-form-field class="open-full-width">
-                <mat-select placeholder="Open Position" required [(ngModel)]= "positionID"  name= "positionID"
-                            (selectionChange)="getSelectedPositionDetails($event.value)"
-                            id="positionID" >
-                  <mat-option value="undefined" disabled selected >Select a position</mat-option>
-                  <mat-option *ngFor="let openPosition of openPositionsList" value="{{openPosition._id}}">{{openPosition.positionName}}</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </td>
-          </tr>
-            <tr *ngIf="displayPositionDetails || positionID != undefined || positionID != null">
-            <td><mat-label>Position Name:</mat-label></td>
-            <td>{{positionDetails.positionName}}</td>
-            <td><mat-label>Job Role:</mat-label></td>
-            <td>{{positionDetails.JRSS}}</td>
-          </tr>
-          <tr *ngIf="displayPositionDetails || positionID != undefined || positionID != null">
-            <td><mat-label>Position ID:</mat-label></td>
-            <td>{{positionDetails.positionID}}</td>
-            <td><mat-label>Line of Business:</mat-label></td>
-            <td>{{positionDetails.lineOfBusiness}}</td>
-          </tr>
-          <tr *ngIf="displayPositionDetails || positionID != undefined || positionID != null">
-            <td><mat-label>Position Location:</mat-label></td>
-            <td>{{positionDetails.positionLocation}}</td>
-            <td><mat-label>Rate Card Role:</mat-label></td>
-            <td>{{positionDetails.rateCardJobRole}}</td>
-          </tr>
-          <tr *ngIf="displayPositionDetails || positionID != undefined || positionID != null">
-            <td><mat-label>Competency Level:</mat-label></td>
-            <td>{{positionDetails.competencyLevel}}</td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td colspan="4"><hr class="class-1"></td>
-          </tr>
-          <tr>
-            <td><mat-label>Candidate Line Of Business:</mat-label></td>
-            <td>{{this.operationsProjectDetails[0].result_users[0].userLOB}}</td>
-            <td><mat-label>Band</mat-label></td>
-            <td>{{this.operationsProjectDetails[0].result_users[0].band}}</td>
-          </tr>
-          <tr >
-            <td>
-              <mat-form-field class="open-full-width">
-                <mat-select placeholder="Candidate Location" id="candidateLocation"  name= "candidateLocation"
-                            [(ngModel)]= "candidateLocation" (selectionChange)="getGPByCandidateLocation($event.value)" >
-                  <mat-option value="" disabled selected >Select a location</mat-option>
-                  <mat-option *ngFor="let data of positionLocation" value="{{data.positionLocation}}" >{{data.positionLocation}}</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </td>
-            <td><mat-label>Gross Profit(%):</mat-label></td>
-            <td> {{grossProfit}}</td>
-            <td></td>
-        </tr>
-          </tbody>
-        </table>
-          </mat-card-content>
-        </mat-card>
-    </div>
+<div id="positionListModal" class="card" >
+  <br>
+  <div class="card-header" style="background-color:#2554C7;color:white;font-size:10pt">
+    Open Position and Gross Profit Details
   </div>
-<br>
+  <div class="card-body"  >
+      <mat-card class="login-card">
+        <mat-card-content>
+      <table>
+        <tr *ngIf="displayPositionDropDown">
+          <td>
+            <mat-form-field class="open-full-width">
+              <mat-select placeholder="Open Position" required [(ngModel)]= "positionID"  name= "positionID"
+                          (selectionChange)="getSelectedPositionDetails($event.value)"
+                          id="positionID" >
+                <mat-option value="undefined" disabled selected >Select a position</mat-option>
+                <mat-option *ngFor="let openPosition of openPositionsList" value="{{openPosition._id}}">{{openPosition.positionName}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+        </tr>
+          <tr *ngIf="displayPositionDetails || positionID != undefined || positionID != null">
+          <td><mat-label>Position Name:</mat-label></td>
+          <td>{{positionDetails.positionName}}</td>
+          <td><mat-label>Job Role:</mat-label></td>
+          <td>{{positionDetails.JRSS}}</td>
+        </tr>
+        <tr *ngIf="displayPositionDetails || positionID != undefined || positionID != null">
+          <td><mat-label>Position ID:</mat-label></td>
+          <td>{{positionDetails.positionID}}</td>
+          <td><mat-label>Line of Business:</mat-label></td>
+          <td>{{positionDetails.lineOfBusiness}}</td>
+        </tr>
+        <tr *ngIf="displayPositionDetails || positionID != undefined || positionID != null">
+          <td><mat-label>Position Location:</mat-label></td>
+          <td>{{positionDetails.positionLocation}}</td>
+          <td><mat-label>Rate Card Role:</mat-label></td>
+          <td>{{positionDetails.rateCardJobRole}}</td>
+        </tr>
+        <tr *ngIf="displayPositionDetails || positionID != undefined || positionID != null">
+          <td><mat-label>Competency Level:</mat-label></td>
+          <td>{{positionDetails.competencyLevel}}</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colspan="4"><hr></td>
+        </tr>
+        <tr>
+          <td><mat-label>Candidate Line Of Business:</mat-label></td>
+          <td>{{this.candidateLOB}}</td>
+          <td><mat-label>Band:</mat-label></td>
+          <td>{{this.candidateBand}}</td>
+        </tr>
+        <br/>
+        <tr >
+          <td>
+            <mat-form-field class="open-full-width">
+              <mat-select placeholder="Candidate Location:" id="candidateLocation"  name= "candidateLocation"
+                          [(ngModel)]= "candidateLocation" (selectionChange)="getGPByCandidateLocation($event.value)" >
+                <mat-option value="" disabled selected >Select a location</mat-option>
+                <mat-option *ngFor="let data of positionLocation" value="{{data.positionLocation}}" >{{data.positionLocation}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+          <td><mat-label>Gross Profit(%):</mat-label></td>
+          <td> {{grossProfit}}</td>
+      </tr>
+      </table>
+        </mat-card-content>
+      </mat-card>
+  </div>
+</div>
 
 <div class="card">
   <div class="card-header" style="background-color:#2554C7;color:white;font-size:10pt">Please enter details to assign a candidate to a particular project</div>

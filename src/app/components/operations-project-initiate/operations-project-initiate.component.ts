@@ -29,6 +29,7 @@ export class OperationsProjectInitiateComponent implements OnInit {
   displayTechInterviewFields = true;
   displayPartnerInterviewFields = true;
   account: String = "";
+  onLoad = false;
 
  constructor(private cv:TechnicalInterviewListComponent,
   public fb: FormBuilder, 
@@ -49,6 +50,7 @@ export class OperationsProjectInitiateComponent implements OnInit {
 
    ngOnInit() {
         this.browserRefresh = browserRefresh;
+        this.onLoad = true;
         if (this.browserRefresh) {
             window.alert('You are redirected to login screen.');
             this.router.navigate(['/login-component']);
@@ -120,7 +122,7 @@ get myForm(){
       this.candidateJRSS = this.operationsProjectDetails[0].result_users[0].JRSS;
       this.positionName = this.operationsProjectDetails[0].result_users[0].openPositionName;
       this.oldCandidateLocation = this.candidateLocation;
-      this.readOpenPositionsByPositionName();
+   //   this.readOpenPositionsByPositionName();
 
       this.listAllOpenPositions()
       //Sprint8 End
@@ -296,6 +298,8 @@ getSelectedPositionDetails(positionID) {
  readOpenPositionsByPositionID() {
   this.openPositionService.readOpenPosition(this.positionID).subscribe((data) => {
     this.positionDetails = data;
+    console.log('this.positionDetails inside pos by ID ***** ',data);
+    
     this.rateCardLOB = data['lineOfBusiness']
     this.rateCardLocation = data['positionLocation']
     this.rateCardRole = data['rateCardJobRole']
@@ -311,6 +315,7 @@ getSelectedPositionDetails(positionID) {
   this.displayPositionDetails = true;
   this.openPositionService.readOpenPositionByPositionName(this.positionName).subscribe((data) => {
     this.positionDetails = data;
+    console.log('this.positionDetails inside pos by NAME ***** ',data);
     this.rateCardLOB = data['lineOfBusiness']
     this.rateCardLocation = data['positionLocation']
     this.rateCardRole = data['rateCardJobRole']
@@ -324,14 +329,11 @@ getSelectedPositionDetails(positionID) {
 
      calculateGP() {
 
-      if (this.rateCardLocation == null || this.rateCardLocation == '' ) {
+      if ((this.rateCardLocation == null || this.rateCardLocation == '' ) && this.onLoad==false) {
          window.alert("Please select Open Position/Candidate Position Location");
          return false;
       }
-      if (this.rateCardLOB == null || this.rateCardLOB == '' ) {
-         window.alert("Please select Candidate Line Of Business/Band");
-         return false;
-      }
+     
       let GP: number = 0;
       let rateCardValue: number = 0;
       let costCardValue: number = 0;
@@ -356,13 +358,11 @@ getSelectedPositionDetails(positionID) {
         this.openPositionService.readCostCardsByCostCardCode(costCardCode).subscribe((data) => {
            costCardValue = data['costCardValue'];
           
-           if (rateCardValue == null) {
+           if (rateCardValue == null && this.onLoad == false) {
               window.alert("No cost details available, choose a different position.");
-              
               this.candidateLocation = this.oldCandidateLocation;
-              console.log("this.candidateLocation",this.candidateLocation);
               return false;
-           } else if (costCardValue == null ) {
+           } else if (costCardValue == null && this.onLoad == false) {
             window.alert("No rate card details available, choose a different candidate location.");
             this.candidateLocation = this.oldCandidateLocation;
             return false;
@@ -370,6 +370,7 @@ getSelectedPositionDetails(positionID) {
           this.oldCandidateLocation = this.candidateLocation;
             this.grossProfit = Math.round(((rateCardValue-costCardValue)/costCardValue)*100)
            }
+           this.onLoad = false;
         })
      })
   }
