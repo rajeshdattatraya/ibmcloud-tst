@@ -47,7 +47,7 @@ export class ViewTestresultsComponent {
   loading = true;
   dataSource = new MatTableDataSource<ViewResult>();
 
-  displayedColumns = ['No','result_users[0].employeeName', 'userName','employeeNo','result_users[0].JRSS','quizNumber','userScore'];
+  displayedColumns = ['result_users[0].employeeName', 'userName','result_users[0].band','result_users[0].userPositionLocation','result_users[0].JRSS','quizNumber','userScore'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -70,6 +70,8 @@ export class ViewTestresultsComponent {
   this.dataSource.sortingDataAccessor = (item, property) => {
       switch(property) {
         case 'result_users[0].employeeName': return item.result_users[0].employeeName;
+        case 'result_users[0].band': return item.result_users[0].band;
+        case 'result_users[0].userPositionLocation': return item.result_users[0].userPositionLocation;
         case 'result_users[0].JRSS': return item.result_users[0].JRSS;
         default: return item[property];
       }
