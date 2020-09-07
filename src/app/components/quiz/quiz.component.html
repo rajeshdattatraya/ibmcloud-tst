@@ -1,4 +1,8 @@
 <div id="quiz">
+  <mat-card>
+    <mat-card-header>
+    </mat-card-header>
+    <mat-card-content>
   <div  class="float-right text-right"><font color="blue" size="+1"><strong>Time Remaining: &nbsp; {{timeLeft}}</strong></font></div>
   <div class="row text-center" *ngIf="mode=='quiz'" oncopy="return false">
     <div class="col-6 text-left" *ngFor="let question of questionOneByeOne" >
@@ -105,4 +109,6 @@
       </label>
     </div>
   </div>
+</mat-card-content>
+</mat-card>
 </div>
