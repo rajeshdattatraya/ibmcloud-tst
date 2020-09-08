@@ -126,7 +126,7 @@
             <tr>
               <td colspan="2">
                 <mat-form-field class="open-full-width">
-                 <textarea  matInput placeholder="Technology Stream(Max 3000 characters)" [rows]="5" [cols]="50" formControlName="feedback" [maxLength]="3000" [ngClass]="{ 'is-invalid': submitted && myForm.feedback.errors}"></textarea>
+                 <textarea  matInput placeholder="Technical Feedback(Max 3000 characters)" [rows]="5" [cols]="50" formControlName="feedback" [maxLength]="3000" [ngClass]="{ 'is-invalid': submitted && myForm.feedback.errors}"></textarea>
                 <div *ngIf="submitted && myForm.feedback.errors" class="invalid-feedback">
                   <div *ngIf="myForm.feedback.errors.required">Feedback is required</div>
                 </div>
