@@ -1,13 +1,4 @@
-<mat-toolbar>
-  <mat-toolbar-row>
-    <a mat-button  routerLink="/superadmin-user-create" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <b>Manage User</b>
-    </a>
-    <span class="flexExpand">
-    <a mat-button  routerLink="/login-component" routerLinkActive="active"><b>Logout</b></a>
-    </span>
-  </mat-toolbar-row>
-</mat-toolbar>
+<app-navigation></app-navigation>
 <br/>
 <div>
   <h4 class="my-0 mr-md-auto font-weight-normal">Add User</h4>
