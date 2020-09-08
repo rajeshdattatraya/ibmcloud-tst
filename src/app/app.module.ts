@@ -66,7 +66,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import { QuestionEditComponent } from './components/question-edit/question-edit.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
-
+import {SuperadminUserEditComponent} from './components/superadmin-user-edit/superadmin-user-edit.component'
 
 export let browserRefresh = false;
 
@@ -128,7 +128,8 @@ FullCalendarModule.registerPlugins([
     TechIntSchedulerComponent,
     ViewQuestionComponent,
     QuestionEditComponent,
-    NavigationComponent
+    NavigationComponent,
+    SuperadminUserEditComponent
 
     ],
   imports: [

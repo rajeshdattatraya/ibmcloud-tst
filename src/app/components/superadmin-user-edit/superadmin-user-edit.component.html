@@ -1,0 +1,80 @@
+<div>
+    <app-navigation></app-navigation>
+    </div>
+    <br/>
+    <div class="float-left text-left">
+      <h4 class="my-0 mr-md-auto font-weight-normal">Update User</h4>
+    </div>
+    <br/><br>
+    
+    <!-- form card register -->
+    <mat-card class="login-card">
+      <mat-card-header></mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="editForm">
+          <table class="open-full-width" cellspacing="0">           
+            <tr>
+              <td>
+                <!-- Name -->
+                <mat-form-field class="open-full-width">
+                  <input matInput placeholder="Name" type="text" formControlName="employeeName" id="employeeName" [ngClass]="{ 'is-invalid': submitted && myForm.employeeName.errors }">
+                  <div *ngIf="submitted && myForm.employeeName.errors" class="invalid-feedback">
+                    <div *ngIf="myForm.employeeName.errors.required">Name is required</div>
+                  </div>
+                </mat-form-field>
+              </td>
+              <td>
+                <!-- Email -->
+                <mat-form-field class="open-full-width">
+                  <input matInput placeholder="Email [This field is used as username.]" type="text" formControlName="email" id="inputEmail3" [ngClass]="{ 'is-invalid': submitted && myForm.email.errors }">
+                  <div *ngIf="submitted && myForm.email.errors" class="invalid-feedback">
+                    <div *ngIf="myForm.email.errors.required">Email is required</div>
+                    <div *ngIf="myForm.email.errors.pattern">Invalid Email</div>
+                  </div>
+                </mat-form-field>
+              </td>
+            </tr>
+  
+            <tr>
+              <td>
+                <!-- User Role -->
+                <mat-form-field class="open-full-width">
+                  <mat-select placeholder="User Role" (selectionChange)="updateUserroleProfile($event.value)"
+                              formControlName="userrole" id="userrole" [ngClass]="{ 'is-invalid': submitted && myForm.userrole.errors }">
+                    <mat-option disabled value="">Choose...</mat-option>
+                    <mat-option *ngFor="let userrole of Userrole" value="{{userrole.userrole}}">{{userrole.userrole}}
+                    </mat-option>
+                  </mat-select>
+                  <div *ngIf="submitted && myForm.userrole.errors" class="invalid-feedback">
+                    <div *ngIf="myForm.userrole.errors.required">User role is required</div>
+                  </div>
+                </mat-form-field>
+              </td>
+              <td>
+                <!-- Account -->
+                <mat-form-field class="open-full-width">
+                  <mat-select placeholder="Account" (selectionChange)="updateAccountProfile($event.value)"
+                              formControlName="account" id="account" [ngClass]="{ 'is-invalid': submitted && myForm.account.errors }" >
+                    <mat-option disabled value="">Choose...</mat-option>
+                    <mat-option *ngFor="let account of Account" value="{{account.account}}">{{account.account}}
+                    </mat-option>
+                  </mat-select>
+                  <div *ngIf="submitted && myForm.account.errors" class="invalid-feedback" >
+                    <div *ngIf="myForm.account.errors.required">Account is required</div>
+                  </div>
+                </mat-form-field>
+              </td>
+            </tr>
+          </table>
+        </form>
+      </mat-card-content>
+      <br/>
+      <mat-card-actions>
+      <div class="row justify-content-center">
+          <button mat-raised-button color="primary" (click)="onSubmit()">Update</button>
+          <button mat-raised-button color="primary" (click)="cancelForm()">Cancel</button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+    
+  

@@ -200,7 +200,7 @@ export class SuperadminUserCreateComponent implements OnInit {
     if(this.isRowSelected == false){
       alert("Please select the user");
       }else{
-      this.router.navigate(['/edit-user/', this.docid],{state:{username:this.userName,account:this.account}});
+      this.router.navigate(['/superadmin-edit-user/', this.docid],{state:{username:this.userName,account:this.account}});
       }
     }
 

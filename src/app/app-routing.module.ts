@@ -50,6 +50,7 @@ import { SuperadminUserCreateComponent } from './components/superadmin-user-crea
 import { TechIntSchedulerComponent } from './components/tech-int-scheduler/tech-int-scheduler.component';
 import {ViewQuestionComponent } from './components/view-question/view-question.component';
 import { QuestionEditComponent } from './components/question-edit/question-edit.component';
+import { SuperadminUserEditComponent } from './components/superadmin-user-edit/superadmin-user-edit.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login-component' },
@@ -88,6 +89,7 @@ const routes: Routes = [
   { path:  'config-pretechassessment-form',component:ConfigPretechassessmentFormComponent },
   { path: 'delete-stream/:id', component: StreamDeleteComponent, canDeactivate:[DeactivateGuard] },
   { path: 'edit-user/:docid', component: UserEditComponent },
+  { path: 'superadmin-edit-user/:docid', component: SuperadminUserEditComponent },
   { path: 'stream-add', component: StreamAddComponent },
   { path: 'viewinterview-status', component: ViewInterviewStatusComponent },
   { path: 'viewinterview-status-exception/:id', component: ViewInterviewStatusExceptionComponent },
