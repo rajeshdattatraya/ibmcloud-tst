@@ -170,10 +170,11 @@
       <mat-paginator [length]="this.Result.length" [pageSize]="5" [pageSizeOptions]="[5,10,15,25,50,100]" showFirstLastButtons></mat-paginator>
 
 
+    <br>
     <div  class="float-right text-right" *ngIf="Result.length > 0">
       <span (click)="assignProject()">
-         <button type="button" style="background-color:#0043CE;" class="btn btn-success btn-sm">Assign Project</button>&nbsp;
-      </span>
+        <button mat-raised-button color="primary" aria-label="Clear">Assign Project</button>      
+        </span>
     </div>
     <!-- <div *ngIf="Result.length > 0">
       <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
