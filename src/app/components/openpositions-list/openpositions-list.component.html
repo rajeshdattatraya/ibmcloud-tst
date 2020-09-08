@@ -4,6 +4,36 @@
 <div class="float-left text-left">
   <h4 class="my-0 mr-md-auto font-weight-normal">View Open Positions</h4></div>
 <br/><br>
+<mat-card class="login-card">
+  <mat-card-header>
+    <mat-card-title class="example-card-title">Search</mat-card-title>
+  </mat-card-header>
+  <table>
+    <tr>
+      <td>
+        <mat-form-field>
+          <input matInput [(ngModel)]="positionIDFilter" #ctrl="ngModel" (keyup)="applyFilter($event.target.value,'positionID')" placeholder="ID">
+        </mat-form-field>
+      </td>
+      <td>
+        <mat-form-field>
+          <input matInput [(ngModel)]="jrssFilter" #ctrl="ngModel" (keyup)="applyFilter($event.target.value,'JRSS')" placeholder="Job Role">
+        </mat-form-field>
+      </td>
+      <td>
+        <mat-form-field>
+          <input matInput [(ngModel)]="positionLocationFilter" #ctrl="ngModel"  (keyup)="applyFilter($event.target.value,'positionLocation')" placeholder="Position Location">
+        </mat-form-field>
+      </td>
+    </tr>
+  </table>
+  <mat-card-actions>
+    <div class="row justify-content-center">
+      <button mat-raised-button color="primary" aria-label="Clear" (click)="clearFilters()">Clear</button>
+    </div>
+  </mat-card-actions>
+</mat-card>
+<br>
 
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
