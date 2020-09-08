@@ -1,45 +1,184 @@
+<mat-card class="login-card">
+  <mat-card-header>
+    <mat-card-title class="example-card-title">Search</mat-card-title>
+  </mat-card-header>
+  <table>
+    <tr>
+      <td>
+        <mat-form-field>
+          <input matInput [(ngModel)]="nameFilter" (keyup)="applyFilter($event.target.value,'employeeName')" placeholder="Name">
+        </mat-form-field>
+      </td>
+      <td>
+        <mat-form-field>
+          <input matInput [(ngModel)]="jrssFilter" (keyup)="applyFilter($event.target.value,'JRSS')" placeholder="Job Role">
+        </mat-form-field>
+      </td>
+      <td>
+        <mat-form-field *ngIf="account=='sector' || account=='Sector' || account=='SECTOR'">
+          <input matInput [(ngModel)]="accountFilter" (keyup)="applyFilter($event.target.value,'account')" placeholder="Account">
+        </mat-form-field>
+      </td>
+    </tr>
+  </table>
+    <mat-card-actions>
+      <div class="row justify-content-center">
+        <button mat-raised-button color="primary" aria-label="Clear" (click)="clearFilters()">Clear</button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+  <br>
+    
+    
     <div>
       <h4 class="my-0 mr-md-auto font-weight-normal" >Project Assignment Queue</h4>
       <br/>
     </div>
-      <!-- No data found message -->
-      <p *ngIf="Result.length <= 0" class="no-data text-center">There are no records in Project Assignment Queue</p>
+      
 
-      <!-- Operations candidate list -->
-      <table class="table table-bordered" *ngIf="Result.length > 0">
-        <thead class="table-success">
-        <tr style="background-color:powderblue">
-          <th scope="col center" width="5%">Action</th>
-          <th scope="col" width="12%">Name</th>
-          <th *ngIf="account=='sector' || account=='Sector'" scope="col" width="17%">Account</th>
-          <th scope="col" width="20%">Online Test Result</th>
-          <th scope="col" width="23%">Technical Interview Result</th>
-          <th scope="col" width="23%">Partner Interview Result</th>
-          <th scope="col" width="13%">CV Download</th>
 
-        </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let operationsList of Result | filter: searchByKeyword: 'name' | paginate: config; let i = index">
-              <td  class="text-center edit-block" width="5%">
-                <input type="radio" name="radiogroup" (change)="onSelectionChange(operationsList.userName)">
-              </td>
-              <td width="12%"><a href="#myModal" (click)="getCandidateDetails(operationsList.userName)" class="col-4 cursor-pointer" data-toggle="modal" >{{operationsList.result_users[0].employeeName}}</a></td>
-              <td *ngIf="account=='sector' || account=='Sector'" width="25%">{{operationsList.result_users[0].account}}</td>
-              <td  width="20%"><a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(operationsList.userName,operationsList.quizNumber,operationsList.result_users[0].employeeName,operationsList.userScore,operationsList.createdDate)" class="col-4 cursor-pointer" data-toggle="modal" *ngIf="operationsList.userScore!=null">{{operationsList.userScore}}%</a><p *ngIf="operationsList.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p></td>
-              <td  width="23%">{{operationsList.smeResult}}</td>
-              <td  width="23%">{{operationsList.managementResult}}</td>
-              <td width="20%"><a href="#" (click)="downloadCandidateResume(operationsList.userName)" routerLinkActive="active" class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
-            </tbody>
+      <div class="mat-elevation-z8" *ngIf="account=='sector' || account=='Sector' || account=='SECTOR'">
+      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+        <!-- ID Column -->
+        <ng-container matColumnDef="Action">
+          <th mat-header-cell *matHeaderCellDef> Select </th>
+          <td mat-cell *matCellDef="let row"> <mat-radio-button (change)="onSelectionChange(row.userName)"></mat-radio-button>
+          </td>
+        </ng-container>
+    
+        <!-- ID Column -->
+        <ng-container matColumnDef="result_users[0].employeeName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+          <td mat-cell *matCellDef="let row"><a href="#myModal" (click)="getCandidateDetails(row.userName)" class="col-4 cursor-pointer" data-toggle="modal" >{{row.result_users[0].employeeName}}</a>
+          </td>
+        </ng-container>
+    
+        <!-- ID Column -->
+         <ng-container matColumnDef="result_users[0].JRSS">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Job Role </th>
+          <td mat-cell *matCellDef="let row">{{row.result_users[0].JRSS}}</td>
+        </ng-container> 
+    
+        <!-- ID Column -->
+        <ng-container matColumnDef="result_users[0].account">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Account </th>
+          <td mat-cell *matCellDef="let row">{{row.result_users[0].account}}</td>
+        </ng-container>
+    
+        <!-- ID Column -->
+        <ng-container matColumnDef="userScore">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Online Test Result </th>
+          <td mat-cell *matCellDef="let row"><a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users[0].employeeName,row.userScore,row.createdDate)" class="col-4 cursor-pointer" data-toggle="modal" *ngIf="row.userScore!=null">{{row.userScore}}%</a><p *ngIf="row.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p>
+          </td>
+        </ng-container>
+    
+        <!-- ID Column -->
+        <ng-container matColumnDef="smeResult">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Technical Interview Result </th>
+          <td mat-cell *matCellDef="let row">{{row.smeResult}}</td>
+        </ng-container>
+
+        <!-- ID Column -->
+         <ng-container matColumnDef="partnerResult">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Partner Interview Result </th>
+          <td mat-cell *matCellDef="let row">{{row.managementResult}}</td>
+        </ng-container> 
+    
+        <!-- ID Column -->
+        <ng-container matColumnDef="cvDownload">
+          <th mat-header-cell *matHeaderCellDef> CV Download </th>
+          <td mat-cell *matCellDef="let row"><a href="#" (click)="downloadCandidateResume(row.userName)" routerLinkActive="active" class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsSector"></tr>
+        <tr mat-row *matRowDef="let row; let even = even; columns: displayedColumnsSector; "[ngClass]="{gray: even}" ></tr>
+    
       </table>
+      <table>
+        <tr *ngIf="!dataSource.data.length">
+          <td style="text-align: center;" [attr.colspan]="displayedColumnsSector.length">
+            No Records Found!
+          </td>
+        </tr>
+      </table>
+      </div>
+
+      <div class="mat-elevation-z8" *ngIf="!(account=='sector' || account=='Sector' || account=='SECTOR')">
+      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+        <!-- ID Column -->
+        <ng-container matColumnDef="Action">
+          <th mat-header-cell *matHeaderCellDef> Select </th>
+          <td mat-cell *matCellDef="let row"> <mat-radio-button (change)="onSelectionChange(row.userName)"></mat-radio-button>
+          </td>
+        </ng-container>
+    
+        <!-- ID Column -->
+        <ng-container matColumnDef="result_users[0].employeeName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+          <td mat-cell *matCellDef="let row"><a href="#myModal" (click)="getCandidateDetails(row.userName)" class="col-4 cursor-pointer" data-toggle="modal" >{{row.result_users[0].employeeName}}</a>
+          </td>
+        </ng-container>
+    
+        <!-- ID Column -->
+        <ng-container matColumnDef="result_users[0].JRSS">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Job Role </th>
+          <td mat-cell *matCellDef="let row">{{row.result_users[0].JRSS}}</td>
+        </ng-container>        
+    
+        <!-- ID Column -->
+        <ng-container matColumnDef="userScore">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Online Test Result </th>
+          <td mat-cell *matCellDef="let row"><a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users[0].employeeName,row.userScore,row.createdDate)" class="col-4 cursor-pointer" data-toggle="modal" *ngIf="row.userScore!=null">{{row.userScore}}%</a><p *ngIf="row.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p>
+          </td>
+        </ng-container>
+    
+        <!-- ID Column -->
+        <ng-container matColumnDef="smeResult">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Technical Interview Result </th>
+          <td mat-cell *matCellDef="let row">{{row.smeResult}}</td>
+        </ng-container>
+
+        <!-- ID Column -->
+         <ng-container matColumnDef="partnerResult">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Partner Interview Result </th>
+          <td mat-cell *matCellDef="let row">{{row.managementResult}}</td>
+        </ng-container> 
+    
+        <!-- ID Column -->
+        <ng-container matColumnDef="cvDownload">
+          <th mat-header-cell *matHeaderCellDef> CV Download </th>
+          <td mat-cell *matCellDef="let row"><a href="#" (click)="downloadCandidateResume(row.userName)" routerLinkActive="active" class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; let even = even; columns: displayedColumns; "[ngClass]="{gray: even}" ></tr>
+    
+      </table>
+      <table>
+        <tr *ngIf="!dataSource.data.length">
+          <td style="text-align: center;" [attr.colspan]="displayedColumnsSector.length">
+            No Records Found!
+          </td>
+        </tr>
+      </table>
+    </div>
+
+
+
+
+
+      <mat-paginator [length]="this.Result.length" [pageSize]="5" [pageSizeOptions]="[5,10,15,25,50,100]" showFirstLastButtons></mat-paginator>
+
+
+    <br>
     <div  class="float-right text-right" *ngIf="Result.length > 0">
       <span (click)="assignProject()">
-         <button type="button" style="background-color:#0043CE;" class="btn btn-success btn-sm">Assign Project</button>&nbsp;
-      </span>
+        <button mat-raised-button color="primary" aria-label="Clear">Assign Project</button>      
+        </span>
     </div>
-    <div *ngIf="Result.length > 0">
+    <!-- <div *ngIf="Result.length > 0">
       <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
-    </div>
+    </div> -->
 
 
     <!-- Modal Code starts. -->
