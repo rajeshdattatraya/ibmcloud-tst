@@ -14,13 +14,14 @@ export class TechIntSchedulerComponent implements OnInit {
 
 
   @Input() candidateEmail: string;
+  @Input() candidateName: string;
   
   hideEventDetailsDiv = true;
   hideEventCreateDiv = true;
   eventDetails: boolean;
   eventCreate: boolean;
   edit = false;
-  event_title;
+  event_title = "";
   event_date;
   start_time;
   end_time;
@@ -59,7 +60,7 @@ toAddress;
 
 
   ngOnInit(): void {
-
+    this.event_title = "Tech Interview with " + this.candidateName;
     
   }
 
@@ -109,6 +110,7 @@ toAddress;
   handleDateClick(selectInfo: DateSelectArg) {
     this.dateSelect = selectInfo;
     this.event_date = this.dateSelect.startStr;
+
 
     if (selectInfo.view.type == 'dayGridMonth') {
       $("#eventCreate").modal("show");
@@ -212,6 +214,8 @@ toAddress;
       });
     }
 
+    
+
     $("#eventDetails").modal("hide")
 
   }
@@ -264,6 +268,10 @@ toAddress;
     this.dummyEvents.push(str)
 
     this.calendarOptions.events = this.dummyEvents;
+
+    this.event_title = " " ;
+    this.start_time = " " ;
+    this.end_time = " " ;
 
     $("#eventCreate").modal("hide");
   }

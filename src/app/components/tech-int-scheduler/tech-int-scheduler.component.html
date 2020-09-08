@@ -8,15 +8,15 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">Update Interview </h4>
-          <button type="button" class="Close" data-toggle="modal" data-target="calendarModal"  
+          <button type="button" class="Close"  
           (click)="closeEditModal()" aria-label="Close" ><span> &times; </span></button>
         </div>
         <div class="modal-body form-group">
           
-          <div class="pull-right btn btn-info btn-fab" (click)="edit = !edit"><i class="fa fa-pencil"></i></div>
-          <div>Date :{{startDate}}
-          </div>
-
+          <div>Event Title :{{this.event_title}}  </div>
+          <br/>
+          <div>Date :{{startDate}}  </div>
+          <br/>
           <div>Start Time :
             <input type="text" class="form-control" [disabled]="edit" [(ngModel)]="start_time" >
           </div>
@@ -26,9 +26,10 @@
         </div>
 
         <div class="modal-footer">
-          <button *ngIf="edit" type="button" class="btn btn-default btn-raised" data-toggle="modal" data-target="calendarModal" 
+          <button type="button" class="btn btn-default btn-raised"       
           (click)="closeEditModal()" >Close</button>
         <!--  <button *ngIf="edit" type="button" class="btn btn-danger btn-raised">Delete</button> -->
+        
           <button *ngIf="!edit" type="button" class="btn btn-primary btn-raised" (click)="updateEvent()">Save</button>
         </div>
       </div>

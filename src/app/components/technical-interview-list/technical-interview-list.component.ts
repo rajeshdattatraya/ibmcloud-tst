@@ -63,6 +63,8 @@ export class TechnicalInterviewListComponent implements OnInit {
   loading = true;
   dataSource = new MatTableDataSource<ViewResult>();
   showCalendar: boolean = false;
+  calEmployeeName = "";
+
   displayedColumns = ['Action','result_users[0].employeeName', 'result_users[0].JRSS','userScore','preTechForm','cvDownload'];
   displayedColumnsSector = ['Action','result_users[0].employeeName', 'result_users[0].JRSS','result_users[0].account','userScore','preTechForm','cvDownload'];
 
@@ -235,6 +237,7 @@ export class TechnicalInterviewListComponent implements OnInit {
   scheduleInterview() {
     if (this.emailSelected == "") {
       alert("Please select a candidate")
+      return false;
     }
 
   }
@@ -247,9 +250,11 @@ export class TechnicalInterviewListComponent implements OnInit {
     }
   }
 
-  onSelectionChange(value, quizNumber) {
+  onSelectionChange(value, calEmployeeName, quizNumber) {
     this.emailSelected = value;
+    this.calEmployeeName = calEmployeeName;
     this.quizNumber = quizNumber;
+
 
   }
 

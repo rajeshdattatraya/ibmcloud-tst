@@ -44,7 +44,7 @@
       <!-- ID Column -->
       <ng-container matColumnDef="Action">
         <th mat-header-cell *matHeaderCellDef> Select </th>
-        <td mat-cell *matCellDef="let row"> <mat-radio-button (change)="onSelectionChange(row.userName,row.quizNumber)"></mat-radio-button>
+        <td mat-cell *matCellDef="let row"> <mat-radio-button (change)="onSelectionChange(row.userName, row.result_users[0].employeeName, row.quizNumber)"></mat-radio-button>
         </td>
       </ng-container>
 
@@ -111,7 +111,7 @@
       <!-- ID Column -->
       <ng-container matColumnDef="Action">
         <th mat-header-cell *matHeaderCellDef> Select </th>
-        <td mat-cell *matCellDef="let row"> <mat-radio-button (change)="onSelectionChange(row.userName,row.quizNumber)"></mat-radio-button>
+        <td mat-cell *matCellDef="let row"> <mat-radio-button (change)="onSelectionChange(row.userName, row.result_users[0].employeeName, row.quizNumber)"></mat-radio-button>
         </td>
       </ng-container>
 
@@ -267,7 +267,7 @@
         </div>
 
         <div class="modal-body" >
-          <app-tech-int-scheduler [candidateEmail]="emailSelected" ></app-tech-int-scheduler>-
+          <app-tech-int-scheduler [candidateEmail]="emailSelected"  [candidateName]="calEmployeeName"  ></app-tech-int-scheduler>-
         </div>
       </div>
     </div>
