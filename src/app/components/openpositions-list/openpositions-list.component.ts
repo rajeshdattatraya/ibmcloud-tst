@@ -26,6 +26,10 @@ export class OpenpositionsListComponent implements OnInit {
   index;
   account: String ="";
   loading = true;
+  filterObj = {};
+  positionIDFilter: string;
+  positionLocationFilter: string;
+  jrssFilter: string;
   dataSource = new MatTableDataSource<OpenPositionDetail>();
 
   displayedColumns = ['Action','positionName', 'positionID', 'account','JRSS','lineOfBusiness','positionLocation','rateCardJobRole','competencyLevel'];
@@ -44,14 +48,17 @@ export class OpenpositionsListComponent implements OnInit {
             this.userName = this.router.getCurrentNavigation().extras.state.username;
             this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
             this.account = this.router.getCurrentNavigation().extras.state.account;
-            console.log("this.accesslevel",this.accessLevel);
-            console.log("this.userName",this.userName);
-            console.log("this.account",this.account);
         }
     }
 
     ngOnInit(): void {
-        this.readOpenPosition();
+    this.dataSource.filterPredicate = (data, filter) => {
+      if(data[this.filterObj['key']] && this.filterObj['key']) {
+          return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
+      }
+    return false;
+    }
+      this.readOpenPosition();
     }
 
     ngAfterViewInit(): void {
@@ -94,6 +101,21 @@ export class OpenpositionsListComponent implements OnInit {
      onSelectionChange(openPositionID){
        this.openPositionID=openPositionID;
        this.isRowSelected = true;
+     }
+
+     clearFilters() {
+       this.dataSource.filter = '';
+       this.positionIDFilter = '';
+       this.positionLocationFilter = '';
+       this.jrssFilter = '';
+     }
+
+     applyFilter(filterValue: string,key: string) {
+        this.filterObj = {
+              value: filterValue.trim().toLowerCase(),
+              key: key
+        }
+        this.dataSource.filter = filterValue.trim().toLowerCase();
      }
 
 }
