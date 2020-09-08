@@ -1,9 +1,14 @@
-import { Component, Input, OnChanges,OnInit } from '@angular/core';
+import { Component, Input, OnChanges,OnInit,ViewChild } from '@angular/core';
 import { ApiService } from './../../../service/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { browserRefresh } from '../../../app.component';
 import {TechnicalInterviewListComponent} from '../../technical-interview-list/technical-interview-list.component';
 import { appConfig } from './../../../model/appConfig';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator'
+import {MatSort} from '@angular/material/sort'
+import { ViewResult } from './../../../model/viewResult';
+
 
 @Component({
   selector: 'app-operations-candidate-search-list',
@@ -35,6 +40,16 @@ export class OperationsCandidateSearchListComponent implements OnChanges {
   displayContractorUIFields: Boolean = false;
   displayRegularUIFields: Boolean = true;
   account: String = "";
+  filterObj = {};
+  nameFilter: string;
+  accountFilter: string;
+  jrssFilter: string;
+  dataSource = new MatTableDataSource<ViewResult>();
+  displayedColumnsSector = ['Action','result_users[0].employeeName','result_users[0].JRSS', 'result_users[0].account','userScore','smeResult','cvDownload'];
+  displayedColumns = ['Action','result_users[0].employeeName','result_users[0].JRSS','userScore','smeResult','cvDownload'];
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+ 
   
   constructor(private cv:TechnicalInterviewListComponent,private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
     this.config = {
@@ -52,6 +67,7 @@ export class OperationsCandidateSearchListComponent implements OnChanges {
     params => this.config.currentPage= params['page']?params['page']:1 );
     this.getOperationsCandidateList();
 }
+@ViewChild('content') content: any;
 ngOnChanges(): void {
   if (this.groupFilters) this.filterUserList(this.groupFilters, this.users);
   this.router.navigate(['/operations-candidate-list'])
@@ -63,8 +79,33 @@ ngOnChanges(): void {
             window.alert('You will be redirecting to login again.');
             this.router.navigate(['/login-component']);
       }
+
+      this.dataSource.filterPredicate = (data: any, filter) => {
+        const dataStr =JSON.stringify(data).toLowerCase();
+        return dataStr.indexOf(filter) != -1;
+  }
+
+  this.dataSource.sortingDataAccessor = (item, property) => {
+      switch(property) {
+        case 'result_users[0].employeeName': return item.result_users[0].employeeName;
+        case 'result_users[0].JRSS': return item.result_users[0].JRSS;
+        case 'result_users[0].account': return item.result_users[0].account;
+        default: return item[property];
+      }
+   }
+   console.log("Just before readResult()");
       this.readResult();
+      console.log("Just after readResult()");
  }
+
+
+ ngAfterViewInit (){
+  this.dataSource.sort = this.sort;
+  this.dataSource.paginator = this.paginator;
+}
+
+
+
 pageChange(newPage: number) {
     this.router.navigate(['/operations-candidate-list'], { queryParams: { page: newPage } });
 }
@@ -125,12 +166,14 @@ readResult() {
     this.Result = data;
     this.users = data
     this.filteredUsers = this.filteredUsers.length > 0 ? this.filteredUsers : this.users;
+    this.dataSource.data =  data as ViewResult[];
   })
 }else{
   this.apiService.getOperationsCandidateList().subscribe((data) => {
     this.Result = data;
     this.users = data
     this.filteredUsers = this.filteredUsers.length > 0 ? this.filteredUsers : this.users;
+    this.dataSource.data =  data as ViewResult[];
   })
 }
 
@@ -171,6 +214,22 @@ getCandidateAssessmentDetails(userid,quizId,username,userScore,createdDate) {
     else {
       this.router.navigate(['/initiate-operations-project/', this.emailSelected], { state: { username: this.userName, accessLevel: this.accessLevel,account:this.account } })
     }
+  }
+
+
+  applyFilter(filterValue: string,key: string) {
+    this.filterObj = {
+          value: filterValue.trim().toLowerCase(),
+          key: key
+    }
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  clearFilters() {
+        this.dataSource.filter = '';
+        this.nameFilter = '';
+        this.accountFilter = '';
+        this.jrssFilter = '';
   }
 
 }
