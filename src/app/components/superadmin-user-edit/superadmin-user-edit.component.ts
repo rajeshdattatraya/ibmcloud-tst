@@ -29,6 +29,8 @@ Userrole:any = [];
 userrole: String = "";
 AdminUsers:any = [];
 AccountList:any=[];
+accountArray:any= [];
+selectedAccounts:any=[];
 selectedUserrole: String = "";
 username;
 index;
@@ -75,12 +77,6 @@ ngOnInit() {
   this.mainForm();
   let user_id = this.actRoute.snapshot.paramMap.get('docid');
   this.getUser(user_id);
-  this.editForm = this.fb.group({
-    employeeName: ['', [Validators.required]],
-    email: ['', [Validators.required, Validators.pattern('[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,3}$')]],
-    userrole: ['', [Validators.required]],
-    account: ['', [Validators.required]],
-  })    
 }
 
 mainForm() {
@@ -113,14 +109,14 @@ mainForm() {
     this.AccountList.length=0;
     for (var accValue of this.Account){  
     if(accValue.account.toLowerCase() !== 'sector' ) {
-      this.AccountList.push(accValue.account);             
+      this.AccountList.push(accValue);
     }            
   } 
 }if(this.selectedUserrole !== 'admin'){
   this.AccountList.length=0;
   for (var accValue of this.Account){ 
     if(accValue.account.toLowerCase() === 'sector' ) {
-      this.AccountList.push(accValue.account);             
+      this.AccountList.push(accValue);
     }            
   } 
 }
@@ -131,9 +127,7 @@ mainForm() {
 
 // Choose account with select dropdown
 updateAccountProfile(e){
-  this.editForm.get('account').setValue(e, {
-    onlySelf: true
-  })
+  this.editForm.value.account = e.source.value;
 }
 
 // Getter to access form control
@@ -162,11 +156,12 @@ if (this.editForm.dirty && !this.submitted){
 
 getUser(id) {
 this.apiService.getUser(id).subscribe(data => {
+this.selectedAccounts = data['account'].split(",");
   this.editForm.setValue({
     employeeName: data['name'],
     email: data['username'],
     userrole: data['accessLevel'],
-    account: data['account']
+    account: this.selectedAccounts
   });
   this.email = data['username'];
   this.password = data['password'];
@@ -176,9 +171,24 @@ this.apiService.getUser(id).subscribe(data => {
   this.CreatedDate = data['CreatedDate'];
   this.UpdatedBy = data['UpdatedBy'];
   this.userLoggedin=data['userLoggedin'];
-}
-);
-console.log('this.account---'+this.account);
+
+  if(data['accessLevel'] === 'admin'){
+      this.AccountList.length=0;
+      for (var accValue of this.Account){
+      if(accValue.account.toLowerCase() !== 'sector' ) {
+        this.AccountList.push(accValue);
+      }
+    }
+  }if(data['accessLevel'] !== 'admin'){
+    this.AccountList.length=0;
+    for (var accValue of this.Account){
+      if(accValue.account.toLowerCase() === 'sector' ) {
+        this.AccountList.push(accValue);
+      }
+    }
+  }
+});
+
 }
 
 //Cancel
@@ -187,7 +197,10 @@ this.ngZone.run(() => this.router.navigateByUrl('/superadmin-user-create',{state
 }
 
 onSubmit() {
-this.submitted = true; 
+this.submitted = true;
+if( typeof(this.editForm.value.account) == 'object' ) {
+  this.editForm.value.account = this.editForm.value.account.join(',');
+}
 let updatedUser = new SpecialUser(this.editForm.value.email,
   this.password,
   this.quizNumber,

@@ -44,6 +44,7 @@ export class SuperadminUserCreateComponent implements OnInit {
   isRowSelected = false;
   Account:any = [];
   AccountList:any=[];
+  accountArray:any= [];
   selectedUserrole: String = "";
 
   loading = true;
@@ -105,9 +106,7 @@ export class SuperadminUserCreateComponent implements OnInit {
 
     // Choose account with select dropdown
     updateAccountProfile(e){
-       this.candidateForm.get('account').setValue(e, {
-       onlySelf: true
-       })
+       this.candidateForm.value.account = e.source.value;
     }
 
    // Choose userrole with select dropdown
@@ -115,18 +114,18 @@ export class SuperadminUserCreateComponent implements OnInit {
     this.selectedUserrole = e;
     if(this.selectedUserrole === 'admin'){
       this.AccountList.length=0;
-      for (var accValue of this.Account){  
+      for (var accValue of this.Account){
       if(accValue.account.toLowerCase() !== 'sector' ) {
-        this.AccountList.push(accValue.account);             
-      }            
-    } 
+        this.AccountList.push(accValue);
+      }
+    }
   }if(this.selectedUserrole !== 'admin'){
     this.AccountList.length=0;
-    for (var accValue of this.Account){ 
+    for (var accValue of this.Account){
       if(accValue.account.toLowerCase() === 'sector' ) {
-        this.AccountList.push(accValue.account);             
-      }            
-    } 
+        this.AccountList.push(accValue);
+      }
+    }
   }    this.candidateForm.get('userrole').setValue(e, {
     onlySelf: true
     }) 
@@ -156,9 +155,7 @@ export class SuperadminUserCreateComponent implements OnInit {
 
      // Choose account result with select dropdown
      updateAccountDetails(e) {
-      this.candidateForm.get('account').setValue(e, {
-      onlySelf: true
-      })
+      this.candidateForm.value.account = e.source.value;
     }
 
 // Delete the selected user
@@ -215,6 +212,17 @@ export class SuperadminUserCreateComponent implements OnInit {
     this.password = CryptoJS.AES.encrypt(appConfig.defaultPassword.trim(),base64Key,{ iv: ivMode }).toString();
     this.password = this.password.replace("/","=rk=");    
      
+      this.accountArray = [];
+      for (var account of this.candidateForm.value.account)  {
+        if(this.accountArray.indexOf(account.account == -1)){
+            this.accountArray.push(account.account);
+        }
+      }
+      this.candidateForm.value.account = this.accountArray.join(',');
+        //Remove the leading comma if any
+      if (this.candidateForm.value.account.substr(0,1) == ",") {
+        this.candidateForm.value.account = this.candidateForm.value.account.substring(1);
+      }
 
     let user = new SpecialUser(this.candidateForm.value.email,
      this.password,
