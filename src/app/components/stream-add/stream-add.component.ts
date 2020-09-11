@@ -44,6 +44,7 @@ ngOnInit() {
 
 //Cancel
 cancelForm(){
+  if(this.accessLevel=='admin')
   this.ngZone.run(() => this.router.navigateByUrl('/stream-create',{state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
 }
 
@@ -98,10 +99,13 @@ onSubmit() {
         (res) => {
             console.log('New Technology Stream added successfully!');
             alert('New Technology Stream added successfully!');
+            if(this.accessLevel=='admin')
+            {                       
             this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
             this.router.navigate(['/stream-create'], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
-        }, (error) => {
+        }}, (error) => {
             console.log(error);
+        
       });
   }
 }
