@@ -87,6 +87,7 @@
     <mat-toolbar-row>
       <a  mat-button class="matButtonSmallSpace" routerLink="/technical-interview-list" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active">Technical Interview</a>
       <a  mat-button  class="matButtonSmallSpace" [matMenuTriggerFor]="questionssector" routerLink="/manage-questionbank-sectorsme" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Manage Questions</a>
+      <a  mat-button  class="matButtonSmallSpace" [matMenuTriggerFor]="questionssector" routerLink="/stream-add" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Add Technology Stream</a>
       <mat-menu #questionssector="matMenu">
         <a class="dropdown-item" routerLink="/manage-questionbank-sectorsme" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active">Add Question</a>
         <a class="dropdown-item" routerLink="/manage-questionbank-bulk-sectorsme" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active">Add Bulk Question</a>
