@@ -35,9 +35,9 @@
           </td>
         </tr>
         <tr>
-          <td><mat-label>You can download CV here:</mat-label></td>
+          <td><mat-label>Download CV:</mat-label></td>
           <td><a href="#" (click)="downloadCandidateResume(this.partnerInterviewDetails[0].userName)" routerLinkActive="active" data-toggle="modal">Click here</a></td>
-          <td><mat-label>You can access the Pre-Technical-Interview form here:</mat-label></td>
+          <td><mat-label>Pre Interview Form:</mat-label></td>
           <td><a *ngIf="this.partnerInterviewDetails[0].stage2_status=='Skipped'" href="#" (click)="skipMethod()" routerLinkActive="active" data-toggle="modal">Click here</a>
             <div *ngIf="this.partnerInterviewDetails[0].stage2_status=='Completed'">
               <a class="edit" [routerLink]="['/pre-technical-interview-form/',this.partnerInterviewDetails[0].result_users[0].JRSS, this.partnerInterviewDetails[0].userName]" [state]="{jrss:this.partnerInterviewDetails[0].result_users[0].JRSS,username:this.partnerInterviewDetails[0].result_users[0].username,access:'partner-interview-initiate',accessLevel:this.accessLevel,account:this.account}">

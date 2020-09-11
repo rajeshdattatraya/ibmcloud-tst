@@ -35,6 +35,7 @@ export class AdminuserCreateComponent implements OnInit {
   technologyStream:any= [];
   skillArray:any= [];  
   Userrole:any = [];
+  UserRoleList:any = [];
   userrole: String = "";
   AdminUsers:any = [];
   username;
@@ -42,7 +43,8 @@ export class AdminuserCreateComponent implements OnInit {
   docid;
   isRowSelected = false;
   Account:any = [];
-
+  AccountList:any = [];
+  accountArray:any = [];
   loading = true;
   dataSource = new MatTableDataSource<User>();
   displayedColumns = ['Action','name', 'username','accessLevel','account'];
@@ -95,15 +97,19 @@ export class AdminuserCreateComponent implements OnInit {
     // Get all userroles
     readUserrole(){
       this.apiService.getUserroles().subscribe((data) => {
-      this.Userrole = data;
+        this.Userrole = data;
+        this.UserRoleList.length=0;
+          for (var userRole of this.Userrole) {
+            if(userRole.userrole != 'admin' ) {
+              this.UserRoleList.push(userRole);
+            }
+          }
       })
    }
 
     // Choose account with select dropdown
     updateAccountProfile(e){
-       this.candidateForm.get('account').setValue(e, {
-       onlySelf: true
-       })
+       this.candidateForm.value.account = e.source.value;
     }
 
    // Choose userrole with select dropdown
@@ -129,7 +135,13 @@ export class AdminuserCreateComponent implements OnInit {
     // Get all Acconts
     readAccount(){
       this.apiService.getAccounts().subscribe((data) => {
-      this.Account = data;
+        this.Account = data;
+        this.AccountList.length=0;
+        for (var accValue of this.Account){
+          if(accValue.account != 'SECTOR' ) {
+            this.AccountList.push(accValue);
+          }
+        }
       })
     }
 
@@ -187,7 +199,19 @@ export class AdminuserCreateComponent implements OnInit {
     this.password = CryptoJS.AES.encrypt(appConfig.defaultPassword.trim(),base64Key,{ iv: ivMode }).toString();
     this.password = this.password.replace("/","=rk=");    
      
-
+      this.accountArray = [];
+      for (var account of this.candidateForm.value.account)  {
+        if(this.accountArray.indexOf(account.account == -1)){
+            this.accountArray.push(account.account);
+        }
+      }
+      this.candidateForm.value.account = this.accountArray.join(',');
+      console.log("account val", this.candidateForm.value.account);
+        //Remove the leading comma if any
+      if (this.candidateForm.value.account.substr(0,1) == ",") {
+        this.candidateForm.value.account = this.candidateForm.value.account.substring(1);
+      }
+      console.log("account val ** ", this.candidateForm.value.account);
     let user = new SpecialUser(this.candidateForm.value.email,
      this.password,
      this.quizNumber,

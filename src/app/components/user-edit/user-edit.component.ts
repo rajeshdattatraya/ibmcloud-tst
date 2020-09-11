@@ -28,6 +28,7 @@ export class UserEditComponent implements OnInit {
   technologyStream:any= [];
   skillArray:any= [];  
   Userrole:any = [];
+  UserRoleList:any = [];
   userrole: String = "";
   AdminUsers:any = [];
   username;
@@ -41,7 +42,9 @@ export class UserEditComponent implements OnInit {
   userLoggedin: String = "";
   email: String = "";
   Account:any = [];
-  
+  AccountList:any = [];
+  selectedAccounts:any=[];
+
   constructor(
     public fb: FormBuilder,
     private router: Router,
@@ -95,7 +98,13 @@ export class UserEditComponent implements OnInit {
     // Get all userroles
     readUserrole(){
       this.apiService.getUserroles().subscribe((data) => {
-      this.Userrole = data;
+        this.Userrole = data;
+        this.UserRoleList.length=0;
+        for (var userRole of this.Userrole) {
+          if(userRole.userrole != 'admin' ) {
+            this.UserRoleList.push(userRole);
+          }
+        }
       })
    }
 
@@ -103,6 +112,12 @@ export class UserEditComponent implements OnInit {
    readAccount(){
      this.apiService.getAccounts().subscribe((data) => {
       this.Account = data;
+      this.AccountList.length=0;
+      for (var accValue of this.Account){
+        if(accValue.account != 'SECTOR' ) {
+          this.AccountList.push(accValue);
+        }
+      }
      })
    }
 
@@ -115,9 +130,7 @@ export class UserEditComponent implements OnInit {
 
   // Choose account with select dropdown
   updateAccountProfile(e){
-    this.editForm.get('account').setValue(e, {
-      onlySelf: true
-    })
+     this.editForm.value.account = e.source.value;
   }
 
   // Getter to access form control
@@ -146,11 +159,12 @@ canExit(): boolean{
 
 getUser(id) {
   this.apiService.getUser(id).subscribe(data => {
+  this.selectedAccounts = data['account'].split(",");
     this.editForm.setValue({
       employeeName: data['name'],
       email: data['username'],
       userrole: data['accessLevel'],
-      account: data['account']
+      account: this.selectedAccounts
     });
     this.email = data['username'];
     this.password = data['password'];
@@ -169,7 +183,10 @@ cancelForm(){
 }
 
 onSubmit() {
-  this.submitted = true; 
+  this.submitted = true;
+  if( typeof(this.editForm.value.account) == 'object' ) {
+    this.editForm.value.account = this.editForm.value.account.join(',');
+  }
   let updatedUser = new SpecialUser(this.editForm.value.email,
     this.password,
     this.quizNumber,

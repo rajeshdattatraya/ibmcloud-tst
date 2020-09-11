@@ -28,9 +28,9 @@
               <p *ngIf="this.candidateInterviewDetails[0].userScore==null">N/A</p>
             </tr>
             <tr>
-              <td><mat-label>You can download CV here:</mat-label></td>
+              <td><mat-label>Download CV:</mat-label></td>
               <td><a href="#" (click)="downloadCandidateResume(this.candidateInterviewDetails[0].userName)" routerLinkActive="active" data-toggle="modal">Click here</a></td>
-              <td><mat-label>You can access the Pre-Technical-Interview form here:</mat-label></td>
+              <td><mat-label>Pre Interview Form:</mat-label></td>
               <td>
                 <div  *ngIf="this.candidateInterviewDetails[0].stage2_status=='Skipped'">
                   <a href="#" (click)="skipMethod()" routerLinkActive="active"  class="col-4 cursor-pointer" data-toggle="modal">Click here</a>

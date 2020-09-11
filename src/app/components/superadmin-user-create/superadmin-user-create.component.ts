@@ -148,8 +148,6 @@ export class SuperadminUserCreateComponent implements OnInit {
     readAccount(){
       this.apiService.getAccounts().subscribe((data) => {
       this.Account = data;
-      //Remove 'sector' from Account collection
-      console.log('userrole selected in readAccount---'+this.selectedUserrole);     
     })
     }
 
