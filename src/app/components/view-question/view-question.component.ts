@@ -27,6 +27,9 @@ export class ViewQuestionComponent implements OnInit {
   isRowSelected: boolean;
   dataSource = new MatTableDataSource<Question>();
 
+  accountFilter: string;
+  filterObj = {};
+
   displayedColumns: string[]  = ['Action','Question','Account', 'TechStream'];
   optionArray: any[];
   questionObj: any[];
@@ -126,8 +129,18 @@ removeQuestion(){
       this.isRowSelected = true;
     }
 
+    clearFilters() {
+      this.dataSource.filter = '';
+      this.accountFilter = '';
 
+   }
 
-
+   applyFilter(filterValue: string,key: string) {
+    this.filterObj = {
+          value: filterValue.trim().toLowerCase(),
+          key: key
+    }
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 
 }
