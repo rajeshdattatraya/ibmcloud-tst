@@ -27,7 +27,7 @@ export class ViewQuestionComponent implements OnInit {
   isRowSelected: boolean;
   dataSource = new MatTableDataSource<Question>();
 
-  displayedColumns = ['Action','Question','Option'];
+  displayedColumns: string[]  = ['Action','Question','Account', 'TechStream'];
   optionArray: any[];
   questionObj: any[];
   questionObjectArray: any = [];
@@ -57,8 +57,9 @@ export class ViewQuestionComponent implements OnInit {
     this.browserRefresh = browserRefresh;
     this.dataSource.sortingDataAccessor = (item, property) => {
       switch(property) {
-        case 'question': return item[1];
-        case 'option': return item[2];
+        case 'Question': return item[1];
+        case 'Account': return item[2];
+        case 'TechStream': return item[3];
         default: return item[property];
       }
    };
@@ -84,7 +85,8 @@ export class ViewQuestionComponent implements OnInit {
         for (var option of question.options){
           this.optionArray.push(option.option);
         }
-        this.questionObj = [question._id, question.question, this.optionArray];
+        //this.questionObj = [question._id, question.question, this.optionArray];
+        this.questionObj = [question._id, question.question, question.account, question.technologyStream];
         this.questionObjectArray.push(this.questionObj);
         }
          this.dataSource.data=this.questionObjectArray as Question[];
