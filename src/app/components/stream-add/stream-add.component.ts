@@ -98,10 +98,13 @@ onSubmit() {
         (res) => {
             console.log('New Technology Stream added successfully!');
             alert('New Technology Stream added successfully!');
+            if(this.accessLevel=='admin')
+            {                       
             this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
             this.router.navigate(['/stream-create'], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
-        }, (error) => {
+        }}, (error) => {
             console.log(error);
+        
       });
   }
 }
