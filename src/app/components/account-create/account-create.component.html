@@ -1,0 +1,63 @@
+<app-navigation></app-navigation>
+<br/>
+<div>
+  <h4 class="my-0 mr-md-auto font-weight-normal">Add Account</h4>
+  <br/>
+</div>
+<!-- form create account -->
+<mat-card class="login-card">
+  <mat-card-header>
+  </mat-card-header>
+  <mat-card-content>
+        <form [formGroup]="accountForm">
+          <table class="example-full-width" cellspacing="0">
+            <tr>
+              <td>
+                <mat-form-field class="example-full-width">
+                <input matInput placeholder="Account" formControlName="account" name="account" [ngClass]="{ 'is-invalid': submitted && myForm.account.errors }">
+                <div *ngIf="submitted && myForm.account.errors" class="invalid-feedback">
+                  <div *ngIf="myForm.account.errors.required">Account is required</div>
+                </div>
+                </mat-form-field>
+              </td>
+            </tr>
+          </table>
+        </form>
+  </mat-card-content>
+  <br/>
+  <mat-card-actions>
+    <div class="row justify-content-center">
+      <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
+      <button mat-raised-button color="primary" (click)="clearForm()">Clear</button>
+    </div>
+  </mat-card-actions>
+</mat-card>
+
+  <br/>
+  <h4 class="my-0 mr-md-auto font-weight-normal">Account List</h4>
+  <br/>
+
+    <p *ngIf="accountList.length <= 0" class="no-data text-center">There is no account added yet!</p>
+  
+ 
+    <div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+    <ng-container matColumnDef="Action">
+      <th mat-header-cell *matHeaderCellDef> No. </th>
+      <td mat-cell *matCellDef="let row;let i = index"> {{i+1}}</td>
+    </ng-container>
+ 
+    <ng-container matColumnDef="account">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Account </th>
+      <td mat-cell *matCellDef="let row"> {{row.account}}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; let even = even; columns: displayedColumns;" [ngClass]="{gray: even}"></tr>
+  </table>
+  <mat-paginator [length]="this.accountList.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+
+
+  
+  

@@ -774,6 +774,15 @@ getAccounts() {
 
 }
 
+// Create account
+createAccount(data): Observable<any> {
+  let url = `${this.baseAccountUri}/createAccount`;
+  return this.http.post(url, data)
+    .pipe(
+      catchError(this.errorMgmt)
+    )
+}
+
 // Get all questions based on account
 viewQuizQuestions(userName,account) {
   let url = `${this.baseQuestionUri}/${userName}/${account}`;

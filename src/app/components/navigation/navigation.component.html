@@ -102,11 +102,15 @@
 <div *ngIf="accessLevel === 'superAdmin'">
   <mat-toolbar>
     <mat-toolbar-row>
-      <a mat-button  routerLink="/superadmin-user-create" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <b>Manage User</b>
-      </a>
+      <a mat-button  class="matButtonSmallSpace" routerLink="/superadmin-user-create" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manage User</a>       
+        
+      <a  mat-button  class="matButtonSmallSpace" [matMenuTriggerFor]="superMetadata" routerLink="/account-create" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Manage Metadata</a>
+        <mat-menu #superMetadata="matMenu">         
+          <a class="dropdown-item" routerLink="/account-create" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active">Add Account</a>
+        </mat-menu>
+
       <span class="flexExpand">
-        <a mat-button  routerLink="/login-component" routerLinkActive="active"><b>Logout</b></a>
+        <a mat-button  routerLink="/login-component" routerLinkActive="active">Logout</a>
       </span>
     </mat-toolbar-row>
   </mat-toolbar>
