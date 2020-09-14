@@ -15,14 +15,29 @@
       <table class="open-full-width" cellspacing="0">
         <tr>
           <td>
-            <mat-form-field class="example-full-width">
+            <mat-form-field class="stream-half-width">
+              <mat-select placeholder="Account"  formControlName="account" id="account" (selectionChange)="updateAccountProfile($event.value)"
+                          [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.account.errors }">
+                <mat-option disabled value="">Choose...</mat-option>
+                <mat-option *ngFor="let account of AccountArray" value="{{account}}" >{{account}}
+                </mat-option>
+              </mat-select>
+              <div *ngIf="!formReset && submitted && myForm.account.errors" class="invalid-feedback">
+                <div *ngIf="myForm.account.errors.required">Account is required</div>
+              </div>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field class="stream-half-width">
               <mat-select placeholder="Job Role" required (selectionChange)="updateJrssProfile($event)"
-                      formControlName="JRSS" name="JRSS" id="JRSS" required [ngClass]="{ 'is-invalid': submitted && myForm.JRSS.errors }">
+                      formControlName="JRSS" name="JRSS" id="JRSS" required [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.JRSS.errors }">
                 <mat-option value="">Choose...</mat-option>
                 <mat-option *ngFor="let jrss of JRSS" value="{{jrss.jrss}}">{{jrss.jrss}}
                 </mat-option>
               </mat-select>
-              <div *ngIf="submitted && myForm.JRSS.errors" class="invalid-feedback">
+              <div *ngIf="!formReset && submitted && myForm.JRSS.errors" class="invalid-feedback">
                 <div *ngIf="myForm.JRSS.errors.required">JRSS is required</div>
               </div>
             </mat-form-field>
@@ -59,6 +74,7 @@
   <mat-card-actions>
     <div class="row justify-content-center">
       <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
+      <button mat-raised-button color="primary" (click)="clearForm()">Clear</button>
     </div>
   </mat-card-actions>
 </mat-card>       &nbsp;&nbsp;&nbsp;&nbsp;

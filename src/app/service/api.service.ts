@@ -415,6 +415,17 @@ getJrsss() {
   return this.http.get(`${this.baseJrssUri}`);
 }
 
+// Get all jrss by account
+getJrsssByAccount(account) {
+  let url = `${this.baseJrssUri}/getJrsssByAccount/${account}`;
+    return this.http.get(url, {headers: this.headers}).pipe(
+      map((res: Response) => {
+        return res || {}
+      }),
+      catchError(this.errorMgmt)
+    )
+}
+
 // Get jrss by id
 getJrssById(id): Observable<any> {
   let url = `${this.baseJrssUri}/readJrssById/${id}`;

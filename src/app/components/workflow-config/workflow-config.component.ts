@@ -18,6 +18,10 @@ export class WorkflowConfigComponent implements OnInit {
   JRSS: any = [];
   userName: String = "admin";
   account: any;
+  Account:any = [];
+  AccountArray:any=[];
+  loginAdminAccounts:any = [];
+
   jrssDocId: String = "";
   stage1: boolean = false;
   stage2: boolean = false;
@@ -31,15 +35,30 @@ export class WorkflowConfigComponent implements OnInit {
     if (!this.browserRefresh) {
         this.userName = this.router.getCurrentNavigation().extras.state.username;
         this.account = this.router.getCurrentNavigation().extras.state.account;
+        this.loginAdminAccounts = this.account.split(",");
     }
     this.mainForm();
-    this.readJrss();
+    this.readAccount();
     }
 
   ngOnInit(): void {
   }
 
-  // Choose designation with select dropdown
+  // Choose account with select dropdown
+  updateAccountProfile(e){
+    this.workFlowForm.get('account').setValue(e, {
+    onlySelf: true
+    })
+    this.apiService.getJrsssByAccount(e).subscribe((data) => {
+      this.JRSS = data;
+      this.workFlowForm.get('stage1OnlineTechAssessment').setValue(false);
+      this.workFlowForm.get('stage2PreTechAssessment').setValue(false);
+      this.workFlowForm.get('stage3TechAssessment').setValue(false);
+      this.workFlowForm.get('stage4ManagementInterview').setValue(false);
+      this.workFlowForm.get('stage5ProjectAllocation').setValue(false);
+    });
+  }
+
   updateJrssProfile(e) {
     this.workFlowForm.get('JRSS').setValue(e.value, {
       onlySelf: true
@@ -96,6 +115,7 @@ export class WorkflowConfigComponent implements OnInit {
 
   mainForm() {
     this.workFlowForm = this.fb.group({
+      account: ['',[Validators.required]],
       JRSS: ['', [Validators.required]],
       stage1OnlineTechAssessment: [false],
       stage2PreTechAssessment: [false],
@@ -104,11 +124,21 @@ export class WorkflowConfigComponent implements OnInit {
       stage5ProjectAllocation: [false]
     })
   }
-
-  // Get all Jrss
-  readJrss() {
-    this.apiService.getJrsss().subscribe((data) => {
-      this.JRSS = data;
+  // Get all Acconts
+  readAccount(){
+    this.apiService.getAccounts().subscribe((data) => {
+    this.Account = data;
+    //Remove 'sector' from Account collection
+    this.AccountArray.length=0;
+    for (var accValue of this.Account){
+        if(accValue.account !== 'SECTOR') {
+          for (var loginAdminAccount of this.loginAdminAccounts){
+            if(accValue.account == loginAdminAccount) {
+              this.AccountArray.push(accValue.account);
+            }
+          }
+        }
+    }
     })
   }
 
@@ -122,6 +152,7 @@ export class WorkflowConfigComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
+    this.formReset = false;
     this.readJrssDocId();
     if (!this.workFlowForm.valid) {
       return false;
@@ -144,5 +175,11 @@ export class WorkflowConfigComponent implements OnInit {
     }
 
   }
+
+
+clearForm() {
+  this.formReset = true;
+  this.workFlowForm.reset();
+}
 
 }
