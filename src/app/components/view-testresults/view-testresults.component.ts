@@ -44,10 +44,14 @@ export class ViewTestresultsComponent {
   nameFilter: string;
   emailFilter: string;
   jrssFilter: string;
+  accountFilter: string;
+  loginAdminAccounts:any = [];
   loading = true;
   dataSource = new MatTableDataSource<ViewResult>();
 
   displayedColumns = ['result_users[0].employeeName', 'userName','result_users[0].band','result_users[0].userPositionLocation','result_users[0].JRSS','quizNumber','userScore'];
+  displayedColumnsMultiAccount = ['result_users[0].employeeName', 'userName','result_users[0].band','result_users[0].userPositionLocation','result_users[0].account','result_users[0].JRSS','quizNumber','userScore'];
+
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -57,6 +61,7 @@ export class ViewTestresultsComponent {
       if (!this.browserRefresh) {
           this.userName = this.router.getCurrentNavigation().extras.state.username;
           this.account = this.router.getCurrentNavigation().extras.state.account;
+          this.loginAdminAccounts = this.account.split(",");
       }
   }
 
@@ -72,6 +77,7 @@ export class ViewTestresultsComponent {
         case 'result_users[0].employeeName': return item.result_users[0].employeeName;
         case 'result_users[0].band': return item.result_users[0].band;
         case 'result_users[0].userPositionLocation': return item.result_users[0].userPositionLocation;
+        case 'result_users[0].account': return item.result_users[0].account;
         case 'result_users[0].JRSS': return item.result_users[0].JRSS;
         default: return item[property];
       }
@@ -122,7 +128,7 @@ export class ViewTestresultsComponent {
 
    // Get all results
    getResults(): Observable<any> {
-     return this.http.get(`${this.userResultUri}/getresult`);
+     return this.http.get(`${this.userResultUri}/getresult/${this.account}`);
 
    }
    // To Read the Results of Candidate
@@ -146,5 +152,6 @@ export class ViewTestresultsComponent {
       this.nameFilter = '';
       this.emailFilter = '';
       this.jrssFilter = '';
+      this.accountFilter = '';
    }
 }
