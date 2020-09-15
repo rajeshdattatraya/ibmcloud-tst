@@ -21,6 +21,7 @@ export class OpenPositionsListComponent implements OnInit {
   account="";
 
   openPositionsList:any = [];
+  loginAdminAccounts:any = [];
   positionID;
   userName;
   accessLevel;
@@ -37,7 +38,8 @@ export class OpenPositionsListComponent implements OnInit {
     private positionsService: PositionsService) {
     this.account = this.router.getCurrentNavigation().extras.state.account;
     this.userName = this.router.getCurrentNavigation().extras.state.username;
-       this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
+    this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
+    this.loginAdminAccounts = this.account.split(",");
   }
 
   ngOnInit(): void {
@@ -53,11 +55,11 @@ export class OpenPositionsListComponent implements OnInit {
     // To Read the Open Position
     listAllOpenPositions() {
       const status="Open";
-    this.positionsService.listAllOpenPositions(this.account, status).subscribe((data) => {
-      this.openPositionsList = data;
-      this.dataSource.data = data as OpenPositionDetail[];
+      this.positionsService.listAllOpenPositions(this.account, status).subscribe((data) => {
+        this.openPositionsList = data;
+        this.dataSource.data = data as OpenPositionDetail[];
 
-    })
+      })
   }
 
 

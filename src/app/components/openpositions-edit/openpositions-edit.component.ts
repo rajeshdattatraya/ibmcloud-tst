@@ -29,6 +29,7 @@ export class OpenpositionsEditComponent implements OnInit {
   RateCardJobRole:any = [];
   Account:any = [];
   AccountArray:any = [];
+  loginAdminAccounts:any = [];
   positionID: number = 0;
 
 
@@ -44,12 +45,12 @@ export class OpenpositionsEditComponent implements OnInit {
           this.userName = this.router.getCurrentNavigation().extras.state.username;
           this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
           this.account = this.router.getCurrentNavigation().extras.state.account;
+          this.loginAdminAccounts = this.account.split(",");
       }
       this.readCompetencyLevel();
       this.readPositionLocation();
       this.readRateCardJobRole();
       this.readLineOfBusiness();
-      this.readJrss();
       this.readAccount();
 
   }
@@ -64,19 +65,42 @@ export class OpenpositionsEditComponent implements OnInit {
     this.apiService.getAccounts().subscribe((data) => {
     this.Account = data;
     //Remove 'sector' from Account collection
+    this.AccountArray.length=0;
     for (var accValue of this.Account){
-        if(accValue.account !== 'sector') {
-          this.AccountArray.push(accValue.account);
+      if(accValue.account !== 'SECTOR') {
+        for (var loginAdminAccount of this.loginAdminAccounts){
+          if(accValue.account == loginAdminAccount) {
+            this.AccountArray.push(accValue.account);
+          }
         }
+      }
     }
     })
   }
+
   // Choose account with select dropdown
   updateAccountProfile(e){
     this.openPositionForm.get('account').setValue(e.value, {
     onlySelf: true
     })
+    this.JRSS.length=0;
+    this.JRSSFull.length=0;
+    this.apiService.getJrsssByAccount(e.value).subscribe((data) => {
+        this.JRSSFull = data;
+        for(var i=0; i<this.JRSSFull.length; i++) {
+          let workFlowPrsent = ((this.JRSSFull[i]['stage1_OnlineTechAssessment']==undefined) ||
+          ((this.JRSSFull[i]['stage1_OnlineTechAssessment']==false) &&
+          (this.JRSSFull[i]['stage2_PreTechAssessment']==false) &&
+          (this.JRSSFull[i]['stage3_TechAssessment']==false) &&
+          (this.JRSSFull[i]['stage4_ManagementInterview']==false) &&
+          (this.JRSSFull[i]['stage5_ProjectAllocation']==false)))
+          if (!workFlowPrsent){
+            this.JRSS.push(this.JRSSFull[i]);
+          }
+        }
+    });
   }
+
 
   readOpenPosition(openPositionID) {
       this.openPositionService.readOpenPosition(openPositionID).subscribe(data => {
@@ -133,24 +157,6 @@ export class OpenpositionsEditComponent implements OnInit {
        })
     }
 
-    // Get all Jrss
-     readJrss(){
-      this.apiService.getJRSS().subscribe((data) => {
-      this.JRSSFull = data;
-      for(var i=0; i<this.JRSSFull.length; i++) {
-        let workFlowPrsent = ((this.JRSSFull[i]['stage1_OnlineTechAssessment']==undefined) ||
-        ((this.JRSSFull[i]['stage1_OnlineTechAssessment']==false) &&
-        (this.JRSSFull[i]['stage2_PreTechAssessment']==false) &&
-        (this.JRSSFull[i]['stage3_TechAssessment']==false) &&
-        (this.JRSSFull[i]['stage4_ManagementInterview']==false) &&
-        (this.JRSSFull[i]['stage5_ProjectAllocation']==false)))
-        if (!workFlowPrsent){
-          this.JRSS.push(this.JRSSFull[i]);
-        }
-      }
-      })
-    }
-
    // Choose Job Role with select dropdown
    updateJobRoleProfile(e){
      this.openPositionForm.get('JRSS').setValue(e.value, {
@@ -192,11 +198,11 @@ export class OpenpositionsEditComponent implements OnInit {
     }
 
     onSubmit() {
+        this.submitted = true;
+        this.formReset = false;
         if (!this.openPositionForm.valid) {
               return false;
         } else {
-        this.submitted = true;
-        this.formReset = false;
         let openPositionID = this.actRoute.snapshot.paramMap.get('id');
         let openPositionDetails = new OpenPosition(
         this.openPositionForm.value.positionName,

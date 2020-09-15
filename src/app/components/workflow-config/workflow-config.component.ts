@@ -18,6 +18,7 @@ export class WorkflowConfigComponent implements OnInit {
   JRSS: any = [];
   userName: String = "admin";
   account: any;
+  accessLevel:any;
   Account:any = [];
   AccountArray:any=[];
   loginAdminAccounts:any = [];
@@ -34,6 +35,7 @@ export class WorkflowConfigComponent implements OnInit {
     this.browserRefresh = browserRefresh;
     if (!this.browserRefresh) {
         this.userName = this.router.getCurrentNavigation().extras.state.username;
+        this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
         this.account = this.router.getCurrentNavigation().extras.state.account;
         this.loginAdminAccounts = this.account.split(",");
     }
@@ -92,6 +94,7 @@ export class WorkflowConfigComponent implements OnInit {
       }
       this.workFlowForm.setValue({
         JRSS: data[0]['jrss'],
+        account:data[0]['account'],
         stage1OnlineTechAssessment: this.stage1,
         stage2PreTechAssessment: this.stage2,
         stage3TechAssessment: this.stage3,
@@ -105,7 +108,7 @@ export class WorkflowConfigComponent implements OnInit {
     if (this.preTechQuestion <= 0) {
       event.checked = false;
       window.alert("There are no Pre-technical Questions configured for this Job role");
-      this.workFlowForm.value.stage2PreTechAssessment=false;
+      this.workFlowForm.get('stage2PreTechAssessment').setValue(false);
     }
   }
   // Getter to access form control
@@ -168,7 +171,7 @@ export class WorkflowConfigComponent implements OnInit {
         console.log('Workflow details updated successfully!');
         alert('Workflow details added successfully');
         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
-          this.router.navigate(['/workflow-config'] , { state: { username: this.userName,account: this.account }}));
+          this.router.navigate(['/workflow-config'] , { state: { username: this.userName,account: this.account,accessLevel: this.accessLevel }}));
       }, (error) => {
         console.log(error);
       })
