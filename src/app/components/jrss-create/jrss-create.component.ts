@@ -27,10 +27,11 @@ export class JrssCreateComponent implements OnInit {
   account: any;
   accessLevel:any;
   config: any;
+  accounts:any=[];
 
   loading = true;
   dataSource = new MatTableDataSource<JRSS>();
-  displayedColumns = ['Action','jrss'];
+  displayedColumns = ['Action','jrss','account'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -47,6 +48,8 @@ export class JrssCreateComponent implements OnInit {
           this.userName = this.router.getCurrentNavigation().extras.state.username;
           this.account = this.router.getCurrentNavigation().extras.state.account;
           this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
+
+          this.accounts = this.account.split(",");
       }
       this.mainForm();
     }
@@ -73,12 +76,14 @@ export class JrssCreateComponent implements OnInit {
       this.apiService.getJrsss().subscribe((data) => {
        this.Jrss = data;
        this.dataSource.data = data as JRSS[];
+       
       })
     }
 
   mainForm() {
     this.jrssForm = this.fb.group({
-      jrss: ['', [Validators.required]]
+      jrss: ['', [Validators.required]],
+      account: ['', [Validators.required]],
     })
   }
 
@@ -131,8 +136,7 @@ export class JrssCreateComponent implements OnInit {
         this.formReset = false;
         this.duplicateJrss = false;
         this.nullJrss = false;
-        this.checkDuplicateJrss();
-        
+        //this.checkDuplicateJrss();
         if (!this.jrssForm.valid) {
           return false;
         } else if (this.nullJrss){
@@ -140,6 +144,9 @@ export class JrssCreateComponent implements OnInit {
         } else if(this.duplicateJrss){
           this.error = 'Invalid entries found - Job Role already exist!';
         } else{
+
+          
+          
           this.apiService.createJrss(this.jrssForm.value).subscribe(
             (res) => {
               console.log('JRSS successfully saved!')
