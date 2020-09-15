@@ -46,6 +46,9 @@ ngOnInit() {
 cancelForm(){
   if(this.accessLevel=='admin')
   this.ngZone.run(() => this.router.navigateByUrl('/stream-create',{state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
+  else if(this.accessLevel=='sme')
+  this.ngZone.run(() => this.router.navigateByUrl('/manage-questionbank-sectorsme',{state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
+  
 }
 
 // Read data from techStream table
@@ -103,7 +106,13 @@ onSubmit() {
             {                       
             this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
             this.router.navigate(['/stream-create'], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
-        }}, (error) => {
+            }
+            else if(this.accessLevel=='sme')
+            {
+              this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
+              this.router.navigate(['//manage-questionbank-sectorsme'], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
+            }
+      }, (error) => {
             console.log(error);
         
       });
