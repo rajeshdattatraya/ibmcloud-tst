@@ -24,6 +24,7 @@ export class ViewQuestionComponent implements OnInit {
   config: any;
   index;
   questionID;
+  accounts;
   isRowSelected: boolean;
   dataSource = new MatTableDataSource<Question>();
 
@@ -111,7 +112,7 @@ removeQuestion(){
   if(this.isRowSelected == false){
     alert("Please select the Question");
   }else{
-  if(window.confirm('Are you sure?')) {
+  if(window.confirm('Are you sure to delete a question which applies to '+ this.accounts +'?')) {
       this.apiService.deleteQuestion(this.questionID).subscribe((data) => {
         //this.Questions.splice(this.index, 1);
         this.isRowSelected = false;
@@ -123,8 +124,9 @@ removeQuestion(){
 }
 
 
-    onSelectionChange(questionsID,i){
+    onSelectionChange(questionsID,accounts,i){
       this.questionID=questionsID;
+      this.accounts=accounts;
       this.index=i;
       this.isRowSelected = true;
     }
