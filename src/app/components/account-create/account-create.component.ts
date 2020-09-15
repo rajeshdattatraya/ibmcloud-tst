@@ -82,33 +82,31 @@ mainForm() {
         this.router.navigate(['/account-create'], { queryParams: { page: newPage } });
   }  
 
-// Check duplicate accounts in Account table
-// checkDuplicateAccount(){
-//   for (var account of this.accountList){
-//     if(account.account.toLowerCase().trim() == this.accountForm.value.account.toLowerCase().trim()
-//       || account.account.toLowerCase().replace(/\s/g, "").replaceAll("-", "").trim() == this.accountForm.value.account.toLowerCase().replace(/\s/g, "").replaceAll("-", "").trim()
-//       || account.account.toLowerCase().replace(/\s/g, "").trim() == this.accountForm.value.account.toLowerCase().replace(/\s/g, "").trim()      
-//     ) {
-//       this.duplicateAccount = true;
-//     } else if (this.accountForm.value.account.toLowerCase().trim() === 'null'
-//           || this.accountForm.value.account.trim().length == 0) {
-//       this.nullAccount = true;
-//     }
-//   }
-// }	
+  // Check duplicate accounts in Account table
+  checkDuplicateAccount(){
+    for (var acc of this.accountList){      
+      if(acc.account.toLowerCase().trim() == this.accountForm.value.account.toLowerCase().trim()        
+      ) {
+        this.duplicateAccount = true;
+      } else if (this.accountForm.value.account.toLowerCase().trim() === 'null'
+            || this.accountForm.value.account.trim().length == 0) {
+        this.nullAccount = true;
+      }
+    }
+  }	
 
   onSubmit() {
       this.submitted = true;
       this.formReset = false;
       this.duplicateAccount = false;
       this.nullAccount = false;
-      //this.checkDuplicateAccount();
+      this.checkDuplicateAccount();
       
       if (!this.accountForm.valid) {
         return false;
-      } else if (this.nullAccount){
+      } else if (this.nullAccount){        
         this.error = 'Invalid entries found - Null/Space not allowed!';
-      } else if(this.duplicateAccount){
+      } else if(this.duplicateAccount){        
         this.error = 'Invalid entries found - Account already exist!';
       } else{         
           this.apiService.createAccount(this.accountForm.value).subscribe(

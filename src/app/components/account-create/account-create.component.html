@@ -6,16 +6,15 @@
 </div>
 <!-- form create account -->
 <mat-card class="login-card">
-  <mat-card-header>
-  </mat-card-header>
+  <mat-card-header></mat-card-header>
   <mat-card-content>
         <form [formGroup]="accountForm">
           <table class="example-full-width" cellspacing="0">
             <tr>
               <td>
-                <mat-form-field class="example-full-width">
-                <input matInput placeholder="Account" formControlName="account" name="account" [ngClass]="{ 'is-invalid': submitted && myForm.account.errors }">
-                <div *ngIf="submitted && myForm.account.errors" class="invalid-feedback">
+                <mat-form-field class="question-text-width">
+                <input matInput placeholder="Account" formControlName="account" name="account" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.account.errors }">
+                <div *ngIf="!formReset && submitted && myForm.account.errors" class="invalid-feedback">
                   <div *ngIf="myForm.account.errors.required">Account is required</div>
                 </div>
                 </mat-form-field>
