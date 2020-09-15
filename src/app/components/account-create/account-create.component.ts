@@ -1,6 +1,6 @@
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ApiService } from './../../service/api.service';
-import { Component, OnInit, NgZone,ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { browserRefresh } from '../../app.component';
 import { User } from './../../model/user';
@@ -37,8 +37,6 @@ export class AccountCreateComponent implements OnInit {
   constructor(
     public fb: FormBuilder,
     private router: Router,
-    private actRoute: ActivatedRoute,
-    private ngZone: NgZone,
     private apiService: ApiService
   ) {
     this.browserRefresh = browserRefresh;
