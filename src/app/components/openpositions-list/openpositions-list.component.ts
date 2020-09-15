@@ -30,9 +30,12 @@ export class OpenpositionsListComponent implements OnInit {
   positionIDFilter: string;
   positionLocationFilter: string;
   jrssFilter: string;
+  accountFilter: string;
+  loginAdminAccounts:any = [];
   dataSource = new MatTableDataSource<OpenPositionDetail>();
 
-  displayedColumns = ['Action','positionName', 'positionID', 'account','JRSS','lineOfBusiness','positionLocation','rateCardJobRole','competencyLevel'];
+  displayedColumns = ['Action','positionName', 'positionID','JRSS','lineOfBusiness','positionLocation','rateCardJobRole','competencyLevel'];
+  displayedColumnsMultiAccount = ['Action','positionName', 'positionID', 'account','JRSS','lineOfBusiness','positionLocation','rateCardJobRole','competencyLevel'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -48,6 +51,7 @@ export class OpenpositionsListComponent implements OnInit {
             this.userName = this.router.getCurrentNavigation().extras.state.username;
             this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
             this.account = this.router.getCurrentNavigation().extras.state.account;
+            this.loginAdminAccounts = this.account.split(",");
         }
     }
 
@@ -108,6 +112,7 @@ export class OpenpositionsListComponent implements OnInit {
        this.positionIDFilter = '';
        this.positionLocationFilter = '';
        this.jrssFilter = '';
+       this.accountFilter = '';
      }
 
      applyFilter(filterValue: string,key: string) {
