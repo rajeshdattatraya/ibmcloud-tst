@@ -11,7 +11,22 @@
   <mat-card-content>
         <form [formGroup]="jrssForm">
           <table class="example-full-width" cellspacing="0">
+
             <tr>
+              <td>
+                <mat-form-field class="example-full-width">
+                  <mat-select placeholder="Account"  formControlName="account" id="account"
+                              [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.account.errors }">
+                    <mat-option disabled value="">Choose...</mat-option>
+                    <mat-option *ngFor="let account of accounts" value="{{account}}" >{{account}}
+                    </mat-option>
+                  </mat-select>
+                  <div *ngIf="!formReset && submitted && myForm.account.errors" class="invalid-feedback">
+                    <div *ngIf="myForm.account.errors.required">Account is required</div>
+                  </div>
+                </mat-form-field>
+              </td>
+            
               <td>
                 <mat-form-field class="example-full-width">
                 <input matInput placeholder="Job Role" formControlName="jrss" name="jrss" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.jrss.errors }">
@@ -51,6 +66,10 @@
     <ng-container matColumnDef="jrss">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Job Role </th>
       <td mat-cell *matCellDef="let row"> {{row.jrss}}</td>
+    </ng-container>
+    <ng-container matColumnDef="account">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Account </th>
+      <td mat-cell *matCellDef="let row"> {{row.account}}</td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; let even = even; columns: displayedColumns;" [ngClass]="{gray: even}"></tr>
