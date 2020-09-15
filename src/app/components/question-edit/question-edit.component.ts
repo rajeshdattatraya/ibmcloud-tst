@@ -232,7 +232,7 @@ export class QuestionEditComponent implements OnInit {
               console.log(error);
             }); */
 
-            if(confirm('Do you want to update the Question?')){
+            if(confirm('Do you want to update the Question which applies to '+ this.editquestionForm.value.account +' accounts?')){
               this.apiService.updateQuestion(this.question_id,this.editquestionForm.value).subscribe(
                 (res) => {
                   //console.log('Question successfully updated!');
