@@ -46,7 +46,7 @@ ngOnInit() {
 cancelForm(){
   if(this.accessLevel=='admin')
   this.ngZone.run(() => this.router.navigateByUrl('/stream-create',{state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
-  else if(this.accessLevel=='admin')
+  else if(this.accessLevel=='sme')
   this.ngZone.run(() => this.router.navigateByUrl('/manage-questionbank-sectorsme',{state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
   
 }
