@@ -3,7 +3,6 @@ import { ApiService } from './../../service/api.service';
 import { Component, OnInit, NgZone,ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { browserRefresh } from '../../app.component';
-import { appConfig } from './../../model/appConfig';
 import { JRSS } from './../../model/jrss';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator'
@@ -105,27 +104,17 @@ export class JrssCreateComponent implements OnInit {
     }
   }
 
-  // checkDuplicateJrss(){
-  //   for (var jrss of this.Jrss){
-  //     if(jrss.jrss.toLowerCase().trim() == this.jrssForm.value.jrss.toLowerCase().trim()
-  //         || this.jrssForm.value.jrss.toLowerCase().trim() === 'null'
-  //         || this.jrssForm.value.jrss.trim().length == 0
-  //         || this.jrssForm.value.jrss == ""){
-  //       this.duplicateJrss = true;
-  //     }
-  //   }
-  // }
-
-  // Check duplicate stream in techStream
+  // Check duplicate Jrss in the table
   checkDuplicateJrss(){
     for (var jrss of this.Jrss){
       if(jrss.jrss.toLowerCase().trim() == this.jrssForm.value.jrss.toLowerCase().trim()
-        || jrss.jrss.toLowerCase().replace(/\s/g, "").replaceAll("-", "").trim() == this.jrssForm.value.jrss.toLowerCase().replace(/\s/g, "").replaceAll("-", "").trim()
-        || jrss.jrss.toLowerCase().replace(/\s/g, "").trim() == this.jrssForm.value.jrss.toLowerCase().replace(/\s/g, "").trim()      
+        // || jrss.jrss.toLowerCase().replace(/\s/g, "").replaceAll("-", "").trim() == this.jrssForm.value.jrss.toLowerCase().replace(/\s/g, "").replaceAll("-", "").trim()
+        // || jrss.jrss.toLowerCase().replace(/\s/g, "").trim() == this.jrssForm.value.jrss.toLowerCase().replace(/\s/g, "").trim()      
       ) {
         this.duplicateJrss = true;
       } else if (this.jrssForm.value.jrss.toLowerCase().trim() === 'null'
-            || this.jrssForm.value.jrss.trim().length == 0) {
+            || this.jrssForm.value.jrss.trim().length == 0
+            || this.jrssForm.value.jrss == "") {
         this.nullJrss = true;
       }
     }
@@ -136,24 +125,22 @@ export class JrssCreateComponent implements OnInit {
         this.formReset = false;
         this.duplicateJrss = false;
         this.nullJrss = false;
-        //this.checkDuplicateJrss();
+        this.checkDuplicateJrss();
+
         if (!this.jrssForm.valid) {
           return false;
         } else if (this.nullJrss){
           this.error = 'Invalid entries found - Null/Space not allowed!';
         } else if(this.duplicateJrss){
           this.error = 'Invalid entries found - Job Role already exist!';
-        } else{
-
-          
-          
-          this.apiService.createJrss(this.jrssForm.value).subscribe(
-            (res) => {
-              console.log('JRSS successfully saved!')
-             this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
-             this.router.navigate(['/jrss-create'], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
-            }, (error) => {
-              console.log(error);
+        } else{   
+            this.apiService.createJrss(this.jrssForm.value).subscribe(
+              (res) => {
+                console.log('JRSS successfully saved!')
+              this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
+              this.router.navigate(['/jrss-create'], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
+              }, (error) => {
+                console.log(error);
             });
         }
       }
