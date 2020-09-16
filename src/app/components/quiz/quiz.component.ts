@@ -33,6 +33,7 @@ export class QuizComponent implements OnInit {
   jrss:any;
   technologyStream:any;
   band:any;
+  candidateAccount:any;
 
   timer: any = null;
   startTime: Date;
@@ -145,7 +146,10 @@ ngOnInit() {
       this.jrss=res['JRSS'];
       this.technologyStream=res['technologyStream'];
       this.band=res['band'];
+      this.candidateAccount=res['account'];
       console.log("band values is " +this.band);
+      console.log("the candidate account is " +this.candidateAccount);
+
       let str = this.band;
       str = this.band.substring(0, 1);
       this.bandInt = parseInt(str);
@@ -158,7 +162,7 @@ ngOnInit() {
           this.noOfQuestions = data['noOfQuestions'];
           console.log('No of question' +this.noOfQuestions);
           this.configDuration = data['testDuration']*60;
-          this.quizService.getQuizQuestions(this.noOfQuestions, this.userName,this.technologyStream,this.complexityLevel).subscribe(res => {
+          this.quizService.getQuizQuestions(this.noOfQuestions, this.userName,this.technologyStream,this.complexityLevel,this.candidateAccount).subscribe(res => {
                  this.questions = res;
          }, (error) => {
          console.log(error);
@@ -216,7 +220,7 @@ ngOnInit() {
         currentsetq=temp1;
       }
        
-         this.quizService.getQuizQuestions(currentsetq, this.userName,this.technologyStream,complexity).subscribe(res => {
+         this.quizService.getQuizQuestions(currentsetq, this.userName,this.technologyStream,complexity,this.candidateAccount).subscribe(res => {
            
             //create a temparary array of questions for the responses received 
             let tempQuestions:any = [];
