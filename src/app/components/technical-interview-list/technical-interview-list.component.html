@@ -17,7 +17,7 @@
         </mat-form-field>
       </td>
       <td>
-        <mat-form-field *ngIf="account=='sector' || account=='Sector' || account=='SECTOR'">
+        <mat-form-field *ngIf="account=='sector' || account=='Sector' || account=='SECTOR' || this.loginAccounts.length > 1">
             <input matInput [(ngModel)]="accountFilter" (keyup)="applyFilter($event.target.value,'account')" placeholder="Account">
         </mat-form-field>
       </td>
@@ -38,7 +38,7 @@
   <p *ngIf="TechnicalInterviewList.length <= 0" class="no-data text-center">There are no records in Technical Interview Assessment Queue</p>
 
   <!-- Technical Interview list -->
-  <div class="mat-elevation-z8" *ngIf="account=='sector' || account=='Sector' || account=='SECTOR'">
+  <div class="mat-elevation-z8" *ngIf="account=='sector' || account=='Sector' || account=='SECTOR' || this.loginAccounts.length > 1">
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
       <!-- ID Column -->
@@ -122,6 +122,7 @@
         </td>
       </ng-container>
 
+     
       <!-- ID Column -->
       <ng-container matColumnDef="result_users[0].JRSS">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Job Role </th>

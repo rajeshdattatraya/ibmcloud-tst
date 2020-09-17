@@ -17,7 +17,7 @@
       </mat-form-field>
     </td>
     <td>
-      <mat-form-field *ngIf="account=='sector' || account=='Sector' || account=='SECTOR'">
+      <mat-form-field *ngIf="account=='sector' || account=='Sector' || account=='SECTOR' || this.loginAccounts.length > 1">
         <input matInput [(ngModel)]="accountFilter" (keyup)="applyFilter($event.target.value,'account')" placeholder="Account">
       </mat-form-field>
     </td>
@@ -37,7 +37,7 @@
 
 <!-- Partner Interview list -->
 
-<div class="mat-elevation-z8" *ngIf="account=='sector' || account=='Sector' || account=='SECTOR'">
+<div class="mat-elevation-z8" *ngIf="account=='sector' || account=='Sector' || account=='SECTOR' ">
   <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
     <!-- ID Column -->
