@@ -33,12 +33,16 @@ export class QuestionsAddBulkComponent implements OnInit {
   file: File;
   arrayBuffer: any;
   filelist: any;
+  accounts:any=[];
+
   constructor(public fb: FormBuilder,private router: Router,private ngZone: NgZone, private apiService: ApiService) {
     this.browserRefresh = browserRefresh;
     if (!this.browserRefresh) {
         this.userName = this.router.getCurrentNavigation().extras.state.username;
         this.account = this.router.getCurrentNavigation().extras.state.account;
         this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
+
+        this.accounts = this.account.split(",");
     }
       this.readTechStream();
       this.mainForm();
@@ -57,6 +61,7 @@ export class QuestionsAddBulkComponent implements OnInit {
         technologyStream: ['', [Validators.required]],
         questionType: ['', [Validators.required]],
         complexityLevel: ['', [Validators.required]],
+        accountName: ['', [Validators.required]],
         question: ['', [Validators.required]],
         option1: ['', [Validators.required]],
         option2: ['', [Validators.required]],
@@ -100,12 +105,17 @@ export class QuestionsAddBulkComponent implements OnInit {
    }
   }
 
-  // Choose Technology Stream with select dropdown
+    // Choose Technology Stream with select dropdown
       updateTechnologyStream(e){
         this.questionForm.get('technologyStream').setValue(e, {
         onlySelf: true
         })
       }
+
+    // Choose account with select dropdown
+    updateAccountProfile(e){
+      this.questionForm.value.accountName = e.source.value;      
+    }
 
 
     // Get all Tech Stream
@@ -315,7 +325,9 @@ export class QuestionsAddBulkComponent implements OnInit {
     }      
     this.questionID++;    
     this.questionForm.value.questionID=this.questionID;
-    this.questionForm.value.account=this.account;
+   
+    //this.questionForm.value.account=this.account;
+    this.questionForm.value.account=this.questionForm.value.accountName.join(',');
 
     this.apiService.createQuestion(this.questionForm.value).subscribe(
       (res) => {
