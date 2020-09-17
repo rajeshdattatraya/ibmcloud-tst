@@ -1,6 +1,7 @@
 export class OpenPosition {
     positionName: String;
     positionID: String;
+    sequenceID: String;
     JRSS: String;
     rateCardJobRole: String;
     lineOfBusiness: String;
@@ -13,10 +14,11 @@ export class OpenPosition {
     updatedBy: String;
     updatedDate: String;
 
-    constructor(positionName,positionID,JRSS,rateCardJobRole,lineOfBusiness,positionLocation,competencyLevel,
+    constructor(positionName,positionID,sequenceID,JRSS,rateCardJobRole,lineOfBusiness,positionLocation,competencyLevel,
                account, status,createdBy,createdDate,updatedBy,updatedDate) {
                this.positionName = positionName;
                this.positionID = positionID;
+               this.sequenceID = sequenceID;
                this.JRSS = JRSS;
                this.rateCardJobRole = rateCardJobRole;
                this.lineOfBusiness = lineOfBusiness;

@@ -110,15 +110,7 @@ export class UserEditComponent implements OnInit {
 
    // Get all Acconts
    readAccount(){
-     this.apiService.getAccounts().subscribe((data) => {
-      this.Account = data;
-      this.AccountList.length=0;
-      for (var accValue of this.Account){
-        if(accValue.account != 'SECTOR' ) {
-          this.AccountList.push(accValue);
-        }
-      }
-     })
+    this.AccountList = this.account.split(",");
    }
 
    // Choose userrole with select dropdown
