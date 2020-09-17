@@ -35,8 +35,12 @@ export class StreamCreateComponent implements OnInit {
   techStreamCollection:any = [];  
   dataSource = new MatTableDataSource<JRSS>();
   displayedColumns = ['Action','jrss', 'technologyStream'];
+  displayedColumnsWithAccount = ['Action','jrss', 'technologyStream', 'account'];
   formReset = false;
   questionsmappedtotechstream = false;
+
+  accounts:any=[];
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   constructor(
@@ -56,6 +60,8 @@ export class StreamCreateComponent implements OnInit {
         this.userName = this.router.getCurrentNavigation().extras.state.username;
         this.account = this.router.getCurrentNavigation().extras.state.account;
         this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
+
+        this.accounts = this.account.split(",");
     }
     route.queryParams.subscribe(
       params => this.config.currentPage= params['page']?params['page']:1 );
@@ -81,6 +87,7 @@ export class StreamCreateComponent implements OnInit {
     this.streamCreateForm = this.fb.group({
       JRSS: ['', [Validators.required]],
       technologyStream :['', [Validators.required]],
+      account :['', [Validators.required]],
       existingTechnologyStream: ['']
     })
   }
@@ -90,15 +97,34 @@ export class StreamCreateComponent implements OnInit {
     this.JRSS = data;
     //this.dataSource.data=data as JRSS[];
     // Get technologyStream from JRSS
-    for (var jrss of this.JRSS){     
+    for (var jrss of this.JRSS) {     
         this.techStreamArray = [];
         for (var skill of jrss.technologyStream){          
-          this.techStreamArray.push(skill.value);        
-        }        
-        this.jrssObject = [jrss._id, jrss.jrss, this.techStreamArray];
-        this.jrssObjectArray.push(this.jrssObject);  
-        this.dataSource.data=this.jrssObjectArray as JRSS[];         
+          this.techStreamArray.push(skill.value);  
+        }   
+        
+        //var item = jrss.account;
+        let accountExists =  false;
+        for (var i = 0; i < this.accounts.length; i++) {
+         
+          if ( jrss.account.toLowerCase().indexOf(this.accounts[i].toLowerCase()) == -1) {
+           // accountExists =  false;
+          } else { accountExists =  true; 
+            break; }
+        }
+
+        if (accountExists == true) {
+
+          this.jrssObject = [jrss._id,jrss.jrss, this.techStreamArray, jrss.account];
+          this.jrssObjectArray.push(this.jrssObject);
+          console.log('jrssObjectArray****', this.jrssObjectArray);
+        }
+
+     
+      
     }  
+    this.dataSource.data=this.jrssObjectArray as JRSS[]; 
+    
     });        
   }
   // Get all TechStream
@@ -136,6 +162,32 @@ pageChange(newPage: number) {
       }
     }    
   }
+
+//List JRSS by account  
+listJrssByAccount(accountValue){
+
+  //this.JRSS
+  }
+
+
+  readJrssByAccount(accountValue){
+    this.apiService.getJrsssByAccount(accountValue).subscribe((data) => {
+    this.JRSS = data;
+    //this.dataSource.data=data as JRSS[];
+    // Get technologyStream from JRSS
+    for (var jrss of this.JRSS){     
+        this.techStreamArray = [];
+        for (var skill of jrss.technologyStream){          
+          this.techStreamArray.push(skill.value);        
+        }        
+       // this.jrssObject = [jrss._id, jrss.jrss, this.techStreamArray];
+       // this.jrssObjectArray.push(this.jrssObject);  
+       // this.dataSource.data=this.jrssObjectArray as JRSS[];         
+    }  
+    });        
+  }
+  
+
    // Choose designation with select dropdown 
    updateStreamProfile(e){
     this.streamCreateForm.get('technologyStream').setValue(e, {
@@ -171,6 +223,7 @@ pageChange(newPage: number) {
       {
         this.questionsmappedtotechstream = true;
         this.currentJrssArray.technologyStream.push({key:this.streamCreateForm.value.technologyStream, value:this.streamCreateForm.value.technologyStream});
+        this.currentJrssArray.account= this.streamCreateForm.value.account;
         this.apiService.updateTechStream(this.jrssDocId, JSON.stringify(this.currentJrssArray)).subscribe(res => {
           console.log('Technology stream updated successfully!');
           alert('Technology Stream added successfully');

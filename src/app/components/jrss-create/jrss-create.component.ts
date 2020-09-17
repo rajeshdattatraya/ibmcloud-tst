@@ -7,6 +7,7 @@ import { JRSS } from './../../model/jrss';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator'
 import {MatSort} from '@angular/material/sort';
+import { timeout } from 'rxjs/operators';
 
 @Component({
   selector: 'app-jrss-create',
@@ -22,15 +23,17 @@ export class JrssCreateComponent implements OnInit {
   formReset = false;
   jrssForm: FormGroup;
   Jrss:any = [];
+  filteredJrss:any = [];
   userName: String = "admin";
   account: any;
   accessLevel:any;
   config: any;
   accounts:any=[];
-
+  filterObj = {};
   loading = true;
   dataSource = new MatTableDataSource<JRSS>();
-  displayedColumns = ['Action','jrss','account'];
+  displayedColumns = ['Action','jrss'];
+  displayedColumnsWithAccount = ['Action','jrss','account'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -56,6 +59,7 @@ export class JrssCreateComponent implements OnInit {
   ngOnInit() { 
     this.browserRefresh = browserRefresh;
     this.readJrss();
+    
    }
 
    ngAfterViewInit(): void {
@@ -74,10 +78,29 @@ export class JrssCreateComponent implements OnInit {
   readJrss(){
       this.apiService.getJrsss().subscribe((data) => {
        this.Jrss = data;
-       this.dataSource.data = data as JRSS[];
        
+       
+for (let k=0; k<this.Jrss.length; k++){
+       var item = this.Jrss[k].account;
+        let accountExists =  false;
+        for (var i = 0; i < this.accounts.length; i++) {
+         
+          if ( item.toLowerCase().indexOf(this.accounts[i].toLowerCase()) == -1) {
+           // accountExists =  false;
+          } else { accountExists =  true; 
+            break; }
+        }
+
+        if (accountExists == true) {
+          this.filteredJrss.push(this.Jrss[k]);
+        }
+      }
+      this.dataSource.data = this.filteredJrss as JRSS[];
+
       })
+      
     }
+
 
   mainForm() {
     this.jrssForm = this.fb.group({
@@ -149,4 +172,6 @@ export class JrssCreateComponent implements OnInit {
         this.formReset = true;
         this.jrssForm.reset();
     }
+
+
 }
