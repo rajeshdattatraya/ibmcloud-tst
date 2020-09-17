@@ -64,6 +64,7 @@ export class TechnicalInterviewListComponent implements OnInit {
   dataSource = new MatTableDataSource<ViewResult>();
   showCalendar: boolean = false;
   calEmployeeName = "";
+  loginAccounts:any = [];
 
   displayedColumns = ['Action','result_users[0].employeeName', 'result_users[0].JRSS','userScore','preTechForm','cvDownload'];
   displayedColumnsSector = ['Action','result_users[0].employeeName', 'result_users[0].JRSS','result_users[0].account','userScore','preTechForm','cvDownload'];
@@ -78,6 +79,8 @@ export class TechnicalInterviewListComponent implements OnInit {
       this.userName = this.router.getCurrentNavigation().extras.state.username;
       this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
       this.account = this.router.getCurrentNavigation().extras.state.account;
+      this.loginAccounts = this.account.split(",");
+      console.log("Accounts " +this.loginAccounts);
     }
     this.form = this.fb.group({
       employeeName: new FormControl(''),

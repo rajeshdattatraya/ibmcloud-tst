@@ -24,9 +24,10 @@ export class ViewQuestionComponent implements OnInit {
   config: any;
   index;
   questionID;
-  accounts;
+ accounts;
   isRowSelected: boolean;
   dataSource = new MatTableDataSource<Question>();
+  accountArr:any = [];
 
   accountFilter: string;
   filterObj = {};
@@ -37,6 +38,7 @@ export class ViewQuestionComponent implements OnInit {
   questionObjectArray: any = [];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  accountObj: any;
 
   constructor(public fb: FormBuilder,private router: Router, private apiService: ApiService,private route: ActivatedRoute) {
       this.config = {
@@ -49,9 +51,7 @@ export class ViewQuestionComponent implements OnInit {
         this.userName = this.router.getCurrentNavigation().extras.state.username;
         this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
         this.account = this.router.getCurrentNavigation().extras.state.account;
-
     }
-
     route.queryParams.subscribe(
       params => this.config.currentPage= params['page']?params['page']:1 );
       this.readQuestion();
@@ -81,20 +81,22 @@ export class ViewQuestionComponent implements OnInit {
   readQuestion(){
       this.questionObjectArray = [];
       this.Questions =[];
-      this.apiService.viewQuizQuestions(this.userName,this.account).subscribe((data) => {
+      this.accountArr = this.account.split(",");
+      console.log("Account output" +this.accountArr);
+      for(var accountValue of this.accountArr){
+      this.apiService.viewQuizQuestions(this.userName, accountValue).subscribe((data) => {
       this.Questions = data;
+     
       for (var question of this.Questions){
-        this.optionArray = [];
-
-        for (var option of question.options){
-          this.optionArray.push(option.option);
-        }
-        //this.questionObj = [question._id, question.question, this.optionArray];
+        
         this.questionObj = [question._id, question.question, question.account, question.technologyStream];
         this.questionObjectArray.push(this.questionObj);
         }
          this.dataSource.data=this.questionObjectArray as Question[];
+      
        })
+      }
+
   }
 
 invokeEdit(){
