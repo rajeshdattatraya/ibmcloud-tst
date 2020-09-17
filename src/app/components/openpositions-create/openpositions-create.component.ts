@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { browserRefresh } from '../../app.component';
 import { ApiService } from './../../service/api.service';
 import { OpenPosition } from './../../model/openPosition';
-import { OpenPositionService } from './../../service/openPosition.service';
+import { OpenPositionService } from './../../service/openposition.service';
 
 @Component({
   selector: 'app-openpositions-create',

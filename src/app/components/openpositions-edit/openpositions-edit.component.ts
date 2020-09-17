@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute,Router } from '@angular/router';
 import { browserRefresh } from '../../app.component';
 import { ApiService } from './../../service/api.service';
-import { OpenPositionService } from './../../service/openPosition.service';
+import { OpenPositionService } from './../../service/openposition.service';
 import { OpenPosition } from './../../model/openPosition';
 
 @Component({

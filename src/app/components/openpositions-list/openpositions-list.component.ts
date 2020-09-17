@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute,Router } from '@angular/router';
 import { browserRefresh } from '../../app.component';
 import { appConfig } from './../../model/appConfig';
-import { OpenPositionService } from './../../service/openPosition.service';
+import { OpenPositionService } from './../../service/openposition.service';
 import { OpenPositionDetail } from './../../model/openPositionDetail';
 import { PositionsService } from 'src/app/components/open-positions-list/positions.service';
 import {MatTableDataSource} from '@angular/material/table';
