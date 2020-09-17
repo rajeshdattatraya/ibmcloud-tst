@@ -106,6 +106,7 @@ export class ReportComponent implements OnInit {
           case 'row[2][1]': return item[2][1];
           case 'row[3][1]': return item[3][1];
           case 'row[4][1]': return item[4][1];
+          case 'row[5][1]': return item[5][1];
           default: return property;
         }
      };
