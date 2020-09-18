@@ -129,8 +129,9 @@ for (let k=0; k<this.Jrss.length; k++){
 
   // Check duplicate Jrss in the table
   checkDuplicateJrss(){
-    for (var jrss of this.Jrss){
+    for (var jrss of this.filteredJrss){
       if(jrss.jrss.toLowerCase().trim() == this.jrssForm.value.jrss.toLowerCase().trim()
+      && jrss.account.toLowerCase().trim() == this.jrssForm.value.account.toLowerCase().trim()
         // || jrss.jrss.toLowerCase().replace(/\s/g, "").replaceAll("-", "").trim() == this.jrssForm.value.jrss.toLowerCase().replace(/\s/g, "").replaceAll("-", "").trim()
         // || jrss.jrss.toLowerCase().replace(/\s/g, "").trim() == this.jrssForm.value.jrss.toLowerCase().replace(/\s/g, "").trim()      
       ) {
