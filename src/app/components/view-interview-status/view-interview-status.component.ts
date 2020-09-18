@@ -6,7 +6,6 @@ import { browserRefresh } from '../../app.component';
 import { appConfig } from './../../model/appConfig';
 import { ResultPageService } from './../../components/result-page/result-page.service';
 import { ExceptionApprovalDetail } from './../../model/exceptionalApprovalDetail';
-import { ResultStatus } from './../../model/resultStatus';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator'
 import {MatSort} from '@angular/material/sort';
@@ -20,17 +19,20 @@ export class ViewInterviewStatusComponent implements OnInit {
   config: any;
   workFlowForm: FormGroup;
   public browserRefresh: boolean;
+  public flag:boolean=false;
   candidateInterviewStatus:any = [];
   exceptionalApprovalList: any = [];
   candidateDetails: any;
   candidateUserId = "";
   candidateUserName = "";
+ 
 
   userName = "";
   accessLevel = "management";
   account = "";
   employeeName = "";
   onlineTestResult = "";
+  userResult = "";
   technicalInterviewResult = "";
   partnerInterviewResult = "";
   JRSS = "";
@@ -86,6 +88,7 @@ export class ViewInterviewStatusComponent implements OnInit {
       this.candidateInterviewStatus.forEach( candidate => {
       this.employeeName = "";
       this.onlineTestResult = "";
+      this.userResult = "";
       this.technicalInterviewResult = "";
       this.partnerInterviewResult = "";
       this.JRSS = "";
@@ -99,6 +102,7 @@ export class ViewInterviewStatusComponent implements OnInit {
       this.canUserName = candidate.username;
       if (candidate.candidate_results.length == 0) {
         this.onlineTestResult = "Pending";
+        this.userResult ="Other";
         this.technicalInterviewResult = "Pending";
         this.partnerInterviewResult = "Pending";
       }
@@ -106,12 +110,22 @@ export class ViewInterviewStatusComponent implements OnInit {
           this.resultId = result._id
           if (result.stage1_status == 'Not Started') {
             this.onlineTestResult = "Pending";
+            this.userResult ="Other";
           } else if (result.stage1_status == 'Skipped') {
             this.onlineTestResult = "N/A";
+            this.userResult ="Other";
           } else if (result.stage1_status == 'Completed' && result.userScore != null) {
              this.onlineTestResult = result.userScore + "%";
+             if(result.userResult=='Pass'){
+              this.userResult="Pass";
+             }else if(result.userResult=='Fail'){
+              this.userResult="Fail";             
+             }else{
+              this.userResult ="Other";
+             }
           }  else if (result.stage1_status == 'Completed' && result.userScore == null) {
              this.onlineTestResult = "N/A";
+             this.userResult ="Other";
           }
 
           if (result.stage3_status == 'Not Started') {
@@ -134,7 +148,7 @@ export class ViewInterviewStatusComponent implements OnInit {
       });
       if (this.stage5 == "Not Started" || this.stage5 == "") {
           this.exceptionalApprovalList.push(new ExceptionApprovalDetail(this.employeeName, this.JRSS, this.onlineTestResult, this.technicalInterviewResult,
-                                        this.partnerInterviewResult,this.canUserId,this.canUserName,this.resultId));
+                                        this.partnerInterviewResult,this.canUserId,this.canUserName,this.resultId,this.userResult));
       }
       });
       this.dataSource.data = this.exceptionalApprovalList as ExceptionApprovalDetail[];
@@ -146,7 +160,6 @@ export class ViewInterviewStatusComponent implements OnInit {
     this.resultId=resultId;
     this.candidateUserName=candidateUserName;
   }
-
   exceptionalApproval() {
     if (this.candidateUserId == "") {
         alert("Please select the candidate");

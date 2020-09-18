@@ -28,7 +28,18 @@
     <!-- Color Column -->
     <ng-container matColumnDef="onlineTestResult">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Online Test Results </th>
-      <td mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.onlineTestResult}} </td>
+      <!-- <td mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.onlineTestResult}} </td> -->
+      <td mat-cell *matCellDef="let row">
+        <div *ngIf="row.userResult=='Fail'">
+      <a style="color:red"> {{row.onlineTestResult}} </a>
+    </div>
+    <div *ngIf="row.userResult=='Pass'">
+      <a style="color:rgb(0, 128, 43);"> {{row.onlineTestResult}} </a>
+    </div>
+    <div *ngIf="row.userResult=='Other'">
+      <a [style.color]="row.color"> {{row.onlineTestResult}} </a>
+    </div>
+    </td> 
     </ng-container>
 
     <!-- Color Column -->
