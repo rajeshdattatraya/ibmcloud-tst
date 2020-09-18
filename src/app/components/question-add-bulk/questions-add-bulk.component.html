@@ -9,12 +9,24 @@
   <mat-card-header></mat-card-header>
   <mat-card-content>
     <form [formGroup]="questionForm">
-      <table class="open-full-width" cellspacing="0">
-
-        <!-- Technology Stream -->
-        <tr>
-          <td>
-            <mat-form-field class="question-full-width">
+      <table class="open-full-width" cellspacing="0">        
+        <tr>                    
+          <td width="55%">  
+            <!-- Account -->                           
+            <mat-form-field class="open-full-width">
+              <mat-select multiple placeholder="Account" formControlName="accountName" id="account" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.accountName.errors }" >
+                <!-- <mat-option disabled value="">Choose...</mat-option> -->
+                <mat-option *ngFor="let account of accounts" value="{{account}}" (nSselectionChange)="updateAccountProfile($event)">{{account}}
+                </mat-option>
+              </mat-select>
+              <div *ngIf="!formReset && submitted && myForm.accountName.errors" class="invalid-feedback" >
+                <div *ngIf="myForm.accountName.errors.required">Account is required</div>
+              </div>
+            </mat-form-field>
+          </td>  
+          <td width="70%">
+            <!-- Technology Stream -->
+            <mat-form-field class="stream-full-width">
               <mat-select placeholder="Technology Stream"  (selectionChange)="updateTechnologyStream($event.value)"
                   formControlName="technologyStream" required id="inputTechnologyStream" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.technologyStream.errors }" >
                   <mat-option value="">Choose...</mat-option>
@@ -24,9 +36,10 @@
                 <div *ngIf="myForm.technologyStream.errors.required">Technology Stream is required</div>
               </div>
             </mat-form-field>
-          </td>   
+          </td> 
         </tr>
         
+        <br>
         <!-- Bulk Upload template -->
         <div class="float-left text-left">
             <p style="color:blue;" (click)="bulkUploadTemplate()"><span style="cursor:pointer"><u>Bulk Upload Template</u></span></p>
@@ -36,8 +49,8 @@
         <!-- Upload Bulk Questions File -->
         <tr>
           <td>
-            <div class="float-left text-right">
-              <label for="inputTechnologyStream" >Upload Bulk Questions File</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="float-left text-left">
+              <label for="inputTechnologyStream" >Upload Bulk Questions File</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="file" id="fileName" (change)="addfile($event)" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" size="50">
             </div>
           </td>   

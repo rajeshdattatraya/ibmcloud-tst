@@ -134,15 +134,7 @@ export class AdminuserCreateComponent implements OnInit {
 
     // Get all Acconts
     readAccount(){
-      this.apiService.getAccounts().subscribe((data) => {
-        this.Account = data;
-        this.AccountList.length=0;
-        for (var accValue of this.Account){
-          if(accValue.account != 'SECTOR' ) {
-            this.AccountList.push(accValue);
-          }
-        }
-      })
+      this.AccountList = this.account.split(",");
     }
 
 // Delete the selected user
@@ -198,14 +190,7 @@ export class AdminuserCreateComponent implements OnInit {
     var ivMode = CryptoJS.enc.Base64.parse("3ad77bb40d7a3660a89ecaf32466ef97");
     this.password = CryptoJS.AES.encrypt(appConfig.defaultPassword.trim(),base64Key,{ iv: ivMode }).toString();
     this.password = this.password.replace("/","=rk=");    
-     
-      this.accountArray = [];
-      for (var account of this.candidateForm.value.account)  {
-        if(this.accountArray.indexOf(account.account == -1)){
-            this.accountArray.push(account.account);
-        }
-      }
-      this.candidateForm.value.account = this.accountArray.join(',');
+      this.candidateForm.value.account = this.candidateForm.value.account.join(',');
       console.log("account val", this.candidateForm.value.account);
         //Remove the leading comma if any
       if (this.candidateForm.value.account.substr(0,1) == ",") {

@@ -49,8 +49,7 @@
           <td>
             <mat-form-field class="open-full-width">
               <mat-select multiple placeholder="Account" formControlName="account" id="account" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.account.errors }" >
-                <mat-option disabled value="">Choose...</mat-option>
-                <mat-option *ngFor="let account of AccountList" [value]="account" (onSelectionChange)="updateAccountProfile($event)">{{account.account}}
+                <mat-option *ngFor="let account of AccountList" value="{{account}}" >{{account}}
                 </mat-option>
               </mat-select>
               <div *ngIf="!formReset && submitted && myForm.account.errors" class="invalid-feedback" >

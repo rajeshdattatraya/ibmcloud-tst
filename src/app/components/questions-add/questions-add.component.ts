@@ -178,7 +178,7 @@ export class QuestionsAddComponent implements OnInit {
               this.questionForm.value.questionID=this.questionID;
               
               // this.questionForm.value.account=this.account;
-              this.questionForm.value.account=this.questionForm.value.accountName.join(',');;
+              this.questionForm.value.account=this.questionForm.value.accountName.join(',');
                             
               this.apiService.createQuestion(this.questionForm.value).subscribe(
                 (res) => {

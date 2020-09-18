@@ -30,7 +30,8 @@ export class OpenpositionsEditComponent implements OnInit {
   Account:any = [];
   AccountArray:any = [];
   loginAdminAccounts:any = [];
-  positionID: number = 0;
+  positionID: String = "";
+  sequenceID: String = "";
 
 
   constructor(
@@ -114,6 +115,7 @@ export class OpenpositionsEditComponent implements OnInit {
             competencyLevel : data['competencyLevel']
           });
           this.positionID = data['positionID'];
+          this.sequenceID = data['sequenceID'];
     });
   }
 
@@ -207,6 +209,7 @@ export class OpenpositionsEditComponent implements OnInit {
         let openPositionDetails = new OpenPosition(
         this.openPositionForm.value.positionName,
         this.positionID,
+        this.sequenceID,
         this.openPositionForm.value.JRSS,
         this.openPositionForm.value.rateCardJobRole,
         this.openPositionForm.value.lineOfBusiness,

@@ -42,6 +42,16 @@ export class OpenPositionService {
             )
 
         }
+        // Get the latest sequenceID
+        getLatestSequenceID(): Observable<any> {
+          return this.http.get(`${this.baseUri}/readLatestSequenceID`, {headers: this.headers}).pipe(
+            map((res: Response) => {
+              return res || {}
+            }),
+            catchError(this.errorMgmt)
+            )
+
+        }
 
 
     //Get all open positions by Job Role

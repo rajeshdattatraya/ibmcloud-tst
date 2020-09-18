@@ -31,8 +31,10 @@ export class OpenpositionsCreateComponent implements OnInit {
   PositionLocation:any = [];
   RateCardJobRole:any = [];
   PositionIDObj:any = [];
-  positionID : Number = 0;
-
+  positionID : String = "";
+  sequenceID : Number = 0;
+  paddedSequenceID : String = "";
+  paddedPositionID : String = "";
 
   constructor(
       public fb: FormBuilder,
@@ -53,7 +55,7 @@ export class OpenpositionsCreateComponent implements OnInit {
       this.readRateCardJobRole();
       this.readLineOfBusiness();
       this.readAccount();
-      this.readLatestPositionID();
+      this.readLatestSequenceID();
   }
 
   ngOnInit(): void {
@@ -99,16 +101,24 @@ export class OpenpositionsCreateComponent implements OnInit {
        })
     }
 
-    // Get the latest positionID and increment 1 
-    readLatestPositionID(){
-      this.openPositionService.getLatestPositionID().subscribe((data) => {
+    // Get the latest sequenceID and increment 1 
+    readLatestSequenceID(){
+      this.openPositionService.getLatestSequenceID().subscribe((data) => {
       if(data[0] == undefined){
-        this.positionID = 1;
+        this.sequenceID = 1;
       }else{
-        this.positionID = parseInt(data[0].positionID)+1;
+        this.sequenceID = parseInt(data[0].sequenceID)+1;
       }
+      this.paddedSequenceID = this.pad(this.sequenceID, 5); 
       })
     }
+    
+    
+    pad(num:Number, size:number): string {
+      let s = num+"";
+      while (s.length < size) s = "0" + s;
+      return s;
+      }
 
     // Get all Acconts
     readAccount(){
@@ -195,9 +205,12 @@ export class OpenpositionsCreateComponent implements OnInit {
         if (!this.openPositionForm.valid) {
           return false;
         } else {
+        this.paddedPositionID = (this.openPositionForm.value.JRSS).substring(0, 4).toUpperCase() + this.paddedSequenceID;
+        this.positionID = this.paddedPositionID;
         let openPosition = new OpenPosition(
         this.openPositionForm.value.positionName,
         this.positionID,
+        this.sequenceID,
         this.openPositionForm.value.JRSS,
         this.openPositionForm.value.rateCardJobRole,
         this.openPositionForm.value.lineOfBusiness,

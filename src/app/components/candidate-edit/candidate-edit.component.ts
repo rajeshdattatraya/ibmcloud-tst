@@ -199,15 +199,7 @@ export class CandidateEditComponent implements OnInit {
 
     // Get all Acconts
     readAccount(){
-      this.apiService.getAccounts().subscribe((data) => {
-      this.Account = data;
-      //Remove 'sector' from Account collection
-      for (var accValue of this.Account){
-         if(accValue.account.toLowerCase() !== 'sector') {
-            this.AccountArray.push(accValue.account);
-          }
-      }
-      })
+      this.AccountArray = this.account.split(",");
     }
   // Getter to access form control
   get myForm() {
