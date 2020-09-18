@@ -11,9 +11,9 @@
     <form [formGroup]="questionForm">
       <table class="open-full-width" cellspacing="0">        
         <tr>                    
-          <td>  
+          <td width="55%">  
             <!-- Account -->                           
-            <mat-form-field class="stream-half-width">
+            <mat-form-field class="open-full-width">
               <mat-select multiple placeholder="Account" formControlName="accountName" id="account" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.accountName.errors }" >
                 <!-- <mat-option disabled value="">Choose...</mat-option> -->
                 <mat-option *ngFor="let account of accounts" value="{{account}}" (nSselectionChange)="updateAccountProfile($event)">{{account}}
@@ -24,7 +24,7 @@
               </div>
             </mat-form-field>
           </td>  
-          <td>
+          <td width="70%">
             <!-- Technology Stream -->
             <mat-form-field class="stream-full-width">
               <mat-select placeholder="Technology Stream"  (selectionChange)="updateTechnologyStream($event.value)"
@@ -49,8 +49,8 @@
         <!-- Upload Bulk Questions File -->
         <tr>
           <td>
-            <div class="float-left text-right">
-              <label for="inputTechnologyStream" >Upload Bulk Questions File</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="float-left text-left">
+              <label for="inputTechnologyStream" >Upload Bulk Questions File</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="file" id="fileName" (change)="addfile($event)" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" size="50">
             </div>
           </td>   
