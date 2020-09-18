@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { ApiService } from './../../service/api.service';
-import { OpenPositionService } from './../../service/openPosition.service';
+import { OpenPositionService } from './../../service/openposition.service';
 import { Candidate } from './../../model/candidate';
 import { CandidateContractor } from './../../model/candidateContractor';
 import { UserDetails } from './../../model/userDetails';

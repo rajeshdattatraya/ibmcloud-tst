@@ -6,7 +6,7 @@ import { browserRefresh } from '../../app.component';
 import { OperationsDetails } from './../../model/OperationsDetails';
 import {TechnicalInterviewListComponent} from '../technical-interview-list/technical-interview-list.component';
 import { SendEmail } from './../../model/sendEmail';
-import { OpenPositionService } from 'src/app/service/openPosition.service';
+import { OpenPositionService } from 'src/app/service/openposition.service';
 import { PositionsService } from '../open-positions-list/positions.service';
 declare var $: any;
 
