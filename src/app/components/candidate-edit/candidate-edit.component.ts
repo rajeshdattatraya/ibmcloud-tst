@@ -225,6 +225,7 @@ export class CandidateEditComponent implements OnInit {
        this.displayContractorUIFields = false;
        this.displayRegularUIFields = true;
        this.stream = data['technologyStream'].split(",");
+       this.gp = data['grossProfit'];
         this.editForm.setValue({
           employeeName: data['employeeName'],
           employeeType: data['employeeType'],
