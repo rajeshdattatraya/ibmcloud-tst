@@ -30,9 +30,12 @@ export class TestConfigEditComponent implements OnInit {
   accessLevel:any;
   oldJRSS: String = "";
   testConfigID: String = "";
+  accounts:any=[];
+  filteredJrss:any = [];
 
   dataSource = new MatTableDataSource<TestConfig>();
   displayedColumns = ['Action','JRSS', 'noOfQuestions','testDuration','passingScore'];
+  displayedColumnsWithAccount = ['Action','JRSS', 'account', 'noOfQuestions','testDuration','passingScore'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -50,6 +53,7 @@ export class TestConfigEditComponent implements OnInit {
           this.userName = this.router.getCurrentNavigation().extras.state.username;
           this.account = this.router.getCurrentNavigation().extras.state.account;
           this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
+          this.accounts = this.account.split(",");
       }
       this.getAllJRSS();
       let id = this.actRoute.snapshot.paramMap.get('id');
@@ -67,6 +71,7 @@ export class TestConfigEditComponent implements OnInit {
       }
       this.testConfigEditForm = this.fb.group({
             JRSS: ['', [Validators.required]],
+            account: ['', [Validators.required]],
             noOfQuestions: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
             testDuration: ['', [Validators. required, Validators.pattern('^[0-9]+$')]],
             passingScore: ['', [Validators. required, Validators.pattern('^[0-9]+$')]]
@@ -82,6 +87,23 @@ export class TestConfigEditComponent implements OnInit {
      getAllJRSS(){
       this.apiService.getJRSS().subscribe((data) => {
       this.JRSS = data;
+
+      for (let k=0; k<this.JRSS.length; k++){
+        var item = this.JRSS[k].account;
+         let accountExists =  false;
+         for (var i = 0; i < this.accounts.length; i++) {
+          
+           if ( item.toLowerCase().indexOf(this.accounts[i].toLowerCase()) == -1) {
+             accountExists =  false;
+           } else { accountExists =  true; 
+             break; }
+         }
+ 
+         if (accountExists == true) {
+           this.filteredJrss.push(this.JRSS[k]);
+         }
+       }
+      
       })
     }
 
@@ -108,6 +130,7 @@ export class TestConfigEditComponent implements OnInit {
         this.testconfigService.getTestConfig(id).subscribe(data => {          
           this.testConfigEditForm.setValue({
             JRSS: data['JRSS'],
+            account: data['account'],
             noOfQuestions: data['noOfQuestions'],
             testDuration: data['testDuration'],
             passingScore:data['passingScore']
@@ -119,6 +142,7 @@ export class TestConfigEditComponent implements OnInit {
       updateTestConfig() {
         this.testConfigEditForm = this.fb.group({
           JRSS: ['', [Validators.required, Validators.pattern('^[0-9A-Z]+$')]],
+          account: ['', [Validators.required, Validators.pattern('^[0-9A-Z]+$')]],
           noOfQuestions: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
           testDuration: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
           passingScore: ['', [Validators.required, Validators.pattern('^[0-9]+$')]]
@@ -154,7 +178,7 @@ export class TestConfigEditComponent implements OnInit {
             if (this.testConfigEditForm.value.passingScore < 50) {
               window.alert("Please enter passing score above 50");
             } else {
-              let testConfig = new TestConfig(this.testConfigEditForm.value.JRSS,
+              let testConfig = new TestConfig(this.testConfigEditForm.value.JRSS,this.testConfigEditForm.value.account,
               this.testConfigEditForm.value.noOfQuestions, this.testConfigEditForm.value.testDuration,this.testConfigEditForm.value.passingScore);
               let id = this.actRoute.snapshot.paramMap.get('id');
               this.testconfigService.updateTestConfig(id, testConfig)
@@ -170,5 +194,19 @@ export class TestConfigEditComponent implements OnInit {
 
         }
     }
+
+
+    //Read JRSS by account    
+  readJrssByAccount(accountValue){
+    if ( accountValue.trim() !== "") {
+
+      this.apiService.getJrsssByAccount(accountValue).subscribe((data) => {
+        this.filteredJrss = data;
+      });  
+    } else {
+      this.getAllJRSS();
+    }
+   
+  }
 
 }

@@ -13,10 +13,27 @@
         <tr>
           <td>
             <mat-form-field class="open-full-width">
+              <mat-select placeholder="Account" (selectionChange)="readJrssByAccount($event.value)"
+                      formControlName="account" name="account"  required [ngClass]="{ 'is-invalid': submitted && myForm.account.errors }">
+                <mat-option value="">Choose...</mat-option>
+                <mat-option *ngFor="let account of accounts" value="{{account}}">{{account}}
+                </mat-option>
+              </mat-select>
+              <div *ngIf="submitted && myForm.account.errors" class="invalid-feedback">
+                <div *ngIf="myForm.account.errors.required">Account is required</div>
+              </div>
+            </mat-form-field>
+          </td>
+         
+        </tr>
+
+        <tr>
+          <td>
+            <mat-form-field class="open-full-width">
               <mat-select placeholder="Job Role" (change)="updateJrssProfile($event.target.value)"
                           required formControlName="JRSS" name="JRSS" [ngClass]="{ 'is-invalid': submitted && myForm.JRSS.errors }">
                 <mat-option value="">Choose...</mat-option>
-                <mat-option *ngFor="let jrss of JRSS" value="{{jrss.jrss}}">{{jrss.jrss}}
+                <mat-option *ngFor="let jrss of filteredJrss" value="{{jrss.jrss}}">{{jrss.jrss}}
                 </mat-option>
               </mat-select>
               <div *ngIf="submitted && myForm.JRSS.errors" class="invalid-feedback">
@@ -72,7 +89,7 @@
 <br/>
 <!-- No data message -->
 <p *ngIf="TestConfigs.length <= 0" class="no-data text-center">There are no records added yet!</p>
-<div class="mat-elevation-z8">
+<div class="mat-elevation-z8"  *ngIf="this.accounts.length <= 1">
   <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
     <!-- ID Column -->
     <ng-container matColumnDef="Action">
@@ -101,6 +118,43 @@
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; let even = even; columns: displayedColumns;" [ngClass]="{gray: even}"></tr>
+  </table>
+  <mat-paginator [length]="this.TestConfigs.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>
+
+<div class="mat-elevation-z8"  *ngIf="this.accounts.length > 1">
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <!-- ID Column -->
+    <ng-container matColumnDef="Action">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Select </th>
+      <td mat-cell *matCellDef="let row"> <mat-radio-button (change)="onSelectionChange(row._id)"></mat-radio-button></td>
+    </ng-container>
+    <!-- ID Column -->
+    <ng-container matColumnDef="JRSS">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Job Role </th>
+      <td mat-cell *matCellDef="let row">{{row.JRSS}}</td>
+    </ng-container>
+    <ng-container matColumnDef="account">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Job Role </th>
+      <td mat-cell *matCellDef="let row">{{row.account}}</td>
+    </ng-container>
+    <!-- ID Column -->
+    <ng-container matColumnDef="noOfQuestions">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> No Of Questions </th>
+      <td mat-cell *matCellDef="let row">{{row.noOfQuestions}}</td>
+    </ng-container>
+    <!-- ID Column -->
+    <ng-container matColumnDef="testDuration">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Test Duration(in Minutes) </th>
+      <td mat-cell *matCellDef="let row">{{row.testDuration}}</td>
+    </ng-container>
+    <!-- ID Column -->
+    <ng-container matColumnDef="passingScore">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Passing Score(in Percentage) </th>
+      <td mat-cell *matCellDef="let row">{{row.passingScore}}</td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumnsWithAccount"></tr>
+    <tr mat-row *matRowDef="let row; let even = even; columns: displayedColumnsWithAccount;" [ngClass]="{gray: even}"></tr>
   </table>
   <mat-paginator [length]="this.TestConfigs.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 </div>

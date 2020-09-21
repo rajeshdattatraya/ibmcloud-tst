@@ -31,8 +31,15 @@ export class TestConfigAddComponent implements OnInit {
   accessLevel:any;
   testConfigID: String = "";
   formReset = false;
+  accounts:any=[];
+
+  filteredJrss:any = [];
+
   dataSource = new MatTableDataSource<TestConfig>();
   displayedColumns = ['Action','JRSS', 'noOfQuestions','testDuration','passingScore'];
+
+  displayedColumnsWithAccount = ['Action','JRSS', 'account', 'noOfQuestions','testDuration','passingScore'];
+
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -50,6 +57,7 @@ export class TestConfigAddComponent implements OnInit {
           this.userName = this.router.getCurrentNavigation().extras.state.username;
           this.account = this.router.getCurrentNavigation().extras.state.account;
           this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
+          this.accounts = this.account.split(",");
       }
       this.mainForm();
       this.readJrss();
@@ -68,6 +76,7 @@ export class TestConfigAddComponent implements OnInit {
     mainForm() {
         this.testConfigAddForm = this.fb.group({
           JRSS: ['', [Validators.required]],
+          account: ['', [Validators.required]],
           noOfQuestions: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
           testDuration: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
           passingScore: ['', [Validators.required, Validators.pattern('^[0-9]+$')]]
@@ -78,8 +87,40 @@ export class TestConfigAddComponent implements OnInit {
      readJrss(){
       this.apiService.getJRSS().subscribe((data) => {
       this.JRSS = data;
+
+      for (let k=0; k<this.JRSS.length; k++){
+        var item = this.JRSS[k].account;
+         let accountExists =  false;
+         for (var i = 0; i < this.accounts.length; i++) {
+          
+           if ( item.toLowerCase().indexOf(this.accounts[i].toLowerCase()) == -1) {
+             accountExists =  false;
+           } else { accountExists =  true; 
+             break; }
+         }
+ 
+         if (accountExists == true) {
+           this.filteredJrss.push(this.JRSS[k]);
+         }
+       }
+      
       })
     }
+
+
+
+//Read JRSS by account    
+  readJrssByAccount(accountValue){
+    if ( accountValue.trim() !== "") {
+
+      this.apiService.getJrsssByAccount(accountValue).subscribe((data) => {
+        this.filteredJrss = data;
+      });  
+    } else {
+      this.readJrss();
+    }
+   
+  }
 
     // Choose designation with select dropdown
     updateJrssProfile(e){
@@ -104,6 +145,8 @@ export class TestConfigAddComponent implements OnInit {
       this.testconfigService.getAllTestConfigs().subscribe((data) => {
        this.TestConfigs = data;
        this.dataSource.data = data as TestConfig[];
+       console.log("this.dataSource.data", this.dataSource.data);
+       
       })
     }
 
@@ -124,7 +167,7 @@ export class TestConfigAddComponent implements OnInit {
             window.alert("Please enter passing score above 50");
           } else {
             let jrss = this.testConfigAddForm.value.JRSS;
-           let testConfig = new TestConfig(this.testConfigAddForm.value.JRSS,
+           let testConfig = new TestConfig(this.testConfigAddForm.value.JRSS, this.testConfigAddForm.value.account,
            this.testConfigAddForm.value.noOfQuestions, this.testConfigAddForm.value.testDuration,this.testConfigAddForm.value.passingScore);
 
             this.testconfigService.findTestConfigByJRSS(jrss).subscribe(

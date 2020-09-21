@@ -24,12 +24,13 @@
         </form>
   </mat-card-content>
   <br/>
+  <div *ngIf="error" class="alert alert-danger example-full-width row justify-content-center">{{error}}</div>
   <mat-card-actions>
     <div class="row justify-content-center">
       <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
       <button mat-raised-button color="primary" (click)="clearForm()">Clear</button>
     </div>
-  </mat-card-actions>
+  </mat-card-actions>  
 </mat-card>
 
   <br/>

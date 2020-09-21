@@ -75,6 +75,7 @@ export class StreamCreateComponent implements OnInit {
       switch(property) {
         case 'jrss': return item[1];
         case 'technologyStream': return item[2];
+        case 'account': return item[3];
         default: return item[property];
       }
    };
