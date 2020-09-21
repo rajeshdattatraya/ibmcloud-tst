@@ -1,9 +1,7 @@
 <app-navigation></app-navigation>
 <br>
 <mat-card class="login-card">
-  <mat-card-header>
-    <mat-card-title class="example-card-title">Search</mat-card-title>
-  </mat-card-header>
+  <div class="float-left text-left" style="font-size:14pt;font-weight: bold;">Search</div>
   <table>
     <tr>
       <td>
@@ -51,7 +49,7 @@
       <!-- ID Column -->
       <ng-container matColumnDef="result_users[0].employeeName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-        <td mat-cell *matCellDef="let row"><a href="#myModal" (click)="getCandidateDetails(row.userName)" class="col-4 cursor-pointer" data-toggle="modal" >{{row.result_users[0].employeeName}}</a>
+        <td mat-cell *matCellDef="let row"><a href="#myModal" (click)="getCandidateDetails(row.userName)" data-toggle="modal" >{{row.result_users[0].employeeName}}</a>
         </td>
       </ng-container>
 
@@ -70,7 +68,7 @@
       <!-- ID Column -->
       <ng-container matColumnDef="userScore">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Online Test Result </th>
-        <td mat-cell *matCellDef="let row"> <a href="#assessmentModal" style="color:rgb(0, 128, 43);" (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users[0].employeeName,row.userScore,row.createdDate)" class="col-4 cursor-pointer" data-toggle="modal" *ngIf="row.userScore!=null">{{row.userScore}}%</a><p *ngIf="row.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p>
+        <td mat-cell *matCellDef="let row"> <a href="#assessmentModal" style="color:rgb(0, 128, 43);" (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users[0].employeeName,row.userScore,row.createdDate)" data-toggle="modal" *ngIf="row.userScore!=null">{{row.userScore}}%</a><p *ngIf="row.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p>
         </td>
       </ng-container>
 
@@ -79,13 +77,13 @@
         <th mat-header-cell *matHeaderCellDef> Pre-Technical Interview Assessment Form </th>
         <td mat-cell *matCellDef="let row">
           <div *ngIf="row.stage2_status=='Completed'">
-            <a class="col-4 cursor-pointer" [routerLink]="['/pre-technical-interview-form/',row.result_users[0].JRSS, row.userName]"
+            <a [routerLink]="['/pre-technical-interview-form/',row.result_users[0].JRSS, row.userName]"
                [state]="{jrss:row.result_users[0].JRSS,username:row.result_users[0].username,access:'tech-list',accessLevel:this.accessLevel,account:this.account}">
               Click here
             </a>
           </div>
           <div *ngIf="row.stage2_status=='Skipped'">
-            <a href="#" (click)="skipMethod()" routerLinkActive="active"  class="col-4 cursor-pointer" data-toggle="modal">
+            <a href="#" (click)="skipMethod()" routerLinkActive="active"  data-toggle="modal">
               Click here
             </a>
           </div>
@@ -96,7 +94,7 @@
       <!-- ID Column -->
       <ng-container matColumnDef="cvDownload">
         <th mat-header-cell *matHeaderCellDef> CV Download </th>
-        <td mat-cell *matCellDef="let row"><a href="#" (click)="downloadCandidateResume(row.userName)" routerLinkActive="active" class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
+        <td mat-cell *matCellDef="let row"><a href="#" (click)="downloadCandidateResume(row.userName)" routerLinkActive="active" data-toggle="modal">Click here</a></td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumnsSector"></tr>
       <tr mat-row *matRowDef="let row; let even = even; columns: displayedColumnsSector; "[ngClass]="{gray: even}" ></tr>
@@ -105,7 +103,7 @@
   </div>
 
   <!-- Technical Interview list -->
-  <div class="mat-elevation-z8" *ngIf="!(account=='sector' || account=='Sector' || account=='SECTOR')">
+  <div class="mat-elevation-z8" *ngIf="!(account=='sector' || account=='Sector' || account=='SECTOR') && this.loginAccounts.length <= 1">
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
       <!-- ID Column -->
@@ -118,7 +116,7 @@
       <!-- ID Column -->
       <ng-container matColumnDef="result_users[0].employeeName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-        <td mat-cell *matCellDef="let row"><a href="#myModal" (click)="getCandidateDetails(row.userName)" class="col-4 cursor-pointer" data-toggle="modal" >{{row.result_users[0].employeeName}}</a>
+        <td mat-cell *matCellDef="let row"><a href="#myModal" (click)="getCandidateDetails(row.userName)" data-toggle="modal" >{{row.result_users[0].employeeName}}</a>
         </td>
       </ng-container>
 
@@ -132,7 +130,7 @@
       <!-- ID Column -->
       <ng-container matColumnDef="userScore">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Online Test Result </th>
-        <td mat-cell *matCellDef="let row"> <a href="#assessmentModal" style="color:rgb(0, 128, 43);" (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users[0].employeeName,row.userScore,row.createdDate)" class="col-4 cursor-pointer" data-toggle="modal" *ngIf="row.userScore!=null">{{row.userScore}}%</a><p *ngIf="row.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p>
+        <td mat-cell *matCellDef="let row"> <a href="#assessmentModal" style="color:rgb(0, 128, 43);" (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users[0].employeeName,row.userScore,row.createdDate)" data-toggle="modal" *ngIf="row.userScore!=null">{{row.userScore}}%</a><p *ngIf="row.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p>
         </td>
       </ng-container>
 
@@ -141,13 +139,13 @@
         <th mat-header-cell *matHeaderCellDef> Pre Interview Form </th>
         <td mat-cell *matCellDef="let row">
           <div *ngIf="row.stage2_status=='Completed'">
-              <a class="col-4 cursor-pointer" [routerLink]="['/pre-technical-interview-form/',row.result_users[0].JRSS, row.userName]"
+              <a [routerLink]="['/pre-technical-interview-form/',row.result_users[0].JRSS, row.userName]"
                                                [state]="{jrss:row.result_users[0].JRSS,username:row.result_users[0].username,access:'tech-list',accessLevel:this.accessLevel,account:this.account}">
               Click here
             </a>
           </div>
           <div *ngIf="row.stage2_status=='Skipped'">
-            <a href="#" (click)="skipMethod()" routerLinkActive="active"  class="col-4 cursor-pointer" data-toggle="modal">
+            <a href="#" (click)="skipMethod()" routerLinkActive="active"  data-toggle="modal">
               Click here
             </a>
           </div>
@@ -158,7 +156,7 @@
       <!-- ID Column -->
       <ng-container matColumnDef="cvDownload">
         <th mat-header-cell *matHeaderCellDef> CV Download </th>
-        <td mat-cell *matCellDef="let row"><a href="#" (click)="downloadCandidateResume(row.userName)" routerLinkActive="active" class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
+        <td mat-cell *matCellDef="let row"><a href="#" (click)="downloadCandidateResume(row.userName)" routerLinkActive="active" data-toggle="modal">Click here</a></td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; let even = even; columns: displayedColumns; "[ngClass]="{gray: even}" ></tr>

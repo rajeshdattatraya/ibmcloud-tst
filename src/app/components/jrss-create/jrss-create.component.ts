@@ -159,7 +159,8 @@ for (let k=0; k<this.Jrss.length; k++){
         } else{   
             this.apiService.createJrss(this.jrssForm.value).subscribe(
               (res) => {
-                console.log('JRSS successfully saved!')
+              console.log('JRSS successfully saved!')
+              alert("Job Role is created successfully.");
               this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
               this.router.navigate(['/jrss-create'], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
               }, (error) => {
