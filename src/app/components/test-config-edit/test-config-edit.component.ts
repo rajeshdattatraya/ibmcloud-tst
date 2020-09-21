@@ -54,6 +54,8 @@ export class TestConfigEditComponent implements OnInit {
           this.account = this.router.getCurrentNavigation().extras.state.account;
           this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
           this.accounts = this.account.split(",");
+          
+          
       }
       this.getAllJRSS();
       let id = this.actRoute.snapshot.paramMap.get('id');
@@ -136,6 +138,7 @@ export class TestConfigEditComponent implements OnInit {
             passingScore:data['passingScore']
           });
           this.oldJRSS = data['JRSS'];
+                    
         });
     }
 
@@ -153,7 +156,24 @@ export class TestConfigEditComponent implements OnInit {
     getAllTestConfigs(){
         this.testconfigService.getAllTestConfigs().subscribe((data) => {
         this.TestConfigs = data;
-        this.dataSource.data = data as TestConfig[];
+
+       var filteredTestConfig:any=[];
+        for (let k=0; k<this.TestConfigs.length; k++){
+          var item = this.TestConfigs[k].account;
+           let accountExists =  false;
+           for (var i = 0; i < this.accounts.length; i++) {
+            
+             if ( item.toLowerCase().indexOf(this.accounts[i].toLowerCase()) == -1) {
+               accountExists =  false;
+             } else { accountExists =  true; 
+               break; }
+           }
+   
+           if (accountExists == true) {
+             filteredTestConfig.push(this.TestConfigs[k]);
+           }
+         }
+         this.dataSource.data = filteredTestConfig as TestConfig[];
         })
     }
 
