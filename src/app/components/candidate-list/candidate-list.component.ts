@@ -86,7 +86,7 @@ export class CandidateListComponent implements OnInit {
 
   // To Read the Candidate
   readCandidate(){
-    return (this.apiService.getCandidates().subscribe((data) => {
+    return (this.apiService.getCandidatesForAccounts(this.account).subscribe((data) => {
       this.Candidate = data;
       this.Candidate.forEach(candidate => {
         candidate.candidate_users.forEach(user => {
