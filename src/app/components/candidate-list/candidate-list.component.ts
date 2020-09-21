@@ -88,7 +88,6 @@ export class CandidateListComponent implements OnInit {
   readCandidate(){
     return (this.apiService.getCandidates().subscribe((data) => {
       this.Candidate = data;
-      this.dataSource.data = data as CandidateDetails[];
       this.Candidate.forEach(candidate => {
         candidate.candidate_users.forEach(user => {
           if (user.status == 'Active' && user.userLoggedin === 'true' ){ candidate.state='Clear\xa0Session'; }
@@ -96,7 +95,7 @@ export class CandidateListComponent implements OnInit {
           else {candidate.state='Enable'; }
 	       });
       });
-
+      this.dataSource.data = data as CandidateDetails[];
 
     })
     )

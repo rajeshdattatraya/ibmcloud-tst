@@ -20,6 +20,7 @@ export class CandidateDetails {
        grossProfit:string;
        userPositionLocation:string;
        openPositionName:string;
+       state:string;
        candidate_users: [{    id:string;
                               username: string;
                               password: string;
