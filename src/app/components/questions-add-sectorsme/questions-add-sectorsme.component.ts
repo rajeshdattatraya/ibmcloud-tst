@@ -165,11 +165,9 @@ export class QuestionsAddSectorsmeComponent implements OnInit {
               alert("Answers not selected");
             } else if(!(this.questionForm.value.option4 || this.questionForm.value.option3)
             &&(this.questionForm.value.option4checkbox || this.questionForm.value.option3checkbox)){
-              console.log('else if only 2 options');
               alert("You can't select answers where options are empty   ");
             }else if(!(this.questionForm.value.option4)
-            &&(this.questionForm.value.option4checkbox)){
-              console.log('else if only 3 options');
+            &&(this.questionForm.value.option4checkbox)){             
               alert("You can't select answers where options are empty   ");
             }else if(!(this.questionForm.value.option3) && (this.questionForm.value.option4)){
               alert("You can't fill option4 leaving option3 empty");
@@ -198,9 +196,10 @@ export class QuestionsAddSectorsmeComponent implements OnInit {
                 {optionID:4,option:this.questionForm.value.option4}); 
                }        
               this.questionForm.value.options=this.optionsArray;
-                //Validation for singleSelect
-                if((this.questionForm.value.questionType=="SingleSelect")&& (this.answerArray.toString().length)>1)
-                {console.log("only one"+this.questionForm.value.answerID)
+
+              //Validation for singleSelect
+              if((this.questionForm.value.questionType=="SingleSelect") && (this.answerArray.toString().length)>1)
+                {    
                 alert("Only one option can be selected as the questionType is SingleSelect");                
                 return false;
               }       
