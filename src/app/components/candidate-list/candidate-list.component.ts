@@ -67,6 +67,13 @@ export class CandidateListComponent implements OnInit {
         }
         return false;
     }
+    this.dataSource.sortingDataAccessor = (item, property) => {
+        switch(property) {
+          case 'status': return item.candidate_users[0].status;
+          case 'quizNumber': return item.candidate_users[0].quizNumber;
+          default: return item[property];
+        }
+     };
     this.readCandidate();
     setTimeout(() => {
         this.loading = false;

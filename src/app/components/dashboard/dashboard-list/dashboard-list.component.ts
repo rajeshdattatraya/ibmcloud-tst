@@ -161,20 +161,23 @@ displayedColumns = ['Action','employeeName', 'jobRole','userResult','technicalIn
     readResult() {
       this.apiService.getDashboardList().subscribe((data) => {
         this.Result = data;
-        this.employeeName = "";
+
         this.onlineTestResult = "";
         this.userResult = "";
         this.technicalInterviewResult = "";
         this.partnerInterviewResult = "";
         this.assignedToProject = "";
-        this.jobRole = "";
-        this.canUserId = "";
         this.resultId = "";
-        this.canUserName = "";
         this.qNumber = "";
         this.uScore = "";
         this.createdDate = "";
+
         this.Result.forEach((result) => {
+            this.employeeName = "";
+            this.jobRole = "";
+            this.canUserId = "";
+            this.canUserName = "";
+
            if (result.stage1_status == 'Not Started') {
              if (result.userResult == 'Fail') {
                   this.onlineTestResult = result.userScore + "%";
@@ -227,15 +230,16 @@ displayedColumns = ['Action','employeeName', 'jobRole','userResult','technicalIn
            this.qNumber = result.quizNumber;
            this.uScore = result.userScore;
            this.createdDate = result.createdDate;
-           result.result_users.forEach((candidate) => {
-             this.employeeName = candidate.employeeName;
-             this.jobRole = candidate.JRSS;
-             this.canUserId = candidate._id;
-             this.canUserName = candidate.username;
-           });
-           this.dashboards.push(new Dashboard(this.employeeName, this.jobRole, this.onlineTestResult, this.technicalInterviewResult,
+           console.log("result.result_users.length",result.result_users.length);
+           if (result.result_users.length > 0) {
+             this.employeeName = result.result_users[0].employeeName;
+             this.jobRole = result.result_users[0].JRSS;
+             this.canUserId = result.result_users[0]._id;
+             this.canUserName = result.result_users[0].username;
+             this.dashboards.push(new Dashboard(this.employeeName, this.jobRole, this.onlineTestResult, this.technicalInterviewResult,
                                         this.partnerInterviewResult,this.assignedToProject,this.canUserId,this.canUserName,
                                         this.resultId,this.userResult,this.qNumber,this.uScore,this.createdDate));
+           }
         });
 		    this.dataSource.data = this.dashboards as Dashboard[];
         this.users = this.dashboards;
