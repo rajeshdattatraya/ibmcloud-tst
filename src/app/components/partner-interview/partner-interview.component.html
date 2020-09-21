@@ -37,7 +37,7 @@
 
 <!-- Partner Interview list -->
 
-<div class="mat-elevation-z8" *ngIf="account=='sector' || account=='Sector' || account=='SECTOR' ">
+<div class="mat-elevation-z8" *ngIf="(account=='sector' || account=='Sector' || account=='SECTOR') || this.loginAccounts.length > 1">
   <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
     <!-- ID Column -->
@@ -99,7 +99,7 @@
   <mat-paginator [length]="this.Result.length" [pageSize]="5" [pageSizeOptions]="[5,10,15,25,50,100]" showFirstLastButtons></mat-paginator>
 </div>
 
-<div class="mat-elevation-z8" *ngIf="!(account=='sector' || account=='Sector' || account=='SECTOR')">
+<div class="mat-elevation-z8" *ngIf="!(account=='sector' || account=='Sector' || account=='SECTOR') && this.loginAccounts.length <= 1">
   <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
     <!-- ID Column -->
