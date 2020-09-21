@@ -1,7 +1,5 @@
 <mat-card class="login-card">
-<mat-card-header>
-  <mat-card-title class="example-card-title">Enter Search Criteria</mat-card-title>
-</mat-card-header>
+  <div class="float-left text-left" style="font-size:14pt;font-weight: bold;">Search</div>
 
 <mat-card-content>
 <form novalidate [formGroup]="form">
@@ -16,13 +14,13 @@
 	  </td>
       <td>
 	  <mat-form-field>
-		<input matInput type="search" #jrss formControlName="JRSS" placeholder="Job Role" id="search4" aria-label="Search" >
+		<input matInput type="search" #jrss formControlName="jobRole" placeholder="Job Role" id="search4" aria-label="Search" >
 	  </mat-form-field>
         </td>
 		
 	  <td>
 	  <mat-form-field>
-		<mat-select matInput type="search" #stage5_status formControlName="stage5_status" placeholder="Assigned To project" (change)="updateAssignedToProjectProfile($event.target.value)"
+		<mat-select matInput type="search" #stage5_status formControlName="assignedToProject" placeholder="Assigned To project" (change)="updateAssignedToProjectProfile($event.target.value)"
              id="search4" aria-label="Search" >
             <mat-option value="" disabled selected >Choose...</mat-option>
             <mat-option *ngFor="let assigned of AssignedToProject" value="{{assigned}}">{{assigned}}</mat-option>
@@ -45,7 +43,7 @@
 	  
       <td >
 	  <mat-form-field>
-        <mat-select matInput type="search" #smeResult formControlName="smeResult" placeholder="Technical Interview Result"  (change)="updateTechInterviewResultProfile($event.target.value)"
+        <mat-select matInput type="search" #smeResult formControlName="technicalInterviewResult" placeholder="Technical Interview Result"  (change)="updateTechInterviewResultProfile($event.target.value)"
             id="search4" aria-label="Search" >
         <mat-option value="" disabled selected >Choose...</mat-option>
         <mat-option *ngFor="let techInterview of TechInterviewResult" value="{{techInterview}}">{{techInterview}} </mat-option>
@@ -55,7 +53,7 @@
 	  
 	  <td >
 	  <mat-form-field>
-        <mat-select  matInput type="search" #managementResult formControlName="managementResult" placeholder="Partner Interview Result" (change)="updatePartnerInterviewResultProfile($event.target.value)"
+        <mat-select  matInput type="search" #managementResult formControlName="partnerInterviewResult" placeholder="Partner Interview Result" (change)="updatePartnerInterviewResultProfile($event.target.value)"
                 id="search4" aria-label="Search" >
           <mat-option value="" disabled selected >Choose...</mat-option>
           <mat-option *ngFor="let partnerResult of PartnerInterviewResult" value="{{partnerResult}}">{{partnerResult}} </mat-option>
