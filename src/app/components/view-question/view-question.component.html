@@ -1,33 +1,4 @@
-<mat-toolbar>
-  <mat-toolbar-row>
-    <a  mat-button  [matMenuTriggerFor]="users" routerLink="/candidates-list" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Manage Users</a>
-    <mat-menu #users="matMenu">
-      <a mat-menu-item routerLink="/create-candidate" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add Candidate</a>
-      <a mat-menu-item routerLink="/adminuser-create" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add User</a>
-      <a mat-menu-item routerLink="/candidates-list" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">View Candidate</a>
-    </mat-menu>
-    <a  mat-button  [matMenuTriggerFor]="questions" routerLink="/manage-questionbank" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Manage Questions</a>
-    <mat-menu #questions="matMenu">
-      <a mat-menu-item  routerLink="/manage-questionbank" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add Question</a>
-      <a mat-menu-item  routerLink="/manage-questionbank-bulk" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add Bulk Question</a>
-      <a mat-menu-item  routerLink="/view-questionbank" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active"> View Question</a>
-    </mat-menu>
-    <a  mat-button  [matMenuTriggerFor]="metadata" routerLink="/jrss-create" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Manage Metadata</a>
-    <mat-menu #metadata="matMenu">
-      <a mat-menu-item  routerLink="/jrss-create" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add Job Role</a>
-      <a mat-menu-item  routerLink="/stream-create" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add Technology Stream</a>
-      <a mat-menu-item  routerLink="/testconfig-add" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add Test Configuration</a>
-    </mat-menu>
-    <a  mat-button  routerLink="/workflow-config" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Manage WorkFlows</a>
-    <a  mat-button  [matMenuTriggerFor]="openpositions" routerLink="/openpositions-list" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Manage OpenSeats</a>
-    <mat-menu #openpositions="matMenu">
-      <a mat-menu-item routerLink="/openpositions-create" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Add Open Seat</a>
-      <a mat-menu-item routerLink="/openpositions-list" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">View Open Seats</a>
-    </mat-menu>
-    <a  mat-button  routerLink="/view-testresults" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Test Results</a>
-    <a  mat-button  routerLink="/login-component" routerLinkActive="active">Logout</a>
-  </mat-toolbar-row>
-</mat-toolbar>
+<app-navigation></app-navigation>
 <br/>
   <div class="float-left text-left">
     <h4 class="my-0 mr-md-auto font-weight-normal">View Questions</h4></div>
