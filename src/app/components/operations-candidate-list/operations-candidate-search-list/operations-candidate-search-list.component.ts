@@ -44,6 +44,7 @@ export class OperationsCandidateSearchListComponent implements OnChanges {
   nameFilter: string;
   accountFilter: string;
   jrssFilter: string;
+  loginAccounts:any = [];
   dataSource = new MatTableDataSource<ViewResult>();
   displayedColumnsSector = ['Action','result_users[0].employeeName','result_users[0].JRSS', 'result_users[0].account','userScore','smeResult','cvDownload'];
   displayedColumns = ['Action','result_users[0].employeeName','result_users[0].JRSS','userScore','smeResult','cvDownload'];
@@ -62,6 +63,7 @@ export class OperationsCandidateSearchListComponent implements OnChanges {
         this.userName = this.router.getCurrentNavigation().extras.state.username;
         this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
         this.account = this.router.getCurrentNavigation().extras.state.account;
+        this.loginAccounts = this.account.split(",");
     }
     route.queryParams.subscribe(
     params => this.config.currentPage= params['page']?params['page']:1 );
