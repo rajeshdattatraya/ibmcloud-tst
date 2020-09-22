@@ -47,7 +47,7 @@
         <!-- ID Column -->
         <ng-container matColumnDef="result_users[0].employeeName">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-          <td mat-cell *matCellDef="let row"><a href="#myModal" (click)="getCandidateDetails(row.userName)" class="col-4 cursor-pointer" data-toggle="modal" >{{row.result_users[0].employeeName}}</a>
+          <td mat-cell *matCellDef="let row"><a href="#myModal" (click)="getCandidateDetails(row.userName)" data-toggle="modal" >{{row.result_users[0].employeeName}}</a>
           </td>
         </ng-container>
     
@@ -66,7 +66,7 @@
         <!-- ID Column -->
         <ng-container matColumnDef="userScore">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Online Test Result </th>
-          <td mat-cell *matCellDef="let row"><a href="#assessmentModal" style="color:rgb(0, 128, 43);" (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users[0].employeeName,row.userScore,row.createdDate)" class="col-4 cursor-pointer" data-toggle="modal" *ngIf="row.userScore!=null">{{row.userScore}}%</a><p *ngIf="row.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p>
+          <td mat-cell *matCellDef="let row"><a href="#assessmentModal" style="color:rgb(0, 128, 43);" (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users[0].employeeName,row.userScore,row.createdDate)" data-toggle="modal" *ngIf="row.userScore!=null">{{row.userScore}}%</a><p *ngIf="row.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p>
           </td>
         </ng-container>
     
@@ -85,7 +85,7 @@
         <!-- ID Column -->
         <ng-container matColumnDef="cvDownload">
           <th mat-header-cell *matHeaderCellDef> CV Download </th>
-          <td mat-cell *matCellDef="let row"><a href="#" (click)="downloadCandidateResume(row.userName)" routerLinkActive="active" class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
+          <td mat-cell *matCellDef="let row"><a href="#" (click)="downloadCandidateResume(row.userName)" routerLinkActive="active" data-toggle="modal">Click here</a></td>
         </ng-container>
     
         <tr mat-header-row *matHeaderRowDef="displayedColumnsSector"></tr>
@@ -113,7 +113,7 @@
         <!-- ID Column -->
         <ng-container matColumnDef="result_users[0].employeeName">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-          <td mat-cell *matCellDef="let row"><a href="#myModal" (click)="getCandidateDetails(row.userName)" class="col-4 cursor-pointer" data-toggle="modal" >{{row.result_users[0].employeeName}}</a>
+          <td mat-cell *matCellDef="let row"><a href="#myModal" (click)="getCandidateDetails(row.userName)" data-toggle="modal" >{{row.result_users[0].employeeName}}</a>
           </td>
         </ng-container>
     
@@ -126,7 +126,7 @@
         <!-- ID Column -->
         <ng-container matColumnDef="userScore">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Online Test Result </th>
-          <td mat-cell *matCellDef="let row"><a href="#assessmentModal"  style="color:rgb(0, 128, 43);" (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users[0].employeeName,row.userScore,row.createdDate)" class="col-4 cursor-pointer" data-toggle="modal" *ngIf="row.userScore!=null">{{row.userScore}}%</a><p *ngIf="row.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p>
+          <td mat-cell *matCellDef="let row"><a href="#assessmentModal"  style="color:rgb(0, 128, 43);" (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users[0].employeeName,row.userScore,row.createdDate)" data-toggle="modal" *ngIf="row.userScore!=null">{{row.userScore}}%</a><p *ngIf="row.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p>
           </td>
         </ng-container>
     
@@ -145,7 +145,7 @@
         <!-- ID Column -->
         <ng-container matColumnDef="cvDownload">
           <th mat-header-cell *matHeaderCellDef> CV Download </th>
-          <td mat-cell *matCellDef="let row"><a href="#" (click)="downloadCandidateResume(row.userName)" routerLinkActive="active" class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
+          <td mat-cell *matCellDef="let row"><a href="#" (click)="downloadCandidateResume(row.userName)" routerLinkActive="active" data-toggle="modal">Click here</a></td>
         </ng-container>
     
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
