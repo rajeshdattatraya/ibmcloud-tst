@@ -3,7 +3,7 @@ import { UserDetails } from './../../model/userDetails'
 import { Component, OnInit,NgZone } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { ApiService } from './../../service/api.service';
-import { OpenPositionService } from './../../service/openPosition.service';
+import { OpenPositionService } from './../../service/openposition.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms";
 import { DatePipe } from '@angular/common';
 import { browserRefresh } from '../../app.component';
