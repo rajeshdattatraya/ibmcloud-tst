@@ -87,6 +87,11 @@
       <td mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.candidate_users[0].quizNumber}} </td>
     </ng-container>
 
+    <ng-container matColumnDef="account">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Account </th>
+      <td mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.account}} </td>
+    </ng-container>
+
     <!-- ID Column -->
     <ng-container matColumnDef="Action1">
       <th mat-header-cell *matHeaderCellDef> Action </th>

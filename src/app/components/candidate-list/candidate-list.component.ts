@@ -43,7 +43,7 @@ export class CandidateListComponent implements OnInit {
   loading = true;
   dataSource = new MatTableDataSource<CandidateDetails>();
 
-  displayedColumns = ['Action','employeeName', 'username','band','JRSS','phoneNumber','status','quizNumber','Action1'];
+  displayedColumns = ['Action','employeeName', 'username','band','JRSS','phoneNumber','status','quizNumber','account','Action1'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
