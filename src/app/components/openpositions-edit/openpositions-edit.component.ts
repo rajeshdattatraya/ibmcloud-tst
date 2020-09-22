@@ -105,6 +105,7 @@ export class OpenpositionsEditComponent implements OnInit {
 
   readOpenPosition(openPositionID) {
       this.openPositionService.readOpenPosition(openPositionID).subscribe(data => {
+      console.log("JRSS",data['JRSS']);
           this.openPositionForm.setValue({
             positionName: data['positionName'],
             account: data['account'],
@@ -116,6 +117,22 @@ export class OpenpositionsEditComponent implements OnInit {
           });
           this.positionID = data['positionID'];
           this.sequenceID = data['sequenceID'];
+          this.JRSS.length=0;
+          this.JRSSFull.length=0;
+          this.apiService.getJrsssByAccount(data['account']).subscribe((data) => {
+              this.JRSSFull = data;
+              for(var i=0; i<this.JRSSFull.length; i++) {
+                let workFlowPrsent = ((this.JRSSFull[i]['stage1_OnlineTechAssessment']==undefined) ||
+                ((this.JRSSFull[i]['stage1_OnlineTechAssessment']==false) &&
+                (this.JRSSFull[i]['stage2_PreTechAssessment']==false) &&
+                (this.JRSSFull[i]['stage3_TechAssessment']==false) &&
+                (this.JRSSFull[i]['stage4_ManagementInterview']==false) &&
+                (this.JRSSFull[i]['stage5_ProjectAllocation']==false)))
+                if (!workFlowPrsent){
+                  this.JRSS.push(this.JRSSFull[i]);
+                }
+              }
+          });
     });
   }
 
