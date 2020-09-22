@@ -185,11 +185,13 @@
     <!-- Modal content-->
      <div class="modal-content">
       <!-- <div *ngIf="assessmentDetails.quizNumber == this.quizNumber"> -->
-      <div class="modal-header table-success" style="background-color:powderblue">
+      <div class="modal-header table-success" style="background-color:#f5f5f5;color:black">
         <h4 class="modal-title">Candidate Assessment Details</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <div class="modal-body" *ngIf="mode=='displayAssessmentModalBody'">
+        <mat-card>
+          <mat-card-content>
         <table style="table-layout: fixed; width: 100%">
           <thead>
           <tr>
@@ -201,12 +203,14 @@
           </thead>
           <tbody>
           <tr>
-            <td colspan="4" scope="col" style="font-size:x-small;color:black;font-style: italic;">
+            <td colspan="4" scope="col" style="color:black;font-style: italic;">
               You have correctly answered {{this.correctAnswerCount}} questions out of  {{this.questionCount}}
             </td>
           </tr>
           </tbody>
         </table>
+      </mat-card-content>
+    </mat-card>
       </div>
       <div *ngFor="let answer of this.candidateAssessmentDetails.results;let i=index">
         <div *ngFor="let questions of answer.userAttemptedQs" >
@@ -235,10 +239,9 @@
           </table>
         </div>
       </div>
-      <div class="modal-footer table-success" style="background-color:powderblue">
-        <button type="button" style="background-color:#0043CE;" class="btn btn-primary" data-dismiss="modal">Close</button>
-      <!-- </div> -->
-    </div>
+      <div class="modal-footer table-success" style="background-color:#f5f5f5;color:black">
+        <button mat-raised-button color="primary" data-dismiss="modal">Close</button>
+      </div>
     </div>
 
   </div>
