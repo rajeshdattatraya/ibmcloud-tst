@@ -37,7 +37,6 @@
             <mat-form-field class="open-full-width">
               <mat-select placeholder="User Role" (selectionChange)="updateUserroleProfile($event.value)"
                           formControlName="userrole" id="userrole" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.userrole.errors }">
-                <mat-option disabled value="">Choose...</mat-option>
                 <mat-option *ngFor="let userrole of UserRoleList" value="{{userrole.userrole}}">{{userrole.userrole}}
                 </mat-option>
               </mat-select>
