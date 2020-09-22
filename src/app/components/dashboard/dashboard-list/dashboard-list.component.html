@@ -95,37 +95,37 @@
               <mat-card-title>Candidate Details</mat-card-title> 
             <table>
               <tr>
-                <td width="25%"><label>Name:</label></td>
+                <td width="25%"><mat-label>Name:</mat-label></td>
                 <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].employeeName}}</td>
-                <td width="25%"><label>Email:</label></td>
+                <td width="25%"><mat-label>Email:</mat-label></td>
                 <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].email}}</td>
               </tr>
               <tr *ngIf="displayRegularUIFields">
-                <td width="25%"><label>Band:</label></td>
+                <td width="25%"><mat-label>Band:</mat-label></td>
                 <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].band}}</td>
-                <td width="20%"><label>Job Role:</label></td>
+                <td width="20%"><mat-label>Job Role:</mat-label></td>
                 <td width="35%">&nbsp;{{this.dashboardDetails[0].result_users[0].JRSS}}</td>
               </tr>
               <tr *ngIf="displayContractorUIFields">
-                <td width="25%">Job Role:</td>
+                <td width="25%"><mat-label>Job Role:</mat-label></td>
                 <td width="30%">{{this.dashboardDetails[0].result_users[0].JRSS}}</td>
-                <td width="20%"><label></label></td>
+                <td width="20%"><mat-label></mat-label></td>
                 <td width="35%">&nbsp;</td>
               </tr>
               <tr *ngIf="displayRegularUIFields">
-                <td width="25%"><label>Date of Joining:</label></td>
+                <td width="25%"><mat-label>Date of Joining:</mat-label></td>
                 <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].dateOfJoining.split('T')[0]}}</td>
-                <td width="25%"><label>Phone Number:</label></td>
+                <td width="25%"><mat-label>Phone Number:</mat-label></td>
                 <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].phoneNumber}}</td>
               </tr>
               <tr *ngIf="displayContractorUIFields">
-                <td width="25%"><label>Date of Birth:</label></td>
+                <td width="25%"><mat-label>Date of Birth:</mat-label></td>
                 <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].dateOfJoining.split('T')[0]}}</td>
-                <td width="25%"><label>Phone Number:</label></td>
+                <td width="25%"><mat-label>Phone Number:</mat-label></td>
                 <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].phoneNumber}}</td>
               </tr>
               <tr>
-                <td width="25%"><label>Technology Stream:</label></td>
+                <td width="25%"><mat-label>Technology Stream:</mat-label></td>
                 <td colspan="3" width="75%">&nbsp;{{this.dashboardDetails[0].result_users[0].technologyStream}}</td>
               </tr>
             </table>
@@ -137,11 +137,15 @@
               <mat-card-title>Online Test Details</mat-card-title> 
             <table>
               <tr>
-                <td width="25%"><label>Online Test Result:</label></td>
-                <td width="25%" *ngIf="this.dashboardDetails[0].userScore!=null">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{this.dashboardDetails[0].userScore}}%</td>
-                <td width="25%" *ngIf="this.dashboardDetails[0].userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;N/A</td>
-                <td width="25%"></td>
-                <td width="25%"></td>
+                <td width="25%"><mat-label>Online Test Result:</mat-label></td>
+                <td width="25%">
+                  <div  *ngIf="this.dashboardDetails[0].userScore!=null">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{this.dashboardDetails[0].userScore}}%
+                  </div>
+                  <div *ngIf="this.dashboardDetails[0].userScore==null">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;N/A
+                  </div>
+                </td>
               </tr>
             </table>
           </mat-card-content>
@@ -154,16 +158,22 @@
             <mat-card-content>
             <table>
               <tr>
-                <td  width="25%"><label>Technical Interview Score:</label></td>
-                <td  width="25%" *ngIf="this.dashboardDetails[0].avgTechScore!=null">{{this.dashboardDetails[0].avgTechScore}}/10</td>
-                <td  width="25%" *ngIf="this.dashboardDetails[0].avgTechScore==null">N/A</td>
+                <td  width="25%"><mat-label>Technical Interview Score:</mat-label></td>
+                <td  width="25%">
+                  <div  *ngIf="this.dashboardDetails[0].avgTechScore!=null">
+                    {{this.dashboardDetails[0].avgTechScore}}/10
+                  </div>
+                  <div  *ngIf="this.dashboardDetails[0].avgTechScore==null">
+                    N/A
+                  </div>
+                </td>
               </tr>
               <tr>
-                <td width="25%"><label>SME Result:</label></td>
+                <td width="25%"><mat-label>SME Result:</mat-label></td>
                 <td colspan="3" width="75%">&nbsp;{{this.dashboardDetails[0].smeResult}}</td>
               </tr>
               <tr>
-                <td width="25%"><label>SME Feedback:</label></td>
+                <td width="25%"><mat-label>SME Feedback:</mat-label></td>
                 <td colspan="3" width="75%">&nbsp;<textarea type="textArea" maxlength="3000" cols="50" disabled readonly value="{{this.dashboardDetails[0].smeFeedback}}"></textarea></td>
               </tr>
             </table>
@@ -179,11 +189,11 @@
 
             <table>
               <tr>
-                <td width="25%"><label>Partner Result:</label></td>
+                <td width="25%"><mat-label>Partner Result:</mat-label></td>
                 <td colspan="3" width="75%">&nbsp;{{this.dashboardDetails[0].managementResult}}</td>
               </tr>
               <tr>
-                <td width="25%"><label>Partner FeedBack:</label></td>
+                <td width="25%"><mat-label>Partner FeedBack:</mat-label></td>
                 <td colspan="3" width="75%">&nbsp;<textarea type="textArea" maxlength="3000" cols="50" disabled readonly value="{{this.dashboardDetails[0].managementFeedback}}"></textarea></td>
               </tr>
             </table>
@@ -198,21 +208,21 @@
             <mat-card-content>
             <table>
               <tr>
-                <td width="20%"><label>Location:</label></td>
+                <td width="20%"><mat-label>Location:</mat-label></td>
                 <td width="30%">&nbsp;{{this.dashboardDetails[0].result_projectAlloc[0].location}}</td>
-                <td width="20%"><label>ProjectName:</label></td>
+                <td width="20%"><mat-label>ProjectName:</mat-label></td>
                 <td width="30%">&nbsp;{{this.dashboardDetails[0].result_projectAlloc[0].projectName}}</td>
               </tr>
               <tr>
-                <td width="20%"><label>Client:</label></td>
+                <td width="20%"><mat-label>Client:</mat-label></td>
                 <td width="30%">&nbsp;{{this.dashboardDetails[0].result_projectAlloc[0].clientProject}}</td>
-                <td width="20%"><label>Position:</label></td>
+                <td width="20%"><mat-label>Position:</mat-label></td>
                 <td width="30%">&nbsp;{{this.dashboardDetails[0].result_projectAlloc[0].position}}</td>
               </tr>
               <tr>
-                <td width="20%"><label>Comments:</label></td>
+                <td width="20%"><mat-label>Comments:</mat-label></td>
                 <td width="30%">&nbsp;{{this.dashboardDetails[0].result_projectAlloc[0].comments}}</td>
-                <td width="20%"><label>&nbsp;</label></td>
+                <td width="20%"><mat-label>&nbsp;</mat-label></td>
                 <td width="30%">&nbsp;&nbsp;</td>
               </tr>
             </table>
@@ -221,14 +231,11 @@
         </div>
 
       </div>
-
-     
-
+      <div class="modal-footer table-success" style="background-color:#f5f5f5;color:black">
+        <button mat-raised-button color="primary" data-dismiss="modal">Close</button>
+      </div>
    </div>
-   <div class="modal-footer table-success" style="background-color:#f5f5f5;color:black">
-    <button mat-raised-button color="primary" data-dismiss="modal">Close</button>
-  </div>
-  </div>
+   </div>
 </div>
 
 

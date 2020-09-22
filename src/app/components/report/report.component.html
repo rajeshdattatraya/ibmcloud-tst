@@ -4,31 +4,33 @@
 <form #reportForm="ngForm" name="form" (ngSubmit)=" reportForm.form.valid">
 <mat-card class="login-card">
   <div class="float-left text-left" style="font-size:14pt;font-weight: bold;">Search</div>
-
-  <div class="form-group row">
-    <div class="col-sm-3">
+  <br/>
+  <br/>
+  <table>
+    <tr>
+      <td>
       <mat-form-field>
       <input matInput type="date" placeholder="From Date" name="fromDate" [(ngModel)]="fromDate" placeholder="From Date"
              id="fromDate" aria-label="Search">
       </mat-form-field>
-    </div>
-    <div class="col-sm-3">
+      </td>
+      <td>
       <mat-form-field>
       <input matInput type="date" placeholder="To Date" name="toDate" [(ngModel)]="toDate" placeholder="To Date" id="toDate"
              aria-label="Search"  #LocalVariable="ngModel"  [ngClass]="{  invalid:(toDate != null || toDate > currDate )}" />
       </mat-form-field>
-    </div>
-
-    <div *ngIf=" LocalVariable.invalid" class="invalid-feedback">
-      This field is required.
-    </div>
-    <div class="col-sm-3">
-      <mat-form-field>
-      <input matInput placeholder="Job Role" type="text" name="jrss" [(ngModel)]="jrss" placeholder="Search by Job Role"
-             id="JRSS" aria-label="Search">
-      </mat-form-field>
-    </div>
-  </div>
+      </td>
+      <div *ngIf=" LocalVariable.invalid" class="invalid-feedback">
+        This field is required.
+      </div>
+      <td>
+        <mat-form-field>
+        <input matInput placeholder="Job Role" type="text" name="jrss" [(ngModel)]="jrss" placeholder="Search by Job Role"
+               id="JRSS" aria-label="Search">
+        </mat-form-field>
+      </td>
+   </tr>
+  </table>
   <mat-card-actions>
     <div class="row justify-content-center">
       <button type="reset" mat-raised-button  color="primary" >Clear</button>
