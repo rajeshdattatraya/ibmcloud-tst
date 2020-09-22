@@ -105,7 +105,6 @@ export class OpenpositionsEditComponent implements OnInit {
 
   readOpenPosition(openPositionID) {
       this.openPositionService.readOpenPosition(openPositionID).subscribe(data => {
-      console.log("JRSS",data['JRSS']);
           this.openPositionForm.setValue({
             positionName: data['positionName'],
             account: data['account'],
