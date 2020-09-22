@@ -99,6 +99,9 @@ mainForm() {
       this.duplicateAccount = false;
       this.nullAccount = false;
       this.checkDuplicateAccount();
+
+      // Updated account value to upper case
+      this.accountForm.value.account = this.accountForm.value.account.toUpperCase();
       
       if (!this.accountForm.valid) {
         return false;

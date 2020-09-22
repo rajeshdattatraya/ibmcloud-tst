@@ -16,6 +16,16 @@ import {MatSort} from '@angular/material/sort';
   styleUrls: ['./view-interview-status.component.css']
 })
 export class ViewInterviewStatusComponent implements OnInit {
+
+  assesmentDate;
+  questionCount;
+  correctAnswerCount;
+  mode: string = "";
+  uScore;
+  qNumber;
+  createdDate;
+  candidateAssessmentDetails:any=[];
+
   config: any;
   workFlowForm: FormGroup;
   public browserRefresh: boolean;
@@ -100,6 +110,7 @@ export class ViewInterviewStatusComponent implements OnInit {
       this.JRSS = candidate.JRSS;
       this.canUserId = candidate._id;
       this.canUserName = candidate.username;
+
       if (candidate.candidate_results.length == 0) {
         this.onlineTestResult = "Pending";
         this.userResult ="Other";
@@ -108,9 +119,17 @@ export class ViewInterviewStatusComponent implements OnInit {
       }
       candidate.candidate_results.forEach( result => {
           this.resultId = result._id
+          this.uScore = result.userScore;
+          this.qNumber = result.quizNumber;
+          this.createdDate = result.createdDate;
           if (result.stage1_status == 'Not Started') {
+            if(result.userResult = 'Fail') {
+            this.onlineTestResult = result.userScore + "%";
+            this.userResult ="Fail";
+            } else {
             this.onlineTestResult = "Pending";
             this.userResult ="Other";
+            }
           } else if (result.stage1_status == 'Skipped') {
             this.onlineTestResult = "N/A";
             this.userResult ="Other";
@@ -148,7 +167,8 @@ export class ViewInterviewStatusComponent implements OnInit {
       });
       if (this.stage5 == "Not Started" || this.stage5 == "") {
           this.exceptionalApprovalList.push(new ExceptionApprovalDetail(this.employeeName, this.JRSS, this.onlineTestResult, this.technicalInterviewResult,
-                                        this.partnerInterviewResult,this.canUserId,this.canUserName,this.resultId,this.userResult));
+                                        this.partnerInterviewResult,this.canUserId,this.canUserName,this.resultId,
+                                        this.userResult,this.uScore,this.qNumber,this.createdDate));
       }
       });
       this.dataSource.data = this.exceptionalApprovalList as ExceptionApprovalDetail[];
@@ -168,5 +188,17 @@ export class ViewInterviewStatusComponent implements OnInit {
     }
   }
 
+  getCandidateAssessmentDetails(userid,quizId,username,userScore,createdDate) {
+      this.userName=username;
+      this.quizNumber=quizId;
+      this.userScore=userScore;
+      this.assesmentDate=createdDate;
+      this.mode="displayAssessmentModalBody";
+      this.apiService.getCandidateAssessmentDetails(userid,quizId).subscribe((data) => {
+      this.candidateAssessmentDetails = data;
+      this.questionCount=this.candidateAssessmentDetails.results.length;
+      this.correctAnswerCount=Math.round((userScore*this.questionCount)/100)
+     })
+  }
 
 }

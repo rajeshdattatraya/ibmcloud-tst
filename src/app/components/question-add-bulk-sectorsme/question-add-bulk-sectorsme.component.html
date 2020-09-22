@@ -15,7 +15,7 @@
                 <mat-form-field class="open-full-width">
                 <mat-select multiple  placeholder="Account"  formControlName="account" id="inputAccount"
                         [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.account.errors }">
-                  <mat-option value="">Choose...</mat-option>
+                  <!-- <mat-option value="">Choose...</mat-option> -->
                   <mat-option *ngFor="let account of Account" [value]="account" (onSelectionChange)="updateAccount($event)">{{account.account}}
                   </mat-option>
                 </mat-select>
@@ -39,15 +39,17 @@
               </td>
             </tr>
 
-            <tr>
-              <td colspan="2">
-          <div class="float-left text-left">
-              <p style="color:blue;" (click)="bulkUploadTemplate()"><span style="cursor:pointer"><u>Bulk Upload Template</u></span></p>
-          </div>
           <br>
-              </td>
-            </tr>
-
+          <!-- Bulk Upload template -->
+          <tr>
+            <td colspan="2">
+              <div class="float-left text-left">
+                <p style="color:blue;" (click)="bulkUploadTemplate()"><span style="cursor:pointer"><u>Bulk Upload Template</u></span></p>
+              </div>     
+            </td>
+          </tr>
+          
+          <!-- Upload Bulk Questions File -->
           <tr>
             <td colspan="2">
               <div class="float-left text-right">

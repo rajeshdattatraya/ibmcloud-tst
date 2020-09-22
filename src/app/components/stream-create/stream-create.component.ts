@@ -120,8 +120,6 @@ export class StreamCreateComponent implements OnInit {
           this.jrssObjectArray.push(this.jrssObject);
           console.log('jrssObjectArray****', this.jrssObjectArray);
         }
-
-     
       
     }  
     this.dataSource.data=this.jrssObjectArray as JRSS[]; 
@@ -243,14 +241,17 @@ listJrssByAccount(accountValue){
     this.formReset = false;
     this.duplicateTechStream = false;
     this.readJrssDocId();
-    this.checkforquestions();
+    //this.checkforquestions();
     if (!this.streamCreateForm.valid) {
      
       return false;
     } else if(this.duplicateTechStream){
       
       this.error = 'This entry is already existing';
-    } 
+    } else {
+
+      this.checkforquestions();
+    }
     
   }
   clearForm() {

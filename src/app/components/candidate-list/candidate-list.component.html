@@ -4,9 +4,7 @@
   <h4 class="my-0 mr-md-auto font-weight-normal">View Candidates</h4></div>
 <br/><br>
 <mat-card class="login-card">
-  <mat-card-header>
-    <mat-card-title class="example-card-title">Search</mat-card-title>
-  </mat-card-header>
+  <div class="float-left text-left" style="font-size:14pt;font-weight: bold;">Search</div>
 <table>
   <tr>
     <td>
@@ -50,7 +48,7 @@
     <!-- ID Column -->
     <ng-container matColumnDef="employeeName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-      <td mat-cell *matCellDef="let row"><a href="#myModal" (click)="getCandidateDetails(row.username)" class="col-4 cursor-pointer" data-toggle="modal" > {{row.employeeName}}</a> </td>
+      <td mat-cell *matCellDef="let row"><a href="#myModal" (click)="getCandidateDetails(row.username)" data-toggle="modal" > {{row.employeeName}}</a> </td>
     </ng-container>
 
     <!-- Progress Column -->
@@ -93,7 +91,7 @@
     <ng-container matColumnDef="Action1">
       <th mat-header-cell *matHeaderCellDef> Action </th>
       <td mat-cell *matCellDef="let row;let i=index">  <a>
-        <button mat-raised-button color="primary" (click)="updateCandidateStatus(row, i)">Enable</button></a></td>
+        <button mat-raised-button color="primary" (click)="updateCandidateStatus(row, i)">{{row.state}}</button></a></td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

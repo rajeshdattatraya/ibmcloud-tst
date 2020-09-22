@@ -1,10 +1,7 @@
 import { Router } from '@angular/router';
 import { ApiService } from './../../service/api.service';
 import { Component, OnInit, NgZone } from '@angular/core';
-import { FormGroup, FormArray,FormBuilder, Validators } from "@angular/forms";
-import { Question } from 'src/app/model/questions';
-import { ResourceLoader } from '@angular/compiler';
-import * as XLSX from 'xlsx';
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { browserRefresh } from '../../app.component';
 
 @Component({
@@ -35,6 +32,7 @@ export class QuestionsAddSectorsmeComponent implements OnInit {
   file: File;
   arrayBuffer: any;
   filelist: any;
+
   constructor(public fb: FormBuilder,
                   private router: Router,
                   private ngZone: NgZone,
@@ -42,10 +40,11 @@ export class QuestionsAddSectorsmeComponent implements OnInit {
                     this.readTechStream();this.mainForm();
                     this.readAccount();
                     this.browserRefresh = browserRefresh;
-                    if (!this.browserRefresh){
-                    this.userName = this.router.getCurrentNavigation().extras.state.username;
-                    this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
-                    this.account = this.router.getCurrentNavigation().extras.state.account;
+                    
+                  if (!this.browserRefresh){
+                      this.userName = this.router.getCurrentNavigation().extras.state.username;
+                      this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
+                      this.account = this.router.getCurrentNavigation().extras.state.account;
                     }
                   }
 
@@ -76,8 +75,7 @@ export class QuestionsAddSectorsmeComponent implements OnInit {
         option4checkbox:[],
         answerID:[],
         questionID:[],
-        account: ['', [Validators.required]]
-       
+        account: ['', [Validators.required]]       
       })
     }
 
@@ -85,74 +83,80 @@ export class QuestionsAddSectorsmeComponent implements OnInit {
       get myForm(){
         return this.questionForm.controls;
       }
-  // Choose JRSS with select dropdown
+
+   // Choose JRSS with select dropdown
     updateJRSS(e){
       this.questionForm.get('JRSS').setValue(e, {
       onlySelf: true
       })
-    }
-
-  
+    } 
 
   // Choose Technology Stream with select dropdown
       updateTechnologyStream(e){
-        this.questionForm.get('TechnologyStream').setValue(e, {
+        this.questionForm.get('technologyStream').setValue(e, {
         onlySelf: true
         })
       }
 
-      // Get all Acconts
+  // Get all Acconts
   readAccount(){
     this.apiService.getAccounts().subscribe((data) => {
     this.Account = data;
     })
   }
 
-    // Get all Technology streams of all JRSS
-    readTechStream(){
+  // Get all Technology streams of all JRSS
+  readTechStream(){
        this.apiService.getTechStream().subscribe((data) => {
            this.technologyStream = data;
-       });
-       console.log("Master technologyStream: "+ JSON.stringify(this.technologyStream));
-    }
+       });       
+  }
   
-    // Choose QuestionType with select dropdown
-    updateQuestionTypes(e){
+  // Choose QuestionType with select dropdown
+  updateQuestionTypes(e){
       this.questionForm.get('questionType').setValue(e, {
       onlySelf: true
       })
-    }
-    // Choose QuestionType with select dropdown
-    updateComplexityLevel(e){
+  }
+
+  // Choose QuestionType with select dropdown
+  updateComplexityLevel(e){
       this.questionForm.get('complexityLevel').setValue(e, {
       onlySelf: true
       })
-    }
-    getTechnologyStream() {
+  }
+
+  getTechnologyStream() {
       return this.technologyStream;
     }
 
-    onSubmit() {
-          // selected account in comma separated form
-        this.accountArray = [];
-        for (var account of this.questionForm.value.account)  {     
-          if(this.accountArray.indexOf(account.account == -1)){
-              this.accountArray.push(account.account);  
-          }     
-        }
-        this.questionForm.value.account = this.accountArray.join(',');
-        //Remove the leading comma if any
-        if (this.questionForm.value.account.substr(0,1) == ",") {
-          this.questionForm.value.account = this.questionForm.value.account.substring(1);
-      }
-        //alert('this.questionForm.value.account=== '+this.questionForm.value.account);
+  onSubmit() {
+      // selected account in comma separated form
+      this.accountArray = [];
+      for (var account of this.questionForm.value.account)  {     
+        if(this.accountArray.indexOf(account.account == -1)){
+            this.accountArray.push(account.account);  
+        }     
+      }       
 
-        this.submitted = true;
-        this.formReset = false;
-        if (!this.questionForm.valid) {
-          console.log('error part');
+      // Check if SECTOR value exists in the accountArray
+      if(this.accountArray.toString().toLowerCase().indexOf("sector") !== -1)
+      {         
+        this.accountArray = [];
+        this.accountArray.push('SECTOR'); 
+      }  
+      this.questionForm.value.account = this.accountArray.join(',');          
+
+      //Remove the leading comma if any
+      // if (this.questionForm.value.account.substr(0,1) == ",") {
+      //   this.questionForm.value.account = this.questionForm.value.account.substring(1);
+      // }        
+
+      this.submitted = true;
+      this.formReset = false;
+      if (!this.questionForm.valid) {         
           return false;
-        } else {            
+      } else {            
           this.answerArray=[];  
           this.optionsArray=[];
           this.questionForm.value.technologyStream=this.questionForm.value.technologyStream
@@ -161,11 +165,9 @@ export class QuestionsAddSectorsmeComponent implements OnInit {
               alert("Answers not selected");
             } else if(!(this.questionForm.value.option4 || this.questionForm.value.option3)
             &&(this.questionForm.value.option4checkbox || this.questionForm.value.option3checkbox)){
-              console.log('else if only 2 options');
               alert("You can't select answers where options are empty   ");
             }else if(!(this.questionForm.value.option4)
-            &&(this.questionForm.value.option4checkbox)){
-              console.log('else if only 3 options');
+            &&(this.questionForm.value.option4checkbox)){             
               alert("You can't select answers where options are empty   ");
             }else if(!(this.questionForm.value.option3) && (this.questionForm.value.option4)){
               alert("You can't fill option4 leaving option3 empty");
@@ -194,9 +196,10 @@ export class QuestionsAddSectorsmeComponent implements OnInit {
                 {optionID:4,option:this.questionForm.value.option4}); 
                }        
               this.questionForm.value.options=this.optionsArray;
-                //Validation for singleSelect
-                if((this.questionForm.value.questionType=="SingleSelect")&& (this.answerArray.toString().length)>1)
-                {console.log("only one"+this.questionForm.value.answerID)
+
+              //Validation for singleSelect
+              if((this.questionForm.value.questionType=="SingleSelect") && (this.answerArray.toString().length)>1)
+                {    
                 alert("Only one option can be selected as the questionType is SingleSelect");                
                 return false;
               }       
@@ -217,17 +220,16 @@ export class QuestionsAddSectorsmeComponent implements OnInit {
         }
       }
 
-      updateAccount(event) {
+    updateAccount(event) {
         this.questionForm.value.account = event.source.value;
-      }
+    }
 
-      cancelForm(){
-        this.ngZone.run(() => this.router.navigateByUrl('/view-questionbank',{state:{username:this.userName,account:this.account}}));
-      }
+    cancelForm(){
+      this.ngZone.run(() => this.router.navigateByUrl('/view-questionbank',{state:{username:this.userName,account:this.account}}));
+    }
 
-       resetForm() {
-          this.formReset = true;
-          this.questionForm.reset();
-       }
-
+    resetForm() {
+      this.formReset = true;
+      this.questionForm.reset();
+    }
 }

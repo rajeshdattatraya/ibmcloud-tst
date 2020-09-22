@@ -15,7 +15,7 @@
 
 				<td>
 					<mat-form-field class="stream-half-width">
-					  <mat-select placeholder="Account"  formControlName="account" id="account" 
+					  <mat-select  placeholder="Account"  formControlName="account" id="account" 
 					  			(selectionChange)="readJrssByAccount($event.value)"
 								  [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.account.errors }">
 						<mat-option disabled value="">Choose...</mat-option>
@@ -78,6 +78,7 @@
 	   </table> 
 	</form>
 	</mat-card-content>
+	<div *ngIf="error" class="alert alert-danger">{{error}}</div>
 	<mat-card-actions>
 	 <div class="row justify-content-center">
 		<button mat-raised-button color="primary" (click)="onSubmit()">Save</button>

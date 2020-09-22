@@ -226,6 +226,7 @@ export class OpenpositionsCreateComponent implements OnInit {
         this.openPositionService.createOpenPosition(openPosition).subscribe(
               (res) => {
                 console.log('Open Position successfully created!');
+                alert('Open Position successfully created!');
                 this.ngZone.run(() => this.router.navigateByUrl('/openpositions-list',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
               }, (error) => {
                 console.log(error);

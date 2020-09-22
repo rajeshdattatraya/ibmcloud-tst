@@ -31,10 +31,10 @@ export class DashboardSearchComponent implements OnInit {
     console.log('here in build form of search component')
     this.form = this.fb.group({
       employeeName: new FormControl(''),
-      JRSS: new FormControl(''),
-      stage5_status: new FormControl(''),
-      managementResult: new FormControl(''),
-      smeResult: new FormControl(''),
+      jobRole: new FormControl(''),
+      assignedToProject: new FormControl(''),
+      partnerInterviewResult: new FormControl(''),
+      technicalInterviewResult: new FormControl(''),
       userResult: new FormControl(''),
       fromDate: new FormControl(''),
       toDate: new FormControl('')
@@ -43,19 +43,19 @@ export class DashboardSearchComponent implements OnInit {
 
   // Choose Assigned To Project type with select dropdown
   updateAssignedToProjectProfile(e) {
-    this.form.get('stage5_status').setValue(e, {
+    this.form.get('assignedToProject').setValue(e, {
     onlySelf: true
     })
   }
   // Choose Partner Interview Result type with select dropdown
   updatePartnerInterviewResultProfile(e) {
-    this.form.get('managementResult').setValue(e, {
+    this.form.get('partnerInterviewResult').setValue(e, {
     onlySelf: true
     })
   }
   // Choose Partner Interview Result type with select dropdown
   updateTechInterviewResultProfile(e) {
-    this.form.get('smeResult').setValue(e, {
+    this.form.get('technicalInterviewResult').setValue(e, {
     onlySelf: true
     })
   }
@@ -67,11 +67,6 @@ export class DashboardSearchComponent implements OnInit {
   }
 
   search(filters: any): void {
-    if (filters.stage5_status == 'Assigned') {
-      filters.stage5_status = "Completed";
-    } else if (filters.stage5_status == 'Unassigned') {
-      filters.stage5_status = "Not Started";
-    }
     Object.keys(filters).forEach(key => (filters[key] === '' || filters[key] ===  null) ? delete filters[key] : key);
     this.groupFilters.emit(filters);
   }

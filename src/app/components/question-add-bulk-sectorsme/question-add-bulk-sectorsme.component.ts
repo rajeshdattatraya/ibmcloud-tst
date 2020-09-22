@@ -174,12 +174,18 @@ export class QuestionAddBulkSectorsmeComponent implements OnInit {
       }     
     }
 
+    // Check if SECTOR value exists in the accountArray
+    if(this.accountArray.toString().toLowerCase().indexOf("sector") !== -1)
+    {         
+      this.accountArray = [];
+      this.accountArray.push('SECTOR'); 
+    }  
+    this.questionForm.value.account = this.accountArray.join(','); 
+
     //Remove the leading comma if any
-    this.questionForm.value.account = this.accountArray.join(',');
-    if (this.questionForm.value.account.substr(0,1) == ",") {
-      this.questionForm.value.account = this.questionForm.value.account.substring(1);
-  }
-    //alert('this.questionForm.value.account=== '+this.questionForm.value.account);
+    // if (this.questionForm.value.account.substr(0,1) == ",") {
+    //   this.questionForm.value.account = this.questionForm.value.account.substring(1);
+    // }
 
     this.submitted = true;
     this.formReset = false;

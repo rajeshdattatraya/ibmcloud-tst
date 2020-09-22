@@ -20,6 +20,7 @@
         </table> 
       </form>
   </mat-card-content>
+  <div *ngIf="error" class="alert alert-danger example-full-width row justify-content-center">{{error}}</div>
     <mat-card-actions>
       <div class="row justify-content-center">
         <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>

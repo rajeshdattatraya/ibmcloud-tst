@@ -182,6 +182,17 @@ getQuestions(account): Observable<any> {
     return this.http.get(`${this.baseUri}`);
   }
 
+  // Get all candidates belongs to the accounts same as loggedin admin
+  getCandidatesForAccounts(account): Observable<any>  {
+    let url = `${this.baseUri}/readCandidates/${account}`;
+    return this.http.get(url, {headers: this.headers}).pipe(
+      map((res: Response) => {
+        return res || {}
+      }),
+      catchError(this.errorMgmt)
+    )
+  }
+
   // Get candidate
   getCandidate(id): Observable<any> {
     let url = `${this.baseUri}/read/${id}`;

@@ -33,6 +33,7 @@ export class DashboardListComponent implements OnChanges {
 
   public browserRefresh: boolean;
   DashboardList: any = [];
+  dashboards: any = [];
   userName: String = "";
   config: any;
   accessLevel: String = "";
@@ -52,7 +53,22 @@ export class DashboardListComponent implements OnChanges {
   displayRegularUIFields: Boolean = true;
   filterKey : string = "";
   account: String = "";
-displayedColumns = ['Action','employeeName', 'JRSS','userResult','smeResult','managementResult','stage5_status'];
+
+  employeeName = "";
+  onlineTestResult = "";
+  userResult = "";
+  technicalInterviewResult = "";
+  partnerInterviewResult = "";
+  assignedToProject = "";
+  jobRole = "";
+  canUserId = "";
+  resultId = "";
+  canUserName = "";
+  qNumber = "";
+  uScore = "";
+  createdDate = "";
+
+displayedColumns = ['Action','employeeName', 'jobRole','userResult','technicalInterviewResult','partnerInterviewResult','assignedToProject'];
 
 
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
@@ -67,9 +83,6 @@ displayedColumns = ['Action','employeeName', 'JRSS','userResult','smeResult','ma
             this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
             this.account = this.router.getCurrentNavigation().extras.state.account;
         }
-        route.queryParams.subscribe(
-        params => this.config.currentPage= params['page']?params['page']:1 );
-        this.getDashboardList();
   }
 
   ngOnChanges(): void {
@@ -86,7 +99,6 @@ displayedColumns = ['Action','employeeName', 'JRSS','userResult','smeResult','ma
         }
         this.readResult();
 
-
         this.dataSource.filterPredicate = (data: any, filter) => {
           const dataStr =JSON.stringify(data).toLowerCase();
           return dataStr.indexOf(filter) != -1;
@@ -94,12 +106,12 @@ displayedColumns = ['Action','employeeName', 'JRSS','userResult','smeResult','ma
   
     this.dataSource.sortingDataAccessor = (item, property) => {
         switch(property) {
-          case 'employeeName': return item.result_users[0].employeeName;
-          case 'JRSS': return item.result_users[0].JRSS;
-          case 'userResult': return item.userScore;
-          case 'smeResult': return item.smeResult;
-          case 'managementResult': return item.managementResult;
-          case 'stage5_status': return item.stage5_status;
+          case 'employeeName': return item.employeeName;
+          case 'jobRole': return item.jobRole;
+          case 'onlineTestResult': return item.onlineTestResult;
+          case 'technicalInterviewResult': return item.technicalInterviewResult;
+          case 'partnerInterviewResult': return item.partnerInterviewResult;
+          case 'assignedToProject': return item.assignedToProject;
           default: return item[property];
         }
      }
@@ -111,16 +123,18 @@ displayedColumns = ['Action','employeeName', 'JRSS','userResult','smeResult','ma
       const keys = Object.keys(filters);
       const filterUser = user => {
         let result = keys.map(key => {
-          if (key == "employeeName" || key == "JRSS") {
-            if (user.result_users[0][key]) {
-              return String(user.result_users[0][key]).toLowerCase().startsWith(String(filters[key]).toLowerCase())
+          if (key == "employeeName" || key == "jobRole" || key == "assignedToProject"
+              || key == "technicalInterviewResult"|| key == "partnerInterviewResult") {
+            if (user[key]) {
+              return String(user[key]).toLowerCase().startsWith(String(filters[key]).toLowerCase())
             }
-          } else if (user[key]) {
-                return String(user[key]).toLowerCase().startsWith(String(filters[key]).toLowerCase());
           } else {
-            if (key == "fromDate" || key == "toDate") {
-              let createdKey = "createdDate";
-              let registeredDate = user.result_users[0][createdKey].split('T');
+            if (key == "userResult") {
+               if(user[key] == filters[key]) {
+                   return true;
+               }
+            } else if(key == "fromDate" || key == "toDate") {
+              let registeredDate = user.createdDate.split('T');
               if (registeredDate[0] >= filters.fromDate && registeredDate[0] <= filters.toDate) {
                   return true;
               }
@@ -134,15 +148,9 @@ displayedColumns = ['Action','employeeName', 'JRSS','userResult','smeResult','ma
         return result.reduce((acc, cur: any) => { return acc & cur }, 1)
       }
       this.filteredUsers = this.users.filter(filterUser);
-      this.Result = this.filteredUsers
-	  this.dataSource.data = this.Result;
+      this.dashboards = this.filteredUsers
+	    this.dataSource.data = this.dashboards as Dashboard[];
     }
-
-
-    pageChange(newPage: number) {
-          this.router.navigate(['/dashboard'], { queryParams: { page: newPage } });
-    }
-
 
     getDashboardList(){
       this.apiService.getDashboardList().subscribe((data) => {
@@ -153,8 +161,88 @@ displayedColumns = ['Action','employeeName', 'JRSS','userResult','smeResult','ma
     readResult() {
       this.apiService.getDashboardList().subscribe((data) => {
         this.Result = data;
-		this.dataSource.data = this.Result;
-        this.users = data
+
+        this.onlineTestResult = "";
+        this.userResult = "";
+        this.technicalInterviewResult = "";
+        this.partnerInterviewResult = "";
+        this.assignedToProject = "";
+        this.resultId = "";
+        this.qNumber = "";
+        this.uScore = "";
+        this.createdDate = "";
+
+        this.Result.forEach((result) => {
+            this.employeeName = "";
+            this.jobRole = "";
+            this.canUserId = "";
+            this.canUserName = "";
+
+           if (result.stage1_status == 'Not Started') {
+             if (result.userResult == 'Fail') {
+                  this.onlineTestResult = result.userScore + "%";
+                  this.userResult ="Fail";
+             } else {
+                  this.onlineTestResult = "Pending";
+                  this.userResult ="Other";
+             }
+           } else if (result.stage1_status == 'Skipped') {
+             this.onlineTestResult = "N/A";
+             this.userResult ="Other";
+           } else if (result.stage1_status == 'Completed' && result.userScore != null) {
+              this.onlineTestResult = result.userScore + "%";
+              this.userScore = result.userScore;
+              if(result.userResult=='Pass'){
+               this.userResult="Pass";
+              } else if(result.userResult=='Fail'){
+               this.userResult="Fail";
+              } else {
+               this.userResult ="Other";
+              }
+           }  else if (result.stage1_status == 'Completed' && result.userScore == null) {
+              this.onlineTestResult = "N/A";
+              this.userResult ="Other";
+           }
+
+           if (result.stage3_status == 'Not Started') {
+             this.technicalInterviewResult = "Pending";
+           } else if (result.stage3_status == 'Skipped') {
+             this.technicalInterviewResult = "N/A";
+           } else if (result.stage3_status == 'Completed') {
+             this.technicalInterviewResult = result.smeResult;
+           }
+
+           if (result.stage4_status == 'Not Started') {
+             this.partnerInterviewResult = "Pending";
+           } else if (result.stage4_status == 'Skipped') {
+             this.partnerInterviewResult = "N/A";
+           } else if (result.stage4_status == 'Completed') {
+             this.partnerInterviewResult = result.managementResult;
+           }
+            if (result.stage5_status == 'Not Started') {
+              this.assignedToProject = "Unassigned";
+            } else if (result.stage5_status == 'Skipped' || result.stage5_status == null) {
+              this.assignedToProject = "N/A";
+            } else if (result.stage5_status == 'Completed') {
+              this.assignedToProject = "Assigned";
+            }
+           this.resultId = result._id;
+           this.qNumber = result.quizNumber;
+           this.uScore = result.userScore;
+           this.createdDate = result.createdDate;
+           console.log("result.result_users.length",result.result_users.length);
+           if (result.result_users.length > 0) {
+             this.employeeName = result.result_users[0].employeeName;
+             this.jobRole = result.result_users[0].JRSS;
+             this.canUserId = result.result_users[0]._id;
+             this.canUserName = result.result_users[0].username;
+             this.dashboards.push(new Dashboard(this.employeeName, this.jobRole, this.onlineTestResult, this.technicalInterviewResult,
+                                        this.partnerInterviewResult,this.assignedToProject,this.canUserId,this.canUserName,
+                                        this.resultId,this.userResult,this.qNumber,this.uScore,this.createdDate));
+           }
+        });
+		    this.dataSource.data = this.dashboards as Dashboard[];
+        this.users = this.dashboards;
         this.filteredUsers = this.filteredUsers.length > 0 ? this.filteredUsers : this.users;
       })
     }

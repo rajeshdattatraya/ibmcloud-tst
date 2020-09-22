@@ -144,10 +144,25 @@ export class TestConfigAddComponent implements OnInit {
     getAllTestConfigs(){
       this.testconfigService.getAllTestConfigs().subscribe((data) => {
        this.TestConfigs = data;
-       this.dataSource.data = data as TestConfig[];
-       console.log("this.dataSource.data", this.dataSource.data);
-       
-      })
+
+       var filteredTestConfig:any=[];
+       for (let k=0; k<this.TestConfigs.length; k++){
+         var item = this.TestConfigs[k].account;
+          let accountExists =  false;
+          for (var i = 0; i < this.accounts.length; i++) {
+           
+            if ( item.toLowerCase().indexOf(this.accounts[i].toLowerCase()) == -1) {
+              accountExists =  false;
+            } else { accountExists =  true; 
+              break; }
+          }
+  
+          if (accountExists == true) {
+            filteredTestConfig.push(this.TestConfigs[k]);
+          }
+        }
+        this.dataSource.data = filteredTestConfig as TestConfig[];
+       })
     }
 
 
