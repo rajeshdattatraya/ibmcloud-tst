@@ -1,12 +1,13 @@
 <div *ngIf="mode=='login'" class="col-md-8 offset-md-3 mt-5">
   <mat-card class="login-card">
-    <mat-card-header>
-      <mat-card-title>Login</mat-card-title>
-    </mat-card-header>
+    <div class="float-left text-left" style="font-size:14pt;font-weight: bold;">Login</div>
+    <br/>
+    <br/>
     <mat-card-content>
-      <p>Please login with provided credentials.</p>
       <form [formGroup]="loginForm">
-        <table class="example-full-width" cellspacing="0">
+        <table>
+          <div style="text-align:left;">Please login with provided credentials.</div>
+          <br/>
           <tr>
             <td>
               <mat-form-field class="example-full-width">
@@ -41,13 +42,13 @@
 
 <div *ngIf="mode=='forgotPassword'" class="col-md-8 offset-md-3 mt-5">
   <mat-card class="login-card">
-    <mat-card-header>
-      <mat-card-title>Confirm User</mat-card-title>
-    </mat-card-header>
+    <div class="float-left text-left" style="font-size:14pt;font-weight: bold;">Confirm User</div>
+    <br/>
+    <br/>
     <mat-card-content>
-      <p>Please provide Username and Date of joining if you are regular employee or Date of birth if you are contractor.</p>
       <form [formGroup]="forgotPasswordForm">
-        <table class="example-full-width" cellspacing="0">
+        <table>
+          <div style="text-align:left;">Please provide Username and Date of joining if you are regular employee or Date of birth if you are contractor.</div>
           <tr>
             <td>
               <mat-form-field class="example-full-width">
