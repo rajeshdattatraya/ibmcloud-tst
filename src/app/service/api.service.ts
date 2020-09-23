@@ -431,6 +431,11 @@ getJrsss() {
   return this.http.get(`${this.baseJrssUri}`);
 }
 
+// Get all questions
+getAllQuestions() {
+  return this.http.get(`${this.baseQuestionUri}`);
+}
+
 // Get all jrss by account
 getJrsssByAccount(account) {
   let url = `${this.baseJrssUri}/getJrsssByAccount/${account}`;
