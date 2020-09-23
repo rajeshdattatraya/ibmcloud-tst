@@ -1,3 +1,18 @@
+<div *ngIf="accessLevel === 'partner'">
+  <mat-toolbar>
+    <mat-toolbar-row>
+      <a mat-button  class="matButtonSpace" routerLink="/partner-list" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Partner Interview</a>
+      <a mat-button  class="matButtonSpace" routerLink="/operations-candidate-list" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Project Assignment</a>
+      <a mat-button  class="matButtonSpace" routerLink="/open-positions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Open Positions</a>
+      <a mat-button  class="matButtonSmallSpace" routerLink="/dashboard" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Dashboard</a>
+      <a mat-button  class="matButtonSmallSpace" routerLink="/report" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Report</a>
+      <span class="flexExpand">
+			<a mat-button routerLink="/login-component" routerLinkActive="active">Logout</a>
+		</span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+</div>
+<div *ngIf="accessLevel === 'management'">
 <mat-toolbar>
   <mat-toolbar-row>
       <a mat-button  class="matButtonLargeSpace" routerLink="/openpositions-list" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Manage Open Seats</a>
@@ -11,6 +26,7 @@
       </span>
   </mat-toolbar-row>
 </mat-toolbar>
+</div>
   <div>
     <br/>
     <app-operations-candidate-search-list [groupFilters]="filters" [searchByKeyword]="searchText"></app-operations-candidate-search-list>
