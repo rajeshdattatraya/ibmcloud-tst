@@ -40,10 +40,13 @@ export class CandidateListComponent implements OnInit {
   emailFilter: string;
   bandFilter: string;
   jrssFilter: string;
+  accountFilter: String;
+  loginAdminAccounts:any=[];
   loading = true;
   dataSource = new MatTableDataSource<CandidateDetails>();
 
-  displayedColumns = ['Action','employeeName', 'username','band','JRSS','phoneNumber','status','quizNumber','account','Action1'];
+  displayedColumns = ['Action','employeeName', 'username','band','JRSS','phoneNumber','status','quizNumber','Action1'];
+  displayedColumnsMultiAccount = ['Action','employeeName', 'username','band','JRSS','phoneNumber','status','quizNumber','account','Action1'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -55,6 +58,7 @@ export class CandidateListComponent implements OnInit {
         this.userName = this.router.getCurrentNavigation().extras.state.username;
         this.account = this.router.getCurrentNavigation().extras.state.account;
         this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
+        this.loginAdminAccounts = this.account.split(",");
     }
 
   }
@@ -221,6 +225,7 @@ export class CandidateListComponent implements OnInit {
       this.emailFilter = '';
       this.bandFilter = '';
       this.jrssFilter = '';
+      this.accountFilter = '';
    }
 
 }
