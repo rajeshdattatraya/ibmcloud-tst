@@ -121,9 +121,9 @@ get myForm(){
       this.candidateBand = this.operationsProjectDetails[0].result_users[0].band;
       this.candidateJRSS = this.operationsProjectDetails[0].result_users[0].JRSS;
       this.positionName = this.operationsProjectDetails[0].result_users[0].openPositionName;
+      this.positionID = this.operationsProjectDetails[0].result_users[0].positionID;
       this.oldCandidateLocation = this.candidateLocation;
-   //   this.readOpenPositionsByPositionName();
-
+      this.getSelectedPositionDetails(this.positionID);
       this.listAllOpenPositions()
       //Sprint8 End
 
@@ -296,7 +296,7 @@ getSelectedPositionDetails(positionID) {
 
  // To Read the Open Position
  readOpenPositionsByPositionID() {
-  this.openPositionService.readOpenPosition(this.positionID).subscribe((data) => {
+  this.openPositionService.readOpenPositionByPositionID(this.positionID).subscribe((data) => {
     this.positionDetails = data;
     console.log('this.positionDetails inside pos by ID ***** ',data);
     
@@ -316,6 +316,7 @@ getSelectedPositionDetails(positionID) {
   this.openPositionService.readOpenPositionByPositionName(this.positionName).subscribe((data) => {
     this.positionDetails = data;
     console.log('this.positionDetails inside pos by NAME ***** ',data);
+    this.positionID = data['positionID']
     this.rateCardLOB = data['lineOfBusiness']
     this.rateCardLocation = data['positionLocation']
     this.rateCardRole = data['rateCardJobRole']
@@ -339,17 +340,12 @@ getSelectedPositionDetails(positionID) {
       let costCardValue: number = 0;
       let costCardCode = ""
       let rateCardCode = ""
-       rateCardCode = this.rateCardLOB + " - " + this.rateCardLocation + " - " +
-         this.rateCardRole + " - " + this.rateCardComplexityLevel;
+      rateCardCode = this.rateCardLOB + " - " + this.rateCardLocation + " - " + this.rateCardRole + " - " + this.rateCardComplexityLevel;
 
-       if (this.candidateBand == 'Exec'
-         || this.candidateBand == 'Apprentice'
-         || this.candidateBand == 'Graduate') {
-         costCardCode = this.candidateLocation + " - " + this.candidateLOB
-           + " - " + this.candidateBand
+       if (this.candidateBand == 'Exec' || this.candidateBand == 'Apprentice' || this.candidateBand == 'Graduate') {
+         costCardCode = this.candidateLocation + " - " + this.candidateLOB + " - " + this.candidateBand
        } else {
-         costCardCode = this.candidateLocation + " - " + this.candidateLOB
-           + " - Band-" + this.candidateBand
+         costCardCode = this.candidateLocation + " - " + this.candidateLOB + " - Band-" + this.candidateBand
        }
 
      this.openPositionService.readRateCardsByRateCardCode(rateCardCode).subscribe((data) => {
@@ -357,18 +353,21 @@ getSelectedPositionDetails(positionID) {
          
         this.openPositionService.readCostCardsByCostCardCode(costCardCode).subscribe((data) => {
            costCardValue = data['costCardValue'];
-          
-           if (rateCardValue == null && this.onLoad == false) {
-              window.alert("No cost details available, choose a different position.");
+
+           if ((rateCardValue == null || rateCardValue == undefined) && this.onLoad == false) {
+              window.alert("No rate card value available for this rate code: ''"+rateCardCode+"' , choose a different position.");
               this.candidateLocation = this.oldCandidateLocation;
               return false;
-           } else if (costCardValue == null && this.onLoad == false) {
-            window.alert("No rate card details available, choose a different candidate location.");
-            this.candidateLocation = this.oldCandidateLocation;
-            return false;
-         } else {
-          this.oldCandidateLocation = this.candidateLocation;
-            this.grossProfit = Math.round(((rateCardValue-costCardValue)/costCardValue)*100)
+           } else if ((costCardValue == null || costCardValue == undefined) && this.onLoad == false) {
+              window.alert("No cost card value available for this cost code: ''"+costCardCode+"' , choose a different candidate location.");
+              this.candidateLocation = this.oldCandidateLocation;
+              return false;
+           } else {
+              this.oldCandidateLocation = this.candidateLocation;
+              this.grossProfit = Math.round(((rateCardValue-costCardValue)/costCardValue)*100);
+              if (isNaN(this.grossProfit)) {
+                this.grossProfit = '';
+              }
            }
            this.onLoad = false;
         })

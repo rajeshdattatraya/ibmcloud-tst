@@ -86,6 +86,17 @@ export class OpenPositionService {
       )
     }
 
+    // Read Open Position
+    readOpenPositionByPositionID(id): Observable<any> {
+      let url = `${this.baseUri}/readOpenPositionByPositionID/${id}`;
+      return this.http.get(url, {headers: this.headers}).pipe(
+        map((res: Response) => {
+          return res || {}
+        }),
+        catchError(this.errorMgmt)
+      )
+    }
+
     // Update Open Position
     updateOpenPosition(id, data): Observable<any> {
       let url = `${this.baseUri}/updateOpenPosition/${id}`;
