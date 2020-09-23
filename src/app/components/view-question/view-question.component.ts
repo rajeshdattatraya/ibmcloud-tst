@@ -24,10 +24,11 @@ export class ViewQuestionComponent implements OnInit {
   config: any;
   index;
   questionID;
- accounts;
+  accounts;
   isRowSelected: boolean;
   dataSource = new MatTableDataSource<Question>();
   accountArr:any = [];
+  finalArr:any = [];
 
   accountFilter: string;
   filterObj = {};
@@ -36,9 +37,11 @@ export class ViewQuestionComponent implements OnInit {
   optionArray: any[];
   questionObj: any[];
   questionObjectArray: any = [];
+  accountObj: any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  accountObj: any;
+  filteredQuestion: any=[];
+  
 
   constructor(public fb: FormBuilder,private router: Router, private apiService: ApiService,private route: ActivatedRoute) {
       this.config = {
@@ -79,25 +82,38 @@ export class ViewQuestionComponent implements OnInit {
 
 //Get all questions
   readQuestion(){
+   
+    let JSONObject = {};
       this.questionObjectArray = [];
       this.Questions =[];
       this.accountArr = this.account.split(",");
-      console.log("Account output" +this.accountArr);
-      for(var accountValue of this.accountArr){
-      this.apiService.viewQuizQuestions(this.userName, accountValue).subscribe((data) => {
+      //for(var accountValue of this.accountArr){
+      this.apiService.getAllQuestions().subscribe((data) => {
       this.Questions = data;
+     console.log("Questions" +this.Questions.length);
      
-      for (var question of this.Questions){
+     for (let k=0; k<this.Questions.length; k++){
+      var item = this.Questions[k].account;
+       let questionExists =  false;
+       for (var i = 0; i < this.accountArr.length; i++) {
         
-        this.questionObj = [question._id, question.question, question.account, question.technologyStream];
-        this.questionObjectArray.push(this.questionObj);
-        }
-         this.dataSource.data=this.questionObjectArray as Question[];
-      
-       })
-      }
+         if ( item.toLowerCase().indexOf(this.accountArr[i].toLowerCase()) == -1) {
+          // accountExists =  false;
+         } else { questionExists =  true; 
+           break; }
+       }
 
-  }
+       if (questionExists == true) {
+        this.questionObj = [this.Questions[k]._id, this.Questions[k].question, this.Questions[k].account, this.Questions[k].technologyStream];
+         this.filteredQuestion.push(this.questionObj);
+       }
+     }
+      this.dataSource.data=this.filteredQuestion as Question[];
+  
+    })
+ // }  
+}
+  
 
 invokeEdit(){
 
