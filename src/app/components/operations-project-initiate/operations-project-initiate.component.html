@@ -85,7 +85,7 @@
                           (selectionChange)="getSelectedPositionDetails($event.value)"
                           id="positionID" >
                 <mat-option value="undefined" disabled selected >Select a position</mat-option>
-                <mat-option *ngFor="let openPosition of openPositionsList" value="{{openPosition._id}}">{{openPosition.positionName}}</mat-option>
+                <mat-option *ngFor="let openPosition of openPositionsList" value="{{openPosition.positionID}}">{{openPosition.positionName}}</mat-option>
               </mat-select>
             </mat-form-field>
           </td>
@@ -93,29 +93,23 @@
           <tr *ngIf="displayPositionDetails || positionID != undefined || positionID != null">
           <td><mat-label>Position Name:</mat-label></td>
           <td>{{positionDetails.positionName}}</td>
-          <td><mat-label>Job Role:</mat-label></td>
-          <td>{{positionDetails.JRSS}}</td>
-        </tr>
-        <tr *ngIf="displayPositionDetails || positionID != undefined || positionID != null">
           <td><mat-label>Position ID:</mat-label></td>
           <td>{{positionDetails.positionID}}</td>
+        </tr>
+        <tr *ngIf="displayPositionDetails || positionID != undefined || positionID != null">
           <td><mat-label>Line of Business:</mat-label></td>
           <td>{{positionDetails.lineOfBusiness}}</td>
-        </tr>
-        <tr *ngIf="displayPositionDetails || positionID != undefined || positionID != null">
           <td><mat-label>Position Location:</mat-label></td>
           <td>{{positionDetails.positionLocation}}</td>
-          <td><mat-label>Rate Card Role:</mat-label></td>
-          <td>{{positionDetails.rateCardJobRole}}</td>
         </tr>
         <tr *ngIf="displayPositionDetails || positionID != undefined || positionID != null">
+          <td><mat-label>Rate Card Role:</mat-label></td>
+          <td>{{positionDetails.rateCardJobRole}}</td>
           <td><mat-label>Competency Level:</mat-label></td>
           <td>{{positionDetails.competencyLevel}}</td>
-          <td></td>
-          <td></td>
         </tr>
-        <tr>
-          <td colspan="4"><hr></td>
+         <tr>
+          <td colspan="4"><hr class="class-1"></td>
         </tr>
         <tr>
           <td><mat-label>Candidate Line Of Business:</mat-label></td>

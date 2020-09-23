@@ -20,7 +20,6 @@ export class PartnerInterviewInitiateComponent implements OnInit {
   partnerInterviewDetails : any = [];
   FinalResult: any=['Recommended','Not Suitable','StandBy'];
   partnerFeedbackForm: FormGroup;
-  myOpenPositionGroup: FormGroup;
   submitted = false;
   formReset = false;
   accessLevel: String = "";
@@ -32,47 +31,66 @@ export class PartnerInterviewInitiateComponent implements OnInit {
   usersDetail:any = [];
   usersArray:any = [];
   account: String = "";
+  onLoad = false;
 
-  OpenPositions: any = [];
-  lineOfBusiness:any ;
+  openPositionsList:any = [];
   positionID :any;
-  competencyLevel:any;
   positionLocation:any;
-  UserPositionLocation:any = [];
+  positionName:any;
   rateCardJobRole:any ;
+
+  UserPositionLocation:any = [];
   OpenPosition: any= [];
   UserLOB: any = [];
   Band:any = [];
   band: any;
   userLOB: any;
+  grossProfit: any;
+  oldCandidateLocation: any;
+  candidateLocation: any;
   candidateID: any;
+  candidateJRSS:any;
 
   fromAddress: String = "";
   emailSubject: String = "";
   emailMessage: String = "";
   toAddress: String = "";
-  displayPositionDetails = false;
-  grossProfit;
+
+  positionDetails:any = [];
+  rateCardLOB='';
+  rateCardLocation='';
+  rateCardComplexityLevel='';
+  rateCardRole='';
+  displayPositionDetails=false;
+  displayPositionDropDown=false;
+
 
  constructor(private cv:TechnicalInterviewListComponent,public fb: FormBuilder, private actRoute: ActivatedRoute, private router: Router,private ngZone: NgZone,
   private apiService: ApiService, private openPositionService: OpenPositionService) {
        this.userName = this.router.getCurrentNavigation().extras.state.username;
        this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
        this.account = this.router.getCurrentNavigation().extras.state.account;
+       this.positionID = this.router.getCurrentNavigation().extras.state.positionID;
        let id = this.actRoute.snapshot.paramMap.get('id');
        this.readPartnerInterviewDetails(id);
        this.mainForm();
-       this.mainOpenForm();
        this.readUserPositionLocation();
-       this.readUserLineOfBusiness();
    }
 
    ngOnInit() {
         this.browserRefresh = browserRefresh;
+        this.onLoad = true;
         if (this.browserRefresh) {
              window.alert('You are redirected to login screen.');
              this.router.navigate(['/login-component']);
         }
+        if (this.positionID != null ||  this.positionID != undefined) {
+          this.readOpenPositionsByPositionID();
+        } else {
+          //if position is not already selected then display the positions in dropdown
+          this.displayPositionDropDown=true;
+        }
+        this.readPositionLocation();
    }
 
 
@@ -120,28 +138,19 @@ export class PartnerInterviewInitiateComponent implements OnInit {
                   finalResult: this.result,
                   partnerFeedback: this.feedback
       });
+
       this.candidateID = this.partnerInterviewDetails[0].result_users[0]._id;
       this.grossProfit = this.partnerInterviewDetails[0].result_users[0].grossProfit;
-      this.openPositionService.readOpenPositionByPositionName(this.partnerInterviewDetails[0].result_users[0].openPositionName).subscribe((openPositionData) => {
-          this.lineOfBusiness = openPositionData['lineOfBusiness'];
-          this.positionID = openPositionData['positionID'];
-          this.competencyLevel = openPositionData['competencyLevel'];
-          this.positionLocation = openPositionData['positionLocation'];
-          this.rateCardJobRole =  openPositionData['rateCardJobRole'];
-          this.myOpenPositionGroup.setValue({
-                positionName: openPositionData['positionName'],
-                rateCardJobRole: openPositionData['rateCardJobRole'],
-                lineOfBusiness: openPositionData['lineOfBusiness'],
-                positionID: openPositionData['positionID'],
-                positionLocation: openPositionData['positionLocation'],
-                competencyLevel : openPositionData['competencyLevel'],
-                userPositionLocation: this.partnerInterviewDetails[0].result_users[0].userPositionLocation,
-                grossProfit: this.partnerInterviewDetails[0].result_users[0].grossProfit
-
-          });
-          this.displayPositionDetails = true;
-      }) ;
-    });
+      this.candidateLocation = this.partnerInterviewDetails[0].result_users[0].userPositionLocation;
+      this.userLOB = this.partnerInterviewDetails[0].result_users[0].userLOB;
+      this.band = this.partnerInterviewDetails[0].result_users[0].band;
+      this.candidateJRSS = this.partnerInterviewDetails[0].result_users[0].JRSS;
+      this.positionName = this.partnerInterviewDetails[0].result_users[0].openPositionName;
+      this.positionID = this.partnerInterviewDetails[0].result_users[0].positionID;
+      this.oldCandidateLocation = this.candidateLocation;
+      this.getSelectedPositionDetails(this.positionID);
+      this.listAllOpenPositions();
+      });
   }
 
   // Set email notification parameters
@@ -198,8 +207,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
                    });
 
                    //Save open position name , candidate location and grossProfit in candidate collection
-                   let candidateDetails = new CandidateGPDetails(this.myOpenPositionGroup.value.grossProfit,
-                   this.myOpenPositionGroup.value.userPositionLocation,this.myOpenPositionGroup.value.positionName);
+                   let candidateDetails = new CandidateGPDetails(this.grossProfit,this.candidateLocation,this.positionName);
                    console.log("candidateID",this.candidateID);
                     this.apiService.updateCandidate(this.candidateID, candidateDetails).subscribe((data)=> {
                       console.log('Candidate Details successfully updated!')
@@ -255,46 +263,19 @@ export class PartnerInterviewInitiateComponent implements OnInit {
       }
 
       /* Start GP */
-      // Getter to access form control
-      get myOpenForm(){
-        return this.myOpenPositionGroup.controls;
-      }
-
-      updateOpenPositionProfile(positionName) {
-               this.openPositionService.readOpenPositionByPositionName(positionName).subscribe((data) => {
-                    this.lineOfBusiness = data['lineOfBusiness'];
-                    this.positionID = data['positionID'];
-                    this.competencyLevel = data['competencyLevel'];
-                    this.positionLocation = data['positionLocation'];
-                    this.rateCardJobRole = data['rateCardJobRole'];
-                  this.myOpenPositionGroup.setValue({
-                        positionName: data['positionName'],
-                        rateCardJobRole: data['rateCardJobRole'],
-                        lineOfBusiness: data['lineOfBusiness'],
-                        positionID: data['positionID'],
-                        positionLocation: data['positionLocation'],
-                        competencyLevel : data['competencyLevel'],
-                        userPositionLocation: '',
-                        grossProfit: ''
-                  });
-               })
-               this.displayPositionDetails = true;
-      }
 
       // Choose user position location with select dropdown
-     updateUserPositionLocationProfile(e){
-       this.myOpenPositionGroup.get('userPositionLocation').setValue(e, {
-       onlySelf: true
-       })
+     updateUserPositionLocationProfile(userSelectedCandidateLocation){
+       this.displayPositionDetails = true;
+       if (userSelectedCandidateLocation != null ||  userSelectedCandidateLocation != undefined) {
+        this.candidateLocation = userSelectedCandidateLocation;
+        this.calculateGP();
+       }
      }
      calculateGP() {
-         if (this.myOpenPositionGroup.value.userPositionLocation == null || this.myOpenPositionGroup.value.positionName == null
-             || this.myOpenPositionGroup.value.userPositionLocation == '' || this.myOpenPositionGroup.value.positionName == '') {
-            window.alert("Please select Open Position/User Position Location");
-            return false;
-         }
-         if (this.userLOB == null || this.band == null || this.userLOB == '' || this.band == '') {
-            window.alert("Please select User Line Of Business/Band");
+         if ((this.candidateLocation == null || this.candidateLocation == '' || this.positionName == null || this.positionName == '')
+          && this.onLoad==false){
+            window.alert("Please select Open Position/Candidate Position Location");
             return false;
          }
          let GP: number = 0;
@@ -302,51 +283,38 @@ export class PartnerInterviewInitiateComponent implements OnInit {
          let costCardValue: number = 0;
          let costCardCode = ""
          let rateCardCode = ""
-         rateCardCode = this.myOpenPositionGroup.value.lineOfBusiness+" - "+this.myOpenPositionGroup.value.positionLocation+" - "+
-                        this.myOpenPositionGroup.value.rateCardJobRole+" - "+this.myOpenPositionGroup.value.competencyLevel;
+         rateCardCode = this.rateCardLOB + " - " + this.rateCardLocation + " - " + this.rateCardRole + " - " + this.rateCardComplexityLevel;
+
+         if (this.band == 'Exec' || this.band == 'Apprentice' || this.band == 'Graduate') {
+          costCardCode = this.candidateLocation+" - "+this.userLOB+" - "+this.band
+         } else {
+          costCardCode = this.candidateLocation+" - "+this.userLOB+" - Band-"+this.band
+         }
          this.openPositionService.readRateCardsByRateCardCode(rateCardCode).subscribe((data) => {
            rateCardValue = data['rateCardValue'];
-            if (this.band == 'Exec' || this.band == 'Apprentice' || this.band == 'Graduate') {
-             costCardCode = this.myOpenPositionGroup.value.userPositionLocation+" - "+this.userLOB+" - "+this.band
-            } else {
-             costCardCode = this.myOpenPositionGroup.value.userPositionLocation+" - "+this.userLOB+" - Band-"+this.band
-            }
+
            this.openPositionService.readCostCardsByCostCardCode(costCardCode).subscribe((data) => {
               costCardValue = data['costCardValue'];
-              if (costCardValue == null || rateCardValue == null) {
-                 window.alert("Candidate location and line of business are not compatible, please check the data and calculate GP again.");
+
+              if ((rateCardValue == null || rateCardValue == undefined) && this.onLoad==false) {
+                 window.alert("No rate card value available for this rate code: ''"+rateCardCode+"' , choose a different position.");
+                 this.candidateLocation = this.oldCandidateLocation;
+                 this.grossProfit = '';
+                 return false;
+              } if ((costCardValue == null || costCardValue == undefined) && this.onLoad==false) {
+                 window.alert("No cost card value available for this cost code: ''"+costCardCode+"' , choose a different candidate location.");
+                 this.candidateLocation = this.oldCandidateLocation;
+                 this.grossProfit = '';
                  return false;
               } else {
-                 GP = Math.round(((rateCardValue-costCardValue)/costCardValue)*100)
+                 this.oldCandidateLocation = this.candidateLocation;
+                 this.grossProfit = Math.round(((rateCardValue-costCardValue)/costCardValue)*100);
+                 if (isNaN(this.grossProfit)) {
+                   this.grossProfit = '';
+                 }
               }
-              this.myOpenPositionGroup.get('grossProfit').setValue(GP);
-              this.grossProfit = GP;
+              this.onLoad = false;
            })
-        })
-     }
-
-     //get all open positions
-     getOpenPositionDetails() {
-         let status = "Open";
-         if (this.partnerInterviewDetails[0].result_users[0].JRSS == '') {
-           window.alert("Please select candidate Job Role");
-           return false;
-         } else {
-             this.openPositionService.listAllOpenPositionsBYJRSS(this.account, status,this.partnerInterviewDetails[0].result_users[0].JRSS).subscribe((data) => {
-                this.OpenPositions = data;
-             })
-         }
-         this.myOpenPositionGroup.get('grossProfit').setValue(this.partnerInterviewDetails[0].result_users[0].grossProfit);
-         this.myOpenPositionGroup.get('userPositionLocation').setValue(this.partnerInterviewDetails[0].result_users[0].userPositionLocation);
-         this.band = this.partnerInterviewDetails[0].result_users[0].band;
-         this.userLOB = this.partnerInterviewDetails[0].result_users[0].userLOB;
-     }
-
-
-     // Get all User Line of business
-     readUserLineOfBusiness(){
-         this.openPositionService.getLineOfBusiness().subscribe((data) => {
-         this.UserLOB = data;
         })
      }
 
@@ -357,18 +325,47 @@ export class PartnerInterviewInitiateComponent implements OnInit {
        })
     }
 
-     mainOpenForm() {
-         this.myOpenPositionGroup = new FormGroup({
-           positionName: new FormControl(),
-           rateCardJobRole: new FormControl(),
-           lineOfBusiness: new FormControl(),
-           positionID: new FormControl(),
-           positionLocation: new FormControl(),
-           competencyLevel:new FormControl(),
-           userPositionLocation:new FormControl(),
-           grossProfit:new FormControl()
-         })
-       }
       /*End GP*/
+
+
+    getSelectedPositionDetails(positionID) {
+      this.displayPositionDetails = true;
+      this.positionID = positionID
+      if (this.positionID != null ||  this.positionID != undefined) {
+        this.readOpenPositionsByPositionID();
+
+      }
+    }
+
+
+     // To Read the Open Position
+     readOpenPositionsByPositionID() {
+      this.openPositionService.readOpenPositionByPositionID(this.positionID).subscribe((data) => {
+        this.positionDetails = data;
+        console.log('this.positionDetails inside pos by ID ***** ',data);
+        this.positionID = data['positionID']
+        this.rateCardLOB = data['lineOfBusiness']
+        this.rateCardLocation = data['positionLocation']
+        this.rateCardRole = data['rateCardJobRole']
+        this.rateCardComplexityLevel= data['competencyLevel']
+        this.calculateGP();
+
+      })
+    }
+
+     // Get all PositionLocation
+     readPositionLocation(){
+      this.openPositionService.getPositionLocations().subscribe((data) => {
+         this.positionLocation = data;
+      });
+    }
+
+    // To Read the Open Position by JRSS
+      listAllOpenPositions() {
+        const status="Open";
+        this.openPositionService.listAllOpenPositionsBYJRSS(this.account, status,this.candidateJRSS).subscribe((data) => {
+          this.openPositionsList = data;
+      })
+    }
 
 }

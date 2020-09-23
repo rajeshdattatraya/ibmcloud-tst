@@ -72,58 +72,48 @@
 
   <br>
 
-  <div class="panel-group">
-    <div class="panel panel-default">
-      <div class="card-header" style="background-color:#2554C7;color:white;font-size:10pt">
-        <h6 class="panel-title">
-          <a data-toggle="collapse" href="#collapse1" (click)="getOpenPositionDetails()" style="color:white;font-size:10pt">Calculate Gross Profit(Optional)</a>
-        </h6>
-      </div>
-      <div id="collapse1" class="panel-collapse collapse">
-        <div class="panel-body">
-          <mat-card>
-            <mat-card-content>
-              <p><b>Please select Open Position</b></p>
-          <form [formGroup]="myOpenPositionGroup">
+  <div id="positionListModal" class="card" >
+    <br>
+    <div class="card-header" style="background-color:#2554C7;color:white;font-size:10pt">
+      Open Position and Gross Profit Details
+    </div>
+    <div class="card-body"  >
+      <mat-card class="login-card">
+        <mat-card-content>
           <table>
             <tbody>
-            <tr>
+            <tr *ngIf="displayPositionDropDown">
               <td>
-                    <mat-form-field class="open-full-width">
-                    <mat-select placeholder="Open Position" (selectionChange)="updateOpenPositionProfile($event.value)"
-                            formControlName="positionName" id="inputPositionName" [ngClass]="{ 'is-invalid': !formReset && submitted && myOpenForm.positionName.errors }">
-                      <mat-option value="">Choose...</mat-option>
-                      <mat-option *ngFor="let data of OpenPositions" value="{{data.positionName}}">{{data.positionName}}</mat-option>
-                    </mat-select>
-                    <div *ngIf="!formReset && submitted && myOpenForm.positionName.errors" class="invalid-feedback">
-                      <div *ngIf="myOpenForm.positionName.errors.required">Open Position is required</div>
-                    </div>
-                  </mat-form-field>
+                <mat-form-field class="open-full-width">
+                  <mat-select placeholder="Open Position"  [(ngModel)]= "positionID"  name= "positionID"
+                              (selectionChange)="getSelectedPositionDetails($event.value)"
+                              id="positionID" >
+                    <mat-option value="undefined" disabled selected >Select a position</mat-option>
+                    <mat-option *ngFor="let openPosition of openPositionsList" value="{{openPosition.positionID}}">{{openPosition.positionName}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
               </td>
             </tr>
-            <tr *ngIf="displayPositionDetails">
+            <tr *ngIf="displayPositionDetails || positionID != undefined || positionID != null">
+              <td><mat-label>Position Name:</mat-label></td>
+              <td>{{positionDetails.positionName}}</td>
               <td><mat-label>Position ID:</mat-label></td>
-              <td>{{this.positionID}}</td>
-              <td><mat-label>Line Of Business:</mat-label></td>
-              <td>{{this.lineOfBusiness}}</td>
+              <td>{{positionDetails.positionID}}</td>
             </tr>
-            <tr *ngIf="displayPositionDetails">
+            <tr *ngIf="displayPositionDetails || positionID != undefined || positionID != null">
+              <td><mat-label>Line of Business:</mat-label></td>
+              <td>{{positionDetails.lineOfBusiness}}</td>
               <td><mat-label>Position Location:</mat-label></td>
-              <td>{{this.positionLocation}}</td>
-              <td><mat-label>Rate Card Job Role:</mat-label></td>
-              <td>{{this.rateCardJobRole}}</td>
+              <td>{{positionDetails.positionLocation}}</td>
             </tr>
-            <tr *ngIf="displayPositionDetails">
+            <tr *ngIf="displayPositionDetails || positionID != undefined || positionID != null">
+              <td><mat-label>Rate Card Role:</mat-label></td>
+              <td>{{positionDetails.rateCardJobRole}}</td>
               <td><mat-label>Competency Level:</mat-label></td>
-              <td>{{this.competencyLevel}}</td>
-              <td></td>
-              <td></td>
+              <td>{{positionDetails.competencyLevel}}</td>
             </tr>
             <tr>
               <td colspan="4"><hr class="class-1"></td>
-            </tr>
-            <tr>
-              <td colspan="3"><b>Please select Candidate Location</b></td>
             </tr>
             <br/>
             <tr>
@@ -135,27 +125,23 @@
             <br/>
             <tr>
               <td>
-                <mat-form-field>
-                  <mat-select placeholder="Candidate Location" (selectionChange)="updateUserPositionLocationProfile($event.value)" id="inputUserPositionLocation" formControlName="userPositionLocation"
-                              [ngClass]="{ 'is-invalid': !formReset && submitted && myOpenForm.userPositionLocation.errors }">
-                    <mat-option value="">Choose...</mat-option>
+                <mat-form-field class="open-full-width">
+                  <mat-select placeholder="Candidate Location:" id="candidateLocation"  name= "candidateLocation"
+                              [(ngModel)]= "candidateLocation" (selectionChange)="updateUserPositionLocationProfile($event.value)" >
+                    <mat-option value="" disabled selected >Select a location</mat-option>
                     <mat-option *ngFor="let data of UserPositionLocation" value="{{data.positionLocation}}" >{{data.positionLocation}}</mat-option>
                   </mat-select>
                 </mat-form-field>
               </td>
               <td><mat-label>Gross Profit(%):</mat-label></td>
               <td> {{grossProfit}}</td>
-              <td>
-                    <button mat-raised-button color="primary" type="button" (click)="calculateGP()">Calculate GP</button>
-              </td>
             </tr>
             </tbody>
           </table>
-          </form>
-            </mat-card-content>
-          </mat-card>
-        </div>
-      </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
 
 
       <br>
