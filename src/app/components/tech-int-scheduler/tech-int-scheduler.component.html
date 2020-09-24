@@ -9,8 +9,12 @@
         <div class="modal-header">
           <h4 class="modal-title">Update Interview </h4>
           <button type="button" class="Close"  
-          (click)="closeEditModal()" aria-label="Close" ><span> &times; </span></button>
+          (click)="closeEditModal();this.eventEditForm.resetForm();" aria-label="Close" ><span> &times; </span></button>
         </div>
+
+        <form #eventEditForm="ngForm"  name= "form"  (ngSubmit)="eventEditForm.form.valid && updateEvent(); ">
+
+        
         <div class="modal-body form-group">
           
           <div>Event Title :{{this.event_title}}  </div>
@@ -18,20 +22,34 @@
           <div>Date :{{startDate}}  </div>
           <br/>
           <div>Start Time :
-            <input type="text" class="form-control" [disabled]="edit" [(ngModel)]="start_time" >
+            <input type="time"  name="editStart_Time" class="form-control" [disabled]="edit" [(ngModel)]="start_time" 
+            [ngClass]="{ 'is-invalid': eventEditForm.submitted &&  editStartTime.invalid }"   #editStartTime="ngModel" required>
+
+            <div *ngIf="eventEditForm.submitted && editStartTime.invalid" class="invalid-feedback">
+              <div *ngIf="editStartTime.errors.required">Start time is required.</div>
+            </div>
+
           </div>
 
           <div>End Time :
-            <input type="text" class="form-control" [disabled]="edit" [(ngModel)]="end_time"> </div>
+            <input type="time" name="editEnd_Time" class="form-control" [disabled]="edit" [(ngModel)]="end_time"
+            [ngClass]="{ 'is-invalid': eventEditForm.submitted &&  editEndTime.invalid }"   #editEndTime="ngModel" required>
+          
+            <div *ngIf="eventEditForm.submitted && editEndTime.invalid" class="invalid-feedback">
+              <div *ngIf="editEndTime.errors.required">End time is required.</div>
+            </div>
+          </div>
         </div>
 
         <div class="modal-footer">
           <button type="button" class="btn btn-default btn-raised"       
-          (click)="closeEditModal()" >Close</button>
-        <!--  <button *ngIf="edit" type="button" class="btn btn-danger btn-raised">Delete</button> -->
+          (click)="closeEditModal();this.eventEditForm.resetForm();"  >Close</button>
         
-          <button *ngIf="!edit" type="button" class="btn btn-primary btn-raised" (click)="updateEvent()">Save</button>
+          <button *ngIf="!edit" type="submit" class="btn btn-primary btn-raised" >Save</button>
         </div>
+
+      </form>
+
       </div>
       <!-- /.modal-content -->
     </div>
@@ -43,31 +61,46 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">Schedule Interview</h4>
-          <button type="button" class="Close"  aria-label="Close"  (click)="closeCreateModal()" ><span> &times; </span></button>
+          <button type="button" class="Close"  aria-label="Close"  (click)="closeCreateModal();  this.eventForm.resetForm();" ><span> &times; </span></button>
           
         </div>
-        <div class="modal-body form-group">
+
+        <form #eventForm="ngForm"  name= "form"  (ngSubmit)="eventForm.form.valid && addNewEvent();  ">
+
+        <div class="modal-body form-group" >
           
           <div>Event Title :
-            <input type="text" name="event_title" class="form-control"  [(ngModel)]= "event_title">
+            <input type="text" name="event_title"  class="form-control"  [(ngModel)]= "event_title"
+            [ngClass]="{ 'is-invalid': eventForm.submitted &&  title.invalid }"   #title="ngModel" required>
+            <div *ngIf="eventForm.submitted && title.invalid" class="invalid-feedback">
+              <div *ngIf="title.errors.required">Meeting title is required.</div>
+            </div>
           </div>
 
           <div>Date :
-            <input type="text" name="event_date" class="form-control"   disabled [(ngModel)]="event_date">
+            <input type="text" required name="event_date" class="form-control"   disabled [(ngModel)]="event_date">
           </div>
           <div>Start Time :
-            <input type="time" name="start_time" class="form-control" [(ngModel)]="start_time">
-  
+            <input type="time" required name="start_time" class="form-control" [(ngModel)]="start_time"
+            [ngClass]="{ 'is-invalid': eventForm.submitted &&  startTime.invalid }"   #startTime="ngModel" required>
+            
+            <div *ngIf="eventForm.submitted && startTime.invalid" class="invalid-feedback">
+              <div *ngIf="startTime.errors.required">Start time is required.</div>
+            </div>
           </div>
           <div>End Time :
-            <input type="time" name="end_time" class="form-control" [(ngModel)]="end_time">
-  
+            <input type="time" required name="end_time" class="form-control" [(ngModel)]="end_time"
+            [ngClass]="{ 'is-invalid': eventForm.submitted &&  endTime.invalid }"   #endTime="ngModel" required>
+            <div *ngIf="eventForm.submitted && endTime.invalid" class="invalid-feedback">
+              <div *ngIf="endTime.errors.required">End time is required.</div>
+            </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default btn-raised" (click)="closeCreateModal()">Cancel</button>
-          <button type="button" class="btn btn-primary btn-raised" (click)="addNewEvent()">Save</button>
+          <button type="button" class="btn btn-default btn-raised" (click)="closeCreateModal(); this.eventForm.resetForm(); ">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-raised" >Save</button>
         </div>
+        </form>
       </div>
       <!-- /.modal-content -->
     </div>
