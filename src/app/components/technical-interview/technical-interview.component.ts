@@ -19,7 +19,7 @@ export class TechnicalInterviewComponent implements OnInit {
   candidateInterviewDetails:any=[];
   technologyStreamArray:any= [];
   selectedTechStream:any=[];
-  scoreArray:any[];
+  scoreArray:any=[];
   dynamicArray: any = [];
   newDynamic: any = {};
   JRSS:any;
@@ -41,6 +41,8 @@ export class TechnicalInterviewComponent implements OnInit {
   jrss: String = "";
   candidateName: String = "";
   account: String = "";
+  displayTechInterviewDetails: boolean = false;
+  techStreamObj: any = {};
 
   constructor(private cv:TechnicalInterviewListComponent,private fb:FormBuilder, private actRoute: ActivatedRoute, private router: Router,private ngZone: NgZone,
     private apiService: ApiService) {
@@ -85,15 +87,22 @@ export class TechnicalInterviewComponent implements OnInit {
     this.apiService.readTechInterviewDetails(id,quizId).subscribe(data => {
     console.log("readTechInterviewDetails data ="+JSON.stringify(data));
     this.candidateInterviewDetails=data;
-    /*for(var candidate of data){
-       var userScore:number=candidate.userScore;
-
-       if(userScore>=80){
-        this.candidateInterviewDetails.push(candidate);
-        break;
-       }
-     }*/
+ for (var i of this.candidateInterviewDetails[0].smeScores){
+    this.techStreamObj = [i.technologyStream,i.score];
+    this.scoreArray.push(this.techStreamObj);
+    console.log("Score array" +JSON.stringify(this.scoreArray));
+}
+  
+    this.techskillForm.setValue({
+      finalscore: this.candidateInterviewDetails[0].avgTechScore,
+      finalResult: this.candidateInterviewDetails[0].smeResult,
+      feedback: this.candidateInterviewDetails[0].smeFeedback,
+      techStream: this.scoreArray
     });
+  }, (error) => {
+      console.log(error);
+    });
+    this.displayTechInterviewDetails = true;
   }
 
 
