@@ -119,7 +119,7 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; let even = even; columns: displayedColumns;" [ngClass]="{gray: even}"></tr>
   </table>
-  <mat-paginator [length]="this.dataSource.data.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  <mat-paginator [length]="this.dataSource.data.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
 </div>
 
 <div class="mat-elevation-z8" *ngIf="this.accounts.length > 1">
@@ -158,7 +158,7 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumnsWithAccount"></tr>
     <tr mat-row *matRowDef="let row; let even = even; columns: displayedColumnsWithAccount;" [ngClass]="{gray: even}"></tr>
   </table>
-  <mat-paginator [length]="this.dataSource.data.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  <mat-paginator [length]="this.dataSource.data.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
 </div>
 
 <br/>

@@ -15,7 +15,7 @@
             <tr>
               <td>
                 <mat-form-field class="example-full-width" >
-                  <mat-select  [(ngModel)]="account" placeholder="Account"  formControlName="account" id="account"
+                  <mat-select   placeholder="Account"  formControlName="account" id="account"
                               [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.account.errors }">
                     <mat-option disabled value="">Choose...</mat-option>
                     <mat-option *ngFor="let account of accounts" value="{{account}}" >{{account}}
