@@ -31,6 +31,11 @@ export class OperationsProjectInitiateComponent implements OnInit {
   account: String = "";
   onLoad = false;
 
+  fromAddress: String = "";
+  emailSubject: String = "";
+  emailMessage: String = "";
+  toAddress: String = "";
+
  constructor(private cv:TechnicalInterviewListComponent,
   public fb: FormBuilder, 
   private actRoute: ActivatedRoute, 
@@ -130,6 +135,22 @@ get myForm(){
     });
   }
 
+  // Set email notification parameters
+  setEmailNotificationDetails(){
+    //this.fromAddress = this.userName;
+    this.fromAddress = "Talent.Sourcing@in.ibm.com";    
+    this.toAddress = this.operationsProjectDetails[0].result_users[0].username;    
+    this.emailSubject = "Project Assignment Notification in Talent Sourcing Tool";    
+    this.emailMessage = "Dear " 
+        + this.operationsProjectDetails[0].result_users[0].employeeName 
+        + ",<br> <p>We would like to confirm, you have been selected for a " 
+        + this.operationsProjectForm.value.projectPosition + " role in " 
+        + this.operationsProjectForm.value.clientProject + " account. </p><p>" 
+        + this.operationsProjectForm.value.clientProject + " account operations team will connect with you shortly for next steps.</p>\
+        <p>Regards, <br>" + this.account + " Operations Team</p>";
+    
+  }
+
   onSubmit(id) {
 
     if (this.positionID === null ||  this.positionID === undefined) {
@@ -138,18 +159,7 @@ get myForm(){
     }
 
     this.submitted = true;
-
-    // Set Email parameters
-    let fromAddress = this.userName;    
-    let toAddress = this.operationsProjectDetails[0].result_users[0].username;    
-    let emailSubject = "Project Assignment Notification";    
-    let emailMessage = "Dear " 
-        + this.operationsProjectDetails[0].result_users[0].employeeName 
-        + ",<br> <p>We would like to confirm, you have been selected for a " 
-        + this.operationsProjectForm.value.projectPosition + " role in " 
-        + this.operationsProjectForm.value.clientProject + " account. </p><p>" 
-        + this.operationsProjectForm.value.clientProject + " account operations team will connect with you shortly for next steps.</p>\
-        <p>Regards, <br>DWP Operations Team</p>";
+    this.setEmailNotificationDetails();
     
     if (!this.operationsProjectForm.valid) {
       console.log("this.operationsProjectForm", this.operationsProjectForm.value);
@@ -178,16 +188,15 @@ get myForm(){
                     console.log("Position closed successfully");            
                 });
               
-            }
-           
-            //******/
-              // Send notification to the candidate
-              let sendEmailObject = new SendEmail(fromAddress, toAddress, emailSubject, emailMessage);
+            }           
+  
+            // Send notification to the candidate
+            let sendEmailObject = new SendEmail(this.fromAddress, this.toAddress, this.emailSubject, this.emailMessage);
               this.apiService.sendEmail(sendEmailObject).subscribe(
                 (res) => {
-                    console.log("Email sent successfully to " + toAddress);            
+                    console.log("[Ops Project] - Email sent successfully to " + this.toAddress);            
                 }, (error) => {
-                    console.log("Error occurred while sending email to " + toAddress);
+                    console.log("[Ops Project] - Error occurred while sending email to " + this.toAddress);
                     console.log(error);
               });
 

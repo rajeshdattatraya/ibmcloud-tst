@@ -72,7 +72,6 @@ export class PartnerInterviewComponent implements OnChanges {
         this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
         this.account = this.router.getCurrentNavigation().extras.state.account;
         this.loginAccounts = this.account.split(",");
-        console.log("Account length" +this.loginAccounts.length);
     }
     this.getPartnerInterviewList();
     this.mainForm();
@@ -193,8 +192,6 @@ export class PartnerInterviewComponent implements OnChanges {
 
    onSubmit() {
       this.submitted = true;
-      this.setEmailNotificationDetails();
-
       if(this.partnerFeedbackForm.value.partnerFeedback.length>0){
         let partnerDetails = new PartnerDetails("Exceptional Approval Given",
         this.partnerFeedbackForm.value.partnerFeedback,this.userName,new Date(), "Skipped");
@@ -202,9 +199,10 @@ export class PartnerInterviewComponent implements OnChanges {
           window.alert('Successfully provided exceptional approval');
           this.getPartnerInterviewList();
           this.readResult();
-          $("#myModal").modal("hide");
-
-          // Send notification to the operation team
+          $("#myModal").modal("hide");   
+              
+          // Send email notification to the operations team
+          this.setEmailNotificationDetails();
           let sendEmailObject = new SendEmail(this.fromAddress, this.toAddress, this.emailSubject, this.emailMessage);
           this.apiService.sendEmail(sendEmailObject).subscribe(
             (res) => {
@@ -235,16 +233,15 @@ export class PartnerInterviewComponent implements OnChanges {
        console.log(error);
      });
 
-     this.fromAddress = this.userName;
-     this.emailSubject = "Candidate Assignment Notification";
-     // this.emailMessage = "Dear Team,<br><p>This is to formally notify that candidate "
-     //     + this.partnerInterviewDetails[0].result_users[0].employeeName
-     //     + " is added to the queue for job role " + this.partnerInterviewDetails[0].result_users[0].JRSS
-     //     + ".</p><p>Please validate the candidate for new project assignment.</p>\
-     //     <p>Regards, <br>DWP Partner Team</p>";
-
-     this.emailMessage = "Dear Team,<br><p>This is to formally notify that candidate is added to the queue for job role.</p><p>Please validate the candidate for new project assignment.</p>\
-         <p>Regards, <br>DWP Partner Team</p>";
+     // this.fromAddress = this.userName;
+     this.fromAddress = "Talent.Sourcing@in.ibm.com";
+     this.emailSubject = "Candidate Assignment Notification in Talent Sourcing Tool";
+     this.emailMessage = "Dear Team,<br><p>This is to formally notify that candidate "
+         //+ this.candidateDetails[0].employeeName
+         + " is added to the queue for job role " 
+         //+ this.candidateDetails[0].JRSS
+         + ".</p><p>Please validate the candidate for new project assignment.</p>\
+         <p>Regards, <br>" + this.account + " Partner Team</p>";
    }
 
 

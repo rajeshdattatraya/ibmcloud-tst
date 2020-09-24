@@ -167,13 +167,14 @@ export class PartnerInterviewInitiateComponent implements OnInit {
             console.log(error);
     });
 
-    this.fromAddress = this.userName;
-    this.emailSubject = "Candidate Assignment Notification";
+    // this.fromAddress = this.userName;
+    this.fromAddress = "Talent.Sourcing@in.ibm.com";
+    this.emailSubject = "Candidate Assignment Notification in Talent Sourcing Tool";
     this.emailMessage = "Dear Team,<br><p>This is to formally notify that candidate "
       + this.partnerInterviewDetails[0].result_users[0].employeeName
       + " is added to the queue for job role " + this.partnerInterviewDetails[0].result_users[0].JRSS
       + ".</p><p>Please validate the candidate for new project assignment.</p>\
-      <p>Regards, <br>DWP Partner Team</p>";
+      <p>Regards, <br>"+ this.account +" Partner Team</p>";
   }
 
   onSubmit(id) {
