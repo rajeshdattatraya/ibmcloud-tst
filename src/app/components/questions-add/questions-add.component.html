@@ -71,9 +71,9 @@
 
           <!-- Question -->
           <tr>
-            <td colspan="2">
-              <mat-form-field class="open-full-width">
-                <textarea matInput placeholder="Question*"  type="textarea" rows="5" cols="50"  formControlName="question" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.question.errors }">
+            <td colspan="4">
+              <mat-form-field class="stream-full-width">
+                <textarea matInput placeholder="Question*"  type="textarea" rows="8" cols="50"  formControlName="question" class="form-control" id="question" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.question.errors }">
                 </textarea>
                 <!-- error -->
                 <div *ngIf="!formReset && submitted && myForm.question.errors" class="invalid-feedback">

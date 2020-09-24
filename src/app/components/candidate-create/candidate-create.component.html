@@ -10,9 +10,21 @@
 	<mat-card-header></mat-card-header>
 	<mat-card-content>
 		<form [formGroup]="candidateForm">
-		  <table class="open-full-width" cellspacing="0">
+		  <table>
 		  		<tr>
-            <td width="50%">
+            <td width="33%">
+              <!-- Account -->
+              <mat-form-field class="open-full-width">
+                <mat-select placeholder="Account" (selectionChange)="updateAccountProfile($event.value)"
+                            formControlName="account"  [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.account.errors }">
+                  <mat-option *ngFor="let account of AccountArray" value="{{account}}" >{{account}}</mat-option>
+                </mat-select>
+                <div *ngIf="!formReset && submitted && myForm.account.errors" class="invalid-feedback">
+                  <div *ngIf="myForm.account.errors.required">Account is required</div>
+                </div>
+              </mat-form-field>
+            </td>
+            <td width="33%">
               <!-- Name -->
               <mat-form-field class="open-full-width">
                 <input matInput placeholder="Name" formControlName="employeeName" name="employeeName" required [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.employeeName.errors }">
@@ -21,21 +33,21 @@
                 </div>
               </mat-form-field>  
             </td>
-            <td width="70%">
+            <td width="33%">
               <!-- Type -->
               <mat-form-field class="open-full-width">
                 <mat-select placeholder="Type" (selectionChange)="updateEmployeeTypeProfile($event.value)"
-                  formControlName="employeeType" name="employeeType" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.employeeType.errors }">
+                            formControlName="employeeType" name="employeeType" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.employeeType.errors }">
                   <mat-option *ngFor="let employeeType of EmployeeType" value="{{employeeType}}">{{employeeType}}</mat-option>
                 </mat-select>
                 <div *ngIf="!formReset && submitted && myForm.employeeType.errors" class="invalid-feedback">
                   <div *ngIf="myForm.employeeType.errors.required">User Type is required</div>
                 </div>
               </mat-form-field>
-           </td>
+            </td>
           </tr>          
           <tr>
-            <td> 
+            <td width="33%">
               <!-- Email -->
               <mat-form-field class="open-full-width">
                 <input matInput placeholder="Email [This field is used as username.]" type="text" formControlName="email" id="inputEmail3" [ngClass]="{ 'is-invalid': submitted && myForm.email.errors }">
@@ -45,30 +57,55 @@
                       </div>
               </mat-form-field>
            </td>
-           <td>
-              <!-- Candidate Line Of Business -->
-              <div  *ngIf="displayRegularUIFields">
-                <mat-form-field class="open-full-width">
-                  <mat-select placeholder="Candidate Line Of Business"  (selectionChange)="updateUserLOBProfile($event.value)"
-                    formControlName="userLOB" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.userLOB.errors }">              
-                    <mat-option *ngFor="let userLOB of UserLOB" value="{{userLOB.lob}}">{{userLOB.lob}}
-                    </mat-option>
-                  </mat-select>
-                  <div *ngIf="!formReset && submitted && myForm.userLOB.errors" class="invalid-feedback">
-                      <div *ngIf="myForm.userLOB.errors.required">Candidate Line Of Business is required</div>
-                  </div>
-                </mat-form-field>
-              </div>
-          </td>
+            <td width="33%">
+              <!-- Job Role -->
+              <mat-form-field class="open-full-width">
+                <mat-select placeholder="Job Role"  (selectionChange)="updateJrssProfile($event.value)"
+                            formControlName="JRSS" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.JRSS.errors }">
+
+                  <mat-option *ngFor="let jrss of JRSS" value="{{jrss.jrss}}">{{jrss.jrss}}
+                  </mat-option>
+                </mat-select>
+                <div *ngIf="!formReset && submitted && myForm.JRSS.errors" class="invalid-feedback">
+                  <div *ngIf="myForm.JRSS.errors.required">Job Role is required</div>
+                </div>
+              </mat-form-field>
+            </td>
+            <td width="33%">
+              <!-- Technology Stream -->
+              <mat-form-field class="open-full-width">
+                <mat-select multiple placeholder="Technology Stream"  formControlName="technologyStream" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.technologyStream.errors }">
+                  <mat-option *ngFor="let data of technologyStream" value="{{data.value}}" >{{data.value}}</mat-option>
+                </mat-select>
+                <div *ngIf="!formReset && submitted && myForm.technologyStream.errors" class="invalid-feedback">
+                  <div *ngIf="myForm.technologyStream.errors.required">Technology Stream is required</div>
+                </div>
+              </mat-form-field>
+            </td>
         </tr>
         <tr>
-          <td>
-              <!-- Candidate Location -->
-              <div  *ngIf="displayRegularUIFields">
+          <td width="33%" >
+            <!-- Candidate Line Of Business -->
+            <div  *ngIf="displayRegularUIFields">
+              <mat-form-field class="open-full-width">
+                <mat-select placeholder="Candidate Line Of Business"  (selectionChange)="updateUserLOBProfile($event.value)"
+                            formControlName="userLOB" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.userLOB.errors }">
+                  <mat-option *ngFor="let userLOB of UserLOB" value="{{userLOB.lob}}">{{userLOB.lob}}
+                  </mat-option>
+                </mat-select>
+                <div *ngIf="!formReset && submitted && myForm.userLOB.errors" class="invalid-feedback">
+                  <div *ngIf="myForm.userLOB.errors.required">Candidate Line Of Business is required</div>
+                </div>
+              </mat-form-field>
+            </div>
+          </td>
+          <td width="33%">
+            <!-- Candidate Location -->
+            <div  *ngIf="displayRegularUIFields">
               <mat-form-field class="open-full-width">
                 <mat-select placeholder="Candidate Location"  (selectionChange)="updateUserPositionLocationProfile($event.value)"
-                  formControlName="userPositionLocation" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.userPositionLocation.errors }">
-                  
+                            formControlName="userPositionLocation" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.userPositionLocation.errors }">
+
                   <mat-option *ngFor="let data of UserPositionLocation" value="{{data.positionLocation}}">{{data.positionLocation}}
                   </mat-option>
                 </mat-select>
@@ -76,14 +113,14 @@
                   <div *ngIf="myForm.userPositionLocation.errors.required">Candidate Location is required</div>
                 </div>
               </mat-form-field>
-              </div>
-          </td>   
-          <td>
+            </div>
+          </td>
+          <td width="33%">
             <!-- Candidate Location -->
             <div  *ngIf="displayRegularUIFields">
               <mat-form-field class="open-full-width">
-                  <mat-select placeholder="Band"  (selectionChange)="updateBandProfile($event.value)"
-                  formControlName="band" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.band.errors }">                  
+                <mat-select placeholder="Band"  (selectionChange)="updateBandProfile($event.value)"
+                            formControlName="band" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.band.errors }">
                   <mat-option *ngFor="let band of Band" value="{{band.band}}">{{band.band}}</mat-option>
                 </mat-select>
                 <div *ngIf="!formReset && submitted && myForm.band.errors" class="invalid-feedback">
@@ -94,34 +131,7 @@
           </td>
         </tr>
         <tr>
-          <td>
-            <!-- Job Role -->
-            <mat-form-field class="open-full-width">
-              <mat-select placeholder="Job Role"  (selectionChange)="updateJrssProfile($event.value)"
-              formControlName="JRSS" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.JRSS.errors }">
-              
-              <mat-option *ngFor="let jrss of JRSS" value="{{jrss.jrss}}">{{jrss.jrss}}
-              </mat-option>
-            </mat-select>
-            <div *ngIf="!formReset && submitted && myForm.JRSS.errors" class="invalid-feedback">
-            <div *ngIf="myForm.JRSS.errors.required">Job Role is required</div>
-            </div>
-            </mat-form-field>
-          </td>
-          <td>
-            <!-- Technology Stream -->
-            <mat-form-field class="open-full-width">
-              <mat-select multiple placeholder="Technology Stream"  formControlName="technologyStream" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.technologyStream.errors }">
-                <mat-option *ngFor="let data of technologyStream" value="{{data.value}}" >{{data.value}}</mat-option>
-              </mat-select>
-              <div *ngIf="!formReset && submitted && myForm.technologyStream.errors" class="invalid-feedback">
-                <div *ngIf="myForm.technologyStream.errors.required">Technology Stream is required</div>
-              </div>
-            </mat-form-field>
-          </td>
-        </tr>
-        <tr>
-          <td>
+          <td width="33%">
             <!-- Mobile No -->
             <mat-form-field class="open-full-width">
               <input matInput placeholder="Mobile No" formControlName="phoneNumber" name="phoneNumber" maxlength="10" required [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.phoneNumber.errors }">
@@ -131,44 +141,30 @@
               </div>
             </mat-form-field>
           </td>
-          <td>
+          <td width="33%">
             <!-- Date of Birth -->
             <div  *ngIf="displayContractorUIFields">
               <mat-form-field class="open-full-width">
-              <input matInput type="date"  placeholder="Date of Birth" formControlName="dateOfJoining"  required [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.dateOfJoining.errors }">
-              <div *ngIf="!formReset && submitted && myForm.dateOfJoining.errors" class="invalid-feedback">
-                <div *ngIf="myForm.dateOfJoining.errors.required">Date of Birth is required</div>
-              </div>
+                <input matInput type="date"  placeholder="Date of Birth" formControlName="dateOfJoining"  required [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.dateOfJoining.errors }">
+                <div *ngIf="!formReset && submitted && myForm.dateOfJoining.errors" class="invalid-feedback">
+                  <div *ngIf="myForm.dateOfJoining.errors.required">Date of Birth is required</div>
+                </div>
               </mat-form-field>
             </div>
             <div  *ngIf="displayRegularUIFields">
               <mat-form-field class="open-full-width">
-              <input matInput type="date"  placeholder="Date of Joining" formControlName="dateOfJoining"  required [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.dateOfJoining.errors }">
-              <div *ngIf="!formReset && submitted && myForm.dateOfJoining.errors" class="invalid-feedback">
-                <div *ngIf="myForm.dateOfJoining.errors.required">Date of Joining is required</div>
-              </div>
+                <input matInput type="date"  placeholder="Date of Joining" formControlName="dateOfJoining"  required [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.dateOfJoining.errors }">
+                <div *ngIf="!formReset && submitted && myForm.dateOfJoining.errors" class="invalid-feedback">
+                  <div *ngIf="myForm.dateOfJoining.errors.required">Date of Joining is required</div>
+                </div>
               </mat-form-field>
-           </div>
-          </td>          
-        </tr>
-        <tr>
-          <td>
-            <!-- Account -->
-            <mat-form-field class="open-full-width">
-              <mat-select placeholder="Account" (selectionChange)="updateAccountProfile($event.value)" 
-                formControlName="account"  [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.account.errors }">            
-                <mat-option *ngFor="let account of AccountArray" value="{{account}}" >{{account}}</mat-option>
-              </mat-select>
-              <div *ngIf="!formReset && submitted && myForm.account.errors" class="invalid-feedback">
-                <div *ngIf="myForm.account.errors.required">Account is required</div>
-              </div>
-            </mat-form-field>
+            </div>
           </td>
-          <td>
+          <td width="33%">
             <!-- Candidate Resume -->
             <div class="form-group row">
               &nbsp;&nbsp;&nbsp;
-              <mat-label>Candidate Resume</mat-label>&nbsp;&nbsp;&nbsp;
+              <mat-label>Resume</mat-label>&nbsp;&nbsp;&nbsp;
               <input type="file" formControlName="candidateResume" id="candidateResumeID" (change)="addResume($event)" size="50">
             </div>
           </td>&nbsp;
