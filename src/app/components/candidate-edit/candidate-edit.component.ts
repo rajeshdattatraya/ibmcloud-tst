@@ -74,7 +74,6 @@ export class CandidateEditComponent implements OnInit {
         this.account = this.router.getCurrentNavigation().extras.state.account;
         this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
     }
-    this.readJrss();
   }
 
   ngOnInit() {
@@ -118,8 +117,8 @@ export class CandidateEditComponent implements OnInit {
     })
   }
   // Get all Jrss
- readJrss(){
-  this.apiService.getJRSS().subscribe((data) => {
+ readJrss(account,jobRole){
+  this.apiService.getJrsssByAccount(account).subscribe((data) => {
     this.JRSSFull = data;
     for(var i=0; i<this.JRSSFull.length; i++)
     {
@@ -131,6 +130,22 @@ export class CandidateEditComponent implements OnInit {
       (this.JRSSFull[i]['stage5_ProjectAllocation']==false)))
       if (!workFlowPrsent){
         this.JRSS.push(this.JRSSFull[i]);
+      }
+    }
+
+    this.technologyStream = [];
+    // Get technologyStream from JRSS
+    for (var jrss of this.JRSS){
+      if(jrss.jrss == jobRole){
+        this.technologyStream = [];
+        for (var skill of jrss.technologyStream){
+          for(var streamValue of this.stream) {
+            if(skill.value == streamValue){
+              skill.isSelected = "selected";
+            }
+          }
+          this.technologyStream.push(skill);
+        }
       }
     }
 
@@ -190,11 +205,27 @@ export class CandidateEditComponent implements OnInit {
        this.Band = data;
        })
     }
-     // Choose options with select-dropdown
+   // Choose options with select-dropdown
   updateAccountProfile(e) {
     this.editForm.get('account').setValue(e, {
       onlySelf: true
     })
+    this.JRSS.length=0;
+    this.JRSSFull.length=0;
+    this.apiService.getJrsssByAccount(e).subscribe((data) => {
+        this.JRSSFull = data;
+        for(var i=0; i<this.JRSSFull.length; i++) {
+          let workFlowPrsent = ((this.JRSSFull[i]['stage1_OnlineTechAssessment']==undefined) ||
+          ((this.JRSSFull[i]['stage1_OnlineTechAssessment']==false) &&
+          (this.JRSSFull[i]['stage2_PreTechAssessment']==false) &&
+          (this.JRSSFull[i]['stage3_TechAssessment']==false) &&
+          (this.JRSSFull[i]['stage4_ManagementInterview']==false) &&
+          (this.JRSSFull[i]['stage5_ProjectAllocation']==false)))
+          if (!workFlowPrsent){
+            this.JRSS.push(this.JRSSFull[i]);
+          }
+        }
+    });
   }
 
     // Get all Acconts
@@ -221,92 +252,50 @@ export class CandidateEditComponent implements OnInit {
       if (data['employeeType'] == undefined) {
           data['employeeType'] = 'Regular'
       }
+      this.stream = data['technologyStream'].split(",");
+      this.readJrss(data['account'],data['JRSS']);
       if (data['employeeType'] == 'Regular') {
        this.displayContractorUIFields = false;
        this.displayRegularUIFields = true;
-       this.stream = data['technologyStream'].split(",");
        this.gp = data['grossProfit'];
         this.editForm.setValue({
-          employeeName: data['employeeName'],
-          employeeType: data['employeeType'],
-          email: data['email'],
-          band: data['band'],
-          JRSS: data['JRSS'],
-          technologyStream: this.stream,
-          phoneNumber: data['phoneNumber'],
-          dateOfJoining : this.datePipe.transform(data['dateOfJoining'], 'yyyy-MM-dd'),
-          account: data['account'],
-          userLOB: data['userLOB'],
-          userPositionLocation: data['userPositionLocation']
+          employeeName: data['employeeName'],employeeType: data['employeeType'],email: data['email'],
+          band: data['band'],JRSS: data['JRSS'],technologyStream: this.stream, phoneNumber: data['phoneNumber'],
+          dateOfJoining : this.datePipe.transform(data['dateOfJoining'], 'yyyy-MM-dd'),account: data['account'],
+          userLOB: data['userLOB'],userPositionLocation: data['userPositionLocation']
         });
-        this.openPositionService.readOpenPositionByPositionName(data['openPositionName']).subscribe((openPositionData) => {
-            this.lineOfBusiness = openPositionData['lineOfBusiness'];
-            this.competencyLevel = openPositionData['competencyLevel'];
-            this.positionLocation = openPositionData['positionLocation'];
-            this.rateCardJobRole = openPositionData['rateCardJobRole'];
-            this.positionID = openPositionData['positionID'];
-            this.myOpenPositionGroup.setValue({
-                  positionName: openPositionData['positionName'],
-                  positionID: openPositionData['positionID'],
-                  rateCardJobRole: openPositionData['rateCardJobRole'],
-                  lineOfBusiness: openPositionData['lineOfBusiness'],
-                  positionLocation: openPositionData['positionLocation'],
-                  competencyLevel : openPositionData['competencyLevel'],
-                  gpUserPositionLocation: data['userPositionLocation'],
-                  grossProfit: data['grossProfit'],
-                  gpUserLOB: data['userLOB'],
-                  gpUserBand: data['band']
+        if (data['openPositionName'] != null || data['openPositionName'] != undefined) {
+          this.openPositionService.readOpenPositionByPositionName(data['openPositionName']).subscribe((openPositionData) => {
+              this.lineOfBusiness = openPositionData['lineOfBusiness'];
+              this.competencyLevel = openPositionData['competencyLevel'];
+              this.positionLocation = openPositionData['positionLocation'];
+              this.rateCardJobRole = openPositionData['rateCardJobRole'];
+              this.positionID = openPositionData['positionID'];
+              this.myOpenPositionGroup.setValue({
+                    positionName: openPositionData['positionName'], positionID: openPositionData['positionID'],
+                    rateCardJobRole: openPositionData['rateCardJobRole'], lineOfBusiness: openPositionData['lineOfBusiness'],
+                    positionLocation: openPositionData['positionLocation'], competencyLevel : openPositionData['competencyLevel'],
+                    gpUserPositionLocation: data['userPositionLocation'], grossProfit: data['grossProfit'],
+                    gpUserLOB: data['userLOB'],gpUserBand: data['band']
 
-            });
-            this.displayPositionDetails = true;
+              });
+              this.displayPositionDetails = true;
         }) ;
-       }
-      if (data['employeeType'] == 'Contractor') {
+        }
+       } else if (data['employeeType'] == 'Contractor') {
         this.displayContractorUIFields = true;
         this.displayRegularUIFields = false;
-        this.editForm.setValue({
-          employeeName: data['employeeName'],
-          employeeType: data['employeeType'],
-          email: data['email'],
-          band: '',
-          JRSS: data['JRSS'],
-          technologyStream: this.stream,
-          phoneNumber: data['phoneNumber'],
-          dateOfJoining : this.datePipe.transform(data['dateOfJoining'], 'yyyy-MM-dd'),
-          account: data['account'],
-          userLOB: '',
-          userPositionLocation: ''
+        this.editForm.setValue({employeeName: data['employeeName'],employeeType: data['employeeType'],
+          email: data['email'],band: '', JRSS: data['JRSS'],technologyStream: this.stream,
+          phoneNumber: data['phoneNumber'], dateOfJoining : this.datePipe.transform(data['dateOfJoining'], 'yyyy-MM-dd'),
+          account: data['account'], userLOB: '', userPositionLocation: '' });
 
-        });
-        this.myOpenPositionGroup.setValue({
-          positionName: '',
-          positionID: '',
-          rateCardJobRole: '',
-          lineOfBusiness: '',
-          positionLocation: '',
-          competencyLevel:'',
-          grossProfit: '',
-          gpUserPositionLocation: '',
-          gpUserLOB: '',
-          gpUserBand:''
-        })
+        this.myOpenPositionGroup.setValue({positionName: '',
+          positionID: '', rateCardJobRole: '', lineOfBusiness: '',
+          positionLocation: '', competencyLevel:'', grossProfit: '',
+          gpUserPositionLocation: '',  gpUserLOB: '', gpUserBand:'' })
       }
-      this.technologyStream = [];
-      // Get technologyStream from JRSS
-      //this.stream = this.editForm.value.technologyStream.split(",");
-      for (var jrss of this.JRSS){
-        if(jrss.jrss == this.editForm.value.JRSS){
-          this.technologyStream = [];
-          for (var skill of jrss.technologyStream){
-            for(var streamValue of this.stream) {
-              if(skill.value == streamValue){
-                skill.isSelected = "selected";
-              }
-            }
-            this.technologyStream.push(skill);
-          }
-        }
-      }
+
       if (data['employeeType'] == 'Regular' || data['employeeType'] == undefined) {
         this.candidate = new Candidate(data['employeeName'],data['employeeType'],
         data['email'], data['band'], data['JRSS'], data['technologyStream'], data[ 'phoneNumber'], data['dateOfJoining'],
