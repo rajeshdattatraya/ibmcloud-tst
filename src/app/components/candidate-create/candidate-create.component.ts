@@ -26,7 +26,7 @@ export class CandidateCreateComponent implements OnInit {
   formReset = false;
   candidateForm: FormGroup;
   myOpenPositionGroup: FormGroup;
-  JRSS:any = []
+  JRSS:any = [];
   JRSSFull:any = [];
   Band:any = [];
   quizNumber: number;
@@ -78,7 +78,6 @@ export class CandidateCreateComponent implements OnInit {
       this.quizNumber = 1;
       this.readBand();
       this.mainForm();
-      this.readJrss();
       this.mainOpenForm();
       this.readUserPositionLocation();
       this.readUserLineOfBusiness();
@@ -105,24 +104,7 @@ export class CandidateCreateComponent implements OnInit {
       userPositionLocation: ['']
     })
   }
- // Get all Jrss
- readJrss(){
-  this.apiService.getJRSS().subscribe((data) => {
-  this.JRSSFull = data;
-  for(var i=0; i<this.JRSSFull.length; i++)
-  {
-    let workFlowPrsent = ((this.JRSSFull[i]['stage1_OnlineTechAssessment']==undefined) ||
-    ((this.JRSSFull[i]['stage1_OnlineTechAssessment']==false) &&
-    (this.JRSSFull[i]['stage2_PreTechAssessment']==false) &&
-    (this.JRSSFull[i]['stage3_TechAssessment']==false) &&
-    (this.JRSSFull[i]['stage4_ManagementInterview']==false) &&
-    (this.JRSSFull[i]['stage5_ProjectAllocation']==false)))
-    if (!workFlowPrsent){
-      this.JRSS.push(this.JRSSFull[i]);
-    }
-  }
-  })
-}
+
   // Choose designation with select dropdown
   updateJrssProfile(e){
     this.candidateForm.get('JRSS').setValue(e, {
@@ -191,6 +173,22 @@ export class CandidateCreateComponent implements OnInit {
       this.candidateForm.get('account').setValue(e, {
       onlySelf: true
       })
+      this.JRSS.length=0;
+      this.JRSSFull.length=0;
+      this.apiService.getJrsssByAccount(e).subscribe((data) => {
+          this.JRSSFull = data;
+          for(var i=0; i<this.JRSSFull.length; i++) {
+            let workFlowPrsent = ((this.JRSSFull[i]['stage1_OnlineTechAssessment']==undefined) ||
+            ((this.JRSSFull[i]['stage1_OnlineTechAssessment']==false) &&
+            (this.JRSSFull[i]['stage2_PreTechAssessment']==false) &&
+            (this.JRSSFull[i]['stage3_TechAssessment']==false) &&
+            (this.JRSSFull[i]['stage4_ManagementInterview']==false) &&
+            (this.JRSSFull[i]['stage5_ProjectAllocation']==false)))
+            if (!workFlowPrsent){
+              this.JRSS.push(this.JRSSFull[i]);
+            }
+          }
+      });
     }
 
    // Get all User Line of business
