@@ -13,7 +13,7 @@
         <tr>
           <td>
             <mat-form-field class="open-full-width">
-              <mat-select [(ngModel)]="account" placeholder="Account" (selectionChange)="readJrssByAccount($event.value)"
+              <mat-select  placeholder="Account" (selectionChange)="readJrssByAccount($event.value)"
                       formControlName="account" name="account"  required [ngClass]="{ 'is-invalid': submitted && myForm.account.errors }">
                 <mat-option value="">Choose...</mat-option>
                 <mat-option *ngFor="let account of accounts" value="{{account}}">{{account}}

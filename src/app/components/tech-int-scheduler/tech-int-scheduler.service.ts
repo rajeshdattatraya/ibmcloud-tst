@@ -27,9 +27,9 @@ export class TechIntSchedulerService {
 
 
    // Get all questions
-   getMeetingEventsByCandidate(candidateEmail) {
+   getMeetingEventsByLoggedinUSer(loggedinUser) {
      
-    let url = `${this.baseUri}/scheduleMeeting/getMeetingEventsByCandidate/${candidateEmail}`; 
+    let url = `${this.baseUri}/scheduleMeeting/getMeetingEventsByLoggedinUser/${loggedinUser}`; 
 
     return this.http.get(url, {headers: this.headers}).pipe(
       map((res: Response) => {
@@ -38,12 +38,10 @@ export class TechIntSchedulerService {
       }),
       catchError(this.errorMgmt)
     )
-
     
   }
 
   
-
    // Get all questions
    updateMeetingEventsByEventID(eventID,candidateEmail, data): Observable<any> {
      
