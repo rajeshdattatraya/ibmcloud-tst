@@ -134,10 +134,10 @@
           <td width="33%">
             <!-- Mobile No -->
             <mat-form-field class="open-full-width">
-              <input matInput placeholder="Mobile No" formControlName="phoneNumber" name="phoneNumber" maxlength="10" required [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.phoneNumber.errors }">
+              <input matInput placeholder="Mobile No" formControlName="phoneNumber" name="phoneNumber" minlength="10" maxlength="10" required [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.phoneNumber.errors }">
               <div *ngIf="!formReset && submitted && myForm.phoneNumber.errors" class="invalid-feedback">
                 <div *ngIf="myForm.phoneNumber.errors.required">Mobile No is required</div>
-                <div *ngIf="myForm.phoneNumber.errors.pattern">Invalid Phone Number</div>                
+                <div *ngIf="myForm.phoneNumber.errors.pattern || myForm.phoneNumber.errors.minlength">Phone number must be of 10 digits</div>                
               </div>
             </mat-form-field>
           </td>

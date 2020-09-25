@@ -141,11 +141,11 @@
         <tr>
           <td width="33%">
             <mat-form-field class="open-full-width">
-            <input matInput placeholder="Mobile No" formControlName="phoneNumber" id="inputNumber" maxlength="10" 
+            <input matInput placeholder="Mobile No" formControlName="phoneNumber" id="inputNumber" minlength="10" maxlength="10" 
             [ngClass]="{ 'is-invalid': submitted && myForm.phoneNumber.errors }">
             <div *ngIf="submitted && myForm.phoneNumber.errors" class="invalid-feedback">
               <div *ngIf="myForm.phoneNumber.errors.required">Phone Number is required</div>
-              <div *ngIf="myForm.phoneNumber.errors.pattern">Invalid Phone Number</div>
+              <div *ngIf="myForm.phoneNumber.errors.pattern || myForm.phoneNumber.errors.minlength">Phone number must be of 10 digits</div>
             </div>
             </mat-form-field>
           </td>
