@@ -181,7 +181,7 @@
 
     <!-- Modal Code starts. -->
 <div id="assessmentModal" class="modal fade" role="dialog">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <!-- Modal content-->
      <div class="modal-content">
       <!-- <div *ngIf="assessmentDetails.quizNumber == this.quizNumber"> -->
@@ -190,7 +190,7 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <div class="modal-body" *ngIf="mode=='displayAssessmentModalBody'">
-        <mat-card>
+        <mat-card class="mat-elevation-z8">
           <mat-card-content>
         <table style="table-layout: fixed; width: 100%">
           <thead>
@@ -211,9 +211,11 @@
         </table>
       </mat-card-content>
     </mat-card>
-      </div>
+        <br/>
       <div *ngFor="let answer of this.candidateAssessmentDetails.results;let i=index">
         <div *ngFor="let questions of answer.userAttemptedQs" >
+          <mat-card>
+            <mat-card-content>
           <table  style="table-layout: fixed; width: 100%">
             <tbody>
               <tr>
@@ -237,12 +239,15 @@
               <tr></tr>
               </tbody>
           </table>
+            </mat-card-content>
+          </mat-card>
         </div>
       </div>
-      <div class="modal-footer table-success" style="background-color:#f5f5f5;color:black">
-        <button mat-raised-button color="primary" data-dismiss="modal">Close</button>
       </div>
-    </div>
+       <div class="modal-footer table-success" style="background-color:#f5f5f5;color:black">
+         <button mat-raised-button color="primary" data-dismiss="modal">Close</button>
+       </div>
+     </div>
 
   </div>
 </div>
