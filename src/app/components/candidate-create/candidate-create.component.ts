@@ -258,8 +258,10 @@ export class CandidateCreateComponent implements OnInit {
     var ivMode = CryptoJS.enc.Base64.parse("3ad77bb40d7a3660a89ecaf32466ef97");
     this.password = CryptoJS.AES.encrypt(appConfig.defaultPassword.trim(),base64Key,{ iv: ivMode }).toString();
     this.password = this.password.replace("/","=rk=");
-
-
+    // Technology Stream
+    if( typeof(this.candidateForm.value.technologyStream) == 'object' ) {
+      this.candidateForm.value.technologyStream = this.candidateForm.value.technologyStream.join(',');
+    }
     //Check if resume is not selected
     if(!this.resume){
       let bufferLength = 10;
@@ -335,7 +337,6 @@ export class CandidateCreateComponent implements OnInit {
       if (!this.candidateForm.valid) {
         return false;
       } else {
-        this.candidateForm.value.technologyStream = this.candidateForm.value.technologyStream.join(',');
         if (this.candidateForm.value.employeeType == 'Regular' ) {
             if (this.candidateForm.value.band == '' || this.candidateForm.value.userLOB == ''
                 || this.candidateForm.value.userPositionLocation == '') {

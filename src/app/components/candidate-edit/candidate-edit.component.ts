@@ -388,7 +388,10 @@ export class CandidateEditComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     this.formReset = false;
-
+    // Technology Stream
+    if( typeof(this.editForm.value.technologyStream) == 'object' ) {
+      this.editForm.value.technologyStream = this.editForm.value.technologyStream.join(',');
+    }
      let updatedCandidate;
      if(!this.editCandResume) {
       console.log("Resume is not selected");
@@ -420,10 +423,7 @@ export class CandidateEditComponent implements OnInit {
         if (!this.editForm.valid) {
           return false;
         } else {
-          // Technology Stream
-          if( typeof(this.editForm.value.technologyStream) == 'object' ) {
-            this.editForm.value.technologyStream = this.editForm.value.technologyStream.join(',');
-          }
+
           if (this.editForm.value.employeeType == 'Regular' ) {
             if (this.editForm.value.band == '' || this.editForm.value.userLOB == ''
                 || this.editForm.value.userPositionLocation == '') {
@@ -497,9 +497,7 @@ export class CandidateEditComponent implements OnInit {
             if (!this.editForm.valid) {
               return false;
             } else {
-              if( typeof(this.editForm.value.technologyStream) == 'object' ) {
-                this.editForm.value.technologyStream = this.editForm.value.technologyStream.join(',');
-              }
+
               if (this.editForm.value.employeeType == 'Regular' ) {
                 if (this.editForm.value.band == '' || this.editForm.value.userLOB == ''
                     || this.editForm.value.userPositionLocation == '') {
@@ -612,17 +610,18 @@ export class CandidateEditComponent implements OnInit {
             this.competencyLevel = data['competencyLevel'];
             this.positionLocation = data['positionLocation'];
             this.rateCardJobRole = data['rateCardJobRole'];
+            this.positionID = data['positionID'];
           this.myOpenPositionGroup.setValue({
                 positionName: data['positionName'],
                 rateCardJobRole: data['rateCardJobRole'],
-                positionID: data['positionID'],
                 lineOfBusiness: data['lineOfBusiness'],
                 positionLocation: data['positionLocation'],
                 competencyLevel : data['competencyLevel'],
                 gpUserPositionLocation: this.editForm.value.userPositionLocation,
                 gpUserLOB: this.editForm.value.userLOB,
                 gpUserBand: this.editForm.value.band,
-                grossProfit: ''
+                grossProfit: '',
+                positionID: data['positionID']
 
           });
           this.displayPositionDetails = true;
