@@ -50,8 +50,8 @@
             <td width="33%">
               <!-- Email -->
               <mat-form-field class="open-full-width">
-                <input matInput placeholder="Email [This field is used as username.]" type="text" formControlName="email" id="inputEmail3" [ngClass]="{ 'is-invalid': submitted && myForm.email.errors }">
-                  <div *ngIf="submitted && myForm.email.errors" class="invalid-feedback">
+                <input matInput placeholder="Email [This field is used as username.]" type="text" formControlName="email" id="inputEmail3" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.email.errors }">
+                  <div *ngIf="!formReset && submitted && myForm.email.errors" class="invalid-feedback">
                       <div *ngIf="myForm.email.errors.required">Email is required</div>
                         <div *ngIf="myForm.email.errors.pattern">Invalid Email</div>
                       </div>

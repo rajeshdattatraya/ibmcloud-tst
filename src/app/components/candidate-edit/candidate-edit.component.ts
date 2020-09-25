@@ -387,11 +387,8 @@ export class CandidateEditComponent implements OnInit {
   //submit button
   onSubmit() {
     this.submitted = true;
+    this.formReset = false;
 
-     // Technology Stream
-     if( typeof(this.editForm.value.technologyStream) == 'object' ) {
-      this.editForm.value.technologyStream = this.editForm.value.technologyStream.join(',');
-     }
      let updatedCandidate;
      if(!this.editCandResume) {
       console.log("Resume is not selected");
@@ -423,6 +420,10 @@ export class CandidateEditComponent implements OnInit {
         if (!this.editForm.valid) {
           return false;
         } else {
+          // Technology Stream
+          if( typeof(this.editForm.value.technologyStream) == 'object' ) {
+            this.editForm.value.technologyStream = this.editForm.value.technologyStream.join(',');
+          }
           if (this.editForm.value.employeeType == 'Regular' ) {
             if (this.editForm.value.band == '' || this.editForm.value.userLOB == ''
                 || this.editForm.value.userPositionLocation == '') {
@@ -496,6 +497,9 @@ export class CandidateEditComponent implements OnInit {
             if (!this.editForm.valid) {
               return false;
             } else {
+              if( typeof(this.editForm.value.technologyStream) == 'object' ) {
+                this.editForm.value.technologyStream = this.editForm.value.technologyStream.join(',');
+              }
               if (this.editForm.value.employeeType == 'Regular' ) {
                 if (this.editForm.value.band == '' || this.editForm.value.userLOB == ''
                     || this.editForm.value.userPositionLocation == '') {

@@ -252,21 +252,13 @@ export class CandidateCreateComponent implements OnInit {
   // Submit button
   onSubmit() {
     this.submitted = true;
+    this.formReset = false;
     // Encrypt the password
     var base64Key = CryptoJS.enc.Base64.parse("2b7e151628aed2a6abf7158809cf4f3c");
     var ivMode = CryptoJS.enc.Base64.parse("3ad77bb40d7a3660a89ecaf32466ef97");
     this.password = CryptoJS.AES.encrypt(appConfig.defaultPassword.trim(),base64Key,{ iv: ivMode }).toString();
     this.password = this.password.replace("/","=rk=");
 
-    // Technology Stream
-    // this.skillArray = [];
-    // for (var stream of this.candidateForm.value.technologyStream)  {
-    //   if(this.skillArray.indexOf(stream.value == -1)){
-    //       this.skillArray.push(stream.value);
-    //   }
-    // }
-    //this.candidateForm.value.technologyStream = this.skillArray.join(',');
-    this.candidateForm.value.technologyStream = this.candidateForm.value.technologyStream.join(',');
 
     //Check if resume is not selected
     if(!this.resume){
@@ -343,6 +335,7 @@ export class CandidateCreateComponent implements OnInit {
       if (!this.candidateForm.valid) {
         return false;
       } else {
+        this.candidateForm.value.technologyStream = this.candidateForm.value.technologyStream.join(',');
         if (this.candidateForm.value.employeeType == 'Regular' ) {
             if (this.candidateForm.value.band == '' || this.candidateForm.value.userLOB == ''
                 || this.candidateForm.value.userPositionLocation == '') {
