@@ -28,7 +28,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
   result: String = "";
   feedback: String = "";
   error = '';
-  usersDetail:any = [];
+  candidateList:any = [];
   usersArray:any = [];
   account: String = "";
   onLoad = false;
@@ -153,29 +153,38 @@ export class PartnerInterviewInitiateComponent implements OnInit {
       });
   }
 
-  // Set email notification parameters
-  setEmailNotificationDetails(){
-    this.apiService.getUserByAccessLevel("management").subscribe( (res) => {
-      this.usersDetail = res;
-      this.usersArray = [];
-        for (var value of this.usersDetail){
-          this.usersArray.push(value.username);
-        }
-        this.toAddress = this.usersArray;
+       // Set email notification parameter details
+       setEmailNotificationDetails(){       
+        // Get account for candidate from candidate table     
+        this.apiService.getCandidateJrss(this.partnerInterviewDetails[0].result_users[0].username).subscribe( (res) => {
+          this.candidateList = res;      
+         
+          // Get operation team email id based on accessLevel and account 
+          this.apiService.getUserByAccessLevel("management",this.candidateList.account).subscribe( (res) => {
+            this.usersArray = [];          
+            for (var user of res){
+              this.usersArray.push(user.username);           
+            }
+  
+            this.toAddress = this.usersArray;
+            this.fromAddress = "talent.sourcing@in.ibm.com";
+            this.emailSubject = "Candidate Assignment Notification in Talent Sourcing Tool";
+            this.emailMessage = "Dear Team,<br><p>This is to formally notify that candidate "
+                + this.partnerInterviewDetails[0].result_users[0].employeeName
+                + " is added to the queue for job role " 
+                + this.partnerInterviewDetails[0].result_users[0].JRSS
+                + ".</p><p>Please validate the candidate for new project assignment.</p>\
+                <p>Regards, <br>" + this.account + " Partner Team</p>";
+            }, (error) => {
+              this.error = '[Get Ops Email ID] - Error found while getting username from Users table'
+              console.log(error);
+            });
+  
         }, (error) => {
-            this.error = '[Partner toAddress]Error found while getting username from Users table'
-            console.log(error);
-    });
-
-    // this.fromAddress = this.userName;
-    this.fromAddress = "Talent.Sourcing@in.ibm.com";
-    this.emailSubject = "Candidate Assignment Notification in Talent Sourcing Tool";
-    this.emailMessage = "Dear Team,<br><p>This is to formally notify that candidate "
-      + this.partnerInterviewDetails[0].result_users[0].employeeName
-      + " is added to the queue for job role " + this.partnerInterviewDetails[0].result_users[0].JRSS
-      + ".</p><p>Please validate the candidate for new project assignment.</p>\
-      <p>Regards, <br>"+ this.account +" Partner Team</p>";
-  }
+        this.error = '[Get candidate account] - Error found while getting details from Candidate table'
+        console.log(error);
+      });
+     }
 
   onSubmit(id) {
           this.submitted = true;

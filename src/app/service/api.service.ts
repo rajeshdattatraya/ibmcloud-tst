@@ -239,8 +239,8 @@ getQuestions(account): Observable<any> {
 }
 
  // Get Users by access Level
- getUserByAccessLevel(accessLevel): Observable<any> {
-  let url = `${this.baseloginUri}/readUserByAccessLevel/${accessLevel}`;
+ getUserByAccessLevel(accessLevel,account): Observable<any> {
+  let url = `${this.baseloginUri}/readUserByAccessLevel/${accessLevel}/${account}`;
   return this.http.get(url, {headers: this.headers}).pipe(
     map((res: Response) => {
       return res || {}

@@ -5,7 +5,6 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { browserRefresh } from '../../app.component';
 import { ApiService } from './../../service/api.service';
 import { PartnerDetails } from './../../model/PartnerDetails';
-import { appConfig } from './../../model/appConfig';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator'
 import {MatSort} from '@angular/material/sort'
@@ -13,9 +12,6 @@ import {TechnicalInterviewListComponent} from './../technical-interview-list/tec
 import { ViewResult } from './../../model/viewResult';
 import { SendEmail } from './../../model/sendEmail';
 declare var $: any;
-
-
-
 
 @Component({
   selector: 'app-partner-interview',
@@ -35,6 +31,7 @@ export class PartnerInterviewComponent implements OnChanges {
   emailSelected = "";
   quizNumber;
   candidateDetails: any = [];
+  candidateList: any = [];
   candidateAssessmentDetails: any = [];
   userScore:number=0;
   assesmentDate="";
@@ -47,7 +44,6 @@ export class PartnerInterviewComponent implements OnChanges {
   displayRegularUIFields: Boolean = true;
   error = '';
   account: String = "";
-  usersDetail:any = [];
   usersArray:any = [];
   fromAddress: String = "";
   emailSubject: String = "";
@@ -128,7 +124,6 @@ export class PartnerInterviewComponent implements OnChanges {
      })
   }
 
-
   // To Read the Results
   readResult() {
     if(this.account.toLocaleLowerCase() !=='sector'){
@@ -146,8 +141,6 @@ export class PartnerInterviewComponent implements OnChanges {
       })
    }
   }
-
-
 
   onSelectionChange(value,quizNumber) {
     this.emailSelected = value;
@@ -192,6 +185,8 @@ export class PartnerInterviewComponent implements OnChanges {
 
    onSubmit() {
       this.submitted = true;
+      this.setEmailNotificationDetails();
+
       if(this.partnerFeedbackForm.value.partnerFeedback.length>0){
         let partnerDetails = new PartnerDetails("Exceptional Approval Given",
         this.partnerFeedbackForm.value.partnerFeedback,this.userName,new Date(), "Skipped");
@@ -202,13 +197,12 @@ export class PartnerInterviewComponent implements OnChanges {
           $("#myModal").modal("hide");   
               
           // Send email notification to the operations team
-          this.setEmailNotificationDetails();
           let sendEmailObject = new SendEmail(this.fromAddress, this.toAddress, this.emailSubject, this.emailMessage);
           this.apiService.sendEmail(sendEmailObject).subscribe(
             (res) => {
-              console.log("[Partner List Exceptional Approval] - Email sent successfully to " + this.toAddress);
+              console.log("[Partner Exceptional Approval] - Email sent successfully to " + this.toAddress);
             }, (error) => {
-               console.log("[Partner List Exceptional Approval] - Error occurred while sending email to " + this.toAddress);
+               console.log("[Partner Exceptional Approval] - Error occurred while sending email to " + this.toAddress);
                console.log(error);
           });
           //window.location.reload();
@@ -218,30 +212,37 @@ export class PartnerInterviewComponent implements OnChanges {
       }
     }
 
-
-   // Set email notification parameters
+   // Set email notification parameter details
    setEmailNotificationDetails(){
-     this.apiService.getUserByAccessLevel("management").subscribe( (res) => {
-     this.usersDetail = res;
-     this.usersArray = [];
-     for (var value of this.usersDetail){
-       this.usersArray.push(value.username);
-     }
-     this.toAddress = this.usersArray;
-     }, (error) => {
-       this.error = 'Error found while getting username from Users table'
-       console.log(error);
-     });
+      // Get account for candidate from candidate table     
+      this.apiService.getCandidateJrss(this.emailSelected).subscribe( (res) => {
+        this.candidateList = res;      
+       
+        // Get operation team email id based on accessLevel and account 
+        this.apiService.getUserByAccessLevel("management",this.candidateList.account).subscribe( (res) => {
+          this.usersArray = [];          
+          for (var user of res){
+            this.usersArray.push(user.username);           
+          }
 
-     // this.fromAddress = this.userName;
-     this.fromAddress = "Talent.Sourcing@in.ibm.com";
-     this.emailSubject = "Candidate Assignment Notification in Talent Sourcing Tool";
-     this.emailMessage = "Dear Team,<br><p>This is to formally notify that candidate "
-         //+ this.candidateDetails[0].employeeName
-         + " is added to the queue for job role " 
-         //+ this.candidateDetails[0].JRSS
-         + ".</p><p>Please validate the candidate for new project assignment.</p>\
-         <p>Regards, <br>" + this.account + " Partner Team</p>";
+          this.toAddress = this.usersArray;
+          this.fromAddress = "talent.sourcing@in.ibm.com";
+          this.emailSubject = "Candidate Assignment Notification in Talent Sourcing Tool";
+          this.emailMessage = "Dear Team,<br><p>This is to formally notify that candidate "
+              + this.candidateList.employeeName
+              + " is added to the queue for job role " 
+              + this.candidateList.JRSS
+              + ".</p><p>Please validate the candidate for new project assignment.</p>\
+              <p>Regards, <br>" + this.account + " Partner Team</p>";
+          }, (error) => {
+            this.error = '[Get Ops Email ID] - Error found while getting username from Users table'
+            console.log(error);
+          });
+
+      }, (error) => {
+      this.error = '[Get candidate account] - Error found while getting details from Candidate table'
+      console.log(error);
+    });
    }
 
 
@@ -249,7 +250,7 @@ export class PartnerInterviewComponent implements OnChanges {
     return this.partnerFeedbackForm.controls;
   }
 
-     //To read candidate details
+  //To read candidate details
   getCandidateDetails(username) {
     this.mode="displayModalBody";
     this.apiService.getCandidateDetails(username).subscribe((data) => {
@@ -264,7 +265,7 @@ export class PartnerInterviewComponent implements OnChanges {
     })
   }
 
-   //To download candidate's CV if uploaded
+  //To download candidate's CV if uploaded
   downloadCandidateResume(id){
     this.cv.downloadCandidateResume(id)
   }
