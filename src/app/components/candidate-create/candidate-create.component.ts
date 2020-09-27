@@ -408,7 +408,7 @@ export class CandidateCreateComponent implements OnInit {
                   });
 
                   //Send email notification for taking the assessment test given that candidate is created. Set Email parameters
-                  let fromAddress = "Talent.Sourcing@in.ibm.com";
+                  let fromAddress = "talent.sourcing@in.ibm.com";
                   let toAddress = this.candidateForm.value.email;
                   let emailSubject = "Candidate Registration Successful in Talent Sourcing Tool";
                   let emailMessage = "Dear " + this.candidateForm.value.employeeName + ",<br><br> \
@@ -418,7 +418,7 @@ export class CandidateCreateComponent implements OnInit {
                   User Name : " +this.candidateForm.value.email+ "<br>\
                   Defalut Password : welcome <br>\
                   Please change the default password when you login for first time and then go ahead with the online test<br>&emsp;&emsp;&emsp;\
-                  <p>Regards, <br>DWP Operations Team";
+                  <p>Regards, <br>"+this.candidateForm.value.account+ " Operations Team";
 
                     // Send notification to the candidate
                     let sendEmailObject = new SendEmail(fromAddress, toAddress, emailSubject, emailMessage);
