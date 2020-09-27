@@ -206,15 +206,19 @@ export class PartnerInterviewInitiateComponent implements OnInit {
                   console.log('Partner Details successfully created!')
                   window.alert("Partner's interview detail is successfully submitted");
 
-                  // Send notification to the operation team
-                  let sendEmailObject = new SendEmail(this.fromAddress, this.toAddress, this.emailSubject, this.emailMessage);
-                  this.apiService.sendEmail(sendEmailObject).subscribe(
-                    (res) => {
-                      console.log("[Partner Initiate Interview] - Email sent successfully to " + this.toAddress);
-                    }, (error) => {
-                        console.log("[Partner Initiate Interview] - Error occurred while sending email to " + this.toAddress);
-                        console.log(error);
-                   });
+                  // Send email only if stage4 status is completed
+                  if ( this.stage4_status === 'Completed')
+                  {
+                    // Send notification to the operation team
+                    let sendEmailObject = new SendEmail(this.fromAddress, this.toAddress, this.emailSubject, this.emailMessage);
+                    this.apiService.sendEmail(sendEmailObject).subscribe(
+                      (res) => {
+                        console.log("[Partner Initiate Interview] - Email sent successfully to " + this.toAddress);
+                      }, (error) => {
+                          console.log("[Partner Initiate Interview] - Error occurred while sending email to " + this.toAddress);
+                          console.log(error);
+                    });
+                  }
 
                    //Save open position name , candidate location and grossProfit in candidate collection
                    let candidateDetails = new CandidateGPDetails(this.grossProfit,this.candidateLocation,this.positionName);
