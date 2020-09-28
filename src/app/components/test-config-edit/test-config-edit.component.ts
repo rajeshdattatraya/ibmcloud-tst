@@ -195,7 +195,9 @@ export class TestConfigEditComponent implements OnInit {
           if (this.oldJRSS != this.testConfigEditForm.value.JRSS) {
             window.alert("You can not edit JRSS.");
           } else {
-            if (this.testConfigEditForm.value.passingScore < 50) {
+            if (this.testConfigEditForm.value.testDuration < 10) { 
+              window.alert("Test duration should be minimum of 10 mins");
+            } else if (this.testConfigEditForm.value.passingScore < 50) {
               window.alert("Please enter passing score above 50");
             } else {
               let testConfig = new TestConfig(this.testConfigEditForm.value.JRSS,this.testConfigEditForm.value.account,
