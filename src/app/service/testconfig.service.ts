@@ -40,8 +40,8 @@ export class TestConfigService {
     }
 
     // Get Test Config
-    findTestConfigByJRSS(JRSS): Observable<any> {
-      let url = `${this.baseUri}/findTestConfigByJRSS/${JRSS}`;
+    findTestConfigByJRSS(JRSS,account): Observable<any> {
+      let url = `${this.baseUri}/findTestConfigByJRSS/${JRSS}/${account}`;
       console.log("1) The url is "+url);
       return this.http.get(url, {headers: this.headers}).pipe(
         

@@ -185,7 +185,7 @@ export class TestConfigAddComponent implements OnInit {
            let testConfig = new TestConfig(this.testConfigAddForm.value.JRSS, this.testConfigAddForm.value.account,
            this.testConfigAddForm.value.noOfQuestions, this.testConfigAddForm.value.testDuration,this.testConfigAddForm.value.passingScore);
 
-            this.testconfigService.findTestConfigByJRSS(jrss).subscribe(
+            this.testconfigService.findTestConfigByJRSS(jrss,this.testConfigAddForm.value.account).subscribe(
                (res) => {
                   let jrss = res['JRSS'];
                   let id = res['_id'];

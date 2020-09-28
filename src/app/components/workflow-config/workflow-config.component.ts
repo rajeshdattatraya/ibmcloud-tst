@@ -65,7 +65,8 @@ export class WorkflowConfigComponent implements OnInit {
     this.workFlowForm.get('JRSS').setValue(e.value, {
       onlySelf: true
     })
-    this.apiService.getJRSSPreTech(this.workFlowForm.value.JRSS).subscribe((data) => {
+    this.apiService.getJRSSPreTechByAccountAndJrssName(this.workFlowForm.value.JRSS,
+    this.workFlowForm.value.account).subscribe((data) => {
       this.preTechQuestion = data[0]['jrss_preTech'].length;
       if (data[0]['stage1_OnlineTechAssessment']) {
         this.stage1 = data[0]['stage1_OnlineTechAssessment'];

@@ -47,6 +47,13 @@ getJRSSPreTech(jrssName) {
   let url = `${this.baseJrssUri}/getJrssPreTech/${jrssName}`;
   return this.http.get(`${this.baseJrssUri}/getJrssPreTech/${jrssName}`);
 }
+
+// Get all JRSS
+getJRSSPreTechByAccountAndJrssName(jrssName,account) {
+  let url = `${this.baseJrssUri}/getJRSSPreTechByAccountAndJrssName/${jrssName}/${account}`;
+  return this.http.get(`${this.baseJrssUri}/getJrssPreTech/${jrssName}/${account}`);
+}
+
 // Create Candidate
   createCandidate(data): Observable<any> {
     let url = `${this.baseUri}/create`;

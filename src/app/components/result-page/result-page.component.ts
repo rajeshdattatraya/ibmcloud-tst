@@ -32,6 +32,7 @@ export class ResultPageComponent implements OnInit {
   stage4;
   stage5;
   userResult;
+  candidateAccount:any;
 
   constructor(
     private router: Router,
@@ -85,10 +86,11 @@ export class ResultPageComponent implements OnInit {
         // Read the candidate JRSS by username
         this.apiService.getCandidateJrss(this.username).subscribe((res) => {
           this.jrss = res['JRSS'];
+          this.candidateAccount = res['account'];
           // Read the work flow details by reading jrss record by jrss name.
           this.apiService.getJrss(this.jrss).subscribe((res) => {
             let data;
-            this.testconfigService.findTestConfigByJRSS(this.jrss).subscribe(
+            this.testconfigService.findTestConfigByJRSS(this.jrss,this.candidateAccount).subscribe(
               (data) => {
                 this.passingScore = data['passingScore']
                 if (this.numberOfCorrectAns >= this.passingScore) {

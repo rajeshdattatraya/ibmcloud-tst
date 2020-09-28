@@ -152,7 +152,7 @@ export class LoginComponent implements OnInit {
                 this.apiService.getResultByUser(res.username, res.quizNumber).subscribe(result => {
                   this.apiService.getCandidateJrss(res.username).subscribe(
                     (resJrss) => {
-                      this.testconfigService.findTestConfigByJRSS(resJrss['JRSS']).subscribe(
+                      this.testconfigService.findTestConfigByJRSS(resJrss['JRSS'],resJrss['account']).subscribe(
                         (data) => {
                           passingScore = data['passingScore'];
                           if (result['userScore'] >= passingScore && result['stage2_status'] == "Not Started" && (result['stage1_status'] == "Skipped" || result['stage1_status'] == "Completed")) {

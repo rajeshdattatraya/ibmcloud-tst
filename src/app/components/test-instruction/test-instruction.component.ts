@@ -21,6 +21,7 @@ export class TestInstructionComponent implements OnInit {
   username;
   quizNumber;
   jrss:any;
+  candidateAccount:any;
 
  constructor(
       public fb: FormBuilder,
@@ -52,7 +53,8 @@ export class TestInstructionComponent implements OnInit {
         this.apiService.getCandidateJrss(this.username).subscribe(
             (res) => {
               this.jrss=res['JRSS'];
-              this.testconfigService.findTestConfigByJRSS(this.jrss).subscribe(
+              this.candidateAccount=res['account'];
+              this.testconfigService.findTestConfigByJRSS(this.jrss,this.candidateAccount).subscribe(
                              (data) => {
                  this.numOfQuestions = data['noOfQuestions'],
                  this.numOfMins = data['testDuration']
