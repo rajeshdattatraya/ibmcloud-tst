@@ -42,7 +42,7 @@ export class TechnicalInterviewComponent implements OnInit {
   candidateName: String = "";
   account: String = "";
   displayTechInterviewDetails: boolean = false;
-  techStreamObj: any = {};
+  techStreamObj: any = [];
 
   constructor(private cv:TechnicalInterviewListComponent,private fb:FormBuilder, private actRoute: ActivatedRoute, private router: Router,private ngZone: NgZone,
     private apiService: ApiService) {
@@ -50,9 +50,6 @@ export class TechnicalInterviewComponent implements OnInit {
     this.userName =this.actRoute.snapshot.paramMap.get('id');
     this.quizNumber =this.router.getCurrentNavigation().extras.state.quizId;
     this.account = this.router.getCurrentNavigation().extras.state.account; 
-    /*console.log("loginUser==="+this.loginUser);
-    console.log("userName==="+this.userName);
-    console.log("quizNumber==="+this.quizNumber);*/
     this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
     this.readCandidateTechnicalInterviewDetails(this.userName,this.quizNumber);
     this.techskillForm = this.fb.group({
@@ -85,20 +82,11 @@ export class TechnicalInterviewComponent implements OnInit {
   //Read candidate details
   readCandidateTechnicalInterviewDetails(id,quizId) {
     this.apiService.readTechInterviewDetails(id,quizId).subscribe(data => {
-    console.log("readTechInterviewDetails data ="+JSON.stringify(data));
+    
     this.candidateInterviewDetails=data;
- for (var i of this.candidateInterviewDetails[0].smeScores){
-    this.techStreamObj = [i.technologyStream,i.score];
-    this.scoreArray.push(this.techStreamObj);
-    console.log("Score array" +JSON.stringify(this.scoreArray));
-}
-  
-    this.techskillForm.setValue({
-      finalscore: this.candidateInterviewDetails[0].avgTechScore,
-      finalResult: this.candidateInterviewDetails[0].smeResult,
-      feedback: this.candidateInterviewDetails[0].smeFeedback,
-      techStream: this.scoreArray
-    });
+
+ 
+
   }, (error) => {
       console.log(error);
     });
@@ -110,6 +98,15 @@ export class TechnicalInterviewComponent implements OnInit {
     return this.fb.group({
       technologyStream:this.getTechnologyStream(),
       score: '0'
+    })
+
+  }
+
+  createstandByTechStream(technologyStream:string,score:string): FormGroup {
+   
+    return this.fb.group({
+      technologyStream:technologyStream,
+      score: score
     })
 
   }
@@ -130,13 +127,28 @@ export class TechnicalInterviewComponent implements OnInit {
       }
       this.newDynamic =this.technologyStreamArray;
       this.dynamicArray.push(this.newDynamic);
-      this.techStream().push(this.createTechStream());
-      //console.log("Technical Stream getjrss: "+ JSON.stringify(this.technologyStreamArray));
-      //console.log(this.technologyStreamArray.get("key"));
+     
+      //this.techStream().push(this.createTechStream());
+      if (this.candidateInterviewDetails[0].smeScores ==  undefined  ) {
+        this.techStream().push(this.createTechStream());
+      } else  if ( this.candidateInterviewDetails[0].smeResult == "StandBy" ) {
+        this.techskillForm = this.fb.group({
+          finalscore:this.candidateInterviewDetails[0].avgTechScore,
+          finalResult:[this.candidateInterviewDetails[0].smeResult,Validators. required],
+          feedback:[this.candidateInterviewDetails[0].smeFeedback,Validators. required],
+          // smeName:['',Validators. required],
+          techStream: this.fb.array([]) ,
+        });
+        this.addStandByTechStreamAndScores(this.candidateInterviewDetails[0].smeScores);
+      }
+      
     })
   }
 
+
+
   getTechnologyStream() {
+   // console.log("this.technologyStreamArray  ***** ", this.technologyStreamArray)
     return this.technologyStreamArray;
   }
 
@@ -151,7 +163,27 @@ export class TechnicalInterviewComponent implements OnInit {
      }
   }
 
+  //Mymethod
+  mode ="";
+  addStandByTechStreamAndScores(standByTechStreamAndScores:any[]) {
+     this.selectedTechStream=[];
+     this.techStream().clear;
+     this.mode ="Edit";
+   
+     var k =0;
+     for(var standbyTechstream of standByTechStreamAndScores){
+       this.techStream().push(this.createstandByTechStream(standbyTechstream.technologyStream, standbyTechstream.score));
+       this.addTechStream(k);
+       k++;
+     }
+     this.removeTechStream(k);
+     this.mode ="";
+ }
+
+
+  // return this.techskillForm.get("techStream") as FormArray
   addTechStream(i:number) {
+
     if(i<(this.newDynamic.length-1)){
      this.selectedTechStream=[];
      var selectedStream:any=[]=this.techskillForm.value.techStream;
@@ -161,8 +193,12 @@ export class TechnicalInterviewComponent implements OnInit {
       }
       this.newDynamic =this.getTechnologyStream();
       this.dynamicArray.push(this.newDynamic);
-      this.techStream().push(this.createTechStream());
+      if(this.mode == ""){
+        this.techStream().push(this.createTechStream());
+      }
+     
     }
+
   }
 
   removeTechStream(i:number) {
@@ -182,7 +218,7 @@ export class TechnicalInterviewComponent implements OnInit {
     this.totalScore=0;
     this.scoreValueArray=this.techskillForm.value.techStream;
     var scoreCount:number=0;
-    for(var sc of this.scoreValueArray){
+    for(var sc of this.scoreValueArray) {
      var score:number=parseInt(sc.score);
       if(score>0){
         this.totalScore= this.totalScore + score;
