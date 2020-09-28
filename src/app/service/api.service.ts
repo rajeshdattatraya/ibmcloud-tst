@@ -858,4 +858,13 @@ viewQuizQuestions(userName,account) {
   )
 }
 
+  // Get Unique Result
+  findResult(email,qNumber): Observable<any> {
+    let url = `${this.userResultUri}/findResult/${email}/${qNumber}`;
+    return this.http.get(url, {headers: this.headers}).pipe(
+      map((res: Response) => {
+        return res || {}
+      }), catchError(this.errorMgmt))
+  }
+
 }

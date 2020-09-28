@@ -49,7 +49,7 @@
     <!-- ID Column -->
     <ng-container matColumnDef="Action">
       <th mat-header-cell *matHeaderCellDef> Select </th>
-      <td mat-cell *matCellDef="let row;let i=index"><mat-radio-button (change)="onSelectionChange(row._id, row.candidate_users[0]._id,row.username,i)"></mat-radio-button>
+      <td mat-cell *matCellDef="let row;let i=index"><mat-radio-button (change)="onSelectionChange(row._id, row.candidate_users[0]._id,row.username,row.candidate_users[0].quizNumber,i)"></mat-radio-button>
       </td>
     </ng-container>
     <!-- ID Column -->
@@ -119,7 +119,7 @@
     <!-- ID Column -->
     <ng-container matColumnDef="Action">
       <th mat-header-cell *matHeaderCellDef> Select </th>
-      <td mat-cell *matCellDef="let row;let i=index"><mat-radio-button (change)="onSelectionChange(row._id, row.candidate_users[0]._id,row.username,i)"></mat-radio-button>
+      <td mat-cell *matCellDef="let row;let i=index"><mat-radio-button (change)="onSelectionChange(row._id, row.candidate_users[0]._id,row.username,row.candidate_users[0].quizNumber,i)"></mat-radio-button>
       </td>
     </ng-container>
     <!-- ID Column -->
