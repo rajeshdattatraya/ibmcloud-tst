@@ -22,7 +22,7 @@
               <mat-form-field class="open-full-width">
               <mat-select placeholder="Account"  (selectionChange)="updateAccountProfile($event)"
                       formControlName="account" required id="account" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.account.errors }" >
-                <mat-option value="">Choose...</mat-option>
+                <mat-option disabled value="">Choose...</mat-option>
                 <mat-option *ngFor="let account of AccountArray" value="{{account}}">{{account}}
                 </mat-option>
               </mat-select>

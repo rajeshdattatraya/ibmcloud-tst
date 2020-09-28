@@ -135,6 +135,27 @@ export class OpenpositionsCreateComponent implements OnInit {
           }
         }
       }
+      if (this.AccountArray.length == 1) {
+         this.openPositionForm.get('account').setValue(this.account, {
+         onlySelf: true
+         })
+         this.JRSS.length=0;
+         this.JRSSFull.length=0;
+         this.apiService.getJrsssByAccount(this.account).subscribe((data) => {
+             this.JRSSFull = data;
+             for(var i=0; i<this.JRSSFull.length; i++) {
+               let workFlowPrsent = ((this.JRSSFull[i]['stage1_OnlineTechAssessment']==undefined) ||
+               ((this.JRSSFull[i]['stage1_OnlineTechAssessment']==false) &&
+               (this.JRSSFull[i]['stage2_PreTechAssessment']==false) &&
+               (this.JRSSFull[i]['stage3_TechAssessment']==false) &&
+               (this.JRSSFull[i]['stage4_ManagementInterview']==false) &&
+               (this.JRSSFull[i]['stage5_ProjectAllocation']==false)))
+               if (!workFlowPrsent){
+                 this.JRSS.push(this.JRSSFull[i]);
+               }
+             }
+         });
+      }
       })
     }
     // Choose account with select dropdown

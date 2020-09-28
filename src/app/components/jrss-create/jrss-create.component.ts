@@ -8,6 +8,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator'
 import {MatSort} from '@angular/material/sort';
 import { timeout } from 'rxjs/operators';
+import {appConfig} from './../../model/appConfig';
 
 @Component({
   selector: 'app-jrss-create',
@@ -52,7 +53,6 @@ export class JrssCreateComponent implements OnInit {
           this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
 
           this.accounts = this.account.split(",");
-          console.log("accounts*****", this.accounts);
       }
       this.mainForm();
     }
@@ -75,6 +75,15 @@ export class JrssCreateComponent implements OnInit {
       });
     });
   }
+  
+  /** this method is to print the serial numners on all the pagination pages */
+  currentPage=appConfig.currentPage;
+  pageSize=appConfig.itemsPerPage;
+  public handlePage(e: any) {
+    this.currentPage = e.pageIndex;
+    this.pageSize = e.pageSize;
+  }
+//End of Pagination serial number method
 
   readJrss(){
       this.apiService.getJrsss().subscribe((data) => {

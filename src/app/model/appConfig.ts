@@ -4,8 +4,8 @@ export const appConfig = {
   defaultPassword: 'welcome',
   defaultEncryptedPassword: 'tcIq8+z=rk=PHcxPzQAdpMUXA==',  
   baseUri:'http://localhost:4000',
-  currentPage: 1,
-  itemsPerPage: 10,
+  currentPage: 0,
+  itemsPerPage: 5,
   totalItems:0
 };
 

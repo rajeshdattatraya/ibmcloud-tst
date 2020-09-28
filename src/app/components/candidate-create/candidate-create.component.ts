@@ -26,7 +26,7 @@ export class CandidateCreateComponent implements OnInit {
   formReset = false;
   candidateForm: FormGroup;
   myOpenPositionGroup: FormGroup;
-  JRSS:any = []
+  JRSS:any = [];
   JRSSFull:any = [];
   Band:any = [];
   quizNumber: number;
@@ -78,7 +78,6 @@ export class CandidateCreateComponent implements OnInit {
       this.quizNumber = 1;
       this.readBand();
       this.mainForm();
-      this.readJrss();
       this.mainOpenForm();
       this.readUserPositionLocation();
       this.readUserLineOfBusiness();
@@ -105,24 +104,7 @@ export class CandidateCreateComponent implements OnInit {
       userPositionLocation: ['']
     })
   }
- // Get all Jrss
- readJrss(){
-  this.apiService.getJRSS().subscribe((data) => {
-  this.JRSSFull = data;
-  for(var i=0; i<this.JRSSFull.length; i++)
-  {
-    let workFlowPrsent = ((this.JRSSFull[i]['stage1_OnlineTechAssessment']==undefined) ||
-    ((this.JRSSFull[i]['stage1_OnlineTechAssessment']==false) &&
-    (this.JRSSFull[i]['stage2_PreTechAssessment']==false) &&
-    (this.JRSSFull[i]['stage3_TechAssessment']==false) &&
-    (this.JRSSFull[i]['stage4_ManagementInterview']==false) &&
-    (this.JRSSFull[i]['stage5_ProjectAllocation']==false)))
-    if (!workFlowPrsent){
-      this.JRSS.push(this.JRSSFull[i]);
-    }
-  }
-  })
-}
+
   // Choose designation with select dropdown
   updateJrssProfile(e){
     this.candidateForm.get('JRSS').setValue(e, {
@@ -191,6 +173,22 @@ export class CandidateCreateComponent implements OnInit {
       this.candidateForm.get('account').setValue(e, {
       onlySelf: true
       })
+      this.JRSS.length=0;
+      this.JRSSFull.length=0;
+      this.apiService.getJrsssByAccount(e).subscribe((data) => {
+          this.JRSSFull = data;
+          for(var i=0; i<this.JRSSFull.length; i++) {
+            let workFlowPrsent = ((this.JRSSFull[i]['stage1_OnlineTechAssessment']==undefined) ||
+            ((this.JRSSFull[i]['stage1_OnlineTechAssessment']==false) &&
+            (this.JRSSFull[i]['stage2_PreTechAssessment']==false) &&
+            (this.JRSSFull[i]['stage3_TechAssessment']==false) &&
+            (this.JRSSFull[i]['stage4_ManagementInterview']==false) &&
+            (this.JRSSFull[i]['stage5_ProjectAllocation']==false)))
+            if (!workFlowPrsent){
+              this.JRSS.push(this.JRSSFull[i]);
+            }
+          }
+      });
     }
 
    // Get all User Line of business
@@ -254,22 +252,16 @@ export class CandidateCreateComponent implements OnInit {
   // Submit button
   onSubmit() {
     this.submitted = true;
+    this.formReset = false;
     // Encrypt the password
     var base64Key = CryptoJS.enc.Base64.parse("2b7e151628aed2a6abf7158809cf4f3c");
     var ivMode = CryptoJS.enc.Base64.parse("3ad77bb40d7a3660a89ecaf32466ef97");
     this.password = CryptoJS.AES.encrypt(appConfig.defaultPassword.trim(),base64Key,{ iv: ivMode }).toString();
     this.password = this.password.replace("/","=rk=");
-
     // Technology Stream
-    // this.skillArray = [];
-    // for (var stream of this.candidateForm.value.technologyStream)  {
-    //   if(this.skillArray.indexOf(stream.value == -1)){
-    //       this.skillArray.push(stream.value);
-    //   }
-    // }
-    //this.candidateForm.value.technologyStream = this.skillArray.join(',');
-    this.candidateForm.value.technologyStream = this.candidateForm.value.technologyStream.join(',');
-
+    if( typeof(this.candidateForm.value.technologyStream) == 'object' ) {
+      this.candidateForm.value.technologyStream = this.candidateForm.value.technologyStream.join(',');
+    }
     //Check if resume is not selected
     if(!this.resume){
       let bufferLength = 10;
@@ -416,7 +408,7 @@ export class CandidateCreateComponent implements OnInit {
                   });
 
                   //Send email notification for taking the assessment test given that candidate is created. Set Email parameters
-                  let fromAddress = "Talent.Sourcing@in.ibm.com";
+                  let fromAddress = "talent.sourcing@in.ibm.com";
                   let toAddress = this.candidateForm.value.email;
                   let emailSubject = "Candidate Registration Successful in Talent Sourcing Tool";
                   let emailMessage = "Dear " + this.candidateForm.value.employeeName + ",<br><br> \
@@ -426,7 +418,7 @@ export class CandidateCreateComponent implements OnInit {
                   User Name : " +this.candidateForm.value.email+ "<br>\
                   Defalut Password : welcome <br>\
                   Please change the default password when you login for first time and then go ahead with the online test<br>&emsp;&emsp;&emsp;\
-                  <p>Regards, <br>DWP Operations Team";
+                  <p>Regards, <br>"+this.candidateForm.value.account+ " Operations Team";
 
                     // Send notification to the candidate
                     let sendEmailObject = new SendEmail(fromAddress, toAddress, emailSubject, emailMessage);

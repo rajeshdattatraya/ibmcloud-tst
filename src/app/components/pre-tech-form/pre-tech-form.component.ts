@@ -35,6 +35,7 @@ export class PreTechFormComponent implements OnInit {
 	resumeUploaded:boolean;
 	candidateResume:File;
 	candidate:Candidate;
+	candidateAccount = "";
  
   constructor(
     private router: Router,
@@ -63,7 +64,8 @@ logout(){
  ngOnInit(): void {
 	 this.getPreTechAssessmentQuestions();
 	 this.downloadCandidateDetails();
-	 this.readSmeUser();
+	 //this.readSmeUser();
+	 //this.readSmeUserForAccount();
 	 	 
 }
 
@@ -112,6 +114,8 @@ downloadCandidateDetails()
 {
 	this.apiService.getCandidateJrss(this.userName).subscribe(data => {
 		//Get resume Data
+		this.candidateAccount = data['account'];
+		this.readSmeUserForAccount(data['account']);
 		this.resumeName1 = data['resumeName'];
 		let resumeData1 : String = data['resumeData'];
 		console.log("Resume Uploaded name: "+this.resumeName1);
@@ -194,8 +198,8 @@ downloadCandidateDetails()
 
  }
 
- readSmeUser(){
-	this.apiService.getUserByRole('sme').subscribe((data) => {
+ readSmeUserForAccount(candidateAccount){
+	this.apiService.getUserByRoleAndAccount('sme',candidateAccount).subscribe((data) => {
   this.smeUserList = data;
   for (var smeEmail of this.smeUserList){
     if(this.smeUsersEmail == ""){
@@ -226,13 +230,14 @@ downloadCandidateDetails()
 			this.stage2Completed =  true;
 
 			//Send email notification to SME
-			let fromAddress = "Talent.Sourcing@in.ibm.com";
+			let fromAddress = "talent.sourcing@in.ibm.com";
 			let toAddress = this.smeUsersEmail;
 			let emailSubject = "Candidate assignment notification in Talent Sourcing Tool: SME evaluation pending"; 
 			let emailMessage = "Dear Team,<br><br> \
 			We would like to notify that the candidate "+this.candidateName+" is added to the queue for the job role " +this.jrss+".<br>\
 			Please assess the candidate for the new project assignment.<br>\
-			<p>Regards, <br>DWP Operations Team</p>"; 
+			<p>Regards, <br>"+this.candidateAccount+" Operations Team</p>"; 
+			console.log('Before sending email: toAddress = '+toAddress);
 
 
 				   // Send notification to the SME user
