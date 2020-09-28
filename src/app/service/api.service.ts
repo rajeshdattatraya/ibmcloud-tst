@@ -758,8 +758,9 @@ createTechStream(data): Observable<any> {
 }
 
 
-getCandidateInterviewStatus(): Observable<any> {
-  let url = `${this.userResultUri}/getCandidateInterviewStatus`;
+getCandidateInterviewStatus(acct): Observable<any> {
+  let url = `${this.userResultUri}/getCandidateInterviewStatus/${acct}`;
+  console.log("url",url);
   return this.http.get(url, {headers: this.headers}).pipe(
         map((res: Response) => {
           return res || {}

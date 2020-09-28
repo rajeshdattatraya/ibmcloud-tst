@@ -32,9 +32,11 @@ export class ViewInterviewStatusComponent implements OnInit {
   public flag:boolean=false;
   candidateInterviewStatus:any = [];
   exceptionalApprovalList: any = [];
+  accounts: any = [];
   candidateDetails: any;
   candidateUserId = "";
   candidateUserName = "";
+  canAccount;
  
 
   userName = "";
@@ -56,7 +58,7 @@ export class ViewInterviewStatusComponent implements OnInit {
 
   loading = true;
   dataSource = new MatTableDataSource<ExceptionApprovalDetail>();
-  displayedColumns = ['Action','employeeName', 'JRSS','onlineTestResult','technicalInterviewResult','partnerInterviewResult'];
+  displayedColumns = ['Action','employeeName', 'JRSS','Account','onlineTestResult','technicalInterviewResult','partnerInterviewResult'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -68,6 +70,7 @@ export class ViewInterviewStatusComponent implements OnInit {
         this.userName = this.router.getCurrentNavigation().extras.state.username;
         this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
         this.account = this.router.getCurrentNavigation().extras.state.account;
+        this.accounts = this.account.split(",");
       }
     this.getCandidateInterviewStatus();
   }
@@ -78,6 +81,7 @@ export class ViewInterviewStatusComponent implements OnInit {
         switch(property) {
           case 'employeeName': return item.employeeName;
           case 'JRSS': return item.JRSS;
+          case 'Account': return item.canAccount;
           case 'onlineTestResult': return item.onlineTestResult;
           case 'technicalInterviewResult': return item.technicalInterviewResult;
           case 'partnerInterviewResult': return item.partnerInterviewResult;
@@ -93,8 +97,9 @@ export class ViewInterviewStatusComponent implements OnInit {
 
 
   getCandidateInterviewStatus(){
-    this.apiService.getCandidateInterviewStatus().subscribe((data) => {
+    this.apiService.getCandidateInterviewStatus(this.account).subscribe((data) => {
     this.candidateInterviewStatus = data;
+    console.log("this.candidateInterviewStatus.length",this.candidateInterviewStatus.length);
       this.candidateInterviewStatus.forEach( candidate => {
       this.employeeName = "";
       this.onlineTestResult = "";
@@ -102,6 +107,7 @@ export class ViewInterviewStatusComponent implements OnInit {
       this.technicalInterviewResult = "";
       this.partnerInterviewResult = "";
       this.JRSS = "";
+      this.canAccount = "";
       this.canUserId = "";
       this.resultId = "";
       this.canUserName = "";
@@ -110,6 +116,7 @@ export class ViewInterviewStatusComponent implements OnInit {
       this.JRSS = candidate.JRSS;
       this.canUserId = candidate._id;
       this.canUserName = candidate.username;
+      this.canAccount = candidate.account;
 
       if (candidate.candidate_results.length == 0) {
         this.onlineTestResult = "Pending";
@@ -166,7 +173,7 @@ export class ViewInterviewStatusComponent implements OnInit {
 
       });
       if (this.stage5 == "Not Started" || this.stage5 == "") {
-          this.exceptionalApprovalList.push(new ExceptionApprovalDetail(this.employeeName, this.JRSS, this.onlineTestResult, this.technicalInterviewResult,
+          this.exceptionalApprovalList.push(new ExceptionApprovalDetail(this.employeeName, this.JRSS, this.canAccount,this.onlineTestResult, this.technicalInterviewResult,
                                         this.partnerInterviewResult,this.canUserId,this.canUserName,this.resultId,
                                         this.userResult,this.uScore,this.qNumber,this.createdDate));
       }
