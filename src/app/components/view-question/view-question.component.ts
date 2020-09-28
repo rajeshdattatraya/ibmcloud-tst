@@ -41,6 +41,8 @@ export class ViewQuestionComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   filteredQuestion: any=[];
+  smeQuestionObj: any={};
+  smeQuestion: any = [];
   
 
   constructor(public fb: FormBuilder,private router: Router, private apiService: ApiService,private route: ActivatedRoute) {
@@ -90,8 +92,19 @@ export class ViewQuestionComponent implements OnInit {
       //for(var accountValue of this.accountArr){
       this.apiService.getAllQuestions().subscribe((data) => {
       this.Questions = data;
-     console.log("Questions" +this.Questions.length);
-     
+    // console.log("Questions" +this.Questions.length);
+    if(this.account === 'SECTOR'){
+      console.log("Insode else");
+      console.log("Question length" +this.Questions.length);
+      console.log("Questions" +JSON.stringify(this.Questions));
+      for (let k=0; k<this.Questions.length; k++){
+      
+      this.smeQuestionObj = [this.Questions[k]._id, this.Questions[k].question, this.Questions[k].account, this.Questions[k].technologyStream];
+      this.filteredQuestion.push(this.smeQuestionObj);
+    }
+  }
+     else{
+      console.log("Inside If");
      for (let k=0; k<this.Questions.length; k++){
       var item = this.Questions[k].account;
        let questionExists =  false;
@@ -108,7 +121,10 @@ export class ViewQuestionComponent implements OnInit {
          this.filteredQuestion.push(this.questionObj);
        }
      }
+    }
+    
       this.dataSource.data=this.filteredQuestion as Question[];
+      console.log("datasource length" +this.dataSource.data.length);
   
     })
  // }  

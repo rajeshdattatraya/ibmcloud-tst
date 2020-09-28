@@ -42,7 +42,9 @@ export class TechnicalInterviewComponent implements OnInit {
   candidateName: String = "";
   account: String = "";
   displayTechInterviewDetails: boolean = false;
-  techStreamObj: any = [];
+
+  techStreamObj: any = {};
+  candidateAccount: String = "";
 
   constructor(private cv:TechnicalInterviewListComponent,private fb:FormBuilder, private actRoute: ActivatedRoute, private router: Router,private ngZone: NgZone,
     private apiService: ApiService) {
@@ -63,8 +65,8 @@ export class TechnicalInterviewComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getTechnicalStreamFromJRSS();
-    this.readPartnerUserDet();
     this.readCandidateNameAndJrss();
+    //this.readPartnerUserDet();
   }
   techStream() : FormArray {
       return this.techskillForm.get("techStream") as FormArray
@@ -278,8 +280,8 @@ export class TechnicalInterviewComponent implements OnInit {
    }
  }
 
- readPartnerUserDet(){
-	this.apiService.getUserByRole('partner').subscribe((data) => {
+ readPartnerUserDet(candidateAccount){
+	this.apiService.getUserByRoleAndAccount('partner', candidateAccount).subscribe((data) => {
   this.partnerUserList = data;
   for (var partnerEmail of this.partnerUserList){
     if(this.partnerUsersEmail == ""){
@@ -296,6 +298,8 @@ export class TechnicalInterviewComponent implements OnInit {
           (res) => {      
           this.jrss=res['JRSS'];
           this.candidateName = res['employeeName'];
+          this.candidateAccount = res['account'];
+          this.readPartnerUserDet(res['account']);
                }, (error) => {
                console.log(error);
                });
@@ -334,13 +338,13 @@ export class TechnicalInterviewComponent implements OnInit {
 
       //Send email notification to partner when 'Recommended' or 'Strongly Recommended'	
       if(this.stage3_status == 'Completed'){
-        let fromAddress = "Talent.Sourcing@in.ibm.com";
+        let fromAddress = "talent.sourcing@in.ibm.com";
         let toAddress = this.partnerUsersEmail;    
         let emailSubject = "Candidate assignment notification in Talent Sourcing Tool: Partner evaluation pending";
         let emailMessage = "Dear Team,<br><br> \
         We would like to notify that the candidate "+this.candidateName+" is added to the queue for the job role " +this.jrss+".<br>\
         Please assess the candidate for the new project assignment.<br>\
-         <p>Regards, <br>DWP Operations Team</p>"; 
+        <p>Regards, <br>"+this.candidateAccount+" Operations Team</p>"; 
          	// Send notification to the SME user
 				   let sendEmailObject2 = new SendEmail(fromAddress, toAddress, emailSubject, emailMessage);
 				   this.apiService.sendEmail(sendEmailObject2).subscribe(
@@ -370,13 +374,15 @@ export class TechnicalInterviewComponent implements OnInit {
           this.apiService.updateExceptionalApproval(emailSelected,quizNumber,this.techskillForm.value.feedback).subscribe(res => {
             window.alert('Successfully moved candidate to next stage');
             //Send email notification to partner when 'Recommended' or 'Strongly Recommended'	
-        let fromAddress = "Talent.Sourcing@in.ibm.com";
+        let fromAddress = "talent.sourcing@in.ibm.com";
         let toAddress = this.partnerUsersEmail;    
         let emailSubject = "Candidate assignment notification in Talent Sourcing Tool: Partner evaluation pending";
         let emailMessage = "Dear Team,<br><br> \
         We would like to notify that the candidate "+this.candidateName+" is added to the queue for the job role " +this.jrss+".<br>\
         Please assess the candidate for the new project assignment.<br>\
-         <p>Regards, <br>DWP Operations Team</p>"; 
+         <p>Regards, <br>"+this.candidateAccount+" Operations Team</p>"; 
+         console.log('exceptionalApproval, before sending email, emailMessage == '+emailMessage);
+         console.log('exceptionalApproval, before sending email, toAddress == '+toAddress);
          	// Send notification to the SME user
 				   let sendEmailObject2 = new SendEmail(fromAddress, toAddress, emailSubject, emailMessage);
 				   this.apiService.sendEmail(sendEmailObject2).subscribe(

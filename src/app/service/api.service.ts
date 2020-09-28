@@ -239,8 +239,8 @@ getQuestions(account): Observable<any> {
 }
 
  // Get Users by access Level
- getUserByAccessLevel(accessLevel): Observable<any> {
-  let url = `${this.baseloginUri}/readUserByAccessLevel/${accessLevel}`;
+ getUserByAccessLevel(accessLevel,account): Observable<any> {
+  let url = `${this.baseloginUri}/readUserByAccessLevel/${accessLevel}/${account}`;
   return this.http.get(url, {headers: this.headers}).pipe(
     map((res: Response) => {
       return res || {}
@@ -790,6 +790,19 @@ getUserByRole(id): Observable<any> {
     catchError(this.errorMgmt)
     )
   }
+
+
+    // Get Users table records based on role and account
+getUserByRoleAndAccount(id,account): Observable<any> {
+  let url = `${this.baseloginUri}/getUserByRoleAndAccount/${id}/${account}`;
+  return this.http.get(url, {headers: this.headers}).pipe(
+    map((res: Response) => {
+      return res || {}
+    }),
+    catchError(this.errorMgmt)
+    )
+  }
+  
 
 // Get all accounts
 getAccounts() {

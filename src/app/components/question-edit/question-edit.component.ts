@@ -34,15 +34,23 @@ export class QuestionEditComponent implements OnInit {
   filelist: any;
   options: Array<String>=[];
   question_id: string;
+  accounts:any = [];
+  AccountsArr:any = [];
+  loginAccounts:any = [];
+  Account :any= [];
+  AccountArray:any = [];
   constructor(public fb: FormBuilder,private actRoute: ActivatedRoute,private router: Router,private ngZone: NgZone,private apiService: ApiService) {
       this.browserRefresh = browserRefresh;
       if (!this.browserRefresh) {
           this.userName = this.router.getCurrentNavigation().extras.state.username;
           this.account = this.router.getCurrentNavigation().extras.state.account;
           this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
+          this.loginAccounts = this.account.split(",");
+         // console.log("Accounts" +this.accounts);
       }
       this.readTechStream();
       this.mainForm();
+      this.readAccount();
   }
 
   ngOnInit() {
@@ -53,13 +61,15 @@ export class QuestionEditComponent implements OnInit {
   // {
     //  console.log("key: " + key + ", value: " + res[key])
   // }
-
+      console.log("Account" +res['account']);
    for (var i of res['options']){
           this.options.push(i.option);
   }
-
+  
+  this.AccountsArr = res['account'].split(",");
+  console.log("Account from response" +this.AccountsArr.length);
       this.editquestionForm.setValue({
-
+        
         technologyStream: res['technologyStream'],
         questionType: res['questionType'],
         complexityLevel: res['complexityLevel'],
@@ -74,7 +84,7 @@ export class QuestionEditComponent implements OnInit {
         option4checkbox:(res['answerID'] as string).includes('4') ? true :false,
         answerID:[],
         questionID:res['questionID'],
-        account:res['account']
+        account:this.AccountsArr,
       });
       if(!isNaN(res.questionID))    {
       this.questionID=res.questionID;}
@@ -102,7 +112,7 @@ export class QuestionEditComponent implements OnInit {
         option4checkbox:[],
         answerID:[],
         questionID:[],
-        account:[]
+        account:[],
 
 
       })
@@ -128,7 +138,30 @@ export class QuestionEditComponent implements OnInit {
         })
       }
 
+      // Get all Acconts
+      // Choose account with select dropdown
+    //  if(this.account !== 'SECTOR'){
+      updateAccount(e){
+        this.editquestionForm.get('account').setValue(e, {
+          onlySelf: true
+          })     
+    }
 
+    // Get all Acconts
+    readAccount(){
+      let smeAccount:any = [];
+      if(this.account !== 'SECTOR'){
+      this.loginAccounts = this.account.split(",");
+    }
+  
+      else{
+    this.apiService.getAccounts().subscribe((data) => {
+   // smeAccount = data;
+    this.loginAccounts = data['account'];
+    console.log("LoginAccounts inside else" +this.loginAccounts);
+    })
+  }
+}
     // Get all Technology streams of all JRSS
     readTechStream(){
        this.apiService.getTechStream().subscribe((data) => {
@@ -159,6 +192,22 @@ export class QuestionEditComponent implements OnInit {
 
 
     onSubmit() {
+          // selected account in comma separated form
+      this.AccountArray = [];
+      for (var account of this.editquestionForm.value.account)  {     
+        if(this.AccountArray.indexOf(account.account == -1)){
+            this.AccountArray.push(account.account);  
+        }     
+      }       
+
+      // Check if SECTOR value exists in the accountArray
+      if(this.AccountArray.toString().toLowerCase().indexOf("sector") !== -1)
+      {         
+        this.AccountArray = [];
+        this.AccountArray.push('SECTOR'); 
+      }  
+      this.editquestionForm.value.account = this.AccountArray.join(',');   
+
         this.submitted = true;
         this.formReset = false;
         if (!this.editquestionForm.valid) {

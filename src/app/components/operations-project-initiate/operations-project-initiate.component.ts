@@ -136,9 +136,8 @@ get myForm(){
   }
 
   // Set email notification parameters
-  setEmailNotificationDetails(){
-    //this.fromAddress = this.userName;
-    this.fromAddress = "Talent.Sourcing@in.ibm.com";    
+  setEmailNotificationDetails(){   
+    this.fromAddress = "talent.sourcing@in.ibm.com";    
     this.toAddress = this.operationsProjectDetails[0].result_users[0].username;    
     this.emailSubject = "Project Assignment Notification in Talent Sourcing Tool";    
     this.emailMessage = "Dear " 
@@ -194,9 +193,9 @@ get myForm(){
             let sendEmailObject = new SendEmail(this.fromAddress, this.toAddress, this.emailSubject, this.emailMessage);
               this.apiService.sendEmail(sendEmailObject).subscribe(
                 (res) => {
-                    console.log("[Ops Project] - Email sent successfully to " + this.toAddress);            
+                    console.log("[Ops Project Assignment] - Email sent successfully to " + this.toAddress);            
                 }, (error) => {
-                    console.log("[Ops Project] - Error occurred while sending email to " + this.toAddress);
+                    console.log("[Ops Project Assignment] - Error occurred while sending email to " + this.toAddress);
                     console.log(error);
               });
 
