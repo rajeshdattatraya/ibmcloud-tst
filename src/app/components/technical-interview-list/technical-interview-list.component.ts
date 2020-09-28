@@ -213,7 +213,7 @@ export class TechnicalInterviewListComponent implements OnInit {
       window.alert('Successfully moved candidate to next stage');
       this.showModal = false;
       this.getTechnicalInterviewList();
-      $("#myModal").modal("hide");
+      $("#myExceptionModal").modal("hide");
     }, (error) => {
       console.log(error);
     })

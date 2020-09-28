@@ -199,7 +199,7 @@ export class PartnerInterviewComponent implements OnChanges {
           window.alert('Successfully provided exceptional approval');
           this.getPartnerInterviewList();
           this.readResult();
-          $("#myModal").modal("hide");   
+          $("#myExceptionModal").modal("hide");   
               
           // Send email notification to the operations team
           this.setEmailNotificationDetails();
