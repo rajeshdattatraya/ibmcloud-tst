@@ -2,12 +2,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from './../../service/api.service';
 import { Component, OnInit, NgZone } from '@angular/core';
 import { FormGroup, FormArray,FormBuilder, Validators } from "@angular/forms";
-import { Question } from 'src/app/model/questions';
-import { ResourceLoader } from '@angular/compiler';
 import { browserRefresh } from '../../app.component';
-import * as XLSX from 'xlsx';
-
-
+​
 @Component({
   selector: 'question-edit',
   templateUrl: './question-edit.component.html',
@@ -39,6 +35,7 @@ export class QuestionEditComponent implements OnInit {
   loginAccounts:any = [];
   Account :any= [];
   AccountArray:any = [];
+​
   constructor(public fb: FormBuilder,private actRoute: ActivatedRoute,private router: Router,private ngZone: NgZone,private apiService: ApiService) {
       this.browserRefresh = browserRefresh;
       if (!this.browserRefresh) {
@@ -46,30 +43,24 @@ export class QuestionEditComponent implements OnInit {
           this.account = this.router.getCurrentNavigation().extras.state.account;
           this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
           this.loginAccounts = this.account.split(",");
-         // console.log("Accounts" +this.accounts);
       }
       this.readTechStream();
       this.mainForm();
       this.readAccount();
   }
-
+​
   ngOnInit() {
-     this.question_id = this.actRoute.snapshot.paramMap.get('id');
-
+    this.question_id = this.actRoute.snapshot.paramMap.get('id');
     this.apiService.getQuestion(this.question_id).subscribe( res => {
-//      for(var key in res)
-  // {
-    //  console.log("key: " + key + ", value: " + res[key])
-  // }
-      console.log("Account" +res['account']);
-   for (var i of res['options']){
+    console.log("Account ngOnInit = " + res['account']);
+    for (var i of res['options']){
           this.options.push(i.option);
-  }
+    }
   
-  this.AccountsArr = res['account'].split(",");
-  console.log("Account from response" +this.AccountsArr.length);
-      this.editquestionForm.setValue({
-        
+    this.AccountsArr = res['account'].split(",");
+    console.log("Account from response = " + this.AccountsArr);
+​
+    this.editquestionForm.setValue({        
         technologyStream: res['technologyStream'],
         questionType: res['questionType'],
         complexityLevel: res['complexityLevel'],
@@ -84,18 +75,19 @@ export class QuestionEditComponent implements OnInit {
         option4checkbox:(res['answerID'] as string).includes('4') ? true :false,
         answerID:[],
         questionID:res['questionID'],
-        account:this.AccountsArr,
+        account:this.AccountsArr
       });
-      if(!isNaN(res.questionID))    {
-      this.questionID=res.questionID;}
-      else{
+      
+      if(!isNaN(res.questionID)){
+        this.questionID=res.questionID;}
+      else  {
         this.questionID=0;
       }
     }, (error) => {
       console.log(error);
     });
   }
-
+​
   mainForm() {
       this.editquestionForm = this.fb.group({
         technologyStream: ['', [Validators.required]],
@@ -113,93 +105,91 @@ export class QuestionEditComponent implements OnInit {
         answerID:[],
         questionID:[],
         account:[],
-
-
       })
     }
-
-    // Getter to access form control
-      get myForm(){
+​
+  // Getter to access form control
+  get myForm(){
         return this.editquestionForm.controls;
-      }
+  }
   // Choose JRSS with select dropdown
-    updateJRSS(e){
-      this.editquestionForm.get('JRSS').setValue(e, {
+  updateJRSS(e){
+    this.editquestionForm.get('JRSS').setValue(e, {
       onlySelf: true
-      })
-    }
-
-
-
-  // Choose Technology Stream with select dropdown
-      updateTechnologyStream(e){
-        this.editquestionForm.get('TechnologyStream').setValue(e, {
-        onlySelf: true
-        })
-      }
-
-      // Get all Acconts
-      // Choose account with select dropdown
-    //  if(this.account !== 'SECTOR'){
-      updateAccount(e){
-        this.editquestionForm.get('account').setValue(e, {
-          onlySelf: true
-          })     
-    }
-
-    // Get all Acconts
-    readAccount(){
-      let smeAccount:any = [];
-      if(this.account !== 'SECTOR'){
-      this.loginAccounts = this.account.split(",");
-    }
-  
-      else{
-    this.apiService.getAccounts().subscribe((data) => {
-   // smeAccount = data;
-    this.loginAccounts = data['account'];
-    console.log("LoginAccounts inside else" +this.loginAccounts);
     })
   }
+​
+  // Choose Technology Stream with select dropdown
+  updateTechnologyStream(e){
+    this.editquestionForm.get('TechnologyStream').setValue(e, {
+        onlySelf: true
+    })
+  }
+      
+  updateAccount(e){
+    this.editquestionForm.get('account').setValue(e, {
+      onlySelf: true
+    })     
+  }
+​
+  // Get all Acconts
+  readAccount(){
+    let smeAccount:any = [];
+    this.loginAccounts = [];
+    if(this.account !== 'SECTOR') {
+      this.loginAccounts = this.account.split(",");
+      console.log("readAccount -> IF loginAccounts " + this.loginAccounts);
+    } else {
+      this.apiService.getAccounts().subscribe((data) => {
+      smeAccount = data;     
+      for (var account of smeAccount){             
+        this.loginAccounts.push(account.account);
+      }
+      console.log("readAccount -> ELSE loginAccounts " + this.loginAccounts);
+​
+    })
+  } // end of else
 }
-    // Get all Technology streams of all JRSS
-    readTechStream(){
+  // Get all Technology streams of all JRSS
+  readTechStream(){
        this.apiService.getTechStream().subscribe((data) => {
            this.technologyStream = data;
        });
        console.log("Master technologyStream: "+ JSON.stringify(this.technologyStream));
-     }
-
-    // Choose QuestionType with select dropdown
-    updateQuestionTypes(e){
+  }
+​
+  // Choose QuestionType with select dropdown
+  updateQuestionTypes(e){
       this.editquestionForm.get('questionType').setValue(e, {
       onlySelf: true
       })
-    }
-    // Choose QuestionType with select dropdown
+  }
+​
+  // Choose QuestionType with select dropdown
     updateComplexityLevel(e){
       this.editquestionForm.get('complexityLevel').setValue(e, {
       onlySelf: true
       })
     }
-    getTechnologyStream() {
+​
+  getTechnologyStream() {
       return this.technologyStream;
-    }
-
-    cancelForm(){
+  }
+​
+  cancelForm(){
       this.ngZone.run(() => this.router.navigateByUrl('/view-questionbank',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
-    }
-
-
-    onSubmit() {
-          // selected account in comma separated form
+  }
+​
+​
+  onSubmit() {
+      // selected account in comma separated form
       this.AccountArray = [];
       for (var account of this.editquestionForm.value.account)  {     
         if(this.AccountArray.indexOf(account.account == -1)){
             this.AccountArray.push(account.account);  
         }     
       }       
-
+​
       // Check if SECTOR value exists in the accountArray
       if(this.AccountArray.toString().toLowerCase().indexOf("sector") !== -1)
       {         
@@ -207,7 +197,7 @@ export class QuestionEditComponent implements OnInit {
         this.AccountArray.push('SECTOR'); 
       }  
       this.editquestionForm.value.account = this.AccountArray.join(',');   
-
+​
         this.submitted = true;
         this.formReset = false;
         if (!this.editquestionForm.valid) {
@@ -264,7 +254,7 @@ export class QuestionEditComponent implements OnInit {
               this.questionID++;
               this.editquestionForm.value.questionID=this.questionID;
               this.editquestionForm.value.account=this.account;
-
+​
          /*  this.apiService.updateQuestion(this.question_id,this.editquestionForm.value).subscribe(
             (res) => {
               console.log('Question successfully updated!');
@@ -275,12 +265,12 @@ export class QuestionEditComponent implements OnInit {
              }else{
                return false;
              }
-
+​
               //this.ngZone.run(() => this.router.navigateByUrl('/manage-questionbank',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
             }, (error) => {
               console.log(error);
             }); */
-
+​
             if(confirm('Do you want to update the Question which applies to '+ this.editquestionForm.value.account +' accounts?')){
               this.apiService.updateQuestion(this.question_id,this.editquestionForm.value).subscribe(
                 (res) => {
@@ -290,14 +280,14 @@ export class QuestionEditComponent implements OnInit {
                   this.ngZone.run(() => this.router.navigateByUrl('/view-questionbank',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
                   //this.ngZone.run(() => this.router.navigateByUrl('/edit-question/5f35440c307bc06254cd782f',{state:{username:this.userName,account:this.account}}))
                  //this.ngZone.run(() => this.router.navigateByUrl('/login-component',{state:{username:this.userName,account:this.account}}))
-
+​
                 },(error) => {
                   console.log(error);
                 });
             }else{
               return false;
             }
-
+​
           }
         }
       }
