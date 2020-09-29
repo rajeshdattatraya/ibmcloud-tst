@@ -54,7 +54,7 @@
         <tr>
           <td>
             <mat-form-field class="open-full-width">
-              <input matInput placeholder="Test Duration(in Minutes)" required formControlName="testDuration" name="testDuration" [ngClass]="{ 'is-invalid': submitted && myForm.testDuration.errors }" maxlength="10" minlength="2">
+              <input matInput placeholder="Test Duration(in Minutes)" required formControlName="testDuration" name="testDuration" [ngClass]="{ 'is-invalid': submitted && myForm.testDuration.errors }" maxlength="10" minlength="1">
               <div *ngIf="submitted && myForm.testDuration.errors" class="invalid-feedback">
                 <div *ngIf="myForm.testDuration.errors.required">Test Duration is required</div>
                 <div *ngIf="myForm.testDuration.errors.pattern">Invalid Test Duration</div>
