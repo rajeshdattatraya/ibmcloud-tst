@@ -177,9 +177,11 @@ export class TestConfigAddComponent implements OnInit {
         this.formReset = false;
         if (!this.testConfigAddForm.valid) {          
           return false;
-        } else {
-          if (this.testConfigAddForm.value.passingScore < 50) {
-            window.alert("Please enter passing score above 50");
+        } else {          
+          if (this.testConfigAddForm.value.testDuration < 10) { 
+            window.alert("Test duration should be minimum of 10 mins");
+          } else if (this.testConfigAddForm.value.passingScore < 50) {
+            window.alert("Please enter passing score 50 or above");
           } else {
             let jrss = this.testConfigAddForm.value.JRSS;
            let testConfig = new TestConfig(this.testConfigAddForm.value.JRSS, this.testConfigAddForm.value.account,

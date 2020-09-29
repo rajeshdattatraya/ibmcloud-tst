@@ -30,6 +30,9 @@ export class OperationsProjectInitiateComponent implements OnInit {
   displayPartnerInterviewFields = true;
   account: String = "";
   onLoad = false;
+  dwpFlag: Boolean = false;
+  candidateAccount:any = [];
+  candidateProject:String = "";
 
   fromAddress: String = "";
   emailSubject: String = "";
@@ -77,8 +80,8 @@ export class OperationsProjectInitiateComponent implements OnInit {
   mainForm() {
     this.operationsProjectForm = this.fb.group({
       projectLocation: ['', [Validators.required]],
-      clientProject: ['', [Validators.required]],
-       projectPosition: ['', [Validators.required]],
+      clientProject: [''],
+      projectPosition: ['', [Validators.required]],
       managementComments: ['', [Validators.required]]
     })
 }
@@ -132,11 +135,23 @@ get myForm(){
       this.listAllOpenPositions()
       //Sprint8 End
 
+      // Defect #198 - Get account for candidate from candidate table     
+      this.apiService.getCandidateJrss(this.operationsProjectDetails[0].result_users[0].username).subscribe( (res) => {
+        this.candidateAccount = res;        
+        if (this.candidateAccount.account.toLocaleLowerCase().trim() == 'dwp'){
+          this.dwpFlag = true;              
+        }
+      });
     });
   }
 
   // Set email notification parameters
-  setEmailNotificationDetails(){   
+  setEmailNotificationDetails(){ 
+    if(this.candidateAccount.account.toLocaleLowerCase().trim() == 'dwp'){
+      this.candidateProject = this.operationsProjectForm.value.clientProject;
+    } else {
+      this.candidateProject = this.candidateAccount.account;
+    }    
     this.fromAddress = "talent.sourcing@in.ibm.com";    
     this.toAddress = this.operationsProjectDetails[0].result_users[0].username;    
     this.emailSubject = "Project Assignment Notification in Talent Sourcing Tool";    
@@ -144,11 +159,10 @@ get myForm(){
         + this.operationsProjectDetails[0].result_users[0].employeeName 
         + ",<br> <p>We would like to confirm, you have been selected for a " 
         + this.operationsProjectForm.value.projectPosition + " role in " 
-        + this.operationsProjectForm.value.clientProject + " account. </p><p>" 
-        + this.operationsProjectForm.value.clientProject + " account operations team will connect with you shortly for next steps.</p>\
-        <p>Regards, <br>" + this.account + " Operations Team</p>";
-    
-  }
+        + this.candidateProject + " account. </p><p>" 
+        + this.candidateProject + " account operations team will connect with you shortly for next steps.</p>\
+        <p>Regards, <br>" + this.account + " Operations Team</p>";  
+    }
 
   onSubmit(id) {
 

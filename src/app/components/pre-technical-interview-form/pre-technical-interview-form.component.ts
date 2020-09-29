@@ -63,6 +63,9 @@ export class PreTechnicalInterviewFormComponent implements OnInit {
      if(this.access =='operation-interview-initiate'){
       this.router.navigate(['/initiate-operations-project/', this.userName], { state: { username: this.userName, accessLevel: this.accessLevel,account:this.account } })
      }
+     if(this.access =='viewinterview-status'){
+       this.router.navigate(['/viewinterview-status/'], { state: { username: this.userName, accessLevel: this.accessLevel,account:this.account } })
+     }
   }
 
 

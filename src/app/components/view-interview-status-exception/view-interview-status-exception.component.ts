@@ -6,6 +6,7 @@ import { browserRefresh } from '../../app.component';
 import { appConfig } from './../../model/appConfig';
 import { ResultPageService } from './../../components/result-page/result-page.service';
 import { ExceptionApprovalDetail } from './../../model/exceptionalApprovalDetail';
+import {TechnicalInterviewListComponent} from '../technical-interview-list/technical-interview-list.component'
 import { ResultStatus } from './../../model/resultStatus';
 
 
@@ -37,25 +38,32 @@ export class ViewInterviewStatusExceptionComponent implements OnInit {
   technicalInterviewResult = "";
   partnerInterviewResult = "";
   JRSS = "";
+  count:any;
 
   resultId = "";
 
   quizNumber = 1;
   userScore = "";
+  displayPreTechStage2Skip: boolean = false;
+  displayPreTechStage2Completed: boolean = false;
   stage1Completed: boolean = false;
   stage2Completed: boolean = false;
   stage3Completed: boolean = false;
   stage4Completed: boolean = false;
-  displayResultFields: boolean = false;
+  displayStage1ResultFields: boolean = false;
+  displayStage2ResultFields: boolean = false;
+  displayStage3ResultFields: boolean = false;
+  displayStage4ResultFields: boolean = false;
 
 
-  constructor(private actRoute: ActivatedRoute, private router: Router, private resultPageService: ResultPageService,
+  constructor(private cv:TechnicalInterviewListComponent,private actRoute: ActivatedRoute, private router: Router, private resultPageService: ResultPageService,
               private apiService: ApiService,public fb: FormBuilder,private ngZone: NgZone) {
      this.userName = this.router.getCurrentNavigation().extras.state.username;
      this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
      this.account = this.router.getCurrentNavigation().extras.state.account;
      let id = this.actRoute.snapshot.paramMap.get('id');
-     this.viewCandidateInterviewStatus(id);
+     let resultId = this.actRoute.snapshot.paramMap.get('resultId');
+     this.viewCandidateInterviewStatus(id,resultId);
      this.mainForm();
   }
 
@@ -85,37 +93,56 @@ export class ViewInterviewStatusExceptionComponent implements OnInit {
     }
   }
 
-  viewCandidateInterviewStatus(id) {
+   //To download candidate's CV if uploaded
+  downloadCandidateResume(id){
+    this.cv.downloadCandidateResume(id)
+  }
+  skipMethod(){
+    alert('Stage skipped');
+  }
+  viewCandidateInterviewStatus(id,resultId) {
        this.apiService.viewCandidateInterviewStatus(id).subscribe((data) => {
            this.candidateDetails = data;
            this.candidateUserName = this.candidateDetails[0].username;
-           this.apiService.getJRSSPreTech(this.candidateDetails[0].JRSS).subscribe((data) => {
-                this.preTechQuestion = data[0]['jrss_preTech'].length;
+           this.apiService.getJRSSPreTechByAccountAndJrssName(this.candidateDetails[0].JRSS,this.candidateDetails[0].account).subscribe((pretechData) => {
+                this.preTechQuestion = pretechData[0]['jrss_preTech'].length;
            });
            if (this.candidateDetails[0].candidate_results.length > 0) {
-             this.displayResultFields = true;
-             this.resultId = this.candidateDetails[0].candidate_results[0]._id;
-             if (this.candidateDetails[0].candidate_results[0].stage1_status == 'Completed'
-                || this.candidateDetails[0].candidate_results[0].stage1_status == 'Skipped') {
-               this.stage1Completed = true;
-               this.stage1 = this.candidateDetails[0].candidate_results[0].stage1_status;
-             }
-             if (this.candidateDetails[0].candidate_results[0].stage2_status == 'Completed'
-                || this.candidateDetails[0].candidate_results[0].stage2_status == 'Skipped') {
-              this.stage2Completed = true;
-              this.stage2 = this.candidateDetails[0].candidate_results[0].stage2_status;
-             }
-             if (this.candidateDetails[0].candidate_results[0].stage3_status == 'Completed'
-                || this.candidateDetails[0].candidate_results[0].stage3_status == 'Skipped') {
-              this.stage3Completed = true;
-              this.stage3 = this.candidateDetails[0].candidate_results[0].stage3_status;
-             }
-             if (this.candidateDetails[0].candidate_results[0].stage4_status == 'Completed'
-                || this.candidateDetails[0].candidate_results[0].stage4_status == 'Skipped') {
-              this.stage4Completed = true;
-              this.stage4 = this.candidateDetails[0].candidate_results[0].stage4_status;
-             }
-             this.stage5 = this.candidateDetails[0].candidate_results[0].stage5_status;
+              let counter = 0;
+              this.candidateDetails[0].candidate_results.forEach( (result) => {
+                 this.resultId = result._id;
+                 if (this.resultId == resultId) {
+                     this.count = counter;
+                     if (result.stage1_status == 'Completed' || result.stage1_status == 'Skipped') {
+                       this.stage1Completed = true;
+                       this.stage1 = result.stage1_status;
+                       this.displayStage1ResultFields = true;
+                     }
+                     if (result.stage2_status == 'Completed' || result.stage2_status == 'Skipped') {
+                      this.stage2Completed = true;
+                      this.stage2 = result.stage2_status;
+                      this.displayStage2ResultFields = true;
+                     }
+                     if (result.stage2_status == 'Completed') {
+                       this.displayPreTechStage2Completed = true;
+                     }
+                     if (result.stage2_status == 'Skipped') {
+                       this.displayPreTechStage2Skip = true;
+                     }
+                     if (result.stage3_status == 'Completed' || result.stage3_status == 'Skipped') {
+                      this.stage3Completed = true;
+                      this.stage3 = result.stage3_status;
+                      this.displayStage3ResultFields = true;
+                     }
+                     if (result.stage4_status == 'Completed' || result.stage4_status == 'Skipped') {
+                      this.stage4Completed = true;
+                      this.stage4 = result.stage4_status;
+                      this.displayStage4ResultFields = true;
+                     }
+                     this.stage5 = result.stage5_status;
+                }
+                counter++;
+             });
            }
        })
   }
