@@ -200,7 +200,7 @@ export class ReportComponent implements OnInit {
 
     }); //end of reportResponse for loop
 
-
+    this.dataSource.data = [];
     Object.keys(this.reportObj).forEach((key) => {
       this.reportData.push(Object.entries(this.reportObj[key]));
       this.dataSource.data = this.reportData as ReportStats[];
