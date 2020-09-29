@@ -55,10 +55,14 @@ export class ViewInterviewStatusComponent implements OnInit {
   quizNumber = 1;
   userScore = "";
 
-
+  filterObj = {};
+  nameFilter: string;
+  accountFilter: string;
+  jrssFilter: string;
   loading = true;
   dataSource = new MatTableDataSource<ExceptionApprovalDetail>();
   displayedColumns = ['Action','employeeName', 'JRSS','Account','onlineTestResult','technicalInterviewResult','partnerInterviewResult'];
+  displayedColumnsNoAcct = ['Action','employeeName', 'JRSS','onlineTestResult','technicalInterviewResult','partnerInterviewResult'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -77,6 +81,12 @@ export class ViewInterviewStatusComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.dataSource.filterPredicate = (data, filter) => {
+        if(data[this.filterObj['key']] && this.filterObj['key']) {
+            return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
+        }
+        return false;
+    }
   this.dataSource.sortingDataAccessor = (item, property) => {
         switch(property) {
           case 'employeeName': return item.employeeName;
@@ -123,6 +133,9 @@ export class ViewInterviewStatusComponent implements OnInit {
         this.userResult ="Other";
         this.technicalInterviewResult = "Pending";
         this.partnerInterviewResult = "Pending";
+        this.exceptionalApprovalList.push(new ExceptionApprovalDetail(this.employeeName, this.JRSS, this.canAccount,this.onlineTestResult, this.technicalInterviewResult,
+                            this.partnerInterviewResult,this.canUserId,this.canUserName,this.resultId,
+                            this.userResult,this.uScore,this.qNumber,this.createdDate));
       }
       candidate.candidate_results.forEach( result => {
           this.resultId = result._id
@@ -170,13 +183,12 @@ export class ViewInterviewStatusComponent implements OnInit {
             this.partnerInterviewResult = result.managementResult;
           }
           this.stage5 = result.stage5_status;
-
+           if (this.stage5 == "Not Started" || this.stage5 == "") {
+                    this.exceptionalApprovalList.push(new ExceptionApprovalDetail(this.employeeName, this.JRSS, this.canAccount,this.onlineTestResult, this.technicalInterviewResult,
+                    this.partnerInterviewResult,this.canUserId,this.canUserName,this.resultId,
+                    this.userResult,this.uScore,this.qNumber,this.createdDate));
+           }
       });
-      if (this.stage5 == "Not Started" || this.stage5 == "") {
-          this.exceptionalApprovalList.push(new ExceptionApprovalDetail(this.employeeName, this.JRSS, this.canAccount,this.onlineTestResult, this.technicalInterviewResult,
-                                        this.partnerInterviewResult,this.canUserId,this.canUserName,this.resultId,
-                                        this.userResult,this.uScore,this.qNumber,this.createdDate));
-      }
       });
       this.dataSource.data = this.exceptionalApprovalList as ExceptionApprovalDetail[];
 
@@ -191,7 +203,7 @@ export class ViewInterviewStatusComponent implements OnInit {
     if (this.candidateUserId == "") {
         alert("Please select the candidate");
     } else {
-        this.router.navigate(['/viewinterview-status-exception/', this.candidateUserId], { state: { username: this.userName, accessLevel: this.accessLevel,account:this.account } })
+        this.router.navigate(['/viewinterview-status-exception/', this.candidateUserId,this.resultId], { state: { username: this.userName, accessLevel: this.accessLevel,account:this.account } })
     }
   }
 
@@ -207,5 +219,20 @@ export class ViewInterviewStatusComponent implements OnInit {
       this.correctAnswerCount=Math.round((userScore*this.questionCount)/100)
      })
   }
+
+    applyFilter(filterValue: string,key: string) {
+      this.filterObj = {
+            value: filterValue.trim().toLowerCase(),
+            key: key
+      }
+      this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
+
+    clearFilters() {
+          this.dataSource.filter = '';
+          this.nameFilter = '';
+          this.accountFilter = '';
+          this.jrssFilter = '';
+    }
 
 }
