@@ -158,7 +158,7 @@
                   </div>
                 </mat-form-field>
               </td>
-              <td>
+              <td *ngIf="dwpFlag">
                 <mat-form-field class="open-full-width">
                   <mat-select placeholder="Client" (selectionChange)="updateClientProject($event.value)"
                               formControlName="clientProject" id="inputClientProject" [ngClass]="{ 'is-invalid': submitted && myForm.clientProject.errors }">
