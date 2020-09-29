@@ -1,6 +1,6 @@
 <mat-toolbar>
   <mat-toolbar-row>
-    <a mat-button routerLink="#" routerLinkActive="active">Exceptional Approval</a>
+    <a mat-button routerLink="#"  class="matButtonSmallSpace" routerLinkActive="active">Exceptional Approval</a>
     <span class="flexExpand">
     <a mat-button routerLink="/login-component" routerLinkActive="active">Logout</a>
     </span>
@@ -24,24 +24,41 @@
         <tr>
           <td><mat-label>Technology Stream:</mat-label></td>
           <td>{{this.candidateDetails[0].technologyStream}}</td>
-          <td *ngIf="displayResultFields"><mat-label>Online Test Result:</mat-label></td>
-          <td *ngIf="displayResultFields">{{this.candidateDetails[0].candidate_results[0].userScore}}</td>
+          <td *ngIf="displayStage1ResultFields"><mat-label>Online Test Result:</mat-label></td>
+          <td *ngIf="displayStage1ResultFields">{{this.candidateDetails[0].candidate_results[count].userScore}}</td>
         </tr>
         <tr>
           <td><mat-label>You can download CV here:</mat-label></td>
-          <td><a href="#"  routerLinkActive="active"  data-toggle="modal">Click here</a></td>
-          <td><mat-label>You can access the Pre-Technical-Interview form here:</mat-label></td>
-          <td><a href="#"  routerLinkActive="active"  data-toggle="modal">Click here</a></td>
+          <td><a href="#"  (click)="downloadCandidateResume(this.candidateDetails[0].username)" routerLinkActive="active"  data-toggle="modal">Click here</a></td>
+          <td *ngIf="displayStage2ResultFields"><mat-label>You can access the Pre-Technical-Interview form here:</mat-label></td>
+          <td *ngIf="displayStage2ResultFields">
+            <div  *ngIf="this.displayPreTechStage2Skip">
+              <a href="#" (click)="skipMethod()" routerLinkActive="active"  data-toggle="modal">Click here</a>
+            </div>
+            <div *ngIf="this.displayPreTechStage2Completed">
+              <a class="edit" [routerLink]="['/pre-technical-interview-form/',this.candidateDetails[0].JRSS, this.candidateDetails[0].username]" [state]="{jrss:this.candidateDetails[0].JRSS,quizId:this.candidateDetails[0].candidate_results[count].quizNumber,username:this.candidateDetails[0].username,access:'viewinterview-status',account:this.account,accessLevel:this.accessLevel}">
+                Click here
+              </a>
+            </div>
+          </td>
         </tr>
-        <tr *ngIf="displayResultFields">
+        <tr *ngIf="displayStage3ResultFields">
           <td><mat-label>Technical Interview Score:</mat-label></td>
-          <td>{{this.candidateDetails[0].candidate_results[0].avgTechScore}}</td>
+          <td>{{this.candidateDetails[0].candidate_results[count].avgTechScore}}</td>
           <td><mat-label>Technical Interview Result:</mat-label></td>
-          <td>{{this.candidateDetails[0].candidate_results[0].smeResult}}</td>
+          <td>{{this.candidateDetails[0].candidate_results[count].smeResult}}</td>
         </tr>
-        <tr *ngIf="displayResultFields">
+        <tr *ngIf="displayStage3ResultFields">
           <td><mat-label>Technical Interview Feedback:</mat-label></td>
-          <td  colspan="3" width="75%"><textarea type="textArea" maxlength="3000" cols="90" disabled readonly value="{{this.candidateDetails[0].candidate_results[0].smeFeedback}}"></textarea></td>
+          <td  colspan="3" width="75%"><textarea type="textArea" maxlength="3000" cols="90" disabled readonly value="{{this.candidateDetails[0].candidate_results[count].smeFeedback}}"></textarea></td>
+        </tr>
+        <tr *ngIf="displayStage4ResultFields">
+          <td><mat-label>Partner Interview Result:</mat-label></td>
+          <td>{{this.candidateDetails[0].candidate_results[count].managementResult}}</td>
+        </tr>
+        <tr *ngIf="displayStage4ResultFields">
+          <td><mat-label>Partner Interview Feedback:</mat-label></td>
+          <td  colspan="3" width="75%"><textarea type="textArea" maxlength="3000" cols="90" disabled readonly value="{{this.candidateDetails[0].candidate_results[count].managementFeedback}}"></textarea></td>
         </tr>
         </tbody>
       </table>

@@ -34,6 +34,7 @@ export class CandidateListComponent implements OnInit {
   accessLevel:any;
   displayContractorUIFields: Boolean = false;
   displayRegularUIFields: Boolean = true;
+  qNumber;
 
   filterObj = {};
   nameFilter: string;
@@ -110,30 +111,50 @@ export class CandidateListComponent implements OnInit {
     if(this.isRowSelected == false){
       alert("Please select the candidate");
     }else{
-    if(window.confirm('Are you sure?')) {
-        this.apiService.deleteCandidate(candidateId,candidateUsername).subscribe((data) => {
-          this.Candidate.splice(index, 1);
-        }
-      )
-      this.readCandidate();
-      this.isRowSelected = false;
+    this.apiService.findResult(this.candidateUserName,this.qNumber).subscribe((res) => {
+     if (res.count > 0) {
+      alert("You can not delete this candidate as the online test stage is already completed.");
+      return false;
+    } else if (res.count > 0 || res.count == 0) {
+      if(window.confirm('Are you sure?')) {
+          this.apiService.deleteCandidate(candidateId,candidateUsername).subscribe((data) => {
+            this.Candidate.splice(index, 1);
+          }
+        )
+        this.readCandidate();
+        this.isRowSelected = false;
+      }
     }
+  }, (error) => {
+      console.log("Error found while updating userLoggedin column of Users table - " + error);
+  });
   }
   }
 
 	invokeEdit(){
     if (this.isRowSelected == false){
       alert("Please select the user");
-      }else{
-      this.router.navigate(['/edit-candidate/', this.candidateId, this.candidateUsersId], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}});
+      return false;
+    } else {
+       this.apiService.findResult(this.candidateUserName,this.qNumber).subscribe((res) => {
+           if (res.count > 0) {
+            alert("You can not edit this candidate details as the online test stage is already completed.");
+            return false;
+          } else if (res.count > 0 || res.count == 0) {
+            this.router.navigate(['/edit-candidate/', this.candidateId, this.candidateUsersId], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}});
+          }
+        }, (error) => {
+            console.log("Error found while updating userLoggedin column of Users table - " + error);
+        });
       }
     } 
 	
 
-  onSelectionChange(candidateId,candidateUsersId,candidateUserName,i){
+  onSelectionChange(candidateId,candidateUsersId,candidateUserName,qNumber,i){
     this.candidateId=candidateId;
     this.candidateUsersId=candidateUsersId;
     this.candidateUserName=candidateUserName;
+    this.qNumber=qNumber;
     this.index=i;
     this.isRowSelected = true;
   }

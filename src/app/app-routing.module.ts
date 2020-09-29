@@ -93,7 +93,7 @@ const routes: Routes = [
   { path: 'superadmin-edit-user/:docid', component: SuperadminUserEditComponent },
   { path: 'stream-add', component: StreamAddComponent },
   { path: 'viewinterview-status', component: ViewInterviewStatusComponent },
-  { path: 'viewinterview-status-exception/:id', component: ViewInterviewStatusExceptionComponent },
+  { path: 'viewinterview-status-exception/:id/:resultId', component: ViewInterviewStatusExceptionComponent },
   { path: 'openpositions-create', component: OpenpositionsCreateComponent },
   { path: 'openpositions-list', component: OpenpositionsListComponent },
   { path: 'openpositions-edit/:id', component: OpenpositionsEditComponent },
