@@ -161,7 +161,7 @@
               <td *ngIf="dwpFlag">
                 <mat-form-field class="open-full-width">
                   <mat-select placeholder="Client" (selectionChange)="updateClientProject($event.value)"
-                              formControlName="clientProject" id="inputClientProject" [ngClass]="{ 'is-invalid': submitted && myForm.clientProject.errors }">
+                              formControlName="clientProject" required id="inputClientProject" [ngClass]="{ 'is-invalid': submitted && myForm.clientProject.errors }">
                     <mat-option value="" disabled>Choose...</mat-option>
                     <mat-option *ngFor="let clientProject of ClientProject" value="{{clientProject}}">{{clientProject}}
                     </mat-option>

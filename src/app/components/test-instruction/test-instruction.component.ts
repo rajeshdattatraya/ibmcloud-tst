@@ -20,6 +20,7 @@ export class TestInstructionComponent implements OnInit {
   example;
   username;
   quizNumber;
+  accessLevel
   jrss:any;
   candidateAccount:any;
 
@@ -35,6 +36,7 @@ export class TestInstructionComponent implements OnInit {
       if (!this.browserRefresh) {
         this.username = this.router.getCurrentNavigation().extras.state.username;
         this.quizNumber = this.router.getCurrentNavigation().extras.state.quizNumber;
+        this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
       }
       this.getCandidateJRSS();
     }
@@ -79,6 +81,6 @@ export class TestInstructionComponent implements OnInit {
        }, (error) => {
       console.log("Error found while updating status column of Users table - " + error);
        });
-      this.ngZone.run(() => this.router.navigateByUrl('/take-quiz',{state:{username:this.username,quizNumber:this.quizNumber}}));
+      this.ngZone.run(() => this.router.navigateByUrl('/take-quiz',{state:{username:this.username,quizNumber:this.quizNumber,accessLevel: this.accessLevel}}));
        }
     }
