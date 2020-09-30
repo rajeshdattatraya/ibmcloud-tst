@@ -47,6 +47,12 @@ export class AdminuserCreateComponent implements OnInit {
   AccountList:any = [];
   accounts:any=[];
   loading = true;
+
+  filterObj = {};
+  nameFilter: string;
+  emailFilter: string;
+  roleFilter: string;
+
   dataSource = new MatTableDataSource<User>();
   displayedColumns = ['Action','name', 'username','accessLevel','account'];
 
@@ -80,6 +86,14 @@ export class AdminuserCreateComponent implements OnInit {
         if (window.confirm('Your account will be deactivated. You need to contact administrator to login again. Are you sure?')) {
            this.router.navigate(['/login-component']);
         }
+    }
+    this.dataSource.filterPredicate = (data, filter) => {
+     if(data[this.filterObj['key']] && this.filterObj['key']) {
+         if (data[this.filterObj['key']].toLowerCase().startsWith(this.filterObj['value'])) {
+            return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
+         }
+     }
+     return false;
     }
   }
   ngAfterViewInit(): void {
@@ -269,6 +283,21 @@ export class AdminuserCreateComponent implements OnInit {
   clearForm() {
       this.formReset = true;
       this.candidateForm.reset();
+  }
+
+  applyFilter(filterValue: string,key: string) {
+         this.filterObj = {
+               value: filterValue.trim().toLowerCase(),
+               key: key
+         }
+         this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  clearFilters() {
+      this.dataSource.filter = '';
+      this.nameFilter = '';
+      this.emailFilter = '';
+      this.roleFilter = '';
   }
 
 }
