@@ -68,7 +68,9 @@ export class CandidateListComponent implements OnInit {
     this.browserRefresh = browserRefresh;
     this.dataSource.filterPredicate = (data, filter) => {
         if(data[this.filterObj['key']] && this.filterObj['key']) {
-            return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
+            if (data[this.filterObj['key']].toLowerCase().startsWith(this.filterObj['value'])) {
+               return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
+            }
         }
         return false;
     }

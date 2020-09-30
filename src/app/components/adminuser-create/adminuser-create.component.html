@@ -70,11 +70,37 @@
 <br/>
 <h4 class="my-0 mr-md-auto font-weight-normal">Users List</h4>
 <br/>
-<!-- No data message -->
-<p *ngIf="AdminUsers.length <= 0" class="no-data text-center">There are no records added yet!</p>
+<mat-card class="login-card">
+  <div class="float-left text-left" style="font-size:14pt;font-weight: bold;">Search</div>
+  <table>
+    <tr>
+      <td>
+        <mat-form-field>
+          <input matInput [(ngModel)]="nameFilter" #ctrl="ngModel" (keyup)="applyFilter($event.target.value,'name')" placeholder="Name">
+        </mat-form-field>
+      </td>
+      <td>
+        <mat-form-field>
+          <input matInput [(ngModel)]="emailFilter" #ctrl="ngModel"  (keyup)="applyFilter($event.target.value,'username')" placeholder="Email">
+        </mat-form-field>
+      </td>
+      <td>
+        <mat-form-field>
+          <input matInput [(ngModel)]="roleFilter" #ctrl="ngModel" (keyup)="applyFilter($event.target.value,'accessLevel')" placeholder="Role">
+        </mat-form-field>
+      </td>
+    </tr>
+  </table>
+  <mat-card-actions>
+    <div class="row justify-content-center">
+      <button mat-raised-button color="primary" aria-label="Clear" (click)="clearFilters()">Clear</button>
+    </div>
+  </mat-card-actions>
+</mat-card>
+<br>
 
 <div class="mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort width="100%">
 
     <!-- ID Column -->
     <ng-container matColumnDef="Action">
@@ -108,6 +134,13 @@
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; let even = even; columns: displayedColumns;" [ngClass]="{gray: even}"></tr>
+  </table>
+  <table>
+    <tr *ngIf="!dataSource.data.length">
+      <td style="text-align: center;" [attr.colspan]="displayedColumns.length">
+        No Records Found!
+      </td>
+    </tr>
   </table>
   <mat-paginator [length]="this.dataSource.data.length" [pageSize]="5" [pageSizeOptions]="[5,10,15,25,50,100]" showFirstLastButtons></mat-paginator>
 </div>
