@@ -64,7 +64,8 @@ export class TechnicalInterviewComponent implements OnInit {
 
   }
   ngOnInit(): void {
-    this.getTechnicalStreamFromJRSS();
+    
+    
     this.readCandidateNameAndJrss();
     //this.readPartnerUserDet();
   }
@@ -86,7 +87,7 @@ export class TechnicalInterviewComponent implements OnInit {
     this.apiService.readTechInterviewDetails(id,quizId).subscribe(data => {
     
     this.candidateInterviewDetails=data;
-
+    this.getTechnicalStreamFromJRSS();
  
 
   }, (error) => {
