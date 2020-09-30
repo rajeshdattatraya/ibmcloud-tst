@@ -46,7 +46,7 @@ export class SuperadminUserCreateComponent implements OnInit {
   AccountList:any=[];
   accountArray:any= [];
   selectedUserrole: String = "";
-
+  displayMessage = false;
   loading = true;
   dataSource = new MatTableDataSource<User>();
   displayedColumns = ['Action','name', 'username','accessLevel','account'];
@@ -101,6 +101,10 @@ export class SuperadminUserCreateComponent implements OnInit {
     readUserrole(){
       this.apiService.getUserroles().subscribe((data) => {
       this.Userrole = data;
+      if (this.AccountList.length == 0) {
+         console.log("this.AccountList.length",this.AccountList.length);
+         this.displayMessage = true;
+      }
       })
    }
 
@@ -116,6 +120,7 @@ export class SuperadminUserCreateComponent implements OnInit {
       this.AccountList.length=0;
       for (var accValue of this.Account){
       if(accValue.account.toLowerCase() !== 'sector' ) {
+        this.displayMessage = false;
         this.AccountList.push(accValue);
       }
     }
@@ -123,6 +128,7 @@ export class SuperadminUserCreateComponent implements OnInit {
     this.AccountList.length=0;
     for (var accValue of this.Account){
       if(accValue.account.toLowerCase() === 'sector' ) {
+        this.displayMessage = false;
         this.AccountList.push(accValue);
       }
     }

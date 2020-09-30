@@ -52,6 +52,7 @@
                 <mat-option *ngFor="let account of AccountList" [value]="account" (onSelectionChange)="updateAccountProfile($event)" >{{account.account}}
                 </mat-option>
               </mat-select>
+              <div *ngIf="displayMessage" style="color:red">Select User Role first</div>
               <div *ngIf="!formReset && submitted && myForm.account.errors" class="invalid-feedback">
                 <div *ngIf="myForm.account.errors.required">Account is required</div>
               </div>
