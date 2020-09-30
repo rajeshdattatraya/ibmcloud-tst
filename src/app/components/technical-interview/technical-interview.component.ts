@@ -66,7 +66,7 @@ export class TechnicalInterviewComponent implements OnInit {
   ngOnInit(): void {
     
     
-    this.readCandidateNameAndJrss();
+    
     //this.readPartnerUserDet();
   }
   techStream() : FormArray {
@@ -88,7 +88,7 @@ export class TechnicalInterviewComponent implements OnInit {
     
     this.candidateInterviewDetails=data;
     this.getTechnicalStreamFromJRSS();
- 
+    
 
   }, (error) => {
       console.log(error);
@@ -132,9 +132,7 @@ export class TechnicalInterviewComponent implements OnInit {
       this.dynamicArray.push(this.newDynamic);
      
       //this.techStream().push(this.createTechStream());
-      if (this.candidateInterviewDetails[0].smeScores ==  undefined  ) {
-        this.techStream().push(this.createTechStream());
-      } else  if ( this.candidateInterviewDetails[0].smeResult == "StandBy" ) {
+      if (this.candidateInterviewDetails[0].smeScores !=  undefined && this.candidateInterviewDetails[0].smeResult == "StandBy" ) {
         this.techskillForm = this.fb.group({
           finalscore:this.candidateInterviewDetails[0].avgTechScore,
           finalResult:[this.candidateInterviewDetails[0].smeResult,Validators. required],
@@ -143,7 +141,11 @@ export class TechnicalInterviewComponent implements OnInit {
           techStream: this.fb.array([]) ,
         });
         this.addStandByTechStreamAndScores(this.candidateInterviewDetails[0].smeScores);
+      } else {
+        this.techStream().push(this.createTechStream());
       }
+
+      this.readCandidateNameAndJrss();
       
     })
   }
