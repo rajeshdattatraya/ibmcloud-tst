@@ -20,6 +20,7 @@ export class QuizComponent implements OnInit {
   answered:boolean=false;
   userName ="";
   quizNumber =0;
+  accessLevel ="";
   index =  0;
   size = 1;
   count = 1;
@@ -70,7 +71,10 @@ export class QuizComponent implements OnInit {
     if (!this.browserRefresh) {
       this.userName = this.router.getCurrentNavigation().extras.state.username;
       this.quizNumber = this.router.getCurrentNavigation().extras.state.quizNumber;
+      this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
     }
+    if(this.accessLevel = "user")
+    {
     //Popup Alert when user moves away from the active application tab
 	  document.addEventListener("visibilitychange", function() {		    
 		if(document.visibilityState=='hidden')
@@ -79,6 +83,7 @@ export class QuizComponent implements OnInit {
 	   }
     console.log( document.visibilityState+" is/was the visibility state of the exam tab");  
     });
+  }
   }
 
   //Story#8 - function to set flagged status

@@ -146,7 +146,7 @@ export class LoginComponent implements OnInit {
                 }
                 );
 
-                this.ngZone.run(() => this.router.navigateByUrl('/quizInstructions', { state: { username: res.username, quizNumber: res.quizNumber } }))
+                this.ngZone.run(() => this.router.navigateByUrl('/quizInstructions', { state: { username: res.username, quizNumber: res.quizNumber, accessLevel: res.accessLevel } }))
               } else {
                 let passingScore;
                 this.apiService.getResultByUser(res.username, res.quizNumber).subscribe(result => {
