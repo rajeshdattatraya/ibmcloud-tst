@@ -136,17 +136,14 @@ export class QuestionEditComponent implements OnInit {
   readAccount(){
     let smeAccount:any = [];
     this.loginAccounts = [];
-    if(this.account !== 'SECTOR') {
-      this.loginAccounts = this.account.split(",");
-      console.log("readAccount -> IF loginAccounts " + this.loginAccounts);
+    if(this.account.toLowerCase().trim() !== 'sector') {
+      this.loginAccounts = this.account.split(",");   
     } else {
       this.apiService.getAccounts().subscribe((data) => {
       smeAccount = data;     
       for (var account of smeAccount){             
         this.loginAccounts.push(account.account);
-      }
-      console.log("readAccount -> ELSE loginAccounts " + this.loginAccounts);
-​
+      }​
     })
   } // end of else
 }
@@ -154,8 +151,7 @@ export class QuestionEditComponent implements OnInit {
   readTechStream(){
        this.apiService.getTechStream().subscribe((data) => {
            this.technologyStream = data;
-       });
-       console.log("Master technologyStream: "+ JSON.stringify(this.technologyStream));
+       });      
   }
 ​
   // Choose QuestionType with select dropdown
@@ -200,8 +196,7 @@ export class QuestionEditComponent implements OnInit {
 ​
         this.submitted = true;
         this.formReset = false;
-        if (!this.editquestionForm.valid) {
-          //console.log('error part');
+        if (!this.editquestionForm.valid) {         
           return false;
         } else {
           this.answerArray=[];
@@ -247,7 +242,7 @@ export class QuestionEditComponent implements OnInit {
               this.editquestionForm.value.options=this.optionsArray;
                 //Validation for singleSelect
                 if((this.editquestionForm.value.questionType=="SingleSelect")&& (this.answerArray.toString().length)>1)
-                {//console.log("only one"+this.editquestionForm.value.answerID)
+                {
                 alert("Only one option can be selected as the questionType is SingleSelect");
                 return false;
               }

@@ -18,10 +18,10 @@
 
             <!-- Account -->
             <mat-form-field class="example-full-width">
-              <mat-select multiple  placeholder="Account"  formControlName="account" id="inputAccount"
-                      [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.account.errors }">
+              <mat-select multiple  placeholder="Account" (onSelectionChange)="updateAccount($event.target.value)"  
+                  formControlName="account" id="inputAccount" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.account.errors }">
                 <!-- <mat-option value="">Choose...</mat-option> -->
-                <mat-option *ngFor="let account of Account" [value]="account" (onSelectionChange)="updateAccount($event)" >{{account.account}}
+                <mat-option *ngFor="let account of loginAccounts" [value]="account" >{{account}}
                 </mat-option>
               </mat-select>
               <div *ngIf="!formReset && submitted && myForm.account.errors" class="invalid-feedback">
@@ -32,8 +32,8 @@
         <td>
           <!-- Technology Stream -->
           <mat-form-field class="example-full-width">
-            <mat-select  placeholder="Technology Stream"  (selectionChange)="updateTechnologyStream($event.value)"
-                    formControlName="technologyStream" id="inputTechnologyStream" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.technologyStream.errors }">
+            <mat-select  placeholder="Technology Stream"  (change)="updateTechnologyStream($event.target.value)"
+                    formControlName="technologyStream" required id="inputTechnologyStream" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.technologyStream.errors }">
               <mat-option value="">Choose...</mat-option>
               <mat-option *ngFor="let data of technologyStream" value="{{data.technologyStream}}">{{data.technologyStream}}
               </mat-option>
@@ -48,11 +48,13 @@
       <br>
       <tr>         
         <td colspan="2">
+          <div *ngIf="account=='sector' || account=='Sector' || account=='SECTOR'">
           <!-- Add New Technology Stream (If not available) -->
           <label>To Add a New Technology Stream (which is not available in the above drop-down)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
             <a class="edit" [routerLink]="['/stream-add']" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}">
               <td>Click here</td>
-             </a>					
+             </a>		
+            </div>			
         </td>            
       </tr>
       <br>
@@ -61,8 +63,8 @@
         <td>
           <!-- Question Type -->
           <mat-form-field class="example-full-width">
-            <mat-select placeholder="Question Type" (selectionChange)="updateQuestionTypes($event.value)"
-                    formControlName="questionType" id="inputQuestionType" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.questionType.errors }">
+            <mat-select placeholder="Question Type" (selectionChange)="updateQuestionTypes($event.target.value)"
+                    formControlName="questionType" required id="inputQuestionType" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.questionType.errors }">
               <mat-option value="">Choose...</mat-option>
               <mat-option *ngFor="let questionType of QuestionTypes" value="{{questionType}}">{{questionType}}
               </mat-option>
@@ -75,8 +77,8 @@
         <td>
           <!-- Complexity Level -->
           <mat-form-field class="example-full-width">
-            <mat-select placeholder="Complexity Level"  (selectionChange)="updateComplexityLevel($event.value)"
-                    formControlName="complexityLevel" id="inputComplexityLevel" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.complexityLevel.errors }">
+            <mat-select placeholder="Complexity Level"  (selectionChange)="updateComplexityLevel($event.target.value)"
+                    formControlName="complexityLevel" required id="inputComplexityLevel" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.complexityLevel.errors }">
               <mat-option value="">Choose...</mat-option>
               <mat-option *ngFor="let complexityLevel of ComplexityLevel" value="{{complexityLevel}}">{{complexityLevel}}
               </mat-option>
