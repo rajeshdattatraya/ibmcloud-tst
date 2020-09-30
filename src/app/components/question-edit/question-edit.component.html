@@ -16,99 +16,103 @@
         <tr>
           <td>
 
-             <!-- Account -->
-             <mat-form-field class="example-full-width">
-              <mat-select multiple placeholder="Account"  (onSelectionChange)="updateAccount($event.target.value)" 
-              formControlName="account" id="inputAccount"
+            <!-- Account -->
+            <mat-form-field class="example-full-width">
+              <mat-select multiple  placeholder="Account"  formControlName="account" id="inputAccount"
                       [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.account.errors }">
                 <!-- <mat-option value="">Choose...</mat-option> -->
-                <mat-option *ngFor="let account of loginAccounts" [value]="account" >{{account}}
+                <mat-option *ngFor="let account of Account" [value]="account" (onSelectionChange)="updateAccount($event)" >{{account.account}}
                 </mat-option>
               </mat-select>
               <div *ngIf="!formReset && submitted && myForm.account.errors" class="invalid-feedback">
                 <div *ngIf="myForm.account.errors.required">Account is required</div>
               </div>
           </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <mat-select placeholder="Technology Stream"  (change)="updateTechnologyStream($event.target.value)"
-                          formControlName="technologyStream" required id="inputTechnologyStream" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.technologyStream.errors }" >
-                <mat-option value="">Choose...</mat-option>
-                <mat-option *ngFor="let data of technologyStream" value="{{data.technologyStream}}">{{data.technologyStream}}</mat-option>
-              </mat-select>
-              <div *ngIf="!formReset && submitted && myForm.technologyStream.errors" class="invalid-feedback" >
-                <div *ngIf="myForm.technologyStream.errors.required">Technology Stream is required</div>
-              </div>
-            </mat-form-field>
-          </td>
-        </tr>
-        <br>
-        
-       
-        <tr>         
-          <td colspan="2">
-            <div *ngIf="account=='sector' || account=='Sector' || account=='SECTOR'">
-            <!-- Add New Technology Stream (If not available) -->
-            <label>To Add a New Technology Stream (which is not available in the above drop-down)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-              <a class="edit" [routerLink]="['/stream-add']" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}">
-                <td>Click here</td>
-               </a>		
-              </div>			
-          </td>            
-        </tr>
-        
-        
-        <!-- Question Type -->
-        <tr>
-          <td>
-            <mat-form-field class="question-full-width">
-              <mat-select placeholder="Question Type"  (change)="updateQuestionTypes($event.target.value)"
-                          formControlName="questionType" required id="inputQuestionType" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.questionType.errors }" >
-                <mat-option value="">Choose...</mat-option>
-                <mat-option *ngFor="let questionType of QuestionTypes" value="{{questionType}}">{{questionType}}</mat-option>
-              </mat-select>
-              <div *ngIf="!formReset && submitted && myForm.questionType.errors" class="invalid-feedback" >
-                <div *ngIf="myForm.questionType.errors.required">QuestionType is required</div>
-              </div>
-            </mat-form-field>
-          </td>
-        
+        </td>
+        <td>
+          <!-- Technology Stream -->
+          <mat-form-field class="example-full-width">
+            <mat-select  placeholder="Technology Stream"  (selectionChange)="updateTechnologyStream($event.value)"
+                    formControlName="technologyStream" id="inputTechnologyStream" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.technologyStream.errors }">
+              <mat-option value="">Choose...</mat-option>
+              <mat-option *ngFor="let data of technologyStream" value="{{data.technologyStream}}">{{data.technologyStream}}
+              </mat-option>
+            </mat-select>
+            <div *ngIf="!formReset && submitted && myForm.technologyStream.errors" class="invalid-feedback">
+              <div *ngIf="myForm.technologyStream.errors.required">Technology Stream is required</div>
+            </div>
+          </mat-form-field>
+        </td>
+      </tr> 
+      
+      <br>
+      <tr>         
+        <td colspan="2">
+          <!-- Add New Technology Stream (If not available) -->
+          <label>To Add a New Technology Stream (which is not available in the above drop-down)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <a class="edit" [routerLink]="['/stream-add']" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}">
+              <td>Click here</td>
+             </a>					
+        </td>            
+      </tr>
+      <br>
 
-        <!-- Complexity Level -->
-        
-          <td>
-            <mat-form-field class="question-full-width">
-              <mat-select placeholder="Complexity Level"  (change)="updateComplexityLevel($event.target.value)"
-                          formControlName="complexityLevel" required id="inputComplexityLevel" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.complexityLevel.errors }" >
-                <mat-option value="">Choose...</mat-option>
-                <mat-option *ngFor="let complexityLevel of ComplexityLevel" value="{{complexityLevel}}">{{complexityLevel}}</mat-option>
-              </mat-select>
-              <div *ngIf="!formReset && submitted && myForm.complexityLevel.errors" class="invalid-feedback" >
-                <div *ngIf="myForm.complexityLevel.errors.required">ComplexityLevel is required</div>
-              </div>
-            </mat-form-field>
-          </td>
-        </tr>
-
-        <!-- Question -->
-        <mat-form-field class="question-text-width">
-          <textarea matInput placeholder="Question*" formControlName="question" cdkTextareaAutosize  cdkAutosizeMinRows="2" cdkAutosizeMaxRows="4" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.question.errors }"></textarea>
+      <tr>
+        <td>
+          <!-- Question Type -->
+          <mat-form-field class="example-full-width">
+            <mat-select placeholder="Question Type" (selectionChange)="updateQuestionTypes($event.value)"
+                    formControlName="questionType" id="inputQuestionType" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.questionType.errors }">
+              <mat-option value="">Choose...</mat-option>
+              <mat-option *ngFor="let questionType of QuestionTypes" value="{{questionType}}">{{questionType}}
+              </mat-option>
+            </mat-select>
+            <div *ngIf="!formReset && submitted && myForm.questionType.errors" class="invalid-feedback">
+              <div *ngIf="myForm.questionType.errors.required">Choose QuestionType</div>
+            </div>
+          </mat-form-field>
+        </td>
+        <td>
+          <!-- Complexity Level -->
+          <mat-form-field class="example-full-width">
+            <mat-select placeholder="Complexity Level"  (selectionChange)="updateComplexityLevel($event.value)"
+                    formControlName="complexityLevel" id="inputComplexityLevel" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.complexityLevel.errors }">
+              <mat-option value="">Choose...</mat-option>
+              <mat-option *ngFor="let complexityLevel of ComplexityLevel" value="{{complexityLevel}}">{{complexityLevel}}
+              </mat-option>
+            </mat-select>
+            <div *ngIf="!formReset && submitted && myForm.complexityLevel.errors" class="invalid-feedback">
+              <div *ngIf="myForm.complexityLevel.errors.required">Choose ComplexityLevel</div>
+            </div>
+          </mat-form-field>
+        </td>
+      </tr>
+      
+      <tr>
+      <td colspan="4">
+        <mat-form-field class="stream-full-width">
+          <textarea matInput placeholder="Question*"  type="textarea" rows="8" cols="50"  formControlName="question" class="form-control" id="question" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.question.errors }">
+          </textarea>
+          <!-- error -->
           <div *ngIf="!formReset && submitted && myForm.question.errors" class="invalid-feedback">
             <div *ngIf="myForm.question.errors.required">Enter your Question</div>
           </div>
         </mat-form-field>
+      </td>
+      </tr>
 
+      <tr>
+      <td colspan="2">
         <div class="form-group row" >
-          <div class="col-sm-6"></div>
+          <div class="col-sm-8"></div>
           <label for="inputVerify3" class="col-sm-4 col-form-label" ><b>Select correct Answer here</b></label>
         </div>
 
-        <!-- Option 1 -->
         <div class="form-group row" >
           <label for="inputVerify3" class="col-sm-2 col-form-label">Option 1</label>
           <div class="col-sm-6">
             <input class="form-control" type="text"  formControlName="option1" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.option1.errors }">
+            <!-- error -->
             <div *ngIf="!formReset && submitted && myForm.option1.errors"  class="invalid-feedback" >
               <div *ngIf="myForm.option1.errors.required">Enter Option1</div>
             </div>
@@ -117,51 +121,65 @@
             <input class="form-control" type="checkbox" formControlName="option1checkbox" style="width: 70px">
           </div>
         </div>
+      </td>
+      </tr>
 
-        <!-- Option 2 -->
-        <div class="form-group row" >
-          <label for="inputVerify3" class="col-sm-2 col-form-label">Option 2</label>
-          <div class="col-sm-6">
-            <input class="form-control" type="text"  formControlName="option2" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.option2.errors }">
-            <div *ngIf="!formReset && submitted && myForm.option2.errors"  class="invalid-feedback" >
-              <div *ngIf="myForm.option2.errors.required">Enter Option2</div>
-            </div>
-          </div>
-          <div>
-            <input class="form-control" type="checkbox" formControlName="option2checkbox" style="width: 70px">
+      <tr>
+        <td colspan="2">
+      <div class="form-group row" >
+        <label for="inputVerify3" class="col-sm-2 col-form-label">Option 2</label>
+        <div class="col-sm-6">
+          <input class="form-control" type="text"  formControlName="option2" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.option2.errors }">
+          <!-- error -->
+          <div *ngIf="!formReset && submitted && myForm.option2.errors"  class="invalid-feedback" >
+            <div *ngIf="myForm.option2.errors.required">Enter Option2</div>
           </div>
         </div>
+        <div>
+          <input class="form-control" type="checkbox" formControlName="option2checkbox" style="width: 70px">
+        </div>
+      </div>
+        </td>
+      </tr>
 
-        <!-- Option 3 -->
-        <div class="form-group row" >
-          <label for="inputVerify3" class="col-sm-2 col-form-label">Option 3</label>
-          <div class="col-sm-6">
-            <input class="form-control" type="text"  formControlName="option3" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.option3.errors }">
-            <div *ngIf="!formReset && submitted && myForm.option3.errors"  class="invalid-feedback" >
-              <div *ngIf="myForm.option3.errors.required">Enter Option3</div>
-            </div>
-          </div>
-          <div>
-            <input class="form-control" type="checkbox" formControlName="option3checkbox" style="width: 70px">
+      <tr>
+        <td colspan="2">
+      <div class="form-group row" >
+        <label for="inputVerify3" class="col-sm-2 col-form-label">Option 3</label>
+        <div class="col-sm-6">
+          <input class="form-control" type="text"  formControlName="option3" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.option3.errors }">
+          <!-- error -->
+          <div *ngIf="!formReset && submitted && myForm.option3.errors"  class="invalid-feedback" >
+            <div *ngIf="myForm.option3.errors.required">Enter Option3</div>
           </div>
         </div>
+        <div>
+          <input class="form-control" type="checkbox" formControlName="option3checkbox" style="width: 70px">
+        </div>
+      </div>
+        </td>
+      </tr>
 
-        <!-- Option 4 -->
-        <div class="form-group row" >
-          <label for="inputVerify3" class="col-sm-2 col-form-label">Option 4</label>
-          <div class="col-sm-6">
-            <input class="form-control" type="text"  formControlName="option4" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.option4.errors }">
-            <div *ngIf="!formReset && submitted && myForm.option4.errors"  class="invalid-feedback" >
-              <div *ngIf="myForm.option4.errors.required">Enter Option4</div>
-            </div>
-          </div>
-          <div>
-            <input class="form-control" type="checkbox" formControlName="option4checkbox" style="width: 70px">
+      <tr>
+        <td colspan="2">
+      <div class="form-group row" >
+        <label for="inputVerify3" class="col-sm-2 col-form-label">Option 4</label>
+        <div class="col-sm-6">
+          <input class="form-control" type="text"  formControlName="option4" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.option4.errors }">
+          <!-- error -->
+          <div *ngIf="!formReset && submitted && myForm.option4.errors"  class="invalid-feedback" >
+            <div *ngIf="myForm.option4.errors.required">Enter Option4</div>
           </div>
         </div>
-      </table>
-    </form>
-  </mat-card-content>
+        <div>
+          <input class="form-control" type="checkbox" formControlName="option4checkbox" style="width: 70px">
+        </div>
+      </div>
+        </td>
+      </tr>
+    </table>
+</form>
+</mat-card-content>
   <br/>
   <mat-card-actions>
     <div class="row justify-content-center">
@@ -171,4 +189,3 @@
   </mat-card-actions>
 </mat-card>
 
-{{account.account}}
