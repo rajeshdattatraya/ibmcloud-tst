@@ -182,6 +182,8 @@ export class TestConfigAddComponent implements OnInit {
             window.alert("Test duration should be minimum of 10 mins");
           } else if (this.testConfigAddForm.value.passingScore < 50) {
             window.alert("Please enter passing score 50 or above");
+          }else if (this.testConfigAddForm.value.passingScore > 100) {
+            window.alert("Please enter passing score less than or equals to 100");
           } else {
             let jrss = this.testConfigAddForm.value.JRSS;
            let testConfig = new TestConfig(this.testConfigAddForm.value.JRSS, this.testConfigAddForm.value.account,
