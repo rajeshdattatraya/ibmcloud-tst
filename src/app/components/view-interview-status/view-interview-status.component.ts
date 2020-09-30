@@ -82,11 +82,21 @@ export class ViewInterviewStatusComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataSource.filterPredicate = (data, filter) => {
-        if(data[this.filterObj['key']] && this.filterObj['key']) {
-            return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
-        }
-        return false;
-    }
+            let rowValue;
+            if (this.filterObj['key'] == 'employeeName') {
+               rowValue = data.employeeName;
+            } else if (this.filterObj['key'] == 'JRSS') {
+               rowValue = data.JRSS;
+            } else if (this.filterObj['key'] == 'canAccount') {
+               rowValue = data.canAccount;
+            }
+           if(rowValue && this.filterObj['key']) {
+               if (rowValue.toLowerCase().startsWith(this.filterObj['value'])) {
+                  return rowValue.toLowerCase().includes(this.filterObj['value']);
+               }
+           }
+           return false;
+       }
   this.dataSource.sortingDataAccessor = (item, property) => {
         switch(property) {
           case 'employeeName': return item.employeeName;

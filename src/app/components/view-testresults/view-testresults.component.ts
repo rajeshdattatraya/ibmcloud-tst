@@ -49,8 +49,8 @@ export class ViewTestresultsComponent {
   loading = true;
   dataSource = new MatTableDataSource<ViewResult>();
 
-  displayedColumns = ['result_users[0].employeeName', 'userName','result_users[0].band','result_users[0].userPositionLocation','result_users[0].JRSS','quizNumber','userScore'];
-  displayedColumnsMultiAccount = ['result_users[0].employeeName', 'userName','result_users[0].band','result_users[0].userPositionLocation','result_users[0].account','result_users[0].JRSS','quizNumber','userScore'];
+  displayedColumns = ['employeeName', 'userName','band','userPositionLocation','JRSS','quizNumber','userScore'];
+  displayedColumnsMultiAccount = ['employeeName', 'userName','band','userPositionLocation','account','JRSS','quizNumber','userScore'];
 
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -67,18 +67,32 @@ export class ViewTestresultsComponent {
 
   ngOnInit(): void {
   this.browserRefresh = browserRefresh;
-  this.dataSource.filterPredicate = (data: any, filter) => {
-        const dataStr =JSON.stringify(data).toLowerCase();
-        return dataStr.indexOf(filter) != -1;
-  }
+   this.dataSource.filterPredicate = (data, filter) => {
+        let rowValue;
+        if (this.filterObj['key'] == 'employeeName') {
+           rowValue = data.result_users[0].employeeName;
+        } else if (this.filterObj['key'] == 'userName') {
+           rowValue = data.userName;
+        } else if (this.filterObj['key'] == 'JRSS') {
+           rowValue = data.result_users[0].JRSS;
+        } else if (this.filterObj['key'] == 'account') {
+           rowValue = data.result_users[0].account;
+        }
+       if(rowValue && this.filterObj['key']) {
+           if (rowValue.toLowerCase().startsWith(this.filterObj['value'])) {
+              return rowValue.toLowerCase().includes(this.filterObj['value']);
+           }
+       }
+       return false;
+   }
 
   this.dataSource.sortingDataAccessor = (item, property) => {
       switch(property) {
-        case 'result_users[0].employeeName': return item.result_users[0].employeeName;
-        case 'result_users[0].band': return item.result_users[0].band;
-        case 'result_users[0].userPositionLocation': return item.result_users[0].userPositionLocation;
-        case 'result_users[0].account': return item.result_users[0].account;
-        case 'result_users[0].JRSS': return item.result_users[0].JRSS;
+        case 'employeeName': return item.result_users[0].employeeName;
+        case 'band': return item.result_users[0].band;
+        case 'userPositionLocation': return item.result_users[0].userPositionLocation;
+        case 'account': return item.result_users[0].account;
+        case 'JRSS': return item.result_users[0].JRSS;
         default: return item[property];
       }
    };
