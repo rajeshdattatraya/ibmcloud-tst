@@ -12,6 +12,7 @@ import * as CryptoJS from 'crypto-js';
 import { UserResultWorkFlow } from './../../model/userResultWorkFlow';
 import { ResultPageService } from './../../components/result-page/result-page.service';
 import { SendEmail } from './../../model/sendEmail';
+import { TestConfigService } from './../../service/testconfig.service';
 
 
 @Component({
@@ -64,8 +65,9 @@ export class CandidateCreateComponent implements OnInit {
   gpCount: number = 0;
   gp:any;
   displayPositionDetails = false;
+  testConfigJRSS:any = []; 
 
-  constructor(public fb: FormBuilder,private router: Router,private ngZone: NgZone,
+  constructor(private testconfigService: TestConfigService,public fb: FormBuilder,private router: Router,private ngZone: NgZone,
     private apiService: ApiService,private resultPageService: ResultPageService,
     private openPositionService: OpenPositionService) {
       this.browserRefresh = browserRefresh;
@@ -169,7 +171,17 @@ export class CandidateCreateComponent implements OnInit {
     }
 
     // Choose account with select dropdown
-    updateAccountProfile(e){
+    updateAccountProfile(e){            
+      //Get test config JRSS based on account
+      this.testconfigService.findTestConfigJRSSByAccount(e).subscribe((res) => {            
+        this.testConfigJRSS = [];     
+        for (var jrss of res){ 
+          this.testConfigJRSS.push(jrss.JRSS);         
+        }
+        }, (error) => {
+           console.log(error);
+      });
+
       this.candidateForm.get('account').setValue(e, {
       onlySelf: true
       })
@@ -185,7 +197,9 @@ export class CandidateCreateComponent implements OnInit {
             (this.JRSSFull[i]['stage4_ManagementInterview']==false) &&
             (this.JRSSFull[i]['stage5_ProjectAllocation']==false)))
             if (!workFlowPrsent){
-              this.JRSS.push(this.JRSSFull[i]);
+              if (this.testConfigJRSS.includes(this.JRSSFull[i]['jrss'])){                
+                this.JRSS.push(this.JRSSFull[i]);                
+              }                        
             }
           }
       });

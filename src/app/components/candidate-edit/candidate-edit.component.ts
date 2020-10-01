@@ -8,6 +8,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms"
 import { DatePipe } from '@angular/common';
 import { browserRefresh } from '../../app.component';
 import { saveAs } from 'file-saver';
+import { TestConfigService } from './../../service/testconfig.service';
 
 @Component({
   selector: 'app-candidate-edit',
@@ -59,7 +60,9 @@ export class CandidateEditComponent implements OnInit {
   gpCount: number = 0;
   gp: any;
   displayPositionDetails = false;
+  testConfigJRSS:any = []; 
   constructor(
+    private testconfigService: TestConfigService,
     public fb: FormBuilder,
     private actRoute: ActivatedRoute,
     private apiService: ApiService,
@@ -118,6 +121,15 @@ export class CandidateEditComponent implements OnInit {
   }
   // Get all Jrss
  readJrss(account,jobRole){
+  //Get test config JRSS based on account
+  this.testconfigService.findTestConfigJRSSByAccount(account).subscribe((res) => {            
+    this.testConfigJRSS = [];     
+    for (var jrss of res){ 
+      this.testConfigJRSS.push(jrss.JRSS);         
+      }
+    }, (error) => {
+      console.log(error);
+  });
   this.apiService.getJrsssByAccount(account).subscribe((data) => {
     this.JRSSFull = data;
     for(var i=0; i<this.JRSSFull.length; i++)
@@ -129,7 +141,9 @@ export class CandidateEditComponent implements OnInit {
       (this.JRSSFull[i]['stage4_ManagementInterview']==false) &&
       (this.JRSSFull[i]['stage5_ProjectAllocation']==false)))
       if (!workFlowPrsent){
-        this.JRSS.push(this.JRSSFull[i]);
+        if (this.testConfigJRSS.includes(this.JRSSFull[i]['jrss'])){                
+          this.JRSS.push(this.JRSSFull[i]);                
+        }   
       }
     }
 
@@ -149,7 +163,7 @@ export class CandidateEditComponent implements OnInit {
       }
     }
 
-  })
+  });
 }
   // Choose designation with select dropdown
   updateJrssProfile(e){
@@ -205,8 +219,18 @@ export class CandidateEditComponent implements OnInit {
        this.Band = data;
        })
     }
-   // Choose options with select-dropdown
-  updateAccountProfile(e) {
+    // Choose options with select-dropdown
+    updateAccountProfile(e) {
+      //Get test config JRSS based on account
+      this.testconfigService.findTestConfigJRSSByAccount(e).subscribe((res) => {            
+        this.testConfigJRSS = [];     
+        for (var jrss of res){ 
+          this.testConfigJRSS.push(jrss.JRSS);         
+        }
+      }, (error) => {
+          console.log(error);
+    });
+    
     this.editForm.get('account').setValue(e, {
       onlySelf: true
     })
@@ -222,10 +246,12 @@ export class CandidateEditComponent implements OnInit {
           (this.JRSSFull[i]['stage4_ManagementInterview']==false) &&
           (this.JRSSFull[i]['stage5_ProjectAllocation']==false)))
           if (!workFlowPrsent){
-            this.JRSS.push(this.JRSSFull[i]);
+            if (this.testConfigJRSS.includes(this.JRSSFull[i]['jrss'])){                
+              this.JRSS.push(this.JRSSFull[i]);                
+            }   
           }
         }
-    });
+    });  
   }
 
     // Get all Acconts

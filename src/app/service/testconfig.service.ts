@@ -53,6 +53,17 @@ export class TestConfigService {
       )
     }
 
+    // Get Test Config
+    findTestConfigJRSSByAccount(account): Observable<any> {
+      let url = `${this.baseUri}/findTestConfigJRSSByAccount/${account}`;         
+          return this.http.get(url, {headers: this.headers}).pipe(            
+            map((res: Response) => {
+              return res || {}
+            }),            
+            catchError(this.errorMgmt)
+          )
+    }
+
     // Update Test Config
     updateTestConfig(id, data): Observable<any> {
       let url = `${this.baseUri}/updateTestConfig/${id}`;
