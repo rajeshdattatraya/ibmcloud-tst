@@ -185,6 +185,11 @@ export class OpenpositionsCreateComponent implements OnInit {
      this.openPositionForm.get('JRSS').setValue(e.value, {
        onlySelf: true
      })
+     if(this.openPositionForm.value.JRSS.length >= 4){
+      this.paddedPositionID  = ((this.openPositionForm.value.JRSS).substring(0, 4)).replace(/^[ ]+|[ ]+$/g,'').toUpperCase()+ this.paddedSequenceID;
+    }else{
+      this.paddedPositionID  = (this.openPositionForm.value.JRSS).replace(/^[ ]+|[ ]+$/g,'').toUpperCase() + this.paddedSequenceID;
+    }
    }
 
     // Choose Rate Card Job Role with select dropdown
@@ -226,7 +231,6 @@ export class OpenpositionsCreateComponent implements OnInit {
         if (!this.openPositionForm.valid) {
           return false;
         } else {
-        this.paddedPositionID = (this.openPositionForm.value.JRSS).substring(0, 4).toUpperCase() + this.paddedSequenceID;
         this.positionID = this.paddedPositionID;
         let openPosition = new OpenPosition(
         this.openPositionForm.value.positionName,
