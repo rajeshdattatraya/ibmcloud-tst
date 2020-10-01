@@ -205,7 +205,11 @@ displayedColumns = ['Action','employeeName', 'jobRole','userResult','technicalIn
            }
 
            if (result.stage3_status == 'Not Started') {
-             this.technicalInterviewResult = "Pending";
+             if (result.smeResult == null || result.smeResult == "") {
+                 this.technicalInterviewResult = "Pending";
+             } else {
+                 this.technicalInterviewResult = result.smeResult;
+             }
            } else if (result.stage3_status == 'Skipped') {
              this.technicalInterviewResult = "N/A";
            } else if (result.stage3_status == 'Completed') {
@@ -213,7 +217,11 @@ displayedColumns = ['Action','employeeName', 'jobRole','userResult','technicalIn
            }
 
            if (result.stage4_status == 'Not Started') {
-             this.partnerInterviewResult = "Pending";
+            if (result.managementResult == null || result.managementResult == "") {
+                this.partnerInterviewResult = "Pending";
+            } else {
+                this.partnerInterviewResult = result.managementResult;
+            }
            } else if (result.stage4_status == 'Skipped') {
              this.partnerInterviewResult = "N/A";
            } else if (result.stage4_status == 'Completed') {
