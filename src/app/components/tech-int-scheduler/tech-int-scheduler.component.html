@@ -17,24 +17,39 @@
         
         <div class="modal-body form-group">
           
-          <div>Event Title :{{this.event_title}}  </div>
+          <div>Event Title: {{this.event_title}}  </div>
           <br/>
-          <div>Date :{{startDate}}  </div>
+          <div>Date: {{startDate}}  </div>
           <br/>
-          <div>Start Time :
-            <input type="time"  name="editStart_Time" class="form-control" [disabled]="edit" [(ngModel)]="start_time" 
-            [ngClass]="{ 'is-invalid': eventEditForm.submitted &&  editStartTime.invalid }"   #editStartTime="ngModel" required>
+          <div>Start Time:
+                       
+            <select  placeholder="Time" style="width:auto; display:inline-block"  name="editStart_Time" class="form-control" [(ngModel)]="start_time"
+            [ngClass]="{ 'is-invalid': eventEditForm.submitted &&  editStartTime.invalid }"   #editStartTime="ngModel" required >
+               <option  *ngFor="let t of time" value="{{t}}"> {{t}} </option>
+           </select>
+           &nbsp;
+           <select  placeholder="AMPM"  style="width:auto; display:inline-block" required name="EditStart_AMPM" class="form-control" [(ngModel)]="start_AMPM"  
+           #EditStart_AMPM="ngModel" required >
+             <option  *ngFor="let mer of meridian" value="{{mer}}"> {{mer}} </option>
+          </select>
 
             <div *ngIf="eventEditForm.submitted && editStartTime.invalid" class="invalid-feedback">
               <div *ngIf="editStartTime.errors.required">Start time is required.</div>
             </div>
 
           </div>
-
-          <div>End Time :
-            <input type="time" name="editEnd_Time" class="form-control" [disabled]="edit" [(ngModel)]="end_time"
+        <br/>
+          <div>End Time:
+           <select  placeholder="Time" style="width:auto; display:inline-block"  name="editEnd_Time" class="form-control" [(ngModel)]="end_time"
             [ngClass]="{ 'is-invalid': eventEditForm.submitted &&  editEndTime.invalid }"   #editEndTime="ngModel" required>
-          
+               <option  *ngFor="let t of time" value="{{t}}"> {{t}} </option>
+           </select>
+            &nbsp;
+            <select  placeholder="AMPM"  style="width:auto; display:inline-block" required name="editEnd_AMPM" class="form-control" [(ngModel)]="end_AMPM"  
+            #editEnd_AMPM="ngModel" required >
+              <option  *ngFor="let mer of meridian" value="{{mer}}"> {{mer}} </option>
+           </select>
+
             <div *ngIf="eventEditForm.submitted && editEndTime.invalid" class="invalid-feedback">
               <div *ngIf="editEndTime.errors.required">End time is required.</div>
             </div>
@@ -42,7 +57,7 @@
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-default btn-raised"       
+          <button type="button" class="btn btn-primary btn-raised"       
           (click)="closeEditModal();this.eventEditForm.resetForm();"  >Close</button>
         
           <button *ngIf="!edit" type="submit" class="btn btn-primary btn-raised" >Save</button>
@@ -69,7 +84,7 @@
 
         <div class="modal-body form-group" >
           
-          <div>Event Title :
+          <div>Event Title:
             <input type="text" name="event_title"  class="form-control"  [(ngModel)]= "event_title"
             [ngClass]="{ 'is-invalid': eventForm.submitted &&  title.invalid }"   #title="ngModel" required>
             <div *ngIf="eventForm.submitted && title.invalid" class="invalid-feedback">
@@ -80,24 +95,48 @@
           <div>Date :
             <input type="text" required name="event_date" class="form-control"   disabled [(ngModel)]="event_date">
           </div>
-          <div>Start Time :
-            <input type="time" required name="start_time" class="form-control" [(ngModel)]="start_time"
-            [ngClass]="{ 'is-invalid': eventForm.submitted &&  startTime.invalid }"   #startTime="ngModel" required>
-            
+          <br/>
+          <div >Start Time:
+          
+             <select  placeholder="Time" style="width:auto; display:inline-block"  required name="start_time" class="form-control" [(ngModel)]="start_time"
+             [ngClass]="{ 'is-invalid': eventForm.submitted &&  startTime.invalid }"   #startTime="ngModel" required >
+                <option  *ngFor="let t of time" value="{{t}}"> {{t}} </option>
+            </select>
+            &nbsp;
+            <select  placeholder="AMPM"  style="width:auto; display:inline-block" required name="start_AMPM1" class="form-control" [(ngModel)]="start_AMPM"  
+            #start_AMPM1="ngModel" required >
+              <option  *ngFor="let mer of meridian" value="{{mer}}"> {{mer}} </option>
+           </select>
             <div *ngIf="eventForm.submitted && startTime.invalid" class="invalid-feedback">
               <div *ngIf="startTime.errors.required">Start time is required.</div>
             </div>
+
+           
           </div>
-          <div>End Time :
-            <input type="time" required name="end_time" class="form-control" [(ngModel)]="end_time"
+         
+         <br/>
+          <div>End Time:
+
+            <select  placeholder="Time" style="width:auto; display:inline-block"  required name="end_time" class="form-control" [(ngModel)]="end_time"
             [ngClass]="{ 'is-invalid': eventForm.submitted &&  endTime.invalid }"   #endTime="ngModel" required>
+               <option  *ngFor="let t of time" value="{{t}}"> {{t}} </option>
+           </select>
             <div *ngIf="eventForm.submitted && endTime.invalid" class="invalid-feedback">
               <div *ngIf="endTime.errors.required">End time is required.</div>
             </div>
+
+            &nbsp;
+            <select  placeholder="AMPM"  style="width:auto; display:inline-block" required name="end_AMPM1" class="form-control" [(ngModel)]="end_AMPM"  
+            #end_AMPM1="ngModel" required >
+              <option  *ngFor="let mer of meridian" value="{{mer}}"> {{mer}} </option>
+           </select>
+
           </div>
+         
+
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default btn-raised" (click)="closeCreateModal(); this.eventForm.resetForm(); ">Cancel</button>
+          <button type="button" class="btn btn-primary btn-raised" (click)="closeCreateModal(); this.eventForm.resetForm(); ">Cancel</button>
           <button type="submit" class="btn btn-primary btn-raised" >Save</button>
         </div>
         </form>

@@ -14,6 +14,11 @@ declare var $: any;
 })
 export class TechIntSchedulerComponent implements OnInit {
 
+  
+
+  hours = Array(24).fill(0).map(({}, i) =>  (i < 10) ?'0'+i: i) 
+  //mins = Array(60).fill(0).map(({}, i) =>  (i < 10) ?'0'+i: i)
+meridian = ['AM','PM']
 
   @Input() candidateEmail: string;
   @Input() candidateName: string;
@@ -24,12 +29,14 @@ export class TechIntSchedulerComponent implements OnInit {
   eventCreate: boolean;
   edit = false;
   event_title = "";
+  start_AMPM = "";
+  end_AMPM = "";
   event_date;
   start_time;
   end_time;
   dateSelect: DateSelectArg;
   startDate;
-
+  time: any = [];
   savedEvents: any = [];
   dummyEvents: any = []
 
@@ -48,6 +55,11 @@ toAddress;
  accessLevel;
  account;
 
+
+ //Array(24).fill(0).map(({}, i)
+
+ 
+
   constructor(private router: Router,
     private ngZone: NgZone,
     private techIntSchedulerService: TechIntSchedulerService)
@@ -56,10 +68,22 @@ toAddress;
       this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
       this.account = this.router.getCurrentNavigation().extras.state.account;
       this.fromAddress = this.router.getCurrentNavigation().extras.state.username;
-    }
 
+
+      for(let hh=0; hh<12;hh++){
+        var hour = (hh < 10) ?'0'+hh: hh ;
+        var time = [hour+':00', hour+':15', hour+':30', hour+':45'];
+      
+        time.forEach(t => {
+          this.time.push(t)
+        });
+            
+      }
+
+  }
 
   ngOnInit(): void {
+
   }
 
 
@@ -91,7 +115,7 @@ toAddress;
     eventTimeFormat: {
       hour: '2-digit',
       minute: '2-digit',
-      hour12: false
+      hour12: true
 },
 //slotLabelFormat: {hour: 'numeric', minute: '2-digit', hour12: false}
     
@@ -115,9 +139,8 @@ toAddress;
   //On date selection
   handleEvents(selectInfo: DateSelectArg) {
     //get events for the candidates from database
-   
+    
     this.dummyEvents = [];
-    //this.calendarOptions.events=[];
     
     this.techIntSchedulerService.getMeetingEventsByLoggedinUSer(this.fromAddress).subscribe(res => {
       this.savedEvents = res;
@@ -143,16 +166,36 @@ toAddress;
   
 
   handleEventUpdate(clickInfo: EventClickArg) {
-    
-    this.start_time = clickInfo.event.startStr.split('T')[1].slice(0,8);
-    this.end_time = clickInfo.event.endStr.split('T')[1].slice(0,8);
+    var startTime = clickInfo.event.startStr.split('T')[1].slice(0,8);
+    var endTime = clickInfo.event.endStr.split('T')[1].slice(0,8);
     this.eventIDToUpdate = Number(clickInfo.event.id);
+    
+    var startTimeNum = Number(startTime.split(':')[0]);
+    var endTimeNum = Number(endTime.split(':')[0]);
+
+    if (startTimeNum >= 12) {
+      this.start_time = (((startTimeNum-12) <10) ? '0'+ (startTimeNum-12) : startTimeNum-12 ) + ':'+ startTime.split(':')[1];
+      this.start_AMPM='PM'
+    } else {
+      this.start_AMPM='AM';
+    this.start_time = ((startTimeNum <10) ? '0'+ startTimeNum : startTimeNum ) + ':'+ startTime.split(':')[1];;
+    }
+   
+    if (endTimeNum >= 12) {
+     // var endTimeStr = 
+      this.end_time = (((endTimeNum-12) <10) ? '0'+ (endTimeNum-12) : endTimeNum-12 ) + ':'+ endTime.split(':')[1];
+      console.log('insied this.end_time*** ', this.end_time);
+      this.end_AMPM='PM'
+    } else  {
+      this.end_AMPM='AM';
+      this.end_time = ((endTimeNum <10) ? '0'+ endTimeNum : endTimeNum )  + ':'+ endTime.split(':')[1];
+    }
 
     this.startDate = clickInfo.event.startStr.split('T')[0];
     this.event_title = clickInfo.event.title;
-    
 
     this.calendarApi = clickInfo.view.calendar;
+
 
    
     $("#eventDetails").modal("show")
@@ -165,6 +208,18 @@ toAddress;
 
     this.toAddress = this.candidateEmail;
     this.calendarApi.getEventById(this.eventIDToUpdate + '').remove();
+
+    var startTimeAMPM = this.start_time
+    if(this.start_AMPM == 'PM' && startTimeAMPM.split(':')[0] < 12) {
+      this.start_time= Number(this.start_time.split(':')[0])+12+ ':'+this.start_time.split(':')[1] ;
+    }
+    
+    var endTimeAMPM = this.end_time
+    if(this.end_AMPM == 'PM' && endTimeAMPM.split(':')[0] < 12) {
+      this.end_time= Number(this.end_time.split(':')[0])+12+ ':'+this.end_time.split(':')[1] ;
+    }
+
+    
     
     let str = { id: this.eventIDToUpdate, title: this.event_title, 
       start: this.startDate + 'T' + this.start_time, 
@@ -227,6 +282,21 @@ toAddress;
       this.eventData=undefined;
 
     this.calendarApi = this.dateSelect.view.calendar;
+    var startTimeAMPM = this.start_time
+console.log('BEFORE this.start_time*** ', this.start_time);
+if(this.start_AMPM == 'PM' && startTimeAMPM.split(':')[0] < 12) {
+  this.start_time= Number(this.start_time.split(':')[0])+12+ ':'+this.start_time.split(':')[1] ;
+}
+console.log('AFTER this.start_time*** ', this.start_time);
+
+var endTimeAMPM = this.end_time
+console.log('BEFORE this.end_time*** ', this.end_time);
+if(this.end_AMPM == 'PM' && endTimeAMPM.split(':')[0] < 12) {
+  this.end_time= Number(this.end_time.split(':')[0])+12+ ':'+this.end_time.split(':')[1] ;
+}
+
+console.log('AFTER this.end_time*** ', this.end_time);
+
 
     if (this.event_title) {
       this.calendarApi.addEvent({

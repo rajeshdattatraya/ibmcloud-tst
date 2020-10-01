@@ -120,8 +120,12 @@ export class TechnicalInterviewComponent implements OnInit {
   }
 
   getTechnicalStreamFromJRSS(){
-     this.apiService.getJRSS().subscribe((data) => {
+
+
+//getJrss by Account will fetch the skills based on the candidate jrss
+    this.apiService.getJrsssByAccount(this.candidateInterviewDetails[0].result_users[0].account).subscribe((data) => {
      this.JRSS = data;
+
      this.technologyStreamArray = [];
      for (var jrss of this.JRSS){
         for (var skill of jrss.technologyStream){
