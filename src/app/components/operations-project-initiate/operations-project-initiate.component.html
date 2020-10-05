@@ -12,26 +12,34 @@
   <div class="card-body">
     <mat-card class="login-card">
       <mat-card-content>
-        <table striped="true">
+        <table striped="true" class="fixedTable">
           <tbody>
           <tr>
-            <td><mat-label>Name:</mat-label></td>
-            <td>{{this.operationsProjectDetails[0].result_users[0].employeeName}}</td>
-            <td><mat-label>Job Role:</mat-label></td>
-            <td>{{this.operationsProjectDetails[0].result_users[0].JRSS}}</td>
+            <td style="width:25%"><mat-label>Name:</mat-label></td>
+            <td style="width:25%">{{this.operationsProjectDetails[0].result_users[0].employeeName}}</td>
+            <td style="width:25%"><mat-label>Job Role:</mat-label></td>
+            <td style="width:25%">{{this.operationsProjectDetails[0].result_users[0].JRSS}}</td>
           </tr>
           <tr>
-            <td><mat-label>Technology Stream:</mat-label></td>
-            <td>{{this.operationsProjectDetails[0].result_users[0].technologyStream}}</td>
-            <td><mat-label>Online Test Result:</mat-label></td>
-            <td *ngIf="this.operationsProjectDetails[0].userScore!=null">{{this.operationsProjectDetails[0].userScore}}%</td>
-            <p *ngIf="this.operationsProjectDetails[0].userScore==null">N/A</p>
+            <td style="width:25%"><mat-label>Technology Stream:</mat-label></td>
+            <td style="width:25%">{{this.operationsProjectDetails[0].result_users[0].technologyStream}}</td>
+            <td style="width:25%"><mat-label>Online Test Result:</mat-label></td>
+            <td style="width:25%">
+              <div *ngIf="this.operationsProjectDetails[0].userScore!=null">
+                {{this.operationsProjectDetails[0].userScore}}%
+              </div>
+              <div *ngIf="this.operationsProjectDetails[0].userScore==null">
+                N/A
+              </div>
+            </td>
           </tr>
           <tr>
-            <td><mat-label>Download CV:</mat-label></td>
-            <td><a href="#" (click)="downloadCandidateResume(this.operationsProjectDetails[0].userName)" routerLinkActive="active" data-toggle="modal">Click here</a></td>
-            <td><mat-label>Pre Interview Form:</mat-label></td>
-            <td>
+            <td style="width:25%"><mat-label>Download CV:</mat-label></td>
+            <td style="width:25%">
+              <a href="#" (click)="downloadCandidateResume(this.operationsProjectDetails[0].userName)" routerLinkActive="active" data-toggle="modal">Click here</a>
+            </td>
+            <td style="width:25%"><mat-label>Pre Interview Form:</mat-label></td>
+            <td style="width:25%">
               <div  *ngIf="this.operationsProjectDetails[0].stage2_status=='Skipped'">
                 <a href="#" (click)="skipMethod()" routerLinkActive="active" data-toggle="modal">Click here</a>
               </div>
@@ -43,24 +51,24 @@
             </td>
           </tr>
           <tr *ngIf="displayTechInterviewFields">
-            <td><mat-label>Technical Interview Score:</mat-label></td>
-            <td>{{this.operationsProjectDetails[0].avgTechScore}}/10</td>
-            <td><mat-label>Technical Interview Result:</mat-label></td>
-            <td>{{this.operationsProjectDetails[0].smeResult}}</td>
+            <td style="width:25%"><mat-label>Technical Interview Score:</mat-label></td>
+            <td style="width:25%">{{this.operationsProjectDetails[0].avgTechScore}}/10</td>
+            <td style="width:25%"><mat-label>Technical Interview Result:</mat-label></td>
+            <td style="width:25%">{{this.operationsProjectDetails[0].smeResult}}</td>
           </tr>
           <tr *ngIf="displayTechInterviewFields">
-            <td><mat-label>Technical Interview Feedback:</mat-label></td>
-            <td  colspan="4"><textarea matInput type="textArea" disabled readonly maxlength="3000" cols="90" value="{{this.operationsProjectDetails[0].smeFeedback}}"></textarea></td>
+            <td style="width:25%"><mat-label>Technical Interview Feedback:</mat-label></td>
+            <td  colspan="4" style="width:75%" class="wrappable">{{this.operationsProjectDetails[0].smeFeedback}}</td>
           </tr>
           <tr *ngIf="displayPartnerInterviewFields">
-            <td><mat-label>Partner Interview Feedback:</mat-label></td>
-            <td  colspan="4"><textarea matInput type="textArea" disabled readonly maxlength="3000" cols="90" value="{{this.operationsProjectDetails[0].managementFeedback}}"></textarea></td>
+            <td style="width:25%"><mat-label>Partner Interview Feedback:</mat-label></td>
+            <td  colspan="4" style="width:75%" class="wrappable">{{this.operationsProjectDetails[0].managementFeedback}}</td>
           </tr>
           <tr *ngIf="displayPartnerInterviewFields">
-            <td><mat-label>Partner Interview Result:</mat-label></td>
-            <td>{{this.operationsProjectDetails[0].managementResult}}</td>
-            <td></td>
-            <td></td>
+            <td style="width:25%"><mat-label>Partner Interview Result:</mat-label></td>
+            <td style="width:25%">{{this.operationsProjectDetails[0].managementResult}}</td>
+            <td style="width:25%"></td>
+            <td style="width:25%"></td>
           </tr>
           </tbody>
         </table>
@@ -77,9 +85,9 @@
   <div class="card-body"  >
       <mat-card class="login-card">
         <mat-card-content>
-      <table>
+      <table class="fixedTable">
         <tr *ngIf="displayPositionDropDown">
-          <td>
+          <td style="width:25%">
             <mat-form-field class="open-full-width">
               <mat-select placeholder="Open Position" required [(ngModel)]= "positionID"  name= "positionID"
                           (selectionChange)="getSelectedPositionDetails($event.value)"
@@ -89,37 +97,40 @@
               </mat-select>
             </mat-form-field>
           </td>
+          <td style="width:25%"></td>
+          <td style="width:25%"></td>
+          <td style="width:25%"></td>
         </tr>
           <tr *ngIf="displayPositionDetails || positionID != undefined || positionID != null">
-          <td><mat-label>Position Name:</mat-label></td>
-          <td>{{positionDetails.positionName}}</td>
-          <td><mat-label>Position ID:</mat-label></td>
-          <td>{{positionDetails.positionID}}</td>
+          <td style="width:25%"><mat-label>Position Name:</mat-label></td>
+          <td style="width:25%">{{positionDetails.positionName}}</td>
+          <td style="width:25%"><mat-label>Position ID:</mat-label></td>
+          <td style="width:25%">{{positionDetails.positionID}}</td>
         </tr>
         <tr *ngIf="displayPositionDetails || positionID != undefined || positionID != null">
-          <td><mat-label>Line of Business:</mat-label></td>
-          <td>{{positionDetails.lineOfBusiness}}</td>
-          <td><mat-label>Position Location:</mat-label></td>
-          <td>{{positionDetails.positionLocation}}</td>
+          <td style="width:25%"><mat-label>Line of Business:</mat-label></td>
+          <td style="width:25%">{{positionDetails.lineOfBusiness}}</td>
+          <td style="width:25%"><mat-label>Position Location:</mat-label></td>
+          <td style="width:25%">{{positionDetails.positionLocation}}</td>
         </tr>
         <tr *ngIf="displayPositionDetails || positionID != undefined || positionID != null">
-          <td><mat-label>Rate Card Role:</mat-label></td>
-          <td>{{positionDetails.rateCardJobRole}}</td>
-          <td><mat-label>Competency Level:</mat-label></td>
-          <td>{{positionDetails.competencyLevel}}</td>
+          <td style="width:25%"><mat-label>Rate Card Role:</mat-label></td>
+          <td style="width:25%">{{positionDetails.rateCardJobRole}}</td>
+          <td style="width:25%"><mat-label>Competency Level:</mat-label></td>
+          <td style="width:25%">{{positionDetails.competencyLevel}}</td>
         </tr>
          <tr>
-          <td colspan="4"><hr class="class-1"></td>
+          <td colspan="4" style="width:100%"><hr class="class-1"></td>
         </tr>
         <tr>
-          <td><mat-label>Candidate Line Of Business:</mat-label></td>
-          <td>{{this.candidateLOB}}</td>
-          <td><mat-label>Band:</mat-label></td>
-          <td>{{this.candidateBand}}</td>
+          <td style="width:25%"><mat-label>Candidate Line Of Business:</mat-label></td>
+          <td style="width:25%">{{this.candidateLOB}}</td>
+          <td style="width:25%"><mat-label>Band:</mat-label></td>
+          <td style="width:25%">{{this.candidateBand}}</td>
         </tr>
         <br/>
         <tr >
-          <td>
+          <td style="width:25%">
             <mat-form-field class="open-full-width">
               <mat-select placeholder="Candidate Location:" id="candidateLocation"  name= "candidateLocation"
                           [(ngModel)]= "candidateLocation" (selectionChange)="getGPByCandidateLocation($event.value)" >
@@ -128,8 +139,9 @@
               </mat-select>
             </mat-form-field>
           </td>
-          <td><mat-label>Gross Profit(%):</mat-label></td>
-          <td> {{grossProfit}}</td>
+          <td style="width:25%"><mat-label>Gross Profit(%):</mat-label></td>
+          <td style="width:25%"> {{grossProfit}}</td>
+          <td style="width:25%"></td>
       </tr>
       </table>
         </mat-card-content>
@@ -143,9 +155,9 @@
     <form [formGroup]="operationsProjectForm" (ngSubmit)="onSubmit(this.operationsProjectDetails[0]._id)" >
       <mat-card>
         <mat-card-content>
-          <table>
+          <table class="fixedTable">
             <tr>
-              <td>
+              <td style="width:50%">
                 <mat-form-field class="open-full-width">
                   <mat-select placeholder="Location" (selectionChange)="updateLocation($event.value)"
                               formControlName="projectLocation" id="inputLocation" [ngClass]="{ 'is-invalid': submitted && myForm.projectLocation.errors }">
@@ -158,7 +170,7 @@
                   </div>
                 </mat-form-field>
               </td>
-              <td *ngIf="dwpFlag">
+              <td *ngIf="dwpFlag" style="width:50%">
                 <mat-form-field class="open-full-width">
                   <mat-select placeholder="Client" (selectionChange)="updateClientProject($event.value)"
                               formControlName="clientProject" required id="inputClientProject" [ngClass]="{ 'is-invalid': submitted && myForm.clientProject.errors }">
@@ -173,7 +185,7 @@
               </td>
             </tr>
             <tr>
-              <td>
+              <td style="width:50%">
                 <mat-form-field  class="open-full-width">
                   <input matInput placeholder="Position" formControlName="projectPosition" id="inputPosition" [ngClass]="{ 'is-invalid': submitted && myForm.projectPosition.errors }">
                   <div *ngIf="submitted && myForm.projectPosition.errors" class="invalid-feedback">
@@ -181,7 +193,7 @@
                   </div>
                 </mat-form-field>
               </td>
-              <td>
+              <td style="width:50%">
                 <mat-form-field class="open-full-width">
                        <textarea matInput placeholder="Comments: [Max 3000 Characters]" id="inputComments" type="textarea" rows="2" cols="50"  maxlength="3000" formControlName="managementComments" [ngClass]="{ 'is-invalid': submitted && myForm.managementComments.errors }">
                        </textarea>

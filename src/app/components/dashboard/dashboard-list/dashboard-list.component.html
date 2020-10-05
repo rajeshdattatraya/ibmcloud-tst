@@ -93,40 +93,40 @@
         <mat-card class="mat-elevation-z8">
           <mat-card-content>
               <mat-card-title>Candidate Details</mat-card-title> 
-            <table>
+            <table class="fixedTable">
               <tr>
-                <td width="25%"><mat-label>Name:</mat-label></td>
-                <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].employeeName}}</td>
-                <td width="25%"><mat-label>Email:</mat-label></td>
-                <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].email}}</td>
+                <td style="width:25%"><mat-label>Name:</mat-label></td>
+                <td style="width:25%">{{this.dashboardDetails[0].result_users[0].employeeName}}</td>
+                <td style="width:25%"><mat-label>Email:</mat-label></td>
+                <td style="width:25%">{{this.dashboardDetails[0].result_users[0].email}}</td>
               </tr>
               <tr *ngIf="displayRegularUIFields">
-                <td width="25%"><mat-label>Band:</mat-label></td>
-                <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].band}}</td>
-                <td width="20%"><mat-label>Job Role:</mat-label></td>
-                <td width="35%">&nbsp;{{this.dashboardDetails[0].result_users[0].JRSS}}</td>
+                <td style="width:25%"><mat-label>Band:</mat-label></td>
+                <td style="width:25%">{{this.dashboardDetails[0].result_users[0].band}}</td>
+                <td style="width:25%"><mat-label>Job Role:</mat-label></td>
+                <td style="width:25%">{{this.dashboardDetails[0].result_users[0].JRSS}}</td>
               </tr>
               <tr *ngIf="displayContractorUIFields">
-                <td width="25%"><mat-label>Job Role:</mat-label></td>
-                <td width="30%">{{this.dashboardDetails[0].result_users[0].JRSS}}</td>
-                <td width="20%"><mat-label></mat-label></td>
-                <td width="35%">&nbsp;</td>
+                <td style="width:25%"><mat-label>Job Role:</mat-label></td>
+                <td style="width:25%">{{this.dashboardDetails[0].result_users[0].JRSS}}</td>
+                <td style="width:25%"></td>
+                <td style="width:25%"></td>
               </tr>
               <tr *ngIf="displayRegularUIFields">
-                <td width="25%"><mat-label>Date of Joining:</mat-label></td>
-                <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].dateOfJoining.split('T')[0]}}</td>
-                <td width="25%"><mat-label>Phone Number:</mat-label></td>
-                <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].phoneNumber}}</td>
+                <td style="width:25%"><mat-label>Date of Joining:</mat-label></td>
+                <td style="width:25%">{{this.dashboardDetails[0].result_users[0].dateOfJoining.split('T')[0]}}</td>
+                <td style="width:25%"><mat-label>Phone Number:</mat-label></td>
+                <td style="width:25%">{{this.dashboardDetails[0].result_users[0].phoneNumber}}</td>
               </tr>
               <tr *ngIf="displayContractorUIFields">
-                <td width="25%"><mat-label>Date of Birth:</mat-label></td>
-                <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].dateOfJoining.split('T')[0]}}</td>
-                <td width="25%"><mat-label>Phone Number:</mat-label></td>
-                <td width="30%">&nbsp;{{this.dashboardDetails[0].result_users[0].phoneNumber}}</td>
+                <td style="width:25%"><mat-label>Date of Birth:</mat-label></td>
+                <td style="width:25%">{{this.dashboardDetails[0].result_users[0].dateOfJoining.split('T')[0]}}</td>
+                <td style="width:25%"><mat-label>Phone Number:</mat-label></td>
+                <td style="width:25%">{{this.dashboardDetails[0].result_users[0].phoneNumber}}</td>
               </tr>
               <tr>
-                <td width="25%"><mat-label>Technology Stream:</mat-label></td>
-                <td colspan="3" width="75%">&nbsp;{{this.dashboardDetails[0].result_users[0].technologyStream}}</td>
+                <td style="width:25%"><mat-label>Technology Stream:</mat-label></td>
+                <td colspan="3" style="width:75%">{{this.dashboardDetails[0].result_users[0].technologyStream}}</td>
               </tr>
             </table>
             </mat-card-content>
@@ -135,17 +135,19 @@
            <mat-card class="mat-elevation-z8">
             <mat-card-content>
               <mat-card-title>Online Test Details</mat-card-title> 
-            <table>
+            <table class="fixedTable">
               <tr>
-                <td width="25%"><mat-label>Online Test Result:</mat-label></td>
-                <td width="25%">
+                <td style="width:25%"><mat-label>Online Test Result:</mat-label></td>
+                <td style="width:25%">
                   <div  *ngIf="this.dashboardDetails[0].userScore!=null">
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{this.dashboardDetails[0].userScore}}%
+                    {{this.dashboardDetails[0].userScore}}%
                   </div>
                   <div *ngIf="this.dashboardDetails[0].userScore==null">
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;N/A
+                    N/A
                   </div>
                 </td>
+                <td style="width:25%"></td>
+                <td style="width:25%"></td>
               </tr>
             </table>
           </mat-card-content>
@@ -156,10 +158,10 @@
           <mat-card class="mat-elevation-z8">
             <mat-card-title>Technical Interview Details</mat-card-title> 
             <mat-card-content>
-            <table>
+            <table class="fixedTable">
               <tr>
-                <td  width="25%"><mat-label>Technical Interview Score:</mat-label></td>
-                <td  width="25%">
+                <td  style="width:25%"><mat-label>Technical Interview Score:</mat-label></td>
+                <td  style="width:25%">
                   <div  *ngIf="this.dashboardDetails[0].avgTechScore!=null">
                     {{this.dashboardDetails[0].avgTechScore}}/10
                   </div>
@@ -167,14 +169,16 @@
                     N/A
                   </div>
                 </td>
+                <td style="width:25%"></td>
+                <td style="width:25%"></td>
               </tr>
               <tr>
-                <td width="25%"><mat-label>SME Result:</mat-label></td>
-                <td colspan="3" width="75%">&nbsp;{{this.dashboardDetails[0].smeResult}}</td>
+                <td style="width:25%"><mat-label>SME Result:</mat-label></td>
+                <td colspan="3" style="width:75%">{{this.dashboardDetails[0].smeResult}}</td>
               </tr>
               <tr>
-                <td width="25%"><mat-label>SME Feedback:</mat-label></td>
-                <td colspan="3" width="75%">&nbsp;<textarea type="textArea" maxlength="3000" cols="50" disabled readonly value="{{this.dashboardDetails[0].smeFeedback}}"></textarea></td>
+                <td style="width:25%"><mat-label>SME Feedback:</mat-label></td>
+                <td colspan="3" style="width:75%" class="wrappable">{{this.dashboardDetails[0].smeFeedback}}</td>
               </tr>
             </table>
           </mat-card-content>
@@ -187,14 +191,14 @@
             <mat-card-title>Partner Interview Details</mat-card-title> 
             <mat-card-content>
 
-            <table>
+            <table class="fixedTable">
               <tr>
-                <td width="25%"><mat-label>Partner Result:</mat-label></td>
-                <td colspan="3" width="75%">&nbsp;{{this.dashboardDetails[0].managementResult}}</td>
+                <td style="width:25%"><mat-label>Partner Result:</mat-label></td>
+                <td colspan="3" style="width:75%">{{this.dashboardDetails[0].managementResult}}</td>
               </tr>
               <tr>
-                <td width="25%"><mat-label>Partner FeedBack:</mat-label></td>
-                <td colspan="3" width="75%">&nbsp;<textarea type="textArea" maxlength="3000" cols="50" disabled readonly value="{{this.dashboardDetails[0].managementFeedback}}"></textarea></td>
+                <td style="width:25%"><mat-label>Partner FeedBack:</mat-label></td>
+                <td colspan="3" style="width:75%" class="wrappable">{{this.dashboardDetails[0].managementFeedback}}</td>
               </tr>
             </table>
           </mat-card-content>
@@ -206,24 +210,22 @@
           <mat-card class="mat-elevation-z8" >
             <mat-card-title>Project Assignment Details</mat-card-title> 
             <mat-card-content>
-            <table>
+            <table class="fixedTable">
               <tr>
-                <td width="20%"><mat-label>Location:</mat-label></td>
-                <td width="30%">&nbsp;{{this.dashboardDetails[0].result_projectAlloc[0].location}}</td>
-                <td width="20%"><mat-label>ProjectName:</mat-label></td>
-                <td width="30%">&nbsp;{{this.dashboardDetails[0].result_projectAlloc[0].projectName}}</td>
+                <td style="width:25%"><mat-label>Location:</mat-label></td>
+                <td style="width:25%">{{this.dashboardDetails[0].result_projectAlloc[0].location}}</td>
+                <td style="width:25%"><mat-label>ProjectName:</mat-label></td>
+                <td style="width:25%">{{this.dashboardDetails[0].result_projectAlloc[0].projectName}}</td>
               </tr>
               <tr>
-                <td width="20%"><mat-label>Client:</mat-label></td>
-                <td width="30%">&nbsp;{{this.dashboardDetails[0].result_projectAlloc[0].clientProject}}</td>
-                <td width="20%"><mat-label>Position:</mat-label></td>
-                <td width="30%">&nbsp;{{this.dashboardDetails[0].result_projectAlloc[0].position}}</td>
+                <td style="width:25%"><mat-label>Client:</mat-label></td>
+                <td style="width:25%">{{this.dashboardDetails[0].result_projectAlloc[0].clientProject}}</td>
+                <td style="width:25%"><mat-label>Position:</mat-label></td>
+                <td style="width:25%">{{this.dashboardDetails[0].result_projectAlloc[0].position}}</td>
               </tr>
               <tr>
-                <td width="20%"><mat-label>Comments:</mat-label></td>
-                <td width="30%">&nbsp;{{this.dashboardDetails[0].result_projectAlloc[0].comments}}</td>
-                <td width="20%"><mat-label>&nbsp;</mat-label></td>
-                <td width="30%">&nbsp;&nbsp;</td>
+                <td style="width:25%"><mat-label>Comments:</mat-label></td>
+                <td style="width:75%" colspan="3">{{this.dashboardDetails[0].result_projectAlloc[0].comments}}</td>
               </tr>
             </table>
           </mat-card-content>

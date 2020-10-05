@@ -13,19 +13,19 @@
     <div class="card-body">
       <mat-card class="login-card">
         <mat-card-content>
-      <table>
+      <table class="fixedTable">
         <tbody>
         <tr>
-          <td><mat-label>Name:</mat-label></td>
-          <td>{{this.partnerInterviewDetails[0].result_users[0].employeeName}}</td>
-          <td><mat-label>Job Role:</mat-label></td>
-          <td>{{this.partnerInterviewDetails[0].result_users[0].JRSS}}</td>
+          <td style="width:25%"><mat-label>Name:</mat-label></td>
+          <td style="width:25%">{{this.partnerInterviewDetails[0].result_users[0].employeeName}}</td>
+          <td style="width:25%"><mat-label>Job Role:</mat-label></td>
+          <td style="width:25%">{{this.partnerInterviewDetails[0].result_users[0].JRSS}}</td>
         </tr>
         <tr>
-          <td><mat-label>Technology Stream:</mat-label></td>
-          <td>{{this.partnerInterviewDetails[0].result_users[0].technologyStream}}</td>
-          <td><mat-label>Online Test Result:</mat-label></td>
-          <td>
+          <td style="width:25%"><mat-label>Technology Stream:</mat-label></td>
+          <td style="width:25%">{{this.partnerInterviewDetails[0].result_users[0].technologyStream}}</td>
+          <td style="width:25%"><mat-label>Online Test Result:</mat-label></td>
+          <td style="width:25%">
               <div *ngIf="this.partnerInterviewDetails[0].userScore!=null">
                 {{this.partnerInterviewDetails[0].userScore}}%
               </div>
@@ -35,10 +35,11 @@
           </td>
         </tr>
         <tr>
-          <td><mat-label>Download CV:</mat-label></td>
-          <td><a href="#" (click)="downloadCandidateResume(this.partnerInterviewDetails[0].userName)" routerLinkActive="active" data-toggle="modal">Click here</a></td>
-          <td><mat-label>Pre Interview Form:</mat-label></td>
-          <td><a *ngIf="this.partnerInterviewDetails[0].stage2_status=='Skipped'" href="#" (click)="skipMethod()" routerLinkActive="active" data-toggle="modal">Click here</a>
+          <td style="width:25%"><mat-label>Download CV:</mat-label></td>
+          <td style="width:25%"><a href="#" (click)="downloadCandidateResume(this.partnerInterviewDetails[0].userName)" routerLinkActive="active" data-toggle="modal">Click here</a></td>
+          <td style="width:25%"><mat-label>Pre Interview Form:</mat-label></td>
+          <td style="width:25%">
+            <a *ngIf="this.partnerInterviewDetails[0].stage2_status=='Skipped'" href="#" (click)="skipMethod()" routerLinkActive="active" data-toggle="modal">Click here</a>
             <div *ngIf="this.partnerInterviewDetails[0].stage2_status=='Completed'">
               <a class="edit" [routerLink]="['/pre-technical-interview-form/',this.partnerInterviewDetails[0].result_users[0].JRSS, this.partnerInterviewDetails[0].userName]" [state]="{jrss:this.partnerInterviewDetails[0].result_users[0].JRSS,username:this.partnerInterviewDetails[0].result_users[0].username,access:'partner-interview-initiate',accessLevel:this.accessLevel,account:this.account}">
               Click here
@@ -47,8 +48,8 @@
           </td>
         </tr>
         <tr *ngIf="displayTechInterviewFields">
-          <td><mat-label>Technical Interview Score:</mat-label></td>
-          <td>
+          <td style="width:25%"><mat-label>Technical Interview Score:</mat-label></td>
+          <td style="width:25%">
             <div *ngIf="this.partnerInterviewDetails[0].avgTechScore != null">
             {{this.partnerInterviewDetails[0].avgTechScore}}/10
             </div>
@@ -56,12 +57,12 @@
               N/A
             </div>
           </td>
-          <td><mat-label>Technical Interview Result:</mat-label></td>
-          <td>{{this.partnerInterviewDetails[0].smeResult}}</td>
+          <td style="width:25%"><mat-label>Technical Interview Result:</mat-label></td>
+          <td style="width:25%">{{this.partnerInterviewDetails[0].smeResult}}</td>
         </tr>
         <tr *ngIf="displayTechInterviewFields">
-          <td><mat-label>Technical Interview Feedback:</mat-label></td>
-          <td  colspan="3"><textarea matInput type="textArea" maxlength="3000" cols="90" disabled readonly value="{{this.partnerInterviewDetails[0].smeFeedback}}"></textarea></td>
+          <td style="width:25%"><mat-label>Technical Interview Feedback:</mat-label></td>
+          <td  colspan="3" style="width:75%" class="wrappable">{{this.partnerInterviewDetails[0].smeFeedback}}</td>
         </tr>
         </tbody>
       </table>
@@ -80,10 +81,10 @@
     <div class="card-body"  >
       <mat-card class="login-card">
         <mat-card-content>
-          <table>
+          <table class="fixedTable">
             <tbody>
             <tr *ngIf="displayPositionDropDown">
-              <td>
+              <td style="width:25%">
                 <mat-form-field class="open-full-width">
                   <mat-select placeholder="Open Position"  [(ngModel)]= "positionID"  name= "positionID"
                               (selectionChange)="getSelectedPositionDetails($event.value)"
@@ -93,38 +94,41 @@
                   </mat-select>
                 </mat-form-field>
               </td>
+              <td style="width:25%"></td>
+              <td style="width:25%"></td>
+              <td style="width:25%"></td>
             </tr>
             <tr *ngIf="displayPositionDetails || positionID != undefined || positionID != null">
-              <td><mat-label>Position Name:</mat-label></td>
-              <td>{{positionDetails.positionName}}</td>
-              <td><mat-label>Position ID:</mat-label></td>
-              <td>{{positionDetails.positionID}}</td>
+              <td style="width:25%"><mat-label>Position Name:</mat-label></td>
+              <td style="width:25%">{{positionDetails.positionName}}</td>
+              <td style="width:25%"><mat-label>Position ID:</mat-label></td>
+              <td style="width:25%">{{positionDetails.positionID}}</td>
             </tr>
             <tr *ngIf="displayPositionDetails || positionID != undefined || positionID != null">
-              <td><mat-label>Line of Business:</mat-label></td>
-              <td>{{positionDetails.lineOfBusiness}}</td>
-              <td><mat-label>Position Location:</mat-label></td>
-              <td>{{positionDetails.positionLocation}}</td>
+              <td style="width:25%"><mat-label>Line of Business:</mat-label></td>
+              <td style="width:25%">{{positionDetails.lineOfBusiness}}</td>
+              <td style="width:25%"><mat-label>Position Location:</mat-label></td>
+              <td style="width:25%">{{positionDetails.positionLocation}}</td>
             </tr>
             <tr *ngIf="displayPositionDetails || positionID != undefined || positionID != null">
-              <td><mat-label>Rate Card Role:</mat-label></td>
-              <td>{{positionDetails.rateCardJobRole}}</td>
-              <td><mat-label>Competency Level:</mat-label></td>
-              <td>{{positionDetails.competencyLevel}}</td>
+              <td style="width:25%"><mat-label>Rate Card Role:</mat-label></td>
+              <td style="width:25%">{{positionDetails.rateCardJobRole}}</td>
+              <td style="width:25%"><mat-label>Competency Level:</mat-label></td>
+              <td style="width:25%">{{positionDetails.competencyLevel}}</td>
             </tr>
             <tr>
-              <td colspan="4"><hr class="class-1"></td>
+              <td colspan="4" style="width:100%"><hr class="class-1"></td>
             </tr>
             <br/>
             <tr>
-              <td><mat-label>Candidate Line Of Business:</mat-label></td>
-              <td>{{this.partnerInterviewDetails[0].result_users[0].userLOB}}</td>
-              <td><mat-label>Band</mat-label></td>
-              <td>{{this.partnerInterviewDetails[0].result_users[0].band}}</td>
+              <td style="width:25%"><mat-label>Candidate Line Of Business:</mat-label></td>
+              <td style="width:25%">{{this.partnerInterviewDetails[0].result_users[0].userLOB}}</td>
+              <td style="width:25%"><mat-label>Band</mat-label></td>
+              <td style="width:25%">{{this.partnerInterviewDetails[0].result_users[0].band}}</td>
             </tr>
             <br/>
             <tr>
-              <td>
+              <td style="width:25%">
                 <mat-form-field class="open-full-width">
                   <mat-select placeholder="Candidate Location:" id="candidateLocation"  name= "candidateLocation"
                               [(ngModel)]= "candidateLocation" (selectionChange)="updateUserPositionLocationProfile($event.value)" >
@@ -133,8 +137,9 @@
                   </mat-select>
                 </mat-form-field>
               </td>
-              <td><mat-label>Gross Profit(%):</mat-label></td>
-              <td> {{grossProfit}}</td>
+              <td style="width:25%"><mat-label>Gross Profit(%):</mat-label></td>
+              <td style="width:25%"> {{grossProfit}}</td>
+              <td style="width:25%"></td>
             </tr>
             </tbody>
           </table>
@@ -152,9 +157,9 @@
           <form [formGroup]="partnerFeedbackForm" (ngSubmit)="onSubmit(this.partnerInterviewDetails[0]._id)" >
             <mat-card class="login-card">
               <mat-card-content>
-                <table>
+                <table class="fixedTable">
                   <tr>
-                    <td>
+                    <td style="width:50%">
                       <mat-form-field class="question-full-width">
                         <mat-select placeholder="Final Result" (selectionChange)="updateFinalResult($event.target.value)"
                                 formControlName="finalResult" id="inputFinalResult" [ngClass]="{ 'is-invalid': submitted && myForm.finalResult.errors }">
@@ -169,7 +174,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <td>
+                    <td style="width:100%">
                       <mat-form-field class="open-full-width">
                        <textarea matInput placeholder="Partner Feedback[Max 3000 Characters]" class="form-control" id="inputPartnerFeedback" type="textarea" rows="5" cols="50"  maxlength="3000" formControlName="partnerFeedback" [ngClass]="{ 'is-invalid': submitted && myForm.partnerFeedback.errors }">
                        </textarea>

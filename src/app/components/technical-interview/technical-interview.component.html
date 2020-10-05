@@ -13,25 +13,32 @@
     <div class="card-body">
       <mat-card class="login-card">
         <mat-card-content>
-          <table>
+          <table class="fixedTable">
             <tr>
-              <td><mat-label>Name:</mat-label></td>
-              <td>{{this.candidateInterviewDetails[0].result_users[0].employeeName}}</td>
-              <td><mat-label>JRSS:</mat-label></td>
-              <td>{{this.candidateInterviewDetails[0].result_users[0].JRSS}}</td>
+              <td style="width:25%"><mat-label>Name:</mat-label></td>
+              <td style="width:25%">{{this.candidateInterviewDetails[0].result_users[0].employeeName}}</td>
+              <td style="width:25%"><mat-label>Job Role:</mat-label></td>
+              <td style="width:25%">{{this.candidateInterviewDetails[0].result_users[0].JRSS}}</td>
             </tr>
             <tr>
-              <td><mat-label>Technology Stream:</mat-label></td>
-              <td>{{this.candidateInterviewDetails[0].result_users[0].technologyStream}}</td>
-              <td><mat-label>Online Assessment Score:</mat-label></td>
-              <td *ngIf="this.candidateInterviewDetails[0].userScore!=null">{{this.candidateInterviewDetails[0].userScore}}%</td>
-              <p *ngIf="this.candidateInterviewDetails[0].userScore==null">N/A</p>
+              <td style="width:25%"><mat-label>Technology Stream:</mat-label></td>
+              <td style="width:25%">{{this.candidateInterviewDetails[0].result_users[0].technologyStream}}</td>
+              <td style="width:25%"><mat-label>Online Assessment Score:</mat-label></td>
+              <td style="width:25%">
+                <div *ngIf="this.candidateInterviewDetails[0].userScore!=null">
+                {{this.candidateInterviewDetails[0].userScore}}%
+                </div>
+                <div  *ngIf="this.candidateInterviewDetails[0].userScore==null">
+                  N/A
+                </div>
+              </td>
             </tr>
             <tr>
-              <td><mat-label>Download CV:</mat-label></td>
-              <td><a href="#" (click)="downloadCandidateResume(this.candidateInterviewDetails[0].userName)" routerLinkActive="active" data-toggle="modal">Click here</a></td>
-              <td><mat-label>Pre Interview Form:</mat-label></td>
-              <td>
+              <td style="width:25%"><mat-label>Download CV:</mat-label></td>
+              <td style="width:25%">
+                <a href="#" (click)="downloadCandidateResume(this.candidateInterviewDetails[0].userName)" routerLinkActive="active" data-toggle="modal">Click here</a></td>
+              <td style="width:25%"><mat-label>Pre Interview Form:</mat-label></td>
+              <td style="width:25%">
                 <div  *ngIf="this.candidateInterviewDetails[0].stage2_status=='Skipped'">
                   <a href="#" (click)="skipMethod()" routerLinkActive="active"  class="col-4 cursor-pointer" data-toggle="modal">Click here</a>
                 </div>
@@ -57,13 +64,13 @@
     <form [formGroup]="techskillForm" (ngSubmit)="onSubmit()">
       <mat-card class="login-card">
         <mat-card-content>
-          <table  formArrayName="techStream">
+          <table  formArrayName="techStream" class="fixedTable">
             <tr>
-              <td colspan="4" width="100%" ><mat-label><B>Select Technical Area For Assessment:</B></mat-label></td>
+              <td colspan="4" style="width:100%" ><mat-label><B>Select Technical Area For Assessment:</B></mat-label></td>
             </tr>
             <br/>
             <tr *ngFor="let dynamic of dynamicArray; let i = index;" [formGroupName]="i">
-              <td>
+              <td style="width:25%">
                 <mat-form-field class="open-full-width">
                   <mat-label>Technology Stream</mat-label>
                   <mat-select placeholder="Technology Stream" formControlName="technologyStream" (selectionChange)="changeSelectTechStream(i)" >
@@ -75,12 +82,12 @@
                   </mat-select>
                 </mat-form-field>
               </td>
-              <td>
+              <td style="width:25%">
                 <mat-form-field class="open-full-width">
                   <input matInput placeholder="Score(1-10)" type="text" formControlName="score" (blur)="averageCalc($event.value)" (keypress)="isNumber($event,i)" id="score" >
                 </mat-form-field>
               </td>
-              <td colspan="2"  width="50%" *ngIf="dynamicArray.length == i+1">
+              <td colspan="2"  style="width:50%" *ngIf="dynamicArray.length == i+1">
                 &nbsp;&nbsp;
                 <a> <img src="assets/images/add.jpg" width="25" height="25" (click)="addTechStream(i)"> </a>
                 &nbsp;&nbsp;
@@ -95,11 +102,11 @@
         <mat-card-content>
           <table>
             <tr>
-              <td  width="100%" colspan="2"><mat-label><B>Calculate Final Score:</B></mat-label></td>
+              <td  style="width:100%" colspan="2"><mat-label><B>Calculate Final Score:</B></mat-label></td>
             </tr>
 
             <tr>
-              <td>
+              <td style="width:50%">
                 <mat-form-field class="open-full-width">
                 <input matInput placeholder="Final Score" formControlName="finalscore" size="5" type="text" value={{this.averageScore}}  [ngClass]="{ 'is-invalid': submitted && myForm.finalscore.errors}" readonly>
                 <div *ngIf="submitted && myForm.finalscore.errors" class="invalid-feedback">
@@ -107,7 +114,7 @@
                 </div>
                 </mat-form-field>
               </td>
-              <td>
+              <td style="width:50%">
                 <mat-form-field class="open-full-width">
                 <mat-select placeholder="Final Result" formControlName="finalResult" [ngClass]="{ 'is-invalid': submitted && myForm.finalResult.errors }">
                   <mat-option value="">Choose...</mat-option>
@@ -124,7 +131,7 @@
             </tr>
 
             <tr>
-              <td colspan="2">
+              <td colspan="2" style="width:100%">
                 <mat-form-field class="open-full-width">
                  <textarea  matInput placeholder="Technical Feedback(Max 3000 characters)" [rows]="5" [cols]="50" formControlName="feedback" [maxLength]="3000" [ngClass]="{ 'is-invalid': submitted && myForm.feedback.errors}"></textarea>
                 <div *ngIf="submitted && myForm.feedback.errors" class="invalid-feedback">
