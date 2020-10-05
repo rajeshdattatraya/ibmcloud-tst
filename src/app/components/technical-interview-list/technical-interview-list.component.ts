@@ -12,6 +12,7 @@ import {MatPaginator} from '@angular/material/paginator'
 import {MatSort} from '@angular/material/sort'
 import { Candidate } from './../../model/candidate';
 import { ViewResult } from './../../model/viewResult';
+import { TechIntSchedulerComponent } from '../tech-int-scheduler/tech-int-scheduler.component';
 
 
 declare var $: any;
@@ -19,13 +20,18 @@ declare var $: any;
 @Component({
   selector: 'app-technical-interview-list',
   templateUrl: './technical-interview-list.component.html',
-  styleUrls: ['./technical-interview-list.component.css']
+  styleUrls: ['./technical-interview-list.component.css'],
+
 })
 
 @Injectable({
   providedIn: 'root'
 })
 export class TechnicalInterviewListComponent implements OnInit {
+
+  @ViewChild(TechIntSchedulerComponent) techIntSchedulerComp:TechIntSchedulerComponent;
+
+
   public browserRefresh: boolean;
   userName: String = "";
   accessLevel: String = "";
@@ -236,14 +242,31 @@ export class TechnicalInterviewListComponent implements OnInit {
 
 
 
-
+ openCalendar = false;
   scheduleInterview() {
     if (this.emailSelected == "") {
+      this.openCalendar = false;
       alert("Please select a candidate")
+      
       return false;
-    }
+    } else {
+      //this.openCalendar = true;
+      this.techIntSchedulerComp.handleCandidateEvents(this.emailSelected );
 
+
+      
+     //this.calendarContent.open();
+    $("#calendarModal").modal("show")
+    }
+ 
   }
+
+
+  closeCalendar() {
+    this.techIntSchedulerComp.closeCalendar();
+    $("#calendarModal").modal("hide")
+  }
+
   initiateInterview() {
     if (this.emailSelected == "") {
       alert("Please select the candidate")

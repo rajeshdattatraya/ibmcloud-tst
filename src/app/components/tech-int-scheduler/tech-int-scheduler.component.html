@@ -1,5 +1,5 @@
 
-<full-calendar [options]="calendarOptions"   ></full-calendar>
+<full-calendar [options]="calendarOptions"  ></full-calendar>
 
 
 <div id="eventDetails" class="modal fade" tabindex="-1"  data-keyboard="false" data-backdrop="static"  role="dialog">
@@ -121,16 +121,14 @@
             [ngClass]="{ 'is-invalid': eventForm.submitted &&  endTime.invalid }"   #endTime="ngModel" required>
                <option  *ngFor="let t of time" value="{{t}}"> {{t}} </option>
            </select>
-            <div *ngIf="eventForm.submitted && endTime.invalid" class="invalid-feedback">
-              <div *ngIf="endTime.errors.required">End time is required.</div>
-            </div>
-
             &nbsp;
             <select  placeholder="AMPM"  style="width:auto; display:inline-block" required name="end_AMPM1" class="form-control" [(ngModel)]="end_AMPM"  
             #end_AMPM1="ngModel" required >
               <option  *ngFor="let mer of meridian" value="{{mer}}"> {{mer}} </option>
            </select>
-
+              <div *ngIf="eventForm.submitted && endTime.invalid" class="invalid-feedback">
+              <div *ngIf="endTime.errors.required">End time is required.</div>
+            </div>
           </div>
          
 
