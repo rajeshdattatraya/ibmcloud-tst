@@ -439,9 +439,15 @@ getJrsss() {
 }
 
 // Get all questions
-getAllQuestions() {
-  return this.http.get(`${this.baseQuestionUri}`);
-}
+getAllQuestions(status): Observable<any>  {
+    let url = `${this.baseQuestionUri}/getAllActiveQuestions/${status}`;
+    return this.http.get(url, {headers: this.headers}).pipe(
+      map((res: Response) => {
+        return res || {}
+      }),
+      catchError(this.errorMgmt)
+    )
+  }
 
 // Get all jrss by account
 getJrsssByAccount(account) {
@@ -851,13 +857,13 @@ viewQuizQuestions(userName,account) {
    )
  }
 
- // Delete Question
+ // Delete Question- Soft Delete updating Status=Inactive
  deleteQuestion(id): Observable<any> {
-  let url = `${this.baseQuestionUri}/delete/${id}`;
-  return this.http.delete(url, { headers: this.headers }).pipe(
-    catchError(this.errorMgmt)
+  let url = `${this.baseQuestionUri}/updateQuestionStatus/${id}`;
+  return this.http.put(url, { headers: this.headers }).pipe(
+        catchError(this.errorMgmt)
   )
-}
+ }
 
   // Get Unique Result
   findResult(email,qNumber): Observable<any> {
@@ -867,5 +873,16 @@ viewQuizQuestions(userName,account) {
         return res || {}
       }), catchError(this.errorMgmt))
   }
+
+    // Get User Answer record for the given questionID
+    findUserAnswer(questionID): Observable<any> {
+
+      let url = `${this.userResultUri}/findUserAnswer/${questionID}`;
+       console.log('url',url);
+      return this.http.get(url, {headers: this.headers}).pipe(
+        map((res: Response) => {
+          return res || {}
+        }), catchError(this.errorMgmt))
+    }
 
 }

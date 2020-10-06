@@ -71,7 +71,8 @@ export class QuestionsAddComponent implements OnInit {
         option4checkbox:[],
         answerID:[],
         questionID:[],
-        account: []  
+        account: [],
+        status:[]
       })
     }
 
@@ -179,6 +180,8 @@ export class QuestionsAddComponent implements OnInit {
               
               // this.questionForm.value.account=this.account;
               this.questionForm.value.account=this.questionForm.value.accountName.join(',');
+
+              this.questionForm.value.status = "Active";
                             
               this.apiService.createQuestion(this.questionForm.value).subscribe(
                 (res) => {

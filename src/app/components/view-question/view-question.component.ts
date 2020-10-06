@@ -24,6 +24,7 @@ export class ViewQuestionComponent implements OnInit {
   config: any;
   index;
   questionID;
+  qID;
   accounts;
   isRowSelected: boolean;
   dataSource = new MatTableDataSource<Question>();
@@ -44,7 +45,7 @@ export class ViewQuestionComponent implements OnInit {
   smeQuestionObj: any={};
   smeQuestion: any = [];
   isDeletQuestion: boolean;
-  
+
   constructor(public fb: FormBuilder,private router: Router, private apiService: ApiService,private route: ActivatedRoute) {
       this.config = {
         currentPage: appConfig.currentPage,
@@ -84,82 +85,92 @@ export class ViewQuestionComponent implements OnInit {
 
 //Get all questions
   readQuestion(){
-  
-  let JSONObject = {};
+
+      let JSONObject = {};
       this.questionObjectArray = [];
       this.Questions =[];
       this.accountArr = this.account.split(",");
-      this.apiService.getAllQuestions().subscribe((data) => {
+      let status = "Active";
+      this.apiService.getAllQuestions(status).subscribe((data) => {
       this.Questions = data;
-       if(this.account === 'SECTOR'){
-      console.log("Question length" +this.Questions.length);
-       for (let k=0; k<this.Questions.length; k++){
-      
-      this.smeQuestionObj = [this.Questions[k]._id, this.Questions[k].question, this.Questions[k].account, this.Questions[k].technologyStream];
-      this.filteredQuestion.push(this.smeQuestionObj);
-    }
-  }
-     else{
-     for (let k=0; k<this.Questions.length; k++){
-      var item = this.Questions[k].account;
-       let questionExists =  false;
-       for (var i = 0; i < this.accountArr.length; i++) {
-        
-         if ( item.toLowerCase().indexOf(this.accountArr[i].toLowerCase()) == -1 && item.toLowerCase().indexOf("sector") == -1) {
-          // accountExists =  false;
-         } else { questionExists =  true; 
-           break; }
-       }
-
-       if (questionExists == true) {
-        this.questionObj = [this.Questions[k]._id, this.Questions[k].question, this.Questions[k].account, this.Questions[k].technologyStream];
-         this.filteredQuestion.push(this.questionObj);
-       }
-     }
-    }
-    
-      this.dataSource.data=this.filteredQuestion as Question[];
-      console.log("datasource length" +this.dataSource.data.length);
-  
+      console.log("Questions" +this.Questions.length);
+      if(this.account === 'SECTOR') {
+         this.filteredQuestion = [];
+         for (let k=0; k<this.Questions.length; k++){
+          this.smeQuestionObj = [this.Questions[k]._id, this.Questions[k].question, this.Questions[k].account, this.Questions[k].technologyStream];
+          this.filteredQuestion.push(this.smeQuestionObj);
+        }
+      } else {
+         this.filteredQuestion = [];
+         for (let k=0; k<this.Questions.length; k++){
+          var item = this.Questions[k].account;
+           let questionExists =  false;
+           for (var i = 0; i < this.accountArr.length; i++) {
+             if ( item.toLowerCase().indexOf(this.accountArr[i].toLowerCase()) == -1 && item.toLowerCase().indexOf("sector") == -1) {
+              // accountExists =  false;
+             } else {
+               questionExists =  true;
+               break;
+             }
+           }
+           if (questionExists == true) {
+             this.questionObj = [this.Questions[k]._id, this.Questions[k].question, this.Questions[k].account, this.Questions[k].technologyStream,this.Questions[k].questionID];
+             this.filteredQuestion.push(this.questionObj);
+           }
+         }
+      }
+          this.dataSource.data=this.filteredQuestion as Question[];
+          console.log("datasource length" +this.dataSource.data.length);
     })
-  //}  
-}
-  
-
-
+  }
 
 
 invokeEdit(){
 
-  if (this.isRowSelected == false){
+  if (this.isRowSelected == false) {
     alert("Please select the Question");
-    }else{
-    this.isRowSelected = false;
-    this.router.navigate(['/question-edit/',this.questionID], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}});
+  } else {
+     this.apiService.findUserAnswer(this.qID).subscribe((res) => {
+         if (res.count > 0) {
+          alert("You can not edit this question as this is already appeared in online test.");
+          return false;
+        } else if (res.count > 0 || res.count == 0) {
+          this.isRowSelected = false;
+          this.router.navigate(['/question-edit/',this.questionID], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}});
+        }
+      }, (error) => {
+          console.log("Error  - " + error);
+      });
     }
+  }
 
-}
-
-removeQuestion(index){
+removeQuestion(){
   if(this.isRowSelected == false){
     alert("Please select the Question");
-  }else{
-  if(window.confirm('Are you sure to delete a question which applies to '+ this.accounts +'?')) {
-      this.apiService.deleteQuestion(this.questionID).subscribe((data) => {
-        this.Questions.splice(index, 1);
-        })
-        this.isRowSelected = false;
-       this.readQuestion
-      
+  } else {
+     this.apiService.findUserAnswer(this.qID).subscribe((res) => {
+     if (res.count > 0) {
+      alert("You can not delete this question as this is already appeared in online test.");
+      return false;
+     } else if (res.count > 0 || res.count == 0) {
+        if(window.confirm('Are you sure?')) {
+            this.apiService.deleteQuestion(this.questionID).subscribe((data) => {
+              this.Questions.splice(this.index, 1);
+            });
+              this.readQuestion();
+              this.isRowSelected = false;
         }
-    }
-    
-  } 
+     }
+    }, (error) => {
+        console.log("Error found while updating userLoggedin column of Users table - " + error);
+  });
+  }
+}
 
-
-    onSelectionChange(questionsID,accounts,i){
+    onSelectionChange(questionsID,accounts,i,qID){
       this.questionID=questionsID;
       this.accounts=accounts;
+      this.qID = qID;
       this.index=i;
       this.isRowSelected = true;
     }
