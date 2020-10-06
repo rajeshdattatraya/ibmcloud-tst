@@ -43,8 +43,8 @@ export class ViewQuestionComponent implements OnInit {
   filteredQuestion: any=[];
   smeQuestionObj: any={};
   smeQuestion: any = [];
+  isDeletQuestion: boolean;
   
-
   constructor(public fb: FormBuilder,private router: Router, private apiService: ApiService,private route: ActivatedRoute) {
       this.config = {
         currentPage: appConfig.currentPage,
@@ -84,16 +84,14 @@ export class ViewQuestionComponent implements OnInit {
 
 //Get all questions
   readQuestion(){
-   
-    let JSONObject = {};
+  
+  let JSONObject = {};
       this.questionObjectArray = [];
       this.Questions =[];
       this.accountArr = this.account.split(",");
-      //for(var accountValue of this.accountArr){
       this.apiService.getAllQuestions().subscribe((data) => {
       this.Questions = data;
-    // console.log("Questions" +this.Questions.length);
-    if(this.account === 'SECTOR'){
+       if(this.account === 'SECTOR'){
       console.log("Question length" +this.Questions.length);
        for (let k=0; k<this.Questions.length; k++){
       
@@ -124,9 +122,12 @@ export class ViewQuestionComponent implements OnInit {
       console.log("datasource length" +this.dataSource.data.length);
   
     })
- // }  
+  //}  
 }
   
+
+
+
 
 invokeEdit(){
 
@@ -139,20 +140,21 @@ invokeEdit(){
 
 }
 
-removeQuestion(){
+removeQuestion(index){
   if(this.isRowSelected == false){
     alert("Please select the Question");
   }else{
   if(window.confirm('Are you sure to delete a question which applies to '+ this.accounts +'?')) {
       this.apiService.deleteQuestion(this.questionID).subscribe((data) => {
-        //this.Questions.splice(this.index, 1);
+        this.Questions.splice(index, 1);
+        })
         this.isRowSelected = false;
-      this.readQuestion();
-     });
+       this.readQuestion
+      
+        }
     }
-  }
-
-}
+    
+  } 
 
 
     onSelectionChange(questionsID,accounts,i){
