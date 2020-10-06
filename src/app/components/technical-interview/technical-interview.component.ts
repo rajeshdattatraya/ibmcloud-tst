@@ -132,6 +132,14 @@ export class TechnicalInterviewComponent implements OnInit {
           this.technologyStreamArray.push(skill);
         }
       }
+
+      //Remove duplicate skills
+      this.technologyStreamArray = this.technologyStreamArray.filter((skill, index, self) =>
+      index === self.findIndex((skl) => (
+        skl.value === skill.value 
+      ))
+    )
+    
       this.newDynamic =this.technologyStreamArray;
       this.dynamicArray.push(this.newDynamic);
      
