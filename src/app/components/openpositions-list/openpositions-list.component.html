@@ -23,7 +23,7 @@
           <input matInput [(ngModel)]="positionLocationFilter" #ctrl="ngModel"  (keyup)="applyFilter($event.target.value,'positionLocation')" placeholder="Position Location">
         </mat-form-field>
       </td>
-      <div *ngIf="this.loginAdminAccounts.length > 1">
+      <div *ngIf="this.loginAdminAccounts.length > 1 || this.loginAdminAccounts[0] === 'SECTOR'">
       <td>
         <mat-form-field>
           <input matInput [(ngModel)]="accountFilter" #ctrl="ngModel"  (keyup)="applyFilter($event.target.value,'account')" placeholder="Account">
@@ -40,7 +40,7 @@
 </mat-card>
 <br>
 
-  <div class="mat-elevation-z8" *ngIf="this.loginAdminAccounts.length > 1">
+  <div class="mat-elevation-z8" *ngIf="this.loginAdminAccounts.length > 1 || this.loginAdminAccounts[0] === 'SECTOR'">
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
       <!-- ID Column -->
@@ -110,7 +110,7 @@
     <mat-paginator [length]="this.OpenPositions.length" [pageSize]="5" [pageSizeOptions]="[5,10,15,25,50,100]" showFirstLastButtons></mat-paginator>
   </div>
 
-<div class="mat-elevation-z8" *ngIf="this.loginAdminAccounts.length == 1">
+<div class="mat-elevation-z8" *ngIf="this.loginAdminAccounts.length == 1 && this.loginAdminAccounts[0] !== 'SECTOR'">
   <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
     <!-- ID Column -->
