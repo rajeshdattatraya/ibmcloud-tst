@@ -189,9 +189,9 @@ export class OpenpositionsCreateComponent implements OnInit {
        onlySelf: true
      })
      if(this.openPositionForm.value.JRSS.length >= 4){
-      this.paddedPositionID  = ((this.openPositionForm.value.JRSS).substring(0, 4)).replace(/^[ ]+|[ ]+$/g,'').toUpperCase()+ this.paddedSequenceID;
+      this.paddedPositionID  = ((this.openPositionForm.value.JRSS).substring(0, 4)).replace(/\s/g,'').toUpperCase()+ this.paddedSequenceID;
     }else{
-      this.paddedPositionID  = (this.openPositionForm.value.JRSS).replace(/^[ ]+|[ ]+$/g,'').toUpperCase() + this.paddedSequenceID;
+      this.paddedPositionID  = (this.openPositionForm.value.JRSS).replace(/\s/g,'').toUpperCase() + this.paddedSequenceID;
     }
    }
 
