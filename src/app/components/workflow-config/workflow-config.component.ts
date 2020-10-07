@@ -59,6 +59,7 @@ export class WorkflowConfigComponent implements OnInit {
       this.workFlowForm.get('stage4ManagementInterview').setValue(false);
       this.workFlowForm.get('stage5ProjectAllocation').setValue(false);
     });
+    this.workFlowForm.get('JRSS').setValue(null);
   }
 
   updateJrssProfile(e) {
