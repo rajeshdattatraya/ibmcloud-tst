@@ -54,7 +54,9 @@ export class EligibleCandidatesComponent implements OnInit {
   itemsPerPage=appConfig.itemsPerPage;
   account='';
   positionID='';
-  displayedColumns = ['Action','employeeName', 'userScore','smeResult','managementResult','cvDownload'];
+  loginAdminAccounts:any = [];
+  displayedColumns = ['Action','employeeName','userScore','smeResult','managementResult','cvDownload'];
+  displayedColumnsMultiAccount = ['Action','employeeName', 'account','userScore','smeResult','managementResult','cvDownload'];
 
   constructor(
   private cv:TechnicalInterviewListComponent,
@@ -64,7 +66,7 @@ export class EligibleCandidatesComponent implements OnInit {
     this.jrss = this.router.getCurrentNavigation().extras.state.jrss;
     this.account = this.router.getCurrentNavigation().extras.state.account;
     this.positionID = this.router.getCurrentNavigation().extras.state.positionID;
-
+    this.loginAdminAccounts = this.account.split(",");
     this.browserRefresh = browserRefresh;
     if (!this.browserRefresh) {
         this.userName = this.router.getCurrentNavigation().extras.state.username;
@@ -86,6 +88,7 @@ export class EligibleCandidatesComponent implements OnInit {
       this.dataSource.sortingDataAccessor = (item, property) => {
         switch(property) {
           case 'employeeName': return item.result_users[0].employeeName;
+          case 'account': return item.result_users[0].account;
           case 'userResult': return item.userScore;
           case 'smeResult': return item.smeResult;
           case 'managementResult': return item.managementResult;

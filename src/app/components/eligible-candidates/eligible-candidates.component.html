@@ -1,74 +1,36 @@
-<div *ngIf="accessLevel === 'partner'">
-  <mat-toolbar>
-    <mat-toolbar-row>
-      <a mat-button  class="matButtonSpace" routerLink="/partner-list" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Partner Interview</a>
-      <a mat-button  class="matButtonSpace" routerLink="/operations-candidate-list" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Project Assignment</a>
-      <a mat-button  class="matButtonSpace" routerLink="/open-positions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Open Positions</a>
-      <a mat-button  class="matButtonSmallSpace" routerLink="/dashboard" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Dashboard</a>
-      <a mat-button  class="matButtonSmallSpace" routerLink="/report" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Report</a>
-      <span class="flexExpand">
-          <a mat-button routerLink="/login-component" routerLinkActive="active">Logout</a>
-      </span>
-    </mat-toolbar-row>
-  </mat-toolbar>
-  </div>
-  <div *ngIf="accessLevel === 'management'">
-    <mat-toolbar>
-      <mat-toolbar-row>
-        <a  mat-button  class="matButtonLargeSpace" [matMenuTriggerFor]="openpositions" routerLink="/openpositions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Manage OpenSeats</a>
-        <mat-menu #openpositions="matMenu">
-          <a mat-menu-item routerLink="/openpositions-create" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Add Open Seat</a>
-          <a mat-menu-item routerLink="/openpositions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">View Open Seats</a>
-        </mat-menu>
-        <a mat-button  class="matButtonLargeSpace" routerLink="/operations-candidate-list" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Project Assignment</a>
-        <a mat-button  class="matButtonLargeSpace" routerLink="/open-positions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Open Positions</a>
-        <a mat-button  class="matButtonLargeSpace" routerLink="/viewinterview-status" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Exception Approval</a>
-        <a mat-button  class="matButtonSmallSpace" routerLink="/dashboard" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Dashboard</a>
-        <a mat-button  class="matButtonSmallSpace" routerLink="/report" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Report</a>
-        <span class="flexExpand">
-          <a mat-button routerLink="/login-component" routerLinkActive="active">Logout</a>
-      </span>
-      </mat-toolbar-row>
-    </mat-toolbar>
-  </div>
+<app-navigation></app-navigation>
 <br>
 
 <div matSort class="mat-elevation-z8">
     <h4 class="my-0 mr-md-auto font-weight-normal" >List of eligible candidates for the job role - {{jrss}}</h4>
     <br/>
 
-  
-    <!-- No data found message -->
-    <p *ngIf="Result.length <= 0" class="no-data text-center">There are no records in Project Assignment Queue</p>
-
-
-          
     <!-- Operations candidate list -->
+
+  <div class="mat-elevation-z8" *ngIf="this.loginAdminAccounts.length > 1 || this.loginAdminAccounts[0] === 'SECTOR'">
     <table mat-table [dataSource]="dataSource" >
 
       <ng-container matColumnDef="Action">
         <th mat-header-cell *matHeaderCellDef> Select </th>
-        <td mat-cell *matCellDef="let row"> <mat-radio-button name="emailSelected"  
-          (change)="emailSelected = row.userName"></mat-radio-button>
-        </td>
+        <td mat-cell *matCellDef="let row"> <mat-radio-button name="emailSelected" (change)="emailSelected = row.userName"></mat-radio-button></td>
       </ng-container>
 
       <ng-container matColumnDef="employeeName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-        <td mat-cell *matCellDef="let row"> <a href="#myModal" (click)="getCandidateDetails(row.userName)"
-          class="col-4 cursor-pointer" data-toggle="modal" >{{row.result_users[0].employeeName}}</a> </td>
+        <td mat-cell *matCellDef="let row"> <a href="#myModal" (click)="getCandidateDetails(row.userName)" data-toggle="modal" >{{row.result_users[0].employeeName}}</a> </td>
+      </ng-container>
+
+      <ng-container matColumnDef="account">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Account </th>
+        <td mat-cell *matCellDef="let row">{{row.result_users[0].account}}</td>
       </ng-container>
 
       <ng-container matColumnDef="userScore">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Online Test Result </th>
         <td mat-cell *matCellDef="let row"> 
-          <a href="#assessmentModal"  
-                (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,
-                row.result_users[0].employeeName,row.userScore,row.createdDate)" 
-              class="col-4 cursor-pointer" data-toggle="modal" 
-              *ngIf="row.userScore!=null">{{row.userScore}}%</a>
-              <p *ngIf="row.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p>
-        
+          <a href="#assessmentModal" (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber, row.result_users[0].employeeName,row.userScore,row.createdDate)"
+              data-toggle="modal" *ngIf="row.userScore!=null">{{row.userScore}}%</a>
+          <p *ngIf="row.userScore==null">N/A</p>
         </td>
       </ng-container>
 
@@ -83,23 +45,77 @@
         <td mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.managementResult}} </td>
       </ng-container>
 
+      <ng-container matColumnDef="cvDownload">
+        <th mat-header-cell *matHeaderCellDef> CV Download </th>
+        <td mat-cell *matCellDef="let row"><a href="#" (click)="downloadCandidateResume(row.userName)" routerLinkActive="active"  data-toggle="modal">Click here</a></td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsMultiAccount"></tr>
+      <tr mat-row *matRowDef="let row; let even = even; columns: displayedColumnsMultiAccount;" [ngClass]="{gray: even}"></tr>
+    </table>
+    <table>
+      <tr *ngIf="!dataSource.data.length">
+        <td style="text-align: center;" [attr.colspan]="displayedColumnsMultiAccount.length">
+          No Records Found!
+        </td>
+      </tr>
+    </table>
+    <mat-paginator [length]="dataSource.data.length" [pageSize]="5" [pageSizeOptions]="[5,10,15,25,50,100]" showFirstLastButtons></mat-paginator>
+  </div>
+  <div class="mat-elevation-z8" *ngIf="this.loginAdminAccounts.length == 1 && this.loginAdminAccounts[0] !== 'SECTOR'">
+    <table mat-table [dataSource]="dataSource" >
+
+      <ng-container matColumnDef="Action">
+        <th mat-header-cell *matHeaderCellDef> Select </th>
+        <td mat-cell *matCellDef="let row"> <mat-radio-button name="emailSelected" (change)="emailSelected = row.userName"></mat-radio-button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="employeeName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+        <td mat-cell *matCellDef="let row"> <a href="#myModal" (click)="getCandidateDetails(row.userName)" data-toggle="modal" >{{row.result_users[0].employeeName}}</a> </td>
+      </ng-container>
+
+      <ng-container matColumnDef="userScore">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Online Test Result </th>
+        <td mat-cell *matCellDef="let row">
+          <a href="#assessmentModal" (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users[0].employeeName,row.userScore,row.createdDate)"
+             data-toggle="modal" *ngIf="row.userScore!=null">{{row.userScore}}%</a>
+          <p *ngIf="row.userScore==null">N/A</p>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="smeResult">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Technical Interview Result</th>
+        <td mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.smeResult}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="managementResult">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Partner Interview Result</th>
+        <td mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.managementResult}} </td>
+      </ng-container>
+
 
       <ng-container matColumnDef="cvDownload">
         <th mat-header-cell *matHeaderCellDef> CV Download </th>
         <td mat-cell *matCellDef="let row">
-          <a href="#" (click)="downloadCandidateResume(row.userName)" routerLinkActive="active" 
-          class="col-4 cursor-pointer" data-toggle="modal">Click here</a></td>
+          <a href="#" (click)="downloadCandidateResume(row.userName)" routerLinkActive="active"
+             data-toggle="modal">Click here</a></td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; let even = even; columns: displayedColumns;" [ngClass]="{gray: even}"></tr>
 
     </table>
- 
-  <div *ngIf="Result.length > 0">
-    <mat-paginator [length]="Result.length" [pageSize]="5" [pageSizeOptions]="[5,10,15,25,50,100]" showFirstLastButtons></mat-paginator>
+    <table>
+      <tr *ngIf="!dataSource.data.length">
+        <td style="text-align: center;" [attr.colspan]="displayedColumns.length">
+          No Records Found!
+        </td>
+      </tr>
+    </table>
+    <mat-paginator [length]="dataSource.data.length" [pageSize]="5" [pageSizeOptions]="[5,10,15,25,50,100]" showFirstLastButtons></mat-paginator>
   </div>
-  
+
 </div>
 <br/>
   <div  class="float-right text-right" *ngIf="Result.length > 0">
@@ -111,7 +127,7 @@
 
   <!-- Modal Code starts. -->
 <div id="assessmentModal" class="modal fade" role="dialog">
-<div class="modal-dialog modal-lg">
+<div class="modal-dialog modal-lg  modal-dialog-scrollable">
   <!-- Modal content-->
    <div class="modal-content">
     <!-- <div *ngIf="assessmentDetails.quizNumber == this.quizNumber"> -->
@@ -119,12 +135,10 @@
       <h4 class="modal-title">Candidate Assessment Details</h4>
       <button type="button" class="close" data-dismiss="modal">&times;</button>
     </div>
-
-    <mat-card>
-      <mat-card-content>
     <div class="modal-body" *ngIf="mode=='displayAssessmentModalBody'">
-     
-      <table>
+      <mat-card class="mat-elevation-z8">
+        <mat-card-content>
+      <table style="table-layout: fixed; width: 100%">
         <thead>
         <tr>
           <td scope="col" width="10%"><b>{{this.userName}}'s answers</b></td>
@@ -135,16 +149,20 @@
         </thead>
         <tbody>
         <tr>
-          <td colspan="4" scope="col" style="font-size:x-small;color:black;font-style: italic;">
+          <td colspan="4" scope="col" style="color:black;font-style: italic;">
             You have correctly answered {{this.correctAnswerCount}} questions out of  {{this.questionCount}}
           </td>
         </tr>
         </tbody>
       </table>
-    </div>
+        </mat-card-content>
+      </mat-card>
+      <br/>
     <div *ngFor="let answer of this.candidateAssessmentDetails.results;let i=index">
       <div *ngFor="let questions of answer.userAttemptedQs" >
-        <table  >
+        <mat-card>
+          <mat-card-content>
+        <table  style="table-layout: fixed; width: 100%">
           <tbody>
             <tr>
               <td width="2%">
@@ -167,24 +185,24 @@
             <tr></tr>
             </tbody>
         </table>
+          </mat-card-content>
+        </mat-card>
       </div>
     </div>
-
-  </mat-card-content>
-</mat-card>
+    </div>
       <div class="modal-footer table-success" style="background-color:#f5f5f5;color:black">
       <button type="button" mat-raised-button color="primary"  data-dismiss="modal">Close</button>
     <!-- </div> -->
-  </div>
-  </div>
+      </div>
 
+</div>
 </div>
 </div>
 <!-- Code Ends.-->
 
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
-<div class="modal-dialog modal-lg">
+<div class="modal-dialog modal-lg modal-dialog-scrollable">
 
   <!-- Modal content-->
   <div class="modal-content" >
@@ -192,55 +210,49 @@
       <h4 class="modal-title">View Candidate Details</h4>
       <button type="button"  class="close" data-dismiss="modal">&times;</button>
     </div>
-    <mat-card>
-      <mat-card-content>
     <div class="modal-body" *ngIf="mode=='displayModalBody'">
-      <table class="mat-elevation-z8">
+      <mat-card>
+        <mat-card-content>
+      <table class="fixedTable">
         <tr>
-          <td><label class="col-sm-8 col-form-label"><b>Name:</b></label></td>
+          <td><mat-label>Name:</mat-label></td>
           <td>&nbsp;{{this.candidateDetails[0].employeeName}}</td>
-        </tr>
-        <tr>
-          <td><label class="col-sm-8 col-form-label"><b>Email:</b></label></td>
+          <td><mat-label>Email:</mat-label></td>
           <td>&nbsp;{{this.candidateDetails[0].email}}</td>
         </tr>
         <tr *ngIf="displayRegularUIFields">
-          <td><label class="col-sm-10 col-form-label"><b>Band:</b></label></td>
+          <td><mat-label>Band:</mat-label></td>
           <td>&nbsp;{{this.candidateDetails[0].band}}</td>
-        </tr>
-        <tr>
-          <td><label class="col-sm-10 col-form-label"><b>Job Role:</b></label></td>
+          <td><mat-label>Job Role:</mat-label></td>
           <td>&nbsp;{{this.candidateDetails[0].JRSS}}</td>
         </tr>
         <tr>
-          <td><label class="col-sm-10 col-form-label"><b>Technology Stream:</b></label></td>
+          <td><mat-label>Technology Stream:</mat-label></td>
           <td>&nbsp;{{this.candidateDetails[0].technologyStream}}</td>
-        </tr>
-        <tr>
-          <td><label class="col-sm-10 col-form-label"><b>Phone Number:</b></label></td>
+          <td><mat-label>Phone Number:</mat-label></td>
           <td>&nbsp;{{this.candidateDetails[0].phoneNumber}}</td>
         </tr>
+        <tr>
+          <td><mat-label>Status:</mat-label></td>
+          <td>&nbsp;{{this.candidateDetails[0].candidate_users[0].status}}</td>
+          <td><mat-label>Quiz Attempts:</mat-label></td>
+          <td>&nbsp;{{this.candidateDetails[0].candidate_users[0].quizNumber}}</td>
+        </tr>
         <tr *ngIf="displayRegularUIFields">
-          <td><label class="col-sm-10 col-form-label"><b>Date of Joining:</b></label></td>
+          <td><mat-label>Date of Joining:</mat-label></td>
           <td>&nbsp;{{this.candidateDetails[0].dateOfJoining.split('T')[0]}}</td>
         </tr>
         <tr *ngIf="displayContractorUIFields">
-          <td><label class="col-sm-10 col-form-label"><b>Date of Birth:</b></label></td>
+          <td><mat-label>Date of Birth:</mat-label></td>
           <td>&nbsp;{{this.candidateDetails[0].dateOfJoining.split('T')[0]}}</td>
-        </tr>
-        <tr>
-          <td><label class="col-sm-10 col-form-label"><b>Status:</b></label></td>
-          <td>&nbsp;{{this.candidateDetails[0].candidate_users[0].status}}</td>
-        </tr>
-        <tr>
-          <td><label class="col-sm-10 col-form-label"><b>Quiz Attempts:</b></label></td>
-          <td>&nbsp;{{this.candidateDetails[0].candidate_users[0].quizNumber}}</td>
+          <td><mat-label>Job Role:</mat-label></td>
+          <td>&nbsp;{{this.candidateDetails[0].JRSS}}</td>
         </tr>
       </table>
-   
+        </mat-card-content>
+      </mat-card>
     </div>
-  </mat-card-content>
-</mat-card>
+
     <div class="modal-footer table-success" style="background-color:#f5f5f5;color:black">
       <button type="button" mat-raised-button color="primary" data-dismiss="modal">Close</button>
     </div>
