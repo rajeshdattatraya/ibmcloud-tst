@@ -144,7 +144,7 @@ export class TechnicalInterviewComponent implements OnInit {
       this.dynamicArray.push(this.newDynamic);
      
       //this.techStream().push(this.createTechStream());
-      if (this.candidateInterviewDetails[0].smeScores !=  undefined && this.candidateInterviewDetails[0].smeResult == "StandBy" ) {
+      if (this.candidateInterviewDetails[0].smeScores !=  undefined && (this.candidateInterviewDetails[0].smeResult == "StandBy" || this.candidateInterviewDetails[0].smeResult == "Not Suitable")) {
         this.techskillForm = this.fb.group({
           finalscore:this.candidateInterviewDetails[0].avgTechScore,
           finalResult:[this.candidateInterviewDetails[0].smeResult,Validators. required],
