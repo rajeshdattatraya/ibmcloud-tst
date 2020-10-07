@@ -75,7 +75,8 @@ export class QuestionEditComponent implements OnInit {
         option4checkbox:(res['answerID'] as string).includes('4') ? true :false,
         answerID:[],
         questionID:res['questionID'],
-        account:this.AccountsArr
+        account:this.AccountsArr,
+        status:res['status']
       });
       
       if(!isNaN(res.questionID)){
@@ -105,6 +106,7 @@ export class QuestionEditComponent implements OnInit {
         answerID:[],
         questionID:[],
         account:[],
+        status:[]
       })
     }
 ​
@@ -249,6 +251,7 @@ export class QuestionEditComponent implements OnInit {
               this.questionID++;
               this.editquestionForm.value.questionID=this.questionID;
               this.editquestionForm.value.account=this.account;
+              this.editquestionForm.value.status="Active";
 ​
          /*  this.apiService.updateQuestion(this.question_id,this.editquestionForm.value).subscribe(
             (res) => {

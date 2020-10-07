@@ -28,13 +28,14 @@
       <td mat-cell *matCellDef="let row"> {{row.positionID}}</td>
     </ng-container>
 
-    <!-- Progress Column -->
-    <div *ngIf="account=='sector' || account=='Sector' || account=='SECTOR' || this.loginAdminAccounts.length > 1">
+    <!-- Account Column -->
+    <div class="mat-elevation-z8" *ngIf="(account=='sector' || account=='Sector' || account=='SECTOR') || this.loginAdminAccounts.length > 1">
     <ng-container matColumnDef="account">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Account </th>
       <td mat-cell *matCellDef="let row"> {{row.account}}</td>
     </ng-container>
     </div>
+
     <!-- Name Column -->
     <ng-container matColumnDef="JRSS">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Job Role </th>
@@ -83,4 +84,3 @@
         <button mat-raised-button color="primary" (click)="redirectToFindCandidates()">Find Candidate</button>&nbsp;
     </span>
 </div>
-

@@ -133,6 +133,9 @@ export class OpenpositionsCreateComponent implements OnInit {
               this.AccountArray.push(accValue.account);
             }
           }
+          if (loginAdminAccount === 'SECTOR') {
+             this.AccountArray.push(accValue.account);
+          }
         }
       }
       if (this.AccountArray.length == 1) {

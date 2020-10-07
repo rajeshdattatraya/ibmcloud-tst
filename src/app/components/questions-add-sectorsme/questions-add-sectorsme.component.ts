@@ -75,7 +75,8 @@ export class QuestionsAddSectorsmeComponent implements OnInit {
         option4checkbox:[],
         answerID:[],
         questionID:[],
-        account: ['', [Validators.required]]       
+        account: ['', [Validators.required]],
+        status:[]
       })
     }
 
@@ -205,6 +206,7 @@ export class QuestionsAddSectorsmeComponent implements OnInit {
               }       
               this.questionID++;                
               this.questionForm.value.questionID=this.questionID;
+              this.questionForm.value.status="Active";
               
           this.apiService.createQuestion(this.questionForm.value).subscribe(
             (res) => {

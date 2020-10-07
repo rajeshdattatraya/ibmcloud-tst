@@ -54,7 +54,8 @@ export class EligibleCandidatesComponent implements OnInit {
   itemsPerPage=appConfig.itemsPerPage;
   account='';
   positionID='';
-  displayedColumns = ['Action','employeeName', 'userScore','smeResult','managementResult','cvDownload'];
+  loginAdminAccounts:any=[];
+  displayedColumns = ['Action','employeeName','account', 'userScore','smeResult','managementResult','cvDownload'];
 
   constructor(
   private cv:TechnicalInterviewListComponent,
@@ -63,6 +64,7 @@ export class EligibleCandidatesComponent implements OnInit {
   private apiService: ApiService) {
     this.jrss = this.router.getCurrentNavigation().extras.state.jrss;
     this.account = this.router.getCurrentNavigation().extras.state.account;
+    this.loginAdminAccounts = this.account.split(",");
     this.positionID = this.router.getCurrentNavigation().extras.state.positionID;
 
     this.browserRefresh = browserRefresh;

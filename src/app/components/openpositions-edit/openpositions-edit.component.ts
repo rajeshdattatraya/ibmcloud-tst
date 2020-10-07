@@ -74,6 +74,9 @@ export class OpenpositionsEditComponent implements OnInit {
             this.AccountArray.push(accValue.account);
           }
         }
+        if (loginAdminAccount === 'SECTOR') {
+           this.AccountArray.push(accValue.account);
+        }
       }
     }
     })
