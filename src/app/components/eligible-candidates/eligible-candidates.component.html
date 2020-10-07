@@ -25,6 +25,15 @@
         <td mat-cell *matCellDef="let row">{{row.result_users[0].account}}</td>
       </ng-container>
 
+
+      <!-- Account Column -->
+      <div class="mat-elevation-z8" *ngIf="(account=='sector' || account=='Sector' || account=='SECTOR') || this.loginAdminAccounts.length > 1">
+       <ng-container matColumnDef="account">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header> Account </th>
+         <td mat-cell *matCellDef="let row"> {{row.account}}</td>
+      </ng-container>
+      </div>
+
       <ng-container matColumnDef="userScore">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Online Test Result </th>
         <td mat-cell *matCellDef="let row"> 
