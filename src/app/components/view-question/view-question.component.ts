@@ -26,7 +26,7 @@ export class ViewQuestionComponent implements OnInit {
   questionID;
   qID;
   accounts;
-  isRowSelected: boolean;
+  isRowSelected: boolean = false;
   dataSource = new MatTableDataSource<Question>();
   accountArr:any = [];
   finalArr:any = [];
@@ -129,6 +129,7 @@ invokeEdit(){
 
   if (this.isRowSelected == false) {
     alert("Please select the Question");
+    return false;
   } else {
      this.apiService.findUserAnswer(this.qID).subscribe((res) => {
          if (res.count > 0) {
@@ -147,6 +148,7 @@ invokeEdit(){
 removeQuestion(){
   if(this.isRowSelected == false){
     alert("Please select the Question");
+    return false;
   } else {
      this.apiService.findUserAnswer(this.qID).subscribe((res) => {
      if (res.count > 0) {
