@@ -67,7 +67,7 @@ readAccount(){
 
 mainForm() {
   this.accountForm = this.fb.group({
-    account: ['', [Validators.required]]
+    account: ['', [Validators.required, Validators.pattern('[a-zA-Z][a-zA-Z,0-9 .,#-@&/–]*')]]
   })
 }
 
