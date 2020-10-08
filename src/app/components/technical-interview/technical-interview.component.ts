@@ -59,7 +59,7 @@ export class TechnicalInterviewComponent implements OnInit {
         finalResult:['',Validators. required],
         feedback:['',Validators. required],
         // smeName:['',Validators. required],
-        techStream: this.fb.array([]) ,
+        techStream: this.fb.array([this.createTechStream(), Validators. required]) ,
       });
 
   }
@@ -322,8 +322,28 @@ export class TechnicalInterviewComponent implements OnInit {
 
   onSubmit() {
 
-    this.submitted = true;
-    this.dynamicFormControlValidation();
+  this.submitted = true;
+  this.dynamicFormControlValidation();
+  var techStreamArray:any=[];
+  techStreamArray = this.techskillForm.value.techStream
+  var techExists:boolean =false;
+  for (var techStream of techStreamArray) {
+       if (techStream == null || techStream == undefined) {
+       } else {
+          for (var ts of this.technologyStreamArray) {
+             if (ts.value == techStream.technologyStream) {
+                 techExists=true;
+                 break;
+             }
+          }
+          if (!techExists) {
+               window.alert("Please select an appropriate Technology Stream for the selected candidate.");
+               return false;
+          }
+       }
+       techExists = false;
+  }
+
     if (!this.techskillForm.valid) {
       return false;
     } else {
