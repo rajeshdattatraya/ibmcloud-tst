@@ -26,6 +26,11 @@ export class OpenPositionsListComponent implements OnInit {
   userName;
   accessLevel;
   loading = true;
+  filterObj = {};
+  positionIDFilter: string;
+  positionLocationFilter: string;
+  jrssFilter: string;
+  accountFilter: string;
   dataSource = new MatTableDataSource<OpenPositionDetail>();
 
   displayedColumns = ['Action','positionName', 'positionID','JRSS','lineOfBusiness','positionLocation','rateCardJobRole','competencyLevel'];
@@ -45,6 +50,14 @@ export class OpenPositionsListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dataSource.filterPredicate = (data, filter) => {
+        if(data[this.filterObj['key']] && this.filterObj['key']) {
+            if (data[this.filterObj['key']].toLowerCase().startsWith(this.filterObj['value'])) {
+               return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
+            }
+        }
+        return false;
+    }
     this.listAllOpenPositions()
   }
 
@@ -75,5 +88,22 @@ export class OpenPositionsListComponent implements OnInit {
 
 
   }
+
+
+   clearFilters() {
+     this.dataSource.filter = '';
+     this.positionIDFilter = '';
+     this.positionLocationFilter = '';
+     this.jrssFilter = '';
+     this.accountFilter = '';
+   }
+
+   applyFilter(filterValue: string,key: string) {
+      this.filterObj = {
+            value: filterValue.trim().toLowerCase(),
+            key: key
+      }
+      this.dataSource.filter = filterValue.trim().toLowerCase();
+   }
 
 }

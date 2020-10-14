@@ -56,12 +56,14 @@ export class OpenpositionsListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-    this.dataSource.filterPredicate = (data, filter) => {
-      if(data[this.filterObj['key']] && this.filterObj['key']) {
-          return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
+      this.dataSource.filterPredicate = (data, filter) => {
+        if(data[this.filterObj['key']] && this.filterObj['key']) {
+            if (data[this.filterObj['key']].toLowerCase().startsWith(this.filterObj['value'])) {
+               return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
+            }
+        }
+        return false;
       }
-    return false;
-    }
       this.readOpenPosition();
     }
 
