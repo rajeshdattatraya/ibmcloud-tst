@@ -54,6 +54,7 @@ export class EligibleCandidatesComponent implements OnInit {
   itemsPerPage=appConfig.itemsPerPage;
   account='';
   positionID='';
+  positionAccount;
   loginAdminAccounts:any = [];
   displayedColumns = ['Action','employeeName','userScore','smeResult','managementResult','cvDownload'];
   displayedColumnsMultiAccount = ['Action','employeeName', 'account','userScore','smeResult','managementResult','cvDownload'];
@@ -66,6 +67,7 @@ export class EligibleCandidatesComponent implements OnInit {
     this.jrss = this.router.getCurrentNavigation().extras.state.jrss;
     this.account = this.router.getCurrentNavigation().extras.state.account;
     this.positionID = this.router.getCurrentNavigation().extras.state.positionID;
+    this.positionAccount = this.router.getCurrentNavigation().extras.state.positionAccount;
     this.loginAdminAccounts = this.account.split(",");
     this.browserRefresh = browserRefresh;
     if (!this.browserRefresh) {
@@ -114,7 +116,7 @@ getOperationsCandidateList(){
 
 // To Read the Results
 readResult() {
-  this.apiService.getOperationsCandidateList().subscribe((data) => {
+  this.apiService.getOperationsAccountCandidateList(this.positionAccount).subscribe((data) => {
     this.Result = data;
     this.dataSource.data = this.Result.filter(singleItem => 
       singleItem.result_users[0].JRSS.toLowerCase() == this.jrss.toLowerCase() );

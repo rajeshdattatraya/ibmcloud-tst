@@ -50,6 +50,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
   candidateLocation: any;
   candidateID: any;
   candidateJRSS:any;
+  candidateAccount:any;
 
   fromAddress: String = "";
   emailSubject: String = "";
@@ -145,6 +146,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
       this.userLOB = this.partnerInterviewDetails[0].result_users[0].userLOB;
       this.band = this.partnerInterviewDetails[0].result_users[0].band;
       this.candidateJRSS = this.partnerInterviewDetails[0].result_users[0].JRSS;
+      this.candidateAccount = this.partnerInterviewDetails[0].result_users[0].account;
       this.positionName = this.partnerInterviewDetails[0].result_users[0].openPositionName;
       this.positionID = this.partnerInterviewDetails[0].result_users[0].positionID;
       this.oldCandidateLocation = this.candidateLocation;
@@ -221,8 +223,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
                   }
 
                    //Save open position name , candidate location and grossProfit in candidate collection
-                   let candidateDetails = new CandidateGPDetails(this.grossProfit,this.candidateLocation,this.positionName);
-                   console.log("candidateID",this.candidateID);
+                   let candidateDetails = new CandidateGPDetails(this.grossProfit,this.candidateLocation,this.positionName,this.positionID);
                     this.apiService.updateCandidate(this.candidateID, candidateDetails).subscribe((data)=> {
                       console.log('Candidate Details successfully updated!')
                     });
@@ -358,6 +359,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
         this.positionDetails = data;
         console.log('this.positionDetails inside pos by ID ***** ',data);
         this.positionID = data['positionID']
+        this.positionName = data['positionName']
         this.rateCardLOB = data['lineOfBusiness']
         this.rateCardLocation = data['positionLocation']
         this.rateCardRole = data['rateCardJobRole']
@@ -377,7 +379,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
     // To Read the Open Position by JRSS
       listAllOpenPositions() {
         const status="Open";
-        this.openPositionService.listAllOpenPositionsBYJRSS(this.account, status,this.candidateJRSS).subscribe((data) => {
+        this.openPositionService.listAllOpenPositionsBYJRSS(this.candidateAccount, status,this.candidateJRSS).subscribe((data) => {
           this.openPositionsList = data;
       })
     }

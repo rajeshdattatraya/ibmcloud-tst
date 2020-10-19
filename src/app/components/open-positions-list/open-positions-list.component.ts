@@ -19,6 +19,7 @@ export class OpenPositionsListComponent implements OnInit {
   itemsPerPage = appConfig.itemsPerPage;
   page=1;
   account="";
+  positionAccount="";
 
   openPositionsList:any = [];
   loginAdminAccounts:any = [];
@@ -81,7 +82,7 @@ export class OpenPositionsListComponent implements OnInit {
   //Method to redirect to the page to find the candidates for the given JRSS
   redirectToFindCandidates() {
     if (this.jrssSelected) {
-      this.router.navigateByUrl('/eligible-candidates',{state:{jrss:this.jrssSelected, accessLevel:this.accessLevel, account:this.account, positionID:this.positionID}});
+      this.router.navigateByUrl('/eligible-candidates',{state:{jrss:this.jrssSelected, accessLevel:this.accessLevel, account:this.account, positionID:this.positionID,positionAccount:this.positionAccount}});
     } else {
       alert("Please select a position");
     }
