@@ -181,38 +181,36 @@ ngOnInit() {
              this.temp=this.noOfQuestions;
              this.isLastelemnt=false;
 
-             var complexityLevelArray =['Simple', 'Medium', 'Complex'];
+             var noOfComplexQuestions;
+             var noOfMediumQuestions;
+             //var complexityLevelArray =['Simple', 'Medium', 'Complex'];
+             var complexityLevelArray =['Complex', 'Medium', 'Simple'];
              complexityLevelArray.forEach(complexity =>{
              console.log("Complexity inside else " +complexity);
              let temp1=0;
-    
+            let currentsetq =0;
             var last_element = complexityLevelArray[complexityLevelArray.length - 1];
-
-            if ((last_element===complexity) && !(this.isLastelemnt)) {
-              this.isLastelemnt=true;
-              console.log(" loop is at the last iteration");
-            }
-            if((complexity === "Simple" ) && !(this.isLastelemnt)){
-              temp1 = Math.round(this.noOfQuestions * 0.4);
-              this.temp = this.temp - temp1;
+            
+            if((complexity === "Complex") && !(this.isLastelemnt)){
+              temp1 = Math.round(this.noOfQuestions * 0.7);
+              currentsetq = this.temp - temp1;
+              noOfComplexQuestions = currentsetq;
+              console.log('Complex: ',noOfComplexQuestions+' Total: ',this.noOfQuestions);
             }
     
             if((complexity === "Medium") && !(this.isLastelemnt)){
-              temp1 = Math.round(this.noOfQuestions * 0.3);
-              this.temp = this.temp - temp1;
+              temp1 = Math.round(this.noOfQuestions * 0.7);
+              currentsetq = this.temp - temp1;
+              noOfMediumQuestions = currentsetq;
+              console.log('Medium: ',noOfMediumQuestions+' Total: ',this.noOfQuestions);
             }
   
-            if((complexity === "Complex") && !(this.isLastelemnt)){
-              temp1 = Math.round(this.noOfQuestions * 0.3);
-              this.temp = this.temp - temp1;
+            if((complexity === "Simple" ) && !(this.isLastelemnt)){
+              //temp1 = Math.round(this.noOfQuestions * 0.4);
+              currentsetq = this.noOfQuestions - (noOfComplexQuestions + noOfMediumQuestions);
+              console.log('Simple: ',currentsetq+' Total: ',this.noOfQuestions);
             }
    
-            let currentsetq;
-            if (this.isLastelemnt) {
-               currentsetq=this.temp;
-            } else {
-               currentsetq=temp1;
-            }
             this.quizService.getQuizQuestions(currentsetq, this.userName,this.technologyStream,complexity,this.candidateAccount).subscribe(res => {
            
               //create a temparary array of questions for the responses received
