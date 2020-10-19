@@ -1,4 +1,5 @@
 <div *ngIf="accessLevel === 'partner'">
+  <p style="text-align:right; font-family: cursive; font-size: 120%;"><b>Welcome, {{name}}!!</b></p>
   <mat-toolbar>
     <mat-toolbar-row>
       <a mat-button  class="matButtonSpace" routerLink="/partner-list" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Partner Interview</a>
@@ -13,6 +14,7 @@
   </mat-toolbar>
 </div>
 <div *ngIf="accessLevel === 'management'">
+  <p style="text-align:right; font-family: cursive; font-size: 120%;"><b>Welcome, {{name}}!!</b></p>
   <mat-toolbar>
     <mat-toolbar-row>
       <a  mat-button  class="matButtonLargeSpace" [matMenuTriggerFor]="openpositions" routerLink="/openpositions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Manage OpenSeats</a>
@@ -32,6 +34,7 @@
   </mat-toolbar>
 </div>
 <div *ngIf="accessLevel === 'admin' && !(account=='sector')">
+<p style="text-align:right; font-family: cursive; font-size: 120%;"><b>Welcome, {{name}}!!</b></p>
 <mat-toolbar>
   <mat-toolbar-row>
     <a  mat-button  [matMenuTriggerFor]="users" routerLink="/candidates-list" [state]="{username:this.userName, accessLevel:'admin',account:this.account}" routerLinkActive="active">Manage Users</a>
@@ -66,6 +69,7 @@
 </mat-toolbar>
 </div>
 <div *ngIf="accessLevel === 'sme' && account === 'sector'">
+  <p style="text-align:right; font-family: cursive; font-size: 120%;"><b>Welcome, {{name}}!!</b></p>
   <mat-toolbar>
     <mat-toolbar-row>
       <a  mat-button class="matButtonSmallSpace"  routerLink="/technical-interview-list" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active">Technical Interview</a>
@@ -83,6 +87,7 @@
   </mat-toolbar>
 </div>
 <div *ngIf="accessLevel === 'sme' && !(account === 'sector')">
+  <p style="text-align:right; font-family: cursive; font-size: 120%;"><b>Welcome, {{name}}!!</b></p>
   <mat-toolbar>
     <mat-toolbar-row>
       <a  mat-button class="matButtonSmallSpace" routerLink="/technical-interview-list" [state]="{username:this.userName, accessLevel:this.accessLevel, account:this.account}" routerLinkActive="active">Technical Interview</a>
@@ -100,6 +105,7 @@
   </mat-toolbar>
 </div>
 <div *ngIf="accessLevel === 'superAdmin'">
+  <p style="text-align:right; font-family: cursive; font-size: 120%;"><b>Welcome, {{name}}!!</b></p>
   <mat-toolbar>
     <mat-toolbar-row>
       <a mat-button  class="matButtonSmallSpace" routerLink="/superadmin-user-create" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manage User</a>       
