@@ -354,10 +354,6 @@
               <td><mat-label class="col-sm-10 col-form-label">Technology Stream:</mat-label></td>
               <td>&nbsp;{{this.candidateDetails[0].technologyStream}}</td>
             </tr>
-            <tr *ngIf="displayContractorUIFields">
-              <td><mat-label class="col-sm-10 col-form-label">Date of Birth:</mat-label></td>
-              <td>&nbsp;{{this.candidateDetails[0].dateOfJoining.split('T')[0]}}</td>
-            </tr>
             <tr>
               <td><mat-label class="col-sm-10 col-form-label">Status:</mat-label></td>
               <td>&nbsp;{{this.candidateDetails[0].candidate_users[0].status}}</td>
@@ -370,7 +366,10 @@
               <td><mat-label class="col-sm-10 col-form-label">Account:</mat-label></td>
               <td>&nbsp;{{this.candidateDetails[0].account}}</td>
             </tr>
-
+            <tr *ngIf="displayContractorUIFields">
+              <td><mat-label class="col-sm-10 col-form-label">Date of Birth:</mat-label></td>
+              <td>&nbsp;{{this.candidateDetails[0].dateOfJoining.split('T')[0]}}</td>
+            </tr>
           </table>
         </mat-card-content>
       </mat-card>
