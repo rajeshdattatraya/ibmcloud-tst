@@ -64,14 +64,14 @@
     <form [formGroup]="techskillForm" (ngSubmit)="onSubmit()">
       <mat-card class="login-card">
         <mat-card-content>
-          <table  formArrayName="techStream" class="fixedTable">
-            <tr>
-              <td colspan="4" style="width:100%" ><mat-label><B>Select Technical Area For Assessment:</B></mat-label></td>
-            </tr>
-            <br/>
-            <tr *ngFor="let dynamic of dynamicArray; let i = index;" [formGroupName]="i">
+         
+            <mat-label><B>Select Technical Area For Assessment:</B></mat-label>
+            <br>
+              <table  formArrayName="techStream" class="fixedTable" >
+                <div *ngFor="let dynamic of dynamicArray; let i = index;" [formGroupName]="i">
+            <tr style="margin-top: 10%;">
               <td style="width:25%">
-                <mat-form-field class="open-full-width">
+                <mat-form-field class="open-full-width" >
                   <mat-label>Technology Stream</mat-label>
                   <mat-select placeholder="Technology Stream" formControlName="technologyStream" (selectionChange)="changeSelectTechStream(i)" >
                     <ng-container *ngFor="let ts of dynamic;" >
@@ -79,22 +79,43 @@
                         {{ts.value}}
                       </mat-option>
                     </ng-container>
+                    
                   </mat-select>
                 </mat-form-field>
+                
               </td>
               <td style="width:25%">
-                <mat-form-field class="open-full-width">
+                <mat-form-field class="open-full-width" >
                   <input matInput placeholder="Score(1-10)" type="text" formControlName="score" (blur)="averageCalc($event.value)" (keypress)="isNumber($event,i)" id="score" >
                 </mat-form-field>
               </td>
-              <td colspan="2"  style="width:50%" *ngIf="dynamicArray.length == i+1">
+              
+              <td  colspan="2" style="width:50%" *ngIf="dynamicArray.length == i+1">
                 &nbsp;&nbsp;
                 <a> <img src="assets/images/add.jpg" width="25" height="25" (click)="addTechStream(i)"> </a>
                 &nbsp;&nbsp;
                 <a> <img src="assets/images/remove.jpg" width="25" height="25" (click)="removeTechStream(i)"> </a>
               </td>
+              <!-- The below td is placed just to reslove alignment issues-->
+              <td  colspan="2" style="width:50%" *ngIf="dynamicArray.length != i+1">
+                &nbsp;&nbsp;
+              </td>
+              
             </tr>
+              
+            <tr *ngIf="this.errorIdx[i]=='ERROR'  && !this.techskillForm.controls.techStream.valid" style="margin-top: 0%;" >
+              <td colspan="2" style="font-size: 12px;  width:50%; color:#dc3545" >
+                   {{this.errorMsg[i]}}
+               </td> 
+              
+              
+             </tr>
+             
+          
+            </div>
+           
           </table>
+         
         </mat-card-content>
       </mat-card>
       <br>
