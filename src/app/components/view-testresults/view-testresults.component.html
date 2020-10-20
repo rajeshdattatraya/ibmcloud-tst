@@ -210,12 +210,18 @@
               <tr *ngIf="displayRegularUIFields">
                 <td><mat-label>Date of Joining:</mat-label></td>
                 <td>&nbsp;{{this.candidateDetails[0].dateOfJoining.split('T')[0]}}</td>
+                <td><mat-label>Account:</mat-label></td>
+                <td>&nbsp;{{this.candidateDetails[0].account}}</td>
               </tr>
               <tr *ngIf="displayContractorUIFields">
                 <td><mat-label>Date of Birth:</mat-label></td>
                 <td>&nbsp;{{this.candidateDetails[0].dateOfJoining.split('T')[0]}}</td>
                 <td><mat-label>Job Role:</mat-label></td>
                 <td>&nbsp;{{this.candidateDetails[0].JRSS}}</td>
+              </tr>
+              <tr *ngIf="displayContractorUIFields">
+                <td><mat-label>Account:</mat-label></td>
+                <td>&nbsp;{{this.candidateDetails[0].account}}</td>
               </tr>
             </table>
           </mat-card-content>

@@ -59,6 +59,7 @@ export class QuizComponent implements OnInit {
   questionObj: {};
   isLastelemnt:boolean = false;
   temp ;
+  displayQuestions: Boolean = false;
   
   constructor(
     private router: Router,
@@ -186,10 +187,8 @@ ngOnInit() {
              //var complexityLevelArray =['Simple', 'Medium', 'Complex'];
              var complexityLevelArray =['Complex', 'Medium', 'Simple'];
              complexityLevelArray.forEach(complexity =>{
-             console.log("Complexity inside else " +complexity);
              let temp1=0;
             let currentsetq =0;
-            var last_element = complexityLevelArray[complexityLevelArray.length - 1];
             
             if((complexity === "Complex") && !(this.isLastelemnt)){
               temp1 = Math.round(this.noOfQuestions * 0.7);
@@ -246,8 +245,36 @@ ngOnInit() {
             console.log(error);
         });
   }
+  // Check the no. of questions selected and the no. of questions configured.
+  setTimeout(()=>{
+    if(this.questions.length < this.noOfQuestions){
+      alert('Insufficient Questions in the question bank! Please contact admin and try again.');
 
+        // 1. Update the user status to 'Active'
+        this.apiService.updateUsersStatus(this.userName,'Active',this.userName).subscribe(
+        (res) => {
+        console.log(this.userName+'Status column updated successfully in Users table');
+         }, (error) => {
+        console.log("Error found while updating status column of Users table - " + error);
+         });
+
+         // 2. Update user loggedin status to false
+         this.apiService.updateUserLoggedinStatus(this.userName, 'false').subscribe(
+          (res) => {
+          console.log('userLoggedin column updated successfully in Users table');                 
+          }, (error) => {                
+          console.log("Error found while updating userLoggedin column of Users table - " + error);
+          });
+
+          // 3. Redirect to login page
+          this.router.navigate(['/login-component']);
+          return false;
+        }else{
+          this.displayQuestions = true;
+        }
+      },500);
     });
+    
     this.questions.forEach((question) => { 
 		    question.options.forEach((option) => { option.checked = ""; });
 	  });

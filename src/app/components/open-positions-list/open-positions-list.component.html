@@ -46,7 +46,7 @@
     <!-- ID Column -->
     <ng-container matColumnDef="Action">
       <th mat-header-cell *matHeaderCellDef> Select </th>
-      <td mat-cell *matCellDef="let row"> <mat-radio-button name="jrssSelected"  (change)="jrssSelected=row.JRSS; positionID=row._id"></mat-radio-button>
+      <td mat-cell *matCellDef="let row"> <mat-radio-button name="jrssSelected"  (change)="jrssSelected=row.JRSS; positionID=row.positionID;positionAccount=row.account"></mat-radio-button>
       </td>
     </ng-container>
     <!-- ID Column -->
@@ -117,7 +117,7 @@
     <!-- ID Column -->
     <ng-container matColumnDef="Action">
       <th mat-header-cell *matHeaderCellDef> Select </th>
-      <td mat-cell *matCellDef="let row"> <mat-radio-button name="jrssSelected"  (change)="jrssSelected=row.JRSS; positionID=row._id"></mat-radio-button>
+      <td mat-cell *matCellDef="let row"> <mat-radio-button name="jrssSelected"  (change)="jrssSelected=row.JRSS; positionID=row.positionID;positionAccount=row.account"></mat-radio-button>
       </td>
     </ng-container>
     <!-- ID Column -->

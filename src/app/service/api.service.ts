@@ -121,7 +121,15 @@ getQuestions(account): Observable<any> {
         catchError(this.errorMgmt)
       )
   }
-
+  // GET Candidate JRSS
+  getNameFromUsername(username): Observable<any> {
+  console.log('username in api---'+username)
+  let url = `${this.baseUri}/nameFromUsername/${username}`;
+  return this.http.get(url)
+    .pipe(
+      catchError(this.errorMgmt)
+    )
+  }
   // GET Candidate details by username
   getCandidateDetails(username): Observable<any> {
       let url = `${this.baseUri}/readCandidate/${username}`;

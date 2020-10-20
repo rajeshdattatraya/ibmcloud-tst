@@ -49,8 +49,8 @@ export class OperationsProjectInitiateComponent implements OnInit {
   private positionsService: PositionsService) {
        this.userName = this.router.getCurrentNavigation().extras.state.username;          
        this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;  
-       this.account = this.router.getCurrentNavigation().extras.state.account;  
-       this.positionID = this.router.getCurrentNavigation().extras.state.positionID;        
+       this.account = this.router.getCurrentNavigation().extras.state.account;
+       this.positionID = this.router.getCurrentNavigation().extras.state.positionID;
        let id = this.actRoute.snapshot.paramMap.get('id');
        this.readOperationsProjectDetails(id); 
        this.mainForm();     
@@ -69,11 +69,8 @@ export class OperationsProjectInitiateComponent implements OnInit {
         } else {
           //if position is not already selected then display the positions in dropdown 
           this.displayPositionDropDown=true;
-         
-          
         }
         this.readPositionLocation();
-       
         //Sprint8 End
    }
 
@@ -129,10 +126,14 @@ get myForm(){
       this.candidateBand = this.operationsProjectDetails[0].result_users[0].band;
       this.candidateJRSS = this.operationsProjectDetails[0].result_users[0].JRSS;
       this.positionName = this.operationsProjectDetails[0].result_users[0].openPositionName;
-      this.positionID = this.operationsProjectDetails[0].result_users[0].positionID;
+      this.candidatePositionID = this.operationsProjectDetails[0].result_users[0].positionID;
       this.oldCandidateLocation = this.candidateLocation;
-      this.getSelectedPositionDetails(this.positionID);
-      this.listAllOpenPositions()
+      if (this.positionID == undefined || this.positionID == null) {
+          this.getSelectedPositionDetails(this.candidatePositionID);
+      } else {
+          this.getSelectedPositionDetails(this.positionID);
+      }
+
       //Sprint8 End
 
       // Defect #198 - Get account for candidate from candidate table     
@@ -141,6 +142,7 @@ get myForm(){
         if (this.candidateAccount.account.toLocaleLowerCase().trim() == 'dwp'){
           this.dwpFlag = true;              
         }
+        this.listAllOpenPositions(this.candidateAccount.account,this.candidateAccount.JRSS);
       });
     });
   }
@@ -200,7 +202,6 @@ get myForm(){
                 (res) => {
                     console.log("Position closed successfully");            
                 });
-              
             }           
   
             // Send notification to the candidate
@@ -259,6 +260,7 @@ candidateLocation='';
 candidateBand ='';
 candidateLOB ='';
 positionID;
+candidatePositionID;
 positionStatus='Close';
 openPositionsList:any = [];
 
@@ -272,16 +274,11 @@ displayPositionDropDown=false;
 positionName;
 
   // To Read the Open Position by JRSS
-  listAllOpenPositions() {
+  listAllOpenPositions(account,JRSS) {
     const status="Open";
-  //this.positionsService.listAllOpenPositions(this.account, status).subscribe((data) => {
-   // this.openPositionsList = data;
-
-    this.openPositionService.listAllOpenPositionsBYJRSS(this.account, 
-      status,this.candidateJRSS).subscribe((data) => {
+    this.openPositionService.listAllOpenPositionsBYJRSS(account,status,JRSS).subscribe((data) => {
       this.openPositionsList = data;
-    
-  })
+    })
 }
 
 
@@ -289,10 +286,8 @@ oldCandidateLocation;
 getGPByCandidateLocation(userSelectedCandidateLocation) {
   this.displayPositionDetails = true;
   if (userSelectedCandidateLocation != null ||  userSelectedCandidateLocation != undefined) {
-    
     this.candidateLocation = userSelectedCandidateLocation;
     this.calculateGP();
-   
   }
 }
 
@@ -301,7 +296,6 @@ getSelectedPositionDetails(positionID) {
   this.positionID = positionID
   if (this.positionID != null ||  this.positionID != undefined) {
     this.readOpenPositionsByPositionID();
-   
   }
 }
 
@@ -320,14 +314,11 @@ getSelectedPositionDetails(positionID) {
  readOpenPositionsByPositionID() {
   this.openPositionService.readOpenPositionByPositionID(this.positionID).subscribe((data) => {
     this.positionDetails = data;
-    console.log('this.positionDetails inside pos by ID ***** ',data);
-    
     this.rateCardLOB = data['lineOfBusiness']
     this.rateCardLocation = data['positionLocation']
     this.rateCardRole = data['rateCardJobRole']
     this.rateCardComplexityLevel= data['competencyLevel']
     this.calculateGP();
-    
   })
 }
 
