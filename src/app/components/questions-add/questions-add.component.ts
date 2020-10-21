@@ -198,7 +198,7 @@ export class QuestionsAddComponent implements OnInit {
       }
 
     cancelForm(){
-      this.ngZone.run(() => this.router.navigateByUrl('/view-questionbank',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
+      this.ngZone.run(() => this.router.navigateByUrl('/manage-questionbank',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
     }
 
     resetForm() {

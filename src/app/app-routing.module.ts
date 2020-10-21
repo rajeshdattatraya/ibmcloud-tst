@@ -51,7 +51,8 @@ import { TechIntSchedulerComponent } from './components/tech-int-scheduler/tech-
 import {ViewQuestionComponent } from './components/view-question/view-question.component';
 import { QuestionEditComponent } from './components/question-edit/question-edit.component';
 import { SuperadminUserEditComponent } from './components/superadmin-user-edit/superadmin-user-edit.component';
-import { AccountCreateComponent } from './components/account-create/account-create.component'
+import { AccountCreateComponent } from './components/account-create/account-create.component';
+import {QuestionViewComponent} from './components/question-view/question-view.component'
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login-component' },
@@ -106,6 +107,7 @@ const routes: Routes = [
   { path: 'interview_scheduler', component: TechIntSchedulerComponent },
   { path: 'view-questionbank', component:ViewQuestionComponent},
   { path: 'question-edit/:id', component:QuestionEditComponent},
+  { path: 'question-view/:id', component:QuestionViewComponent},
   { path: 'account-create', component:AccountCreateComponent}
 ];
 

@@ -135,7 +135,7 @@
             <tr>
               <td style="width:50%">
                 <mat-form-field class="open-full-width">
-                <input matInput placeholder="Final Score" formControlName="finalscore" size="5" type="text" value={{this.averageScore}}  [ngClass]="{ 'is-invalid': submitted && myForm.finalscore.errors}" readonly>
+                <input matInput placeholder="Final Score" formControlName="finalscore" size="5" type="text" value={{this.averageScore}}  [ngClass]="{ 'is-invalid': submitted && myForm.finalscore.errors}" >
                 <div *ngIf="submitted && myForm.finalscore.errors" class="invalid-feedback">
                   <div *ngIf="myForm.finalscore.errors.required">Final Score should be greather than 0.</div>
                 </div>

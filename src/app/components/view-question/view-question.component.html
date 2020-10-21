@@ -78,6 +78,9 @@
    </div>
    <br/>
    <div  class="float-right text-right" *ngIf="Questions.length > 0">
+    <a class="edit" (click)="invokeView()">
+      <button mat-raised-button color="primary">View</button>&nbsp;
+    </a>
      <a class="edit" (click)="invokeEdit()">
        <button mat-raised-button color="primary">Edit</button>&nbsp;
      </a>
