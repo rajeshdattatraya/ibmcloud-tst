@@ -1,4 +1,5 @@
 <div *ngIf="accessLevel === 'partner'">
+	<p style="text-align:right; font-family: cursive; font-size: 120%;"><b>Welcome, {{name}}!!</b></p>
 	<mat-toolbar>
 	  <mat-toolbar-row>
 		<a mat-button  class="matButtonSpace" routerLink="/partner-list" [state]="{username:this.userName,accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Partner Interview</a>
@@ -13,6 +14,7 @@
 	</mat-toolbar>
 	</div>
 	<div *ngIf="accessLevel === 'management'">
+	  <p style="text-align:right; font-family: cursive; font-size: 120%;"><b>Welcome, {{name}}!!</b></p>
 	  <mat-toolbar>
 		<mat-toolbar-row>
 		  <a  mat-button  class="matButtonLargeSpace" [matMenuTriggerFor]="openpositions" routerLink="/openpositions-list" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}" routerLinkActive="active">Manage OpenSeats</a>
