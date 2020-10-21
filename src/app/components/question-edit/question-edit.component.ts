@@ -59,8 +59,13 @@ export class QuestionEditComponent implements OnInit {
   
     this.AccountsArr = res['account'].split(",");
     console.log("Account from response = " + this.AccountsArr);
-​
-    this.editquestionForm.setValue({        
+​    if (this.options[2] == null || this.options[2] == undefined) {
+        this.options[2] = '';
+    }
+    if (this.options[3] == null || this.options[3] == undefined) {
+            this.options[3] = '';
+    }
+    this.editquestionForm.setValue({
         technologyStream: res['technologyStream'],
         questionType: res['questionType'],
         complexityLevel: res['complexityLevel'],
