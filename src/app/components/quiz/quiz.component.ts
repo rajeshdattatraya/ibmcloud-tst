@@ -169,6 +169,7 @@ ngOnInit() {
               this.configDuration = data['testDuration']*60;
               this.quizService.getQuizQuestions(this.noOfQuestions, this.userName,this.technologyStream,this.complexityLevel,this.candidateAccount).subscribe(res => {
                      this.questions = res;
+                     console.log('No. of fetched questions when band >= 7 is: ',this.questions.length+', res : ',res);
                }, (error) => {
                console.log(error);
                })
@@ -247,6 +248,7 @@ ngOnInit() {
   }
   // Check the no. of questions selected and the no. of questions configured.
   setTimeout(()=>{
+    console.log('Before IF condition. this.questions.length = ',this.questions.length+', number of configured questions = ',this.noOfQuestions);
     if(this.questions.length < this.noOfQuestions){
       alert('Insufficient Questions in the question bank! Please contact admin and try again.');
 
@@ -271,6 +273,22 @@ ngOnInit() {
           return false;
         }else{
           this.displayQuestions = true;
+
+          //Shuffle the questions
+          let currentIndex = this.questions.length;
+          let temporaryValue;
+          let randomIndex;
+          while (0 !== currentIndex) {
+
+            // Pick a remaining element.
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+        
+            // And swap it with the current element.
+            temporaryValue = this.questions[currentIndex];
+            this.questions[currentIndex] = this.questions[randomIndex];
+            this.questions[randomIndex] = temporaryValue;
+          }
         }
       },500);
     });
