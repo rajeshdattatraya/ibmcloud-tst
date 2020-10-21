@@ -124,6 +124,22 @@ export class ViewQuestionComponent implements OnInit {
     })
   }
 
+  invokeView(){
+    if (this.isRowSelected == false) {
+      alert("Please select the Question");
+      return false;
+    } else {
+      this.apiService.findUserAnswer(this.qID).subscribe((res) => {
+        console.log("res:" +res);
+       if (res.count > 0 || res.count == 0) {
+         this.isRowSelected = false;
+         this.router.navigate(['/question-view/',this.questionID], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}});
+       }
+     }, (error) => {
+         console.log("Error  - " + error);
+     });  
+    }
+  }
 
 invokeEdit(){
 
@@ -131,13 +147,17 @@ invokeEdit(){
     alert("Please select the Question");
     return false;
   } else {
+    console.log("Inside else");
      this.apiService.findUserAnswer(this.qID).subscribe((res) => {
+       console.log("res:" +JSON.stringify(res));
          if (res.count > 0) {
           alert("You can not edit this question as this is already appeared in online test.");
           return false;
         } else if (res.count > 0 || res.count == 0) {
+          console.log("Question id:" +this.qID  );
           this.isRowSelected = false;
           this.router.navigate(['/question-edit/',this.questionID], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}});
+        console.log("On click of edit");
         }
       }, (error) => {
           console.log("Error  - " + error);

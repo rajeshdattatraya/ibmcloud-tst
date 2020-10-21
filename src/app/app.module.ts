@@ -67,6 +67,7 @@ import listPlugin from '@fullcalendar/list';
 import { QuestionEditComponent } from './components/question-edit/question-edit.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import {SuperadminUserEditComponent} from './components/superadmin-user-edit/superadmin-user-edit.component';
+import {QuestionViewComponent} from './components/question-view/question-view.component';
 import { AccountCreateComponent } from './components/account-create/account-create.component'
 
 export let browserRefresh = false;
@@ -131,6 +132,7 @@ FullCalendarModule.registerPlugins([
     QuestionEditComponent,
     NavigationComponent,
     SuperadminUserEditComponent,
+    QuestionViewComponent,
     AccountCreateComponent
 
     ],
