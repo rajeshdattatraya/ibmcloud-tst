@@ -97,7 +97,7 @@ export class ViewQuestionComponent implements OnInit {
       if(this.account === 'SECTOR') {
          this.filteredQuestion = [];
          for (let k=0; k<this.Questions.length; k++){
-          this.smeQuestionObj = [this.Questions[k]._id, this.Questions[k].question, this.Questions[k].account, this.Questions[k].technologyStream];
+          this.smeQuestionObj = [this.Questions[k]._id, this.Questions[k].question, this.Questions[k].account, this.Questions[k].technologyStream,this.Questions[k].questionID];
           this.filteredQuestion.push(this.smeQuestionObj);
         }
       } else {
@@ -106,11 +106,18 @@ export class ViewQuestionComponent implements OnInit {
           var item = this.Questions[k].account;
            let questionExists =  false;
            for (var i = 0; i < this.accountArr.length; i++) {
-             if ( item.toLowerCase().indexOf(this.accountArr[i].toLowerCase()) == -1 && item.toLowerCase().indexOf("sector") == -1) {
-              // accountExists =  false;
-             } else {
+             if (item.toLowerCase() === this.accountArr[i].toLowerCase()) {
                questionExists =  true;
                break;
+             }
+             if (item.indexOf(",") !== -1) {
+                let items = item.split(",");
+                if (items.length <= this.accountArr.length) {
+                  if (item.toLowerCase().indexOf(this.accountArr[i].toLowerCase()) !== -1) {
+                    questionExists =  true;
+                    break;
+                  }
+                }
              }
            }
            if (questionExists == true) {
