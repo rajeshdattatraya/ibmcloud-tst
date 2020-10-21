@@ -169,6 +169,18 @@ export class TechnicalInterviewComponent implements OnInit {
     return this.technologyStreamArray;
   }
 
+
+
+  // this.scoreValueArray=this.techskillForm.value.techStream;
+  // var scoreCount:number=0;
+  // for(var sc of this.scoreValueArray) {
+  //  var score:number=parseInt(sc.score);
+  //   if(score>0){
+  //     this.totalScore= this.totalScore + score;
+  //     scoreCount++;
+  //   }
+  // }
+
   changeSelectTechStream(i:number) {
     if(i<(this.newDynamic.length-1)){
      this.selectedTechStream=[];
@@ -178,6 +190,37 @@ export class TechnicalInterviewComponent implements OnInit {
         this.selectedTechStream.push(sc.technologyStream);
         }
      }
+    // this.validateTechStream();
+
+  }
+
+
+  errorIdx:any = [];
+  errorMsg:any =[];
+  validateTechStream() {
+    let i = 0;
+    for (var sc of this.techskillForm.value.techStream) {
+      var technology = sc.technologyStream;
+      if (technology instanceof Object && sc.score <= 0) {
+        this.techskillForm.controls.techStream.setErrors({ 'incorrect': true });
+        this.errorMsg[i] = "Technology must be selected and the score must be greater than 0";
+        this.errorIdx[i] = "ERROR";
+      } else if (technology instanceof Object) {
+        this.techskillForm.controls.techStream.setErrors({ 'incorrect': true });
+        this.errorMsg[i] = "Technology Stream must be selected";
+        this.errorIdx[i] = "ERROR";
+      } else if (sc.score <= 0) {
+        this.techskillForm.controls.techStream.setErrors({ 'incorrect': true });
+        this.errorMsg[i] = "Score must be greater than 0";
+        this.errorIdx[i] = "ERROR";
+      } else {
+        this.errorIdx[i] = "";
+      }
+
+      i++;
+    }
+
+    //return false;
   }
 
   //Mymethod
@@ -213,8 +256,9 @@ export class TechnicalInterviewComponent implements OnInit {
       if(this.mode == ""){
         this.techStream().push(this.createTechStream());
       }
-     
     }
+
+    
 
   }
 
@@ -324,6 +368,7 @@ export class TechnicalInterviewComponent implements OnInit {
 
   this.submitted = true;
   this.dynamicFormControlValidation();
+  this.validateTechStream()
 
     if (!this.techskillForm.valid) {
       return false;

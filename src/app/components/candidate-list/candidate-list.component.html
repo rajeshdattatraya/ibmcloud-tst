@@ -252,8 +252,10 @@
               <tr *ngIf="displayContractorUIFields">
                 <td><mat-label>Employee Type:</mat-label></td>
                 <td>&nbsp;{{this.candidateDetails[0].employeeType}}</td>
+                <td><mat-label>Account:</mat-label></td>
+                <td>&nbsp;{{this.candidateDetails[0].account}}</td>
               </tr>
-              <tr>
+              <tr *ngIf="displayRegularUIFields">
                 <td><mat-label>Account:</mat-label></td>
                 <td>&nbsp;{{this.candidateDetails[0].account}}</td>
               </tr>

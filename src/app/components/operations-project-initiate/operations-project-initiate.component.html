@@ -67,8 +67,10 @@
           <tr *ngIf="displayPartnerInterviewFields">
             <td style="width:25%"><mat-label>Partner Interview Result:</mat-label></td>
             <td style="width:25%">{{this.operationsProjectDetails[0].managementResult}}</td>
+          </tr>
+          <tr>
             <td style="width:25%"><mat-label>Account:</mat-label></td>
-            <td style="width:25%">{{this.candidateAccount.account}}</td>
+            <td style="width:25%">{{this.operationsProjectDetails[0].result_users[0].account}}</td>
           </tr>
           </tbody>
         </table>
