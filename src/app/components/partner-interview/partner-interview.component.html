@@ -334,6 +334,12 @@
                 <tr *ngIf="displayContractorUIFields">
                   <td><mat-label>Account:</mat-label></td>
                   <td>&nbsp;{{this.candidateDetails[0].account}}</td>
+                  <td><mat-label>Employee Type:</mat-label></td>
+                <td>&nbsp;{{this.candidateDetails[0].employeeType}}</td>
+                </tr>
+                <tr *ngIf="displayRegularUIFields">
+                  <td><mat-label>Employee Type:</mat-label></td>
+                  <td>&nbsp;{{this.candidateDetails[0].employeeType}}</td>
                 </tr>
               </table>
             </mat-card-content>
