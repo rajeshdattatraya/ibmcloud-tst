@@ -144,7 +144,7 @@ export class QuestionsAddSectorsmeComponent implements OnInit {
       // selected account in comma separated form
       this.accountArray = [];
       for (var account of this.questionForm.value.account)  {     
-        if(this.accountArray.indexOf(account == -1)){
+        if(this.accountArray.indexOf(account) == -1){
             this.accountArray.push(account);  
         }     
       }       
@@ -160,11 +160,6 @@ export class QuestionsAddSectorsmeComponent implements OnInit {
         this.accountArray.push('SECTOR'); 
       }  
       this.questionForm.value.account = this.accountArray.join(',');          
-
-      //Remove the leading comma if any
-      // if (this.questionForm.value.account.substr(0,1) == ",") {
-      //   this.questionForm.value.account = this.questionForm.value.account.substring(1);
-      // }        
 
       this.submitted = true;
       this.formReset = false;
