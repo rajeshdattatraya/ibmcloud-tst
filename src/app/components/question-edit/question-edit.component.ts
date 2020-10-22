@@ -189,24 +189,21 @@ export class QuestionEditComponent implements OnInit {
   onSubmit() {
       // selected account in comma separated form
       this.AccountArray = [];
-      for (var account of this.editquestionForm.value.account)  {     
-        if(this.AccountArray.indexOf(account.account == -1)){
-            this.AccountArray.push(account.account);  
+      for (var account of this.editquestionForm.value.account) {
+        if(this.AccountArray.indexOf(account) == -1){
+            this.AccountArray.push(account);
         }     
       }       
 ​
       // Check if SECTOR value exists in the accountArray
-      if(this.AccountArray.toString().toLowerCase().indexOf("sector") !== -1)
-      {   
+      if(this.AccountArray.toString().toLowerCase().indexOf("sector") !== -1) {
         if(this.AccountArray.toString().toLowerCase().includes('sector') &&  this.AccountArray.length > 1){
-          window.alert("Please select either sector or accounts in Account field.");                  
+          window.alert("Please select either sector or account in Account field.");
           return false;
         }        
         this.AccountArray = [];
         this.AccountArray.push('SECTOR'); 
-      }  
-      this.editquestionForm.value.account = this.AccountArray.join(',');   
-​
+      }
         this.submitted = true;
         this.formReset = false;
         if (!this.editquestionForm.valid) {         
@@ -261,24 +258,8 @@ export class QuestionEditComponent implements OnInit {
               }
               this.questionID++;
               this.editquestionForm.value.questionID=this.questionID;
-              this.editquestionForm.value.account=this.account;
+              this.editquestionForm.value.account=this.AccountArray.join(',');
               this.editquestionForm.value.status="Active";
-​
-         /*  this.apiService.updateQuestion(this.question_id,this.editquestionForm.value).subscribe(
-            (res) => {
-              console.log('Question successfully updated!');
-             // window.confirm('Succesfully added to QuestionBank');
-             if(confirm('Do you want to update the Question?')){
-               this.formReset = true;
-               this.editquestionForm.reset();
-             }else{
-               return false;
-             }
-​
-              //this.ngZone.run(() => this.router.navigateByUrl('/manage-questionbank',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
-            }, (error) => {
-              console.log(error);
-            }); */
 ​
             if(confirm('Do you want to update the Question which applies to '+ this.editquestionForm.value.account +' accounts?')){
               this.apiService.updateQuestion(this.question_id,this.editquestionForm.value).subscribe(
@@ -287,9 +268,6 @@ export class QuestionEditComponent implements OnInit {
                   this.formReset = true;
                   this.editquestionForm.reset();
                   this.ngZone.run(() => this.router.navigateByUrl('/view-questionbank',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
-                  //this.ngZone.run(() => this.router.navigateByUrl('/edit-question/5f35440c307bc06254cd782f',{state:{username:this.userName,account:this.account}}))
-                 //this.ngZone.run(() => this.router.navigateByUrl('/login-component',{state:{username:this.userName,account:this.account}}))
-​
                 },(error) => {
                   console.log(error);
                 });
