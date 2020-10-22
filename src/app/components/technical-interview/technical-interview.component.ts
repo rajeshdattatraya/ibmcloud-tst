@@ -23,6 +23,7 @@ export class TechnicalInterviewComponent implements OnInit {
   dynamicArray: any = [];
   newDynamic: any = {};
   JRSS:any;
+   name: String="";
   totalScore:number=0;
   averageScore:number=0;
   scoreValueArray:any=[];
@@ -54,6 +55,7 @@ export class TechnicalInterviewComponent implements OnInit {
     this.account = this.router.getCurrentNavigation().extras.state.account; 
     this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
     this.readCandidateTechnicalInterviewDetails(this.userName,this.quizNumber);
+    this.getCandidate();
     this.techskillForm = this.fb.group({
         finalscore:'',
         finalResult:['',Validators. required],
@@ -61,7 +63,6 @@ export class TechnicalInterviewComponent implements OnInit {
         // smeName:['',Validators. required],
         techStream: this.fb.array([]) ,
       });
-
   }
   ngOnInit(): void {
     
@@ -76,7 +77,12 @@ export class TechnicalInterviewComponent implements OnInit {
   skipMethod(){
     alert('Stage skipped');
   }
-  
+  //get user's name based on email id
+  getCandidate(){
+    this.apiService.getNameFromUsername(this.loginUser).subscribe( (res) => {
+    this.name = res.name;        
+  });
+  }
    //To download candidate's CV if uploaded
   downloadCandidateResume(id){
     this.cv.downloadCandidateResume(id) 

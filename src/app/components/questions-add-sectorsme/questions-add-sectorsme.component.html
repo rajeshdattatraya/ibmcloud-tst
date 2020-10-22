@@ -18,7 +18,7 @@
                   <mat-select multiple  placeholder="Account"  formControlName="account" id="inputAccount"
                           [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.account.errors }">
                     <!-- <mat-option value="">Choose...</mat-option> -->
-                    <mat-option *ngFor="let account of Account" [value]="account" (onSelectionChange)="updateAccount($event)" >{{account.account}}
+                    <mat-option *ngFor="let account of Account" [value]="account" (onSelectionChange)="updateAccount($event)" >{{account}}
                     </mat-option>
                   </mat-select>
                   <div *ngIf="!formReset && submitted && myForm.account.errors" class="invalid-feedback">
