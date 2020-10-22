@@ -16,6 +16,7 @@ export class QuestionsAddSectorsmeComponent implements OnInit {
   accountArray:any= [];
   public browserRefresh: boolean;
   Account:any = [];
+  array:any = [];
 
   submitted = false;
   formReset = false;
@@ -37,15 +38,15 @@ export class QuestionsAddSectorsmeComponent implements OnInit {
                   private router: Router,
                   private ngZone: NgZone,
                   private apiService: ApiService) { 
-                    this.readTechStream();this.mainForm();
-                    this.readAccount();
+                    this.readTechStream();this.mainForm();   
+
                     this.browserRefresh = browserRefresh;
-                    
-                  if (!this.browserRefresh){
+                    if (!this.browserRefresh){
                       this.userName = this.router.getCurrentNavigation().extras.state.username;
                       this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
                       this.account = this.router.getCurrentNavigation().extras.state.account;
                     }
+                    this.readAccount();
                   }
 
   ngOnInit() {this.apiService.getQuestionID().subscribe(
@@ -101,8 +102,16 @@ export class QuestionsAddSectorsmeComponent implements OnInit {
 
   // Get all Acconts
   readAccount(){
-    this.apiService.getAccounts().subscribe((data) => {
-    this.Account = data;
+    this.Account =[];
+    this.apiService.getAccounts().subscribe((data) => {     
+      if (this.account.toString().toLowerCase().includes('sector')){
+        this.array = data;
+        for (var value of this.array){
+          this.Account.push(value.account);
+        }
+      } else {
+        this.Account = this.account.split(',');       
+      }
     })
   }
 
