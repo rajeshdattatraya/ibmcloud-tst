@@ -227,7 +227,7 @@ export class QuestionsAddSectorsmeComponent implements OnInit {
     }
 
     cancelForm(){
-      this.ngZone.run(() => this.router.navigateByUrl('/view-questionbank',{state:{username:this.userName,account:this.account}}));
+      this.ngZone.run(() => this.router.navigateByUrl('/manage-questionbank-sectorsme',{state:{username:this.userName,account:this.account}}));
     }
 
     resetForm() {

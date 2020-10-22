@@ -35,6 +35,7 @@
 							
 							<mat-option *ngFor="let jrss of JRSS" value="{{jrss.jrss}}">{{jrss.jrss}}</mat-option>
 						</mat-select>
+						<div *ngIf="displayMessage" style="color:red"> Select Account first </div>
 						<div *ngIf="submitted && myForm.JRSS.errors" class="invalid-feedback">
 						<div *ngIf="myForm.JRSS.errors.required">Job Role is required</div>
 						</div>
@@ -151,5 +152,4 @@
 		  <span class="edit" (click)="deleteTechStream()">
 			  <button mat-raised-button color="primary">Delete</button>&nbsp;
 		  </span>
-		</div>		  
-	  
+		</div>		 

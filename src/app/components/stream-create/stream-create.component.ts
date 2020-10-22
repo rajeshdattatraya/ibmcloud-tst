@@ -38,6 +38,8 @@ export class StreamCreateComponent implements OnInit {
   displayedColumnsWithAccount = ['Action','jrss', 'technologyStream', 'account'];
   formReset = false;
   questionsmappedtotechstream = false;
+  displayMessage:boolean;
+  AccountList:any=[];
 
   accounts:any=[];
 
@@ -96,6 +98,10 @@ export class StreamCreateComponent implements OnInit {
    readJrss(){
     this.apiService.getJRSS().subscribe((data) => {
     this.JRSS = data;
+    if(this.AccountList == 0){
+      this.JRSS.length = 0;
+      this.displayMessage  = true;
+    }
     //this.dataSource.data=data as JRSS[];
     // Get technologyStream from JRSS
     for (var jrss of this.JRSS) {     
@@ -110,6 +116,7 @@ export class StreamCreateComponent implements OnInit {
          
           if ( jrss.account.toLowerCase().indexOf(this.accounts[i].toLowerCase()) == -1) {
            // accountExists =  false;
+           console.log("Account existance");
           } else { accountExists =  true; 
             break; }
         }
@@ -172,6 +179,7 @@ listJrssByAccount(accountValue){
   readJrssByAccount(accountValue){
     this.apiService.getJrsssByAccount(accountValue).subscribe((data) => {
     this.JRSS = data;
+    this.displayMessage = false;
     //this.dataSource.data=data as JRSS[];
     // Get technologyStream from JRSS
     for (var jrss of this.JRSS){     
