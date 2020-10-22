@@ -144,8 +144,8 @@ export class QuestionsAddSectorsmeComponent implements OnInit {
       // selected account in comma separated form
       this.accountArray = [];
       for (var account of this.questionForm.value.account)  {     
-        if(this.accountArray.indexOf(account.account == -1)){
-            this.accountArray.push(account.account);  
+        if(this.accountArray.indexOf(account == -1)){
+            this.accountArray.push(account);  
         }     
       }       
 
@@ -153,7 +153,7 @@ export class QuestionsAddSectorsmeComponent implements OnInit {
       if(this.accountArray.toString().toLowerCase().indexOf("sector") !== -1)
       {         
         if(this.accountArray.toString().toLowerCase().includes('sector') &&  this.accountArray.length > 1){
-          window.alert("Please select either sector or accounts in Account field.");                  
+          window.alert("Please select either sector or account(s) in Account field.");                  
           return false;
         }        
         this.accountArray = [];
