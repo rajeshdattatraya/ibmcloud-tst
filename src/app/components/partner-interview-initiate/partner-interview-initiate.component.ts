@@ -32,7 +32,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
   usersArray:any = [];
   account: String = "";
   onLoad = false;
-
+  name: String="";
   openPositionsList:any = [];
   positionID :any;
   positionLocation:any;
@@ -76,6 +76,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
        this.readPartnerInterviewDetails(id);
        this.mainForm();
        this.readUserPositionLocation();
+       this.getCandidate();
    }
 
    ngOnInit() {
@@ -108,6 +109,13 @@ export class PartnerInterviewInitiateComponent implements OnInit {
 
   skipMethod(){
     alert('Stage skipped');
+  }
+
+  //get user's name based on email id
+  getCandidate(){
+    this.apiService.getNameFromUsername(this.userName).subscribe( (res) => {
+    this.name = res.name;        
+  });
   }
 
    //To download candidate's CV if uploaded
