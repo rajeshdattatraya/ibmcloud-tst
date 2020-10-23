@@ -28,31 +28,39 @@
                <option  *ngFor="let t of time" value="{{t}}"> {{t}} </option>
            </select>
            &nbsp;
-           <select  placeholder="AMPM"  style="width:auto; display:inline-block" required name="EditStart_AMPM" class="form-control" [(ngModel)]="start_AMPM"  
-           #EditStart_AMPM="ngModel" required >
+           <select  placeholder="AMPM"  style="width:auto; display:inline-block" required name="editStart_AMPM" class="form-control" [(ngModel)]="start_AMPM"  
+           [ngClass]="{ 'is-invalid': eventEditForm.submitted && editStart_AMPM.invalid }" #editStart_AMPM="ngModel" required >
              <option  *ngFor="let mer of meridian" value="{{mer}}"> {{mer}} </option>
           </select>
 
             <div *ngIf="eventEditForm.submitted && editStartTime.invalid" class="invalid-feedback">
               <div *ngIf="editStartTime.errors.required">Start time is required.</div>
             </div>
+            <div *ngIf="eventEditForm.submitted && editStart_AMPM.invalid && editStartTime.valid" class="invalid-feedback">
+              <div *ngIf="editStart_AMPM.errors.required">Please select AM or PM.</div>
+            </div>
 
           </div>
         <br/>
-          <div>End Time:
+          <div>End Time:&nbsp;
            <select  placeholder="Time" style="width:auto; display:inline-block"  name="editEnd_Time" class="form-control" [(ngModel)]="end_time"
             [ngClass]="{ 'is-invalid': eventEditForm.submitted &&  editEndTime.invalid }"   #editEndTime="ngModel" required>
                <option  *ngFor="let t of time" value="{{t}}"> {{t}} </option>
            </select>
             &nbsp;
             <select  placeholder="AMPM"  style="width:auto; display:inline-block" required name="editEnd_AMPM" class="form-control" [(ngModel)]="end_AMPM"  
-            #editEnd_AMPM="ngModel" required >
+            [ngClass]="{ 'is-invalid': eventEditForm.submitted &&  editEnd_AMPM.invalid }"  #editEnd_AMPM="ngModel" required >
               <option  *ngFor="let mer of meridian" value="{{mer}}"> {{mer}} </option>
            </select>
 
             <div *ngIf="eventEditForm.submitted && editEndTime.invalid" class="invalid-feedback">
               <div *ngIf="editEndTime.errors.required">End time is required.</div>
             </div>
+
+            <div *ngIf="eventEditForm.submitted && editEnd_AMPM.invalid && editEndTime.valid" class="invalid-feedback">
+              <div *ngIf="editEnd_AMPM.errors.required">Please select AM or PM.</div>
+            </div>
+
           </div>
         </div>
 
@@ -86,7 +94,7 @@
           
           <div>Event Title:
             <input type="text" name="event_title"  class="form-control"  [(ngModel)]= "event_title"
-            [ngClass]="{ 'is-invalid': eventForm.submitted &&  title.invalid }"   #title="ngModel" required>
+            [ngClass]="{ 'is-invalid': eventForm.submitted &&  title.invalid }"   #title="ngModel" required readonly>
             <div *ngIf="eventForm.submitted && title.invalid" class="invalid-feedback">
               <div *ngIf="title.errors.required">Meeting title is required.</div>
             </div>
@@ -104,18 +112,22 @@
             </select>
             &nbsp;
             <select  placeholder="AMPM"  style="width:auto; display:inline-block" required name="start_AMPM1" class="form-control" [(ngModel)]="start_AMPM"  
-            #start_AMPM1="ngModel" required >
+            [ngClass]="{ 'is-invalid': eventForm.submitted &&  start_AMPM1.invalid }"  #start_AMPM1="ngModel" required >
               <option  *ngFor="let mer of meridian" value="{{mer}}"> {{mer}} </option>
            </select>
             <div *ngIf="eventForm.submitted && startTime.invalid" class="invalid-feedback">
               <div *ngIf="startTime.errors.required">Start time is required.</div>
             </div>
 
+            <div *ngIf="eventForm.submitted && start_AMPM1.invalid && startTime.valid" class="invalid-feedback">
+              <div *ngIf="start_AMPM1.errors.required">Please select AM or PM.</div>
+            </div>
+
            
           </div>
          
          <br/>
-          <div>End Time:
+          <div>End Time:&nbsp;
 
             <select  placeholder="Time" style="width:auto; display:inline-block"  required name="end_time" class="form-control" [(ngModel)]="end_time"
             [ngClass]="{ 'is-invalid': eventForm.submitted &&  endTime.invalid }"   #endTime="ngModel" required>
@@ -123,11 +135,15 @@
            </select>
             &nbsp;
             <select  placeholder="AMPM"  style="width:auto; display:inline-block" required name="end_AMPM1" class="form-control" [(ngModel)]="end_AMPM"  
-            #end_AMPM1="ngModel" required >
+            [ngClass]="{ 'is-invalid': eventForm.submitted &&  end_AMPM1.invalid }" #end_AMPM1="ngModel" required >
               <option  *ngFor="let mer of meridian" value="{{mer}}"> {{mer}} </option>
            </select>
               <div *ngIf="eventForm.submitted && endTime.invalid" class="invalid-feedback">
               <div *ngIf="endTime.errors.required">End time is required.</div>
+            </div>
+
+            <div *ngIf="eventForm.submitted && end_AMPM1.invalid && endTime.valid" class="invalid-feedback">
+              <div *ngIf="end_AMPM1.errors.required">Please select AM or PM.</div>
             </div>
           </div>
          

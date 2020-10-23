@@ -1,6 +1,6 @@
 
 import { Component, OnInit, EventEmitter, NgZone, Input } from '@angular/core';
-import { CalendarOptions, DateSelectArg, EventClickArg, EventApi, CalendarApi } from '@fullcalendar/angular';
+import { CalendarOptions, DateSelectArg, EventClickArg, EventApi, CalendarApi, EventHoveringArg } from '@fullcalendar/angular';
 import { MeetingEvent } from 'src/app/model/meetingEvent';
 import { Router } from '@angular/router';
 import { TechIntSchedulerService } from './tech-int-scheduler.service';
@@ -55,9 +55,7 @@ export class TechIntSchedulerComponent implements OnInit {
   accessLevel;
   account;
 
-
-  //Array(24).fill(0).map(({}, i)
-
+ eventTitle= "";;
 
 
   constructor(private router: Router,
@@ -67,6 +65,7 @@ export class TechIntSchedulerComponent implements OnInit {
     this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
     this.account = this.router.getCurrentNavigation().extras.state.account;
     this.fromAddress = this.router.getCurrentNavigation().extras.state.username;
+    this.userName = this.fromAddress
 
 
     for (let hh = 0; hh < 12; hh++) {
@@ -110,15 +109,26 @@ export class TechIntSchedulerComponent implements OnInit {
     validRange: {
       start: new Date()
     },
-
+    eventMouseEnter:this.handleToolTip.bind(this),
     eventTimeFormat: {
       hour: '2-digit',
       minute: '2-digit',
       hour12: true
     },
+    
     //slotLabelFormat: {hour: 'numeric', minute: '2-digit', hour12: false}
 
   };
+
+  handleToolTip(eventHoverInfo: EventHoveringArg) {
+    console.log(`eventHoverInfo`, eventHoverInfo);
+
+    var event = eventHoverInfo.event
+
+    $(eventHoverInfo.el).tooltip({title: event.title}); 
+  }
+
+
 
   currentEvents: EventApi[] = [];
 
@@ -127,7 +137,7 @@ export class TechIntSchedulerComponent implements OnInit {
   handleDateClick(selectInfo: DateSelectArg) {
     this.dateSelect = selectInfo;
     this.event_date = this.dateSelect.startStr;
-
+    this.event_title = this.eventTitle;
     if (selectInfo.view.type == 'dayGridMonth') {
       $("#eventCreate").modal("show");
     }
@@ -166,8 +176,6 @@ export class TechIntSchedulerComponent implements OnInit {
     this.event_title = clickInfo.event.title;
 
     this.calendarApi = clickInfo.view.calendar;
-
-
 
     $("#eventDetails").modal("show")
 
@@ -248,6 +256,7 @@ export class TechIntSchedulerComponent implements OnInit {
   //Add new calendar events
   addNewEvent() {
 
+    
     this.toAddress = this.candidateEmail;
 
     this.eventIDToUpdate = 0;
@@ -307,7 +316,7 @@ export class TechIntSchedulerComponent implements OnInit {
 
     this.calendarOptions.events = this.dummyEvents;
 
-    this.event_title = "";
+    //this.event_title = "";
     this.start_time = "";
     this.end_time = "";
     this.dateSelect.view.calendar.unselect()
@@ -343,7 +352,7 @@ export class TechIntSchedulerComponent implements OnInit {
 
   closeCreateModal() {
     this.eventID = 0;
-    this.event_title = "";
+    //this.event_title = "";
     this.start_time = "";
     this.end_time = "";
     this.dateSelect.view.calendar.unselect()
@@ -352,7 +361,7 @@ export class TechIntSchedulerComponent implements OnInit {
 
   closeEditModal() {
    // this.eventID = 0;
-    this.event_title = "";
+    //this.event_title = "";
     this.start_time = "";
     this.end_time = "";
    // this.dateSelect.view.calendar.unselect()
@@ -366,16 +375,20 @@ export class TechIntSchedulerComponent implements OnInit {
   Since it is child component of SME tech interview component, 
   ngInit and the constructor methods will be calle only on load of parent component
   Hence this method is used to reset and reload the calendar events on loading calendar window*/
-  handleCandidateEvents(emailSelected: string) {
+  handleCandidateEvents(emailSelected: string, calEmployeeName : string) {
 
+
+   // this.eventTitle = "Tech Interview with "+calEmployeeName;
+    this.eventTitle = calEmployeeName;
+    this.event_title = this.eventTitle;
     this.calendarOptions.events = [];
     this.dummyEvents = [];
     //get the saved events from database for the selected candidate
-    this.techIntSchedulerService.getMeetingEventsByCadidate(emailSelected).subscribe(res => {
+    this.techIntSchedulerService.getMeetingEventsByLoggedInUser(this.userName).subscribe(res => {
       this.savedEvents = res;
 
-      this.savedEvents.forEach((events) => {
-        let str = { id: events.eventID, title: events.eventTitle, start: events.startDate + 'T' + events.startTime, end: events.startDate + 'T' + events.endTime };
+      this.savedEvents.forEach((event) => {
+        let str = {id: event.eventID, title: event.eventTitle, start: event.startDate + 'T' + event.startTime, end: event.startDate + 'T' + event.endTime };
         this.dummyEvents.push(str)
       });
       this.eventID = this.savedEvents.length;
