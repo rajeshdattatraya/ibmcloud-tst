@@ -27,9 +27,9 @@ export class TechIntSchedulerService {
 
 
    // Get all questions
-   getMeetingEventsByCadidate(candidate) {
+   getMeetingEventsByLoggedInUser(loggedInUser) {
      
-    let url = `${this.baseUri}/scheduleMeeting/getMeetingEventsByCandidate/${candidate}`; 
+    let url = `${this.baseUri}/scheduleMeeting/getMeetingEventsByLoggedInUser/${loggedInUser}`; 
 
     return this.http.get(url, {headers: this.headers}).pipe(
       map((res: Response) => {

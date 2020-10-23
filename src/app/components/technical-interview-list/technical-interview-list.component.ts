@@ -251,7 +251,7 @@ export class TechnicalInterviewListComponent implements OnInit {
       return false;
     } else {
       //this.openCalendar = true;
-      this.techIntSchedulerComp.handleCandidateEvents(this.emailSelected );
+      this.techIntSchedulerComp.handleCandidateEvents(this.emailSelected, this.calEmployeeName );
 
 
       
