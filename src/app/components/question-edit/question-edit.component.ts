@@ -198,7 +198,7 @@ export class QuestionEditComponent implements OnInit {
       // Check if SECTOR value exists in the accountArray
       if(this.AccountArray.toString().toLowerCase().indexOf("sector") !== -1) {
         if(this.AccountArray.toString().toLowerCase().includes('sector') &&  this.AccountArray.length > 1){
-          window.alert("Please select either sector or account in Account field.");
+          window.alert("Please select either sector or account(s) in Account field.");
           return false;
         }        
         this.AccountArray = [];
