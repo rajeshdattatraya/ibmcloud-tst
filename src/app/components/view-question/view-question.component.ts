@@ -45,6 +45,8 @@ export class ViewQuestionComponent implements OnInit {
   smeQuestionObj: any={};
   smeQuestion: any = [];
   isDeletQuestion: boolean;
+  getQuestionDetails: any= [];
+  mode: string;
 
   constructor(public fb: FormBuilder,private router: Router, private apiService: ApiService,private route: ActivatedRoute) {
       this.config = {
@@ -131,22 +133,19 @@ export class ViewQuestionComponent implements OnInit {
     })
   }
 
-  invokeView(){
-    if (this.isRowSelected == false) {
-      alert("Please select the Question");
-      return false;
-    } else {
-      this.apiService.findUserAnswer(this.qID).subscribe((res) => {
-        console.log("res:" +res);
-       if (res.count > 0 || res.count == 0) {
-         this.isRowSelected = false;
-         this.router.navigate(['/question-view/',this.questionID], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}});
-       }
+  viewQuestions(qID){
+   this.questionID = qID;
+   // this.questionID = questionsID;
+    console.log("que Id:" +this.questionID);
+    this.mode="displayModalBody";
+  this.apiService.viewQuestion(this.questionID).subscribe((res) => {
+     this.getQuestionDetails = res;
+       console.log("res output:" + JSON.stringify(res));
      }, (error) => {
          console.log("Error  - " + error);
      });  
     }
-  }
+  
 
 invokeEdit(){
 
@@ -202,8 +201,9 @@ removeQuestion(){
       this.qID = qID;
       this.index=i;
       this.isRowSelected = true;
+      console.log("Test" +this.questionID);
     }
-
+    
     clearFilters() {
       this.dataSource.filter = '';
       this.accountFilter = '';

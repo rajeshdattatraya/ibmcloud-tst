@@ -4,6 +4,7 @@ import { catchError, map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { appConfig } from './../model/appConfig';
 import { UserResult} from './../model/userResult';
+import { UrlSerializer } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -872,6 +873,19 @@ viewQuizQuestions(userName,account) {
         catchError(this.errorMgmt)
   )
  }
+
+ // View Question
+ viewQuestion(questionID): Observable<any> {
+  let url = `${this.baseQuestionUri}/readQuestion/${questionID}`;
+  console.log("url:" +url);
+  return this.http.put(url, { headers: this.headers }).pipe(
+    map((res: Response) => {
+      return res || {}
+    }),
+        catchError(this.errorMgmt)
+  )
+ }
+
 
   // Get Unique Result
   findResult(email,qNumber): Observable<any> {
