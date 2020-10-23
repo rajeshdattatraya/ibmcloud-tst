@@ -99,8 +99,9 @@ export class StreamCreateComponent implements OnInit {
     this.apiService.getJRSS().subscribe((data) => {
     this.JRSS = data;
     if(this.AccountList == 0){
-      this.JRSS.length = 0;
+      //this.JRSS.length = 0;
       this.displayMessage  = true;
+      this.JRSS.lenght = 0;
     }
     //this.dataSource.data=data as JRSS[];
     // Get technologyStream from JRSS
@@ -130,6 +131,7 @@ export class StreamCreateComponent implements OnInit {
       
     }  
     this.dataSource.data=this.jrssObjectArray as JRSS[]; 
+    console.log("TECH stream list:" +this.dataSource.data);
     
     });        
   }
