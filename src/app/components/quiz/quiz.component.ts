@@ -60,6 +60,7 @@ export class QuizComponent implements OnInit {
   isLastelemnt:boolean = false;
   temp ;
   displayQuestions: Boolean = false;
+  handler;
   
   constructor(
     private router: Router,
@@ -76,15 +77,22 @@ export class QuizComponent implements OnInit {
     }
     if(this.accessLevel = "user")
     {
-    //Popup Alert when user moves away from the active application tab
-	  document.addEventListener("visibilitychange", function() {		    
-		if(document.visibilityState=='hidden')
-	   {
-		    confirm("Warning: we noticed that you attempted to move away from this tab/browser during the exam. Please refrain from doing so till you finish the exam.");
-	   }
-    console.log( document.visibilityState+" is/was the visibility state of the exam tab");  
-    });
-  }
+      //Popup Alert when user moves away from the active application tab
+      // document.addEventListener("visibilitychange", function() {		    
+      // if(document.visibilityState=='hidden')
+      //  {
+      //     confirm("Warning: we noticed that you attempted to move away from this tab/browser during the exam. Please refrain from doing so till you finish the exam.");
+      //  }
+      // console.log( document.visibilityState+" is/was the visibility state of the exam tab");  
+      // });
+      this.handler = function(event) {
+      if(document.visibilityState=='hidden')
+        {
+          confirm("Warning: we noticed that you attempted to move away from this tab/browser during the exam. Please refrain from doing so till you finish the exam.");
+        }
+      };
+      document.addEventListener('visibilitychange',this.handler,true);
+    }
   }
 
   //Story#8 - function to set flagged status
@@ -400,10 +408,11 @@ ngOnInit() {
 	let data = JSON.stringify( userAnswer );
 		 this.quizService.saveAnswer(data).subscribe(
         (res) => {
+          document.removeEventListener('visibilitychange',this.handler,true);
           console.log('Answer successfully saved!');    
 		      if(this.diff < this.configDuration && warning) {
 		        this.mode = 'quiz';
-		      } else {
+		      } else {            
             this.ngZone.run(() => this.router.navigateByUrl('/result-page',{state:{username:this.userName,quizNumber:this.quizNumber,mode:this.mode}}))
           } }, (error) => {
           console.log(error);
