@@ -61,6 +61,7 @@ export class QuizComponent implements OnInit {
   temp ;
   displayQuestions: Boolean = false;
   handler;
+  displaySpinner: Boolean = true;
   
   constructor(
     private router: Router,
@@ -256,6 +257,7 @@ ngOnInit() {
   }
   // Check the no. of questions selected and the no. of questions configured.
   setTimeout(()=>{
+    document.getElementById('spinner').style.display = 'none';
     console.log('Before IF condition. this.questions.length = ',this.questions.length+', number of configured questions = ',this.noOfQuestions);
     if(this.questions.length < this.noOfQuestions){
       alert('Insufficient Questions in the question bank! Please contact admin and try again.');
@@ -298,7 +300,7 @@ ngOnInit() {
             this.questions[randomIndex] = temporaryValue;
           }
         }
-      },500);
+      },3000);
     });
     
     this.questions.forEach((question) => { 
