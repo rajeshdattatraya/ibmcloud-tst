@@ -29,7 +29,7 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Online Test Result </th>
         <td mat-cell *matCellDef="let row"> 
           <a href="#assessmentModal" (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber, row.result_users[0].employeeName,row.userScore,row.createdDate)"
-              data-toggle="modal" *ngIf="row.userScore!=null">{{row.userScore}}%</a>
+              data-toggle="modal" style="color:rgb(0, 128, 43);" *ngIf="row.userScore!=null">{{row.userScore}}%</a>
           <p *ngIf="row.userScore==null">N/A</p>
         </td>
       </ng-container>
@@ -78,7 +78,7 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Online Test Result </th>
         <td mat-cell *matCellDef="let row">
           <a href="#assessmentModal" (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users[0].employeeName,row.userScore,row.createdDate)"
-             data-toggle="modal" *ngIf="row.userScore!=null">{{row.userScore}}%</a>
+             data-toggle="modal" style="color:rgb(0, 128, 43);" *ngIf="row.userScore!=null">{{row.userScore}}%</a>
           <p *ngIf="row.userScore==null">N/A</p>
         </td>
       </ng-container>
