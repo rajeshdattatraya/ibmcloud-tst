@@ -7,6 +7,7 @@ import { browserRefresh } from '../../app.component';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator'
 import {MatSort} from '@angular/material/sort';
+import {appConfig} from './../../model/appConfig';
 
 @Component({
   selector: 'app-stream-delete',
@@ -31,7 +32,7 @@ export class StreamDeleteComponent implements OnInit {
   jrssId = '';  
   currentJrssArray:any = [];
   dataSource = new MatTableDataSource<JRSS>();
-  displayedColumns = ['jrss', 'technologyStream'];
+  displayedColumns = ['Action','jrss', 'technologyStream'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -133,6 +134,15 @@ export class StreamDeleteComponent implements OnInit {
       
     });
   }
+
+  /** this method is to print the serial numners on all the pagination pages */
+  currentPages=appConfig.currentPage;
+  pageSize=appConfig.itemsPerPage;
+  public handlePage(e: any) {
+    this.currentPages = e.pageIndex;
+    this.pageSize = e.pageSize;
+  }
+  //End of Pagination serial number method
 
 pageChange(newPage: number) {
   this.router.navigate(['/delete-stream',this.jrssId], { queryParams: { page: newPage } });
