@@ -26,6 +26,7 @@ export class PreTechFormComponent implements OnInit {
 	jrss = "";
 	userName = "";
 	stage2_status = "";
+	isStage_1_Skipped = false;
 	
 	stage2Completed=false;
 	mode= "instructions";
@@ -80,6 +81,7 @@ this.preTechService.getStageStatusByUserName(this.userName).subscribe(
 	  if (this.stage2_status == "Completed") {
 			this.stage2Completed =  true	  
 	  }
+	  this.isStage_1_Skipped = (res['stage1_status'] == "Skipped") ? true : false;
 	  });
 	  
      // Get jrss
