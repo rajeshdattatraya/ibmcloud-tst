@@ -21,6 +21,7 @@ export class StreamAddComponent implements OnInit {
   userName: String = "admin";
   account: any;
   accessLevel:any;
+  questionID
 
   constructor(
     public fb: FormBuilder,
@@ -33,7 +34,7 @@ export class StreamAddComponent implements OnInit {
         this.userName = this.router.getCurrentNavigation().extras.state.username;
         this.account = this.router.getCurrentNavigation().extras.state.account;
         this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
-    }
+       }
     this.readTechStream();
     this.mainForm();
   }
@@ -46,11 +47,11 @@ ngOnInit() {
 cancelForm(){
   if(this.accessLevel=='admin')
   this.ngZone.run(() => this.router.navigateByUrl('/stream-create',{state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
-  else if(this.accessLevel=='sme')
+  else if(this.accessLevel=='sme' )
   this.ngZone.run(() => this.router.navigateByUrl('/manage-questionbank-sectorsme',{state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
   
 }
-
+  
 // Read data from techStream table
  readTechStream(){
   this.apiService.getTechStream().subscribe((data) => {
