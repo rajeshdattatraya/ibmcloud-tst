@@ -33,6 +33,7 @@ export class StreamDeleteComponent implements OnInit {
   currentJrssArray:any = [];
   dataSource = new MatTableDataSource<JRSS>();
   displayedColumns = ['Action','jrss', 'technologyStream'];
+  jrssAccountData:any=[];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -115,22 +116,23 @@ export class StreamDeleteComponent implements OnInit {
   }
 
   
-  getJrss(id) {     
-    this.apiService.getJrssById(id).subscribe(data => {        
+  getJrss(id) { 
+    this.apiService.getJrssById(id).subscribe(data => {  
+      this.jrssAccountData = data;      
       this.streamDeleteForm.setValue({
         JRSS: data['jrss'],
         technologyStream: data['technologyStream']        
       }); 
 
       // Get technologyStream from JRSS
-      for (var jrss of this.JRSS){
-        if(jrss.jrss == data['jrss']){
+      //for (var jrss of this.JRSS){
+        if(this.jrssAccountData.jrss == data['jrss']){         
           this.technologyStream = [];
-          for (var skill of jrss.technologyStream){
-            this.technologyStream.push(skill);
+          for (var skill of this.jrssAccountData.technologyStream){
+            this.technologyStream.push(skill);           
           }
         }
-      }    
+     // }    
       
     });
   }
@@ -194,12 +196,13 @@ cancelForm(){
 }
 
 readJrssDocId(){
-  for (var jrss of this.JRSS){    
-    if(jrss.jrss == this.streamDeleteForm.value.JRSS){
-      this.jrssDocId = jrss._id;
-      this.currentJrssArray = jrss;      
+  //for (var jrss of this.JRSS){ 
+    //if(this.jrssAccountData.jrss == data['jrss']){   
+    if(this.jrssAccountData.jrss == this.streamDeleteForm.value.JRSS){
+      this.jrssDocId = this.jrssAccountData._id;
+      this.currentJrssArray = this.jrssAccountData;      
     }
-  }
+  //}
 }
 
 onSubmit() {
