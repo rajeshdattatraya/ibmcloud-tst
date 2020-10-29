@@ -261,7 +261,7 @@ ngOnInit() {
     console.log('Before IF condition. this.questions.length = ',this.questions.length+', number of configured questions = ',this.noOfQuestions);
     if(this.questions.length < this.noOfQuestions){
       alert('Insufficient Questions in the question bank! Please contact admin and try again.');
-
+      document.removeEventListener('visibilitychange',this.handler,true);
         // 1. Update the user status to 'Active'
         this.apiService.updateUsersStatus(this.userName,'Active',this.userName).subscribe(
         (res) => {
