@@ -113,25 +113,55 @@
                 <td><mat-label>Complexity:</mat-label></td>
                 <td>&nbsp;{{this.getQuestionDetails[0].complexityLevel}}</td>
               </tr>
+              <br>
+
               <tr>
-                <td><mat-label>Question:</mat-label></td>
-                <td>&nbsp;{{this.getQuestionDetails[0].question}}</td>
+                <td colspan="4">
+                  <mat-form-field class="stream-full-width">
+                    <textarea matInput placeholder="Question:"  type="textarea" rows="8" cols="50">{{this.getQuestionDetails[0].question}}
+                    </textarea>
+                   </mat-form-field>
+                </td>
                </tr>
+               <br>
+            
               <tr>
-                <td><mat-label>Option 1:</mat-label></td>
-                <td>&nbsp;{{this.getQuestionDetails[0].status}}</td>
+                <td colspan="4">
+                <mat-form-field class="stream-full-width">
+                  <textarea matInput placeholder="Option 1:"  type="textarea" rows="4" cols="70">{{this.getQuestionDetails[0].options[0].option}}
+                  </textarea>
+                </mat-form-field>
+                </td>
               </tr>
+              <br>
+        
               <tr>
-                <td><mat-label>Option 2:</mat-label></td>
-                <td>&nbsp;{{this.getQuestionDetails[0].quizNumber}}</td>
+                <td colspan="4">
+                  <mat-form-field class="stream-full-width">
+                    <textarea matInput placeholder="Option 2:"  type="textarea" rows="4" cols="70">{{this.getQuestionDetails[0].options[1].option}}
+                    </textarea>
+                  </mat-form-field>
+                  </td>
               </tr>
+              <br>       
+
               <tr>
-                <td><mat-label>Option 3:</mat-label></td>
-                <td>&nbsp;{{this.getQuestionDetails[0].dateOfJoining.split('T')[0]}}</td>
+                <td colspan="4">
+                  <mat-form-field class="stream-full-width">
+                    <textarea matInput placeholder="Option 3:"  type="textarea" rows="4" cols="70">{{this.getQuestionDetails[0].options[2].option}}
+                    </textarea>
+                  </mat-form-field>
+                  </td>
               </tr>
+              <br>
+
               <tr>
-                <td><mat-label>Option 4:</mat-label></td>
-                <td>&nbsp;{{this.getQuestionDetails[0].employeeType}}</td>
+                <td colspan="4">
+                  <mat-form-field class="stream-full-width">
+                    <textarea matInput placeholder="Option 4:"  type="textarea" rows="4" cols="70">{{this.getQuestionDetails[0].options[3].option}}
+                    </textarea>
+                  </mat-form-field>
+                  </td>
               </tr>
               </table>
           </mat-card-content>

@@ -44,9 +44,9 @@ export class ViewQuestionComponent implements OnInit {
   filteredQuestion: any=[];
   smeQuestionObj: any={};
   smeQuestion: any = [];
-  isDeletQuestion: boolean;
   getQuestionDetails: any= [];
   mode: string;
+ 
 
   constructor(public fb: FormBuilder,private router: Router, private apiService: ApiService,private route: ActivatedRoute) {
       this.config = {
@@ -140,7 +140,7 @@ export class ViewQuestionComponent implements OnInit {
     this.mode="displayModalBody";
   this.apiService.viewQuestion(this.questionID).subscribe((res) => {
      this.getQuestionDetails = res;
-       console.log("res output:" + JSON.stringify(res));
+       console.log("res output:" + JSON.stringify(this.getQuestionDetails[0]));
      }, (error) => {
          console.log("Error  - " + error);
      });  
@@ -156,14 +156,22 @@ invokeEdit(){
     console.log("Inside else");
      this.apiService.findUserAnswer(this.qID).subscribe((res) => {
        console.log("res:" +JSON.stringify(res));
-         if (res.count > 0) {
-          alert("You can not edit this question as this is already appeared in online test.");
-          return false;
-        } else if (res.count > 0 || res.count == 0) {
+      
+        if (res.count > 0) {
+          console.log("Question has appeared in online assessment");
+          this.apiService.deleteQuestion(this.questionID).subscribe(res =>{
+            this.router.navigate(['/question-edit/',this.questionID], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account,qID:this.qID,questionID:this.questionID}});
+        }, (error) =>{
+          console.log("Error  - " + error);
+        });
+      
+       }
+         
+       else if (res.count == 0) {
+        console.log("Question has not appeared in online assessment");
           console.log("Question id:" +this.qID  );
           this.isRowSelected = false;
-          this.router.navigate(['/question-edit/',this.questionID], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}});
-        console.log("On click of edit");
+          this.router.navigate(['/question-edit/',this.questionID], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account, qID:this.qID,questionID:this.questionID}});
         }
       }, (error) => {
           console.log("Error  - " + error);
@@ -177,10 +185,7 @@ removeQuestion(){
     return false;
   } else {
      this.apiService.findUserAnswer(this.qID).subscribe((res) => {
-     if (res.count > 0) {
-      alert("You can not delete this question as this is already appeared in online test.");
-      return false;
-     } else if (res.count > 0 || res.count == 0) {
+       if (res.count > 0 || res.count == 0) {
         if(window.confirm('Are you sure?')) {
             this.apiService.deleteQuestion(this.questionID).subscribe((data) => {
               this.Questions.splice(this.index, 1);

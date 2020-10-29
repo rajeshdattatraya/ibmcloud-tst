@@ -35,6 +35,8 @@ export class QuestionEditComponent implements OnInit {
   loginAccounts:any = [];
   Account :any= [];
   AccountArray:any = [];
+  qID:any;
+  //isEditQuestion ;
 ​
   constructor(public fb: FormBuilder,private actRoute: ActivatedRoute,private router: Router,private ngZone: NgZone,private apiService: ApiService) {
       this.browserRefresh = browserRefresh;
@@ -43,7 +45,9 @@ export class QuestionEditComponent implements OnInit {
           this.account = this.router.getCurrentNavigation().extras.state.account;
           this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
           this.loginAccounts = this.account.split(",");
-      }
+          this.qID = this.router.getCurrentNavigation().extras.state.qID;
+          this.questionID = this.router.getCurrentNavigation().extras.state.question;
+            }
       this.readTechStream();
       this.mainForm();
       this.readAccount();
@@ -182,7 +186,21 @@ export class QuestionEditComponent implements OnInit {
   }
 ​
   cancelForm(){
+    ​this.apiService.findUserAnswer(this.qID).subscribe((res) => {
+      if(res.count >0){
+        console.log("Cancel edit for Question which had appeared in online assessment");
+    this.apiService.editQuestion(this.question_id).subscribe(res =>{
       this.ngZone.run(() => this.router.navigateByUrl('/view-questionbank',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
+  }, (error) =>{
+    console.log("Error  - " + error);
+  });}
+  else if (res.count == 0){
+    console.log("Cancel edit for Question which had not appeared in online assessment");
+    this.ngZone.run(() => this.router.navigateByUrl('/view-questionbank',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
+  }
+}, (error)=>{
+  console.log("Error  - " + error);
+}) 
   }
 ​
 ​
@@ -257,25 +275,52 @@ export class QuestionEditComponent implements OnInit {
                 return false;
               }
               this.questionID++;
+              console.log("qID value: " +this.questionID);
               this.editquestionForm.value.questionID=this.questionID;
               this.editquestionForm.value.account=this.AccountArray.join(',');
               this.editquestionForm.value.status="Active";
-​
-            if(confirm('Do you want to update the Question which applies to '+ this.editquestionForm.value.account +' accounts?')){
-              this.apiService.updateQuestion(this.question_id,this.editquestionForm.value).subscribe(
-                (res) => {
-                  //console.log('Question successfully updated!');
-                  this.formReset = true;
-                  this.editquestionForm.reset();
-                  this.ngZone.run(() => this.router.navigateByUrl('/view-questionbank',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
-                },(error) => {
-                  console.log(error);
-                });
-            }else{
-              return false;
-            }
-​
-          }
+​this.apiService.findUserAnswer(this.qID).subscribe((res) => {
+  if(res.count > 0){
+    console.log("Updated Question which had appeared in online assessment");
+    {
+      this.apiService.getQuestionID().subscribe(
+        (res) => {  
+          if(!isNaN(res.questionID))    {            
+          this.questionID=res.questionID;
+        console.log("Max question ID:" +this.questionID);
         }
-      }
+          else{
+            this.questionID=0;
+          }
+        }, (error) => {
+          console.log(error);
+        });       }
+this.apiService.createQuestion(this.editquestionForm.value).subscribe(
+  (res) => {
+    //console.log('Question successfully updated!');
+   this.formReset = true;
+    this.editquestionForm.reset();
+    alert("Question updated successfully");
+    this.ngZone.run(() => this.router.navigateByUrl('/view-questionbank',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
+  },(error) => {
+    console.log(error);
+  });
+  }   
+   else if (res.count == 0){
+    console.log("Updated Question which had not appeared in online assessment");
+                  this.apiService.updateQuestion(this.question_id,this.editquestionForm.value).subscribe(
+                    (res) => {
+                     this.formReset = true;
+                      this.editquestionForm.reset();
+                      alert("Question updated successfully");
+                      this.ngZone.run(() => this.router.navigateByUrl('/view-questionbank',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
+                    },(error) => {
+                      console.log(error);
+                    });
+
+                 } 
+                 })
+        }
+        }
+  }
 }

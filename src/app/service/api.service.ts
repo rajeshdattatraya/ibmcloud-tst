@@ -100,6 +100,7 @@ getQuestions(account): Observable<any> {
     )
   }
 
+
   checkForQuestions(technologyStream): Observable<any> {
     let url = `${this.baseQuestionUri}/Count/Questions/${technologyStream}`;
 
@@ -874,11 +875,19 @@ viewQuizQuestions(userName,account) {
   )
  }
 
+ // Edit Question- Soft Delete updating Status=Inactive
+ editQuestion(id): Observable<any> {
+  let url = `${this.baseQuestionUri}/updateEditQuestionStatus/${id}`;
+  return this.http.put(url, { headers: this.headers }).pipe(
+        catchError(this.errorMgmt)
+  )
+ }
+
  // View Question
  viewQuestion(questionID): Observable<any> {
   let url = `${this.baseQuestionUri}/readQuestion/${questionID}`;
   console.log("url:" +url);
-  return this.http.put(url, { headers: this.headers }).pipe(
+  return this.http.get(url, { headers: this.headers }).pipe(
     map((res: Response) => {
       return res || {}
     }),
