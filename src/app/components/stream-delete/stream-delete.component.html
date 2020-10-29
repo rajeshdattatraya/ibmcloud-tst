@@ -59,6 +59,10 @@
 	<!-- Technology Stream list -->  
 	<div class="mat-elevation-z8">
 		<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+			<ng-container matColumnDef="Action">
+				<th mat-header-cell *matHeaderCellDef> No. </th>
+				<td mat-cell *matCellDef="let row;let i = index"> {{pageSize*currentPages + i + 1}}</td>
+			  </ng-container>
 			<!-- Job Role -->
 			<ng-container matColumnDef="jrss">
 				<th mat-header-cell *matHeaderCellDef mat-sort-header> Job Role </th>
@@ -72,5 +76,5 @@
 			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 			<tr mat-row *matRowDef="let row; let even = even; columns: displayedColumns;" [ngClass]="{gray: even}"></tr>
    		</table>
-   		<mat-paginator [length]="this.JRSS.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+   		<mat-paginator [length]="this.dataSource.data.length"  (page)="handlePage($event)"  [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
 	</div>

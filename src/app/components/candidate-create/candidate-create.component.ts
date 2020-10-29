@@ -416,8 +416,21 @@ export class CandidateCreateComponent implements OnInit {
                       }, (error) => {
                         console.log(error);
                     });
+
+                    //If the stage1 is 'Skipped' then the Candidate status should be made Inactive
+                    // inorder to not to allow canidate to loging to the application
+
+                    this.apiService.updateUsersStatus(candidate.username,'Inactive',this.userName).subscribe(
+                      (res) => {
+                        console.log('Status column updated successfully in Users table');                 
+                      }, (error) => {                
+                       console.log("Error found while updating status column of Users table - " + error);
+                       }); 
+
+
                     } else {
                       console.log("Stage 1 is not skipped for this JRSS");
+                      
                     }
                   });
 

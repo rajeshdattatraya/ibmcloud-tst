@@ -155,11 +155,10 @@ export class LoginComponent implements OnInit {
                       this.testconfigService.findTestConfigByJRSS(resJrss['JRSS'],resJrss['account']).subscribe(
                         (data) => {
                           passingScore = data['passingScore'];
-                          if (result['userScore'] >= passingScore && result['stage2_status'] == "Not Started" && (result['stage1_status'] == "Skipped" || result['stage1_status'] == "Completed")) {
+                          if ( ((result['userScore'] >= passingScore && result['stage1_status'] == "Completed") || result['stage1_status'] == "Skipped") 
+                              && result['stage2_status'] == "Not Started") {
                             this.ngZone.run(() => this.router.navigateByUrl('/pre-tech-form', { state: { userName: res.username, mode: 'instructions' } }))
-                          }
-
-                          else if (result['stage2_status'] == "Completed") {
+                          }  else if (result['stage2_status'] == "Completed" || result['stage2_status'] == "Skipped") {
                             this.error = 'Our team will contact you regarding your progression to the further rounds.'
                           }
                           else {
