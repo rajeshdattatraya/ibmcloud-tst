@@ -40,8 +40,10 @@ export class StreamCreateComponent implements OnInit {
   questionsmappedtotechstream = false;
   displayMessage:boolean;
   AccountList:any=[];
-
+  jrssAccountData:any=[];
   accounts:any=[];
+  streamFlag:boolean = false;
+  filteredJRSS:any=[];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -98,6 +100,10 @@ export class StreamCreateComponent implements OnInit {
    readJrss(){
     this.apiService.getJRSS().subscribe((data) => {
     this.JRSS = data;
+    this.filteredJRSS = data;
+    //Remove duplicate entries from the array[]
+    this.filteredJRSS = Array.from(this.filteredJRSS.reduce((m, t) => m.set(t.jrss, t), new Map()).values());
+
     if(this.AccountList == 0){
       //this.JRSS.length = 0;
       this.displayMessage  = true;
@@ -143,13 +149,24 @@ export class StreamCreateComponent implements OnInit {
   }
 onSelectionChange(jrssId,jrssName) {
   this.jrssId = jrssId;
-  this.jrssName = jrssName;   
+  this.jrssName = jrssName; 
 }
  deleteTechStream() {
     if (this.jrssId == undefined) {
-      alert("Please select the technology stream record");
+      alert("Please select the technology stream record.");
     } else {
-      this.router.navigate(['/delete-stream/', this.jrssId], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}});
+      // Check for job role stream
+      this.apiService.getJrssById(this.jrssId).subscribe(data => { 
+        this.jrssAccountData = data;
+        for (var streams of this.jrssAccountData.technologyStream){             
+            this.streamFlag = true;        
+        }
+        if (this.streamFlag) {
+          this.router.navigate(['/delete-stream/', this.jrssId], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}});
+        } else {
+          alert("You can't perform this action as there is no technology stream mapped for selected job role.");
+        }        
+      });      
     }
  }
 pageChange(newPage: number) {

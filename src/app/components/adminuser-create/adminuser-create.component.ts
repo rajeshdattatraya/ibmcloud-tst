@@ -219,7 +219,7 @@ export class AdminuserCreateComponent implements OnInit {
           if(isUserAccSubsetOfAdminAcc) {
             this.router.navigate(['/edit-user/', this.docid],{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}});
           } else {
-            alert("You are not eligible to edit this record as you don't belong to some of the user's account(s)");
+            alert("You are not allowed to edit this record as the user is mapped to other account(s)");
             return false;
           }
           });         

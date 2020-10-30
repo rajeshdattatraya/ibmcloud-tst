@@ -82,12 +82,12 @@ export class OpenpositionsListComponent implements OnInit {
    }
 
      //To remove open position
-     removeOpenPosition(openPositionID) {
+     removeOpenPosition() {
        if(this.isRowSelected == false){
          alert("Please select the Open Position");
        } else {
        if(window.confirm('Are you sure?')) {
-           this.openPositionService.deleteOpenPosition(openPositionID).subscribe((data) => {
+           this.openPositionService.deleteOpenPosition(this.openPositionID).subscribe((data) => {
               this.readOpenPosition();
               this.isRowSelected = false;
            }

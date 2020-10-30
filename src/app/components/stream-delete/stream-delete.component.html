@@ -15,10 +15,9 @@
 					<td> 
 						<!-- Job Role -->
 						<mat-form-field class="open-full-width">
-							<mat-select placeholder="Job Role" (selectionChange)="updateJrssProfile($event.target.value)"
-								formControlName="JRSS" id="inputJRSS3" [ngClass]="{ 'is-invalid': submitted && myForm.account.errors }" >
-								<mat-option disabled value="">Choose...</mat-option>
-								<mat-option *ngFor="let jrss of JRSS" value="{{jrss.jrss}}">{{jrss.jrss}}</mat-option>
+							<mat-select placeholder="Job Role" (selectionChange)="updateJrssProfile($event.value)"
+								formControlName="JRSS" id="inputJRSS3" [ngClass]="{'is-invalid': submitted && myForm.JRSS.errors}">
+								<mat-option value="{{jrssAccountData.jrss}}">{{jrssAccountData.jrss}}</mat-option>
 							</mat-select>
 							<div *ngIf="submitted && myForm.JRSS.errors" class="invalid-feedback" >
 								<div *ngIf="myForm.JRSS.errors.required">JRSS is required</div>
@@ -29,8 +28,7 @@
 						<!-- Technology Stream To be Deleted -->
 						<mat-form-field class="open-full-width">
 							<mat-select placeholder="Technology Stream To be Deleted" 
-								formControlName="technologyStream" id="inputSkill3" [ngClass]="{ 'is-invalid': submitted && myForm.technologyStream.errors }" >
-								<mat-option disabled value="">Choose...</mat-option>
+								formControlName="technologyStream" id="inputSkill3" [ngClass]="{'is-invalid': submitted && myForm.technologyStream.errors}" >				
 								<mat-option *ngFor="let data of technologyStream" value="{{data.value}}">{{data.value}}</mat-option>
 							</mat-select>
 							<div *ngIf="submitted && myForm.technologyStream.errors" class="invalid-feedback" >
@@ -49,26 +47,26 @@
 		</div>
 	</mat-card-actions>
 </mat-card>
-	<br/>
-	<br/>
-	<div>
+	<!-- <br/>
+	<br/> -->
+	<!--<div>
 		<h4 class="my-0 mr-md-auto font-weight-normal">Technology Stream List</h4><br/>
-	</div>
+	</div>-->
 	<!-- No data found message -->
-	<p *ngIf="JRSS.length <= 0" class="no-data text-center">There is no Technology Stream List added yet!</p>
+	<!--<p *ngIf="JRSS.length <= 0" class="no-data text-center">There is no Technology Stream List added yet!</p>-->
 	<!-- Technology Stream list -->  
-	<div class="mat-elevation-z8">
+	<!-- <div class="mat-elevation-z8">
 		<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 			<ng-container matColumnDef="Action">
 				<th mat-header-cell *matHeaderCellDef> No. </th>
 				<td mat-cell *matCellDef="let row;let i = index"> {{pageSize*currentPages + i + 1}}</td>
 			  </ng-container>
-			<!-- Job Role -->
+			
 			<ng-container matColumnDef="jrss">
 				<th mat-header-cell *matHeaderCellDef mat-sort-header> Job Role </th>
 				<td mat-cell *matCellDef="let row">{{row[0]}}</td>
 			</ng-container>
-			<!-- Technology Stream -->
+			
 			<ng-container matColumnDef="technologyStream">
 				<th mat-header-cell *matHeaderCellDef mat-sort-header> Technology Stream </th>
 				<td mat-cell *matCellDef="let row">{{row[1]}}</td>
@@ -77,4 +75,4 @@
 			<tr mat-row *matRowDef="let row; let even = even; columns: displayedColumns;" [ngClass]="{gray: even}"></tr>
    		</table>
    		<mat-paginator [length]="this.dataSource.data.length"  (page)="handlePage($event)"  [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
-	</div>
+	</div> -->
