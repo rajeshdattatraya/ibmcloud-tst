@@ -31,9 +31,8 @@
 				<td> 
 					<!-- Job Role -->			
 					<mat-form-field class="stream-full-width">					
-						<mat-select placeholder="Job Role" formControlName="JRSS" id="jrss" (selectionChange)="updateJrssProfile($event.value)" [ngClass]="{ 'is-invalid': submitted && myForm.JRSS.errors }">
-							
-							<mat-option *ngFor="let jrss of JRSS" value="{{jrss.jrss}}">{{jrss.jrss}}</mat-option>
+						<mat-select placeholder="Job Role" formControlName="JRSS" id="jrss" (selectionChange)="updateJrssProfile($event.value)" [ngClass]="{ 'is-invalid': submitted && myForm.JRSS.errors }">							
+						<mat-option *ngFor="let jrss of filteredJRSS" value="{{jrss.jrss}}">{{jrss.jrss}}</mat-option>
 						</mat-select>
 						<div *ngIf="displayMessage" style="color:red"> Select Account first </div>
 						<div *ngIf="submitted && myForm.JRSS.errors" class="invalid-feedback">
