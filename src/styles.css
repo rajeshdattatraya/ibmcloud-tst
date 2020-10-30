@@ -20,6 +20,13 @@ body {
   margin: 2px;
 }
 
+.loginhtml-card {
+   background-color: white;
+   margin-right: auto;
+   margin-left: auto;
+   width: 85%;
+}
+
 .login-card {
    background-color: white;
    width: 100%;
