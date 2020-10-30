@@ -1,7 +1,5 @@
 import { Router } from '@angular/router';
 import { ApiService } from './../../service/api.service';
-import { Candidate } from './../../model/candidate';
-import { UserDetails } from './../../model/userDetails';
 import { Component, OnInit, NgZone,ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { appConfig } from './../../model/appConfig';
@@ -171,8 +169,7 @@ export class AdminuserCreateComponent implements OnInit {
       this.AccountList = this.account.split(",");
     }
 
-// Delete the selected user
-  //To remove candidate
+// Delete the selected user 
   removeUser(username, index) {
     if(this.isRowSelected == false){
       alert("Please select the user");
@@ -186,15 +183,14 @@ export class AdminuserCreateComponent implements OnInit {
             this.apiService.deleteUser(username).subscribe((data) => {
             this.AdminUsers.splice(index, 1);
            })
+           this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
+                          this.router.navigate(['/adminuser-create'],{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
           }
         } else {
           alert("You are not allowed to delete this record as the user is mapped to other account(s).");
           return false;
         }
-      });  
-
-      this.getAllSpecialUsers();
-      this.isRowSelected = false;
+      }); 
   }
   }
 
