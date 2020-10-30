@@ -369,11 +369,11 @@
             <tr *ngIf="displayContractorUIFields">
               <td><mat-label class="col-sm-10 col-form-label">Date of Birth:</mat-label></td>
               <td>&nbsp;{{this.candidateDetails[0].dateOfJoining.split('T')[0]}}</td>
-              <td><mat-label>Employee Type:</mat-label></td>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;<mat-label>Employee Type:</mat-label></td>
               <td>&nbsp;{{this.candidateDetails[0].employeeType}}
             </tr>
             <tr *ngIf="displayRegularUIFields">
-              <td><mat-label>Employee Type:</mat-label></td>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;<mat-label>Employee Type:</mat-label></td>
               <td>&nbsp;{{this.candidateDetails[0].employeeType}}</td>
             </tr>
           </table>

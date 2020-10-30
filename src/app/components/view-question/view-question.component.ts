@@ -46,6 +46,7 @@ export class ViewQuestionComponent implements OnInit {
   smeQuestion: any = [];
   getQuestionDetails: any= [];
   mode: string;
+  displayAnswer = false;
  
 
   constructor(public fb: FormBuilder,private router: Router, private apiService: ApiService,private route: ActivatedRoute) {
@@ -141,6 +142,7 @@ export class ViewQuestionComponent implements OnInit {
   this.apiService.viewQuestion(this.questionID).subscribe((res) => {
      this.getQuestionDetails = res;
        console.log("res output:" + JSON.stringify(this.getQuestionDetails[0]));
+       
      }, (error) => {
          console.log("Error  - " + error);
      });  
@@ -152,31 +154,11 @@ invokeEdit(){
   if (this.isRowSelected == false) {
     alert("Please select the Question");
     return false;
-  } else {
-    console.log("Inside else");
-     this.apiService.findUserAnswer(this.qID).subscribe((res) => {
-       console.log("res:" +JSON.stringify(res));
-      
-        if (res.count > 0) {
-          console.log("Question has appeared in online assessment");
-          this.apiService.deleteQuestion(this.questionID).subscribe(res =>{
-            this.router.navigate(['/question-edit/',this.questionID], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account,qID:this.qID,questionID:this.questionID}});
-        }, (error) =>{
-          console.log("Error  - " + error);
-        });
-      
-       }
-         
-       else if (res.count == 0) {
-        console.log("Question has not appeared in online assessment");
-          console.log("Question id:" +this.qID  );
-          this.isRowSelected = false;
-          this.router.navigate(['/question-edit/',this.questionID], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account, qID:this.qID,questionID:this.questionID}});
+  } else{
+    this.isRowSelected = false;
+    this.router.navigate(['/question-edit/',this.questionID], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account, qID:this.qID,questionID:this.questionID}});
         }
-      }, (error) => {
-          console.log("Error  - " + error);
-      });
-    }
+      
   }
 
 removeQuestion(){
