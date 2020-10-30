@@ -273,6 +273,8 @@ listJrssByAccount(accountValue){
   }
   clearForm() {
     this.formReset = true;
+    this.displayMessage  = true;
+    this.filteredJRSS.length = 0;
     this.streamCreateForm.reset();
   }
 }
