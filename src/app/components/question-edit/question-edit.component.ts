@@ -115,7 +115,7 @@ export class QuestionEditComponent implements OnInit {
         option4checkbox:[],
         answerID:[],
         questionID:[],
-        account:[],
+        account:['',[Validators.required]],
         status:[]
       })
     }
