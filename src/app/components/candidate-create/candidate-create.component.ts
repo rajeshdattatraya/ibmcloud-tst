@@ -197,10 +197,13 @@ export class CandidateCreateComponent implements OnInit {
             (this.JRSSFull[i]['stage4_ManagementInterview']==false) &&
             (this.JRSSFull[i]['stage5_ProjectAllocation']==false)))
             if (!workFlowPrsent){
-              if (this.testConfigJRSS.includes(this.JRSSFull[i]['jrss'])){                
+              // For any JRSS, if the first stage (Online test) is skipped AND even if there is no test configuration 
+              //configured, then display such JRSS in the JRSS dropdown on UI screen
+              if (this.testConfigJRSS.includes(this.JRSSFull[i]['jrss']) || this.JRSSFull[i]['stage1_OnlineTechAssessment']==false){                
                 this.JRSS.push(this.JRSSFull[i]);                
               }                        
             }
+          
           }
       });
     }
