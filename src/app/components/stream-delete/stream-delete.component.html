@@ -15,7 +15,7 @@
 					<td> 
 						<!-- Job Role -->
 						<mat-form-field class="open-full-width">
-							<input matInput placeholder="Job Role" formControlName="jobRole" name="inputJRSS3" [ngClass]="{ 'is-invalid': submitted && myForm.jobRole.errors }">
+							<input matInput [readonly]="true" placeholder="Job Role" formControlName="jobRole" name="inputJRSS3" [ngClass]="{ 'is-invalid': submitted && myForm.jobRole.errors }">
 							<div *ngIf="submitted && myForm.jobRole.errors" class="invalid-feedback">
 							  <div *ngIf="myForm.jobRole.errors.required">Job Role is required</div>							  
 							</div>
