@@ -97,8 +97,8 @@
     <!-- ID Column -->
     <ng-container matColumnDef="Action1">
       <th mat-header-cell *matHeaderCellDef> Action </th>
-      <td mat-cell *matCellDef="let row;let i=index">  <a>
-        <button mat-raised-button color="primary" (click)="updateCandidateStatus(row, i)">{{row.state}}</button></a></td>
+      <td mat-cell *matCellDef="let row;let i=index"><a>
+        <button mat-raised-button color="primary" (click)="updateCandidateStatus(row, i)" [disabled]="row.disableButton">{{row.state}}</button></a></td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -172,8 +172,8 @@
     <!-- ID Column -->
     <ng-container matColumnDef="Action1">
       <th mat-header-cell *matHeaderCellDef> Action </th>
-      <td mat-cell *matCellDef="let row;let i=index">  <a>
-        <button mat-raised-button color="primary" (click)="updateCandidateStatus(row, i)">{{row.state}}</button></a></td>
+      <td mat-cell *matCellDef="let row;let i=index"> <a>
+        <button mat-raised-button color="primary" (click)="updateCandidateStatus(row, i)" [disabled]="row.disableButton">{{row.state}}</button></a></td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumnsMultiAccount"></tr>

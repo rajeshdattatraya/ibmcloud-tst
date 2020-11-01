@@ -134,8 +134,8 @@ export class LoginComponent implements OnInit {
                    }else{
                 this.ngZone.run(() => this.router.navigateByUrl('/superadmin-user-create', { state: { username: res.username, accessLevel: res.accessLevel, account:res.account } }))
              }
-              } else if (res.userLoggedin == 'false') {
-            if (res.quizNumber == 1 && res.status == 'Active' && res.password == appConfig.defaultEncryptedPassword) {
+         } else if (res.userLoggedin == 'false') {
+            if (res.password == appConfig.defaultEncryptedPassword) {
               this.ngZone.run(() => this.router.navigateByUrl('/change-password', { state: { username: res.username, quizNumber: res.quizNumber } }))
             } else {
               if (res.status == 'Active') {
