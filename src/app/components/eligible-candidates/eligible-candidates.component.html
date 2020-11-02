@@ -240,6 +240,8 @@
         <tr *ngIf="displayRegularUIFields">
           <td><mat-label>Date of Joining:</mat-label></td>
           <td>&nbsp;{{this.candidateDetails[0].dateOfJoining.split('T')[0]}}</td>
+          <td><mat-label>Employee Type:</mat-label></td>
+          <td colspan="3" style="width:75%">{{this.candidateDetails[0].employeeType}}</td>
         </tr>
         <tr *ngIf="displayContractorUIFields">
           <td><mat-label>Date of Birth:</mat-label></td>
@@ -247,6 +249,10 @@
           <td><mat-label>Job Role:</mat-label></td>
           <td>&nbsp;{{this.candidateDetails[0].JRSS}}</td>
         </tr>
+        <tr *ngIf="displayContractorUIFields">
+          <td><mat-label>Employee Type:</mat-label></td>
+          <td>{{this.candidateDetails[0].employeeType}}</td>
+        </tr> 
       </table>
         </mat-card-content>
       </mat-card>

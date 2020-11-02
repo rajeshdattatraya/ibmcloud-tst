@@ -478,8 +478,9 @@ export class CandidateCreateComponent implements OnInit {
           return false;
         } else {
             this.displayGPCalculate = true;
-            this.openPositionService.listAllOpenPositionsBYJRSS(this.account, status,this.candidateForm.value.JRSS).subscribe((data) => {
+            this.openPositionService.listAllOpenPositionsBYJRSS(this.candidateForm.value.account, status,this.candidateForm.value.JRSS).subscribe((data) => {
             this.OpenPositions = data;
+             this.displayPositionDetails = false;
              this.myOpenPositionGroup.get('gpUserPositionLocation').setValue(this.candidateForm.value.userPositionLocation);
              this.myOpenPositionGroup.get('gpUserLOB').setValue(this.candidateForm.value.userLOB);
              this.myOpenPositionGroup.get('gpUserBand').setValue(this.candidateForm.value.band);

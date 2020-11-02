@@ -621,8 +621,9 @@ export class CandidateEditComponent implements OnInit {
         return false;
       } else {
           this.displayGPCalculate = true;
-          this.openPositionService.listAllOpenPositionsBYJRSS(this.account, status,this.editForm.value.JRSS).subscribe((data) => {
+          this.openPositionService.listAllOpenPositionsBYJRSS(this.editForm.value.account, status,this.editForm.value.JRSS).subscribe((data) => {
              this.OpenPositions = data;
+             this.displayPositionDetails = false;
              this.myOpenPositionGroup.get('gpUserPositionLocation').setValue(this.editForm.value.userPositionLocation);
              this.myOpenPositionGroup.get('gpUserLOB').setValue(this.editForm.value.userLOB);
              this.myOpenPositionGroup.get('gpUserBand').setValue(this.editForm.value.band);

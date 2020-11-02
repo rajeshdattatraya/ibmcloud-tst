@@ -57,7 +57,6 @@ export class TestConfigEditComponent implements OnInit {
           
           
       }
-      this.getAllJRSS();
       let id = this.actRoute.snapshot.paramMap.get('id');
       this.getTestConfig(id);
       this.getAllTestConfigs();
@@ -138,6 +137,7 @@ export class TestConfigEditComponent implements OnInit {
             passingScore:data['passingScore']
           });
           this.oldJRSS = data['JRSS'];
+          this.readJrssByAccount(this.testConfigEditForm.value.account);
                     
         });
     }

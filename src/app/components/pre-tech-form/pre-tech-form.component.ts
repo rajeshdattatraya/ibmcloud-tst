@@ -252,6 +252,8 @@ downloadCandidateDetails()
 						 console.log(error);
 				   });
 
+			alert('Information submitted successfully. Please click on Close or Logout button to exit.');
+
 		} else {
 		
 		this.stage2Completed = false;

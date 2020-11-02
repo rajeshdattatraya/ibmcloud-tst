@@ -1,7 +1,5 @@
 import { Router } from '@angular/router';
 import { ApiService } from './../../service/api.service';
-import { Candidate } from './../../model/candidate';
-import { UserDetails } from './../../model/userDetails';
 import { Component, OnInit, NgZone,ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { appConfig } from './../../model/appConfig';
@@ -171,20 +169,28 @@ export class AdminuserCreateComponent implements OnInit {
       this.AccountList = this.account.split(",");
     }
 
-// Delete the selected user
-  //To remove candidate
+// Delete the selected user 
   removeUser(username, index) {
     if(this.isRowSelected == false){
       alert("Please select the user");
     }else{
-    if(window.confirm('Are you sure?')) {
-        this.apiService.deleteUser(username).subscribe((data) => {
-          this.AdminUsers.splice(index, 1);
+        // Defect 271 - Fix for Delete button
+        this.apiService.getUser(this.docid).subscribe(data => {
+        this.userAccounts = data['account'].split(","); 
+        const isUserAccSubsetOfAdminAcc = this.userAccounts.every(val => this.accounts.includes(val));                    
+        if(isUserAccSubsetOfAdminAcc) {
+          if(window.confirm('Are you sure?')) {
+            this.apiService.deleteUser(username).subscribe((data) => {
+            this.AdminUsers.splice(index, 1);
+           })
+           this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
+                          this.router.navigate(['/adminuser-create'],{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
+          }
+        } else {
+          alert("You are not allowed to delete this record as the user is mapped to other account(s).");
+          return false;
         }
-      )
-      this.getAllSpecialUsers();
-      this.isRowSelected = false;
-    }
+      }); 
   }
   }
 
@@ -212,14 +218,14 @@ export class AdminuserCreateComponent implements OnInit {
     if(this.isRowSelected == false){
       alert("Please select the user");
       }else{
-        // Defect 271
+        // Defect 271 - Fix for Edit button
         this.apiService.getUser(this.docid).subscribe(data => {
           this.userAccounts = data['account'].split(","); 
           const isUserAccSubsetOfAdminAcc = this.userAccounts.every(val => this.accounts.includes(val));                    
           if(isUserAccSubsetOfAdminAcc) {
             this.router.navigate(['/edit-user/', this.docid],{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}});
           } else {
-            alert("You are not allowed to edit this record as the user is mapped to other account(s)");
+            alert("You are not allowed to edit this record as the user is mapped to other account(s).");
             return false;
           }
           });         

@@ -118,7 +118,7 @@
               <tr>
                 <td colspan="4">
                   <mat-form-field class="stream-full-width">
-                    <textarea matInput placeholder="Question:"  type="textarea" rows="8" cols="50">{{this.getQuestionDetails[0].question}}
+                    <textarea matInput font-size= "12pt" placeholder="Question:"  type="textarea" rows="8" cols="50">{{this.getQuestionDetails[0].question}}
                     </textarea>
                    </mat-form-field>
                 </td>
@@ -126,11 +126,16 @@
                <br>
             
               <tr>
-                <td colspan="4">
+              <td colspan="4">
                 <mat-form-field class="stream-full-width">
                   <textarea matInput placeholder="Option 1:"  type="textarea" rows="4" cols="70">{{this.getQuestionDetails[0].options[0].option}}
                   </textarea>
                 </mat-form-field>
+                </td>
+                <td>
+                  <div *ngIf="this.getQuestionDetails[0].answerID.includes('1') ? true :false">
+                    <img src="assets/images/success.jpg" width="20" height="20"/>
+                  </div>
                 </td>
               </tr>
               <br>
@@ -142,6 +147,11 @@
                     </textarea>
                   </mat-form-field>
                   </td>
+                  <td>
+                    <div *ngIf="this.getQuestionDetails[0].answerID.includes('2') ? true :false">
+                      <img src="assets/images/success.jpg" width="20" height="20"/>
+                    </div>
+                  </td>
               </tr>
               <br>       
 
@@ -152,6 +162,11 @@
                     </textarea>
                   </mat-form-field>
                   </td>
+                  <td>
+                    <div *ngIf="this.getQuestionDetails[0].answerID.includes('3') ? true :false">
+                      <img src="assets/images/success.jpg" width="20" height="20"/>
+                    </div>
+                  </td>
               </tr>
               <br>
 
@@ -161,6 +176,11 @@
                     <textarea matInput placeholder="Option 4:"  type="textarea" rows="4" cols="70">{{this.getQuestionDetails[0].options[3].option}}
                     </textarea>
                   </mat-form-field>
+                  </td>
+                  <td>
+                    <div *ngIf="this.getQuestionDetails[0].answerID.includes('4') ? true :false">
+                      <img src="assets/images/success.jpg" width="20" height="20"/>
+                    </div>
                   </td>
               </tr>
               </table>

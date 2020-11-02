@@ -97,7 +97,7 @@ export class QuestionEditComponent implements OnInit {
     }, (error) => {
       console.log(error);
     });
-  }
+ }
 ​
   mainForm() {
       this.editquestionForm = this.fb.group({
@@ -115,7 +115,7 @@ export class QuestionEditComponent implements OnInit {
         option4checkbox:[],
         answerID:[],
         questionID:[],
-        account:[],
+        account:['',[Validators.required]],
         status:[]
       })
     }
@@ -186,22 +186,9 @@ export class QuestionEditComponent implements OnInit {
   }
 ​
   cancelForm(){
-    ​this.apiService.findUserAnswer(this.qID).subscribe((res) => {
-      if(res.count >0){
-        console.log("Cancel edit for Question which had appeared in online assessment");
-    this.apiService.editQuestion(this.question_id).subscribe(res =>{
-      this.ngZone.run(() => this.router.navigateByUrl('/view-questionbank',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
-  }, (error) =>{
-    console.log("Error  - " + error);
-  });}
-  else if (res.count == 0){
-    console.log("Cancel edit for Question which had not appeared in online assessment");
-    this.ngZone.run(() => this.router.navigateByUrl('/view-questionbank',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
+  this.ngZone.run(() => this.router.navigateByUrl('/view-questionbank',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
   }
-}, (error)=>{
-  console.log("Error  - " + error);
-}) 
-  }
+
 ​
 ​
   onSubmit() {
@@ -274,30 +261,22 @@ export class QuestionEditComponent implements OnInit {
                 alert("Only one option can be selected as the questionType is SingleSelect");
                 return false;
               }
-              this.questionID++;
+              //this.questionID++;
               console.log("qID value: " +this.questionID);
               this.editquestionForm.value.questionID=this.questionID;
               this.editquestionForm.value.account=this.AccountArray.join(',');
               this.editquestionForm.value.status="Active";
+
 ​this.apiService.findUserAnswer(this.qID).subscribe((res) => {
-  if(res.count > 0){
-    console.log("Updated Question which had appeared in online assessment");
-    {
-      this.apiService.getQuestionID().subscribe(
-        (res) => {  
-          if(!isNaN(res.questionID))    {            
-          this.questionID=res.questionID;
-        console.log("Max question ID:" +this.questionID);
-        }
-          else{
-            this.questionID=0;
-          }
-        }, (error) => {
-          console.log(error);
-        });       }
+  if (res.count > 0 && this.editquestionForm.dirty) {
+    console.log("Question has appeared in online assessment");
+    this.apiService.deleteQuestion(this.questionID).subscribe(res =>{
+     }, (error) =>{
+    console.log("Error  - " + error);
+  });
+  
 this.apiService.createQuestion(this.editquestionForm.value).subscribe(
   (res) => {
-    //console.log('Question successfully updated!');
    this.formReset = true;
     this.editquestionForm.reset();
     alert("Question updated successfully");
