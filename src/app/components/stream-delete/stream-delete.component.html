@@ -5,7 +5,7 @@
 	<br/>
 </div>
 
-<!-- form Test Config -->
+<!-- form Stream delete -->
 <mat-card class="login-card">
 	<mat-card-header></mat-card-header>
 	<mat-card-content>
@@ -15,12 +15,9 @@
 					<td> 
 						<!-- Job Role -->
 						<mat-form-field class="open-full-width">
-							<mat-select placeholder="Job Role" (selectionChange)="updateJrssProfile($event.value)"
-								formControlName="JRSS" id="inputJRSS3" [ngClass]="{'is-invalid': submitted && myForm.JRSS.errors}">
-								<mat-option value="{{jrssAccountData.jrss}}">{{jrssAccountData.jrss}}</mat-option>
-							</mat-select>
-							<div *ngIf="submitted && myForm.JRSS.errors" class="invalid-feedback" >
-								<div *ngIf="myForm.JRSS.errors.required">JRSS is required</div>
+							<input matInput [readonly]="true" placeholder="Job Role" formControlName="jobRole" name="inputJRSS3" [ngClass]="{ 'is-invalid': submitted && myForm.jobRole.errors }">
+							<div *ngIf="submitted && myForm.jobRole.errors" class="invalid-feedback">
+							  <div *ngIf="myForm.jobRole.errors.required">Job Role is required</div>							  
 							</div>
 						</mat-form-field>
 					</td>
@@ -28,11 +25,11 @@
 						<!-- Technology Stream To be Deleted -->
 						<mat-form-field class="open-full-width">
 							<mat-select placeholder="Technology Stream To be Deleted" 
-								formControlName="technologyStream" id="inputSkill3" [ngClass]="{'is-invalid': submitted && myForm.technologyStream.errors}" >				
+								formControlName="techStream" id="inputSkill3" [ngClass]="{'is-invalid': submitted && myForm.techStream.errors}" >				
 								<mat-option *ngFor="let data of technologyStream" value="{{data.value}}">{{data.value}}</mat-option>
 							</mat-select>
-							<div *ngIf="submitted && myForm.technologyStream.errors" class="invalid-feedback" >
-								<div *ngIf="myForm.technologyStream.errors.required">Technology Stream  is required</div>
+							<div *ngIf="submitted && myForm.techStream.errors" class="invalid-feedback" >
+								<div *ngIf="myForm.techStream.errors.required">Technology Stream  is required</div>
 							</div>
 						</mat-form-field>
 					</td>
@@ -46,33 +43,4 @@
 			<button mat-raised-button color="primary" (click)="cancelForm()">Cancel</button>
 		</div>
 	</mat-card-actions>
-</mat-card>
-	<!-- <br/>
-	<br/> -->
-	<!--<div>
-		<h4 class="my-0 mr-md-auto font-weight-normal">Technology Stream List</h4><br/>
-	</div>-->
-	<!-- No data found message -->
-	<!--<p *ngIf="JRSS.length <= 0" class="no-data text-center">There is no Technology Stream List added yet!</p>-->
-	<!-- Technology Stream list -->  
-	<!-- <div class="mat-elevation-z8">
-		<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-			<ng-container matColumnDef="Action">
-				<th mat-header-cell *matHeaderCellDef> No. </th>
-				<td mat-cell *matCellDef="let row;let i = index"> {{pageSize*currentPages + i + 1}}</td>
-			  </ng-container>
-			
-			<ng-container matColumnDef="jrss">
-				<th mat-header-cell *matHeaderCellDef mat-sort-header> Job Role </th>
-				<td mat-cell *matCellDef="let row">{{row[0]}}</td>
-			</ng-container>
-			
-			<ng-container matColumnDef="technologyStream">
-				<th mat-header-cell *matHeaderCellDef mat-sort-header> Technology Stream </th>
-				<td mat-cell *matCellDef="let row">{{row[1]}}</td>
-			</ng-container>
-			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-			<tr mat-row *matRowDef="let row; let even = even; columns: displayedColumns;" [ngClass]="{gray: even}"></tr>
-   		</table>
-   		<mat-paginator [length]="this.dataSource.data.length"  (page)="handlePage($event)"  [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
-	</div> -->
+</mat-card>	

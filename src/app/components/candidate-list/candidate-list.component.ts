@@ -95,12 +95,25 @@ export class CandidateListComponent implements OnInit {
   readCandidate(){
     return (this.apiService.getCandidatesForAccounts(this.account).subscribe((data) => {
       this.Candidate = data;
+      
       this.Candidate.forEach(candidate => {
         candidate.candidate_users.forEach(user => {
           if (user.status == 'Active' && user.userLoggedin === 'true' ){ candidate.state='Clear\xa0Session'; }
 		      else if (user.status == 'Active' )  { candidate.state='Disable'; }
           else {candidate.state='Enable'; }
-	       });
+
+
+          //If the stage1 status is skipped then disable the button
+          this.apiService.getResultByUser(user.username, user.quizNumber).subscribe(result => {
+          
+              if ( result['stage1_status'] == "Skipped") {
+                candidate.disableButton = true;
+                
+              }
+            })
+      
+         });
+
       });
       this.dataSource.data = data as CandidateDetails[];
 
@@ -167,7 +180,10 @@ export class CandidateListComponent implements OnInit {
       (res) => {
       //If Status is Inactive and quizNumber < 3, increase quizNumber by 1 
       //and update the status and quizNumber columns of Users table 
-      if (res.status === 'Inactive' && res.quizNumber < 3) {                          
+      if (res.status === 'Inactive' && res.quizNumber < 3) {   
+        
+
+
           this.status = "Active";              
           this.quizNumber = ++res.quizNumber;           
           this.apiService.updateUsersStatusAndQuizNum(candidate.username,this.quizNumber,this.status,this.userName).subscribe(

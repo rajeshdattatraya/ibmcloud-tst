@@ -26,6 +26,8 @@ export class StreamDeleteComponent implements OnInit {
   jrssId = '';  
   currentJrssArray:any = [];
   jrssAccountData:any=[];
+  jobRole: any;
+  techStream: any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -43,12 +45,10 @@ export class StreamDeleteComponent implements OnInit {
         this.account = this.router.getCurrentNavigation().extras.state.account;
         this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
     }
-    
-    this.readJrss();      
-    this.jrssId = this.actRoute.snapshot.paramMap.get('id');
-    console.log("this.jrssId= "+this.jrssId);      
-    this.getJrss(this.jrssId);
     this.mainForm();
+    this.readJrss();      
+    this.jrssId = this.actRoute.snapshot.paramMap.get('id');      
+    this.getJrss(this.jrssId);    
   }
 
   ngOnInit(): void {
@@ -57,17 +57,13 @@ export class StreamDeleteComponent implements OnInit {
           if (window.confirm('Your account will be deactivated. You need to contact administrator to login again. Are you sure?')) {
              this.router.navigate(['/login-component']);
           }
-      }   
-      this.streamDeleteForm = this.fb.group({   
-        JRSS: ['', [Validators.required]],
-        technologyStream :['', [Validators.required]]
-      })
+      }
   } 
 
   mainForm() {
     this.streamDeleteForm = this.fb.group({
-      JRSS: ['', [Validators.required]],
-      technologyStream :['', [Validators.required]]
+      jobRole: ['', [Validators.required]],
+      techStream :['', [Validators.required]]
     })
   }
 
@@ -78,12 +74,12 @@ export class StreamDeleteComponent implements OnInit {
     })
   }
   
-  getJrss(id) { 
+  getJrss(id) {   
     this.apiService.getJrssById(id).subscribe(data => {  
-      this.jrssAccountData = data;      
+      this.jrssAccountData = data;        
       this.streamDeleteForm.setValue({
-        JRSS: data['jrss'],
-        technologyStream: data['technologyStream']        
+        jobRole: data['jrss'],
+        techStream: ''        
       }); 
 
       // Get technologyStream from JRSS        
@@ -93,19 +89,6 @@ export class StreamDeleteComponent implements OnInit {
         }
     });
   }
-
-  // Choose designation with select dropdown
-  updateJrssProfile(e){
-    this.streamDeleteForm.get('JRSS').setValue(e, {
-      onlySelf: true
-    }) 
-      
-    this.technologyStream = [];
-    for (var skill of this.jrssAccountData.technologyStream){
-      this.technologyStream.push(skill);           
-    }
-
-  } 
 
   // Getter to access form control
   get myForm(){
@@ -139,8 +122,8 @@ onSubmit() {
     this.readJrssDocId();    
     if (!this.streamDeleteForm.valid) {
       return false;
-    } else {
-      this.currentJrssArray.technologyStream = this.currentJrssArray.technologyStream.filter(item => item.key !== this.streamDeleteForm.value.technologyStream);     
+    } else {      
+      this.currentJrssArray.technologyStream = this.currentJrssArray.technologyStream.filter(item => item.key !== this.streamDeleteForm.value.techStream);       
       this.apiService.updateTechStream(this.jrssDocId, JSON.stringify(this.currentJrssArray)).subscribe(res => {
             console.log('Technology Stream deleted successfully!');
             alert('Technology Stream deleted successfully!');        
@@ -149,6 +132,5 @@ onSubmit() {
             console.log(error);
         })
       }
-}
-
+  }
 }
