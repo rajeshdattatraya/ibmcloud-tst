@@ -156,7 +156,7 @@ invokeEdit(){
     return false;
   } else{
     this.isRowSelected = false;
-    this.router.navigate(['/question-edit/',this.questionID], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account, qID:this.qID,questionID:this.questionID}});
+    this.router.navigate(['/question-edit/',this.questionID], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account, qID:this.qID}});
         }
       
   }

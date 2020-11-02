@@ -36,6 +36,7 @@ export class QuestionEditComponent implements OnInit {
   Account :any= [];
   AccountArray:any = [];
   qID:any;
+  maxQuestionID: any;
   //isEditQuestion ;
 ​
   constructor(public fb: FormBuilder,private actRoute: ActivatedRoute,private router: Router,private ngZone: NgZone,private apiService: ApiService) {
@@ -46,7 +47,8 @@ export class QuestionEditComponent implements OnInit {
           this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
           this.loginAccounts = this.account.split(",");
           this.qID = this.router.getCurrentNavigation().extras.state.qID;
-          this.questionID = this.router.getCurrentNavigation().extras.state.question;
+          console.log("qID:" +this.qID);
+         // this.questionID = this.router.getCurrentNavigation().extras.state.question;
             }
       this.readTechStream();
       this.mainForm();
@@ -54,6 +56,18 @@ export class QuestionEditComponent implements OnInit {
   }
 ​
   ngOnInit() {
+
+    this.apiService.getQuestionID().subscribe(
+      (res) => {  
+        if(!isNaN(res.questionID))    {            
+        this.questionID=res.questionID;}
+        else{
+          this.questionID=0;
+        }
+      }, (error) => {
+        console.log(error);
+      }); 
+
     this.question_id = this.actRoute.snapshot.paramMap.get('id');
     console.log("question id: " +this.question_id);
     this.apiService.getQuestion(this.question_id).subscribe( res => {
@@ -89,11 +103,6 @@ export class QuestionEditComponent implements OnInit {
         status:res['status']
       });
       
-      if(!isNaN(res.questionID)){
-        this.questionID=res.questionID;}
-      else  {
-        this.questionID=0;
-      }
     }, (error) => {
       console.log(error);
     });
@@ -261,20 +270,34 @@ export class QuestionEditComponent implements OnInit {
                 alert("Only one option can be selected as the questionType is SingleSelect");
                 return false;
               }
-              //this.questionID++;
-              console.log("qID value: " +this.questionID);
-              this.editquestionForm.value.questionID=this.questionID;
               this.editquestionForm.value.account=this.AccountArray.join(',');
               this.editquestionForm.value.status="Active";
-
+              this.editquestionForm.value.questionID=this.questionID;
+              console.log("Chceking question_id value:" +this.editquestionForm.value.questionID);
+//this.questionID = this.question_id;
 ​this.apiService.findUserAnswer(this.qID).subscribe((res) => {
+  console.log("res.count:" +res.count);
   if (res.count > 0 && this.editquestionForm.dirty) {
     console.log("Question has appeared in online assessment");
-    this.apiService.deleteQuestion(this.questionID).subscribe(res =>{
+    this.apiService.deleteQuestion(this.question_id).subscribe(res =>{
+      console.log("Question status updated to Inactive");
      }, (error) =>{
     console.log("Error  - " + error);
   });
   
+  this.apiService.getQuestionID().subscribe(
+    (res) => {  
+      if(!isNaN(res.questionID))    {            
+      this.questionID=res.questionID;}
+      else{
+        this.questionID=0;
+      }
+    }, (error) => {
+      console.log(error);
+    });    
+  this.questionID++;
+  console.log("Incremental question value: " +this.questionID);
+  this.editquestionForm.value.questionID=this.questionID;
 this.apiService.createQuestion(this.editquestionForm.value).subscribe(
   (res) => {
    this.formReset = true;
@@ -285,7 +308,7 @@ this.apiService.createQuestion(this.editquestionForm.value).subscribe(
     console.log(error);
   });
   }   
-   else if (res.count == 0){
+   else if (res.count == 0 || res.count > 0){
     console.log("Updated Question which had not appeared in online assessment");
                   this.apiService.updateQuestion(this.question_id,this.editquestionForm.value).subscribe(
                     (res) => {
