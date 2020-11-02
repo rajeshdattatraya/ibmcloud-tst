@@ -32,7 +32,7 @@
             <mat-form-field class="open-full-width">
               <mat-select placeholder="Job Role" (change)="updateJrssProfile($event.target.value)"
                           required formControlName="JRSS" name="JRSS" [ngClass]="{ 'is-invalid': submitted && myForm.JRSS.errors }">
-                <mat-option value="">Choose...</mat-option>
+                <mat-option value="" disabled>Choose...</mat-option>
                 <mat-option *ngFor="let jrss of filteredJrss" value="{{jrss.jrss}}">{{jrss.jrss}}
                 </mat-option>
               </mat-select>

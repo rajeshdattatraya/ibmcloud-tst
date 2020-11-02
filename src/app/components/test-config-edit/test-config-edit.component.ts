@@ -32,6 +32,7 @@ export class TestConfigEditComponent implements OnInit {
   testConfigID: String = "";
   accounts:any=[];
   filteredJrss:any = [];
+  oldId: String = "";
 
   dataSource = new MatTableDataSource<TestConfig>();
   displayedColumns = ['Action','JRSS', 'noOfQuestions','testDuration','passingScore'];
@@ -137,8 +138,9 @@ export class TestConfigEditComponent implements OnInit {
             passingScore:data['passingScore']
           });
           this.oldJRSS = data['JRSS'];
-          this.readJrssByAccount(this.testConfigEditForm.value.account);
-                    
+         this.apiService.getJrsssByAccount(data['account']).subscribe((data) => {
+                this.filteredJrss = data;
+         });
         });
     }
 
@@ -192,30 +194,39 @@ export class TestConfigEditComponent implements OnInit {
         if (!this.testConfigEditForm.valid) {
           return false;
         } else {
-          if (this.oldJRSS != this.testConfigEditForm.value.JRSS) {
-            window.alert("You can not edit JRSS.");
-          } else {
-            if (this.testConfigEditForm.value.testDuration < 10) { 
+            if (this.testConfigEditForm.value.testDuration < 10) {
               window.alert("Test duration should be minimum of 10 mins");
-            } else if (this.testConfigEditForm.value.passingScore < 50) {
-              window.alert("Please enter passing score 50 or above");
-            }else if (this.testConfigEditForm.value.passingScore > 100) {
-              window.alert("Please enter passing score less than or equals to 100");
             } else {
               let testConfig = new TestConfig(this.testConfigEditForm.value.JRSS,this.testConfigEditForm.value.account,
               this.testConfigEditForm.value.noOfQuestions, this.testConfigEditForm.value.testDuration,this.testConfigEditForm.value.passingScore);
               let id = this.actRoute.snapshot.paramMap.get('id');
-              this.testconfigService.updateTestConfig(id, testConfig)
+              this.testconfigService.findTestConfigByJRSS(this.testConfigEditForm.value.JRSS,this.testConfigEditForm.value.account).subscribe(
+                (res) => {
+              this.oldId = res['_id'];
+              if (!(this.oldId.toString() === id.toString())) {
+                window.alert("There is already record exists for the combination of this job role and account.");
+                return false;
+              } else {
+                this.testconfigService.updateTestConfig(id, testConfig)
                   .subscribe(res => {
                     this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
                     this.router.navigate(['/testconfig-add'], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
                     console.log('Content updated successfully!')
                   }, (error) => {
                     console.log(error)
-              })
+                })
               }
-          }
-
+              }, (error) => {
+                   this.testconfigService.updateTestConfig(id,testConfig).subscribe(
+                     (res) => {
+                      console.log('Content updated successfully!')
+                      this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
+                      this.router.navigate(['/testconfig-add'], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
+                     }, (error) => {
+                       console.log(error);
+                  });
+               });
+              }
         }
     }
 
@@ -230,7 +241,7 @@ export class TestConfigEditComponent implements OnInit {
     } else {
       this.getAllJRSS();
     }
-   
+    this.testConfigEditForm.get('JRSS').setValue('');
   }
 
 }
