@@ -251,7 +251,8 @@ export class CandidateEditComponent implements OnInit {
             }   
           }
         }
-    });  
+    });
+    this.editForm.get('JRSS').setValue('');
   }
 
     // Get all Acconts
