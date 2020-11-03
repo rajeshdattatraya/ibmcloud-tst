@@ -1,4 +1,4 @@
-<div *ngIf="mode=='login'" class="col-md-8 offset-md-2 mt-4">
+<div *ngIf="mode=='login'">
   <mat-card class="loginhtml-card">
     <div class="float-left text-left" style="font-size:14pt;font-weight: bold;">Login</div>
     <br/>
@@ -40,15 +40,15 @@
 </div>
 
 
-<div *ngIf="mode=='forgotPassword'" class="col-md-8 offset-md-3 mt-5">
-  <mat-card class="login-card">
+<div *ngIf="mode=='forgotPassword'">
+  <mat-card class="loginhtml-card">
     <div class="float-left text-left" style="font-size:14pt;font-weight: bold;">Confirm User</div>
     <br/>
     <br/>
     <mat-card-content>
       <form [formGroup]="forgotPasswordForm">
         <table>
-          <div style="text-align:left;">Please provide Username and Date of joining if you are regular employee or Date of birth if you are contractor.</div>
+          <div style="text-align:left;">Please provide Username and Date of joining if you are regular <br>employee or Date of birth if you are contractor.</div>
           <tr>
             <td>
               <mat-form-field class="example-full-width">
