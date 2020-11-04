@@ -267,7 +267,6 @@ export class TechnicalInterviewListComponent implements OnInit {
 
   closeCalendar() {
     this.getTechnicalInterviewList();
-   alert(`this.emailSelected  `+this.emailSelected)
     this.techIntSchedulerComp.closeCalendar();
     //this.interviewDate = "";
     $("#calendarModal").modal("hide")
@@ -294,7 +293,7 @@ export class TechnicalInterviewListComponent implements OnInit {
     if(this.account.toLocaleLowerCase() !=='sector'){
       this.apiService.getTechnicalInterviewAccountList(this.account).subscribe((data) => {
         this.TechnicalInterviewList = data;
-              meeting: 
+
         this.TechnicalInterviewList.forEach((item)=> {
         if (item.meeting.length <= 0) {item.meeting[0]=`{startDate: ""}`;}
       })
@@ -311,6 +310,8 @@ export class TechnicalInterviewListComponent implements OnInit {
       })
       this.technicalInterviewCandidateList = data;
       this.dataSource.data = data as ViewResult[];
+      console.log(``,);
+      
     })
    }
   }

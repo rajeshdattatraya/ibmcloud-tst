@@ -321,6 +321,7 @@ export class TechIntSchedulerComponent implements OnInit {
 
     this.calendarOptions.events = this.dummyEvents;
 
+    this.interviewDate = this.dateSelect.startStr;
     //this.event_title = "";
     this.start_time = "";
     this.end_time = "";
