@@ -90,10 +90,21 @@ export class PartnerInterviewComponent implements OnChanges {
   ngOnInit(): void {
       this.accessLevel="partner";
       this.browserRefresh = browserRefresh;
-      this.dataSource.filterPredicate = (data: any, filter) => {
-            const dataStr =JSON.stringify(data).toLowerCase();
-            return dataStr.indexOf(filter) != -1;
-      }
+     this.dataSource.filterPredicate = (data, filter) => {
+         if (this.filterObj['key'] == 'employeeName'){
+           data[this.filterObj['key']] = data.result_users[0].employeeName;
+         } else if (this.filterObj['key'] == 'JRSS'){
+           data[this.filterObj['key']] = data.result_users[0].JRSS;
+         } else if (this.filterObj['key'] == 'account'){
+           data[this.filterObj['key']] = data.result_users[0].account;
+         }
+         if(data[this.filterObj['key']] && this.filterObj['key']) {
+             if (data[this.filterObj['key']].toLowerCase().startsWith(this.filterObj['value'])) {
+                return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
+             }
+         }
+         return false;
+     }
 
       this.dataSource.sortingDataAccessor = (item, property) => {
           switch(property) {
