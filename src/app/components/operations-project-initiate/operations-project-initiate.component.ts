@@ -8,6 +8,7 @@ import {TechnicalInterviewListComponent} from '../technical-interview-list/techn
 import { SendEmail } from './../../model/sendEmail';
 import { OpenPositionService } from 'src/app/service/openposition.service';
 import { PositionsService } from '../open-positions-list/positions.service';
+import { CandidateGPDetails } from './../../model/candidateGPDetails';
 declare var $: any;
 
 @Component({
@@ -202,7 +203,13 @@ get myForm(){
                 (res) => {
                     console.log("Position closed successfully");            
                 });
-            }           
+            }      
+            
+            //Save open position name , candidate location and grossProfit in candidate collection
+            let candidateDetails = new CandidateGPDetails(this.grossProfit,this.candidateLocation,this.positionName,this.positionID);
+            this.apiService.updateCandidate(this.operationsProjectDetails[0].result_users[0]._id, candidateDetails).subscribe((data)=> {
+              console.log('Candidate Details successfully updated!')
+            });
   
             // Send notification to the candidate
             let sendEmailObject = new SendEmail(this.fromAddress, this.toAddress, this.emailSubject, this.emailMessage);
