@@ -47,6 +47,7 @@ export class ViewQuestionComponent implements OnInit {
   getQuestionDetails: any= [];
   mode: string;
   displayAnswer = false;
+  isEditQuestion = 'N';
  
 
   constructor(public fb: FormBuilder,private router: Router, private apiService: ApiService,private route: ActivatedRoute) {
@@ -150,13 +151,13 @@ export class ViewQuestionComponent implements OnInit {
   
 
 invokeEdit(){
-
+  this.isEditQuestion = 'Y';
   if (this.isRowSelected == false) {
     alert("Please select the Question");
     return false;
   } else{
     this.isRowSelected = false;
-    this.router.navigate(['/question-edit/',this.questionID], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account, qID:this.qID}});
+    this.router.navigate(['/question-edit/',this.questionID], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account, qID:this.qID,isEditQuestion:this.isEditQuestion}});
         }
       
   }

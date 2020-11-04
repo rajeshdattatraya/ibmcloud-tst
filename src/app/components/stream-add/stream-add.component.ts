@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from './../../service/api.service';
 import { Component, OnInit, NgZone } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
@@ -21,11 +21,14 @@ export class StreamAddComponent implements OnInit {
   userName: String = "admin";
   account: any;
   accessLevel:any;
-  questionID
+  questionID;
+  isEditQuestion;
+  question_id;
 
   constructor(
     public fb: FormBuilder,
     private router: Router,
+    private actRoute: ActivatedRoute,
     private ngZone: NgZone,
     private apiService: ApiService
   ) {
@@ -34,22 +37,28 @@ export class StreamAddComponent implements OnInit {
         this.userName = this.router.getCurrentNavigation().extras.state.username;
         this.account = this.router.getCurrentNavigation().extras.state.account;
         this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
+        this.isEditQuestion = this.router.getCurrentNavigation().extras.state.isEditQuestion;
+        console.log("isEditQuestion value:" +this.isEditQuestion);
+        this.question_id = this.router.getCurrentNavigation().extras.state.question_id;
+        console.log("QuestionID:" +this.question_id);
        }
     this.readTechStream();
     this.mainForm();
   }
 
 ngOnInit() { 
-  this.browserRefresh = browserRefresh;      
+  this.browserRefresh = browserRefresh;    
+   
  }
 
 //Cancel
 cancelForm(){
   if(this.accessLevel=='admin')
   this.ngZone.run(() => this.router.navigateByUrl('/stream-create',{state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
-  else if(this.accessLevel=='sme' )
+  else if(this.accessLevel=='sme' && this.isEditQuestion != 'Y')
   this.ngZone.run(() => this.router.navigateByUrl('/manage-questionbank-sectorsme',{state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
-  
+  else if (this.accessLevel=='sme' && this.isEditQuestion == 'Y')
+  this.router.navigate(['/question-edit/',this.question_id], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}});
 }
   
 // Read data from techStream table
@@ -108,10 +117,16 @@ onSubmit() {
             this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
             this.router.navigate(['/stream-create'], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
             }
-            else if(this.accessLevel=='sme')
+            else if(this.accessLevel=='sme' && this.isEditQuestion != 'Y')
             {
               this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
               this.router.navigate(['//manage-questionbank-sectorsme'], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
+            }
+            else if (this.accessLevel=='sme' && this.isEditQuestion == 'Y')
+            {
+              this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
+              this.router.navigate(['/question-edit/',this.question_id], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
+
             }
       }, (error) => {
             console.log(error);
