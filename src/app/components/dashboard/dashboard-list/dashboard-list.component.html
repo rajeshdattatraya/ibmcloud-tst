@@ -220,14 +220,12 @@
               <tr>
                 <td style="width:25%"><mat-label>Location:</mat-label></td>
                 <td style="width:25%">{{this.dashboardDetails[0].result_projectAlloc[0].location}}</td>
-                <td style="width:25%"><mat-label>ProjectName:</mat-label></td>
-                <td style="width:25%">{{this.dashboardDetails[0].result_projectAlloc[0].projectName}}</td>
-              </tr>
-              <tr>
-                <td style="width:25%"><mat-label>Client:</mat-label></td>
-                <td style="width:25%">{{this.dashboardDetails[0].result_projectAlloc[0].clientProject}}</td>
                 <td style="width:25%"><mat-label>Position:</mat-label></td>
                 <td style="width:25%">{{this.dashboardDetails[0].result_projectAlloc[0].position}}</td>
+              </tr>
+              <tr *ngIf="this.dashboardDetails[0].result_projectAlloc[0].clientProject != ''">
+                <td style="width:25%"><mat-label>Client:</mat-label></td>
+                <td style="width:25%">{{this.dashboardDetails[0].result_projectAlloc[0].clientProject}}</td>
               </tr>
               <tr>
                 <td style="width:25%"><mat-label>Comments:</mat-label></td>

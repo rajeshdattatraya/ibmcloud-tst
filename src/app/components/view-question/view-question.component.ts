@@ -69,6 +69,15 @@ export class ViewQuestionComponent implements OnInit {
 
   ngOnInit() {
     this.browserRefresh = browserRefresh;
+    this.dataSource.filterPredicate = (data, filter) => {
+    data[this.filterObj['key']] = data[2];
+      if(data[this.filterObj['key']] && this.filterObj['key']) {
+          if (data[this.filterObj['key']].toLowerCase().startsWith(this.filterObj['value'])) {
+             return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
+          }
+      }
+      return false;
+    }
     this.dataSource.sortingDataAccessor = (item, property) => {
       switch(property) {
         case 'Question': return item[1];

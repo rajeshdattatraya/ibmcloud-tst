@@ -33,6 +33,7 @@
     <br/>
   </div>
   <!-- No data message -->
+  
   <p *ngIf="TechnicalInterviewList.length <= 0" class="no-data text-center">There are no records in Technical Interview Assessment Queue</p>
 
   <!-- Technical Interview list -->
@@ -40,9 +41,11 @@
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
       <!-- ID Column -->
+      
       <ng-container matColumnDef="Action">
         <th mat-header-cell *matHeaderCellDef> Select </th>
-        <td mat-cell *matCellDef="let row"> <mat-radio-button (change)="onSelectionChange(row.userName, row.result_users[0].employeeName, row.quizNumber)"></mat-radio-button>
+        <td mat-cell *matCellDef="let row"> <mat-radio-button [checked]="emailSelected === row.userName"
+          (change)="onSelectionChange(row.userName, row.result_users[0].employeeName, row.quizNumber, row.meeting[0].startDate)"></mat-radio-button>
         </td>
       </ng-container>
 
@@ -91,6 +94,13 @@
       </ng-container>
 
 
+      <ng-container matColumnDef="meeting[0].startDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Technical Interview Date </th>
+        <td mat-cell *matCellDef="let row">{{row.meeting[0].startDate | date}}</td>
+      </ng-container>
+
+
+
       <!-- ID Column -->
       <ng-container matColumnDef="cvDownload">
         <th mat-header-cell *matHeaderCellDef> CV Download </th>
@@ -109,7 +119,8 @@
       <!-- ID Column -->
       <ng-container matColumnDef="Action">
         <th mat-header-cell *matHeaderCellDef> Select </th>
-        <td mat-cell *matCellDef="let row"> <mat-radio-button (change)="onSelectionChange(row.userName, row.result_users[0].employeeName, row.quizNumber)"></mat-radio-button>
+        <td mat-cell *matCellDef="let row"> <mat-radio-button [checked]="emailSelected === row.userName"
+          (change)="onSelectionChange(row.userName, row.result_users[0].employeeName, row.quizNumber, row.meeting[0].startDate)"></mat-radio-button>
         </td>
       </ng-container>
 
@@ -152,6 +163,10 @@
         </td>
       </ng-container>
 
+      <ng-container matColumnDef="meeting[0].startDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Technical Interview Date </th>
+        <td mat-cell *matCellDef="let row">{{row.meeting[0].startDate | date }}</td>
+      </ng-container>
 
       <!-- ID Column -->
       <ng-container matColumnDef="cvDownload">

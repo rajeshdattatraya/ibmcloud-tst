@@ -5,6 +5,7 @@ import { MeetingEvent } from 'src/app/model/meetingEvent';
 import { Router } from '@angular/router';
 import { TechIntSchedulerService } from './tech-int-scheduler.service';
 import { FormGroup, FormBuilder, Validators, NgForm } from "@angular/forms";
+import { scheduled } from 'rxjs';
 
 declare var $: any;
 @Component({
@@ -55,7 +56,8 @@ export class TechIntSchedulerComponent implements OnInit {
   accessLevel;
   account;
 
- eventTitle= "";;
+ eventTitle = "";
+ interviewDate = "";
 
 
   constructor(private router: Router,
@@ -138,7 +140,10 @@ export class TechIntSchedulerComponent implements OnInit {
     this.dateSelect = selectInfo;
     this.event_date = this.dateSelect.startStr;
     this.event_title = this.eventTitle;
-    if (selectInfo.view.type == 'dayGridMonth') {
+
+    if (this.interviewDate != undefined || this.interviewDate == "") {
+      alert ("Technical interview for the candidate is already scheduled for " +this.interviewDate)
+    } else if (selectInfo.view.type == 'dayGridMonth') {
       $("#eventCreate").modal("show");
     }
 
@@ -316,6 +321,7 @@ export class TechIntSchedulerComponent implements OnInit {
 
     this.calendarOptions.events = this.dummyEvents;
 
+    this.interviewDate = this.dateSelect.startStr;
     //this.event_title = "";
     this.start_time = "";
     this.end_time = "";
@@ -364,6 +370,7 @@ export class TechIntSchedulerComponent implements OnInit {
     //this.event_title = "";
     this.start_time = "";
     this.end_time = "";
+    
    // this.dateSelect.view.calendar.unselect()
     $("#eventDetails").modal("hide")
   }
@@ -375,10 +382,11 @@ export class TechIntSchedulerComponent implements OnInit {
   Since it is child component of SME tech interview component, 
   ngInit and the constructor methods will be calle only on load of parent component
   Hence this method is used to reset and reload the calendar events on loading calendar window*/
-  handleCandidateEvents(emailSelected: string, calEmployeeName : string) {
+  handleCandidateEvents(emailSelected: string, calEmployeeName : string, interviewDate :  string) {
 
 
    // this.eventTitle = "Tech Interview with "+calEmployeeName;
+   this.interviewDate = interviewDate;
     this.eventTitle = calEmployeeName;
     this.event_title = this.eventTitle;
     this.calendarOptions.events = [];

@@ -38,6 +38,7 @@ export class TechnicalInterviewListComponent implements OnInit {
   TechnicalInterviewList: any = [];
   config: any;
   emailSelected = "";
+  interviewDate = "";
   account: String = "";
   quizNumber;
   technicalInterviewCandidateList: any = [];
@@ -72,8 +73,8 @@ export class TechnicalInterviewListComponent implements OnInit {
   calEmployeeName = "";
   loginAccounts:any = [];
 
-  displayedColumns = ['Action','result_users[0].employeeName', 'result_users[0].JRSS','userScore','preTechForm','cvDownload'];
-  displayedColumnsSector = ['Action','result_users[0].employeeName', 'result_users[0].JRSS','result_users[0].account','userScore','preTechForm','cvDownload'];
+  displayedColumns = ['Action','result_users[0].employeeName', 'result_users[0].JRSS','userScore','preTechForm','meeting[0].startDate','cvDownload'];
+  displayedColumnsSector = ['Action','result_users[0].employeeName', 'result_users[0].JRSS','result_users[0].account','userScore','preTechForm','meeting[0].startDate','cvDownload'];
 
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -102,21 +103,32 @@ export class TechnicalInterviewListComponent implements OnInit {
   @ViewChild('content') content: any;
   @ViewChild('calendarContent') calendarContent: any;
   ngOnInit(): void {
-      this.browserRefresh = browserRefresh;
-  this.dataSource.filterPredicate = (data: any, filter) => {
-        const dataStr =JSON.stringify(data).toLowerCase();
-        return dataStr.indexOf(filter) != -1;
-  }
-
-  this.dataSource.sortingDataAccessor = (item, property) => {
-      switch(property) {
-        case 'result_users[0].employeeName': return item.result_users[0].employeeName;
-        case 'result_users[0].JRSS': return item.result_users[0].JRSS;
-        case 'userScore': return item.userScore;
-        case 'result_users[0].account': return item.result_users[0].account;
-        default: return item[property];
-      }
-   }
+    this.browserRefresh = browserRefresh;
+    this.dataSource.filterPredicate = (data, filter) => {
+          if (this.filterObj['key'] == 'employeeName'){
+            data[this.filterObj['key']] = data.result_users[0].employeeName;
+          } else if (this.filterObj['key'] == 'JRSS'){
+            data[this.filterObj['key']] = data.result_users[0].JRSS;
+          } else if (this.filterObj['key'] == 'account'){
+            data[this.filterObj['key']] = data.result_users[0].account;
+          }
+          if(data[this.filterObj['key']] && this.filterObj['key']) {
+              if (data[this.filterObj['key']].toLowerCase().startsWith(this.filterObj['value'])) {
+                 return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
+              }
+          }
+          return false;
+    }
+    this.dataSource.sortingDataAccessor = (item, property) => {
+        switch(property) {
+          case 'result_users[0].employeeName': return item.result_users[0].employeeName;
+          case 'result_users[0].JRSS': return item.result_users[0].JRSS;
+          case 'userScore': return item.userScore;
+          case 'result_users[0].account': return item.result_users[0].account;
+          case 'meeting[0].startDate': return item.meeting[0].startDate;
+          default: return item[property];
+        }
+     }
   }
 
   ngAfterViewInit (){
@@ -244,6 +256,7 @@ export class TechnicalInterviewListComponent implements OnInit {
 
  openCalendar = false;
   scheduleInterview() {
+    
     if (this.emailSelected == "") {
       this.openCalendar = false;
       alert("Please select a candidate")
@@ -251,7 +264,7 @@ export class TechnicalInterviewListComponent implements OnInit {
       return false;
     } else {
       //this.openCalendar = true;
-      this.techIntSchedulerComp.handleCandidateEvents(this.emailSelected, this.calEmployeeName );
+      this.techIntSchedulerComp.handleCandidateEvents(this.emailSelected, this.calEmployeeName,this.interviewDate );
 
 
       
@@ -263,7 +276,9 @@ export class TechnicalInterviewListComponent implements OnInit {
 
 
   closeCalendar() {
+    this.getTechnicalInterviewList();
     this.techIntSchedulerComp.closeCalendar();
+    //this.interviewDate = "";
     $("#calendarModal").modal("hide")
   }
 
@@ -276,11 +291,11 @@ export class TechnicalInterviewListComponent implements OnInit {
     }
   }
 
-  onSelectionChange(value, calEmployeeName, quizNumber) {
+  onSelectionChange(value, calEmployeeName, quizNumber, interviewDate) {
     this.emailSelected = value;
     this.calEmployeeName = calEmployeeName;
     this.quizNumber = quizNumber;
-
+    this.interviewDate = interviewDate;
 
   }
 
@@ -288,6 +303,10 @@ export class TechnicalInterviewListComponent implements OnInit {
     if(this.account.toLocaleLowerCase() !=='sector'){
       this.apiService.getTechnicalInterviewAccountList(this.account).subscribe((data) => {
         this.TechnicalInterviewList = data;
+
+        this.TechnicalInterviewList.forEach((item)=> {
+        if (item.meeting.length <= 0) {item.meeting[0]=`{startDate: ""}`;}
+      })
         this.technicalInterviewCandidateList = data;
         this.dataSource.data = data as ViewResult[];
       })
@@ -295,8 +314,14 @@ export class TechnicalInterviewListComponent implements OnInit {
     else{
     this.apiService.getTechnicalInterviewList().subscribe((data) => {
       this.TechnicalInterviewList = data;
+      
+      this.TechnicalInterviewList.forEach((item)=> {
+        if (item.meeting.length <= 0) {item.meeting[0]=`{startDate: ""}`;}
+      })
       this.technicalInterviewCandidateList = data;
       this.dataSource.data = data as ViewResult[];
+      console.log(``,);
+      
     })
    }
   }

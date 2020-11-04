@@ -103,6 +103,7 @@ export class OpenpositionsEditComponent implements OnInit {
           }
         }
     });
+    this.openPositionForm.get('JRSS').setValue('');
   }
 
 

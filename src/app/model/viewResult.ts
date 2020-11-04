@@ -41,6 +41,18 @@ export class ViewResult {
                             grossProfit:string;
                             userPositionLocation:string;
                             openPositionName:string;
-       	}];
+              }];
+              meeting: 
+              [{  
+                            id : string;
+                             eventID: string;
+                             eventTitle: string;
+                             startDate: string;
+                             startTime: string;
+                             endTime: string;
+                             candidateEmail: string;
+                             user: string;
+
+               }];
 
 }
