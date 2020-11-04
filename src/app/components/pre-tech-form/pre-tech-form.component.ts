@@ -30,6 +30,7 @@ export class PreTechFormComponent implements OnInit {
 	
 	stage2Completed=false;
 	mode= "instructions";
+	userResult="Fail"
 	preTechAssmntQuestions:any = [];
 	resumeBlob:Blob;
 	resumeName1:string;
@@ -74,7 +75,7 @@ logout(){
 getPreTechAssessmentQuestions() {
 
 
-this.preTechService.getStageStatusByUserName(this.userName).subscribe(
+this.preTechService.getStageStatusByUserName(this.userName,this.userResult).subscribe(
     (res) => {      
       this.stage2_status = res['stage2_status'];
 	  
@@ -224,7 +225,7 @@ downloadCandidateDetails()
 		 
 		 if (this.mode == 'Submit') {
 		 
-			this.preTechService.updateStage2Status(this.userName).subscribe(
+			this.preTechService.updateStage2Status(this.userName,this.userResult).subscribe(
 			(res) => {      
 				console.log("Updated stage 2 status to Completed");
 			  }

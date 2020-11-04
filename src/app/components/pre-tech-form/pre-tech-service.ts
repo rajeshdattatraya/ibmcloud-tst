@@ -29,8 +29,8 @@ export class PreTechService {
   
   
 // Get workflow stage status by userName
-  getStageStatusByUserName( userName) {
-    let url = `${this.baseUri}/getStageStatus/${userName}`;
+  getStageStatusByUserName( userName,userResult) {
+    let url = `${this.baseUri}/getStageStatus/${userName}/${userResult}`;
 	 
     return this.http.get(url, {headers: this.headers}).pipe(
       map((res: Response) => {
@@ -43,8 +43,8 @@ export class PreTechService {
   
 
   // Update stage 2 status status.
- updateStage2Status(userName): Observable<any> {
-  let url = `${this.baseUri}/updateStage2Status/${userName}`;
+ updateStage2Status(userName,userResult): Observable<any> {
+  let url = `${this.baseUri}/updateStage2Status/${userName}/${userResult}`;
   console.log("******* updateStage2Status url ****** ",url);
 	return this.http.post(url, {headers: this.headers}).pipe(
 	 catchError(this.errorMgmt)
