@@ -8,6 +8,7 @@ import {TechnicalInterviewListComponent} from '../technical-interview-list/techn
 import { SendEmail } from './../../model/sendEmail';
 import { OpenPositionService } from 'src/app/service/openposition.service';
 import { PositionsService } from '../open-positions-list/positions.service';
+import { CandidateGPDetails } from './../../model/candidateGPDetails';
 declare var $: any;
 
 @Component({
@@ -202,7 +203,13 @@ get myForm(){
                 (res) => {
                     console.log("Position closed successfully");            
                 });
-            }           
+            }      
+            
+            //Save open position name , candidate location and grossProfit in candidate collection
+            let candidateDetails = new CandidateGPDetails(this.grossProfit,this.candidateLocation,this.positionName,this.positionID);
+            this.apiService.updateCandidate(this.operationsProjectDetails[0].result_users[0]._id, candidateDetails).subscribe((data)=> {
+              console.log('Candidate Details successfully updated!')
+            });
   
             // Send notification to the candidate
             let sendEmailObject = new SendEmail(this.fromAddress, this.toAddress, this.emailSubject, this.emailMessage);
@@ -314,6 +321,7 @@ getSelectedPositionDetails(positionID) {
  readOpenPositionsByPositionID() {
   this.openPositionService.readOpenPositionByPositionID(this.positionID).subscribe((data) => {
     this.positionDetails = data;
+    this.positionName = data['positionName']
     this.rateCardLOB = data['lineOfBusiness']
     this.rateCardLocation = data['positionLocation']
     this.rateCardRole = data['rateCardJobRole']
@@ -323,7 +331,7 @@ getSelectedPositionDetails(positionID) {
 }
 
 
- // To Read the Open Position by position Name
+ // To Read the Open Position by position Name - this method is noy used
  readOpenPositionsByPositionName() {
   this.displayPositionDetails = true;
   this.openPositionService.readOpenPositionByPositionName(this.positionName).subscribe((data) => {
@@ -336,7 +344,7 @@ getSelectedPositionDetails(positionID) {
     this.rateCardComplexityLevel= data['competencyLevel']
     this.positionID = data['_id'];
     this.calculateGP();
-    
+
   })
 }
 

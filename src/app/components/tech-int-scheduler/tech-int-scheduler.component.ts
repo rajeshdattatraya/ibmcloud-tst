@@ -4,8 +4,7 @@ import { CalendarOptions, DateSelectArg, EventClickArg, EventApi, CalendarApi, E
 import { MeetingEvent } from 'src/app/model/meetingEvent';
 import { Router } from '@angular/router';
 import { TechIntSchedulerService } from './tech-int-scheduler.service';
-import { FormGroup, FormBuilder, Validators, NgForm } from "@angular/forms";
-import { scheduled } from 'rxjs';
+import { v4 as uuid } from 'uuid';
 
 declare var $: any;
 @Component({
@@ -43,8 +42,8 @@ export class TechIntSchedulerComponent implements OnInit {
 
   calendarApi: CalendarApi;
 
-  eventID = 0;
-  eventIDToUpdate = 0;
+  eventID = "";
+  eventIDToUpdate = "";
 
   eventData;
   //to send meeting invite details via email
@@ -123,7 +122,6 @@ export class TechIntSchedulerComponent implements OnInit {
   };
 
   handleToolTip(eventHoverInfo: EventHoveringArg) {
-    console.log(`eventHoverInfo`, eventHoverInfo);
 
     var event = eventHoverInfo.event
 
@@ -140,9 +138,27 @@ export class TechIntSchedulerComponent implements OnInit {
     this.dateSelect = selectInfo;
     this.event_date = this.dateSelect.startStr;
     this.event_title = this.eventTitle;
+    if (this.interviewDate != undefined) {
+      this.techIntSchedulerService.getMeetingEventsByCandidate(this.candidateEmail).subscribe(res => {
+        let candidateevents: any = [];
+      candidateevents = res;
+        
+        if (candidateevents.length >=1) {
+          if (res[0].user.toLowerCase() == this.userName.toLowerCase()) {
+            alert ("Technical interview for the candidate is already scheduled for " +this.interviewDate  )
+          } else {
+          
+            alert ("Technical interview for the candidate is already scheduled for " +this.interviewDate +
+            " \nPlease write to `"+ res[0].user +"` for details." )
+          }
+        }
+       
+      }, (error) => {
+        console.log(error);
+      });
 
-    if (this.interviewDate != undefined || this.interviewDate == "") {
-      alert ("Technical interview for the candidate is already scheduled for " +this.interviewDate)
+      
+      
     } else if (selectInfo.view.type == 'dayGridMonth') {
       $("#eventCreate").modal("show");
     }
@@ -165,7 +181,7 @@ export class TechIntSchedulerComponent implements OnInit {
   handleEventUpdate(clickInfo: EventClickArg) {
     var startTime = clickInfo.event.startStr.split('T')[1].slice(0, 8);
     var endTime = clickInfo.event.endStr.split('T')[1].slice(0, 8);
-    this.eventIDToUpdate = Number(clickInfo.event.id);
+    this.eventIDToUpdate = clickInfo.event.id;
 
    
     var startTimeAMPM = this.timeIn12HourFormat(startTime)
@@ -190,6 +206,8 @@ export class TechIntSchedulerComponent implements OnInit {
   //update calendar events
   updateEvent() {
 
+    this.candidateEmail = this.savedEvents.filter(event => event.eventID == this.eventIDToUpdate ).
+                          map(event => event.candidateEmail)[0];
     this.toAddress = this.candidateEmail;
     
     var startTime = this.start_time;
@@ -204,7 +222,7 @@ export class TechIntSchedulerComponent implements OnInit {
       return ;
     }
 
-    this.calendarApi.getEventById(this.eventIDToUpdate + '').remove();
+    this.calendarApi.getEventById(this.eventIDToUpdate).remove();
     
     let str = {
       id: this.eventIDToUpdate, title: this.event_title,
@@ -219,7 +237,7 @@ export class TechIntSchedulerComponent implements OnInit {
       this.end_time, this.candidateEmail, this.fromAddress);
     let updateEventData = JSON.stringify(updateMeetingEvent);
 
-    this.techIntSchedulerService.updateMeetingEventsByEventID(this.eventIDToUpdate, this.candidateEmail, updateEventData).subscribe(res => {
+    this.techIntSchedulerService.updateMeetingEventsByEventID(this.eventIDToUpdate, updateEventData).subscribe(res => {
 
       this.emailSubject = " Rescheduled Technical SME Interview  ";
       this.emailMessage = "Dear Employee, <br><p> This is to formally notify that the technical interview has been "
@@ -240,7 +258,7 @@ export class TechIntSchedulerComponent implements OnInit {
 
     if (this.event_title) {
       this.calendarApi.addEvent({
-        id: this.eventIDToUpdate + '',
+        id: this.eventIDToUpdate,
         title: this.event_title,
         start: this.startDate + 'T' + (this.start_time),
         end: this.startDate + 'T' + this.end_time,
@@ -251,7 +269,6 @@ export class TechIntSchedulerComponent implements OnInit {
     this.event_title = "";
     this.start_time = " ";
     this.end_time = " ";
-
     $("#eventDetails").modal("hide")
 
   }
@@ -260,19 +277,14 @@ export class TechIntSchedulerComponent implements OnInit {
 
   //Add new calendar events
   addNewEvent() {
-
     
     this.toAddress = this.candidateEmail;
-
-    this.eventIDToUpdate = 0;
+    this.eventIDToUpdate = "";;
     this.eventID = this.dummyEvents.length;
-    this.eventID = this.eventID + 1;
+    this.eventID = uuid();
     this.eventData = undefined;
 
     this.calendarApi = this.dateSelect.view.calendar;
-
-    
-
 
     //To convert 12hour format to 24 hour format
     //If the start time is say "03:45 PM" then it will be converted into "15:45"
@@ -286,7 +298,7 @@ export class TechIntSchedulerComponent implements OnInit {
 
     if (this.event_title) {
       this.calendarApi.addEvent({
-        id: this.eventID + '',
+        id: this.eventID,
         title: this.event_title,
         start: this.dateSelect.startStr + 'T' + (this.start_time),
         end: this.dateSelect.startStr + 'T' + this.end_time,
@@ -357,7 +369,7 @@ export class TechIntSchedulerComponent implements OnInit {
   }
 
   closeCreateModal() {
-    this.eventID = 0;
+    this.eventID = "";
     //this.event_title = "";
     this.start_time = "";
     this.end_time = "";
@@ -380,17 +392,16 @@ export class TechIntSchedulerComponent implements OnInit {
 
   /* This method will be called on load of the calendar
   Since it is child component of SME tech interview component, 
-  ngInit and the constructor methods will be calle only on load of parent component
+  ngInit and the constructor methods will be called only on load of parent component
   Hence this method is used to reset and reload the calendar events on loading calendar window*/
   handleCandidateEvents(emailSelected: string, calEmployeeName : string, interviewDate :  string) {
-
-
    // this.eventTitle = "Tech Interview with "+calEmployeeName;
    this.interviewDate = interviewDate;
     this.eventTitle = calEmployeeName;
     this.event_title = this.eventTitle;
     this.calendarOptions.events = [];
     this.dummyEvents = [];
+    if ( this.calendarApi != undefined) {    this.calendarApi.removeAllEvents(); }
     //get the saved events from database for the selected candidate
     this.techIntSchedulerService.getMeetingEventsByLoggedInUser(this.userName).subscribe(res => {
       this.savedEvents = res;
@@ -408,7 +419,7 @@ export class TechIntSchedulerComponent implements OnInit {
 
     setTimeout(function () {
       $("button.fc-dayGridMonth-button").click();
-    }, 900);
+    }, 1000);
 
 
 

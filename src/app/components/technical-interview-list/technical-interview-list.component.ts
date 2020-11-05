@@ -103,22 +103,32 @@ export class TechnicalInterviewListComponent implements OnInit {
   @ViewChild('content') content: any;
   @ViewChild('calendarContent') calendarContent: any;
   ngOnInit(): void {
-      this.browserRefresh = browserRefresh;
-  this.dataSource.filterPredicate = (data: any, filter) => {
-        const dataStr =JSON.stringify(data).toLowerCase();
-        return dataStr.indexOf(filter) != -1;
-  }
-
-  this.dataSource.sortingDataAccessor = (item, property) => {
-      switch(property) {
-        case 'result_users[0].employeeName': return item.result_users[0].employeeName;
-        case 'result_users[0].JRSS': return item.result_users[0].JRSS;
-        case 'userScore': return item.userScore;
-        case 'result_users[0].account': return item.result_users[0].account;
-        case 'meeting[0].startDate': return item.meeting[0].startDate;
-        default: return item[property];
-      }
-   }
+    this.browserRefresh = browserRefresh;
+    this.dataSource.filterPredicate = (data, filter) => {
+          if (this.filterObj['key'] == 'employeeName'){
+            data[this.filterObj['key']] = data.result_users[0].employeeName;
+          } else if (this.filterObj['key'] == 'JRSS'){
+            data[this.filterObj['key']] = data.result_users[0].JRSS;
+          } else if (this.filterObj['key'] == 'account'){
+            data[this.filterObj['key']] = data.result_users[0].account;
+          }
+          if(data[this.filterObj['key']] && this.filterObj['key']) {
+              if (data[this.filterObj['key']].toLowerCase().startsWith(this.filterObj['value'])) {
+                 return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
+              }
+          }
+          return false;
+    }
+    this.dataSource.sortingDataAccessor = (item, property) => {
+        switch(property) {
+          case 'result_users[0].employeeName': return item.result_users[0].employeeName;
+          case 'result_users[0].JRSS': return item.result_users[0].JRSS;
+          case 'userScore': return item.userScore;
+          case 'result_users[0].account': return item.result_users[0].account;
+          case 'meeting[0].startDate': return item.meeting[0].startDate;
+          default: return item[property];
+        }
+     }
   }
 
   ngAfterViewInit (){
@@ -256,8 +266,6 @@ export class TechnicalInterviewListComponent implements OnInit {
       //this.openCalendar = true;
       this.techIntSchedulerComp.handleCandidateEvents(this.emailSelected, this.calEmployeeName,this.interviewDate );
 
-
-      
      //this.calendarContent.open();
     $("#calendarModal").modal("show")
     }
@@ -296,6 +304,9 @@ export class TechnicalInterviewListComponent implements OnInit {
 
         this.TechnicalInterviewList.forEach((item)=> {
         if (item.meeting.length <= 0) {item.meeting[0]=`{startDate: ""}`;}
+        if ( this.emailSelected == item.meeting[0].candidateEmail) {
+          this.interviewDate = item.meeting[0].startDate;
+        }
       })
         this.technicalInterviewCandidateList = data;
         this.dataSource.data = data as ViewResult[];
@@ -307,10 +318,13 @@ export class TechnicalInterviewListComponent implements OnInit {
       
       this.TechnicalInterviewList.forEach((item)=> {
         if (item.meeting.length <= 0) {item.meeting[0]=`{startDate: ""}`;}
+        if ( this.emailSelected == item.meeting[0].candidateEmail) {
+          this.interviewDate = item.meeting[0].startDate;
+        }
       })
       this.technicalInterviewCandidateList = data;
       this.dataSource.data = data as ViewResult[];
-      console.log(``,);
+     
       
     })
    }

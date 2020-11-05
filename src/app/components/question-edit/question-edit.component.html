@@ -51,7 +51,7 @@
           <div *ngIf="account=='sector' || account=='Sector' || account=='SECTOR'">
           <!-- Add New Technology Stream (If not available) -->
           <label>To Add a New Technology Stream (which is not available in the above drop-down)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-            <a class="edit" [routerLink]="['/stream-add']" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account}">
+            <a class="edit" [routerLink]="['/stream-add']" [state]="{username:this.userName, accessLevel:this.accessLevel,account:this.account,isEditQuestion:this.isEditQuestion,question_id:this.question_id}">
               <td>Click here</td>
              </a>		
             </div>			
