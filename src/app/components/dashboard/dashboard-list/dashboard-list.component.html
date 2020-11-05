@@ -223,6 +223,12 @@
                 <td style="width:25%"><mat-label>Position:</mat-label></td>
                 <td style="width:25%">{{this.dashboardDetails[0].result_projectAlloc[0].position}}</td>
               </tr>
+              <tr>
+                <td style="width:25%"><mat-label>Open Position Name:</mat-label></td>
+                <td style="width:25%">{{this.dashboardDetails[0].result_users[0].openPositionName}}</td>
+                <td style="width:25%"><mat-label>Open Position ID:</mat-label></td>
+                <td style="width:25%">{{this.dashboardDetails[0].result_users[0].positionID}}</td>
+              </tr>
               <tr *ngIf="this.dashboardDetails[0].result_projectAlloc[0].clientProject != ''">
                 <td style="width:25%"><mat-label>Client:</mat-label></td>
                 <td style="width:25%">{{this.dashboardDetails[0].result_projectAlloc[0].clientProject}}</td>

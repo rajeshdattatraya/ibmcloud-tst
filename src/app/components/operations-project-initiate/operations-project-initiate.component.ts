@@ -321,6 +321,7 @@ getSelectedPositionDetails(positionID) {
  readOpenPositionsByPositionID() {
   this.openPositionService.readOpenPositionByPositionID(this.positionID).subscribe((data) => {
     this.positionDetails = data;
+    this.positionName = data['positionName']
     this.rateCardLOB = data['lineOfBusiness']
     this.rateCardLocation = data['positionLocation']
     this.rateCardRole = data['rateCardJobRole']
@@ -330,7 +331,7 @@ getSelectedPositionDetails(positionID) {
 }
 
 
- // To Read the Open Position by position Name
+ // To Read the Open Position by position Name - this method is noy used
  readOpenPositionsByPositionName() {
   this.displayPositionDetails = true;
   this.openPositionService.readOpenPositionByPositionName(this.positionName).subscribe((data) => {
@@ -343,7 +344,7 @@ getSelectedPositionDetails(positionID) {
     this.rateCardComplexityLevel= data['competencyLevel']
     this.positionID = data['_id'];
     this.calculateGP();
-    
+
   })
 }
 
