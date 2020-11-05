@@ -138,17 +138,21 @@ export class TechIntSchedulerComponent implements OnInit {
     this.dateSelect = selectInfo;
     this.event_date = this.dateSelect.startStr;
     this.event_title = this.eventTitle;
-
-    if (this.interviewDate != undefined || this.interviewDate != "") {
-
+    if (this.interviewDate != undefined) {
       this.techIntSchedulerService.getMeetingEventsByCandidate(this.candidateEmail).subscribe(res => {
-        if (res[0].user.toLowerCase() == this.userName.toLowerCase()) {
-          alert ("Technical interview for the candidate is already scheduled for " +this.interviewDate  )
-        } else {
+        let candidateevents: any = [];
+      candidateevents = res;
         
-          alert ("Technical interview for the candidate is already scheduled for " +this.interviewDate +
-          " \nPlease write to `"+ res[0].user +"` for details." )
+        if (candidateevents.length >=1) {
+          if (res[0].user.toLowerCase() == this.userName.toLowerCase()) {
+            alert ("Technical interview for the candidate is already scheduled for " +this.interviewDate  )
+          } else {
+          
+            alert ("Technical interview for the candidate is already scheduled for " +this.interviewDate +
+            " \nPlease write to `"+ res[0].user +"` for details." )
+          }
         }
+       
       }, (error) => {
         console.log(error);
       });
