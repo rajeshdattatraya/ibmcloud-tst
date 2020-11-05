@@ -47,6 +47,7 @@ export class ViewQuestionComponent implements OnInit {
   getQuestionDetails: any= [];
   mode: string;
   displayAnswer = false;
+  isEditQuestion = 'N';
  
 
   constructor(public fb: FormBuilder,private router: Router, private apiService: ApiService,private route: ActivatedRoute) {
@@ -68,6 +69,15 @@ export class ViewQuestionComponent implements OnInit {
 
   ngOnInit() {
     this.browserRefresh = browserRefresh;
+    this.dataSource.filterPredicate = (data, filter) => {
+    data[this.filterObj['key']] = data[2];
+      if(data[this.filterObj['key']] && this.filterObj['key']) {
+          if (data[this.filterObj['key']].toLowerCase().startsWith(this.filterObj['value'])) {
+             return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
+          }
+      }
+      return false;
+    }
     this.dataSource.sortingDataAccessor = (item, property) => {
       switch(property) {
         case 'Question': return item[1];
@@ -150,13 +160,13 @@ export class ViewQuestionComponent implements OnInit {
   
 
 invokeEdit(){
-
+  this.isEditQuestion = 'Y';
   if (this.isRowSelected == false) {
     alert("Please select the Question");
     return false;
   } else{
     this.isRowSelected = false;
-    this.router.navigate(['/question-edit/',this.questionID], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account, qID:this.qID}});
+    this.router.navigate(['/question-edit/',this.questionID], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account, qID:this.qID,isEditQuestion:this.isEditQuestion}});
         }
       
   }

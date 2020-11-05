@@ -37,7 +37,7 @@ export class QuestionEditComponent implements OnInit {
   AccountArray:any = [];
   qID:any;
   maxQuestionID: any;
-  //isEditQuestion ;
+  isEditQuestion ;
 ​
   constructor(public fb: FormBuilder,private actRoute: ActivatedRoute,private router: Router,private ngZone: NgZone,private apiService: ApiService) {
       this.browserRefresh = browserRefresh;
@@ -48,6 +48,7 @@ export class QuestionEditComponent implements OnInit {
           this.loginAccounts = this.account.split(",");
           this.qID = this.router.getCurrentNavigation().extras.state.qID;
           console.log("qID:" +this.qID);
+          this.isEditQuestion = this.router.getCurrentNavigation().extras.state.isEditQuestion;
          // this.questionID = this.router.getCurrentNavigation().extras.state.question;
             }
       this.readTechStream();
@@ -272,8 +273,9 @@ export class QuestionEditComponent implements OnInit {
               }
               this.editquestionForm.value.account=this.AccountArray.join(',');
               this.editquestionForm.value.status="Active";
-              this.editquestionForm.value.questionID=this.questionID;
-              console.log("Chceking question_id value:" +this.editquestionForm.value.questionID);
+            //  this.editquestionForm.value.questionID=this.questionID;
+                this.editquestionForm.value.questionID = this.qID;
+                 console.log("Checking question_id value:" +this.editquestionForm.value.questionID);
 //this.questionID = this.question_id;
 ​this.apiService.findUserAnswer(this.qID).subscribe((res) => {
   console.log("res.count:" +res.count);
@@ -309,7 +311,8 @@ this.apiService.createQuestion(this.editquestionForm.value).subscribe(
   });
   }   
    else if (res.count == 0 || res.count > 0){
-    console.log("Updated Question which had not appeared in online assessment");
+     console.log("Inside else if");
+  //  console.log("Updated Question which had not appeared in online assessment");
                   this.apiService.updateQuestion(this.question_id,this.editquestionForm.value).subscribe(
                     (res) => {
                      this.formReset = true;
