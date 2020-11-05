@@ -44,7 +44,7 @@
       
       <ng-container matColumnDef="Action">
         <th mat-header-cell *matHeaderCellDef> Select </th>
-        <td mat-cell *matCellDef="let row"> <mat-radio-button [checked]="emailSelected === row.userName"
+        <td mat-cell *matCellDef="let row"> <mat-radio-button [checked]="emailSelected === row.userName" 
           (change)="onSelectionChange(row.userName, row.result_users[0].employeeName, row.quizNumber, row.meeting[0].startDate)"></mat-radio-button>
         </td>
       </ng-container>
@@ -119,7 +119,7 @@
       <!-- ID Column -->
       <ng-container matColumnDef="Action">
         <th mat-header-cell *matHeaderCellDef> Select </th>
-        <td mat-cell *matCellDef="let row"> <mat-radio-button [checked]="emailSelected === row.userName"
+        <td mat-cell *matCellDef="let row"> <mat-radio-button [checked]="emailSelected === row.userName" 
           (change)="onSelectionChange(row.userName, row.result_users[0].employeeName, row.quizNumber, row.meeting[0].startDate)"></mat-radio-button>
         </td>
       </ng-container>
