@@ -166,8 +166,13 @@ ngOnInit() {
 
       if (res['employeeType'] == 'Regular') {
         let str = this.band;
+        if(isNaN(str)){
         str = this.band.substring(0, 1);
         this.bandInt = parseInt(str);
+        }
+        else{
+          this.bandInt = str;
+        }
         this.questionObj = {};
         this.complexityLevel = "Complex";
         console.log("Band int value is " +this.bandInt);
