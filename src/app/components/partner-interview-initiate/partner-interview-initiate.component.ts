@@ -82,10 +82,6 @@ export class PartnerInterviewInitiateComponent implements OnInit {
    ngOnInit() {
         this.browserRefresh = browserRefresh;
         this.onLoad = true;
-        if (this.browserRefresh) {
-             window.alert('You are redirected to login screen.');
-             this.router.navigate(['/login-component']);
-        }
         if (this.positionID != null ||  this.positionID != undefined) {
           this.readOpenPositionsByPositionID();
         } else {

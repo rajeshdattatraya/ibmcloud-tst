@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/service/api.service';
+import { browserRefresh } from '../../app.component';
 
 @Component({
   selector: 'app-navigation',
@@ -12,12 +13,22 @@ export class NavigationComponent implements OnInit {
   account: String = "";
   accessLevel: String = "";
   name: String="";
+  public browserRefresh: boolean;
 
   constructor(private router: Router,private apiService: ApiService) {
+    console.log(`this.router.getCurrentNavigation().extras****** `,this.router.getCurrentNavigation().extras);
+    
+    this.browserRefresh = browserRefresh;
+    console.log(`this.browserRefres ****** `,browserRefresh);
+    if (this.router.getCurrentNavigation().extras.state != undefined) {
           this.userName = this.router.getCurrentNavigation().extras.state.username;
           this.account = this.router.getCurrentNavigation().extras.state.account;
           this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
           this.getCandidate();  
+        }      
+       
+       
+    
   }
   getCandidate(){
     this.apiService.getNameFromUsername(this.userName).subscribe( (res) => {
@@ -26,6 +37,16 @@ export class NavigationComponent implements OnInit {
 }
 
   ngOnInit(): void {
+  
+    if (browserRefresh) {
+      alert('You are redirected to login screen.');
+      this.router.navigateByUrl(
+        'login-component',
+       
+      );
+
+    }
+    
   }
 
 }
