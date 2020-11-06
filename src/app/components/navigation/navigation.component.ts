@@ -16,10 +16,8 @@ export class NavigationComponent implements OnInit {
   public browserRefresh: boolean;
 
   constructor(private router: Router,private apiService: ApiService) {
-    console.log(`this.router.getCurrentNavigation().extras****** `,this.router.getCurrentNavigation().extras);
     
     this.browserRefresh = browserRefresh;
-    console.log(`this.browserRefres ****** `,browserRefresh);
     if (this.router.getCurrentNavigation().extras.state != undefined) {
           this.userName = this.router.getCurrentNavigation().extras.state.username;
           this.account = this.router.getCurrentNavigation().extras.state.account;
