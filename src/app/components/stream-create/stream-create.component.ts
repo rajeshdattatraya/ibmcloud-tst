@@ -227,9 +227,9 @@ listJrssByAccount(accountValue){
       }
     }
   }
-  checkforquestions(){
-    this.apiService.checkForQuestions(this.streamCreateForm.value.technologyStream).subscribe(res => {
-      console.log('Technology stream has questions as the count is '+res.count);   
+  checkforquestions(){   
+    this.apiService.checkForQuestions(this.streamCreateForm.value.technologyStream,this.streamCreateForm.value.account).subscribe(res => {
+      console.log('Technology stream and Account has question(s) as the count is '+res.count);     
       if(res.count==0)  
       {
         this.questionsmappedtotechstream = false;
