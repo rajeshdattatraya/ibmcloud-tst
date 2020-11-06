@@ -530,8 +530,8 @@ getCandidateAssessmentDetails(username,quizNumber): Observable<any> {
 }
 
 //getDashboardList
-getDashboardList(): Observable<any> {
-  let url = `${this.userResultUri}/getDashboardList`;
+getDashboardList(account): Observable<any> {
+  let url = `${this.userResultUri}/getDashboardList/${account}`;
   return this.http.get(url, {headers: this.headers}).pipe(
         map((res: Response) => {
           return res || {}

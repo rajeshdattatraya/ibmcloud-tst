@@ -62,13 +62,16 @@ export class DashboardListComponent implements OnChanges {
   assignedToProject = "";
   jobRole = "";
   canUserId = "";
+  canAccount = "";
   resultId = "";
   canUserName = "";
   qNumber = "";
   uScore = "";
   createdDate = "";
+  loginAccounts:any = [];
 
 displayedColumns = ['Action','employeeName', 'jobRole','userResult','technicalInterviewResult','partnerInterviewResult','assignedToProject'];
+displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userResult','technicalInterviewResult','partnerInterviewResult','assignedToProject'];
 
 
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
@@ -82,6 +85,7 @@ displayedColumns = ['Action','employeeName', 'jobRole','userResult','technicalIn
             this.userName = this.router.getCurrentNavigation().extras.state.username;
             this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
             this.account = this.router.getCurrentNavigation().extras.state.account;
+            this.loginAccounts = this.account.split(",");
         }
   }
 
@@ -108,6 +112,7 @@ displayedColumns = ['Action','employeeName', 'jobRole','userResult','technicalIn
         switch(property) {
           case 'employeeName': return item.employeeName;
           case 'jobRole': return item.jobRole;
+          case 'account': return item.canAccount;
           case 'onlineTestResult': return item.onlineTestResult;
           case 'technicalInterviewResult': return item.technicalInterviewResult;
           case 'partnerInterviewResult': return item.partnerInterviewResult;
@@ -123,7 +128,7 @@ displayedColumns = ['Action','employeeName', 'jobRole','userResult','technicalIn
       const keys = Object.keys(filters);
       const filterUser = user => {
         let result = keys.map(key => {
-          if (key == "employeeName" || key == "jobRole" || key == "assignedToProject"
+          if (key == "employeeName" || key == "jobRole" || key == "canAccount" || key == "assignedToProject"
               || key == "technicalInterviewResult"|| key == "partnerInterviewResult") {
             if (user[key]) {
               return String(user[key]).toLowerCase().startsWith(String(filters[key]).toLowerCase())
@@ -153,13 +158,13 @@ displayedColumns = ['Action','employeeName', 'jobRole','userResult','technicalIn
     }
 
     getDashboardList(){
-      this.apiService.getDashboardList().subscribe((data) => {
+      this.apiService.getDashboardList(this.account).subscribe((data) => {
        this.DashboardList = data;
       })
     }
     // To Read the Results
     readResult() {
-      this.apiService.getDashboardList().subscribe((data) => {
+      this.apiService.getDashboardList(this.account).subscribe((data) => {
         this.Result = data;
 
         this.onlineTestResult = "";
@@ -175,6 +180,7 @@ displayedColumns = ['Action','employeeName', 'jobRole','userResult','technicalIn
         this.Result.forEach((result) => {
             this.employeeName = "";
             this.jobRole = "";
+            this.canAccount = "";
             this.canUserId = "";
             this.canUserName = "";
 
@@ -242,9 +248,10 @@ displayedColumns = ['Action','employeeName', 'jobRole','userResult','technicalIn
            if (result.result_users.length > 0) {
              this.employeeName = result.result_users[0].employeeName;
              this.jobRole = result.result_users[0].JRSS;
+             this.canAccount = result.result_users[0].account;
              this.canUserId = result.result_users[0]._id;
              this.canUserName = result.result_users[0].username;
-             this.dashboards.push(new Dashboard(this.employeeName, this.jobRole, this.onlineTestResult, this.technicalInterviewResult,
+             this.dashboards.push(new Dashboard(this.employeeName, this.jobRole, this.canAccount,this.onlineTestResult, this.technicalInterviewResult,
                                         this.partnerInterviewResult,this.assignedToProject,this.canUserId,this.canUserName,
                                         this.resultId,this.userResult,this.qNumber,this.uScore,this.createdDate));
            }

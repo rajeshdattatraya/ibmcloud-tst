@@ -32,6 +32,7 @@ export class DashboardSearchComponent implements OnInit {
     this.form = this.fb.group({
       employeeName: new FormControl(''),
       jobRole: new FormControl(''),
+      canAccount: new FormControl(''),
       assignedToProject: new FormControl(''),
       partnerInterviewResult: new FormControl(''),
       technicalInterviewResult: new FormControl(''),

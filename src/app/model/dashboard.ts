@@ -1,6 +1,7 @@
 export class Dashboard {
     public employeeName: any;
     public jobRole: any;
+    public canAccount: any;
 		public onlineTestResult: any;
 		public technicalInterviewResult:any;
 		public partnerInterviewResult:any;
@@ -13,11 +14,12 @@ export class Dashboard {
 		public uScore:any;
 		public createdDate:any;
 
-		constructor(employeeName,jobRole,onlineTestResult,technicalInterviewResult,
+		constructor(employeeName,jobRole,canAccount,onlineTestResult,technicalInterviewResult,
 		            partnerInterviewResult,assignedToProject,canUserId,canUserName,
 		            resultId,userResult,qNumber,uScore,createdDate) {
         this.employeeName = employeeName;
 		    this.jobRole = jobRole;
+		    this.canAccount = canAccount;
 		    this.onlineTestResult = onlineTestResult;
         this.technicalInterviewResult = technicalInterviewResult;
         this.partnerInterviewResult = partnerInterviewResult;
