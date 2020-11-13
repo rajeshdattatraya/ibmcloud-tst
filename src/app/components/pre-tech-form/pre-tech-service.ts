@@ -16,8 +16,8 @@ export class PreTechService {
  constructor(private http: HttpClient) { }
 
   // Get all questions
-  getPreTechAssessmentQuestions(jrss, userName) {
-    let url = `${this.baseUri}/getPreTechQuestionanire/${jrss}/${userName}`; 
+  getPreTechAssessmentQuestions(jrss, userName,candidateAccount) {
+    let url = `${this.baseUri}/getPreTechQuestionanire/${jrss}/${userName}/${candidateAccount}`;
     console.log("The URL for pre-tech questions is" + url);
     return this.http.get(url, {headers: this.headers}).pipe(
       map((res: Response) => {

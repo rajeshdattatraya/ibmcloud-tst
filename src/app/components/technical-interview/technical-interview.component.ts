@@ -423,7 +423,7 @@ export class TechnicalInterviewComponent implements OnInit {
 				   }); 
       }
 
-      this.ngZone.run(() => this.router.navigateByUrl('/technical-interview-list',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
+      this.ngZone.run(() => this.router.navigateByUrl('/technical-interview-list',{state:{username:this.loginUser,accessLevel:this.accessLevel,account:this.account}}))
       }, (error) => {
       console.log(error);
       })
@@ -440,27 +440,27 @@ export class TechnicalInterviewComponent implements OnInit {
         } else {
           this.apiService.updateExceptionalApproval(emailSelected,quizNumber,this.techskillForm.value.feedback).subscribe(res => {
             window.alert('Successfully moved candidate to next stage');
-            //Send email notification to partner when 'Recommended' or 'Strongly Recommended'	
+            //Send email notification to partner when 'Recommended' or 'Strongly Recommended'
         let fromAddress = "talent.sourcing@in.ibm.com";
-        let toAddress = this.partnerUsersEmail;    
+        let toAddress = this.partnerUsersEmail;
         let emailSubject = "Candidate assignment notification in Talent Sourcing Tool: Partner evaluation pending";
         let emailMessage = "Dear Team,<br><br> \
         We would like to notify that the candidate "+this.candidateName+" is added to the queue for the job role " +this.jrss+".<br>\
         Please assess the candidate for the new project assignment.<br>\
-         <p>Regards, <br>"+this.candidateAccount+" Operations Team</p>"; 
+         <p>Regards, <br>"+this.candidateAccount+" Operations Team</p>";
          console.log('exceptionalApproval, before sending email, emailMessage == '+emailMessage);
          console.log('exceptionalApproval, before sending email, toAddress == '+toAddress);
          	// Send notification to the SME user
 				   let sendEmailObject2 = new SendEmail(fromAddress, toAddress, emailSubject, emailMessage);
 				   this.apiService.sendEmail(sendEmailObject2).subscribe(
 					 (res) => {
-						 console.log("Email sent successfully to " + this.partnerUsersEmail);            
+						 console.log("Email sent successfully to " + this.partnerUsersEmail);
 					 }, (error) => {
 						 console.log("Error occurred while sending email to " + this.partnerUsersEmail);
 						 console.log(error);
-				   }); 
+				   });
 
-            this.ngZone.run(() => this.router.navigateByUrl('/technical-interview-list',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
+            this.ngZone.run(() => this.router.navigateByUrl('/technical-interview-list',{state:{username:this.loginUser,accessLevel:this.accessLevel,account:this.account}}))
           }, (error) => {
             console.log(error);
           })

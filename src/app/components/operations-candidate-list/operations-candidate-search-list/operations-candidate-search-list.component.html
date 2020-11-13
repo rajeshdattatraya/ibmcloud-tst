@@ -36,11 +36,11 @@
 
 
       <div class="mat-elevation-z8" *ngIf="account=='sector' || account=='Sector' || account=='SECTOR' || this.loginAccounts.length > 1">
-      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" matSort class="fixedTable">
         <!-- ID Column -->
         <ng-container matColumnDef="Action">
-          <th mat-header-cell *matHeaderCellDef> Select </th>
-          <td mat-cell *matCellDef="let row"> <mat-radio-button (change)="onSelectionChange(row.userName)"></mat-radio-button>
+          <th style="width:90px" mat-header-cell *matHeaderCellDef> Select </th>
+          <td style="width:60px" mat-cell *matCellDef="let row"> <mat-radio-button (change)="onSelectionChange(row.userName)"></mat-radio-button>
           </td>
         </ng-container>
     
@@ -102,11 +102,11 @@
       </div>
 
       <div class="mat-elevation-z8" *ngIf="!(account=='sector' || account=='Sector' || account=='SECTOR') && this.loginAccounts.length <= 1">
-      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" matSort class="fixedTable">
         <!-- ID Column -->
         <ng-container matColumnDef="Action">
-          <th mat-header-cell *matHeaderCellDef> Select </th>
-          <td mat-cell *matCellDef="let row"> <mat-radio-button (change)="onSelectionChange(row.userName)"></mat-radio-button>
+          <th style="width:90px" mat-header-cell *matHeaderCellDef> Select </th>
+          <td style="width:60px" mat-cell *matCellDef="let row"> <mat-radio-button (change)="onSelectionChange(row.userName)"></mat-radio-button>
           </td>
         </ng-container>
     
@@ -266,7 +266,7 @@
       <div class="modal-body" *ngIf="mode=='displayModalBody'">
         <mat-card>
           <mat-card-content>
-        <table>
+        <table class="fixedTable">
           <tr>
             <td><mat-label class="col-sm-8 col-form-label">Name:</mat-label></td>
             <td>&nbsp;{{this.candidateDetails[0].employeeName}}</td>

@@ -47,17 +47,18 @@ export class PreTechFormComponent implements OnInit {
     private apiService: ApiService) {
 this.userName = this.router.getCurrentNavigation().extras.state.userName;
 this.mode = this.router.getCurrentNavigation().extras.state.mode;
+this.candidateAccount = this.router.getCurrentNavigation().extras.state.candidateAccount;
 
 	}
-	
+
 	 cancel() {
     this.location.back();
-  } 
-  
+  }
+
  preTech(){
    this.mode="pre-tech"
  }
-logout(){	
+logout(){
 	if(window.confirm("Proceed if you already saved your data!")){
 		this.router.navigate(['/login-component']);
 	}
@@ -68,7 +69,7 @@ logout(){
 	 this.downloadCandidateDetails();
 	 //this.readSmeUser();
 	 //this.readSmeUserForAccount();
-	 	 
+
 }
 
 //Read the pre technical assessment questions (based on the given JRSS) to be filled by the candidate
@@ -76,22 +77,22 @@ getPreTechAssessmentQuestions() {
 
 
 this.preTechService.getStageStatusByUserName(this.userName,this.userResult).subscribe(
-    (res) => {      
+    (res) => {
       this.stage2_status = res['stage2_status'];
-	  
+
 	  if (this.stage2_status == "Completed") {
-			this.stage2Completed =  true	  
+			this.stage2Completed =  true
 	  }
 	  this.isStage_1_Skipped = (res['stage1_status'] == "Skipped") ? true : false;
 	  });
-	  
+
      // Get jrss
     this.apiService.getCandidateJrss(this.userName).subscribe(
-    (res) => {      
+    (res) => {
 	  this.jrss=res['JRSS'];
 	  this.candidateName = res['employeeName'];
-     
-         this.preTechService.getPreTechAssessmentQuestions(this.jrss, this.userName).subscribe(res => {
+
+         this.preTechService.getPreTechAssessmentQuestions(this.jrss, this.userName, this.candidateAccount).subscribe(res => {
 		 
 		 
 		 this.preTechAssmntQuestions = res;

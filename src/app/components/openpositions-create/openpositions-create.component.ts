@@ -25,6 +25,7 @@ export class OpenpositionsCreateComponent implements OnInit {
   loginAdminAccounts:any = [];
   JRSS:any = []
   JRSSFull:any = [];
+  jrssName = "";
 
   LineOfBusiness:any = [];
   CompetencyLevel:any = [];
@@ -188,11 +189,14 @@ export class OpenpositionsCreateComponent implements OnInit {
      this.openPositionForm.get('JRSS').setValue(e.value, {
        onlySelf: true
      })
-     if(this.openPositionForm.value.JRSS.length >= 4){
-      this.paddedPositionID  = ((this.openPositionForm.value.JRSS).substring(0, 4)).replace(/\s/g,'').toUpperCase()+ this.paddedSequenceID;
-    }else{
-      this.paddedPositionID  = (this.openPositionForm.value.JRSS).replace(/\s/g,'').toUpperCase() + this.paddedSequenceID;
-    }
+     this.apiService.getJrssById(e.value).subscribe((data) => {
+        this.jrssName = data['jrss'];
+        if(this.openPositionForm.value.JRSS.length >= 4){
+         this.paddedPositionID  = ((this.jrssName).substring(0, 4)).replace(/\s/g,'').toUpperCase()+ this.paddedSequenceID;
+        } else {
+         this.paddedPositionID  = (this.jrssName).replace(/\s/g,'').toUpperCase() + this.paddedSequenceID;
+        }
+     });
    }
 
     // Choose Rate Card Job Role with select dropdown

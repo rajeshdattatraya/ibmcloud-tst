@@ -32,7 +32,7 @@
               <mat-select placeholder="Job Role" (change)="updateJrssProfile($event.target.value)"
                       formControlName="JRSS" name="JRSS"  required [ngClass]="{ 'is-invalid': submitted && myForm.JRSS.errors }">
                 <mat-option value="" disabled>Choose...</mat-option>
-                <mat-option *ngFor="let jrss of filteredJrss" value="{{jrss.jrss}}">{{jrss.jrss}}
+                <mat-option *ngFor="let jrss of filteredJrss" value="{{jrss._id}}">{{jrss.jrss}}
                 </mat-option>
               </mat-select>
               <div *ngIf="submitted && myForm.JRSS.errors" class="invalid-feedback">
@@ -89,16 +89,16 @@
   <!-- No data message -->
   <p *ngIf="TestConfigs.length <= 0" class="no-data text-center">There are no records added yet!</p>
 <div class="mat-elevation-z8" *ngIf="this.accounts.length <= 1">
-  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort class="fixedTable">
     <!-- ID Column -->
     <ng-container matColumnDef="Action">
-      <th mat-header-cell *matHeaderCellDef> Select </th>
-      <td mat-cell *matCellDef="let row"> <mat-radio-button (change)="onSelectionChange(row._id)"></mat-radio-button></td>
+      <th style="width:90px" mat-header-cell *matHeaderCellDef> Select </th>
+      <td style="width:60px" mat-cell *matCellDef="let row"> <mat-radio-button (change)="onSelectionChange(row._id)"></mat-radio-button></td>
     </ng-container>
     <!-- ID Column -->
     <ng-container matColumnDef="JRSS">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Job Role </th>
-      <td mat-cell *matCellDef="let row">{{row.JRSS}}</td>
+      <td mat-cell *matCellDef="let row">{{row.testConfigs_jrss[0].jrss}}</td>
     </ng-container>
 
     <!-- ID Column -->
@@ -123,16 +123,16 @@
 </div>
 
 <div class="mat-elevation-z8" *ngIf="this.accounts.length > 1">
-  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort class="fixedTable">
     <!-- ID Column -->
     <ng-container matColumnDef="Action">
-      <th mat-header-cell *matHeaderCellDef> Select </th>
-      <td mat-cell *matCellDef="let row"> <mat-radio-button (change)="onSelectionChange(row._id)"></mat-radio-button></td>
+      <th style="width:90px" mat-header-cell *matHeaderCellDef> Select </th>
+      <td style="width:60px" mat-cell *matCellDef="let row"> <mat-radio-button (change)="onSelectionChange(row._id)"></mat-radio-button></td>
     </ng-container>
     <!-- ID Column -->
     <ng-container matColumnDef="JRSS">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Job Role </th>
-      <td mat-cell *matCellDef="let row">{{row.JRSS}}</td>
+      <td mat-cell *matCellDef="let row">{{row.testConfigs_jrss[0].jrss}}</td>
     </ng-container>
 
     <ng-container matColumnDef="account">

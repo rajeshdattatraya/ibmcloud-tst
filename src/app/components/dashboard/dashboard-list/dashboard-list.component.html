@@ -2,11 +2,11 @@
 <div class="mat-elevation-z8" *ngIf="account=='sector' || account=='Sector' || account=='SECTOR' || this.loginAccounts.length > 1">
   <mat-card  class="mat-elevation-z8">
     <mat-card-content>
-    <table mat-table [dataSource]="dataSource" matSort >
+    <table mat-table [dataSource]="dataSource" matSort class="fixedTable">
 
     <ng-container matColumnDef="Action">
-        <th mat-header-cell *matHeaderCellDef> Select </th>
-        <td mat-cell *matCellDef="let row"> <mat-radio-button (click)="setCandidateID(row.resultId)"></mat-radio-button>
+        <th style="width:90px" mat-header-cell *matHeaderCellDef> Select </th>
+        <td style="width:60px" mat-cell *matCellDef="let row"> <mat-radio-button (click)="setCandidateID(row.resultId)"></mat-radio-button>
         </td>
     </ng-container>
 	  
@@ -73,11 +73,11 @@
 <div class="mat-elevation-z8" *ngIf="!(account=='sector' || account=='Sector' || account=='SECTOR') && this.loginAccounts.length <= 1">
   <mat-card  class="mat-elevation-z8">
     <mat-card-content>
-      <table mat-table [dataSource]="dataSource" matSort >
+      <table mat-table [dataSource]="dataSource" matSort class="fixedTable">
 
         <ng-container matColumnDef="Action">
-          <th mat-header-cell *matHeaderCellDef> Select </th>
-          <td mat-cell *matCellDef="let row"> <mat-radio-button (click)="setCandidateID(row.resultId)"></mat-radio-button>
+          <th style="width:90px" mat-header-cell *matHeaderCellDef> Select </th>
+          <td style="width:60px" mat-cell *matCellDef="let row"> <mat-radio-button (click)="setCandidateID(row.resultId)"></mat-radio-button>
           </td>
         </ng-container>
 

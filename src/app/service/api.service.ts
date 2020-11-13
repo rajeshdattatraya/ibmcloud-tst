@@ -492,6 +492,18 @@ getJrss(id): Observable<any> {
   )
 }
 
+// Get jrss details by account and JRSS Name
+getJrssByAccountAndJrssName(jrss,account): Observable<any> {
+  let url = `${this.baseJrssUri}/readJrssbyAccountAndJrssName/${jrss}/${account}`;
+
+  return this.http.get(url, {headers: this.headers}).pipe(
+    map((res: Response) => {
+      return res || {}
+    }),
+    catchError(this.errorMgmt)
+  )
+}
+
 // Delete jrss
 deleteJrss(id): Observable<any> {
   let url = `${this.baseJrssUri}/deleteJrss/${id}`;

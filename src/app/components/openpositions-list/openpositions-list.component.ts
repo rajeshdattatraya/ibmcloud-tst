@@ -57,6 +57,9 @@ export class OpenpositionsListComponent implements OnInit {
 
     ngOnInit(): void {
       this.dataSource.filterPredicate = (data, filter) => {
+        if (this.filterObj['key'] == 'JRSS'){
+            data[this.filterObj['key']] = data.openPosition_jrss[0].jrss;
+        }
         if(data[this.filterObj['key']] && this.filterObj['key']) {
             if (data[this.filterObj['key']].toLowerCase().startsWith(this.filterObj['value'])) {
                return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
@@ -64,6 +67,12 @@ export class OpenpositionsListComponent implements OnInit {
         }
         return false;
       }
+       this.dataSource.sortingDataAccessor = (item, property) => {
+          switch(property) {
+            case 'JRSS': return item.openPosition_jrss[0].jrss;
+            default: return item[property];
+          }
+        };
       this.readOpenPosition();
     }
 

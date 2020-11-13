@@ -41,12 +41,14 @@
               <td style="width:25%"><mat-label>Pre Interview Form:</mat-label></td>
               <td style="width:25%">
                 <div  *ngIf="this.candidateInterviewDetails[0].stage2_status=='Skipped'">
-                  <a href="#" (click)="skipMethod()" routerLinkActive="active"  class="col-4 cursor-pointer" data-toggle="modal">Click here</a>
+                  <a href="#" (click)="skipMethod()" routerLinkActive="active" data-toggle="modal">Click here</a>
                 </div>
                 <div *ngIf="this.candidateInterviewDetails[0].stage2_status=='Completed'">
-                <a class="edit" [routerLink]="['/pre-technical-interview-form/',this.candidateInterviewDetails[0].result_users[0].JRSS, this.candidateInterviewDetails[0].userName]" [state]="{jrss:this.candidateInterviewDetails[0].result_users[0].JRSS,quizId:this.candidateInterviewDetails[0].quizNumber,username:this.candidateInterviewDetails[0].result_users[0].username,access:'tech-interview-initiate',account:this.account,accessLevel:this.accessLevel}">
-                Click here
-                </a>
+                  <a class="edit" [routerLink]="['/pre-technical-interview-form/',this.candidateInterviewDetails[0].result_users[0].JRSS,
+                this.candidateInterviewDetails[0].userName,this.candidateInterviewDetails[0].result_users[0].account
+                ]" [state]="{jrss:this.candidateInterviewDetails[0].result_users[0].JRSS,quizId:this.candidateInterviewDetails[0].quizNumber,username:this.candidateInterviewDetails[0].result_users[0].username,access:'tech-interview-initiate',account:this.account,accessLevel:this.accessLevel}">
+                    Click here
+                  </a>
                 </div>
               </td>
             </tr>

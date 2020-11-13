@@ -200,7 +200,7 @@ export class PartnerInterviewComponent implements OnChanges {
 
       if(this.partnerFeedbackForm.value.partnerFeedback.length>0){
         let partnerDetails = new PartnerDetails("Exceptional Approval Given",
-        this.partnerFeedbackForm.value.partnerFeedback,this.userName,new Date(), "Skipped");
+        this.partnerFeedbackForm.value.partnerFeedback,this.userName,new Date(), "Completed");
         this.apiService.updateExceptionalApprovalForStage4(partnerDetails,this.emailSelected,this.quizNumber).subscribe(res => {
           window.alert('Successfully provided exceptional approval');
           this.getPartnerInterviewList();

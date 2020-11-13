@@ -8,7 +8,7 @@
       <td>
         <div *ngIf="stage2_status!='Skipped'">
           <mat-label>So, please fill up the </mat-label>
-        <a class="edit" [routerLink]="['/pre-tech-form']" [state]="{userName:this.username,mode:'instructions'}">
+        <a class="edit" [routerLink]="['/pre-tech-form']" [state]="{userName:this.username,mode:'instructions', candidateAccount: this.candidateAccount}">
           <a href="#" routerLinkActive="active">pre-technical interview form</a>
         </a>
         </div>  

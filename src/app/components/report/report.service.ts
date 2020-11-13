@@ -18,8 +18,9 @@ export class ReportService {
   
   
      // Get User Result
- getReport(): Observable<any> {
-  let url = `${this.baseUri}/getReport`;
+ getReport(account): Observable<any> {
+  let url = `${this.baseUri}/getReport/${account}`;
+  console.log("url:" +url);
   return this.http.get(url, {headers: this.headers}).pipe(
     map((res: Response) => {
       return res || {}

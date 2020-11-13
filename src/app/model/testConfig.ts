@@ -5,7 +5,9 @@ export class TestConfig {
    noOfQuestions: number;
    testDuration: number;
    passingScore:number;
-
+   testConfigs_jrss: [{
+      jrss:string;
+   }];
    constructor(JRSS,account, noOfQuestions, testDuration,passingScore) {
       this.JRSS = JRSS;
       this.account = account;
