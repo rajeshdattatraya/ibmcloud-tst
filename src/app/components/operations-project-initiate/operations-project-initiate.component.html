@@ -46,7 +46,7 @@
               </div>
               <div *ngIf="this.operationsProjectDetails[0].stage2_status=='Completed'">
                 <a class="edit" [routerLink]="['/pre-technical-interview-form/',
-                this.operationsProjectDetails[0].result_users[0].JRSS, this.operationsProjectDetails[0].userName,this.operationsProjectDetails[0].result_users[0].account]" [state]="{jrss:this.operationsProjectDetails[0].result_users[0].JRSS,username:this.operationsProjectDetails[0].result_users[0].username,access:'operation-interview-initiate',accessLevel:this.accessLevel,account:this.account}">
+                this.operationsProjectDetails[0].result_users[0].JRSS, this.operationsProjectDetails[0].userName,this.operationsProjectDetails[0].result_users[0].account]" [state]="{jrss:this.operationsProjectDetails[0].result_users[0].JRSS,username:this.operationsProjectDetails[0].result_users[0].username,access:'operation-interview-initiate',accessLevel:this.accessLevel,account:this.account,userName:this.userName}">
                   Click here
                 </a>
               </div>

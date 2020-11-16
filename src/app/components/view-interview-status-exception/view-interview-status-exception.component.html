@@ -1,3 +1,4 @@
+<p style="text-align:right; font-family: cursive; font-size: 120%;"><b>Welcome, {{name}}!!</b></p>
 <mat-toolbar>
   <mat-toolbar-row>
     <a mat-button routerLink="#"  class="matButtonSmallSpace" routerLinkActive="active">Exceptional Approval</a>
@@ -36,7 +37,7 @@
               <a href="#" (click)="skipMethod()" routerLinkActive="active"  data-toggle="modal">Click here</a>
             </div>
             <div *ngIf="this.displayPreTechStage2Completed">
-              <a class="edit" [routerLink]="['/pre-technical-interview-form/',this.candidateDetails[0].JRSS, this.candidateDetails[0].username,this.candidateDetails[0].account]" [state]="{jrss:this.candidateDetails[0].JRSS,quizId:this.candidateDetails[0].candidate_results[count].quizNumber,username:this.candidateDetails[0].username,access:'viewinterview-status',account:this.account,accessLevel:this.accessLevel}">
+              <a class="edit" [routerLink]="['/pre-technical-interview-form/',this.candidateDetails[0].JRSS, this.candidateDetails[0].username,this.candidateDetails[0].account]" [state]="{jrss:this.candidateDetails[0].JRSS,quizId:this.candidateDetails[0].candidate_results[count].quizNumber,username:this.candidateDetails[0].username,access:'viewinterview-status',account:this.account,accessLevel:this.accessLevel,userName:this.userName}">
                 Click here
               </a>
             </div>

@@ -16,6 +16,8 @@ import { PreTechQuesAndAns } from './../../model/PreTechQuesAndAns';
 export class PreTechnicalInterviewFormComponent implements OnInit {
   public browserRefresh: boolean;
   userName: String = "";
+  name: String="";
+  loginUser: String ="";
   accessLevel: String = "";
   TechnicalInterviewList: any = [];
   config: any;
@@ -35,37 +37,44 @@ export class PreTechnicalInterviewFormComponent implements OnInit {
       this.browserRefresh = browserRefresh;
       if (!this.browserRefresh) {
           this.userName = this.router.getCurrentNavigation().extras.state.username;
+          this.loginUser = this.router.getCurrentNavigation().extras.state.userName;
           this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
           this.account = this.router.getCurrentNavigation().extras.state.account; 
         }
         route.queryParams.subscribe(
           params => this.config.currentPage= params['page']?params['page']:1 );
-          console.log("quizNumber-----*",this.quizNumber);
       let jrss =this.route.snapshot.paramMap.get('jrss');
       let username =this.route.snapshot.paramMap.get('username');
       let candidateAccount =this.route.snapshot.paramMap.get('candidateAccount');
       this.access = this.router.getCurrentNavigation().extras.state.access;
       this.getPreTechnicalAssessmentDetails(jrss,username,this.access,candidateAccount);
-  }
+      this.getCandidate();
+    }
 
   ngOnInit(): void {
   }
+    //get user's name based on email id
+    getCandidate(){
+      this.apiService.getNameFromUsername(this.loginUser).subscribe( (res) => {
+      this.name = res.name;        
+      });
+    }
 
   close() {
     if(this.access =='tech-list'){
-      this.router.navigate(['/technical-interview-list'], { state: { username: this.userName, accessLevel: this.accessLevel,account:this.account } })
+      this.router.navigate(['/technical-interview-list'], { state: { username: this.loginUser, accessLevel: this.accessLevel,account:this.account } })
     }
     if(this.access =='tech-interview-initiate'){
-      this.router.navigate(['/technical-list/', this.userName], { state: { username: this.userName, quizId:this.quizNumber, accessLevel: this.accessLevel, account:this.account } })
+      this.router.navigate(['/technical-list/', this.userName], { state: { username: this.loginUser, quizId:this.quizNumber, accessLevel: this.accessLevel, account:this.account } })
      }
      if(this.access =='partner-interview-initiate'){
-      this.router.navigate(['/initiate-partner-interview/', this.userName], { state: { username: this.userName, accessLevel: this.accessLevel,account:this.account } })
+      this.router.navigate(['/initiate-partner-interview/', this.userName], { state: { username: this.loginUser, accessLevel: this.accessLevel,account:this.account } })
      }
      if(this.access =='operation-interview-initiate'){
-      this.router.navigate(['/initiate-operations-project/', this.userName], { state: { username: this.userName, accessLevel: this.accessLevel,account:this.account } })
+      this.router.navigate(['/initiate-operations-project/', this.userName], { state: { username: this.loginUser, accessLevel: this.accessLevel,account:this.account } })
      }
      if(this.access =='viewinterview-status'){
-       this.router.navigate(['/viewinterview-status/'], { state: { username: this.userName, accessLevel: this.accessLevel,account:this.account } })
+       this.router.navigate(['/viewinterview-status/'], { state: { username: this.loginUser, accessLevel: this.accessLevel,account:this.account } })
      }
   }
 
