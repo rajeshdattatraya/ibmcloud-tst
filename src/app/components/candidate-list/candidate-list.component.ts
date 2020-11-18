@@ -67,6 +67,9 @@ export class CandidateListComponent implements OnInit {
   ngOnInit() {
     this.browserRefresh = browserRefresh;
     this.dataSource.filterPredicate = (data, filter) => {
+        if (this.filterObj['key'] == 'JRSS'){
+            data[this.filterObj['key']] = data.candidate_jrss[0].jrss;
+        }
         if(data[this.filterObj['key']] && this.filterObj['key']) {
             if (data[this.filterObj['key']].toLowerCase().startsWith(this.filterObj['value'])) {
                return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
@@ -95,7 +98,7 @@ export class CandidateListComponent implements OnInit {
   readCandidate(){
     return (this.apiService.getCandidatesForAccounts(this.account).subscribe((data) => {
       this.Candidate = data;
-      
+
       this.Candidate.forEach(candidate => {
         candidate.candidate_users.forEach(user => {
           if (user.status == 'Active' && user.userLoggedin === 'true' ){ candidate.state='Clear\xa0Session'; }
