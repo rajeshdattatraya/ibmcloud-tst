@@ -203,6 +203,8 @@ export class PartnerInterviewInitiateComponent implements OnInit {
           } else {
           if (this.partnerFeedbackForm.value.finalResult === 'Recommended') {
               this.stage4_status = 'Completed';
+          } else if(this.partnerFeedbackForm.value.finalResult === 'Not Suitable') {
+            this.stage4_status = 'Not Suitable';
           } else {
               this.stage4_status = 'Not Started';
           }

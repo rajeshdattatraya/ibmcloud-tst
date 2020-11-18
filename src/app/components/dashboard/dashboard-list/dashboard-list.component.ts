@@ -216,6 +216,8 @@ displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userR
              } else {
                  this.technicalInterviewResult = result.smeResult;
              }
+           } else if (result.stage3_status == 'Not Suitable') {
+            this.technicalInterviewResult = "Not Suitable";
            } else if (result.stage3_status == 'Skipped') {
              this.technicalInterviewResult = "N/A";
            } else if (result.stage3_status == 'Completed') {
@@ -228,6 +230,8 @@ displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userR
             } else {
                 this.partnerInterviewResult = result.managementResult;
             }
+           } else if (result.stage4_status == 'Not Suitable') {
+            this.partnerInterviewResult = "Not Suitable";
            } else if (result.stage4_status == 'Skipped') {
              this.partnerInterviewResult = "N/A";
            } else if (result.stage4_status == 'Completed') {
