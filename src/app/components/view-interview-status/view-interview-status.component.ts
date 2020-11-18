@@ -37,7 +37,7 @@ export class ViewInterviewStatusComponent implements OnInit {
   candidateUserId = "";
   candidateUserName = "";
   canAccount;
- 
+  allStagesCompleted : boolean = false;
 
   userName = "";
   accessLevel = "management";
@@ -193,12 +193,20 @@ export class ViewInterviewStatusComponent implements OnInit {
           } else if (result.stage4_status == 'Completed') {
             this.partnerInterviewResult = result.managementResult;
           }
+          // Fix for if all stages 1to 4 are completed, then do not show in queue
+          // as no stages available to provide exception
+          if ((result.stage1_status == 'Skipped' || result.stage1_status == 'Completed') &&
+              (result.stage2_status == 'Skipped' || result.stage2_status == 'Completed') &&
+              (result.stage3_status == 'Skipped' || result.stage3_status == 'Completed') &&
+              (result.stage4_status == 'Skipped' || result.stage4_status == 'Completed') ) {
+              this.allStagesCompleted = true;
+          }
           this.stage5 = result.stage5_status;
-           if (this.stage5 == "Not Started" || this.stage5 == "") {
-                    this.exceptionalApprovalList.push(new ExceptionApprovalDetail(this.employeeName, this.JRSS, this.canAccount,this.onlineTestResult, this.technicalInterviewResult,
-                    this.partnerInterviewResult,this.canUserId,this.canUserName,this.resultId,
-                    this.userResult,this.uScore,this.qNumber,this.createdDate));
-           }
+          if ((this.stage5 == "Not Started" || this.stage5 == "" ) && !(this.allStagesCompleted)) {
+              this.exceptionalApprovalList.push(new ExceptionApprovalDetail(this.employeeName, this.JRSS, this.canAccount,this.onlineTestResult, this.technicalInterviewResult,
+              this.partnerInterviewResult,this.canUserId,this.canUserName,this.resultId,
+              this.userResult,this.uScore,this.qNumber,this.createdDate));
+          }
       });
       });
       this.dataSource.data = this.exceptionalApprovalList as ExceptionApprovalDetail[];
