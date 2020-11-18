@@ -137,16 +137,17 @@ export class ViewInterviewStatusComponent implements OnInit {
       this.canUserId = candidate._id;
       this.canUserName = candidate.username;
       this.canAccount = candidate.account;
-
-      if (candidate.candidate_results.length == 0) {
-        this.onlineTestResult = "Pending";
-        this.userResult ="Other";
-        this.technicalInterviewResult = "Pending";
-        this.partnerInterviewResult = "Pending";
-        this.exceptionalApprovalList.push(new ExceptionApprovalDetail(this.employeeName, this.JRSS, this.canAccount,this.onlineTestResult, this.technicalInterviewResult,
-                            this.partnerInterviewResult,this.canUserId,this.canUserName,this.resultId,
-                            this.userResult,this.uScore,this.qNumber,this.createdDate));
-      }
+      
+      // Fix for defect #307 : If stage 1 and 2 are not started, then don't show those candidates in the Exceptional approval tab of management user.
+      // if (candidate.candidate_results.length == 0) {
+      //   this.onlineTestResult = "Pending";
+      //   this.userResult ="Other";
+      //   this.technicalInterviewResult = "Pending";
+      //   this.partnerInterviewResult = "Pending";
+      //   this.exceptionalApprovalList.push(new ExceptionApprovalDetail(this.employeeName, this.JRSS, this.canAccount,this.onlineTestResult, this.technicalInterviewResult,
+      //                       this.partnerInterviewResult,this.canUserId,this.canUserName,this.resultId,
+      //                       this.userResult,this.uScore,this.qNumber,this.createdDate));
+      // }
       candidate.candidate_results.forEach( result => {
           this.resultId = result._id
           this.uScore = result.userScore;
