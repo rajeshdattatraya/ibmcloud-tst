@@ -93,6 +93,9 @@ export class TechnicalInterviewComponent implements OnInit {
     this.apiService.readTechInterviewDetails(id,quizId).subscribe(data => {
     
     this.candidateInterviewDetails=data;
+	
+	this.averageScore = this.candidateInterviewDetails[0].avgTechScore;
+	
     this.getTechnicalStreamFromJRSS();
     
 
