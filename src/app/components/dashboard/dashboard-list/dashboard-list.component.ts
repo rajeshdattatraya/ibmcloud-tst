@@ -160,12 +160,15 @@ displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userR
     getDashboardList(){
       this.apiService.getDashboardList(this.account).subscribe((data) => {
        this.DashboardList = data;
+       console.log(`this.DashboardList******** `,this.DashboardList);
+       
       })
     }
     // To Read the Results
     readResult() {
       this.apiService.getDashboardList(this.account).subscribe((data) => {
         this.Result = data;
+        console.log(`this.Result******** `,this.Result);
 
         this.onlineTestResult = "";
         this.userResult = "";
@@ -248,13 +251,12 @@ displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userR
            this.qNumber = result.quizNumber;
            this.uScore = result.userScore;
            this.createdDate = result.createdDate;
-           console.log("result.result_users.length",result.result_users.length);
-           if (result.result_users.length > 0) {
-             this.employeeName = result.result_users[0].employeeName;
-             this.jobRole = result.result_users[0].JRSS;
-             this.canAccount = result.result_users[0].account;
-             this.canUserId = result.result_users[0]._id;
-             this.canUserName = result.result_users[0].username;
+           if (Object.entries(result.result_users).length > 0) {
+             this.employeeName = result.result_users.employeeName;
+             this.jobRole = result.JRSS.jrss;
+             this.canAccount = result.result_users.account;
+             this.canUserId = result.result_users._id;
+             this.canUserName = result.result_users.username;
              this.dashboards.push(new Dashboard(this.employeeName, this.jobRole, this.canAccount,this.onlineTestResult, this.technicalInterviewResult,
                                         this.partnerInterviewResult,this.assignedToProject,this.canUserId,this.canUserName,
                                         this.resultId,this.userResult,this.qNumber,this.uScore,this.createdDate));
