@@ -63,7 +63,7 @@
                 <mat-select placeholder="Job Role"  (selectionChange)="updateJrssProfile($event.value)"
                             formControlName="JRSS" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.JRSS.errors }">
 
-                  <mat-option *ngFor="let jrss of JRSS" value="{{jrss._id}}">{{jrss.jrss}}
+                  <mat-option *ngFor="let jrss of JRSS" value="{{jrss.jrss}}">{{jrss.jrss}}
                   </mat-option>
                 </mat-select>
                 <div *ngIf="!formReset && submitted && myForm.JRSS.errors" class="invalid-feedback">
@@ -131,6 +131,22 @@
           </td>
         </tr>
         <tr>
+          <div  *ngIf="displayContractorUIFields">
+          <td width="33%">
+            <!-- Candidate Location -->
+            <mat-form-field class="open-full-width">
+                <mat-select placeholder="Candidate Location"  (selectionChange)="updateUserPositionLocationProfile($event.value)"
+                            formControlName="userPositionLocation" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.userPositionLocation.errors }">
+
+                  <mat-option *ngFor="let data of UserPositionLocation" value="{{data.positionLocation}}">{{data.positionLocation}}
+                  </mat-option>
+                </mat-select>
+                <div *ngIf="!formReset && submitted && myForm.userPositionLocation.errors" class="invalid-feedback">
+                  <div *ngIf="myForm.userPositionLocation.errors.required">Candidate Location is required</div>
+                </div>
+              </mat-form-field>
+          </td>
+        </div>
           <td width="33%">
             <!-- Mobile No -->
             <mat-form-field class="open-full-width">
@@ -275,4 +291,5 @@
     <button mat-raised-button color="primary" (click)="resetForm()">Reset</button>&nbsp;&nbsp;&nbsp;
     <button mat-raised-button color="primary" (click)="cancelForm()">Cancel</button>
   </div>
+
 
