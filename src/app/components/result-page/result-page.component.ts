@@ -24,7 +24,7 @@ export class ResultPageComponent implements OnInit {
   quizNumber;
   passingScore;
   mode;
-  jrss = "";
+  jrssID = "";
   stage2_status;
   stage1;
   stage2;
@@ -82,13 +82,13 @@ export class ResultPageComponent implements OnInit {
         //Sprint2: Save the quiz results for the user into 'Results' collection
         // Read the candidate JRSS by username
        this.apiService.getCandidateJrss(this.username).subscribe((candRes) => {
-            this.jrss = candRes['JRSS'];
+            this.jrssID = candRes['JRSS'];
             this.candidateAccount = candRes['account'];
-            // Read the work flow details by reading jrss record by jrss name.
-            this.apiService.getJrssByAccountAndJrssName(this.jrss, this.candidateAccount).subscribe((res) => {
+            // Read the work flow details by reading jrss record by jrss id.
+            this.apiService.getJrssById(this.jrssID).subscribe((res) => {
             let data;
 
-            this.testconfigService.findTestConfigByJRSS(this.jrss,this.candidateAccount).subscribe(
+            this.testconfigService.findTestConfigByJRSS(this.jrssID,this.candidateAccount).subscribe(
               (data) => {
                 this.passingScore = data['passingScore']
                 var totalNoOfQuestions = data['noOfQuestions']
