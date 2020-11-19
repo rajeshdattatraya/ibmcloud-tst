@@ -46,8 +46,8 @@ export class OperationsCandidateSearchListComponent implements OnChanges {
   jrssFilter: string;
   loginAccounts:any = [];
   dataSource = new MatTableDataSource<ViewResult>();
-  displayedColumnsSector = ['Action','result_users.employeeName','result_jrss[0].jrss', 'result_users.account','userScore','smeResult','cvDownload'];
-  displayedColumns = ['Action','result_users.employeeName','result_jrss[0].jrss','userScore','smeResult','cvDownload'];
+  displayedColumnsSector = ['Action','employeeName','jrss', 'account','userScore','smeResult','cvDownload'];
+  displayedColumns = ['Action','employeeName','jrss','userScore','smeResult','cvDownload'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
  
@@ -84,11 +84,11 @@ ngOnChanges(): void {
 
  this.dataSource.filterPredicate = (data, filter) => {
      if (this.filterObj['key'] == 'employeeName'){
-       data[this.filterObj['key']] = data.result_users.employeeName;
+       data[this.filterObj['key']] = data.result_users[0].employeeName;
      } else if (this.filterObj['key'] == 'JRSS'){
        data[this.filterObj['key']] = data.result_jrss[0].jrss;
      } else if (this.filterObj['key'] == 'account'){
-       data[this.filterObj['key']] = data.result_users.account;
+       data[this.filterObj['key']] = data.result_users[0].account;
      }
      if(data[this.filterObj['key']] && this.filterObj['key']) {
          if (data[this.filterObj['key']].toLowerCase().startsWith(this.filterObj['value'])) {
@@ -100,9 +100,9 @@ ngOnChanges(): void {
 
   this.dataSource.sortingDataAccessor = (item, property) => {
       switch(property) {
-        case 'result_users.employeeName': return item.result_users.employeeName;
-        case 'result_jrss[0].jrss': return item.result_jrss[0].jrss;
-        case 'result_users.account': return item.result_users.account;
+        case 'employeeName': return item.result_users[0].employeeName;
+        case 'jrss': return item.result_jrss[0].jrss;
+        case 'account': return item.result_users[0].account;
         default: return item[property];
       }
    }
