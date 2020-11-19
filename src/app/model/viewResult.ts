@@ -54,5 +54,8 @@ export class ViewResult {
                              user: string;
 
                }];
+              result_jrss: [{
+                    jrss:string;
+              }];
 
 }
