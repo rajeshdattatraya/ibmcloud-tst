@@ -40,6 +40,7 @@ export class ReportComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  accountSearch: string;
 
   constructor(
     private router: Router,
@@ -68,6 +69,31 @@ export class ReportComponent implements OnInit {
     return this.searchJrss;
   }
 
+  get accounts():string{
+    return this.accountSearch;
+  }
+
+  set accounts(account : string){
+    //alert("Account" +account);
+    //this.searchJrss = account;
+      this.searchFilter();
+  if(account){
+  let reportDataByAccount: any = [];
+      this.reportData.forEach((item) => {
+        console.log("item:" +item[1][1]);
+      
+        if (item[1][1].toLowerCase().startsWith(account.toLowerCase())) {
+        //  this.filterObj['key'].toLowerCase().includes(this.filterObj['value']);
+          reportDataByAccount.push(item);
+        }
+      });
+     
+      this.reportData = reportDataByAccount;
+     // console.log("reportData:" +this.reportData[0]);
+      this.dataSource.data = this.reportData as ReportStats[];
+}
+  }
+
   set fromDate(fromDate: Date) {
     this.from_Date = fromDate;
     this.searchFilter();
@@ -81,10 +107,10 @@ export class ReportComponent implements OnInit {
   }
 
   set jrss(jrss: string) {
-
+    
     this.searchJrss = jrss;
       this.searchFilter();
-
+    
     if(jrss) {
       //This is to filter based on JRSS
       let reportDataByJrss: any = [];
@@ -93,11 +119,11 @@ export class ReportComponent implements OnInit {
           reportDataByJrss.push(item);
         }
       });
-
+     
       this.reportData = reportDataByJrss;
       console.log("reportData:" +this.reportData[0]);
       this.dataSource.data = this.reportData as ReportStats[];
-    }
+    } 
   }
 // ****************************** end of getter and setter methods **********************************
 
@@ -116,7 +142,7 @@ export class ReportComponent implements OnInit {
         }
      };
     this.loadReportData();
-
+    
   }
 
   ngAfterViewInit (){
@@ -125,7 +151,7 @@ export class ReportComponent implements OnInit {
   }
 
 
-// ************** Get all initial report data for all the JRSS, with no filters ********************
+// ************** Get all initial report data for all the JRSS, with no filters ******************** 
 loadReportData() {
   //let accountArr = this.account.split(",");
   //for(let i=0; i<accountArr.length; i++){
@@ -138,8 +164,8 @@ loadReportData() {
      });
 
     this.reportResponse.sort((a, b) => a.JRSS.localeCompare(b.JRSS));
-    //The search filter, will have no impact on loading initial data
-    //No data will be filtered
+    //The search filter, will have no impact on loading initial data 
+    //No data will be filtered 
     this.searchFilter();
 
   }, (error) => {
@@ -148,7 +174,7 @@ loadReportData() {
 //})
 } //end of loadreportData()
 
-  //*************** Filter by from Date and To Date method *************
+  //*************** Filter by from Date and To Date method ************* 
   searchFilter() {
     console.log("search filter");
     let stage1Count = 0;
@@ -157,7 +183,7 @@ loadReportData() {
     let stage5Count = 0;
     let toDate: any;
     let fromDate: any;
-
+    
 
     let totalRegCandiates = 0;
     this.reportData = [];
@@ -208,16 +234,16 @@ loadReportData() {
           "totalRegCandiates": totalRegCandiates,
           "stage1Count": stage1Count, "stage3Count": stage3Count,
           "stage4Count": stage4Count, "stage5Count": stage5Count,
-
+          
         };
       }
       else if(this.loginAccounts.length <= 1 || this.account !== 'SECTOR'){
         this.reportObj[item.JRSS] = {
-          "JRSS": item.JRSS,
+          "JRSS": item.JRSS, 
           "totalRegCandiates": totalRegCandiates,
           "stage1Count": stage1Count, "stage3Count": stage3Count,
           "stage4Count": stage4Count, "stage5Count": stage5Count,
-
+          
         };
       }
       }
@@ -237,7 +263,7 @@ loadReportData() {
           value: filterValue.trim().toLowerCase(),
           key: key
     }
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+   this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
 }
