@@ -62,6 +62,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
   rateCardLocation='';
   rateCardComplexityLevel='';
   rateCardRole='';
+  employeeType='';
   displayPositionDetails=false;
   displayPositionDropDown=false;
 
@@ -110,7 +111,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
   //get user's name based on email id
   getCandidate(){
     this.apiService.getNameFromUsername(this.userName).subscribe( (res) => {
-    this.name = res.name;        
+    this.name = res.name;
   });
   }
 
@@ -153,6 +154,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
       this.candidateAccount = this.partnerInterviewDetails[0].result_users[0].account;
       this.positionName = this.partnerInterviewDetails[0].result_users[0].openPositionName;
       this.positionID = this.partnerInterviewDetails[0].result_users[0].positionID;
+      this.employeeType = this.partnerInterviewDetails[0].result_users[0].employeeType;
       this.oldCandidateLocation = this.candidateLocation;
       this.getSelectedPositionDetails(this.positionID);
       this.listAllOpenPositions();
@@ -160,24 +162,24 @@ export class PartnerInterviewInitiateComponent implements OnInit {
   }
 
        // Set email notification parameter details
-       setEmailNotificationDetails(){       
-        // Get account for candidate from candidate table     
+       setEmailNotificationDetails(){
+        // Get account for candidate from candidate table
         this.apiService.getCandidateJrss(this.partnerInterviewDetails[0].result_users[0].username).subscribe( (res) => {
-          this.candidateList = res;      
-         
-          // Get operation team email id based on accessLevel and account 
+          this.candidateList = res;
+
+          // Get operation team email id based on accessLevel and account
           this.apiService.getUserByAccessLevel("management",this.candidateList.account).subscribe( (res) => {
-            this.usersArray = [];          
+            this.usersArray = [];
             for (var user of res){
-              this.usersArray.push(user.username);           
+              this.usersArray.push(user.username);
             }
-  
+
             this.toAddress = this.usersArray;
             this.fromAddress = "talent.sourcing@in.ibm.com";
             this.emailSubject = "Candidate Assignment Notification in Talent Sourcing Tool";
             this.emailMessage = "Dear Team,<br><p>This is to formally notify that candidate "
                 + this.partnerInterviewDetails[0].result_users[0].employeeName
-                + " is added to the queue for job role " 
+                + " is added to the queue for job role "
                 + this.partnerInterviewDetails[0].result_users[0].JRSS
                 + ".</p><p>Please validate the candidate for new project assignment.</p>\
                 <p>Regards, <br>" + this.account + " Partner Team</p>";
@@ -185,7 +187,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
               this.error = '[Get Ops Email ID] - Error found while getting username from Users table'
               console.log(error);
             });
-  
+
         }, (error) => {
         this.error = '[Get candidate account] - Error found while getting details from Candidate table'
         console.log(error);
@@ -201,6 +203,8 @@ export class PartnerInterviewInitiateComponent implements OnInit {
           } else {
           if (this.partnerFeedbackForm.value.finalResult === 'Recommended') {
               this.stage4_status = 'Completed';
+          } else if(this.partnerFeedbackForm.value.finalResult === 'Not Suitable') {
+            this.stage4_status = 'Not Suitable';
           } else {
               this.stage4_status = 'Not Started';
           }
@@ -292,6 +296,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
        }
      }
      calculateGP() {
+     if (this.employeeType != 'Contractor') {
          if ((this.candidateLocation == null || this.candidateLocation == '' || this.positionName == null || this.positionName == '')
           && this.onLoad==false){
             window.alert("Please select Open Position/Candidate Position Location");
@@ -329,12 +334,14 @@ export class PartnerInterviewInitiateComponent implements OnInit {
                  this.oldCandidateLocation = this.candidateLocation;
                  this.grossProfit = Math.round(((rateCardValue-costCardValue)/costCardValue)*100);
                  if (isNaN(this.grossProfit)) {
+                   window.alert("Gross profit is not calculated as no value available for this combination.");
                    this.grossProfit = '';
                  }
               }
               this.onLoad = false;
            })
         })
+        }
      }
 
     // Get all PositionLocation

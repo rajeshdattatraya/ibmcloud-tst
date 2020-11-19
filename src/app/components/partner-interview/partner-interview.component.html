@@ -36,38 +36,38 @@
 <!-- Partner Interview list -->
 
 <div class="mat-elevation-z8" *ngIf="(account=='sector' || account=='Sector' || account=='SECTOR') || this.loginAccounts.length > 1">
-  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort class="fixedTable">
 
     <!-- ID Column -->
     <ng-container matColumnDef="Action">
-      <th mat-header-cell *matHeaderCellDef> Select </th>
-      <td mat-cell *matCellDef="let row"> <mat-radio-button (change)="onSelectionChange(row.userName,row.quizNumber)"></mat-radio-button>
+      <th style="width:90px" mat-header-cell *matHeaderCellDef> Select </th>
+      <td style="width:60px" mat-cell *matCellDef="let row"> <mat-radio-button (change)="onSelectionChange(row.userName,row.quizNumber)"></mat-radio-button>
       </td>
     </ng-container>
 
     <!-- ID Column -->
-    <ng-container matColumnDef="result_users[0].employeeName">
+    <ng-container matColumnDef="employeeName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-      <td mat-cell *matCellDef="let row"><a href="#myModal" (click)="getCandidateDetails(row.userName)" data-toggle="modal" >{{row.result_users[0].employeeName}}</a>
+      <td mat-cell *matCellDef="let row"><a href="#myModal" (click)="getCandidateDetails(row.userName)" data-toggle="modal" >{{row.result_users.employeeName}}</a>
       </td>
     </ng-container>
 
     <!-- ID Column -->
-    <ng-container matColumnDef="result_users[0].JRSS">
+    <ng-container matColumnDef="jrss">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Job Role </th>
-      <td mat-cell *matCellDef="let row">{{row.result_users[0].JRSS}}</td>
+      <td mat-cell *matCellDef="let row">{{row.result_jrss[0].jrss}}</td>
     </ng-container>
 
     <!-- ID Column -->
-    <ng-container matColumnDef="result_users[0].account">
+    <ng-container matColumnDef="account">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Account </th>
-      <td mat-cell *matCellDef="let row">{{row.result_users[0].account}}</td>
+      <td mat-cell *matCellDef="let row">{{row.result_users.account}}</td>
     </ng-container>
 
     <!-- ID Column -->
     <ng-container matColumnDef="userScore">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Online Test Result </th>
-      <td mat-cell *matCellDef="let row"><a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users[0].employeeName,row.userScore,row.createdDate)" data-toggle="modal" style="color:rgb(0, 128, 43);" *ngIf="row.userScore!=null">{{row.userScore}}%</a><p *ngIf="row.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p>
+      <td mat-cell *matCellDef="let row"><a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users.employeeName,row.userScore,row.createdDate)" data-toggle="modal" style="color:rgb(0, 128, 43);" *ngIf="row.userScore!=null">{{row.userScore}}%</a><p *ngIf="row.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p>
       </td>
     </ng-container>
 
@@ -98,31 +98,31 @@
 </div>
 
 <div class="mat-elevation-z8" *ngIf="!(account=='sector' || account=='Sector' || account=='SECTOR') && this.loginAccounts.length <= 1">
-  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort class="fixedTable">
 
     <!-- ID Column -->
     <ng-container matColumnDef="Action">
-      <th mat-header-cell *matHeaderCellDef> Select </th>
-      <td mat-cell *matCellDef="let row"> <mat-radio-button (change)="onSelectionChange(row.userName,row.quizNumber)"></mat-radio-button>
+      <th style="width:90px" mat-header-cell *matHeaderCellDef> Select </th>
+      <td style="width:60px" mat-cell *matCellDef="let row"> <mat-radio-button (change)="onSelectionChange(row.userName,row.quizNumber)"></mat-radio-button>
       </td>
     </ng-container>
 
     <!-- ID Column -->
-    <ng-container matColumnDef="result_users[0].employeeName">
+    <ng-container matColumnDef="employeeName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-      <td mat-cell *matCellDef="let row"><a href="#myModal" (click)="getCandidateDetails(row.userName)" data-toggle="modal" >{{row.result_users[0].employeeName}}</a>
+      <td mat-cell *matCellDef="let row"><a href="#myModal" (click)="getCandidateDetails(row.userName)" data-toggle="modal" >{{row.result_users.employeeName}}</a>
       </td>
     </ng-container>
 
     <!-- ID Column -->
-    <ng-container matColumnDef="result_users[0].JRSS">
+    <ng-container matColumnDef="jrss">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Job Role </th>
-      <td mat-cell *matCellDef="let row">{{row.result_users[0].JRSS}}</td>
+      <td mat-cell *matCellDef="let row">{{row.result_jrss[0].jrss}}</td>
     </ng-container>
    <!-- ID Column -->
     <ng-container matColumnDef="userScore">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Online Test Result </th>
-      <td mat-cell *matCellDef="let row"><a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users[0].employeeName,row.userScore,row.createdDate)" data-toggle="modal" style="color:rgb(0, 128, 43);" *ngIf="row.userScore!=null">{{row.userScore}}%</a><p *ngIf="row.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p>
+      <td mat-cell *matCellDef="let row"><a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users.employeeName,row.userScore,row.createdDate)" data-toggle="modal" style="color:rgb(0, 128, 43);" *ngIf="row.userScore!=null">{{row.userScore}}%</a><p *ngIf="row.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p>
       </td>
     </ng-container>
 
@@ -294,7 +294,7 @@
         <div class="modal-body" *ngIf="mode=='displayModalBody'">
           <mat-card>
             <mat-card-content>
-              <table>
+              <table class="fixedTable">
                 <tr>
                   <td><mat-label>Name:</mat-label></td>
                   <td>&nbsp;{{this.candidateDetails[0].employeeName}}</td>
@@ -305,7 +305,7 @@
                   <td><mat-label>Band:</mat-label></td>
                   <td>&nbsp;{{this.candidateDetails[0].band}}</td>
                   <td><mat-label>Job Role:</mat-label></td>
-                  <td>&nbsp;{{this.candidateDetails[0].JRSS}}</td>
+                  <td>&nbsp;{{this.candidateDetails[0].candidate_jrss[0].jrss}}</td>
                 </tr>
                 <tr>
                   <td><mat-label>Technology Stream:</mat-label></td>

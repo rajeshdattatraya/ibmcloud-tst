@@ -65,6 +65,12 @@ export class TestConfigAddComponent implements OnInit {
 
     ngOnInit() {
       this.browserRefresh = browserRefresh;
+       this.dataSource.sortingDataAccessor = (item, property) => {
+        switch(property) {
+          case 'JRSS': return item.testConfigs_jrss[0].jrss;
+          default: return item[property];
+        }
+      };
       this.getAllTestConfigs();
     }
 

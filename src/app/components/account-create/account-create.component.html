@@ -16,7 +16,7 @@
                 <input matInput placeholder="Account" formControlName="account" name="account" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.account.errors }">
                 <div *ngIf="!formReset && submitted && myForm.account.errors" class="invalid-feedback">
                   <div *ngIf="myForm.account.errors.required">Account is required</div>
-                  <div *ngIf="myForm.account.errors.pattern">Account name must start with a character (can include #.,-@ &/–).</div>
+                  <div *ngIf="myForm.account.errors.pattern">Account name must start with a character (can include #.-@ &/–).</div>
                 </div>
                 </mat-form-field>
               </td>

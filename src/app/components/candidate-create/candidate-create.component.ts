@@ -114,7 +114,7 @@ export class CandidateCreateComponent implements OnInit {
     })
     // Get technologyStream from JRSS
     for (var jrss of this.JRSS){
-      if(jrss.jrss == e){
+      if(jrss._id == e){
         this.technologyStream = [];
         for (var skill of jrss.technologyStream){
           this.technologyStream.push(skill);
@@ -176,7 +176,7 @@ export class CandidateCreateComponent implements OnInit {
       this.testconfigService.findTestConfigJRSSByAccount(e).subscribe((res) => {            
         this.testConfigJRSS = [];     
         for (var jrss of res){ 
-          this.testConfigJRSS.push(jrss.JRSS);         
+          this.testConfigJRSS.push(jrss.testConfigs_jrss[0].jrss);
         }
         }, (error) => {
            console.log(error);
@@ -382,7 +382,7 @@ export class CandidateCreateComponent implements OnInit {
                     console.log(error);
                 })
                 //Create Candidate details in Results collection, in case the Stage1 and Stage2 are skipped.
-                this.apiService.getJrss(this.candidateForm.value.JRSS).subscribe((res) => {
+                this.apiService.getJrssById(this.candidateForm.value.JRSS).subscribe((res) => {
                     if (res['stage1_OnlineTechAssessment']) {
                       this.stage1 = "Not Started";
                     } else {

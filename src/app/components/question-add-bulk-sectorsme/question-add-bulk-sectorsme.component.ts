@@ -178,6 +178,10 @@ export class QuestionAddBulkSectorsmeComponent implements OnInit {
     // Check if SECTOR value exists in the accountArray
     if(this.accountArray.toString().toLowerCase().indexOf("sector") !== -1)
     {         
+      if(this.accountArray.toString().toLowerCase().includes('sector') &&  this.accountArray.length > 1){
+        window.alert("Please select either sector or account(s) in Account field.");
+        return false;
+      }
       this.accountArray = [];
       this.accountArray.push('SECTOR'); 
     }  

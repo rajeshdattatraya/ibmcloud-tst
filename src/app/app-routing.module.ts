@@ -85,7 +85,7 @@ const routes: Routes = [
   { path: 'technical-list/:id', component:TechnicalInterviewComponent },
   { path: 'workflow-config', component:WorkflowConfigComponent },
   { path: 'dashboard', component:DashboardComponent},
-  { path: 'pre-technical-interview-form/:jrss/:username',component:PreTechnicalInterviewFormComponent},
+  { path: 'pre-technical-interview-form/:jrss/:username/:candidateAccount',component:PreTechnicalInterviewFormComponent},
   { path: 'adminuser-create', component:AdminuserCreateComponent },
   { path:  'config-pretechassessment-form',component:ConfigPretechassessmentFormComponent },
   { path: 'delete-stream/:id', component: StreamDeleteComponent, canDeactivate:[DeactivateGuard] },

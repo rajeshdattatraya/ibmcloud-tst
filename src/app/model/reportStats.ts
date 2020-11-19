@@ -5,4 +5,5 @@ export class ReportStats{
     passedTechInterview: number;
     passedPartnerInterview: number;
     assignedToProject: number;
+    account: string;
 }

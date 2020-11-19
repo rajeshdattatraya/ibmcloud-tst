@@ -19,6 +19,7 @@ declare var $: any;
 export class OperationsProjectInitiateComponent implements OnInit {
   public browserRefresh: boolean;
   userName: String = "";
+  name: String="";
   operationsProjectDetails : any = []; 
   ProjectLocation: any=['Onshore','Offshore'];
   ClientProject: any=['DWP','HMRC','SG'];
@@ -54,7 +55,8 @@ export class OperationsProjectInitiateComponent implements OnInit {
        this.positionID = this.router.getCurrentNavigation().extras.state.positionID;
        let id = this.actRoute.snapshot.paramMap.get('id');
        this.readOperationsProjectDetails(id); 
-       this.mainForm();     
+       this.mainForm();
+       this.getCandidate();
    }
 
    ngOnInit() {
@@ -83,6 +85,13 @@ export class OperationsProjectInitiateComponent implements OnInit {
       managementComments: ['', [Validators.required]]
     })
 }
+
+  //get user's name based on email id
+  getCandidate(){
+   this.apiService.getNameFromUsername(this.userName).subscribe( (res) => {
+   this.name = res.name;
+   });
+  }
 
 get myForm(){
   return this.operationsProjectForm.controls;
@@ -121,6 +130,7 @@ get myForm(){
       }
 
       //Sprint8 start
+      this.employeeType =  this.operationsProjectDetails[0].result_users[0].employeeType;
       this.candidateLocation = this.operationsProjectDetails[0].result_users[0].userPositionLocation;
       this.grossProfit = this.operationsProjectDetails[0].result_users[0].grossProfit;
       this.candidateLOB = this.operationsProjectDetails[0].result_users[0].userLOB;
@@ -137,11 +147,11 @@ get myForm(){
 
       //Sprint8 End
 
-      // Defect #198 - Get account for candidate from candidate table     
+      // Defect #198 - Get account for candidate from candidate table
       this.apiService.getCandidateJrss(this.operationsProjectDetails[0].result_users[0].username).subscribe( (res) => {
-        this.candidateAccount = res;        
+        this.candidateAccount = res;
         if (this.candidateAccount.account.toLocaleLowerCase().trim() == 'dwp'){
-          this.dwpFlag = true;              
+          this.dwpFlag = true;
         }
         this.listAllOpenPositions(this.candidateAccount.account,this.candidateAccount.JRSS);
       });
@@ -149,22 +159,22 @@ get myForm(){
   }
 
   // Set email notification parameters
-  setEmailNotificationDetails(){ 
+  setEmailNotificationDetails(){
     if(this.candidateAccount.account.toLocaleLowerCase().trim() == 'dwp'){
       this.candidateProject = this.operationsProjectForm.value.clientProject;
     } else {
       this.candidateProject = this.candidateAccount.account;
-    }    
-    this.fromAddress = "talent.sourcing@in.ibm.com";    
-    this.toAddress = this.operationsProjectDetails[0].result_users[0].username;    
-    this.emailSubject = "Project Assignment Notification in Talent Sourcing Tool";    
-    this.emailMessage = "Dear " 
-        + this.operationsProjectDetails[0].result_users[0].employeeName 
-        + ",<br> <p>We would like to confirm, you have been selected for a " 
-        + this.operationsProjectForm.value.projectPosition + " role in " 
-        + this.candidateProject + " account. </p><p>" 
+    }
+    this.fromAddress = "talent.sourcing@in.ibm.com";
+    this.toAddress = this.operationsProjectDetails[0].result_users[0].username;
+    this.emailSubject = "Project Assignment Notification in Talent Sourcing Tool";
+    this.emailMessage = "Dear "
+        + this.operationsProjectDetails[0].result_users[0].employeeName
+        + ",<br> <p>We would like to confirm, you have been selected for a "
+        + this.operationsProjectForm.value.projectPosition + " role in "
+        + this.candidateProject + " account. </p><p>"
         + this.candidateProject + " account operations team will connect with you shortly for next steps.</p>\
-        <p>Regards, <br>" + this.account + " Operations Team</p>";  
+        <p>Regards, <br>" + this.account + " Operations Team</p>";
     }
 
   onSubmit(id) {
@@ -176,16 +186,16 @@ get myForm(){
 
     this.submitted = true;
     this.setEmailNotificationDetails();
-    
+
     if (!this.operationsProjectForm.valid) {
       console.log("this.operationsProjectForm", this.operationsProjectForm.value);
       return false;
     } else {
-    let operationsDetails = new OperationsDetails(this.operationsProjectDetails[0].result_users[0].username, 
+    let operationsDetails = new OperationsDetails(this.operationsProjectDetails[0].result_users[0].username,
                               this.operationsProjectForm.value.projectLocation,
                               this.operationsProjectForm.value.clientProject,
-                              this.operationsProjectForm.value.projectPosition, 
-                              this.operationsProjectForm.value.managementComments, 
+                              this.operationsProjectForm.value.projectPosition,
+                              this.operationsProjectForm.value.managementComments,
                               this.userName, new Date());
 
     // Insert into projectAlloc table
@@ -201,21 +211,21 @@ get myForm(){
             if (this.positionID != null ||  this.positionID != undefined) {
               this.positionsService.closePositionByID(this.positionID, this.positionStatus).subscribe(
                 (res) => {
-                    console.log("Position closed successfully");            
+                    console.log("Position closed successfully");
                 });
-            }      
-            
+            }
+
             //Save open position name , candidate location and grossProfit in candidate collection
             let candidateDetails = new CandidateGPDetails(this.grossProfit,this.candidateLocation,this.positionName,this.positionID);
             this.apiService.updateCandidate(this.operationsProjectDetails[0].result_users[0]._id, candidateDetails).subscribe((data)=> {
               console.log('Candidate Details successfully updated!')
             });
-  
+
             // Send notification to the candidate
             let sendEmailObject = new SendEmail(this.fromAddress, this.toAddress, this.emailSubject, this.emailMessage);
               this.apiService.sendEmail(sendEmailObject).subscribe(
                 (res) => {
-                    console.log("[Ops Project Assignment] - Email sent successfully to " + this.toAddress);            
+                    console.log("[Ops Project Assignment] - Email sent successfully to " + this.toAddress);
                 }, (error) => {
                     console.log("[Ops Project Assignment] - Error occurred while sending email to " + this.toAddress);
                     console.log(error);
@@ -244,8 +254,8 @@ cancelForm(){
   } else {
     this.ngZone.run(() => this.router.navigateByUrl('/open-positions-list',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
   }
-  
-  
+
+
 }
 
 //*************** Sprint 8 coding -  added sections to display open positions and to GP calculations  ********************/
@@ -270,6 +280,7 @@ positionID;
 candidatePositionID;
 positionStatus='Close';
 openPositionsList:any = [];
+employeeType ='';
 
 pageChange:any;
 jrssSelected=false;
@@ -350,12 +361,12 @@ getSelectedPositionDetails(positionID) {
 
 
      calculateGP() {
-
+      if (this.employeeType != 'Contractor') {
       if ((this.rateCardLocation == null || this.rateCardLocation == '' ) && this.onLoad==false) {
          window.alert("Please select Open Position/Candidate Position Location");
          return false;
       }
-     
+
       let GP: number = 0;
       let rateCardValue: number = 0;
       let costCardValue: number = 0;
@@ -371,15 +382,14 @@ getSelectedPositionDetails(positionID) {
 
      this.openPositionService.readRateCardsByRateCardCode(rateCardCode).subscribe((data) => {
         rateCardValue = data['rateCardValue'];
-         
+
         this.openPositionService.readCostCardsByCostCardCode(costCardCode).subscribe((data) => {
            costCardValue = data['costCardValue'];
-
            if ((rateCardValue == null || rateCardValue == undefined) && this.onLoad == false) {
               window.alert("No rate card value available for this rate code: ''"+rateCardCode+"' , choose a different position.");
               this.candidateLocation = this.oldCandidateLocation;
               return false;
-           } else if ((costCardValue == null || costCardValue == undefined) && this.onLoad == false) {
+           } if ((costCardValue == null || costCardValue == undefined) && this.onLoad == false) {
               window.alert("No cost card value available for this cost code: ''"+costCardCode+"' , choose a different candidate location.");
               this.candidateLocation = this.oldCandidateLocation;
               return false;
@@ -387,12 +397,14 @@ getSelectedPositionDetails(positionID) {
               this.oldCandidateLocation = this.candidateLocation;
               this.grossProfit = Math.round(((rateCardValue-costCardValue)/costCardValue)*100);
               if (isNaN(this.grossProfit)) {
+                window.alert("Gross profit is not calculated as no value available for this combination.");
                 this.grossProfit = '';
               }
            }
            this.onLoad = false;
         })
      })
+     }
   }
 
 }

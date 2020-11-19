@@ -42,8 +42,8 @@
           <td style="width:25%">
             <a *ngIf="this.partnerInterviewDetails[0].stage2_status=='Skipped'" href="#" (click)="skipMethod()" routerLinkActive="active" data-toggle="modal">Click here</a>
             <div *ngIf="this.partnerInterviewDetails[0].stage2_status=='Completed'">
-              <a class="edit" [routerLink]="['/pre-technical-interview-form/',this.partnerInterviewDetails[0].result_users[0].JRSS, this.partnerInterviewDetails[0].userName]" [state]="{jrss:this.partnerInterviewDetails[0].result_users[0].JRSS,username:this.partnerInterviewDetails[0].result_users[0].username,access:'partner-interview-initiate',accessLevel:this.accessLevel,account:this.account}">
-              Click here
+              <a class="edit" [routerLink]="['/pre-technical-interview-form/',this.partnerInterviewDetails[0].result_users[0].JRSS, this.partnerInterviewDetails[0].userName, this.partnerInterviewDetails[0].result_users[0].account]" [state]="{jrss:this.partnerInterviewDetails[0].result_users[0].JRSS,username:this.partnerInterviewDetails[0].result_users[0].username,access:'partner-interview-initiate',accessLevel:this.accessLevel,account:this.account,userName:this.userName}">
+                Click here
               </a>
             </div>
           </td>
@@ -82,8 +82,11 @@
 
   <div id="positionListModal" class="card" >
     <br>
-    <div class="card-header" style="background-color:#2554C7;color:white;font-size:10pt">
+    <div class="card-header" style="background-color:#2554C7;color:white;font-size:10pt" *ngIf="employeeType == 'Regular'">
       Open Position and Gross Profit Details
+    </div>
+    <div class="card-header" style="background-color:#2554C7;color:white;font-size:10pt" *ngIf="employeeType == 'Contractor'">
+      Open Position Details
     </div>
     <div class="card-body"  >
       <mat-card class="login-card">
@@ -123,18 +126,18 @@
               <td style="width:25%"><mat-label>Competency Level:</mat-label></td>
               <td style="width:25%">{{positionDetails.competencyLevel}}</td>
             </tr>
-            <tr>
+            <tr *ngIf="employeeType == 'Regular'">
               <td colspan="4" style="width:100%"><hr class="class-1"></td>
             </tr>
             <br/>
-            <tr>
+            <tr *ngIf="employeeType == 'Regular'">
               <td style="width:25%"><mat-label>Candidate Line Of Business:</mat-label></td>
               <td style="width:25%">{{this.partnerInterviewDetails[0].result_users[0].userLOB}}</td>
               <td style="width:25%"><mat-label>Band</mat-label></td>
               <td style="width:25%">{{this.partnerInterviewDetails[0].result_users[0].band}}</td>
             </tr>
             <br/>
-            <tr>
+            <tr *ngIf="employeeType == 'Regular'">
               <td style="width:25%">
                 <mat-form-field class="open-full-width">
                   <mat-select placeholder="Candidate Location:" id="candidateLocation"  name= "candidateLocation"

@@ -125,7 +125,7 @@ export class CandidateEditComponent implements OnInit {
   this.testconfigService.findTestConfigJRSSByAccount(account).subscribe((res) => {            
     this.testConfigJRSS = [];     
     for (var jrss of res){ 
-      this.testConfigJRSS.push(jrss.JRSS);         
+      this.testConfigJRSS.push(jrss.testConfigs_jrss[0].jrss);
       }
     }, (error) => {
       console.log(error);
@@ -150,7 +150,7 @@ export class CandidateEditComponent implements OnInit {
     this.technologyStream = [];
     // Get technologyStream from JRSS
     for (var jrss of this.JRSS){
-      if(jrss.jrss == jobRole){
+      if(jrss._id == jobRole){
         this.technologyStream = [];
         for (var skill of jrss.technologyStream){
           for(var streamValue of this.stream) {

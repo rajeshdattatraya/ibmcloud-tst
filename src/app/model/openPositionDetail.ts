@@ -13,4 +13,7 @@ export class OpenPositionDetail {
     createdDate: String;
     updatedBy: String;
     updatedDate: String;
+    openPosition_jrss: [{
+       jrss:string;
+    }];
 }

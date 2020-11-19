@@ -34,5 +34,8 @@ export class CandidateDetails {
                               DateOfJoining:Date;
                               userLoggedin:string;
        	}];
+       	candidate_jrss:[{
+       	        jrss: string;
+       	}];
 
 }

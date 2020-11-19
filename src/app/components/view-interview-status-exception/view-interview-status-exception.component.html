@@ -1,3 +1,4 @@
+<p style="text-align:right; font-family: cursive; font-size: 120%;"><b>Welcome, {{name}}!!</b></p>
 <mat-toolbar>
   <mat-toolbar-row>
     <a mat-button routerLink="#"  class="matButtonSmallSpace" routerLinkActive="active">Exceptional Approval</a>
@@ -13,7 +14,7 @@
     <div class="card-body">
       <mat-card>
         <mat-card-content>
-      <table>
+      <table class="fixedTable">
         <tbody>
         <tr>
           <td><mat-label>Name:</mat-label></td>
@@ -36,7 +37,7 @@
               <a href="#" (click)="skipMethod()" routerLinkActive="active"  data-toggle="modal">Click here</a>
             </div>
             <div *ngIf="this.displayPreTechStage2Completed">
-              <a class="edit" [routerLink]="['/pre-technical-interview-form/',this.candidateDetails[0].JRSS, this.candidateDetails[0].username]" [state]="{jrss:this.candidateDetails[0].JRSS,quizId:this.candidateDetails[0].candidate_results[count].quizNumber,username:this.candidateDetails[0].username,access:'viewinterview-status',account:this.account,accessLevel:this.accessLevel}">
+              <a class="edit" [routerLink]="['/pre-technical-interview-form/',this.candidateDetails[0].JRSS, this.candidateDetails[0].username,this.candidateDetails[0].account]" [state]="{jrss:this.candidateDetails[0].JRSS,quizId:this.candidateDetails[0].candidate_results[count].quizNumber,username:this.candidateDetails[0].username,access:'viewinterview-status',account:this.account,accessLevel:this.accessLevel,userName:this.userName}">
                 Click here
               </a>
             </div>
@@ -50,7 +51,7 @@
         </tr>
         <tr *ngIf="displayStage3ResultFields">
           <td><mat-label>Technical Interview Feedback:</mat-label></td>
-          <td  colspan="3" width="75%"><textarea type="textArea" maxlength="3000" cols="90" disabled readonly value="{{this.candidateDetails[0].candidate_results[count].smeFeedback}}"></textarea></td>
+          <td colspan="3" style="width:75%" class="wrappable">{{this.candidateDetails[0].candidate_results[count].smeFeedback}}</td>
         </tr>
         <tr *ngIf="displayStage4ResultFields">
           <td><mat-label>Partner Interview Result:</mat-label></td>
@@ -58,7 +59,7 @@
         </tr>
         <tr *ngIf="displayStage4ResultFields">
           <td><mat-label>Partner Interview Feedback:</mat-label></td>
-          <td  colspan="3" width="75%"><textarea type="textArea" maxlength="3000" cols="90" disabled readonly value="{{this.candidateDetails[0].candidate_results[count].managementFeedback}}"></textarea></td>
+          <td colspan="3" style="width:75%" class="wrappable">{{this.candidateDetails[0].candidate_results[count].managementFeedback}}</td>
         </tr>
         </tbody>
       </table>

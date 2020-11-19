@@ -23,6 +23,7 @@ export class ViewInterviewStatusExceptionComponent implements OnInit {
   candidateUserName = "";
 
   userName = "";
+  name: String="";
   accessLevel = "management";
   stage1 = "Not Started";
   stage2 = "Not Started";
@@ -66,12 +67,18 @@ export class ViewInterviewStatusExceptionComponent implements OnInit {
      let resultId = this.actRoute.snapshot.paramMap.get('resultId');
      this.viewCandidateInterviewStatus(id,resultId);
      this.mainForm();
+     this.getCandidate();
   }
 
 
   ngOnInit(): void {
   }
-
+   //get user's name based on email id
+   getCandidate(){
+    this.apiService.getNameFromUsername(this.userName).subscribe( (res) => {
+    this.name = res.name;        
+    });
+  }
   mainForm() {
       this.workFlowForm = this.fb.group({
         stage1OnlineTechAssessment: [false],

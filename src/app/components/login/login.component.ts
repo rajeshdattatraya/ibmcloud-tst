@@ -157,14 +157,14 @@ export class LoginComponent implements OnInit {
                           passingScore = data['passingScore'];
                           if ( ((result['userScore'] >= passingScore && result['stage1_status'] == "Completed")) 
                               && result['stage2_status'] == "Not Started") {
-                            this.ngZone.run(() => this.router.navigateByUrl('/pre-tech-form', { state: { userName: res.username, mode: 'instructions' } }))
+                            this.ngZone.run(() => this.router.navigateByUrl('/pre-tech-form', { state: { userName: res.username, mode: 'instructions', candidateAccount: resJrss['account'] } }))
                           }  else if (result['stage2_status'] == "Completed" || result['stage2_status'] == "Skipped") {
                             this.error = 'Our team will contact you regarding your progression to the further rounds.'
                           }else if(result['stage1_status'] == "Skipped" && result['stage2_status'] == "Not Started"){
                             if(res.password == appConfig.defaultEncryptedPassword){
-                              this.ngZone.run(() => this.router.navigateByUrl('/change-password',{state:{username:res.username,quizNumber:res.quizNumber}}))  
+                              this.ngZone.run(() => this.router.navigateByUrl('/change-password',{state:{username:res.username,quizNumber:res.quizNumber}}))
                              }else{
-                            this.ngZone.run(() => this.router.navigateByUrl('/pre-tech-form', { state: { userName: res.username, mode: 'instructions' } }))
+                            this.ngZone.run(() => this.router.navigateByUrl('/pre-tech-form', { state: { userName: res.username, mode: 'instructions', candidateAccount: resJrss['account'] } }))
                             }
                           }
                           else {

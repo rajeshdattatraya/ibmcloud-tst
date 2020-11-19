@@ -27,7 +27,7 @@
                 </mat-form-field>
 
               </td>
-            
+
               <td>
                 <mat-form-field class="example-full-width">
                 <input matInput placeholder="Job Role" formControlName="jrss" name="jrss" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.jrss.errors }">
@@ -55,14 +55,14 @@
   <br/>
     <!-- No data message -->
     <p *ngIf="Jrss.length <= 0" class="no-data text-center">There is no Job Role added yet!</p>
-  
+
     <!-- JRSS list -->
 <div class="mat-elevation-z8"  *ngIf="this.accounts.length <= 1">
-  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort class="fixedTable">
     <!-- ID Column -->
     <ng-container matColumnDef="Action">
-      <th mat-header-cell *matHeaderCellDef> No. </th>
-      <td mat-cell *matCellDef="let row;let i = index"> {{pageSize*currentPage + i + 1}}</td>
+      <th style="width:90px" mat-header-cell *matHeaderCellDef> No. </th>
+      <td style="width:60px" mat-cell *matCellDef="let row;let i = index"> {{pageSize*currentPage + i + 1}}</td>
     </ng-container>
     <!-- ID Column -->
     <ng-container matColumnDef="jrss">
@@ -72,15 +72,15 @@
 
     <tr  mat-header-row *matHeaderRowDef="displayedColumns" ></tr>
     <tr mat-row *matRowDef="let row; let even = even; columns: displayedColumns;" [ngClass]="{gray: even}"></tr>
- 
+
   </table>
 </div>
   <div class="mat-elevation-z8" *ngIf="this.accounts.length > 1">
-    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort class="fixedTable">
       <!-- ID Column -->
       <ng-container matColumnDef="Action">
-        <th mat-header-cell *matHeaderCellDef> No. </th>
-        <td mat-cell *matCellDef="let row;let i = index"> {{pageSize*currentPage + i + 1}}</td>
+        <th style="width:90px" mat-header-cell *matHeaderCellDef> No. </th>
+        <td style="width:60px" mat-cell *matCellDef="let row;let i = index"> {{pageSize*currentPage + i + 1}}</td>
       </ng-container>
       <!-- ID Column -->
       <ng-container matColumnDef="jrss">
@@ -90,10 +90,10 @@
       <ng-container matColumnDef="account" >
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Account </th>
         <td mat-cell *matCellDef="let row"> {{row.account}}</td>
-      </ng-container>  
+      </ng-container>
       <tr  mat-header-row *matHeaderRowDef="displayedColumnsWithAccount"></tr>
       <tr   mat-row *matRowDef="let row; let even = even; columns: displayedColumnsWithAccount;" [ngClass]="{gray: even}"></tr>
-  
+
     </table>
   </div>
   <mat-paginator [length]="this.dataSource.data.length"  (page)="handlePage($event)"  [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>

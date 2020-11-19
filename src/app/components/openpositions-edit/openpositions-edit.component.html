@@ -38,7 +38,7 @@
               <mat-select placeholder="Job Role" (selectionChange)="updateJobRoleProfile($event)"
                           formControlName="JRSS" required name="JRSS" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.JRSS.errors }">
                 <mat-option value="">Choose...</mat-option>
-                <mat-option *ngFor="let jrss of JRSS" value="{{jrss.jrss}}">{{jrss.jrss}}
+                <mat-option *ngFor="let jrss of JRSS" value="{{jrss._id}}">{{jrss.jrss}}
                 </mat-option>
               </mat-select>
               <div *ngIf="!formReset && submitted && myForm.JRSS.errors" class="invalid-feedback">

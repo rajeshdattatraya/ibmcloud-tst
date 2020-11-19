@@ -24,6 +24,7 @@ export class ReportComponent implements OnInit {
   reportData: any = [];
   reportObj = {};
   account : String ="";
+  loginAccounts:any = [];
 
   itemsPerPage = appConfig.itemsPerPage;
   page=1;
@@ -34,10 +35,12 @@ export class ReportComponent implements OnInit {
   dataSource = new MatTableDataSource<ReportStats>();
 
   displayedColumns = ['row[0][1]', 'row[1][1]','row[2][1]', 'row[3][1]','row[4][1]','row[5][1]'];
+  displayedColumnsMultiAccount = ['row[0][1]', 'row[1][1]','row[2][1]', 'row[3][1]','row[4][1]','row[5][1]','row[6][1]'];
   filterObj: { value: string; key: string; };
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  accountSearch: string;
 
   constructor(
     private router: Router,
@@ -50,6 +53,7 @@ export class ReportComponent implements OnInit {
       this.userName = this.router.getCurrentNavigation().extras.state.username;
       this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
       this.account = this.router.getCurrentNavigation().extras.state.account;
+      this.loginAccounts = this.account.split(",");
     }
   }
 
@@ -63,6 +67,31 @@ export class ReportComponent implements OnInit {
   }
   get jrss(): string {
     return this.searchJrss;
+  }
+
+  get accounts():string{
+    return this.accountSearch;
+  }
+
+  set accounts(account : string){
+    //alert("Account" +account);
+    //this.searchJrss = account;
+      this.searchFilter();
+  if(account){
+  let reportDataByAccount: any = [];
+      this.reportData.forEach((item) => {
+        console.log("item:" +item[1][1]);
+      
+        if (item[1][1].toLowerCase().startsWith(account.toLowerCase())) {
+        //  this.filterObj['key'].toLowerCase().includes(this.filterObj['value']);
+          reportDataByAccount.push(item);
+        }
+      });
+     
+      this.reportData = reportDataByAccount;
+     // console.log("reportData:" +this.reportData[0]);
+      this.dataSource.data = this.reportData as ReportStats[];
+}
   }
 
   set fromDate(fromDate: Date) {
@@ -92,6 +121,7 @@ export class ReportComponent implements OnInit {
       });
      
       this.reportData = reportDataByJrss;
+      console.log("reportData:" +this.reportData[0]);
       this.dataSource.data = this.reportData as ReportStats[];
     } 
   }
@@ -107,6 +137,7 @@ export class ReportComponent implements OnInit {
           case 'row[3][1]': return item[3][1];
           case 'row[4][1]': return item[4][1];
           case 'row[5][1]': return item[5][1];
+          case 'row[6][1]': return item[6][1];
           default: return property;
         }
      };
@@ -121,22 +152,27 @@ export class ReportComponent implements OnInit {
 
 
 // ************** Get all initial report data for all the JRSS, with no filters ******************** 
-  loadReportData() {
-    this.reportService.getReport().subscribe(res => {
-      res.forEach((item) => {
-        this.reportResponse.push(item._id)
-      });
+loadReportData() {
+  //let accountArr = this.account.split(",");
+  //for(let i=0; i<accountArr.length; i++){
+ //   accountArr.forEach(acc =>{
+  this.reportService.getReport(this.account).subscribe(res => {
+    let report_data = res;
+    console.log("res:"+JSON.stringify(report_data));
+    res.forEach((item) => {
+      this.reportResponse.push(item._id)
+     });
 
-      this.reportResponse.sort((a, b) => a.JRSS.localeCompare(b.JRSS));
-      //The search filter, will have no impact on loading initial data 
-      //No data will be filtered 
-      this.searchFilter();
+    this.reportResponse.sort((a, b) => a.JRSS.localeCompare(b.JRSS));
+    //The search filter, will have no impact on loading initial data 
+    //No data will be filtered 
+    this.searchFilter();
 
-    }, (error) => {
-      console.log(error);
-    })
-
-  } //end of loadreportData()
+  }, (error) => {
+    console.log(error);
+  })
+//})
+} //end of loadreportData()
 
   //*************** Filter by from Date and To Date method ************* 
   searchFilter() {
@@ -178,6 +214,7 @@ export class ReportComponent implements OnInit {
           stage4Count = this.reportObj[item.JRSS].stage4Count;
           stage5Count = this.reportObj[item.JRSS].stage5Count;
           totalRegCandiates = this.reportObj[item.JRSS].totalRegCandiates + 1;
+
         } else {
           totalRegCandiates = 1;
           stage1Count = 0;
@@ -191,11 +228,24 @@ export class ReportComponent implements OnInit {
         item.stage4_status.forEach((stage4Status) => { if (stage4Status == 'Completed') stage4Count++ });
         item.stage5_status.forEach((stage5Status) => { if (stage5Status == 'Completed') stage5Count++ });
 
+        if(this.loginAccounts.length > 1 || this.account === 'SECTOR'){
         this.reportObj[item.JRSS] = {
-          "JRSS": item.JRSS, "totalRegCandiates": totalRegCandiates,
+          "JRSS": item.JRSS, "account": item.account,
+          "totalRegCandiates": totalRegCandiates,
           "stage1Count": stage1Count, "stage3Count": stage3Count,
-          "stage4Count": stage4Count, "stage5Count": stage5Count
+          "stage4Count": stage4Count, "stage5Count": stage5Count,
+          
         };
+      }
+      else if(this.loginAccounts.length <= 1 || this.account !== 'SECTOR'){
+        this.reportObj[item.JRSS] = {
+          "JRSS": item.JRSS, 
+          "totalRegCandiates": totalRegCandiates,
+          "stage1Count": stage1Count, "stage3Count": stage3Count,
+          "stage4Count": stage4Count, "stage5Count": stage5Count,
+          
+        };
+      }
       }
 
     }); //end of reportResponse for loop
@@ -213,8 +263,7 @@ export class ReportComponent implements OnInit {
           value: filterValue.trim().toLowerCase(),
           key: key
     }
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+   this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
 }
-
