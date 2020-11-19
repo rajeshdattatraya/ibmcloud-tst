@@ -2,129 +2,129 @@
 <br>
 
 <form #reportForm="ngForm" name="form" (ngSubmit)=" reportForm.form.valid">
-  <mat-card class="login-card">
-    <div class="float-left text-left" style="font-size:14pt;font-weight: bold;">Search</div>
-    <br/>
-    <br/>
-    <table>
-      <tr>
-        <td>
-          <mat-form-field>
-            <input matInput type="date" placeholder="From Date" name="fromDate" [(ngModel)]="fromDate" placeholder="From Date"
-                   id="fromDate" aria-label="Search">
-          </mat-form-field>
-        </td>
-        <td>
-          <mat-form-field>
-            <input matInput type="date" placeholder="To Date" name="toDate" [(ngModel)]="toDate" placeholder="To Date" id="toDate"
-                   aria-label="Search"  #LocalVariable="ngModel"  [ngClass]="{  invalid:(toDate != null || toDate > currDate )}" />
-          </mat-form-field>
-        </td>
-        <div *ngIf=" LocalVariable.invalid" class="invalid-feedback">
-          This field is required.
-        </div>
-        <td>
-          <mat-form-field>
-            <input matInput placeholder="Job Role" type="text" name="jrss" [(ngModel)]="jrss" placeholder="Search by Job Role"
-                   id="JRSS" aria-label="Search">
-          </mat-form-field>
-        </td>
-        <div *ngIf="account=='sector' || account=='Sector' || account=='SECTOR' || this.loginAccounts.length > 1">
-          <td>
-            <mat-form-field>
-              <input matInput placeholder = "Account" type="text" name="Account" [(ngModel)]="jrss">
-            </mat-form-field>
-          </td>
-        </div>
-      </tr>
-    </table>
-    <mat-card-actions>
-      <div class="row justify-content-center">
-        <button type="reset" mat-raised-button  color="primary" >Clear</button>
+<mat-card class="login-card">
+  <div class="float-left text-left" style="font-size:14pt;font-weight: bold;">Search</div>
+  <br/>
+  <br/>
+  <table>
+    <tr>
+      <td>
+      <mat-form-field>
+      <input matInput type="date" placeholder="From Date" name="fromDate" [(ngModel)]="fromDate" placeholder="From Date"
+             id="fromDate" aria-label="Search">
+      </mat-form-field>
+      </td>
+      <td>
+      <mat-form-field>
+      <input matInput type="date" placeholder="To Date" name="toDate" [(ngModel)]="toDate" placeholder="To Date" id="toDate"
+             aria-label="Search"  #LocalVariable="ngModel"  [ngClass]="{  invalid:(toDate != null || toDate > currDate )}" />
+      </mat-form-field>
+      </td>
+      <div *ngIf=" LocalVariable.invalid" class="invalid-feedback">
+        This field is required.
       </div>
-    </mat-card-actions>
+      <td>
+        <mat-form-field>
+        <input matInput placeholder="Job Role" type="text" name="jrss" [(ngModel)]="jrss" placeholder="Search by Job Role"
+               id="JRSS" aria-label="Search">
+        </mat-form-field>
+      </td>
+      <div *ngIf="account=='sector' || account=='Sector' || account=='SECTOR' || this.loginAccounts.length > 1">
+     <td>
+      <mat-form-field>
+        <input matInput name="accounts" [(ngModel)]="accounts" (keyup)="applyFilter($event.target.value,'account')" placeholder="Account">
+      </mat-form-field>
+    </td>
+    </div>
+     </tr>
+  </table>
+  <mat-card-actions>
+    <div class="row justify-content-center">
+      <button type="reset" mat-raised-button  color="primary" >Clear</button>
+    </div>
+  </mat-card-actions>
   </mat-card>
 </form>
-<br>
+  <br>
 
-<div class="mat-elevation-z8" *ngIf="account=='sector' || account=='Sector' || account=='SECTOR' || this.loginAccounts.length > 1">
-  <table mat-table [dataSource]="dataSource" matSort class="fixedTable" width="100%">
+  <div class="mat-elevation-z8" *ngIf="account=='sector' || account=='Sector' || account=='SECTOR' || this.loginAccounts.length > 1">
+      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" width="100%">
 
-    <ng-container matColumnDef="row[0][1]">
-      <th width="25%" mat-header-cell *matHeaderCellDef mat-sort-header>Job Role</th>
-      <td width="25%" mat-cell *matCellDef="let row" [style.color]="row.color"> {{row[0][1]}} </td>
-    </ng-container>
-    <ng-container matColumnDef="row[1][1]">
-      <th width="15%" mat-header-cell *matHeaderCellDef mat-sort-header>Account</th>
-      <td width="15%" mat-cell *matCellDef="let row" [style.color]="row.color"> {{row[1][1]}} </td>
-    </ng-container>
+        <ng-container matColumnDef="row[0][1]">
+          <th width="25%" mat-header-cell *matHeaderCellDef mat-sort-header>Job Role</th>
+          <td width="25%" mat-cell *matCellDef="let row" [style.color]="row.color"> {{row[0][1]}} </td>
+        </ng-container>
+         <ng-container matColumnDef="row[1][1]">
+          <th width="15%" mat-header-cell *matHeaderCellDef mat-sort-header>Account</th>
+          <td width="15%" mat-cell *matCellDef="let row" [style.color]="row.color"> {{row[1][1]}} </td>
+        </ng-container>
+    
+         <ng-container matColumnDef="row[2][1]">
+          <th width="15%" mat-header-cell *matHeaderCellDef mat-sort-header>Total Candidates</th>
+          <td width="15%" mat-cell *matCellDef="let row" [style.color]="row.color"> {{row[2][1]}} </td>
+        </ng-container>
+       
+        <ng-container matColumnDef="row[3][1]">
+          <th width="15%" mat-header-cell *matHeaderCellDef mat-sort-header>Passed Online Test</th>
+          <td width="15%" mat-cell *matCellDef="let row" [style.color]="row.color"> {{row[3][1]}} </td>
+        </ng-container>
+        <ng-container matColumnDef="row[4][1]">
+          <th width="15%" mat-header-cell *matHeaderCellDef mat-sort-header>Passed Tech Interview</th>
+          <td width="15%" mat-cell *matCellDef="let row" [style.color]="row.color"> {{row[4][1]}} </td>
+        </ng-container>
+        <ng-container matColumnDef="row[5][1]">
+          <th width="15%" mat-header-cell *matHeaderCellDef mat-sort-header>Passed Partner Interview</th>
+          <td width="15%" mat-cell *matCellDef="let row" [style.color]="row.color"> {{row[5][1]}} </td>
+        </ng-container>
+        <ng-container matColumnDef="row[6][1]">
+          <th width="15%" mat-header-cell *matHeaderCellDef mat-sort-header>Assigned To Project</th>
+          <td width="15%" mat-cell *matCellDef="let row" [style.color]="row.color"> {{row[6][1]}} </td>
+        </ng-container>
+       
+    
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsMultiAccount"></tr>
+        <tr mat-row *matRowDef="let row; let even = even; columns: displayedColumnsMultiAccount;" [ngClass]="{gray: even}"></tr>
+      </table>
+   
+      <mat-paginator [length]="this.dataSource.data.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+    </div>
+    <br/>
+    <div class="mat-elevation-z8" *ngIf="!(account=='sector' || account=='Sector' || account=='SECTOR') && this.loginAccounts.length <= 1">
+      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" width="100%">
 
-    <ng-container matColumnDef="row[2][1]">
-      <th width="15%" mat-header-cell *matHeaderCellDef mat-sort-header>Total Candidates</th>
-      <td width="15%" mat-cell *matCellDef="let row" [style.color]="row.color"> {{row[2][1]}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="row[3][1]">
-      <th width="15%" mat-header-cell *matHeaderCellDef mat-sort-header>Passed Online Test</th>
-      <td width="15%" mat-cell *matCellDef="let row" [style.color]="row.color"> {{row[3][1]}} </td>
-    </ng-container>
-    <ng-container matColumnDef="row[4][1]">
-      <th width="15%" mat-header-cell *matHeaderCellDef mat-sort-header>Passed Tech Interview</th>
-      <td width="15%" mat-cell *matCellDef="let row" [style.color]="row.color"> {{row[4][1]}} </td>
-    </ng-container>
-    <ng-container matColumnDef="row[5][1]">
-      <th width="15%" mat-header-cell *matHeaderCellDef mat-sort-header>Passed Partner Interview</th>
-      <td width="15%" mat-cell *matCellDef="let row" [style.color]="row.color"> {{row[5][1]}} </td>
-    </ng-container>
-    <ng-container matColumnDef="row[6][1]">
-      <th width="15%" mat-header-cell *matHeaderCellDef mat-sort-header>Assigned To Project</th>
-      <td width="15%" mat-cell *matCellDef="let row" [style.color]="row.color"> {{row[6][1]}} </td>
-    </ng-container>
-
-
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumnsMultiAccount"></tr>
-    <tr mat-row *matRowDef="let row; let even = even; columns: displayedColumnsMultiAccount;" [ngClass]="{gray: even}"></tr>
-  </table>
-
-  <mat-paginator [length]="this.dataSource.data.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
-</div>
-<br/>
-<div class="mat-elevation-z8" *ngIf="!(account=='sector' || account=='Sector' || account=='SECTOR') && this.loginAccounts.length <= 1">
-  <table mat-table [dataSource]="dataSource" matSort class="fixedTable" width="100%">
-
-    <ng-container matColumnDef="row[0][1]">
-      <th width="25%" mat-header-cell *matHeaderCellDef mat-sort-header>Job Role</th>
-      <td width="25%" mat-cell *matCellDef="let row" [style.color]="row.color"> {{row[0][1]}} </td>
-    </ng-container>
-    <ng-container matColumnDef="row[1][1]">
-      <th width="15%" mat-header-cell *matHeaderCellDef mat-sort-header>Total Candidates</th>
-      <td width="15%" mat-cell *matCellDef="let row" [style.color]="row.color"> {{row[1][1]}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="row[2][1]">
-      <th width="15%" mat-header-cell *matHeaderCellDef mat-sort-header>Passed Online Test</th>
-      <td width="15%" mat-cell *matCellDef="let row" [style.color]="row.color"> {{row[2][1]}} </td>
-    </ng-container>
-    <ng-container matColumnDef="row[3][1]">
-      <th width="15%" mat-header-cell *matHeaderCellDef mat-sort-header>Passed Tech Interview</th>
-      <td width="15%" mat-cell *matCellDef="let row" [style.color]="row.color"> {{row[3][1]}} </td>
-    </ng-container>
-    <ng-container matColumnDef="row[4][1]">
-      <th width="15%" mat-header-cell *matHeaderCellDef mat-sort-header>Passed Partner Interview</th>
-      <td width="15%" mat-cell *matCellDef="let row" [style.color]="row.color"> {{row[4][1]}} </td>
-    </ng-container>
-    <ng-container matColumnDef="row[5][1]">
-      <th width="15%" mat-header-cell *matHeaderCellDef mat-sort-header>Assigned To Project</th>
-      <td width="15%" mat-cell *matCellDef="let row" [style.color]="row.color"> {{row[5][1]}} </td>
-    </ng-container>
-
-
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; let even = even; columns: displayedColumns;" [ngClass]="{gray: even}"></tr>
-  </table>
-
-  <mat-paginator [length]="this.dataSource.data.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
-</div>
+        <ng-container matColumnDef="row[0][1]">
+          <th width="25%" mat-header-cell *matHeaderCellDef mat-sort-header>Job Role</th>
+          <td width="25%" mat-cell *matCellDef="let row" [style.color]="row.color"> {{row[0][1]}} </td>
+        </ng-container>
+        <ng-container matColumnDef="row[1][1]">
+          <th width="15%" mat-header-cell *matHeaderCellDef mat-sort-header>Total Candidates</th>
+          <td width="15%" mat-cell *matCellDef="let row" [style.color]="row.color"> {{row[1][1]}} </td>
+        </ng-container>
+       
+        <ng-container matColumnDef="row[2][1]">
+          <th width="15%" mat-header-cell *matHeaderCellDef mat-sort-header>Passed Online Test</th>
+          <td width="15%" mat-cell *matCellDef="let row" [style.color]="row.color"> {{row[2][1]}} </td>
+        </ng-container>
+        <ng-container matColumnDef="row[3][1]">
+          <th width="15%" mat-header-cell *matHeaderCellDef mat-sort-header>Passed Tech Interview</th>
+          <td width="15%" mat-cell *matCellDef="let row" [style.color]="row.color"> {{row[3][1]}} </td>
+        </ng-container>
+        <ng-container matColumnDef="row[4][1]">
+          <th width="15%" mat-header-cell *matHeaderCellDef mat-sort-header>Passed Partner Interview</th>
+          <td width="15%" mat-cell *matCellDef="let row" [style.color]="row.color"> {{row[4][1]}} </td>
+        </ng-container>
+        <ng-container matColumnDef="row[5][1]">
+          <th width="15%" mat-header-cell *matHeaderCellDef mat-sort-header>Assigned To Project</th>
+          <td width="15%" mat-cell *matCellDef="let row" [style.color]="row.color"> {{row[5][1]}} </td>
+        </ng-container>
+       
+    
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; let even = even; columns: displayedColumns;" [ngClass]="{gray: even}"></tr>
+      </table>
+   
+      <mat-paginator [length]="this.dataSource.data.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+    </div>
 
