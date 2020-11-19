@@ -46,28 +46,28 @@
     </ng-container>
 
     <!-- ID Column -->
-    <ng-container matColumnDef="result_users[0].employeeName">
+    <ng-container matColumnDef="employeeName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-      <td mat-cell *matCellDef="let row"><a href="#myModal" (click)="getCandidateDetails(row.userName)" data-toggle="modal" >{{row.result_users[0].employeeName}}</a>
+      <td mat-cell *matCellDef="let row"><a href="#myModal" (click)="getCandidateDetails(row.userName)" data-toggle="modal" >{{row.result_users.employeeName}}</a>
       </td>
     </ng-container>
 
     <!-- ID Column -->
-    <ng-container matColumnDef="result_users[0].JRSS">
+    <ng-container matColumnDef="jrss">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Job Role </th>
-      <td mat-cell *matCellDef="let row">{{row.result_users[0].JRSS}}</td>
+      <td mat-cell *matCellDef="let row">{{row.result_jrss[0].jrss}}</td>
     </ng-container>
 
     <!-- ID Column -->
-    <ng-container matColumnDef="result_users[0].account">
+    <ng-container matColumnDef="account">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Account </th>
-      <td mat-cell *matCellDef="let row">{{row.result_users[0].account}}</td>
+      <td mat-cell *matCellDef="let row">{{row.result_users.account}}</td>
     </ng-container>
 
     <!-- ID Column -->
     <ng-container matColumnDef="userScore">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Online Test Result </th>
-      <td mat-cell *matCellDef="let row"><a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users[0].employeeName,row.userScore,row.createdDate)" data-toggle="modal" style="color:rgb(0, 128, 43);" *ngIf="row.userScore!=null">{{row.userScore}}%</a><p *ngIf="row.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p>
+      <td mat-cell *matCellDef="let row"><a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users.employeeName,row.userScore,row.createdDate)" data-toggle="modal" style="color:rgb(0, 128, 43);" *ngIf="row.userScore!=null">{{row.userScore}}%</a><p *ngIf="row.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p>
       </td>
     </ng-container>
 
@@ -108,21 +108,21 @@
     </ng-container>
 
     <!-- ID Column -->
-    <ng-container matColumnDef="result_users[0].employeeName">
+    <ng-container matColumnDef="employeeName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-      <td mat-cell *matCellDef="let row"><a href="#myModal" (click)="getCandidateDetails(row.userName)" data-toggle="modal" >{{row.result_users[0].employeeName}}</a>
+      <td mat-cell *matCellDef="let row"><a href="#myModal" (click)="getCandidateDetails(row.userName)" data-toggle="modal" >{{row.result_users.employeeName}}</a>
       </td>
     </ng-container>
 
     <!-- ID Column -->
-    <ng-container matColumnDef="result_users[0].JRSS">
+    <ng-container matColumnDef="jrss">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Job Role </th>
-      <td mat-cell *matCellDef="let row">{{row.result_users[0].JRSS}}</td>
+      <td mat-cell *matCellDef="let row">{{row.result_jrss[0].jrss}}</td>
     </ng-container>
    <!-- ID Column -->
     <ng-container matColumnDef="userScore">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Online Test Result </th>
-      <td mat-cell *matCellDef="let row"><a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users[0].employeeName,row.userScore,row.createdDate)" data-toggle="modal" style="color:rgb(0, 128, 43);" *ngIf="row.userScore!=null">{{row.userScore}}%</a><p *ngIf="row.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p>
+      <td mat-cell *matCellDef="let row"><a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users.employeeName,row.userScore,row.createdDate)" data-toggle="modal" style="color:rgb(0, 128, 43);" *ngIf="row.userScore!=null">{{row.userScore}}%</a><p *ngIf="row.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p>
       </td>
     </ng-container>
 

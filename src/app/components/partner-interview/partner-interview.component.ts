@@ -56,8 +56,8 @@ export class PartnerInterviewComponent implements OnChanges {
   jrssFilter: string;
   loginAccounts:any = [];
   dataSource = new MatTableDataSource<ViewResult>();
-  displayedColumnsSector = ['Action','result_users[0].employeeName', 'result_users[0].JRSS','result_users[0].account','userScore','smeResult','cvDownload'];
-  displayedColumns = ['Action','result_users[0].employeeName', 'result_users[0].JRSS','userScore','smeResult','cvDownload'];
+  displayedColumnsSector = ['Action','employeeName','jrss', 'account','userScore','smeResult','cvDownload'];
+  displayedColumns = ['Action','employeeName','jrss','userScore','smeResult','cvDownload'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -94,7 +94,7 @@ export class PartnerInterviewComponent implements OnChanges {
          if (this.filterObj['key'] == 'employeeName'){
            data[this.filterObj['key']] = data.result_users[0].employeeName;
          } else if (this.filterObj['key'] == 'JRSS'){
-           data[this.filterObj['key']] = data.result_users[0].JRSS;
+           data[this.filterObj['key']] = data.result_jrss[0].jrss;
          } else if (this.filterObj['key'] == 'account'){
            data[this.filterObj['key']] = data.result_users[0].account;
          }
@@ -108,9 +108,9 @@ export class PartnerInterviewComponent implements OnChanges {
 
       this.dataSource.sortingDataAccessor = (item, property) => {
           switch(property) {
-            case 'result_users[0].employeeName': return item.result_users[0].employeeName;
-            case 'result_users[0].JRSS': return item.result_users[0].JRSS;
-            case 'result_users[0].account': return item.result_users[0].account;
+            case 'employeeName': return item.result_users[0].employeeName;
+            case 'jrss': return item.result_jrss[0].jrss;
+            case 'account': return item.result_users[0].account;
             default: return item[property];
           }
        }
