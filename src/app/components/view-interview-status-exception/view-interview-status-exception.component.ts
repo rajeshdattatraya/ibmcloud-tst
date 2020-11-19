@@ -39,6 +39,7 @@ export class ViewInterviewStatusExceptionComponent implements OnInit {
   partnerInterviewResult = "";
   JRSS = "";
   count:any;
+  exceptionalApprovalComments = "";
 
   resultId = "";
 
@@ -76,7 +77,9 @@ export class ViewInterviewStatusExceptionComponent implements OnInit {
         stage1OnlineTechAssessment: [false],
         stage2PreTechAssessment: [false],
         stage3TechAssessment: [false],
-        stage4ManagementInterview: [false]
+        stage4ManagementInterview: [false],
+        exceptionalApprovalComment: ['']
+        
       })
   }
 
@@ -166,8 +169,9 @@ export class ViewInterviewStatusExceptionComponent implements OnInit {
          this.stage4 = "Completed";
          this.managementResult = "Exceptional Approval Given";
        }
+       this.exceptionalApprovalComments=this.workFlowForm.value.exceptionalApprovalComment;
        let resultStatus = new ResultStatus(this.candidateUserName,this.quizNumber,this.userScore,this.stage1, this.stage2,
-                          this.stage3, this.smeResult,this.stage4, this.managementResult, this.stage5);
+                          this.stage3, this.smeResult,this.stage4, this.managementResult, this.stage5,this.exceptionalApprovalComments);
        this.resultPageService.saveResult(resultStatus).subscribe(
          (res) => {
            console.log('Results table record inserted successfully');
@@ -208,9 +212,10 @@ export class ViewInterviewStatusExceptionComponent implements OnInit {
              this.managementResult = data['managementResult'];
           }
           this.stage5 = data['stage5_status'];
+          this.exceptionalApprovalComments=this.workFlowForm.value.exceptionalApprovalComment;
 
           let resultStatus = new ResultStatus(this.candidateUserName,this.quizNumber,this.userScore,this.stage1, this.stage2,
-                             this.stage3, this.smeResult,this.stage4, this.managementResult,this.stage5);
+                             this.stage3, this.smeResult,this.stage4, this.managementResult,this.stage5,this.exceptionalApprovalComments);
           this.resultPageService.updateResult(resultStatus,this.resultId, this.candidateUserName).subscribe(
             (res) => {
               console.log('Results table updated successfully');
