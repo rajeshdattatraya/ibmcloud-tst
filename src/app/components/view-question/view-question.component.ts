@@ -31,7 +31,9 @@ export class ViewQuestionComponent implements OnInit {
   accountArr:any = [];
   finalArr:any = [];
 
-  accountFilter: string;
+  //accountFilter: string;
+  questionFilter:string;
+  techStreamFilter: string;
   filterObj = {};
 
   displayedColumns: string[]  = ['Action','Question','Account', 'TechStream'];
@@ -48,6 +50,7 @@ export class ViewQuestionComponent implements OnInit {
   mode: string;
   displayAnswer = false;
   isEditQuestion = 'N';
+  loginAccounts:any = [];
  
 
   constructor(public fb: FormBuilder,private router: Router, private apiService: ApiService,private route: ActivatedRoute) {
@@ -61,6 +64,7 @@ export class ViewQuestionComponent implements OnInit {
         this.userName = this.router.getCurrentNavigation().extras.state.username;
         this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
         this.account = this.router.getCurrentNavigation().extras.state.account;
+        this.loginAccounts = this.account.split(",");
     }
     route.queryParams.subscribe(
       params => this.config.currentPage= params['page']?params['page']:1 );
@@ -70,8 +74,14 @@ export class ViewQuestionComponent implements OnInit {
   ngOnInit() {
     this.browserRefresh = browserRefresh;
     this.dataSource.filterPredicate = (data, filter) => {
-    data[this.filterObj['key']] = data[2];
-      if(data[this.filterObj['key']] && this.filterObj['key']) {
+      if (this.filterObj['key'] == 'Question'){
+        data[this.filterObj['key']] = data[1];
+      } else if (this.filterObj['key'] == 'Account'){
+        data[this.filterObj['key']] = data[2];
+      } else if (this.filterObj['key'] == 'TechStream'){
+        data[this.filterObj['key']] = data[3];
+      }
+     if(data[this.filterObj['key']] && this.filterObj['key']) {
           if (data[this.filterObj['key']].toLowerCase().startsWith(this.filterObj['value'])) {
              return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
           }
@@ -86,9 +96,13 @@ export class ViewQuestionComponent implements OnInit {
         default: return item[property];
       }
    };
+   
   }
 
-
+  //public selectedBrand;
+  //public accountValue(e) {
+    //  this.accounts = this.loginAccounts.filter(item => item.name === this.accountFilter);
+  //}
   ngAfterViewInit (){
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
@@ -203,16 +217,37 @@ removeQuestion(){
     
     clearFilters() {
       this.dataSource.filter = '';
-      this.accountFilter = '';
+     // this.accountFilter = '';
+      this.questionFilter = '';
+      this.techStreamFilter = '';
 
    }
+
+   accountFilter(account){
+      console.log("Inside account filter:"+account);
+      console.log("filterObj:" +this.filterObj['key']);
+      this.dataSource.filterPredicate = (data, filter) => {
+        if (this.filterObj['key'] == 'Account'){
+          data[this.filterObj['key']] = data[1];
+        } 
+        if(data[this.filterObj['key']] && this.filterObj['key']) {
+          if (data[this.filterObj['key']].toLowerCase().startsWith(this.filterObj['value'])) {
+             return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
+          }
+      }
+      return false;
+
+    }
+  }
 
    applyFilter(filterValue: string,key: string) {
     this.filterObj = {
           value: filterValue.trim().toLowerCase(),
           key: key
     }
+    console.log("Filter obj :" +JSON.stringify(this.filterObj));
     this.dataSource.filter = filterValue.trim().toLowerCase();
+    console.log("filter data:" +this.dataSource.filter);
   }
 
 }
