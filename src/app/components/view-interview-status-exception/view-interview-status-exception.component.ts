@@ -56,7 +56,7 @@ export class ViewInterviewStatusExceptionComponent implements OnInit {
   displayStage2ResultFields: boolean = false;
   displayStage3ResultFields: boolean = false;
   displayStage4ResultFields: boolean = false;
-
+  displayExeAppComments: boolean = false;
 
   constructor(private cv:TechnicalInterviewListComponent,private actRoute: ActivatedRoute, private router: Router, private resultPageService: ResultPageService,
               private apiService: ApiService,public fb: FormBuilder,private ngZone: NgZone) {
@@ -148,6 +148,10 @@ export class ViewInterviewStatusExceptionComponent implements OnInit {
                       this.stage4Completed = true;
                       this.stage4 = result.stage4_status;
                       this.displayStage4ResultFields = true;
+                     }
+                     console.log("result.exceptionalApprovalComments",result.exceptionalApprovalComments);
+                     if (result.exceptionalApprovalComments != undefined) {
+                      this.displayExeAppComments = true;
                      }
                      this.stage5 = result.stage5_status;
                 }

@@ -149,7 +149,8 @@ export class ViewInterviewStatusComponent implements OnInit {
       //                       this.userResult,this.uScore,this.qNumber,this.createdDate));
       // }
       candidate.candidate_results.forEach( result => {
-          this.resultId = result._id
+          this.allStagesCompleted = false;
+          this.resultId = result._id;
           this.uScore = result.userScore;
           this.qNumber = result.quizNumber;
           this.createdDate = result.createdDate;
