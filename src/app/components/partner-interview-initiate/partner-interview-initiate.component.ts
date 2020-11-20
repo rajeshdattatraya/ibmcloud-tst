@@ -150,7 +150,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
       this.candidateLocation = this.partnerInterviewDetails[0].result_users.userPositionLocation;
       this.userLOB = this.partnerInterviewDetails[0].result_users.userLOB;
       this.band = this.partnerInterviewDetails[0].result_users.band;
-      this.candidateJRSS = this.partnerInterviewDetails[0].result_jrss[0].jrss;
+      this.candidateJRSS = this.partnerInterviewDetails[0].result_users.JRSS;
       this.candidateAccount = this.partnerInterviewDetails[0].result_users.account;
       this.positionName = this.partnerInterviewDetails[0].result_users.openPositionName;
       this.positionID = this.partnerInterviewDetails[0].result_users.positionID;
