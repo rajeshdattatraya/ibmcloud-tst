@@ -44,7 +44,7 @@
     <!-- ID Column -->
     <ng-container matColumnDef="employeeName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-      <td mat-cell *matCellDef="let row"><a href="#myModal" (click)="getCandidateDetails(row.userName)" data-toggle="modal" >{{row.result_users[0].employeeName}}</a>
+      <td mat-cell *matCellDef="let row"><a href="#myModal" (click)="getCandidateDetails(row.userName)" data-toggle="modal" >{{row.result_users.employeeName}}</a>
       </td>
     </ng-container>
 
@@ -57,19 +57,19 @@
     <!-- ID Column -->
     <ng-container matColumnDef="band">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Band </th>
-      <td mat-cell *matCellDef="let row">{{row.result_users[0].band}} </td>
+      <td mat-cell *matCellDef="let row">{{row.result_users.band}} </td>
     </ng-container>
 
     <!-- ID Column -->
     <ng-container matColumnDef="userPositionLocation">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Location </th>
-      <td mat-cell *matCellDef="let row;let i = index">{{row.result_users[0].userPositionLocation}}</td>
+      <td mat-cell *matCellDef="let row;let i = index">{{row.result_users.userPositionLocation}}</td>
     </ng-container>
 
     <!-- ID Column -->
     <ng-container matColumnDef="JRSS">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Job Role </th>
-      <td mat-cell *matCellDef="let row">{{row.result_users[0].JRSS}}</td>
+      <td mat-cell *matCellDef="let row">{{row.result_jrss[0].jrss}}</td>
     </ng-container>
 
     <!-- ID Column -->
@@ -83,11 +83,11 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Result </th>
       <td mat-cell *matCellDef="let row">
         <div *ngIf="row.userResult==='Pass'">
-        <a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users[0].employeeName,row.userScore,row.createdDate)"
+        <a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users.employeeName,row.userScore,row.createdDate)"
            data-toggle="modal"  style="color:rgb(0, 128, 43);" >{{row.userScore}}%</a>
         </div>
         <div *ngIf="row.userResult==='Fail'">
-        <a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users[0].employeeName,row.userScore,row.createdDate)"
+        <a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users.employeeName,row.userScore,row.createdDate)"
            data-toggle="modal" style="color:red;" >{{row.userScore}}%</a>
         </div>
         <div  *ngIf="row.userScore==null">
@@ -107,7 +107,7 @@
     <!-- ID Column -->
     <ng-container matColumnDef="employeeName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-      <td mat-cell *matCellDef="let row"><a href="#myModal" (click)="getCandidateDetails(row.userName)" data-toggle="modal" >{{row.result_users[0].employeeName}}</a>
+      <td mat-cell *matCellDef="let row"><a href="#myModal" (click)="getCandidateDetails(row.userName)" data-toggle="modal" >{{row.result_users.employeeName}}</a>
       </td>
     </ng-container>
 
@@ -120,25 +120,25 @@
     <!-- ID Column -->
     <ng-container matColumnDef="band">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Band </th>
-      <td mat-cell *matCellDef="let row">{{row.result_users[0].band}} </td>
+      <td mat-cell *matCellDef="let row">{{row.result_users.band}} </td>
     </ng-container>
 
     <!-- ID Column -->
     <ng-container matColumnDef="userPositionLocation">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Location </th>
-      <td mat-cell *matCellDef="let row;let i = index">{{row.result_users[0].userPositionLocation}}</td>
+      <td mat-cell *matCellDef="let row;let i = index">{{row.result_users.userPositionLocation}}</td>
     </ng-container>
 
     <!-- ID Column -->
     <ng-container matColumnDef="account">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Account </th>
-      <td mat-cell *matCellDef="let row;let i = index">{{row.result_users[0].account}}</td>
+      <td mat-cell *matCellDef="let row;let i = index">{{row.result_users.account}}</td>
     </ng-container>
 
     <!-- ID Column -->
     <ng-container matColumnDef="JRSS">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Job Role </th>
-      <td mat-cell *matCellDef="let row">{{row.result_users[0].JRSS}}</td>
+      <td mat-cell *matCellDef="let row">{{row.result_jrss[0].jrss}}</td>
     </ng-container>
 
     <!-- ID Column -->
@@ -152,11 +152,11 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Result </th>
       <td mat-cell *matCellDef="let row">
         <div *ngIf="row.userResult==='Pass'">
-          <a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users[0].employeeName,row.userScore,row.createdDate)"
+          <a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users.employeeName,row.userScore,row.createdDate)"
             data-toggle="modal"  style="color:rgb(0, 128, 43);" >{{row.userScore}}%</a>
         </div>
         <div *ngIf="row.userResult==='Fail'">
-          <a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users[0].employeeName,row.userScore,row.createdDate)"
+          <a href="#assessmentModal"  (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users.employeeName,row.userScore,row.createdDate)"
              data-toggle="modal" style="color:red;" >{{row.userScore}}%</a>
         </div>
         <div  *ngIf="row.userScore==null">
@@ -217,7 +217,7 @@
                 <td><mat-label>Date of Birth:</mat-label></td>
                 <td>&nbsp;{{this.candidateDetails[0].dateOfJoining.split('T')[0]}}</td>
                 <td><mat-label>Job Role:</mat-label></td>
-                <td>&nbsp;{{this.candidateDetails[0].JRSS}}</td>
+                <td>&nbsp;{{this.candidateDetails[0].candidate_jrss[0].jrss}}</td>
               </tr>
               <tr *ngIf="displayContractorUIFields">
                 <td><mat-label>Account:</mat-label></td>

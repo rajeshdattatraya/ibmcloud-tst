@@ -74,7 +74,7 @@ export class ViewTestresultsComponent {
         } else if (this.filterObj['key'] == 'userName') {
            rowValue = data.userName;
         } else if (this.filterObj['key'] == 'JRSS') {
-           rowValue = data.result_users[0].JRSS;
+           rowValue = data.result_jrss[0].jrss;
         } else if (this.filterObj['key'] == 'account') {
            rowValue = data.result_users[0].account;
         }
@@ -92,7 +92,7 @@ export class ViewTestresultsComponent {
         case 'band': return item.result_users[0].band;
         case 'userPositionLocation': return item.result_users[0].userPositionLocation;
         case 'account': return item.result_users[0].account;
-        case 'JRSS': return item.result_users[0].JRSS;
+        case 'JRSS': return item.result_jrss[0].jrss;
         default: return item[property];
       }
    };
