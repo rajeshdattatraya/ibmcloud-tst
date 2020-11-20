@@ -43,6 +43,7 @@ export class DashboardListComponent implements OnChanges {
   displayTechInterview: boolean = true;
   displayPartnerInterview: boolean = true;
   displayProjectAssign: boolean = true;
+  displayExeAppComments: boolean = true;
   quizNumber;
   userScore;
   assesmentDate;
@@ -279,6 +280,7 @@ displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userR
       this.mode = "displayModalBody";
       this.displayTechInterview = true;
       this.displayPartnerInterview = true;
+      this.displayExeAppComments = true;
       this.displayProjectAssign = true;
       this.displayContractorUIFields = false;
       this.displayRegularUIFields = true;
@@ -307,6 +309,10 @@ displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userR
          if (this.dashboardDetails[0] === undefined ||
              this.dashboardDetails[0].result_projectAlloc.length == 0) {
              this.displayProjectAssign = false;
+         }
+         if (this.dashboardDetails[0] === undefined ||
+           this.dashboardDetails[0].exceptionalApprovalComments === undefined) {
+           this.displayExeAppComments = false;
          }
       });
       }

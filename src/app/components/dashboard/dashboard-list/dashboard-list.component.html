@@ -276,6 +276,20 @@
           </mat-card-content>
         </mat-card>
         </div>
+        <div *ngIf="displayExeAppComments">
+          <mat-card class="mat-elevation-z8">
+            <mat-card-title>Exception Approval Details</mat-card-title>
+            <mat-card-content>
+
+              <table class="fixedTable">
+                <tr>
+                  <td style="width:25%"><mat-label>Exception Approval Comments:</mat-label></td>
+                  <td colspan="3" style="width:75%" class="wrappable">{{this.dashboardDetails[0].exceptionalApprovalComments}}</td>
+                </tr>
+              </table>
+            </mat-card-content>
+          </mat-card>
+        </div>
 
         <div *ngIf="displayProjectAssign">
 
