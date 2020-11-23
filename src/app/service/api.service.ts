@@ -443,6 +443,14 @@ createJrss(data): Observable<any> {
     )
 }
 
+// Update jrss
+updateJrss(id,data): Observable<any> {
+  let url = `${this.baseJrssUri}/updateJrss/${id}`;
+  return this.http.put(url, data, { headers: this.headers }).pipe(
+      catchError(this.errorMgmt)
+  )
+}
+
 // Get all jrss
 getJrsss() {
   return this.http.get(`${this.baseJrssUri}`);

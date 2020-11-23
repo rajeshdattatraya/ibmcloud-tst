@@ -18,6 +18,7 @@ import { TestConfigAddComponent } from './components/test-config-add/test-config
 import { TestConfigEditComponent } from './components/test-config-edit/test-config-edit.component'
 import { DeactivateGuard } from './service/canDeactivate.candCreate';
 import { JrssCreateComponent } from './components/jrss-create/jrss-create.component';
+import { JrssEditComponent } from './components/jrss-edit/jrss-edit.component';
 import { ViewTestresultsComponent } from './components/view-testresults/view-testresults.component';
 import { StreamCreateComponent } from './components/stream-create/stream-create.component';
 import { PartnerInterviewComponent } from './components/partner-interview/partner-interview.component';
@@ -73,6 +74,7 @@ const routes: Routes = [
   { path: 'testconfig-add', component:TestConfigAddComponent},
   { path: 'testconfig-edit/:id', component:TestConfigEditComponent},
   { path: 'jrss-create', component: JrssCreateComponent },
+  { path: 'jrss-edit/:id', component: JrssEditComponent },
   { path: 'view-testresults', component:ViewTestresultsComponent},
   { path: 'stream-create', component: StreamCreateComponent },
   { path: 'technical-interview-list', component:TechnicalInterviewListComponent},

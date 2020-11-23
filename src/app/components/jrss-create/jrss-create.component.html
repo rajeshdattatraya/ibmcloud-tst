@@ -61,8 +61,8 @@
   <table mat-table [dataSource]="dataSource" matSort class="fixedTable">
     <!-- ID Column -->
     <ng-container matColumnDef="Action">
-      <th style="width:90px" mat-header-cell *matHeaderCellDef> No. </th>
-      <td style="width:60px" mat-cell *matCellDef="let row;let i = index"> {{pageSize*currentPage + i + 1}}</td>
+      <th style="width:90px" mat-header-cell *matHeaderCellDef>Select</th>
+      <td style="width:60px" mat-cell *matCellDef="let row;let i = index"><mat-radio-button (change)="onSelectionChange(row._id,i)"></mat-radio-button></td>
     </ng-container>
     <!-- ID Column -->
     <ng-container matColumnDef="jrss">
@@ -79,8 +79,8 @@
     <table mat-table [dataSource]="dataSource" matSort class="fixedTable">
       <!-- ID Column -->
       <ng-container matColumnDef="Action">
-        <th style="width:90px" mat-header-cell *matHeaderCellDef> No. </th>
-        <td style="width:60px" mat-cell *matCellDef="let row;let i = index"> {{pageSize*currentPage + i + 1}}</td>
+        <th style="width:90px" mat-header-cell *matHeaderCellDef>Select</th>
+        <td style="width:60px" mat-cell *matCellDef="let row;let i = index"><mat-radio-button (change)="onSelectionChange(row._id,i)"></mat-radio-button></td>
       </ng-container>
       <!-- ID Column -->
       <ng-container matColumnDef="jrss">
@@ -97,7 +97,12 @@
     </table>
   </div>
   <mat-paginator [length]="this.dataSource.data.length"  (page)="handlePage($event)"  [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
-
+<br/>
+<div  class="float-right text-right" *ngIf="this.accounts.length > 0">
+  <a class="edit" (click)="invokeEdit()">
+    <button mat-raised-button color="primary">Edit</button>&nbsp;
+  </a>
+</div>
 
   
   
