@@ -40,6 +40,7 @@ export class ViewInterviewStatusExceptionComponent implements OnInit {
   partnerInterviewResult = "";
   JRSS = "";
   count:any;
+  exceptionalApprovalComments = "";
 
   resultId = "";
 
@@ -55,7 +56,7 @@ export class ViewInterviewStatusExceptionComponent implements OnInit {
   displayStage2ResultFields: boolean = false;
   displayStage3ResultFields: boolean = false;
   displayStage4ResultFields: boolean = false;
-
+  displayExeAppComments: boolean = false;
 
   constructor(private cv:TechnicalInterviewListComponent,private actRoute: ActivatedRoute, private router: Router, private resultPageService: ResultPageService,
               private apiService: ApiService,public fb: FormBuilder,private ngZone: NgZone) {
@@ -83,7 +84,9 @@ export class ViewInterviewStatusExceptionComponent implements OnInit {
         stage1OnlineTechAssessment: [false],
         stage2PreTechAssessment: [false],
         stage3TechAssessment: [false],
-        stage4ManagementInterview: [false]
+        stage4ManagementInterview: [false],
+        exceptionalApprovalComment: ['']
+        
       })
   }
 
@@ -146,6 +149,10 @@ export class ViewInterviewStatusExceptionComponent implements OnInit {
                       this.stage4 = result.stage4_status;
                       this.displayStage4ResultFields = true;
                      }
+                     console.log("result.exceptionalApprovalComments",result.exceptionalApprovalComments);
+                     if (result.exceptionalApprovalComments != undefined) {
+                      this.displayExeAppComments = true;
+                     }
                      this.stage5 = result.stage5_status;
                 }
                 counter++;
@@ -173,8 +180,9 @@ export class ViewInterviewStatusExceptionComponent implements OnInit {
          this.stage4 = "Completed";
          this.managementResult = "Exceptional Approval Given";
        }
+       this.exceptionalApprovalComments=this.workFlowForm.value.exceptionalApprovalComment;
        let resultStatus = new ResultStatus(this.candidateUserName,this.quizNumber,this.userScore,this.stage1, this.stage2,
-                          this.stage3, this.smeResult,this.stage4, this.managementResult, this.stage5);
+                          this.stage3, this.smeResult,this.stage4, this.managementResult, this.stage5,this.exceptionalApprovalComments);
        this.resultPageService.saveResult(resultStatus).subscribe(
          (res) => {
            console.log('Results table record inserted successfully');
@@ -215,9 +223,10 @@ export class ViewInterviewStatusExceptionComponent implements OnInit {
              this.managementResult = data['managementResult'];
           }
           this.stage5 = data['stage5_status'];
+          this.exceptionalApprovalComments=this.workFlowForm.value.exceptionalApprovalComment;
 
           let resultStatus = new ResultStatus(this.candidateUserName,this.quizNumber,this.userScore,this.stage1, this.stage2,
-                             this.stage3, this.smeResult,this.stage4, this.managementResult,this.stage5);
+                             this.stage3, this.smeResult,this.stage4, this.managementResult,this.stage5,this.exceptionalApprovalComments);
           this.resultPageService.updateResult(resultStatus,this.resultId, this.candidateUserName).subscribe(
             (res) => {
               console.log('Results table updated successfully');

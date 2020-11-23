@@ -61,6 +61,10 @@
           <td><mat-label>Partner Interview Feedback:</mat-label></td>
           <td colspan="3" style="width:75%" class="wrappable">{{this.candidateDetails[0].candidate_results[count].managementFeedback}}</td>
         </tr>
+        <tr *ngIf="displayExeAppComments">
+          <td><mat-label>Exceptional Approval Comments:</mat-label></td>
+          <td colspan="3" style="width:75%" class="wrappable">{{this.candidateDetails[0].candidate_results[count].exceptionalApprovalComments}}</td>
+        </tr>
         </tbody>
       </table>
         </mat-card-content>
@@ -115,7 +119,17 @@
             </div>
             </td>
           </tr>
-        </table>
+          <!-- Exception Approval Details-->
+          <tr>
+            <td></td>
+            <td>
+            <mat-form-field class="stream-half-width">
+              <textarea matInput placeholder="Exceptional Approval Comment"  type="textarea" rows="8" cols="10"  formControlName="exceptionalApprovalComment" class="form-control">
+              </textarea>
+            </mat-form-field>
+            </td>
+          </tr>
+          </table>
           </mat-card-content>
           <mat-card-actions>
             <div class="text-center" style="width: 1000px">

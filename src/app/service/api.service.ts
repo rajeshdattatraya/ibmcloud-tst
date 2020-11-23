@@ -667,6 +667,18 @@ getTechnicalInterviewList(): Observable<any> {
   )
 }
 
+  // Get all meeting events by candidate email 
+  getMeetingEventsByCandidate(candidateEmail) {
+    let url = `${appConfig.baseUri}/scheduleMeeting/getMeetingEventsByCandidate/${candidateEmail}`; 
+    return this.http.get(url, {headers: this.headers}).pipe(
+      map((res: Response) => {
+      return res || {}
+      }),
+      catchError(this.errorMgmt)
+    )
+    
+  }
+
   //getTechnicalInterviewAccountList
   getTechnicalInterviewAccountList(account): Observable<any> {
    let url = `${this.userResultUri}/getTechnicalInterviewAccountList/${account}`;

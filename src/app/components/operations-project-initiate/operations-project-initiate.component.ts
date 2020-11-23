@@ -130,14 +130,14 @@ get myForm(){
       }
 
       //Sprint8 start
-      this.employeeType =  this.operationsProjectDetails[0].result_users[0].employeeType;
-      this.candidateLocation = this.operationsProjectDetails[0].result_users[0].userPositionLocation;
-      this.grossProfit = this.operationsProjectDetails[0].result_users[0].grossProfit;
-      this.candidateLOB = this.operationsProjectDetails[0].result_users[0].userLOB;
-      this.candidateBand = this.operationsProjectDetails[0].result_users[0].band;
-      this.candidateJRSS = this.operationsProjectDetails[0].result_users[0].JRSS;
-      this.positionName = this.operationsProjectDetails[0].result_users[0].openPositionName;
-      this.candidatePositionID = this.operationsProjectDetails[0].result_users[0].positionID;
+      this.employeeType =  this.operationsProjectDetails[0].result_users.employeeType;
+      this.candidateLocation = this.operationsProjectDetails[0].result_users.userPositionLocation;
+      this.grossProfit = this.operationsProjectDetails[0].result_users.grossProfit;
+      this.candidateLOB = this.operationsProjectDetails[0].result_users.userLOB;
+      this.candidateBand = this.operationsProjectDetails[0].result_users.band;
+      this.candidateJRSS = this.operationsProjectDetails[0].result_users.JRSS;
+      this.positionName = this.operationsProjectDetails[0].result_users.openPositionName;
+      this.candidatePositionID = this.operationsProjectDetails[0].result_users.positionID;
       this.oldCandidateLocation = this.candidateLocation;
       if (this.positionID == undefined || this.positionID == null) {
           this.getSelectedPositionDetails(this.candidatePositionID);
@@ -148,7 +148,7 @@ get myForm(){
       //Sprint8 End
 
       // Defect #198 - Get account for candidate from candidate table
-      this.apiService.getCandidateJrss(this.operationsProjectDetails[0].result_users[0].username).subscribe( (res) => {
+      this.apiService.getCandidateJrss(this.operationsProjectDetails[0].result_users.username).subscribe( (res) => {
         this.candidateAccount = res;
         if (this.candidateAccount.account.toLocaleLowerCase().trim() == 'dwp'){
           this.dwpFlag = true;
@@ -166,10 +166,10 @@ get myForm(){
       this.candidateProject = this.candidateAccount.account;
     }
     this.fromAddress = "talent.sourcing@in.ibm.com";
-    this.toAddress = this.operationsProjectDetails[0].result_users[0].username;
+    this.toAddress = this.operationsProjectDetails[0].result_users.username;
     this.emailSubject = "Project Assignment Notification in Talent Sourcing Tool";
     this.emailMessage = "Dear "
-        + this.operationsProjectDetails[0].result_users[0].employeeName
+        + this.operationsProjectDetails[0].result_users.employeeName
         + ",<br> <p>We would like to confirm, you have been selected for a "
         + this.operationsProjectForm.value.projectPosition + " role in "
         + this.candidateProject + " account. </p><p>"
@@ -191,7 +191,7 @@ get myForm(){
       console.log("this.operationsProjectForm", this.operationsProjectForm.value);
       return false;
     } else {
-    let operationsDetails = new OperationsDetails(this.operationsProjectDetails[0].result_users[0].username,
+    let operationsDetails = new OperationsDetails(this.operationsProjectDetails[0].result_users.username,
                               this.operationsProjectForm.value.projectLocation,
                               this.operationsProjectForm.value.clientProject,
                               this.operationsProjectForm.value.projectPosition,
@@ -217,7 +217,7 @@ get myForm(){
 
             //Save open position name , candidate location and grossProfit in candidate collection
             let candidateDetails = new CandidateGPDetails(this.grossProfit,this.candidateLocation,this.positionName,this.positionID);
-            this.apiService.updateCandidate(this.operationsProjectDetails[0].result_users[0]._id, candidateDetails).subscribe((data)=> {
+            this.apiService.updateCandidate(this.operationsProjectDetails[0].result_users._id, candidateDetails).subscribe((data)=> {
               console.log('Candidate Details successfully updated!')
             });
 

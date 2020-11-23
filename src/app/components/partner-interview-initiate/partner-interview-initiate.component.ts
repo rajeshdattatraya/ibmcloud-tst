@@ -145,16 +145,16 @@ export class PartnerInterviewInitiateComponent implements OnInit {
                   partnerFeedback: this.feedback
       });
 
-      this.candidateID = this.partnerInterviewDetails[0].result_users[0]._id;
-      this.grossProfit = this.partnerInterviewDetails[0].result_users[0].grossProfit;
-      this.candidateLocation = this.partnerInterviewDetails[0].result_users[0].userPositionLocation;
-      this.userLOB = this.partnerInterviewDetails[0].result_users[0].userLOB;
-      this.band = this.partnerInterviewDetails[0].result_users[0].band;
-      this.candidateJRSS = this.partnerInterviewDetails[0].result_users[0].JRSS;
-      this.candidateAccount = this.partnerInterviewDetails[0].result_users[0].account;
-      this.positionName = this.partnerInterviewDetails[0].result_users[0].openPositionName;
-      this.positionID = this.partnerInterviewDetails[0].result_users[0].positionID;
-      this.employeeType = this.partnerInterviewDetails[0].result_users[0].employeeType;
+      this.candidateID = this.partnerInterviewDetails[0].result_users._id;
+      this.grossProfit = this.partnerInterviewDetails[0].result_users.grossProfit;
+      this.candidateLocation = this.partnerInterviewDetails[0].result_users.userPositionLocation;
+      this.userLOB = this.partnerInterviewDetails[0].result_users.userLOB;
+      this.band = this.partnerInterviewDetails[0].result_users.band;
+      this.candidateJRSS = this.partnerInterviewDetails[0].result_users.JRSS;
+      this.candidateAccount = this.partnerInterviewDetails[0].result_users.account;
+      this.positionName = this.partnerInterviewDetails[0].result_users.openPositionName;
+      this.positionID = this.partnerInterviewDetails[0].result_users.positionID;
+      this.employeeType = this.partnerInterviewDetails[0].result_users.employeeType;
       this.oldCandidateLocation = this.candidateLocation;
       this.getSelectedPositionDetails(this.positionID);
       this.listAllOpenPositions();
@@ -164,7 +164,7 @@ export class PartnerInterviewInitiateComponent implements OnInit {
        // Set email notification parameter details
        setEmailNotificationDetails(){
         // Get account for candidate from candidate table
-        this.apiService.getCandidateJrss(this.partnerInterviewDetails[0].result_users[0].username).subscribe( (res) => {
+        this.apiService.getCandidateJrss(this.partnerInterviewDetails[0].result_users.username).subscribe( (res) => {
           this.candidateList = res;
 
           // Get operation team email id based on accessLevel and account
@@ -178,9 +178,9 @@ export class PartnerInterviewInitiateComponent implements OnInit {
             this.fromAddress = "talent.sourcing@in.ibm.com";
             this.emailSubject = "Candidate Assignment Notification in Talent Sourcing Tool";
             this.emailMessage = "Dear Team,<br><p>This is to formally notify that candidate "
-                + this.partnerInterviewDetails[0].result_users[0].employeeName
+                + this.partnerInterviewDetails[0].result_users.employeeName
                 + " is added to the queue for job role "
-                + this.partnerInterviewDetails[0].result_users[0].JRSS
+                + this.partnerInterviewDetails[0].result_jrss[0].jrss
                 + ".</p><p>Please validate the candidate for new project assignment.</p>\
                 <p>Regards, <br>" + this.account + " Partner Team</p>";
             }, (error) => {

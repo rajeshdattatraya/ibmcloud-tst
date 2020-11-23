@@ -47,7 +47,7 @@ export class ViewTestresultsComponent {
   accountFilter: string;
   loginAdminAccounts:any = [];
   loading = true;
-  dataSource = new MatTableDataSource<ViewResult>();
+  dataSource = new MatTableDataSource<any>();
 
   displayedColumns = ['employeeName', 'userName','band','userPositionLocation','JRSS','quizNumber','userScore'];
   displayedColumnsMultiAccount = ['employeeName', 'userName','band','userPositionLocation','account','JRSS','quizNumber','userScore'];
@@ -70,13 +70,13 @@ export class ViewTestresultsComponent {
    this.dataSource.filterPredicate = (data, filter) => {
         let rowValue;
         if (this.filterObj['key'] == 'employeeName') {
-           rowValue = data.result_users[0].employeeName;
+           rowValue = data.result_users.employeeName;
         } else if (this.filterObj['key'] == 'userName') {
            rowValue = data.userName;
         } else if (this.filterObj['key'] == 'JRSS') {
-           rowValue = data.result_users[0].JRSS;
+           rowValue = data.result_jrss[0].jrss;
         } else if (this.filterObj['key'] == 'account') {
-           rowValue = data.result_users[0].account;
+           rowValue = data.result_user.account;
         }
        if(rowValue && this.filterObj['key']) {
            if (rowValue.toLowerCase().startsWith(this.filterObj['value'])) {
@@ -88,11 +88,11 @@ export class ViewTestresultsComponent {
 
   this.dataSource.sortingDataAccessor = (item, property) => {
       switch(property) {
-        case 'employeeName': return item.result_users[0].employeeName;
-        case 'band': return item.result_users[0].band;
-        case 'userPositionLocation': return item.result_users[0].userPositionLocation;
-        case 'account': return item.result_users[0].account;
-        case 'JRSS': return item.result_users[0].JRSS;
+        case 'employeeName': return item.result_users.employeeName;
+        case 'band': return item.result_users.band;
+        case 'userPositionLocation': return item.result_user.userPositionLocation;
+        case 'account': return item.result_users.account;
+        case 'JRSS': return item.result_jrss[0].jrss;
         default: return item[property];
       }
    };

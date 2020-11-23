@@ -50,7 +50,8 @@ export class EligibleCandidatesComponent implements OnInit {
   displayContractorUIFields: Boolean = false;
   displayRegularUIFields: Boolean = true;
   page = 1;
-  jrss='';
+  jrssID='';
+  jrssName='';
   itemsPerPage=appConfig.itemsPerPage;
   account='';
   positionID='';
@@ -64,7 +65,7 @@ export class EligibleCandidatesComponent implements OnInit {
   private route: ActivatedRoute, 
   private router: Router, 
   private apiService: ApiService) {
-    this.jrss = this.router.getCurrentNavigation().extras.state.jrss;
+    this.jrssID = this.router.getCurrentNavigation().extras.state.jrss;
     this.account = this.router.getCurrentNavigation().extras.state.account;
     this.positionID = this.router.getCurrentNavigation().extras.state.positionID;
     this.positionAccount = this.router.getCurrentNavigation().extras.state.positionAccount;
@@ -116,10 +117,13 @@ getOperationsCandidateList(){
 
 // To Read the Results
 readResult() {
+  this.apiService.getJrssById(this.jrssID).subscribe((res) => {
+    this.jrssName = res['jrss'];
+  })
   this.apiService.getOperationsAccountCandidateList(this.positionAccount).subscribe((data) => {
     this.Result = data;
-    this.dataSource.data = this.Result.filter(singleItem => 
-      singleItem.result_users[0].JRSS.toLowerCase() == this.jrss.toLowerCase() );
+    this.dataSource.data = this.Result.filter(singleItem =>
+      singleItem.result_jrss[0].jrss.toLowerCase() == this.jrssName.toLowerCase() );
     this.users = data
     this.filteredUsers = this.filteredUsers.length > 0 ? this.filteredUsers : this.users;
     
