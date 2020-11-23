@@ -32,10 +32,11 @@
         <div *ngIf="account=='sector' || account=='Sector' || account=='SECTOR' || this.loginAccounts.length > 1">
           <td>
             <mat-form-field>
-              <input matInput placeholder = "Account" type="text" name="Account" [(ngModel)]="jrss">
+              <input matInput placeholder = "Account" type="text" name="accountSearch" [(ngModel)]="accountSearch">
             </mat-form-field>
           </td>
         </div>
+        
       </tr>
     </table>
     <mat-card-actions>

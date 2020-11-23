@@ -32,6 +32,7 @@ export class ReportComponent implements OnInit {
   from_Date: any;
   to_Date: any;
   searchJrss: string;
+  searchByAccount: string;
   dataSource = new MatTableDataSource<ReportStats>();
 
   displayedColumns = ['row[0][1]', 'row[1][1]','row[2][1]', 'row[3][1]','row[4][1]','row[5][1]'];
@@ -68,6 +69,10 @@ export class ReportComponent implements OnInit {
     return this.searchJrss;
   }
 
+  get accountSearch(): string {
+    return this.searchByAccount;
+  }
+
   set fromDate(fromDate: Date) {
     this.from_Date = fromDate;
     this.searchFilter();
@@ -75,7 +80,6 @@ export class ReportComponent implements OnInit {
 
   set toDate(toDate: Date) {
     this.to_Date = toDate;
-
     if (toDate < this.from_Date) throw new Error(' sdfas ');
     this.searchFilter();
   }
@@ -84,21 +88,16 @@ export class ReportComponent implements OnInit {
 
     this.searchJrss = jrss;
       this.searchFilter();
-
-    if(jrss) {
-      //This is to filter based on JRSS
-      let reportDataByJrss: any = [];
-      this.reportData.forEach((item) => {
-        if (item[0][1].toLowerCase().startsWith(jrss.toLowerCase())) {
-          reportDataByJrss.push(item);
-        }
-      });
-
-      this.reportData = reportDataByJrss;
-      console.log("reportData:" +this.reportData[0]);
-      this.dataSource.data = this.reportData as ReportStats[];
-    }
+    
   }
+
+  set accountSearch(account: string) {
+    this.searchByAccount = account;
+      this.searchFilter();
+    
+  }
+
+
 // ****************************** end of getter and setter methods **********************************
 
 
@@ -138,6 +137,7 @@ loadReportData() {
      });
 
     this.reportResponse.sort((a, b) => a.JRSS.localeCompare(b.JRSS));
+    
     //The search filter, will have no impact on loading initial data
     //No data will be filtered
     this.searchFilter();
@@ -167,27 +167,22 @@ loadReportData() {
     } else {
       fromDate = Date.parse(this.from_Date);
     }
-        console.log("fromDate filter",fromDate);
     if (!this.to_Date) {
       toDate = Date.parse("9999-01-01");
     } else {
       toDate = Date.parse(this.to_Date);
     }
-            console.log("toDate filter",toDate);
-    //this.datepipe.transform(new Date("9999-01-01"),'yyyy-MM-dd');
-
     this.reportResponse.forEach((item) => {
 
       let registeredDate = Date.parse(item.createdDate);
 
       if (registeredDate >= fromDate && registeredDate <= toDate) {
-        if (this.reportObj[item.JRSS]) {
-         console.log("JRSS filter",item.JRSS);
-          stage1Count = this.reportObj[item.JRSS].stage1Count;
-          stage3Count = this.reportObj[item.JRSS].stage3Count;
-          stage4Count = this.reportObj[item.JRSS].stage4Count;
-          stage5Count = this.reportObj[item.JRSS].stage5Count;
-          totalRegCandiates = this.reportObj[item.JRSS].totalRegCandiates + 1;
+        if (this.reportObj[item.JRSS, item.account]) {
+          stage1Count = this.reportObj[item.JRSS, item.account].stage1Count;
+          stage3Count = this.reportObj[item.JRSS, item.account].stage3Count;
+          stage4Count = this.reportObj[item.JRSS, item.account].stage4Count;
+          stage5Count = this.reportObj[item.JRSS, item.account].stage5Count;
+          totalRegCandiates = this.reportObj[item.JRSS, item.account].totalRegCandiates + 1;
 
         } else {
           totalRegCandiates = 1;
@@ -203,7 +198,7 @@ loadReportData() {
         item.stage5_status.forEach((stage5Status) => { if (stage5Status == 'Completed') stage5Count++ });
 
         if(this.loginAccounts.length > 1 || this.account === 'SECTOR'){
-        this.reportObj[item.JRSS] = {
+        this.reportObj[item.jrssID] = {
           "JRSS": item.JRSS, "account": item.account,
           "totalRegCandiates": totalRegCandiates,
           "stage1Count": stage1Count, "stage3Count": stage3Count,
@@ -212,7 +207,7 @@ loadReportData() {
         };
       }
       else if(this.loginAccounts.length <= 1 || this.account !== 'SECTOR'){
-        this.reportObj[item.JRSS] = {
+        this.reportObj[item.jrssID] = {
           "JRSS": item.JRSS,
           "totalRegCandiates": totalRegCandiates,
           "stage1Count": stage1Count, "stage3Count": stage3Count,
@@ -228,8 +223,45 @@ loadReportData() {
     Object.keys(this.reportObj).forEach((key) => {
       this.reportData.push(Object.entries(this.reportObj[key]));
       this.dataSource.data = this.reportData as ReportStats[];
-      console.log("Datasource data"  +this.dataSource.data);
     });
+
+
+    if(this.searchByAccount) {
+      this.accountFilter()
+    }
+
+    if(this.searchJrss) {
+      this.jrssFilter()
+    }
+
+  }
+
+
+  accountFilter() {
+    //This is to filter based on account 
+    let reportDataByAccount: any = [];
+    this.reportData.forEach((item) => {
+      if (item[1][1].toLowerCase().startsWith(this.searchByAccount.toLowerCase())) {
+        reportDataByAccount.push(item);
+      }
+    });
+
+    this.reportData = reportDataByAccount;
+    this.dataSource.data = this.reportData as ReportStats[];
+
+  }
+
+  jrssFilter() {
+    //This is to filter based on JRSS
+    let reportDataByJrss: any = [];
+    this.reportData.forEach((item) => {
+      if (item[0][1].toLowerCase().startsWith(this.searchJrss.toLowerCase())) {
+        reportDataByJrss.push(item);
+      }
+    });
+    this.reportData = reportDataByJrss;
+    this.dataSource.data = this.reportData as ReportStats[];
+
   }
 
   applyFilter(filterValue: string,key: string) {
