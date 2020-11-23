@@ -443,6 +443,14 @@ createJrss(data): Observable<any> {
     )
 }
 
+// Update jrss
+updateJrss(id,data): Observable<any> {
+  let url = `${this.baseJrssUri}/updateJrss/${id}`;
+  return this.http.put(url, data, { headers: this.headers }).pipe(
+      catchError(this.errorMgmt)
+  )
+}
+
 // Get all jrss
 getJrsss() {
   return this.http.get(`${this.baseJrssUri}`);
@@ -666,6 +674,18 @@ getTechnicalInterviewList(): Observable<any> {
         catchError(this.errorMgmt)
   )
 }
+
+  // Get all meeting events by candidate email 
+  getMeetingEventsByCandidate(candidateEmail) {
+    let url = `${appConfig.baseUri}/scheduleMeeting/getMeetingEventsByCandidate/${candidateEmail}`; 
+    return this.http.get(url, {headers: this.headers}).pipe(
+      map((res: Response) => {
+      return res || {}
+      }),
+      catchError(this.errorMgmt)
+    )
+    
+  }
 
   //getTechnicalInterviewAccountList
   getTechnicalInterviewAccountList(account): Observable<any> {

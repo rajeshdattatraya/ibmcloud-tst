@@ -26,6 +26,7 @@ import { QuestionsAddBulkComponent } from './components/question-add-bulk/questi
 import { TestConfigAddComponent } from './components/test-config-add/test-config-add.component';
 import { TestConfigEditComponent } from './components/test-config-edit/test-config-edit.component';
 import { JrssCreateComponent } from './components/jrss-create/jrss-create.component';
+import { JrssEditComponent } from './components/jrss-edit/jrss-edit.component';
 import { StreamCreateComponent } from './components/stream-create/stream-create.component';
 import { DashboardUserModule } from './components/dashboard/dashboard-user.module';
 import { OperationsUserModule } from './components/operations-candidate-list/operations-user.module';
@@ -98,6 +99,7 @@ FullCalendarModule.registerPlugins([
     TestConfigAddComponent,
     TestConfigEditComponent,
     JrssCreateComponent,
+    JrssEditComponent,
     StreamCreateComponent,
     PartnerInterviewComponent,
     PartnerInterviewInitiateComponent,

@@ -285,7 +285,17 @@ export class TechnicalInterviewListComponent implements OnInit {
       alert("Please select the candidate")
     }
     else {
+      if(this.interviewDate == ""  || this.interviewDate == undefined){
       this.router.navigate(['/technical-list/', this.emailSelected], { state: { username: this.userName, quizId: this.quizNumber, accessLevel: this.accessLevel, account: this.account } })
+      }else{ 
+        this.apiService.getMeetingEventsByCandidate(this.emailSelected).subscribe((res) => {
+         if(res[0].user == this.userName){
+          this.router.navigate(['/technical-list/', this.emailSelected], { state: { username: this.userName, quizId: this.quizNumber, accessLevel: this.accessLevel, account: this.account } }) 
+         }else{
+          alert('You are not allowed to Initiate Interview as Schedule Interview is done by ' +res[0].user);
+        }  
+        })
+      }
     }
   }
 

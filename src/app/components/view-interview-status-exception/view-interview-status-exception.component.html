@@ -61,6 +61,10 @@
           <td><mat-label>Partner Interview Feedback:</mat-label></td>
           <td colspan="3" style="width:75%" class="wrappable">{{this.candidateDetails[0].candidate_results[count].managementFeedback}}</td>
         </tr>
+        <tr *ngIf="displayExeAppComments">
+          <td><mat-label>Exceptional Approval Comments:</mat-label></td>
+          <td colspan="3" style="width:75%" class="wrappable">{{this.candidateDetails[0].candidate_results[count].exceptionalApprovalComments}}</td>
+        </tr>
         </tbody>
       </table>
         </mat-card-content>

@@ -55,7 +55,7 @@ export class PartnerInterviewComponent implements OnChanges {
   accountFilter: string;
   jrssFilter: string;
   loginAccounts:any = [];
-  dataSource = new MatTableDataSource<ViewResult>();
+  dataSource = new MatTableDataSource<any>();
   displayedColumnsSector = ['Action','employeeName','jrss', 'account','userScore','smeResult','cvDownload'];
   displayedColumns = ['Action','employeeName','jrss','userScore','smeResult','cvDownload'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -92,11 +92,11 @@ export class PartnerInterviewComponent implements OnChanges {
       this.browserRefresh = browserRefresh;
      this.dataSource.filterPredicate = (data, filter) => {
          if (this.filterObj['key'] == 'employeeName'){
-           data[this.filterObj['key']] = data.result_users[0].employeeName;
+           data[this.filterObj['key']] = data.result_users.employeeName;
          } else if (this.filterObj['key'] == 'JRSS'){
            data[this.filterObj['key']] = data.result_jrss[0].jrss;
          } else if (this.filterObj['key'] == 'account'){
-           data[this.filterObj['key']] = data.result_users[0].account;
+           data[this.filterObj['key']] = data.result_users.account;
          }
          if(data[this.filterObj['key']] && this.filterObj['key']) {
              if (data[this.filterObj['key']].toLowerCase().startsWith(this.filterObj['value'])) {
@@ -108,9 +108,9 @@ export class PartnerInterviewComponent implements OnChanges {
 
       this.dataSource.sortingDataAccessor = (item, property) => {
           switch(property) {
-            case 'employeeName': return item.result_users[0].employeeName;
+            case 'employeeName': return item.result_users.employeeName;
             case 'jrss': return item.result_jrss[0].jrss;
-            case 'account': return item.result_users[0].account;
+            case 'account': return item.result_users.account;
             default: return item[property];
           }
        }

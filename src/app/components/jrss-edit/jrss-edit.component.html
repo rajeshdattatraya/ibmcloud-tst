@@ -1,0 +1,43 @@
+<app-navigation></app-navigation>
+<br/>
+<div>
+  <h4 class="my-0 mr-md-auto font-weight-normal">Edit Job Role</h4>
+  <br/>
+</div>
+      <!-- form add jrss -->
+<mat-card class="login-card">
+  <mat-card-header>
+  </mat-card-header>
+  <mat-card-content>
+        <form [formGroup]="jrssForm">
+          <table class="example-full-width" cellspacing="0">
+
+            <tr>
+              <td>
+                <mat-form-field class="example-full-width" >
+                  <input matInput readonly placeholder="Account"  formControlName="account" id="account"
+                              [ngClass]="{ 'is-invalid': submitted && myForm.account.errors }">
+                 </mat-form-field>
+              </td>
+
+              <td>
+                <mat-form-field class="example-full-width">
+                <input matInput placeholder="Job Role" formControlName="jrss" name="jrss" [ngClass]="{ 'is-invalid': submitted && myForm.jrss.errors }">
+                <div *ngIf="submitted && myForm.jrss.errors" class="invalid-feedback">
+                  <div *ngIf="myForm.jrss.errors.required">Job Role is required</div>
+                </div>
+                </mat-form-field>
+              </td>
+            </tr>
+          </table>
+        </form>
+  </mat-card-content>
+  <br/>
+  <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+  <mat-card-actions>
+    <div class="row justify-content-center">
+      <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
+      <button mat-raised-button color="primary" (click)="cancelForm()">Cancel</button>
+    </div>
+  </mat-card-actions>
+  </mat-card>

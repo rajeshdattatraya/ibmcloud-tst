@@ -11,17 +11,17 @@ import { timeout } from 'rxjs/operators';
 import {appConfig} from './../../model/appConfig';
 
 @Component({
-  selector: 'app-jrss-create',
-  templateUrl: './jrss-create.component.html',
-  styleUrls: ['./jrss-create.component.css']
+  selector: 'app-jrss-edit',
+  templateUrl: './jrss-edit.component.html',
+  styleUrls: ['./jrss-edit.component.css']
 })
-export class JrssCreateComponent implements OnInit {
+export class JrssEditComponent implements OnInit {
   error = '';
   public duplicateJrss : boolean;
   public nullJrss : boolean;
   public browserRefresh: boolean;
   submitted = false;
-  formReset = false;
+
   jrssForm: FormGroup;
   Jrss:any = [];
   filteredJrss:any = [];
@@ -32,15 +32,6 @@ export class JrssCreateComponent implements OnInit {
   accessLevel:any;
   config: any;
   accounts:any=[];
-  filterObj = {};
-  loading = true;
-  dataSource = new MatTableDataSource<JRSS>();
-  displayedColumns = ['Action','jrss'];
-  displayedColumnsWithAccount = ['Action','jrss','account'];
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-
   constructor(
       public fb: FormBuilder,
       private router: Router,
@@ -53,7 +44,6 @@ export class JrssCreateComponent implements OnInit {
           this.userName = this.router.getCurrentNavigation().extras.state.username;
           this.account = this.router.getCurrentNavigation().extras.state.account;
           this.accessLevel = this.router.getCurrentNavigation().extras.state.accessLevel;
-
           this.accounts = this.account.split(",");
       }
       this.mainForm();
@@ -61,57 +51,18 @@ export class JrssCreateComponent implements OnInit {
 
   ngOnInit() { 
     this.browserRefresh = browserRefresh;
-    this.readJrss();
-    
-   }
-
-   ngAfterViewInit(): void {
-         this.dataSource.sort = this.sort;
-         this.dataSource.paginator = this.paginator;
+    this.jrssID = this.actRoute.snapshot.paramMap.get('id');
+    this.getJrss(this.jrssID);
    }
 
   getJrss(id) {
-    this.apiService.getJrss(id).subscribe(data => {
+    this.apiService.getJrssById(id).subscribe(data => {
       this.jrssForm.setValue({
-        jrss: data['jrss']
+        jrss: data['jrss'],
+        account: data['account']
       });
     });
   }
-  
-  /** this method is to print the serial numners on all the pagination pages */
-  currentPage=appConfig.currentPage;
-  pageSize=appConfig.itemsPerPage;
-  public handlePage(e: any) {
-    this.currentPage = e.pageIndex;
-    this.pageSize = e.pageSize;
-  }
-//End of Pagination serial number method
-
-  readJrss(){
-      this.apiService.getJrsss().subscribe((data) => {
-       this.Jrss = data;
-       
-       
-for (let k=0; k<this.Jrss.length; k++){
-       var item = this.Jrss[k].account;
-        let accountExists =  false;
-        for (var i = 0; i < this.accounts.length; i++) {
-         
-          if ( item.toLowerCase().indexOf(this.accounts[i].toLowerCase()) == -1) {
-           // accountExists =  false;
-          } else { accountExists =  true; 
-            break; }
-        }
-
-        if (accountExists == true) {
-          this.filteredJrss.push(this.Jrss[k]);
-        }
-      }
-      this.dataSource.data = this.filteredJrss as JRSS[];
-
-      })
-      
-    }
 
 
   mainForm() {
@@ -125,19 +76,6 @@ for (let k=0; k<this.Jrss.length; k++){
     get myForm(){
       return this.jrssForm.controls;
     }
-
-    pageChange(newPage: number) {
-          this.router.navigate(['/jrss-create'], { queryParams: { page: newPage } });
-    }
-    
-  removeJrss(jrss, index) {
-    if(window.confirm('Are you sure?')) {
-        this.apiService.deleteJrss(jrss._id).subscribe((data) => {
-          this.Jrss.splice(index, 1);
-        }
-      )
-    }
-  }
 
   // Check duplicate Jrss in the table
   checkDuplicateJrss(){
@@ -156,7 +94,6 @@ for (let k=0; k<this.Jrss.length; k++){
 
     onSubmit() {
         this.submitted = true;
-        this.formReset = false;
         this.duplicateJrss = false;
         this.nullJrss = false;
         this.checkDuplicateJrss();
@@ -168,10 +105,10 @@ for (let k=0; k<this.Jrss.length; k++){
         } else if(this.duplicateJrss){
           this.error = 'Invalid entries found - Job Role already exist!';
         } else{   
-            this.apiService.createJrss(this.jrssForm.value).subscribe(
+            this.apiService.updateJrss(this.jrssID,this.jrssForm.value).subscribe(
               (res) => {
-              console.log('JRSS successfully saved!')
-              alert("Job Role is created successfully.");
+              console.log('Job Role name successfully updated!')
+              alert("Job Role is updated successfully.");
               this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
               this.router.navigate(['/jrss-create'], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}}));
               }, (error) => {
@@ -180,20 +117,8 @@ for (let k=0; k<this.Jrss.length; k++){
         }
       }
 
-    clearForm() {
-        this.formReset = true;
-        this.jrssForm.reset();
+    cancelForm() {
+        this.router.navigate(['/jrss-create'], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}});
     }
-
-    onSelectionChange(id,index) {
-     this.jrssID = id;
-     this.index = index;
-    }
-
-    invokeEdit() {
-      this.router.navigate(['/jrss-edit',this.jrssID], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}});
-    }
-
-
 
 }
