@@ -68,13 +68,13 @@ export class TechnicalInterviewListComponent implements OnInit {
   accountFilter: string;
   jrssFilter: string;
   loading = true;
-  dataSource = new MatTableDataSource<ViewResult>();
+  dataSource = new MatTableDataSource<any>();
   showCalendar: boolean = false;
   calEmployeeName = "";
   loginAccounts:any = [];
 
-  displayedColumns = ['Action','result_users[0].employeeName', 'result_users[0].JRSS','userScore','preTechForm','meeting[0].startDate','cvDownload'];
-  displayedColumnsSector = ['Action','result_users[0].employeeName', 'result_users[0].JRSS','result_users[0].account','userScore','preTechForm','meeting[0].startDate','cvDownload'];
+  displayedColumns = ['Action','result_users.employeeName', 'result_jrss[0].jrss','userScore','preTechForm','meeting[0].startDate','cvDownload'];
+  displayedColumnsSector = ['Action','result_users.employeeName', 'result_jrss[0].jrss','result_users.account','userScore','preTechForm','meeting[0].startDate','cvDownload'];
 
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -106,11 +106,11 @@ export class TechnicalInterviewListComponent implements OnInit {
     this.browserRefresh = browserRefresh;
     this.dataSource.filterPredicate = (data, filter) => {
           if (this.filterObj['key'] == 'employeeName'){
-            data[this.filterObj['key']] = data.result_users[0].employeeName;
-          } else if (this.filterObj['key'] == 'JRSS'){
-            data[this.filterObj['key']] = data.result_users[0].JRSS;
+            data[this.filterObj['key']] = data.result_users.employeeName;
+          } else if (this.filterObj['key'] == 'jrss'){
+            data[this.filterObj['key']] = data.result_jrss[0].jrss;
           } else if (this.filterObj['key'] == 'account'){
-            data[this.filterObj['key']] = data.result_users[0].account;
+            data[this.filterObj['key']] = data.result_users.account;
           }
           if(data[this.filterObj['key']] && this.filterObj['key']) {
               if (data[this.filterObj['key']].toLowerCase().startsWith(this.filterObj['value'])) {
@@ -121,10 +121,10 @@ export class TechnicalInterviewListComponent implements OnInit {
     }
     this.dataSource.sortingDataAccessor = (item, property) => {
         switch(property) {
-          case 'result_users[0].employeeName': return item.result_users[0].employeeName;
-          case 'result_users[0].JRSS': return item.result_users[0].JRSS;
+          case 'result_users.employeeName': return item.result_users.employeeName;
+          case 'result_jrss[0].jrss': return item.result_jrss[0].jrss;
           case 'userScore': return item.userScore;
-          case 'result_users[0].account': return item.result_users[0].account;
+          case 'result_users.account': return item.result_users.account;
           case 'meeting[0].startDate': return item.meeting[0].startDate;
           default: return item[property];
         }
@@ -301,6 +301,7 @@ export class TechnicalInterviewListComponent implements OnInit {
     if(this.account.toLocaleLowerCase() !=='sector'){
       this.apiService.getTechnicalInterviewAccountList(this.account).subscribe((data) => {
         this.TechnicalInterviewList = data;
+        console.log("data:" +JSON.stringify(this.TechnicalInterviewList));
 
         this.TechnicalInterviewList.forEach((item)=> {
         if (item.meeting.length <= 0) {item.meeting[0]=`{startDate: ""}`;}
@@ -315,6 +316,7 @@ export class TechnicalInterviewListComponent implements OnInit {
     else{
     this.apiService.getTechnicalInterviewList().subscribe((data) => {
       this.TechnicalInterviewList = data;
+      console.log("Sector data:"+JSON.stringify(this.TechnicalInterviewList));
       
       this.TechnicalInterviewList.forEach((item)=> {
         if (item.meeting.length <= 0) {item.meeting[0]=`{startDate: ""}`;}
@@ -343,7 +345,7 @@ export class TechnicalInterviewListComponent implements OnInit {
 
     const filterUser = user => {
       let result = keys.map(key => {
-        if (key == "employeeName" || key == "JRSS" || key == "account") {
+        if (key == "employeeName" || key == "jrss" || key == "account") {
           if (user.result_users[0][key]) {
             return String(user.result_users[0][key]).toLowerCase().startsWith(String(filters[key]).toLowerCase())
           }

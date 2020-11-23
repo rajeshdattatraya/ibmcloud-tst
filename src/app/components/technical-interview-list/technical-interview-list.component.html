@@ -11,7 +11,7 @@
       </td>
       <td>
         <mat-form-field>
-          <input matInput [(ngModel)]="jrssFilter" (keyup)="applyFilter($event.target.value,'JRSS')" placeholder="Job Role">
+          <input matInput [(ngModel)]="jrssFilter" (keyup)="applyFilter($event.target.value,'jrss')" placeholder="Job Role">
         </mat-form-field>
       </td>
       <td>
@@ -45,33 +45,33 @@
       <ng-container matColumnDef="Action">
         <th style="width:90px" mat-header-cell *matHeaderCellDef> Select </th>
         <td style="width:60px" mat-cell *matCellDef="let row"> <mat-radio-button [checked]="emailSelected === row.userName"
-          (change)="onSelectionChange(row.userName, row.result_users[0].employeeName, row.quizNumber, row.meeting[0].startDate)"></mat-radio-button>
+          (change)="onSelectionChange(row.userName, row.result_users.employeeName, row.quizNumber, row.meeting[0].startDate)"></mat-radio-button>
         </td>
       </ng-container>
 
       <!-- ID Column -->
-      <ng-container matColumnDef="result_users[0].employeeName">
+      <ng-container matColumnDef="result_users.employeeName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-        <td mat-cell *matCellDef="let row"><a href="#myModal" (click)="getCandidateDetails(row.userName)" data-toggle="modal" >{{row.result_users[0].employeeName}}</a>
+        <td mat-cell *matCellDef="let row"><a href="#myModal" (click)="getCandidateDetails(row.userName)" data-toggle="modal" >{{row.result_users.employeeName}}</a>
         </td>
       </ng-container>
 
       <!-- ID Column -->
-      <ng-container matColumnDef="result_users[0].JRSS">
+      <ng-container matColumnDef="result_jrss[0].jrss">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Job Role </th>
-        <td mat-cell *matCellDef="let row">{{row.result_users[0].JRSS}}</td>
+        <td mat-cell *matCellDef="let row">{{row.result_jrss[0].jrss}}</td>
       </ng-container>
 
       <!-- ID Column -->
-      <ng-container matColumnDef="result_users[0].account">
+      <ng-container matColumnDef="result_users.account">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Account </th>
-        <td mat-cell *matCellDef="let row">{{row.result_users[0].account}}</td>
+        <td mat-cell *matCellDef="let row">{{row.result_users.account}}</td>
       </ng-container>
 
       <!-- ID Column -->
       <ng-container matColumnDef="userScore">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Online Test Result </th>
-        <td mat-cell *matCellDef="let row"> <a href="#assessmentModal" style="color:rgb(0, 128, 43);" (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users[0].employeeName,row.userScore,row.createdDate)" data-toggle="modal" *ngIf="row.userScore!=null">{{row.userScore}}%</a><p *ngIf="row.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p>
+        <td mat-cell *matCellDef="let row"> <a href="#assessmentModal" style="color:rgb(0, 128, 43);" (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users.employeeName,row.userScore,row.createdDate)" data-toggle="modal" *ngIf="row.userScore!=null">{{row.userScore}}%</a><p *ngIf="row.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p>
         </td>
       </ng-container>
 
@@ -80,8 +80,8 @@
         <th mat-header-cell *matHeaderCellDef> Pre-Technical Interview Assessment Form </th>
         <td mat-cell *matCellDef="let row">
           <div *ngIf="row.stage2_status=='Completed'">
-            <a [routerLink]="['/pre-technical-interview-form/',row.result_users[0].JRSS, row.userName, row.result_users[0].account]"
-               [state]="{jrss:row.result_users[0].JRSS,username:row.result_users[0].username,access:'tech-list',accessLevel:this.accessLevel,account:this.account}">
+            <a [routerLink]="['/pre-technical-interview-form/',row.result_jrss[0].jrss, row.userName, row.result_users.account]"
+               [state]="{jrss:row.result_jrss[0].jrss,username:row.result_users.username,access:'tech-list',accessLevel:this.accessLevel,account:this.account}">
               Click here
             </a>
           </div>
@@ -120,28 +120,28 @@
       <ng-container matColumnDef="Action">
         <th style="width:90px" mat-header-cell *matHeaderCellDef> Select </th>
         <td style="width:60px" mat-cell *matCellDef="let row"> <mat-radio-button [checked]="emailSelected === row.userName"
-          (change)="onSelectionChange(row.userName, row.result_users[0].employeeName, row.quizNumber, row.meeting[0].startDate)"></mat-radio-button>
+          (change)="onSelectionChange(row.userName, row.result_users.employeeName, row.quizNumber, row.meeting[0].startDate)"></mat-radio-button>
         </td>
       </ng-container>
 
       <!-- ID Column -->
-      <ng-container matColumnDef="result_users[0].employeeName">
+      <ng-container matColumnDef="result_users.employeeName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-        <td mat-cell *matCellDef="let row"><a href="#myModal" (click)="getCandidateDetails(row.userName)" data-toggle="modal" >{{row.result_users[0].employeeName}}</a>
+        <td mat-cell *matCellDef="let row"><a href="#myModal" (click)="getCandidateDetails(row.userName)" data-toggle="modal" >{{row.result_users.employeeName}}</a>
         </td>
       </ng-container>
 
      
       <!-- ID Column -->
-      <ng-container matColumnDef="result_users[0].JRSS">
+      <ng-container matColumnDef="result_jrss[0].jrss">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Job Role </th>
-        <td mat-cell *matCellDef="let row">{{row.result_users[0].JRSS}}</td>
+        <td mat-cell *matCellDef="let row">{{row.result_jrss[0].jrss}}</td>
       </ng-container>
 
       <!-- ID Column -->
       <ng-container matColumnDef="userScore">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Online Test Result </th>
-        <td mat-cell *matCellDef="let row"> <a href="#assessmentModal" style="color:rgb(0, 128, 43);" (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users[0].employeeName,row.userScore,row.createdDate)" data-toggle="modal" *ngIf="row.userScore!=null">{{row.userScore}}%</a><p *ngIf="row.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p>
+        <td mat-cell *matCellDef="let row"> <a href="#assessmentModal" style="color:rgb(0, 128, 43);" (click)="getCandidateAssessmentDetails(row.userName,row.quizNumber,row.result_users.employeeName,row.userScore,row.createdDate)" data-toggle="modal" *ngIf="row.userScore!=null">{{row.userScore}}%</a><p *ngIf="row.userScore==null">&nbsp;&nbsp;&nbsp;&nbsp;N/A</p>
         </td>
       </ng-container>
 
@@ -150,8 +150,8 @@
         <th mat-header-cell *matHeaderCellDef> Pre Interview Form </th>
         <td mat-cell *matCellDef="let row">
           <div *ngIf="row.stage2_status=='Completed'">
-            <a [routerLink]="['/pre-technical-interview-form/',row.result_users[0].JRSS, row.userName, row.result_users[0].account]"
-               [state]="{jrss:row.result_users[0].JRSS,username:row.result_users[0].username,access:'tech-list',accessLevel:this.accessLevel,account:this.account,userName:this.userName}">
+            <a [routerLink]="['/pre-technical-interview-form/',row.result_jrss[0].jrss, row.userName, row.result_users.account]"
+               [state]="{jrss:row.result_jrss[0].jrss,username:row.result_users.username,access:'tech-list',accessLevel:this.accessLevel,account:this.account,userName:this.userName}">
               Click here
             </a>
           </div>

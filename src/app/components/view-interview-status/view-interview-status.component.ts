@@ -60,7 +60,8 @@ export class ViewInterviewStatusComponent implements OnInit {
   accountFilter: string;
   jrssFilter: string;
   loading = true;
-  dataSource = new MatTableDataSource<ExceptionApprovalDetail>();
+  //dataSource = new MatTableDataSource<ExceptionApprovalDetail>();
+  dataSource = new MatTableDataSource<any>();
   displayedColumns = ['Action','employeeName', 'JRSS','Account','onlineTestResult','technicalInterviewResult','partnerInterviewResult'];
   displayedColumnsNoAcct = ['Action','employeeName', 'JRSS','onlineTestResult','technicalInterviewResult','partnerInterviewResult'];
 
@@ -86,7 +87,7 @@ export class ViewInterviewStatusComponent implements OnInit {
             if (this.filterObj['key'] == 'employeeName') {
                rowValue = data.employeeName;
             } else if (this.filterObj['key'] == 'JRSS') {
-               rowValue = data.JRSS;
+               rowValue = data.result_jrss[0].jrss;
             } else if (this.filterObj['key'] == 'canAccount') {
                rowValue = data.canAccount;
             }
@@ -100,7 +101,7 @@ export class ViewInterviewStatusComponent implements OnInit {
   this.dataSource.sortingDataAccessor = (item, property) => {
         switch(property) {
           case 'employeeName': return item.employeeName;
-          case 'JRSS': return item.JRSS;
+          case 'JRSS': return item.result_jrss[0].jrss;
           case 'Account': return item.canAccount;
           case 'onlineTestResult': return item.onlineTestResult;
           case 'technicalInterviewResult': return item.technicalInterviewResult;
@@ -120,6 +121,7 @@ export class ViewInterviewStatusComponent implements OnInit {
     this.apiService.getCandidateInterviewStatus(this.account).subscribe((data) => {
     this.candidateInterviewStatus = data;
     console.log("this.candidateInterviewStatus.length",this.candidateInterviewStatus.length);
+    console.log("this.candidateInterviewStatus" +JSON.stringify(this.candidateInterviewStatus));
       this.candidateInterviewStatus.forEach( candidate => {
       this.employeeName = "";
       this.onlineTestResult = "";
@@ -133,7 +135,7 @@ export class ViewInterviewStatusComponent implements OnInit {
       this.canUserName = "";
 
       this.employeeName = candidate.employeeName;
-      this.JRSS = candidate.JRSS;
+      this.JRSS = candidate.results_jrss[0].jrss;
       this.canUserId = candidate._id;
       this.canUserName = candidate.username;
       this.canAccount = candidate.account;
