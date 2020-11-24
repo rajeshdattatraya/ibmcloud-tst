@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Workflow } from './../../model/workflow';
 import { browserRefresh } from '../../app.component';
 import { Router } from '@angular/router';
+import { TestConfigService } from './../../service/testconfig.service';
 
 @Component({
   selector: 'app-workflow-config',
@@ -30,8 +31,12 @@ export class WorkflowConfigComponent implements OnInit {
   stage4: boolean = false;
   stage5: boolean = false;
   preTechQuestion;
+  technologyStream:any = []; 
+  noOfComplexQuestionInDB: number;  
+  noOfQuestions: number;
+  sufficientQuestionsPresent: boolean = false;
 
-  constructor(public fb: FormBuilder, private apiService: ApiService, private router: Router) {
+  constructor(public fb: FormBuilder, private apiService: ApiService, private router: Router, private testconfigService: TestConfigService) {
     this.browserRefresh = browserRefresh;
     if (!this.browserRefresh) {
         this.userName = this.router.getCurrentNavigation().extras.state.username;
@@ -63,6 +68,15 @@ export class WorkflowConfigComponent implements OnInit {
   }
 
   updateJrssProfile(e) {
+    // Get technologyStream from JRSS
+    for (var jrss of this.JRSS){
+      if(jrss.jrss == e.value){
+        this.technologyStream = [];
+        for (var skill of jrss.technologyStream){
+          this.technologyStream.push(skill.value);
+        }
+      }
+    }
     this.workFlowForm.get('JRSS').setValue(e.value, {
       onlySelf: true
     })
@@ -112,6 +126,66 @@ export class WorkflowConfigComponent implements OnInit {
       window.alert("There are no Pre-technical Questions configured for this Job role");
       this.workFlowForm.get('stage2PreTechAssessment').setValue(false);
     }
+  }
+
+  noOfQuestionCheckForJrss(event){
+
+    this.readJrssDocId();
+    console.log('this.jrssDocId *=====* '+this.jrssDocId );
+    this.apiService.findTestConfigForJrss(this.workFlowForm.value.account, this.jrssDocId).subscribe((res) => {
+      // Check if testconfig present for the jrss.
+      if (res.count == 0) {
+        event.checked = false;
+         window.confirm("Please add the test configuration for the JRSS "+this.workFlowForm.value.JRSS);
+         this.workFlowForm.get('stage1OnlineTechAssessment').setValue(false);
+      }else{
+          let noOfSimpleQuestionsConfig;
+          let noOfMediumQuestionsConfig;
+          let noOfComplexQuestionInDB;  
+          let noOfSimpleQuestionInDB; 
+          let noOfMediumQuestionInDB;
+
+          // 1. Get the no. of questions configured in testconfig for the jrss. 
+          // 2. Validation will be done for: a) no. of complex questions for the jrss present in db will be greater or equal to no. of configured questions.
+          // b) No. of simple question for the jrss present in db will be greater or equal to 40% of the  no. of configured questions.
+          // c) No. of medium question for the jrss present in db will be greater or equal to 30% of the  no. of configured questions.
+          console.log('this.workFlowForm.value.JRSS == '+this.workFlowForm.value.JRSS);
+          this.testconfigService.findTestConfigByJRSS(this.jrssDocId,this.workFlowForm.value.account).subscribe((data) => {
+            console.log('********************* data = '+data);
+            this.noOfQuestions = data['noOfQuestions'];
+            console.log('The no of configured questions === '+this.noOfQuestions);
+
+            noOfSimpleQuestionsConfig = Math.ceil(this.noOfQuestions * 0.4);
+            noOfMediumQuestionsConfig = Math.ceil(this.noOfQuestions * 0.3);
+
+            console.log('noOfSimpleQuestionsConfig = '+noOfSimpleQuestionsConfig+', noOfMediumQuestionsConfig = '+noOfMediumQuestionsConfig);
+
+            this.apiService.getCountOfQuestionsForTechStreams(this.workFlowForm.value.account, 'Complex', this.technologyStream).subscribe(resp => {
+              noOfComplexQuestionInDB = resp.count;
+              console.log('noOfComplexQuestionInDB === '+noOfComplexQuestionInDB); 
+
+              this.apiService.getCountOfQuestionsForTechStreams(this.workFlowForm.value.account, 'Simple', this.technologyStream).subscribe(resp => {
+                noOfSimpleQuestionInDB = resp.count;
+                console.log('noOfSimpleQuestionInDB === '+noOfSimpleQuestionInDB);
+
+                this.apiService.getCountOfQuestionsForTechStreams(this.workFlowForm.value.account, 'Medium', this.technologyStream).subscribe(resp => {
+                  noOfMediumQuestionInDB = resp.count;
+                  console.log('noOfMediumQuestionInDB === '+noOfMediumQuestionInDB);
+                  console.log('OUTSIDE LOOP: , noOfComplexQuestionInDB = '+noOfComplexQuestionInDB+', noOfSimpleQuestionInDB = '+noOfSimpleQuestionInDB+', noOfMediumQuestionInDB = '+noOfMediumQuestionInDB);
+
+                  if(noOfComplexQuestionInDB >= this.noOfQuestions && noOfSimpleQuestionInDB >=noOfSimpleQuestionsConfig && noOfMediumQuestionInDB >=noOfMediumQuestionsConfig){
+                    this.sufficientQuestionsPresent = true;
+                    console.log('this.sufficientQuestionsPresent = '+this.sufficientQuestionsPresent);
+                  }else{
+                    event.checked = false;
+                    window.alert('Currently you have '+noOfComplexQuestionInDB+' Complex, '+noOfMediumQuestionInDB+' Medium and '+noOfSimpleQuestionInDB+' Simple questions for the seletced Job Role. You should have at least '+this.noOfQuestions+' Complex, '+noOfMediumQuestionsConfig+' Medium and '+noOfSimpleQuestionsConfig+' Simple questions. So please add the required number of questions to select this option.');
+                    this.workFlowForm.get('stage1OnlineTechAssessment').setValue(false);
+                  }
+                })  
+              })      
+            })
+          })
+        }})
   }
   // Getter to access form control
   get myForm() {
