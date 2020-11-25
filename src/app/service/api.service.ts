@@ -729,6 +729,13 @@ getResultByUser(username: string,quiznumber:number){
   )
 }
 
+getResultByUserResultPass(username: string,quiznumber:number,userResult: string){
+  let url = `${this.userResultUri}/getResultByUserResultPass/${username}/${quiznumber}/${userResult}`;
+  return this.http.get(url, { headers: this.headers }).pipe(
+    catchError(this.errorMgmt)
+  )
+}
+
 // Update candidate
 updateResults(id: string,data: UserResult): Observable<any> {
   let url = `${this.userResultUri}/updateResults/${id}`;
