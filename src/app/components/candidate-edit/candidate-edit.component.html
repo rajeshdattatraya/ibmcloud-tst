@@ -15,7 +15,7 @@
       <table>
         <div>
         <tr>
-          <td width="33%">
+          <td width="30%">
             <mat-form-field class="open-full-width">
               <mat-select placeholder="Account" (selectionChange)="updateAccountProfile($event.value)"
                           formControlName="account"  id="inputAccount3"
@@ -28,7 +28,7 @@
               </div>
             </mat-form-field>
           </td>
-          <td width="33%">
+          <td width="30%">
             <mat-form-field class="open-full-width">
             <input matInput placeholder="Name" formControlName="employeeName" id="inputName" 
             [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.employeeName.errors }">
@@ -37,7 +37,7 @@
             </div>
             </mat-form-field>
           </td>
-          <td width="33%">
+          <td width="30%">
             <mat-form-field class="open-full-width">
               <mat-select placeholder="Type"    (selectionChange)="updateEmployeeTypeProfile($event.value)"
               formControlName="employeeType" id="inputEmployeeType3"
@@ -53,7 +53,7 @@
           </td>
         </tr>
         <tr>
-          <td width="33%">
+          <td width="30%">
             <mat-form-field class="open-full-width">
             <input matInput placeholder="Email [This field is used as username.]" formControlName="email" name="email" 
             [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.email.errors }">
@@ -63,7 +63,7 @@
             </div>
             </mat-form-field>            
           </td>
-          <td width="33%">
+          <td width="30%">
             <mat-form-field class="open-full-width">
               <mat-select placeholder="Job Role"  (selectionChange)="updateJrssProfile($event.value)"
                           formControlName="JRSS" id="inputJRSS3" [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.JRSS.errors }">
@@ -77,7 +77,7 @@
             </mat-form-field>
           </td>
 
-          <td width="33%">
+          <td width="30%">
             <mat-form-field class="open-full-width">
               <mat-select multiple placeholder="Technology Stream" id="inputSkill3" formControlName="technologyStream"
                           [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.technologyStream.errors }">
@@ -92,7 +92,7 @@
         </tr>
 
         <tr>
-          <td width="33%">
+          <td width="30%">
             <div  *ngIf="displayRegularUIFields">
               <mat-form-field class="open-full-width">
                 <mat-select placeholder="Candidate Line Of Business"  (selectionChange)="updateUserLOBProfile($event.value)"
@@ -108,7 +108,7 @@
               </mat-form-field>
             </div>
           </td>
-          <td width="33%">
+          <td width="30%">
             <div  *ngIf="displayRegularUIFields">
             <mat-form-field class="open-full-width">
               <mat-select placeholder="Candidate Location"  (selectionChange)="updateUserPositionLocationProfile($event.value)"
@@ -123,7 +123,7 @@
             </mat-form-field>
           </div>
           </td>
-          <td width="33%">
+          <td width="30%">
             <div  *ngIf="displayRegularUIFields">
             <mat-form-field class="open-full-width">
               <mat-select placeholder="Band"  (selectionChange)="updateBandProfile($event.value)"
@@ -139,7 +139,23 @@
           </td>
         </tr>
         <tr>
-          <td width="33%">
+          <div  *ngIf="displayContractorUIFields">
+            <td width="30%">
+              <!-- Candidate Location -->
+              <mat-form-field class="open-full-width">
+                <mat-select placeholder="Candidate Location"  (selectionChange)="updateUserPositionLocationProfile($event.value)"
+                id="inputUserPositionLocation" formControlName="userPositionLocation" 
+                [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.userPositionLocation.errors }">
+                <mat-option *ngFor="let data of UserPositionLocation" value="{{data.positionLocation}}" >{{data.positionLocation}}
+                </mat-option>
+              </mat-select>
+              <div *ngIf="!formReset && submitted && myForm.userPositionLocation.errors" class="invalid-feedback">
+              <div *ngIf="myForm.userPositionLocation.errors.required">Candidate Location is required</div>
+              </div>
+              </mat-form-field>
+            </td>
+          </div>
+          <td width="30%">
             <mat-form-field class="open-full-width">
             <input matInput placeholder="Mobile No" formControlName="phoneNumber" id="inputNumber" minlength="10" maxlength="10" 
             [ngClass]="{ 'is-invalid': !formReset && submitted && myForm.phoneNumber.errors }">
@@ -149,7 +165,7 @@
             </div>
             </mat-form-field>
           </td>
-          <td width="33%">
+          <td width="30%">
             <div  *ngIf="displayContractorUIFields">
             <mat-form-field class="open-full-width">
             <input matInput type="date"  placeholder="Date of Birth" formControlName="dateOfJoining" id="inputDOJ3"  
@@ -169,10 +185,10 @@
             </mat-form-field>
           </div>
           </td>
-          <td width="33%">
+         <td>
             <div class="row">
-              <label class="col-sm-4 col-form-label">Resume</label>
-              <div class="col-sm-6">
+              <label class="col-sm-3 col-form-label">Resume</label>
+              <div class="col-sm-2">
                 <input type="file" (change)="addResume($event)" size="50">
               </div>
             </div>

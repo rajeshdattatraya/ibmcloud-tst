@@ -331,8 +331,10 @@ export class CandidateCreateComponent implements OnInit {
       this.candidateForm.value.email,
       this.resume.name,
       this.resumeText,
-      this.candidateForm.value.account
+      this.candidateForm.value.account,
+      this.candidateForm.value.userPositionLocation
       );
+      console.log("Candidate:" +candidate);
     }
 
     let user = new UserDetails(this.candidateForm.value.email,
@@ -377,6 +379,7 @@ export class CandidateCreateComponent implements OnInit {
                  });
                 this.apiService.createCandidate(candidate).subscribe((res) => {
                     console.log('Candidate successfully created!')
+                    console.log("Create candidate:" +JSON.stringify(res));
                     this.ngZone.run(() => this.router.navigateByUrl('/candidates-list',{state:{username:this.userName,accessLevel:this.accessLevel,account:this.account}}))
                 }, (error) => {
                     console.log(error);

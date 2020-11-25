@@ -60,8 +60,8 @@ export class ViewInterviewStatusComponent implements OnInit {
   accountFilter: string;
   jrssFilter: string;
   loading = true;
-  //dataSource = new MatTableDataSource<ExceptionApprovalDetail>();
-  dataSource = new MatTableDataSource<any>();
+ // dataSource = new MatTableDataSource<ExceptionApprovalDetail>();
+ dataSource = new MatTableDataSource<any>();
   displayedColumns = ['Action','employeeName', 'JRSS','Account','onlineTestResult','technicalInterviewResult','partnerInterviewResult'];
   displayedColumnsNoAcct = ['Action','employeeName', 'JRSS','onlineTestResult','technicalInterviewResult','partnerInterviewResult'];
 
@@ -101,7 +101,7 @@ export class ViewInterviewStatusComponent implements OnInit {
   this.dataSource.sortingDataAccessor = (item, property) => {
         switch(property) {
           case 'employeeName': return item.employeeName;
-          case 'JRSS': return item.result_jrss[0].jrss;
+          case 'JRSS': return item.result_jrss.jrss;
           case 'Account': return item.canAccount;
           case 'onlineTestResult': return item.onlineTestResult;
           case 'technicalInterviewResult': return item.technicalInterviewResult;
@@ -121,7 +121,7 @@ export class ViewInterviewStatusComponent implements OnInit {
     this.apiService.getCandidateInterviewStatus(this.account).subscribe((data) => {
     this.candidateInterviewStatus = data;
     console.log("this.candidateInterviewStatus.length",this.candidateInterviewStatus.length);
-    console.log("this.candidateInterviewStatus" +JSON.stringify(this.candidateInterviewStatus));
+    console.log("Candidate list:" +JSON.stringify(this.candidateInterviewStatus));
       this.candidateInterviewStatus.forEach( candidate => {
       this.employeeName = "";
       this.onlineTestResult = "";
@@ -135,7 +135,7 @@ export class ViewInterviewStatusComponent implements OnInit {
       this.canUserName = "";
 
       this.employeeName = candidate.employeeName;
-      this.JRSS = candidate.results_jrss[0].jrss;
+      this.JRSS = candidate.JRSS;
       this.canUserId = candidate._id;
       this.canUserName = candidate.username;
       this.canAccount = candidate.account;

@@ -17,9 +17,9 @@
         <td>  
           <!-- Account -->                           
           <mat-form-field class="example-full-width">
-            <mat-select multiple [(ngModel)]="account" #ctrl="ngModel"  placeholder="Account" (change)="accountFilter($event.target.value)">
+            <mat-select multiple [(ngModel)]="account" placeholder="Account" (ngModelChange)="accountFilter($event)">
               <!-- <mat-option disabled value="">Choose...</mat-option> -->
-              <mat-option *ngFor="let account of loginAccounts" value="{{account}}" >{{account}}
+              <mat-option *ngFor="let account of loginAccounts" value="account" >{{account}}
               </mat-option>
              </mat-select>
            

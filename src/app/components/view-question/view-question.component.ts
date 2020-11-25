@@ -69,6 +69,7 @@ export class ViewQuestionComponent implements OnInit {
     route.queryParams.subscribe(
       params => this.config.currentPage= params['page']?params['page']:1 );
       this.readQuestion();
+      this.readAccount();
   }
 
   ngOnInit() {
@@ -81,6 +82,8 @@ export class ViewQuestionComponent implements OnInit {
       } else if (this.filterObj['key'] == 'TechStream'){
         data[this.filterObj['key']] = data[3];
       }
+      console.log("Data 2:"+data[2]);
+      console.log("Data 3:"+data[3]);
      if(data[this.filterObj['key']] && this.filterObj['key']) {
           if (data[this.filterObj['key']].toLowerCase().startsWith(this.filterObj['value'])) {
              return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
@@ -223,12 +226,30 @@ removeQuestion(){
 
    }
 
-   accountFilter(account){
-      console.log("Inside account filter:"+account);
-      console.log("filterObj:" +this.filterObj['key']);
+  
+    readAccount(){
+    let smeAccount:any = [];
+    this.loginAccounts = [];
+    if(this.account.toLowerCase().trim() !== 'sector') {
+      this.loginAccounts = this.account.split(",");   
+    } else {
+      this.apiService.getAccounts().subscribe((data) => {
+      smeAccount = data;     
+      for (var account of smeAccount){             
+        this.loginAccounts.push(account.account);
+        console.log("account details:" +this.loginAccounts);
+      }​
+        })
+      }
+    }
+
+  accountFilter(e){
+    console.log("Account filetr account:" +e);
       this.dataSource.filterPredicate = (data, filter) => {
         if (this.filterObj['key'] == 'Account'){
-          data[this.filterObj['key']] = data[1];
+          console.log("Inside if");
+          data[this.filterObj['key']] = this.loginAccounts;
+          console.log("filterObj key:" +data[this.filterObj['key']]);
         } 
         if(data[this.filterObj['key']] && this.filterObj['key']) {
           if (data[this.filterObj['key']].toLowerCase().startsWith(this.filterObj['value'])) {
