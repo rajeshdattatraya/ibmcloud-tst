@@ -80,8 +80,8 @@
         <th mat-header-cell *matHeaderCellDef> Pre-Technical Interview Assessment Form </th>
         <td mat-cell *matCellDef="let row">
           <div *ngIf="row.stage2_status=='Completed'">
-            <a [routerLink]="['/pre-technical-interview-form/',row.result_jrss[0].jrss, row.userName, row.result_users.account]"
-               [state]="{jrss:row.result_jrss[0].jrss,username:row.result_users.username,access:'tech-list',accessLevel:this.accessLevel,account:this.account}">
+            <a [routerLink]="['/pre-technical-interview-form/',row.result_jrss[0].jrss, row.userName, row.result_users[0].account]"
+               [state]="{jrss:row.result_jrss[0].jrss,username:row.result_users[0].username,access:'tech-list',accessLevel:this.accessLevel,account:this.account,userName:this.userName}">
               Click here
             </a>
           </div>

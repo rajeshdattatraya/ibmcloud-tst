@@ -114,6 +114,30 @@ getQuestions(account): Observable<any> {
     )
     }
 
+    // Get the count of questions for a given complexity and a single or multiple (comma separated) techstreams.
+    getCountOfQuestionsForTechStreams(account,complexity, techStream): Observable<any> {
+      let url = `${this.baseQuestionUri}/Count/Questions/OnComplexity/TechStream/${account}/${complexity}/${techStream}`;
+
+      console.log("The Url1 is "+url);
+
+      return this.http.get(url, {headers: this.headers}).pipe(
+       map((res: Response) => {
+          return res || {}
+        }),
+        catchError(this.errorMgmt)
+      )
+      }
+
+    // Get the testConfig for jrss
+    findTestConfigForJrss(account, jrss): Observable<any> {
+    let url = `${this.baseQuestionUri}/findTestConfig/${account}/${jrss}`;
+    return this.http.get(url, {headers: this.headers}).pipe(
+      map((res: Response) => {
+        return res || {}
+      }),
+      catchError(this.errorMgmt)
+      )
+  }
 
   // GET Candidate JRSS
   getCandidateJrss(username): Observable<any> {

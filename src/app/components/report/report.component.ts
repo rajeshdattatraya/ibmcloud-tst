@@ -177,12 +177,12 @@ loadReportData() {
       let registeredDate = Date.parse(item.createdDate);
 
       if (registeredDate >= fromDate && registeredDate <= toDate) {
-        if (this.reportObj[item.JRSS, item.account]) {
-          stage1Count = this.reportObj[item.JRSS, item.account].stage1Count;
-          stage3Count = this.reportObj[item.JRSS, item.account].stage3Count;
-          stage4Count = this.reportObj[item.JRSS, item.account].stage4Count;
-          stage5Count = this.reportObj[item.JRSS, item.account].stage5Count;
-          totalRegCandiates = this.reportObj[item.JRSS, item.account].totalRegCandiates + 1;
+        if (this.reportObj[item.jrssID]) {
+          stage1Count = this.reportObj[item.jrssID].stage1Count;
+          stage3Count = this.reportObj[item.jrssID].stage3Count;
+          stage4Count = this.reportObj[item.jrssID].stage4Count;
+          stage5Count = this.reportObj[item.jrssID].stage5Count;
+          totalRegCandiates = this.reportObj[item.jrssID].totalRegCandiates + 1;
 
         } else {
           totalRegCandiates = 1;

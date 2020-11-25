@@ -1,0 +1,22 @@
+1 Candidate who has failed quiz should be made available or registered by other account after  'x'(7 days) no of days - Harshitha
+
+2 Candidate who has cleared quiz and awaiting technical SME interview should be made available or registered by other account after 'y'(7 days) number of days - Rashmi
+
+3 Candidate awaiting partner interview should be made available or registered by other account after 'z'(7 days) number of days - Ranjeet
+
+4 Candidate who has cleared partner interview and yet to be assigned to a project should be made available or registered by other account after 'w'(7 days) number of days - Samir
+
+5 When a candidate is reregistered to an account, candidate data needs to be moved to archive(history) tables and all the candidate data should be deleted from main tables - Rajesh
+
+6 When candidate is registered to an account but they have not taken the test within 'x' no of days, then they shouldn't be allowed to register to another account - Deeksha
+
+7 If SME/partner provides feedback has 'Not Suitable', candidate should be made available to register for other account - Harshitha
+
+8 If a candidate has registered to an account multiple times, dashboard should display only latest entry of a candidate - Rashmi
+
+9 If a candidate has registered to an account multiple times, report should display only latest entry of a candidate - Deeksha
+
+10 While registering a candidate, validation needs to be performed to check if candidate is available to register for other account.
+Candidate should be able to reregister if candidate satisfies any of the below points (1,2,3,4,6,7) - Rajesh
+
+11. Create a collection to store no of days(x,y,z and w) - Ranjeet
