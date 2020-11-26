@@ -12,6 +12,10 @@ export class ExceptionApprovalDetail {
 		public uScore:any;
 		public qNumber:any;
 		public createdDate:any;
+		
+		result_jrss:[{
+			jrss: string;
+		}];
 
 		constructor(employeeName,JRSS,canAccount,onlineTestResult,technicalInterviewResult,
 		            partnerInterviewResult,canUserId,canUserName,resultId,userResult,
