@@ -87,7 +87,7 @@ export class ViewInterviewStatusComponent implements OnInit {
             if (this.filterObj['key'] == 'employeeName') {
                rowValue = data.employeeName;
             } else if (this.filterObj['key'] == 'JRSS') {
-               rowValue = data.result_jrss[0].jrss;
+               rowValue = data.JRSS;
             } else if (this.filterObj['key'] == 'canAccount') {
                rowValue = data.canAccount;
             }
@@ -101,7 +101,7 @@ export class ViewInterviewStatusComponent implements OnInit {
   this.dataSource.sortingDataAccessor = (item, property) => {
         switch(property) {
           case 'employeeName': return item.employeeName;
-          case 'JRSS': return item.result_jrss[0].jrss;
+          case 'JRSS': return item.JRSS;
           case 'Account': return item.canAccount;
           case 'onlineTestResult': return item.onlineTestResult;
           case 'technicalInterviewResult': return item.technicalInterviewResult;
