@@ -17,7 +17,7 @@
         <td>  
          <!-- Account -->                           
 <mat-form-field class="example-full-width">
-  <mat-select [(ngModel)]="account" placeholder="Account" (selectionChange)="applyFilter($event.value,'Account')">
+  <mat-select [(ngModel)]="accountFilter" placeholder="Account" (selectionChange)="applyFilter($event.value,'Account')">
     <!-- <mat-option disabled value="">Choose...</mat-option> -->
     <mat-option *ngFor="let account of loginAccounts" value="{{account}}" >{{account}}
     </mat-option>

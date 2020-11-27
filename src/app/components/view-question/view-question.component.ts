@@ -34,7 +34,7 @@ export class ViewQuestionComponent implements OnInit {
   accountArr:any = [];
   finalArr:any = [];
 
-  //accountFilter: string;
+  accountFilter: string;
   questionFilter:string;
   techStreamFilter: string;
   filterObj = {};
@@ -54,9 +54,7 @@ export class ViewQuestionComponent implements OnInit {
   displayAnswer = false;
   isEditQuestion = 'N';
   loginAccounts:any = [];
-  accountFilter: any;
-  searchAccount:string;
- 
+  
 
   constructor(public fb: FormBuilder,private router: Router, private apiService: ApiService,private route: ActivatedRoute) {
       this.config = {
@@ -225,7 +223,7 @@ removeQuestion(){
     
     clearFilters() {
       this.dataSource.filter = '';
-     // this.accountFilter = '';
+      this.accountFilter = '';
       this.questionFilter = '';
       this.techStreamFilter = '';
 
