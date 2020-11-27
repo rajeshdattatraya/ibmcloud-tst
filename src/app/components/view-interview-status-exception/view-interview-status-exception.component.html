@@ -20,7 +20,7 @@
           <td><mat-label>Name:</mat-label></td>
           <td>{{this.candidateDetails[0].employeeName}}</td>
           <td><mat-label>Job Role:</mat-label></td>
-          <td>{{this.candidateDetails[0].JRSS}}</td>
+          <td>{{this.candidateDetails[0].result_jrss[0].jrss}}</td>
         </tr>
         <tr>
           <td><mat-label>Technology Stream:</mat-label></td>
@@ -37,7 +37,7 @@
               <a href="#" (click)="skipMethod()" routerLinkActive="active"  data-toggle="modal">Click here</a>
             </div>
             <div *ngIf="this.displayPreTechStage2Completed">
-              <a class="edit" [routerLink]="['/pre-technical-interview-form/',this.candidateDetails[0].JRSS, this.candidateDetails[0].username,this.candidateDetails[0].account]" [state]="{jrss:this.candidateDetails[0].JRSS,quizId:this.candidateDetails[0].candidate_results[count].quizNumber,username:this.candidateDetails[0].username,access:'viewinterview-status',account:this.account,accessLevel:this.accessLevel,userName:this.userName}">
+              <a class="edit" [routerLink]="['/pre-technical-interview-form/',this.candidateDetails[0].result_jrss[0].jrss, this.candidateDetails[0].username,this.candidateDetails[0].account]" [state]="{jrss:this.candidateDetails[0].result_jrss[0].jrss,quizId:this.candidateDetails[0].candidate_results[count].quizNumber,username:this.candidateDetails[0].username,access:'viewinterview-status',account:this.account,accessLevel:this.accessLevel,userName:this.userName}">
                 Click here
               </a>
             </div>
