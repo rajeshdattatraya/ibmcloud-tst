@@ -15,6 +15,9 @@ import {MatPaginator} from '@angular/material/paginator';
   styleUrls: ['./view-question.component.css']
 })
 export class ViewQuestionComponent implements OnInit {
+  searchFilter() {
+    throw new Error('Method not implemented.');
+  }
   public browserRefresh: boolean;
 
   userName: String = "";
@@ -31,7 +34,7 @@ export class ViewQuestionComponent implements OnInit {
   accountArr:any = [];
   finalArr:any = [];
 
-  //accountFilter: string;
+  accountFilter: string;
   questionFilter:string;
   techStreamFilter: string;
   filterObj = {};
@@ -51,7 +54,7 @@ export class ViewQuestionComponent implements OnInit {
   displayAnswer = false;
   isEditQuestion = 'N';
   loginAccounts:any = [];
- 
+  
 
   constructor(public fb: FormBuilder,private router: Router, private apiService: ApiService,private route: ActivatedRoute) {
       this.config = {
@@ -72,6 +75,7 @@ export class ViewQuestionComponent implements OnInit {
       this.readAccount();
   }
 
+
   ngOnInit() {
     this.browserRefresh = browserRefresh;
     this.dataSource.filterPredicate = (data, filter) => {
@@ -82,8 +86,6 @@ export class ViewQuestionComponent implements OnInit {
       } else if (this.filterObj['key'] == 'TechStream'){
         data[this.filterObj['key']] = data[3];
       }
-      console.log("Data 2:"+data[2]);
-      console.log("Data 3:"+data[3]);
      if(data[this.filterObj['key']] && this.filterObj['key']) {
           if (data[this.filterObj['key']].toLowerCase().startsWith(this.filterObj['value'])) {
              return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
@@ -157,7 +159,8 @@ export class ViewQuestionComponent implements OnInit {
          }
       }
           this.dataSource.data=this.filteredQuestion as Question[];
-          console.log("datasource length" +this.dataSource.data.length);
+          //console.log("Filtered question:"+this.filteredQuestion);
+         // console.log("datasource length" +this.dataSource.data.length);
     })
   }
 
@@ -220,7 +223,7 @@ removeQuestion(){
     
     clearFilters() {
       this.dataSource.filter = '';
-     // this.accountFilter = '';
+      this.accountFilter = '';
       this.questionFilter = '';
       this.techStreamFilter = '';
 
@@ -243,32 +246,14 @@ removeQuestion(){
       }
     }
 
-  accountFilter(e){
-    console.log("Account filetr account:" +e);
-      this.dataSource.filterPredicate = (data, filter) => {
-        if (this.filterObj['key'] == 'Account'){
-          console.log("Inside if");
-          data[this.filterObj['key']] = this.loginAccounts;
-          console.log("filterObj key:" +data[this.filterObj['key']]);
-        } 
-        if(data[this.filterObj['key']] && this.filterObj['key']) {
-          if (data[this.filterObj['key']].toLowerCase().startsWith(this.filterObj['value'])) {
-             return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
-          }
-      }
-      return false;
+   
 
-    }
-  }
-
-   applyFilter(filterValue: string,key: string) {
-    this.filterObj = {
-          value: filterValue.trim().toLowerCase(),
-          key: key
-    }
-    console.log("Filter obj :" +JSON.stringify(this.filterObj));
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-    console.log("filter data:" +this.dataSource.filter);
-  }
+    applyFilter(filterValue: string,key: string) {
+       this.filterObj = {
+             value: filterValue.trim().toLowerCase(),
+             key: key
+       }
+       this.dataSource.filter = filterValue.trim().toLowerCase();
+     }
 
 }
