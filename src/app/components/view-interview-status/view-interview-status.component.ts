@@ -183,6 +183,8 @@ export class ViewInterviewStatusComponent implements OnInit {
 
           if (result.stage3_status == 'Not Started') {
             this.technicalInterviewResult = "Pending";
+          } else if (result.stage3_status == 'Not Suitable') {
+            this.technicalInterviewResult = "Not Suitable";
           } else if (result.stage3_status == 'Skipped') {
             this.technicalInterviewResult = "N/A";
           } else if (result.stage3_status == 'Completed') {
@@ -191,6 +193,8 @@ export class ViewInterviewStatusComponent implements OnInit {
 
           if (result.stage4_status == 'Not Started') {
             this.partnerInterviewResult = "Pending";
+          }  else if (result.stage4_status == 'Not Suitable') {
+            this.partnerInterviewResult = "Not Suitable";
           } else if (result.stage4_status == 'Skipped') {
             this.partnerInterviewResult = "N/A";
           } else if (result.stage4_status == 'Completed') {
