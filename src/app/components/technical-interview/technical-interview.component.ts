@@ -211,17 +211,17 @@ export class TechnicalInterviewComponent implements OnInit {
     let i = 0;
     for (var sc of this.techskillForm.value.techStream) {
       var technology = sc.technologyStream;
-      if (technology instanceof Object && sc.score <= 0) {
+      if (technology instanceof Object && (sc.score <= 0 || sc.score > 10)) {
         this.techskillForm.controls.techStream.setErrors({ 'incorrect': true });
-        this.errorMsg[i] = "Technology must be selected and the score must be greater than 0";
+        this.errorMsg[i] = "Technology must be selected and the score must be between 1-10";
         this.errorIdx[i] = "ERROR";
       } else if (technology instanceof Object) {
         this.techskillForm.controls.techStream.setErrors({ 'incorrect': true });
         this.errorMsg[i] = "Technology Stream must be selected";
         this.errorIdx[i] = "ERROR";
-      } else if (sc.score <= 0) {
+      } else if (sc.score <= 0 || sc.score > 10) {
         this.techskillForm.controls.techStream.setErrors({ 'incorrect': true });
-        this.errorMsg[i] = "Score must be greater than 0";
+        this.errorMsg[i] = "Score must be between 1-10";
         this.errorIdx[i] = "ERROR";
       } else {
         this.errorIdx[i] = "";
@@ -291,9 +291,11 @@ export class TechnicalInterviewComponent implements OnInit {
     var scoreCount:number=0;
     for(var sc of this.scoreValueArray) {
      var score:number=parseInt(sc.score);
-      if(score>0){
+      if(score>0 && score <= 10){
         this.totalScore= this.totalScore + score;
         scoreCount++;
+      } else {
+          alert("Please enter score between 1-10");
       }
     }
     this.averageScore=Math.round((this.totalScore/scoreCount) *100 +Number.EPSILON)/100;
