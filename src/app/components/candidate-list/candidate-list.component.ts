@@ -111,7 +111,7 @@ export class CandidateListComponent implements OnInit {
           
               if ( result['stage1_status'] == "Skipped") {
                 candidate.disableButton = true;
-                
+
               }
             })
       
@@ -131,22 +131,44 @@ export class CandidateListComponent implements OnInit {
     }else{
     this.apiService.findResult(this.candidateUserName,this.qNumber).subscribe((res) => {
      if (res.count > 0) {
-      alert("You can not delete this candidate as the online test stage is already completed.");
-      return false;
+       this.apiService.getResultByUser(this.candidateUserName,this.qNumber).subscribe((resultData) => {
+         if (resultData['stage1_status'] == 'Skipped' && resultData['stage2_status'] == 'Not Started') {
+              this.delete(candidateUsername,candidateId, index);
+         } else if (resultData['stage1_status'] == 'Skipped' && resultData['stage2_status'] == 'Skipped'
+           && resultData['stage3_status'] == 'Not Started') {
+              this.delete(candidateUsername,candidateId, index);
+         } else if (resultData['stage1_status'] == 'Skipped' && resultData['stage2_status'] == 'Skipped'
+               && resultData['stage3_status'] == 'Skipped' && resultData['stage4_status'] == 'Not Started') {
+             this.delete(candidateUsername,candidateId, index);
+         } else if (resultData['stage1_status'] == 'Skipped' && resultData['stage2_status'] == 'Skipped'
+               && resultData['stage3_status'] == 'Skipped' && resultData['stage4_status'] == 'Skipped'
+               && resultData['stage5_status'] == 'Not Started') {
+             this.delete(candidateUsername,candidateId, index);
+         } else {
+              alert("You can not delete this candidate as the online test stage is already completed.");
+              return false;
+         }
+       }, (error) => {
+          console.log("Error found while while reading Result Table - " + error);
+       });
     } else if (res.count > 0 || res.count == 0) {
-      if(window.confirm('Are you sure?')) {
-          this.apiService.deleteCandidate(candidateId,candidateUsername).subscribe((data) => {
-            this.Candidate.splice(index, 1);
-          }
-        )
-        this.readCandidate();
-        this.isRowSelected = false;
-      }
+      this.delete(candidateUsername,candidateId, index);
     }
   }, (error) => {
-      console.log("Error found while updating userLoggedin column of Users table - " + error);
+      console.log("Error found while reading Result Table - " + error);
   });
   }
+  }
+
+  delete(candidateUsername,candidateId, index) {
+    if(window.confirm('Are you sure?')) {
+        this.apiService.deleteCandidate(candidateId,candidateUsername).subscribe((data) => {
+          this.Candidate.splice(index, 1);
+        }
+      )
+      this.readCandidate();
+      this.isRowSelected = false;
+    }
   }
 
 	invokeEdit(){
@@ -156,13 +178,31 @@ export class CandidateListComponent implements OnInit {
     } else {
        this.apiService.findResult(this.candidateUserName,this.qNumber).subscribe((res) => {
            if (res.count > 0) {
-            alert("You can not edit this candidate details as the online test stage is already completed.");
-            return false;
+           this.apiService.getResultByUser(this.candidateUserName,this.qNumber).subscribe((resultData) => {
+                    if (resultData['stage1_status'] == 'Skipped' && resultData['stage2_status'] == 'Not Started') {
+                         this.router.navigate(['/edit-candidate/', this.candidateId, this.candidateUsersId], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}});
+                    } else if (resultData['stage1_status'] == 'Skipped' && resultData['stage2_status'] == 'Skipped'
+                      && resultData['stage3_status'] == 'Not Started') {
+                         this.router.navigate(['/edit-candidate/', this.candidateId, this.candidateUsersId], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}});
+                    } else if (resultData['stage1_status'] == 'Skipped' && resultData['stage2_status'] == 'Skipped'
+                          && resultData['stage3_status'] == 'Skipped' && resultData['stage4_status'] == 'Not Started') {
+                        this.router.navigate(['/edit-candidate/', this.candidateId, this.candidateUsersId], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}});
+                    } else if (resultData['stage1_status'] == 'Skipped' && resultData['stage2_status'] == 'Skipped'
+                          && resultData['stage3_status'] == 'Skipped' && resultData['stage4_status'] == 'Skipped'
+                          && resultData['stage5_status'] == 'Not Started') {
+                        this.router.navigate(['/edit-candidate/', this.candidateId, this.candidateUsersId], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}});
+                    } else {
+                         alert("You can not edit this candidate details as the online test stage is already completed.");
+                         return false;
+                    }
+                  }, (error) => {
+                     console.log("Error found while reading Result Table - " + error);
+                  });
           } else if (res.count > 0 || res.count == 0) {
             this.router.navigate(['/edit-candidate/', this.candidateId, this.candidateUsersId], {state: {username:this.userName,accessLevel:this.accessLevel,account:this.account}});
           }
         }, (error) => {
-            console.log("Error found while updating userLoggedin column of Users table - " + error);
+            console.log("Error found while while reading Result Table - " + error);
         });
       }
     } 
