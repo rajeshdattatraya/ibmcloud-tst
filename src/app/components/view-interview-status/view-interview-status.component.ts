@@ -61,6 +61,7 @@ export class ViewInterviewStatusComponent implements OnInit {
   jrssFilter: string;
   loading = true;
   dataSource = new MatTableDataSource<ExceptionApprovalDetail>();
+
   displayedColumns = ['Action','employeeName', 'JRSS','Account','onlineTestResult','technicalInterviewResult','partnerInterviewResult'];
   displayedColumnsNoAcct = ['Action','employeeName', 'JRSS','onlineTestResult','technicalInterviewResult','partnerInterviewResult'];
 
@@ -120,6 +121,7 @@ export class ViewInterviewStatusComponent implements OnInit {
     this.apiService.getCandidateInterviewStatus(this.account).subscribe((data) => {
     this.candidateInterviewStatus = data;
     console.log("this.candidateInterviewStatus.length",this.candidateInterviewStatus.length);
+    console.log("Candidate list:", JSON.stringify(this.candidateInterviewStatus));
       this.candidateInterviewStatus.forEach( candidate => {
       this.employeeName = "";
       this.onlineTestResult = "";
@@ -133,7 +135,7 @@ export class ViewInterviewStatusComponent implements OnInit {
       this.canUserName = "";
 
       this.employeeName = candidate.employeeName;
-      this.JRSS = candidate.JRSS;
+      this.JRSS = candidate.result_jrss[0].jrss;
       this.canUserId = candidate._id;
       this.canUserName = candidate.username;
       this.canAccount = candidate.account;
@@ -181,6 +183,8 @@ export class ViewInterviewStatusComponent implements OnInit {
 
           if (result.stage3_status == 'Not Started') {
             this.technicalInterviewResult = "Pending";
+          } else if (result.stage3_status == 'Not Suitable') {
+            this.technicalInterviewResult = "Not Suitable";
           } else if (result.stage3_status == 'Skipped') {
             this.technicalInterviewResult = "N/A";
           } else if (result.stage3_status == 'Completed') {
@@ -189,6 +193,8 @@ export class ViewInterviewStatusComponent implements OnInit {
 
           if (result.stage4_status == 'Not Started') {
             this.partnerInterviewResult = "Pending";
+          }  else if (result.stage4_status == 'Not Suitable') {
+            this.partnerInterviewResult = "Not Suitable";
           } else if (result.stage4_status == 'Skipped') {
             this.partnerInterviewResult = "N/A";
           } else if (result.stage4_status == 'Completed') {

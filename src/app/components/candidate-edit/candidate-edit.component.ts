@@ -276,6 +276,7 @@ export class CandidateEditComponent implements OnInit {
 
   getCandidate(id) {
     this.apiService.getCandidate(id).subscribe(data => {
+      console.log("Candidate data:" +JSON.stringify(data));
       if (data['employeeType'] == undefined) {
           data['employeeType'] = 'Regular'
       }
@@ -315,7 +316,7 @@ export class CandidateEditComponent implements OnInit {
         this.editForm.setValue({employeeName: data['employeeName'],employeeType: data['employeeType'],
           email: data['email'],band: '', JRSS: data['JRSS'],technologyStream: this.stream,
           phoneNumber: data['phoneNumber'], dateOfJoining : this.datePipe.transform(data['dateOfJoining'], 'yyyy-MM-dd'),
-          account: data['account'], userLOB: '', userPositionLocation: '' });
+          account: data['account'], userPositionLocation: data['userPositionLocation'], userLOB: ''});
 
         this.myOpenPositionGroup.setValue({positionName: '',
           positionID: '', rateCardJobRole: '', lineOfBusiness: '',
@@ -334,7 +335,7 @@ export class CandidateEditComponent implements OnInit {
         this.candidate = new Candidate(data['employeeName'],data['employeeType'],
         data['email'], '', data['JRSS'], data['technologyStream'], data[ 'phoneNumber'], data['dateOfJoining'],
         data['createdBy'], data['createdDate'], data['updatedBy'], data['updatedDate'],
-        data['username'], data['resumeName'], data['resumeData'], data['account'],'','','','','');
+        data['username'], data['resumeName'], data['resumeData'], data['account'],data['userPositionLocation'],'','','','');
       }
     });
   }
@@ -437,7 +438,7 @@ export class CandidateEditComponent implements OnInit {
         this.editForm.value.email,'',this.editForm.value.JRSS,this.editForm.value.technologyStream,
         this.editForm.value.phoneNumber,this.editForm.value.dateOfJoining,this.candidate.createdBy,
         this.candidate.createdDate,this.username,new Date(),this.editForm.value.email,this.candidate.resumeName,
-        this.candidate.resumeData,this.editForm.value.account,'','','','','');
+        this.candidate.resumeData,this.editForm.value.account,this.editForm.value.userPositionLocation,'','','','');
       }
 
       let updatedUser = new UserDetails(this.editForm.value.email,this.user.password,this.user.quizNumber,this.user.status,
@@ -510,7 +511,7 @@ export class CandidateEditComponent implements OnInit {
           updatedCandidate = new Candidate(this.editForm.value.employeeName,this.editForm.value.employeeType,
           this.editForm.value.email,'',this.editForm.value.JRSS,this.editForm.value.technologyStream,this.editForm.value.phoneNumber,
           this.editForm.value.dateOfJoining,this.candidate.createdBy,this.candidate.createdDate,this.username,new Date(),
-          this.editForm.value.email,this.candidate.resumeName,this.candidate.resumeData,this.editForm.value.account,'',
+          this.editForm.value.email,this.candidate.resumeName,this.candidate.resumeData,this.editForm.value.account,this.editForm.value.userPositionLocation,
           '','','','');
         }
 

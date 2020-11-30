@@ -44,7 +44,7 @@
           </td>
         </tr>
         <tr>
-            <mat-checkbox formControlName="stage1OnlineTechAssessment" name="stage1OnlineTechAssessment" [checked]="stage1">
+            <mat-checkbox (change)="noOfQuestionCheckForJrss($event)" formControlName="stage1OnlineTechAssessment" name="stage1OnlineTechAssessment" [checked]="stage1">
               Online Technical Assessment
             </mat-checkbox>
         </tr>

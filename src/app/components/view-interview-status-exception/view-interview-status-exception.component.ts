@@ -113,8 +113,9 @@ export class ViewInterviewStatusExceptionComponent implements OnInit {
   viewCandidateInterviewStatus(id,resultId) {
        this.apiService.viewCandidateInterviewStatus(id).subscribe((data) => {
            this.candidateDetails = data;
+           console.log("Candidate Details:"+JSON.stringify(this.candidateDetails));
            this.candidateUserName = this.candidateDetails[0].username;
-           this.apiService.getJRSSPreTechByAccountAndJrssName(this.candidateDetails[0].JRSS,this.candidateDetails[0].account).subscribe((pretechData) => {
+           this.apiService.getJRSSPreTechByAccountAndJrssName(this.candidateDetails[0].result_jrss[0].jrss,this.candidateDetails[0].account).subscribe((pretechData) => {
                 this.preTechQuestion = pretechData[0]['jrss_preTech'].length;
            });
            if (this.candidateDetails[0].candidate_results.length > 0) {

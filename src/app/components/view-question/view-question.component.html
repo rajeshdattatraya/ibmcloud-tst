@@ -15,15 +15,14 @@
           </mat-form-field>
         </td>
         <td>  
-          <!-- Account -->                           
-          <mat-form-field class="example-full-width">
-            <mat-select multiple [(ngModel)]="account" #ctrl="ngModel"  placeholder="Account" (change)="accountFilter($event.target.value)">
-              <!-- <mat-option disabled value="">Choose...</mat-option> -->
-              <mat-option *ngFor="let account of loginAccounts" value="{{account}}" >{{account}}
-              </mat-option>
-             </mat-select>
-           
-          </mat-form-field>
+         <!-- Account -->                           
+<mat-form-field class="example-full-width">
+  <mat-select [(ngModel)]="accountFilter" placeholder="Account" (selectionChange)="applyFilter($event.value,'Account')">
+    <!-- <mat-option disabled value="">Choose...</mat-option> -->
+    <mat-option *ngFor="let account of loginAccounts" value="{{account}}" >{{account}}
+    </mat-option>
+   </mat-select>
+</mat-form-field>
         </td>
         <td>
           <mat-form-field>

@@ -44,6 +44,7 @@ export class StreamCreateComponent implements OnInit {
   accounts:any=[];
   streamFlag:boolean = false;
   filteredJRSS:any=[];
+  jrssStage1: boolean = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -218,6 +219,7 @@ listJrssByAccount(accountValue){
     for (var jrss of this.JRSS){
       if(jrss.jrss == this.streamCreateForm.value.JRSS){
         this.jrssDocId = jrss._id;
+        this.jrssStage1 = jrss.stage1_OnlineTechAssessment ;
         this.currentJrssArray = jrss;
         for(var techStream of this.currentJrssArray.technologyStream){
           if(techStream.value.toLowerCase() == this.streamCreateForm.value.technologyStream.toLowerCase()){
@@ -230,12 +232,12 @@ listJrssByAccount(accountValue){
   checkforquestions(){   
     this.apiService.checkForQuestions(this.streamCreateForm.value.technologyStream,this.streamCreateForm.value.account).subscribe(res => {
       console.log('Technology stream and Account has question(s) as the count is '+res.count);     
-      if(res.count==0)  
+      if(res.count==0 && this.jrssStage1)  
       {
         this.questionsmappedtotechstream = false;
         alert('The technology stream '+this.streamCreateForm.value.technologyStream+' should have atleast one question mapped to it before being mapped to a job role!');
       }
-      else if(res.count>0)
+      else if(res.count>0 || !this.jrssStage1)
       {
         this.questionsmappedtotechstream = true;
         this.currentJrssArray.technologyStream.push({key:this.streamCreateForm.value.technologyStream, value:this.streamCreateForm.value.technologyStream});
