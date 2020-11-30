@@ -46,6 +46,7 @@ export class TechnicalInterviewComponent implements OnInit {
 
   techStreamObj: any = {};
   candidateAccount: String = "";
+  candidateDetails: any;
 
   constructor(private cv:TechnicalInterviewListComponent,private fb:FormBuilder, private actRoute: ActivatedRoute, private router: Router,private ngZone: NgZone,
     private apiService: ApiService) {
@@ -111,8 +112,7 @@ export class TechnicalInterviewComponent implements OnInit {
       technologyStream:this.getTechnologyStream(),
       score: '0'
     })
-
-  }
+    }
 
   createstandByTechStream(technologyStream:string,score:string): FormGroup {
    
@@ -134,7 +134,7 @@ export class TechnicalInterviewComponent implements OnInit {
 //getJrss by Account will fetch the skills based on the candidate jrss
     this.apiService.getJrsssByAccount(this.candidateInterviewDetails[0].result_users[0].account).subscribe((data) => {
      this.JRSS = data;
-
+      console.log("Jrss:"+JSON.stringify(this.JRSS));
      this.technologyStreamArray = [];
      for (var jrss of this.JRSS){
         for (var skill of jrss.technologyStream){
@@ -147,11 +147,12 @@ export class TechnicalInterviewComponent implements OnInit {
       index === self.findIndex((skl) => (
         skl.value === skill.value 
       ))
+      
     )
     
       this.newDynamic =this.technologyStreamArray;
       this.dynamicArray.push(this.newDynamic);
-     
+     console.log("Dynamic Array:"+JSON.stringify(this.dynamicArray));
       //this.techStream().push(this.createTechStream());
       if (this.candidateInterviewDetails[0].smeScores !=  undefined && (this.candidateInterviewDetails[0].smeResult == "StandBy" || this.candidateInterviewDetails[0].smeResult == "Not Suitable")) {
         this.techskillForm = this.fb.group({
@@ -164,7 +165,7 @@ export class TechnicalInterviewComponent implements OnInit {
         this.addStandByTechStreamAndScores(this.candidateInterviewDetails[0].smeScores);
       } else {
         this.techStream().push(this.createTechStream());
-      }
+        }
 
       this.readCandidateNameAndJrss();
       
@@ -174,7 +175,7 @@ export class TechnicalInterviewComponent implements OnInit {
 
 
   getTechnologyStream() {
-   // console.log("this.technologyStreamArray  ***** ", this.technologyStreamArray)
+    console.log("this.technologyStreamArray  ***** ", this.technologyStreamArray)
     return this.technologyStreamArray;
   }
 
@@ -364,15 +365,19 @@ export class TechnicalInterviewComponent implements OnInit {
  }
 
  readCandidateNameAndJrss(){
-        this.apiService.getCandidateJrss(this.userName).subscribe(
-          (res) => {      
-          this.jrss=res['JRSS'];
-          this.candidateName = res['employeeName'];
-          this.candidateAccount = res['account'];
-          this.readPartnerUserDet(res['account']);
+        this.apiService.getCandidateDetails(this.userName).subscribe(
+          (res) => { 
+            this.candidateDetails = res;  
+            console.log("Candidate details:" +JSON.stringify(this.candidateDetails));   
+          this.jrss=this.candidateDetails[0].candidate_jrss[0].jrss;
+          this.candidateName = this.candidateDetails[0].employeeName;
+          this.candidateAccount = this.candidateDetails[0].account;
+          this.readPartnerUserDet( this.candidateDetails[0].account);
                }, (error) => {
                console.log(error);
-               });
+               }
+               );
+               
  }
 
   onSubmit() {
