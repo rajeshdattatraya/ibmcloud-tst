@@ -226,29 +226,52 @@ export class TechnicalInterviewListComponent implements OnInit {
 
   //submit
   onSubmit() {
-    this.submitted = true;
-    this.apiService.updateExceptionalApproval(this.emailSelected, this.quizNumber,  this.smeFeedbackForm.value.smeFeedback).subscribe(res => {
-      window.alert('Successfully moved candidate to next stage');
-      this.showModal = false;
-      this.getTechnicalInterviewList();
-      $("#myExceptionModal").modal("hide");
-    }, (error) => {
-      console.log(error);
-    })
+   this.submitted = true;
+   this.formReset = false;
+   if (!this.smeFeedbackForm.valid) {
+        return false;
+   } else {
+      if (window.confirm("Are you sure you want to provide exception approval?")) {
+        this.apiService.updateExceptionalApproval(this.emailSelected, this.quizNumber,  this.smeFeedbackForm.value.smeFeedback).subscribe(res => {
+          window.alert('Successfully moved candidate to next stage');
+          this.showModal = false;
+          this.getTechnicalInterviewList();
+          $("#myExceptionModal").modal("hide");
+        }, (error) => {
+          console.log(error);
+        })
+      }
+    }
+  }
+
+  resetForm() {
+    this.formReset = true;
+    this.smeFeedbackForm.reset();
   }
 
   exceptionalApproval() {
     if (this.emailSelected == "") {
       alert("Please select the candidate");
       return false;
-    }
-    else {
-      if (window.confirm("Are you sure you want to provide exception approval?")) {
-        this.showModal = true;
-        this.content.open();
-      } else {
-        this.showModal = false;
-      }
+    } else {
+      this.showModal = true;
+      this.resetForm();
+      this.apiService.getMeetingEventsByCandidate(this.emailSelected).subscribe((res) => {
+          if(res[0].user == this.userName){
+            this.content.open();
+            return false;
+          } else {
+            this.showModal = false;
+            $("#myExceptionModal").modal("hide");
+            alert('You are not allowed to do Exception Approval as Schedule Interview is done by ' +res[0].user);
+            return false;
+          }
+       }, (error) => {
+          if(this.interviewDate == ""  || this.interviewDate == undefined){
+             this.content.open();
+             return false;
+          }
+       });
     }
   }
 
@@ -282,9 +305,9 @@ export class TechnicalInterviewListComponent implements OnInit {
 
   initiateInterview() {
     if (this.emailSelected == "") {
-      alert("Please select the candidate")
-    }
-    else {
+      alert("Please select the candidate");
+      return false;
+    } else {
       if(this.interviewDate == ""  || this.interviewDate == undefined){
       this.router.navigate(['/technical-list/', this.emailSelected], { state: { username: this.userName, quizId: this.quizNumber, accessLevel: this.accessLevel, account: this.account } })
       }else{ 
