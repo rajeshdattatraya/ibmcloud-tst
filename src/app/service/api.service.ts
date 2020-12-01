@@ -735,6 +735,13 @@ getResultByUserResultPass(username: string,quiznumber:number,userResult: string)
     catchError(this.errorMgmt)
   )
 }
+getResultByUserResultFail(username: string,quiznumber:number,userResult: string){
+  let url = `${this.userResultUri}/getResultByUserResultFail/${username}/${quiznumber}/${userResult}`;
+  return this.http.get(url, { headers: this.headers }).pipe(
+    catchError(this.errorMgmt)
+  )
+}
+
 
 // Update candidate
 updateResults(id: string,data: UserResult): Observable<any> {
