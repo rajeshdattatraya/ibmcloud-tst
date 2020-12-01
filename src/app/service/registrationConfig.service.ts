@@ -14,7 +14,7 @@ export class RegistrationConfigService {
  constructor(private http: HttpClient) { }
 
   // Get reatin day for stage candidate's 
-  getStageCandidatsRetainDay() {
+  getStageCandidatesRetainDay() {
     return this.http.get(`${this.registerCandidateUri}`);
   }
 
