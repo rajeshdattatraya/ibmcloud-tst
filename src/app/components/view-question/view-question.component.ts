@@ -54,6 +54,7 @@ export class ViewQuestionComponent implements OnInit {
   displayAnswer = false;
   isEditQuestion = 'N';
   loginAccounts:any = [];
+  accountArray:any=[];
   
 
   constructor(public fb: FormBuilder,private router: Router, private apiService: ApiService,private route: ActivatedRoute) {
@@ -87,7 +88,7 @@ export class ViewQuestionComponent implements OnInit {
         data[this.filterObj['key']] = data[3];
       }
      if(data[this.filterObj['key']] && this.filterObj['key']) {
-          if (data[this.filterObj['key']].toLowerCase().startsWith(this.filterObj['value'])) {
+          if (data[this.filterObj['key']].toLowerCase().startsWith(this.filterObj['value']) || data[this.filterObj['key']] == this.filterObj['value'] || data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value'])) {
              return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
           }
       }
@@ -104,10 +105,6 @@ export class ViewQuestionComponent implements OnInit {
    
   }
 
-  //public selectedBrand;
-  //public accountValue(e) {
-    //  this.accounts = this.loginAccounts.filter(item => item.name === this.accountFilter);
-  //}
   ngAfterViewInit (){
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
@@ -159,9 +156,7 @@ export class ViewQuestionComponent implements OnInit {
          }
       }
           this.dataSource.data=this.filteredQuestion as Question[];
-          //console.log("Filtered question:"+this.filteredQuestion);
-         // console.log("datasource length" +this.dataSource.data.length);
-    })
+        })
   }
 
   viewQuestions(qID){
@@ -223,6 +218,7 @@ removeQuestion(){
     
     clearFilters() {
       this.dataSource.filter = '';
+      //this.accountArray = '';
       this.accountFilter = '';
       this.questionFilter = '';
       this.techStreamFilter = '';
@@ -246,14 +242,13 @@ removeQuestion(){
       }
     }
 
-   
-
-    applyFilter(filterValue: string,key: string) {
-       this.filterObj = {
-             value: filterValue.trim().toLowerCase(),
+  applyFilter(filterValue: string,key: string) {
+   this.filterObj = {
+            value: filterValue.trim().toLowerCase(),
+            //value: filterValue,
              key: key
        }
        this.dataSource.filter = filterValue.trim().toLowerCase();
-     }
-
+      }
+ 
 }
