@@ -9,19 +9,17 @@ import { RegistrationConfigService } from '../../service/registrationConfig.serv
 export class AwaitingPartnerInterview {
   constructor(private registrationConfigService: RegistrationConfigService,private apiService : ApiService){ }
 
-  //Candidate awaiting partner interview should be made available or registered 
-  //by other account after 'z'(7 days) number of days
-  isCandidateAwaitingInPartnerInterviewQ(username,quizNumber) {      
-    let candidateRetainDays : number;
+  // Candidate awaiting partner interview should be made available or registered by other account after n number of days
+  isCandidateAwaitingInPartnerInterviewQ(username,quizNumber) { 
     var resultCreatedDate: Date;
     let isCandidateReleased : boolean = false;
 
-    // Get stage4 candidate's retain days
-    this.registrationConfigService.getStageCandidatesRetainDay().subscribe((res) => {
-      candidateRetainDays = res[0].retainStage4Candidates; 
+    // Get retainStage4Candidates column value from RegistrationConfig table
+    this.registrationConfigService.getStageCandidatesRetainDay().subscribe((res) => {      
+        // Get candidate awaiting partner interview result
         this.apiService.getPartnerCandidateAwaitingResult(username,quizNumber).subscribe((data) => {
             resultCreatedDate = new Date(data['createdDate']);
-            resultCreatedDate.setDate(resultCreatedDate.getDate() + candidateRetainDays);
+            resultCreatedDate.setDate(resultCreatedDate.getDate() + res[0].retainStage4Candidates);
             let currentDate: Date = new Date();
             if (resultCreatedDate >= currentDate) {
               isCandidateReleased =  false;
@@ -29,7 +27,8 @@ export class AwaitingPartnerInterview {
               isCandidateReleased = true;
             }
         });
-        return isCandidateReleased;
+        //return isCandidateReleased;
     });
+    return isCandidateReleased;
   }
 }
