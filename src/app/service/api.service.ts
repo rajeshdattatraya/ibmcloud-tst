@@ -742,6 +742,13 @@ getResultByUserResultFail(username: string,quiznumber:number,userResult: string)
   )
 }
 
+// Get partner candidates awaiting result
+getPartnerCandidateAwaitingResult(username: string,quiznumber:number){
+  let url = `${this.userResultUri}/getPartnerCandidateAwaitingResult/${username}/${quiznumber}`;
+  return this.http.get(url, { headers: this.headers }).pipe(
+    catchError(this.errorMgmt)
+  )
+}
 
 // Update candidate
 updateResults(id: string,data: UserResult): Observable<any> {
