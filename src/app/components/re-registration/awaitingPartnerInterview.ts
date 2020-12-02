@@ -26,6 +26,10 @@ export class AwaitingPartnerInterview {
             } else {
               isCandidateReleased = true;
             }
+        }, (error) => {
+          console.log('[AwaitingPartnerInterview]-Error found while fetching the records for partner awaiting candidate');
+          console.log(error);
+          //return isCandidateReleased;
         });
         //return isCandidateReleased;
     });
