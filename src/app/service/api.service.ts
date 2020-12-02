@@ -747,6 +747,20 @@ getResultByUserResultPass(username: string,quiznumber:number,userResult: string)
     catchError(this.errorMgmt)
   )
 }
+getResultByUserResultFail(username: string,quiznumber:number,userResult: string){
+  let url = `${this.userResultUri}/getResultByUserResultFail/${username}/${quiznumber}/${userResult}`;
+  return this.http.get(url, { headers: this.headers }).pipe(
+    catchError(this.errorMgmt)
+  )
+}
+
+// Get partner candidates awaiting result
+getPartnerCandidateAwaitingResult(username: string,quiznumber:number){
+  let url = `${this.userResultUri}/getPartnerCandidateAwaitingResult/${username}/${quiznumber}`;
+  return this.http.get(url, { headers: this.headers }).pipe(
+    catchError(this.errorMgmt)
+  )
+}
 
 // Update candidate
 updateResults(id: string,data: UserResult): Observable<any> {

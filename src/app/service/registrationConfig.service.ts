@@ -13,8 +13,8 @@ export class RegistrationConfigService {
 
  constructor(private http: HttpClient) { }
 
-  // Get reatin day for stage candidate's 
-  getStageCandidatsRetainDay() {
+  // Get retain day for stage candidate's 
+  getStageCandidatesRetainDay() {
     return this.http.get(`${this.registerCandidateUri}`);
   }
 
