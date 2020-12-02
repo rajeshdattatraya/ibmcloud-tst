@@ -18,7 +18,7 @@ export class AwaitingPartnerInterview {
     this.registrationConfigService.getStageCandidatesRetainDay().subscribe((res) => {      
         // Get candidate awaiting partner interview result
         this.apiService.getPartnerCandidateAwaitingResult(username,quizNumber).subscribe((data) => {
-            resultCreatedDate = new Date(data['createdDate']);
+            resultCreatedDate = new Date(data['smeAssessmentDate']);
             resultCreatedDate.setDate(resultCreatedDate.getDate() + res[0].retainStage4Candidates);
             let currentDate: Date = new Date();
             if (resultCreatedDate >= currentDate) {
