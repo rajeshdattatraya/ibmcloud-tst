@@ -170,7 +170,7 @@ getQuestions(account): Observable<any> {
 
 // GET registered Candidate details by username
 getAssignedCandidate(username): Observable<any> {
-      let url = `${this.baseUri}/readCandidate/${username}`;
+      let url = `${this.projectAllocUri}/projectAlloc/${username}`;
       return this.http.get(url, {headers: this.headers}).pipe(
             map((res: Response) => {
               return res || {}
