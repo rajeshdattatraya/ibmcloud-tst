@@ -369,7 +369,7 @@ export class TechnicalInterviewComponent implements OnInit {
           (res) => { 
             this.candidateDetails = res;  
             console.log("Candidate details:" +JSON.stringify(this.candidateDetails));   
-          this.jrss=this.candidateDetails[0].candidate_jrss[0].jrss;
+          this.jrss=this.candidateDetails[0].result_jrss[0].jrss;
           this.candidateName = this.candidateDetails[0].employeeName;
           this.candidateAccount = this.candidateDetails[0].account;
           this.readPartnerUserDet( this.candidateDetails[0].account);
