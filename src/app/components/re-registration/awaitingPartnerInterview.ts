@@ -27,6 +27,9 @@ export class AwaitingPartnerInterview {
     
       // Get candidates partner awaiting interview result
       this.apiService.getPartnerCandidateAwaitingResult(username,quizNumber).subscribe((data) => {
+          if(data['stage3_status'] == 'Not Suitable'){
+            isCandidateReleased = true;
+          }else{
           resultCreatedDate = new Date(data['smeAssessmentDate']);
           resultCreatedDate.setDate(resultCreatedDate.getDate() + this.candidatesRetainDay[0].retainStage4Candidates);
           let currentDate: Date = new Date();
@@ -35,6 +38,7 @@ export class AwaitingPartnerInterview {
           } else {
               isCandidateReleased = true;
           }
+        }
           //return isCandidateReleased;
         }, (error) => {
           console.log('[AwaitingPartnerInterview]-Error found while fetching the records for partner awaiting candidate');
@@ -43,5 +47,4 @@ export class AwaitingPartnerInterview {
           });        
         return isCandidateReleased;
     }
-
 }
