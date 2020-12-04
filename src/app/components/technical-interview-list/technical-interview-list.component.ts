@@ -72,6 +72,7 @@ export class TechnicalInterviewListComponent implements OnInit {
   showCalendar: boolean = false;
   calEmployeeName = "";
   loginAccounts:any = [];
+  meetingEventsByCandidate:any = [];
 
   displayedColumns = ['Action','result_users.employeeName', 'result_jrss[0].jrss','userScore','preTechForm','meeting[0].startDate','cvDownload'];
   displayedColumnsSector = ['Action','result_users.employeeName', 'result_jrss[0].jrss','result_users.account','userScore','preTechForm','meeting[0].startDate','cvDownload'];
@@ -257,21 +258,26 @@ export class TechnicalInterviewListComponent implements OnInit {
       this.showModal = true;
       this.resetForm();
       this.apiService.getMeetingEventsByCandidate(this.emailSelected).subscribe((res) => {
-          if(res[0].user == this.userName){
-            this.content.open();
-            return false;
+          this.meetingEventsByCandidate = res;
+          if (this.meetingEventsByCandidate.length > 0) {
+            if(this.meetingEventsByCandidate[0].user == this.userName){
+             $("#myExceptionModal").modal("show");
+              return false;
+            } else {
+              this.showModal = false;
+              $('#myExceptionModal  .close').click();
+              alert('You are not allowed to do Exception Approval as Schedule Interview is done by ' +this.meetingEventsByCandidate[0].user);
+              return false;
+            }
           } else {
-            this.showModal = false;
-            $("#myExceptionModal").modal("hide");
-            alert('You are not allowed to do Exception Approval as Schedule Interview is done by ' +res[0].user);
-            return false;
+            if(this.interviewDate == ""  || this.interviewDate == undefined){
+              $("#myExceptionModal").modal("show");
+               return false;
+            }
           }
        }, (error) => {
-          if(this.interviewDate == ""  || this.interviewDate == undefined){
-             this.content.open();
-             return false;
-          }
-       });
+          console.log("Error occurred while reading meeting events table - ",error);
+     });
     }
   }
 

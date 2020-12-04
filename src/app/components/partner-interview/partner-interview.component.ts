@@ -40,6 +40,7 @@ export class PartnerInterviewComponent implements OnChanges {
   showModal: boolean = false;
   partnerFeedbackForm: FormGroup;
   submitted = false;
+  formReset = false;
   displayContractorUIFields: Boolean = false;
   displayRegularUIFields: Boolean = true;
   error = '';
@@ -184,8 +185,9 @@ export class PartnerInterviewComponent implements OnChanges {
       alert("Please select the candidate");
       return false;
     } else {
-      if (window.confirm("Are you sure you want to provide exemption approval?")) {
+      if (window.confirm("Are you sure you want to provide exceptional approval?")) {
         this.showModal = true;
+        this.resetForm();
         this.content.open();
         this.partnerFeedbackForm.reset;
       } else {
@@ -196,6 +198,10 @@ export class PartnerInterviewComponent implements OnChanges {
 
    onSubmit() {
       this.submitted = true;
+      this.formReset = false;
+      if (!this.partnerFeedbackForm.valid) {
+        return false;
+      } else {
       this.setEmailNotificationDetails();
 
       if(this.partnerFeedbackForm.value.partnerFeedback.length>0){
@@ -222,6 +228,13 @@ export class PartnerInterviewComponent implements OnChanges {
         })
       }
     }
+  }
+
+
+  resetForm() {
+      this.formReset = true;
+      this.partnerFeedbackForm.reset();
+  }
 
    // Set email notification parameter details
    setEmailNotificationDetails(){

@@ -167,6 +167,18 @@ getQuestions(account): Observable<any> {
       )
   }
 
+
+// GET registered Candidate details by username
+getAssignedCandidate(username): Observable<any> {
+      let url = `${this.projectAllocUri}/projectAlloc/${username}`;
+      return this.http.get(url, {headers: this.headers}).pipe(
+            map((res: Response) => {
+              return res || {}
+            }),
+            catchError(this.errorMgmt)
+      )
+  }
+
   // Create Question
   createQuestion(data): Observable<any> {
     let url = `${this.baseUri}/createquestion`;
@@ -731,6 +743,27 @@ getResultByUser(username: string,quiznumber:number){
 
 getResultByUserResultPass(username: string,quiznumber:number,userResult: string){
   let url = `${this.userResultUri}/getResultByUserResultPass/${username}/${quiznumber}/${userResult}`;
+  return this.http.get(url, { headers: this.headers }).pipe(
+    catchError(this.errorMgmt)
+  )
+}
+getResultByUserResultFail(username: string,quiznumber:number,userResult: string){
+  let url = `${this.userResultUri}/getResultByUserResultFail/${username}/${quiznumber}/${userResult}`;
+  return this.http.get(url, { headers: this.headers }).pipe(
+    catchError(this.errorMgmt)
+  )
+}
+
+// Get partner candidates awaiting result
+getPartnerCandidateAwaitingResult(username: string,quiznumber:number){
+  let url = `${this.userResultUri}/getPartnerCandidateAwaitingResult/${username}/${quiznumber}`;
+  return this.http.get(url, { headers: this.headers }).pipe(
+    catchError(this.errorMgmt)
+  )
+}
+
+getUSerResultByAttendedPartnerInterview(username: string,quiznumber:number){
+  let url = `${this.userResultUri}/getUSerResultByAttendedPartnerInterview/${username}/${quiznumber}`;
   return this.http.get(url, { headers: this.headers }).pipe(
     catchError(this.errorMgmt)
   )
