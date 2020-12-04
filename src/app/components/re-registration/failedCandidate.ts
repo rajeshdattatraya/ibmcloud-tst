@@ -9,37 +9,41 @@ import { RegistrationConfigService } from '../../service/registrationConfig.serv
 export class failedCandidate {
   candidatesRetainDay : any;
   constructor(private registrationConfigService: RegistrationConfigService,private apiService : ApiService) {
+    this.getCandidatesRegistrationRetainDays();
+  }
+  // Get candidate stage's retain day from RegistrationConfig table
+  getCandidatesRegistrationRetainDays(){
+    this.registrationConfigService.getStageCandidatesRetainDay().subscribe((data) => {
+    this.candidatesRetainDay = data;
+   })
   }
 
-// Candidate who has failed quiz should be made available or registered by other account after 'x'(7 days) no of days
+  // Candidate who has failed quiz should be made available or registered by other account after 'x'(7 days) no of days
 
-  isCandidateFailed(username) {
-      let noOfDays : number;
+  isCandidateFailed(username,quizNumber,callback) {
       let currentDate: Date = new Date();
       let userResult : string = "Fail";
       var resultCreatedDate: Date;
-      let isCandidateReleased : boolean = false;
-      this.registrationConfigService.getStageCandidatesRetainDay().subscribe((resp) => {
-      noOfDays = resp[0].retainFailedCandidates;    
-      this.apiService.getUserByUserName(username).subscribe(
-        (res) => {
-          this.apiService.getResultByUserResultFail(username,res.quizNumber,userResult).subscribe(data => {
+      let isCandidateReleased : boolean = false;   
+      // this.apiService.getUserByUserName(username).subscribe(
+      //   (res) => {
+        return this.apiService.getResultByUserResultFail(username,quizNumber,userResult).subscribe(data => {
             resultCreatedDate = new Date(data['createdDate']);
-            resultCreatedDate.setDate(resultCreatedDate.getDate() + noOfDays);
+            resultCreatedDate.setDate(resultCreatedDate.getDate() + this.candidatesRetainDay[0].retainFailedCandidates);
             if (resultCreatedDate >= currentDate) {
               isCandidateReleased =  false;
             } else {
               isCandidateReleased = true;
             }
+            callback(isCandidateReleased);
           }, (error) => { 
-            isCandidateReleased =  false;          
+            isCandidateReleased =  false; 
+            callback(isCandidateReleased);         
             console.log("Error found while fetching records from Results collection - " + error);
         });  
-        }, (error) => { 
-          isCandidateReleased =  false; 
-          console.log("Error found while fetching records from Users collection - " + error);
-      });     
-      return isCandidateReleased;
-    });
+      //, (error) => { 
+      //     isCandidateReleased =  false; 
+      //     console.log("Error found while fetching records from Users collection - " + error);
+      // });   
   } 
 }
