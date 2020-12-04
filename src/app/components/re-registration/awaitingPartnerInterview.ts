@@ -21,12 +21,12 @@ export class AwaitingPartnerInterview {
     }
 
     // Candidate awaiting partner interview should be made available or registered by other account after n number of days
-    isCandidateAwaitingInPartnerInterviewQ(username,quizNumber) { 
+    isCandidateAwaitingInPartnerInterviewQ(username,quizNumber,callback) { 
       var resultCreatedDate: Date;
       let isCandidateReleased : boolean = false;
     
-      // Get candidates partner awaiting interview result
-      this.apiService.getPartnerCandidateAwaitingResult(username,quizNumber).subscribe((data) => {
+    // Get candidates partner awaiting interview result
+     return this.apiService.getPartnerCandidateAwaitingResult(username,quizNumber).subscribe((data) => {
           if(data['stage3_status'] == 'Not Suitable'){
             isCandidateReleased = true;
           }else{
@@ -39,12 +39,11 @@ export class AwaitingPartnerInterview {
               isCandidateReleased = true;
           }
         }
-          //return isCandidateReleased;
+          callback(isCandidateReleased);
         }, (error) => {
           console.log('[AwaitingPartnerInterview]-Error found while fetching the records for partner awaiting candidate');
           console.log(error);
-          //return isCandidateReleased;
-          });        
-        return isCandidateReleased;
+          callback(isCandidateReleased);
+          });                 
     }
 }
