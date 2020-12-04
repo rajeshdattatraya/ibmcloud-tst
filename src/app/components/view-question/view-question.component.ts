@@ -8,6 +8,7 @@ import { Question } from '../../model/questions';
 import { MatTableDataSource } from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
+import { DayTableModel } from '@fullcalendar/angular';
 
 @Component({
   selector: 'app-view-question',
@@ -15,6 +16,7 @@ import {MatPaginator} from '@angular/material/paginator';
   styleUrls: ['./view-question.component.css']
 })
 export class ViewQuestionComponent implements OnInit {
+  
   searchFilter() {
     throw new Error('Method not implemented.');
   }
@@ -78,8 +80,13 @@ export class ViewQuestionComponent implements OnInit {
 
 
   ngOnInit() {
+    
     this.browserRefresh = browserRefresh;
     this.dataSource.filterPredicate = (data, filter) => {
+      console.log("data" +data);
+      console.log("filter key" +this.filterObj['key']);
+      console.log("filter value" +this.filterObj['value']);
+
       if (this.filterObj['key'] == 'Question'){
         data[this.filterObj['key']] = data[1];
       } else if (this.filterObj['key'] == 'Account'){
@@ -87,11 +94,19 @@ export class ViewQuestionComponent implements OnInit {
       } else if (this.filterObj['key'] == 'TechStream'){
         data[this.filterObj['key']] = data[3];
       }
-     if(data[this.filterObj['key']] && this.filterObj['key']) {
-          if (data[this.filterObj['key']].toLowerCase().startsWith(this.filterObj['value']) || data[this.filterObj['key']] == this.filterObj['value'] || data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value'])) {
-             return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
-          }
-      }
+    console.log("Data filterObj key:" +data[this.filterObj['key']]);
+      if(data[this.filterObj['key']] && this.filterObj['key']) {
+        if(this.filterObj['key']== 'Account'){
+          if (data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value'])) {
+            return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
+         }
+        }
+       else{
+       if (data[this.filterObj['key']].toLowerCase().startsWith(this.filterObj['value'])) {
+               return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
+            }
+          }   
+        }
       return false;
     }
     this.dataSource.sortingDataAccessor = (item, property) => {
@@ -236,8 +251,7 @@ removeQuestion(){
       smeAccount = data;     
       for (var account of smeAccount){             
         this.loginAccounts.push(account.account);
-        console.log("account details:" +this.loginAccounts);
-      }​
+        }​
         })
       }
     }
