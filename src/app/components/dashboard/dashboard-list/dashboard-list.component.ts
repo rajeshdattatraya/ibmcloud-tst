@@ -39,6 +39,7 @@ export class DashboardListComponent implements OnChanges {
   accessLevel: String = "";
   mode: string = "";
   candidateID: any;
+  candidateJobrole: any;
   dashboardDetails: any = [];
   displayTechInterview: boolean = true;
   displayPartnerInterview: boolean = true;
@@ -269,8 +270,9 @@ displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userR
       })
     }
 
-    setCandidateID(id) {
+    setCandidateID(id,role) {
       this.candidateID = id;
+      this.candidateJobrole = role;
     }
 
     viewDetails() {
@@ -287,7 +289,7 @@ displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userR
 
       this.apiService.viewDashboardDetails(this.candidateID).subscribe((data) => {
          this.dashboardDetails = data;
-
+         this.dashboardDetails[0].result_users[0].JRSS =  this.candidateJobrole;
          if (this.dashboardDetails[0].result_users[0].employeeType == 'Contractor') {
               this.displayContractorUIFields = true;
               this.displayRegularUIFields = false;
