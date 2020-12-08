@@ -50,9 +50,9 @@ getJRSSPreTech(jrssName) {
 }
 
 // Get all JRSS
-getJRSSPreTechByAccountAndJrssName(jrssName,account) {
-  let url = `${this.baseJrssUri}/getJRSSPreTechByAccountAndJrssName/${jrssName}/${account}`;
-  return this.http.get(`${this.baseJrssUri}/getJRSSPreTechByAccountAndJrssName/${jrssName}/${account}`);
+getJRSSPreTechByAccountAndJrssID(jrssID,account) {
+  let url = `${this.baseJrssUri}/getJRSSPreTechByAccountAndJrssID/${jrssID}/${account}`;
+  return this.http.get(`${this.baseJrssUri}/getJRSSPreTechByAccountAndJrssID/${jrssID}/${account}`);
 }
 
 // Create Candidate
