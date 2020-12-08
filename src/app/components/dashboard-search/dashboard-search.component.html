@@ -81,6 +81,18 @@
           </mat-form-field>
         </td>
       </tr>
+      <tr>
+        <td>
+          <mat-form-field>
+            <mat-select matInput type="search" #fromHistory formControlName="fromHistory" placeholder="From History" (change)="updateFromHistory($event.target.value)"
+                        id="search4" aria-label="Search" >
+              <mat-option value="Yes">Yes</mat-option>
+              <mat-option value="No">No</mat-option>
+            </mat-select>
+
+          </mat-form-field>
+        </td>
+      </tr>
     </table>
 	
 	

@@ -13,10 +13,11 @@ export class Dashboard {
 		public qNumber:any;
 		public uScore:any;
 		public createdDate:any;
+		public fromHistory:any;
 
 		constructor(employeeName,jobRole,canAccount,onlineTestResult,technicalInterviewResult,
 		            partnerInterviewResult,assignedToProject,canUserId,canUserName,
-		            resultId,userResult,qNumber,uScore,createdDate) {
+		            resultId,userResult,qNumber,uScore,createdDate,fromHistory) {
         this.employeeName = employeeName;
 		    this.jobRole = jobRole;
 		    this.canAccount = canAccount;
@@ -32,6 +33,7 @@ export class Dashboard {
         this.qNumber = qNumber;
         this.uScore = uScore;
         this.createdDate = createdDate;
+        this.fromHistory = fromHistory;
     }
 
 }
