@@ -415,7 +415,7 @@ export class CandidateCreateComponent implements OnInit {
                     console.log("Stage 1 is skipped for this JRSS");
                     //Initializing the user Result workflow collection
                     let userResultWokFlow = new UserResultWorkFlow(this.candidateForm.value.email, '','',
-                    this.quizNumber, this.stage1, this.stage2, this.stage3, this.stage4, this.stage5);
+                    this.quizNumber, this.stage1, this.stage2, this.stage3, this.stage4, this.stage5,this.candidateForm.value.account);
                     //Create Collection in User table.
                     this.resultPageService.saveResult(userResultWokFlow).subscribe((res) => {
                         console.log('Results for the user have been successfully created if Stage 1 is skipped');

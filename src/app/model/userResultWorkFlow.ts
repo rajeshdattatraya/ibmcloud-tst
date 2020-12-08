@@ -9,8 +9,9 @@ export class UserResultWorkFlow {
 		public stage4_status: any;
 		public stage5_status: any;
 		public createdDate:Date;
+		public account:any;
 
-		constructor(userName,userScore,userResult,quizNumber,stage1_status,stage2_status,stage3_status,stage4_status,stage5_status) {
+		constructor(userName,userScore,userResult,quizNumber,stage1_status,stage2_status,stage3_status,stage4_status,stage5_status,account) {
         this.userName = userName;
 		    this.userScore = userScore;
 		    this.userResult = userResult;
@@ -21,6 +22,7 @@ export class UserResultWorkFlow {
 		    this.stage4_status = stage4_status;
 		    this.stage5_status = stage5_status;
         this.createdDate = new Date();
+        this.account = account;
     }
 
 }
