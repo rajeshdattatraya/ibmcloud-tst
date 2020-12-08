@@ -596,6 +596,18 @@ getDashboardList(account): Observable<any> {
   )
 }
 
+//getDashboardListFromHistory
+getDashboardListFromHistory(account): Observable<any> {
+  let url = `${this.userResultUri}/getDashboardListFromHistory/${account}`;
+  console.log("url",url);
+  return this.http.get(url, {headers: this.headers}).pipe(
+        map((res: Response) => {
+          return res || {}
+        }),
+        catchError(this.errorMgmt)
+  )
+}
+
 //viewDashboardDetails
 viewDashboardDetails(id): Observable<any> {
   let url = `${this.userResultUri}/viewDashboardDetails/${id}`;
