@@ -20,7 +20,7 @@ export class failedCandidate {
 
   // Candidate who has failed quiz should be made available or registered by other account after 'x'(7 days) no of days
 
-  isCandidateFailed(username,quizNumber,callback) {
+  isCandidateFailed(username,quizNumber,updatedDate,callback) {
       let currentDate: Date = new Date();
       let userResult : string = "Fail";
       var resultCreatedDate: Date;
@@ -37,13 +37,19 @@ export class failedCandidate {
             }
             callback(isCandidateReleased);
           }, (error) => { 
-            isCandidateReleased =  false; 
-            callback(isCandidateReleased);         
             console.log("Error found while fetching records from Results collection - " + error);
-        });  
+            resultCreatedDate = new Date(updatedDate);
+            resultCreatedDate.setDate(resultCreatedDate.getDate() + this.candidatesRetainDay[0].retainFailedCandidates);
+            if (resultCreatedDate >= currentDate) {
+              isCandidateReleased =  false; 
+            } else {
+              isCandidateReleased = true;
+            }  
+            callback(isCandidateReleased);       
+        }); 
       //, (error) => { 
       //     isCandidateReleased =  false; 
       //     console.log("Error found while fetching records from Users collection - " + error);
       // });   
+    } 
   } 
-}
