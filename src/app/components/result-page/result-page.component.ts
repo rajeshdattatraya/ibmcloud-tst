@@ -139,7 +139,7 @@ export class ResultPageComponent implements OnInit {
               this.userResult = "Fail";
             }
              let userResultWokFlow = new UserResultWorkFlow(this.username, Number(this.scorePercentage), this.userResult,
-                this.quizNumber, this.stage1, this.stage2, this.stage3, this.stage4, this.stage5);
+                this.quizNumber, this.stage1, this.stage2, this.stage3, this.stage4, this.stage5,this.candidateAccount);
                 data = JSON.stringify(userResultWokFlow);
                 this.resultPageService.saveResult(data).subscribe(
                   (res) => {

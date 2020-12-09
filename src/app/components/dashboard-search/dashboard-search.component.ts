@@ -38,7 +38,8 @@ export class DashboardSearchComponent implements OnInit {
       technicalInterviewResult: new FormControl(''),
       userResult: new FormControl(''),
       fromDate: new FormControl(''),
-      toDate: new FormControl('')
+      toDate: new FormControl(''),
+      fromHistory: new FormControl('')
     });
   }
 
@@ -63,6 +64,13 @@ export class DashboardSearchComponent implements OnInit {
   // Choose Online Test Result type with select dropdown
   updateOnlineResultProfile(e) {
     this.form.get('userResult').setValue(e, {
+    onlySelf: true
+    })
+  }
+
+  // Choose from history type with select dropdown
+  updateFromHistory(e) {
+    this.form.get('fromHistory').setValue(e, {
     onlySelf: true
     })
   }

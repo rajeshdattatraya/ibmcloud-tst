@@ -174,7 +174,7 @@ loadReportData() {
     }
     this.reportResponse.forEach((item) => {
 
-      let registeredDate = Date.parse(item.createdDate);
+      let registeredDate = Date.parse(item.createdDate.split('T')[0]);
 
       if (registeredDate >= fromDate && registeredDate <= toDate) {
         if (this.reportObj[item.jrssID]) {

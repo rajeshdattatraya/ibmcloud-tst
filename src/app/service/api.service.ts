@@ -50,9 +50,9 @@ getJRSSPreTech(jrssName) {
 }
 
 // Get all JRSS
-getJRSSPreTechByAccountAndJrssName(jrssName,account) {
-  let url = `${this.baseJrssUri}/getJRSSPreTechByAccountAndJrssName/${jrssName}/${account}`;
-  return this.http.get(`${this.baseJrssUri}/getJRSSPreTechByAccountAndJrssName/${jrssName}/${account}`);
+getJRSSPreTechByAccountAndJrssID(jrssID,account) {
+  let url = `${this.baseJrssUri}/getJRSSPreTechByAccountAndJrssID/${jrssID}/${account}`;
+  return this.http.get(`${this.baseJrssUri}/getJRSSPreTechByAccountAndJrssID/${jrssID}/${account}`);
 }
 
 // Create Candidate
@@ -588,6 +588,18 @@ getCandidateAssessmentDetails(username,quizNumber): Observable<any> {
 //getDashboardList
 getDashboardList(account): Observable<any> {
   let url = `${this.userResultUri}/getDashboardList/${account}`;
+  return this.http.get(url, {headers: this.headers}).pipe(
+        map((res: Response) => {
+          return res || {}
+        }),
+        catchError(this.errorMgmt)
+  )
+}
+
+//getDashboardListFromHistory
+getDashboardListFromHistory(account): Observable<any> {
+  let url = `${this.userResultUri}/getDashboardListFromHistory/${account}`;
+  console.log("url",url);
   return this.http.get(url, {headers: this.headers}).pipe(
         map((res: Response) => {
           return res || {}

@@ -28,7 +28,9 @@ export class DashboardListComponent implements OnChanges {
   filters: Object;
   filteredUsers: any[] = [];
   Result: any = [];
-  
+  ResultHistory: any = [];
+  fromHistory: String = "";
+
   dataSource = new MatTableDataSource<any>();
 
   public browserRefresh: boolean;
@@ -39,6 +41,7 @@ export class DashboardListComponent implements OnChanges {
   accessLevel: String = "";
   mode: string = "";
   candidateID: any;
+  candidateJobrole: any;
   dashboardDetails: any = [];
   displayTechInterview: boolean = true;
   displayPartnerInterview: boolean = true;
@@ -71,8 +74,8 @@ export class DashboardListComponent implements OnChanges {
   createdDate = "";
   loginAccounts:any = [];
 
-displayedColumns = ['Action','employeeName', 'jobRole','userResult','technicalInterviewResult','partnerInterviewResult','assignedToProject'];
-displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userResult','technicalInterviewResult','partnerInterviewResult','assignedToProject'];
+displayedColumns = ['Action','employeeName', 'jobRole','userResult','technicalInterviewResult','partnerInterviewResult','assignedToProject','fromHistory'];
+displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userResult','technicalInterviewResult','partnerInterviewResult','assignedToProject','fromHistory'];
 
 
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
@@ -103,12 +106,13 @@ displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userR
               this.router.navigate(['/login-component']);
         }
         this.readResult();
+        this.readResultFromHistory();
 
         this.dataSource.filterPredicate = (data: any, filter) => {
           const dataStr =JSON.stringify(data).toLowerCase();
           return dataStr.indexOf(filter) != -1;
     }
-  
+
     this.dataSource.sortingDataAccessor = (item, property) => {
         switch(property) {
           case 'employeeName': return item.employeeName;
@@ -135,7 +139,7 @@ displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userR
               return String(user[key]).toLowerCase().startsWith(String(filters[key]).toLowerCase())
             }
           } else {
-            if (key == "userResult") {
+            if (key == "userResult" || key == "fromHistory") {
                if(user[key] == filters[key]) {
                    return true;
                }
@@ -158,13 +162,6 @@ displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userR
 	    this.dataSource.data = this.dashboards as Dashboard[];
     }
 
-    getDashboardList(){
-      this.apiService.getDashboardList(this.account).subscribe((data) => {
-       this.DashboardList = data;
-       console.log(`this.DashboardList******** `,this.DashboardList);
-       
-      })
-    }
     // To Read the Results
     readResult() {
       this.apiService.getDashboardList(this.account).subscribe((data) => {
@@ -258,9 +255,10 @@ displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userR
              this.canAccount = result.result_users.account;
              this.canUserId = result.result_users._id;
              this.canUserName = result.result_users.username;
+             this.fromHistory = "No";
              this.dashboards.push(new Dashboard(this.employeeName, this.jobRole, this.canAccount,this.onlineTestResult, this.technicalInterviewResult,
                                         this.partnerInterviewResult,this.assignedToProject,this.canUserId,this.canUserName,
-                                        this.resultId,this.userResult,this.qNumber,this.uScore,this.createdDate));
+                                        this.resultId,this.userResult,this.qNumber,this.uScore,this.createdDate,this.fromHistory));
            }
         });
 		    this.dataSource.data = this.dashboards as Dashboard[];
@@ -269,8 +267,112 @@ displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userR
       })
     }
 
-    setCandidateID(id) {
+  readResultFromHistory() {
+      this.apiService.getDashboardListFromHistory(this.account).subscribe((historyData) => {
+        this.ResultHistory = historyData;
+        console.log("ResultHistory",this.ResultHistory);
+        this.onlineTestResult = "";
+        this.userResult = "";
+        this.technicalInterviewResult = "";
+        this.partnerInterviewResult = "";
+        this.assignedToProject = "";
+        this.resultId = "";
+        this.qNumber = "";
+        this.uScore = "";
+        this.createdDate = "";
+
+        this.ResultHistory.forEach((result) => {
+            this.employeeName = "";
+            this.jobRole = "";
+            this.canAccount = "";
+            this.canUserId = "";
+            this.canUserName = "";
+
+           if (result.stage1_status == 'Not Started') {
+             if (result.userResult == 'Fail') {
+                  this.onlineTestResult = result.userScore + "%";
+                  this.userResult ="Fail";
+             } else {
+                  this.onlineTestResult = "Pending";
+                  this.userResult ="Other";
+             }
+           } else if (result.stage1_status == 'Skipped') {
+             this.onlineTestResult = "N/A";
+             this.userResult ="Other";
+           } else if (result.stage1_status == 'Completed' && result.userScore != null) {
+              this.onlineTestResult = result.userScore + "%";
+              this.userScore = result.userScore;
+              if(result.userResult=='Pass'){
+               this.userResult="Pass";
+              } else if(result.userResult=='Fail'){
+               this.userResult="Fail";
+              } else {
+               this.userResult ="Other";
+              }
+           }  else if (result.stage1_status == 'Completed' && result.userScore == null) {
+              this.onlineTestResult = "N/A";
+              this.userResult ="Other";
+           }
+
+           if (result.stage3_status == 'Not Started') {
+             if (result.smeResult == null || result.smeResult == "") {
+                 this.technicalInterviewResult = "Pending";
+             } else {
+                 this.technicalInterviewResult = result.smeResult;
+             }
+           } else if (result.stage3_status == 'Not Suitable') {
+            this.technicalInterviewResult = "Not Suitable";
+           } else if (result.stage3_status == 'Skipped') {
+             this.technicalInterviewResult = "N/A";
+           } else if (result.stage3_status == 'Completed') {
+             this.technicalInterviewResult = result.smeResult;
+           }
+
+           if (result.stage4_status == 'Not Started') {
+            if (result.managementResult == null || result.managementResult == "") {
+                this.partnerInterviewResult = "Pending";
+            } else {
+                this.partnerInterviewResult = result.managementResult;
+            }
+           } else if (result.stage4_status == 'Not Suitable') {
+            this.partnerInterviewResult = "Not Suitable";
+           } else if (result.stage4_status == 'Skipped') {
+             this.partnerInterviewResult = "N/A";
+           } else if (result.stage4_status == 'Completed') {
+             this.partnerInterviewResult = result.managementResult;
+           }
+            if (result.stage5_status == 'Not Started') {
+              this.assignedToProject = "Unassigned";
+            } else if (result.stage5_status == 'Skipped' || result.stage5_status == null) {
+              this.assignedToProject = "N/A";
+            } else if (result.stage5_status == 'Completed') {
+              this.assignedToProject = "Assigned";
+            }
+           this.resultId = result._id;
+           this.qNumber = result.quizNumber;
+           this.uScore = result.userScore;
+           this.createdDate = result.createdDate;
+           if (Object.entries(result.result_users).length > 0) {
+             this.employeeName = result.result_users.employeeName;
+             this.jobRole = result.JRSS.jrss;
+             this.canAccount = result.result_users.account;
+             this.canUserId = result.result_users._id;
+             this.canUserName = result.result_users.username;
+             this.fromHistory = "Yes";
+             this.dashboards.push(new Dashboard(this.employeeName, this.jobRole, this.canAccount,this.onlineTestResult, this.technicalInterviewResult,
+                                        this.partnerInterviewResult,this.assignedToProject,this.canUserId,this.canUserName,
+                                        this.resultId,this.userResult,this.qNumber,this.uScore,this.createdDate,this.fromHistory));
+           }
+        });
+		    this.dataSource.data = this.dashboards as Dashboard[];
+        this.users = this.dashboards;
+        this.filteredUsers = this.filteredUsers.length > 0 ? this.filteredUsers : this.users;
+      })
+    }
+
+    setCandidateID(id,role) {
       this.candidateID = id;
+      this.candidateJobrole = role;
     }
 
     viewDetails() {
@@ -287,7 +389,7 @@ displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userR
 
       this.apiService.viewDashboardDetails(this.candidateID).subscribe((data) => {
          this.dashboardDetails = data;
-
+         this.dashboardDetails[0].result_users[0].JRSS =  this.candidateJobrole;
          if (this.dashboardDetails[0].result_users[0].employeeType == 'Contractor') {
               this.displayContractorUIFields = true;
               this.displayRegularUIFields = false;
@@ -349,6 +451,6 @@ displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userR
     this.dataSource.sort = this.sort;
 
   }
-  
+
 
   }

@@ -392,6 +392,7 @@ ngOnInit() {
 
   submitAnswers(warning: boolean) {
   let userAnswer = new UserAnswer(null,null,null,null,null);
+  let data:any=[]
   this.questions.forEach((question) => {  
 	this.questionID = question.questionID;
   this.userAnswerID ="";
@@ -408,24 +409,24 @@ ngOnInit() {
     question.flagged = false;
   }  
   
-	this.array = this.userAnswerID.split(',')
+	//this.array = this.userAnswerID.split(',')
 	this.userAnswerID = (this.userAnswerID.length && this.userAnswerID[0] == ',') ? this.userAnswerID.slice(1) : this.userAnswerID;
-	userAnswer.userAnswerID = this.userAnswerID ;
   userAnswer = new UserAnswer(this.userName,this.quizNumber, this.questionID, this.userAnswerID, question.flagged );
-	let data = JSON.stringify( userAnswer );
-		 this.quizService.saveAnswer(data).subscribe(
-        (res) => {
-          document.removeEventListener('visibilitychange',this.handler,true);
-          console.log('Answer successfully saved!');    
-		      if(this.diff < this.configDuration && warning) {
-		        this.mode = 'quiz';
-		      } else {            
-            this.ngZone.run(() => this.router.navigateByUrl('/result-page',{state:{username:this.userName,quizNumber:this.quizNumber,mode:this.mode}}))
-          } }, (error) => {
-          console.log(error);
-        });
-
-  });
+ 
+  data.push( userAnswer );
+  
+});
+    this.quizService.saveAnswer(data).subscribe (
+      (res) => {
+        document.removeEventListener('visibilitychange',this.handler,true);
+        console.log('Answer successfully saved!');    
+        if(this.diff < this.configDuration && warning) {
+          this.mode = 'quiz';
+        } else  {    
+          this.ngZone.run(() => this.router.navigateByUrl('/result-page',{state:{username:this.userName,quizNumber:this.quizNumber,mode:this.mode}}))
+        } }, (error) => {
+        console.log(error);
+      });
    
   }
   
