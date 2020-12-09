@@ -23,33 +23,34 @@ export class assignedToProjectCandidate {
   getCandidatesRegistrationRetainDays(){
     this.registrationConfigService.getStageCandidatesRetainDay().subscribe((data) => {
       this.candidatesRetainDay = data;
-      console.log("RetainFailedCanidates days =" + this.candidatesRetainDay[0].retainProjectCandidates);
+      console.log("RetainProjectCanidates days =" + this.candidatesRetainDay[0].retainProjectCandidates);
     })
   }
 
   // Candidate assigned to account and who is in the account for more than 2 months
-  isCandidateAssigned(username) {
-    let candidateDetails;
+  isCandidateAssigned(userName, callback) {
+    let candidateDetails: Object;
     let retainCandidate : boolean = false;
     let projectAssignedDate: Date;
     let currentDate: Date = new Date();
     
-  
-   this.apiService.getAssignedCandidate(username).subscribe(data =>{
+  return this.apiService.getAssignedCandidate(userName).subscribe(data =>{
     candidateDetails = data;
     console.log("Assigned candidate details:" +JSON.stringify(candidateDetails));
   projectAssignedDate = new Date(candidateDetails[0].createdDate);
   projectAssignedDate.setDate(projectAssignedDate.getDate() + this.candidatesRetainDay[0].retainProjectCandidates);
-  console.log("Project assigned date:" +projectAssignedDate);
   if (projectAssignedDate >= currentDate) {
     retainCandidate =  false;
   } else {
     alert("Candidate is not on bench, hence cannot be registered to other account");
     retainCandidate = true;
   }
+  callback(retainCandidate);
   
+  },(error) => {
+    console.log('[ProjectAllocation]-Error found while fetching the record for candidate allocated to project',error);
+    callback(retainCandidate);
+ })
   
-  })
-  return retainCandidate;
   }
 }
