@@ -42,7 +42,7 @@
           <td style="width:25%">
             <a *ngIf="this.partnerInterviewDetails[0].stage2_status=='Skipped'" href="#" (click)="skipMethod()" routerLinkActive="active" data-toggle="modal">Click here</a>
             <div *ngIf="this.partnerInterviewDetails[0].stage2_status=='Completed'">
-              <a class="edit" [routerLink]="['/pre-technical-interview-form/',this.partnerInterviewDetails[0].result_jrss[0].jrss, this.partnerInterviewDetails[0].userName, this.partnerInterviewDetails[0].result_users.account]" [state]="{jrss:this.partnerInterviewDetails[0].result_jrss[0].jrss,username:this.partnerInterviewDetails[0].result_users.username,access:'partner-interview-initiate',accessLevel:this.accessLevel,account:this.account,userName:this.userName}">
+              <a class="edit" [routerLink]="['/pre-technical-interview-form/',this.partnerInterviewDetails[0].result_users.JRSS, this.partnerInterviewDetails[0].userName, this.partnerInterviewDetails[0].result_users.account]" [state]="{jrss:this.partnerInterviewDetails[0].result_jrss[0].jrss,username:this.partnerInterviewDetails[0].result_users.username,access:'partner-interview-initiate',accessLevel:this.accessLevel,account:this.account,userName:this.userName}">
                 Click here
               </a>
             </div>

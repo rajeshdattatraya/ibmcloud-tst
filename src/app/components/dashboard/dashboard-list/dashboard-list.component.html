@@ -69,7 +69,7 @@
 	<tr mat-row *matRowDef="let row; let even = even; columns: displayedSectorColumns;" [ngClass]="{gray: even}"></tr>
 </table>
 
-<mat-paginator *ngIf="Result.length > 0" [length]="this.Result.length" [pageSize]="5" [pageSizeOptions]="[5,10,15,25,50,100]" showFirstLastButtons></mat-paginator>
+<mat-paginator *ngIf="Result.length > 0 || ResultHistory > 0" [length]="this.Result.length" [pageSize]="5" [pageSizeOptions]="[5,10,15,25,50,100]" showFirstLastButtons></mat-paginator>
 
 </mat-card-content>
 </mat-card>
@@ -139,13 +139,13 @@
         <tr mat-row *matRowDef="let row; let even = even; columns: displayedColumns;" [ngClass]="{gray: even}"></tr>
       </table>
 
-      <mat-paginator *ngIf="Result.length > 0" [length]="this.Result.length" [pageSize]="5" [pageSizeOptions]="[5,10,15,25,50,100]" showFirstLastButtons></mat-paginator>
+      <mat-paginator *ngIf="Result.length > 0 || ResultHistory > 0" [length]="this.Result.length" [pageSize]="5" [pageSizeOptions]="[5,10,15,25,50,100]" showFirstLastButtons></mat-paginator>
 
     </mat-card-content>
   </mat-card>
 </div>
 <br/>
-  <div  class="float-right text-right"  *ngIf="Result.length > 0">
+  <div  class="float-right text-right"  *ngIf="Result.length > 0 || ResultHistory > 0">
     <span>
     <button mat-raised-button color="primary" (click)="viewDetails()" data-toggle="modal" data-target="#candidateModal">View Details</button>
     </span>

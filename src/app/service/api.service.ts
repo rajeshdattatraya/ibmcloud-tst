@@ -50,9 +50,9 @@ getJRSSPreTech(jrssName) {
 }
 
 // Get all JRSS
-getJRSSPreTechByAccountAndJrssName(jrssName,account) {
-  let url = `${this.baseJrssUri}/getJRSSPreTechByAccountAndJrssName/${jrssName}/${account}`;
-  return this.http.get(`${this.baseJrssUri}/getJRSSPreTechByAccountAndJrssName/${jrssName}/${account}`);
+getJRSSPreTechByAccountAndJrssID(jrssID,account) {
+  let url = `${this.baseJrssUri}/getJRSSPreTechByAccountAndJrssID/${jrssID}/${account}`;
+  return this.http.get(`${this.baseJrssUri}/getJRSSPreTechByAccountAndJrssID/${jrssID}/${account}`);
 }
 
 // Create Candidate
@@ -170,7 +170,7 @@ getQuestions(account): Observable<any> {
 
 // GET registered Candidate details by username
 getAssignedCandidate(username): Observable<any> {
-      let url = `${this.projectAllocUri}/projectAlloc/${username}`;
+      let url = `${this.projectAllocUri}/${username}`;
       return this.http.get(url, {headers: this.headers}).pipe(
             map((res: Response) => {
               return res || {}
