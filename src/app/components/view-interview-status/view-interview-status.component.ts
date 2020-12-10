@@ -38,6 +38,7 @@ export class ViewInterviewStatusComponent implements OnInit {
   candidateUserName = "";
   canAccount;
   allStagesCompleted : boolean = false;
+  notSuitableCandidate : boolean = false;
 
   userName = "";
   accessLevel = "management";
@@ -152,6 +153,7 @@ export class ViewInterviewStatusComponent implements OnInit {
       // }
       candidate.candidate_results.forEach( result => {
           this.allStagesCompleted = false;
+          this.notSuitableCandidate = false;
           this.resultId = result._id;
           this.uScore = result.userScore;
           this.qNumber = result.quizNumber;
@@ -181,10 +183,10 @@ export class ViewInterviewStatusComponent implements OnInit {
              this.userResult ="Other";
           }
 
+          //'Not Suitable' status candidates not appeared in Exceptional approval list
+          //as they are immediately available for re register to other accounts
           if (result.stage3_status == 'Not Started') {
             this.technicalInterviewResult = "Pending";
-          } else if (result.stage3_status == 'Not Suitable') {
-            this.technicalInterviewResult = "Not Suitable";
           } else if (result.stage3_status == 'Skipped') {
             this.technicalInterviewResult = "N/A";
           } else if (result.stage3_status == 'Completed') {
@@ -193,8 +195,6 @@ export class ViewInterviewStatusComponent implements OnInit {
 
           if (result.stage4_status == 'Not Started') {
             this.partnerInterviewResult = "Pending";
-          }  else if (result.stage4_status == 'Not Suitable') {
-            this.partnerInterviewResult = "Not Suitable";
           } else if (result.stage4_status == 'Skipped') {
             this.partnerInterviewResult = "N/A";
           } else if (result.stage4_status == 'Completed') {
@@ -208,8 +208,11 @@ export class ViewInterviewStatusComponent implements OnInit {
               (result.stage4_status == 'Skipped' || result.stage4_status == 'Completed') ) {
               this.allStagesCompleted = true;
           }
+          if (result.stage3_status == 'Not Suitable' || result.stage4_status == 'Not Suitable') {
+              this.notSuitableCandidate = true;
+          }
           this.stage5 = result.stage5_status;
-          if ((this.stage5 == "Not Started" || this.stage5 == "" ) && !(this.allStagesCompleted)) {
+          if ((this.stage5 == "Not Started" || this.stage5 == "" ) && !(this.allStagesCompleted) && !(this.notSuitableCandidate)) {
               this.exceptionalApprovalList.push(new ExceptionApprovalDetail(this.employeeName, this.JRSS, this.canAccount,this.onlineTestResult, this.technicalInterviewResult,
               this.partnerInterviewResult,this.canUserId,this.canUserName,this.resultId,
               this.userResult,this.uScore,this.qNumber,this.createdDate));

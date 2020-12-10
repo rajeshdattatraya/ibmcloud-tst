@@ -6,31 +6,56 @@
         <a  mat-button  routerLink="/login-component" routerLinkActive="active">Logout</a>
     </span>
   </mat-toolbar-row>
-</mat-toolbar> 
-<div *ngFor="let preTechQAndA of preTechQuesAndAns;let i=index">
-  <mat-card class="login-card">
-    <mat-card-header>
-    </mat-card-header>
-    <mat-card-content>
-  <table>
-    <tbody>
-      <tr>
-        <td width="25%" style="text-align:justify"><b>{{i+1}}.&nbsp;{{preTechQAndA.preTechQuestion}}</b></td>
-      </tr>
-      <tr>
-        <td width="25%" style="text-align:justify">&nbsp;&nbsp;{{preTechQAndA.answer}}</td>
-      </tr>
-      </tbody>
-  </table>
-</mat-card-content>
-</mat-card>
-</div>
-<br/>
- <div class="text-center" style="width: 1000px">
+</mat-toolbar>
+<div *ngIf="preTechQuesAndAns.length > 0">
+  <div *ngFor="let preTechQAndA of preTechQuesAndAns;let i=index">
+    <mat-card class="login-card">
+      <mat-card-header>
+      </mat-card-header>
+      <mat-card-content>
+        <table>
+          <tbody>
+          <tr>
+            <td width="25%" style="text-align:justify"><b>{{i+1}}.&nbsp;{{preTechQAndA.preTechQuestion}}</b></td>
+          </tr>
+          <tr>
+            <td width="25%" style="text-align:justify">&nbsp;&nbsp;{{preTechQAndA.answer}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <br/>
+  <div class="text-center" style="width: 1000px">
       <span (click)="close()">
         <button mat-raised-button color="primary" aria-label="Clear" type="button" style="background-color:#0043CE;" class="btn btn-primary">Close</button>&nbsp;
       </span>
   </div>
+</div>
+
+<div *ngIf="preTechQuesAndAns.length == 0">
+  <mat-card class="login-card">
+    <mat-card-header>
+    </mat-card-header>
+    <mat-card-content>
+      <table>
+        <tbody>
+        <tr>
+          <td>There are no pre technical answers as this stage is exceptional approved.</td>
+        </tr>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  <br/>
+  <div class="text-center" style="width: 1000px">
+      <span (click)="close()">
+        <button mat-raised-button color="primary" aria-label="Clear" type="button" style="background-color:#0043CE;" class="btn btn-primary">Close</button>&nbsp;
+      </span>
+  </div>
+  <div>
+
   
 
 
