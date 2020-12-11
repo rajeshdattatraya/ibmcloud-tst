@@ -8,8 +8,7 @@ var daysCheck:any;
   providedIn: 'root'
 })
 
-export class assignedToProjectCandidate {
-  candidatesRetainDay: Object;
+export class AssignedToProjectCandidate {
 
   constructor(private apiService : ApiService,
     private registrationConfigService: RegistrationConfigService) {
@@ -19,16 +18,10 @@ export class assignedToProjectCandidate {
     
   }
 
-  // Get candidate registration retain days
-  getCandidatesRegistrationRetainDays(){
-    this.registrationConfigService.getStageCandidatesRetainDay().subscribe((data) => {
-      this.candidatesRetainDay = data;
-      console.log("RetainProjectCanidates days =" + this.candidatesRetainDay[0].retainProjectCandidates);
-    })
-  }
+  
 
   // Candidate assigned to account and who is in the account for more than 2 months
-  isCandidateAssigned(userName, callback) {
+  isCandidateAssigned(userName, retentionDate, callback) {
     let candidateDetails: Object;
     let retainCandidate : boolean = false;
     let projectAssignedDate: Date;
@@ -38,7 +31,7 @@ export class assignedToProjectCandidate {
     candidateDetails = data;
     console.log("Assigned candidate details:" +JSON.stringify(candidateDetails));
   projectAssignedDate = new Date(candidateDetails[0].createdDate);
-  projectAssignedDate.setDate(projectAssignedDate.getDate() + this.candidatesRetainDay[0].retainProjectCandidates);
+  projectAssignedDate.setDate(projectAssignedDate.getDate() + retentionDate);
   if (projectAssignedDate >= currentDate) {
     retainCandidate =  false;
   } else {
