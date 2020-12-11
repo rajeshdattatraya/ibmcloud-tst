@@ -6,7 +6,7 @@
 
     <ng-container matColumnDef="Action">
         <th style="width:90px" mat-header-cell *matHeaderCellDef> Select </th>
-        <td style="width:60px" mat-cell *matCellDef="let row"> <mat-radio-button (click)="setCandidateID(row.resultId,row.jobRole)"></mat-radio-button>
+        <td style="width:60px" mat-cell *matCellDef="let row"> <mat-radio-button (click)="setCandidateID(row.resultId,row.jobRole,row.fromHistory)"></mat-radio-button>
         </td>
     </ng-container>
 	  
@@ -82,7 +82,7 @@
 
         <ng-container matColumnDef="Action">
           <th style="width:90px" mat-header-cell *matHeaderCellDef> Select </th>
-          <td style="width:60px" mat-cell *matCellDef="let row"> <mat-radio-button (click)="setCandidateID(row.resultId,row.jobRole)"></mat-radio-button>
+          <td style="width:60px" mat-cell *matCellDef="let row"> <mat-radio-button (click)="setCandidateID(row.resultId,row.jobRole,row.fromHistory)"></mat-radio-button>
           </td>
         </ng-container>
 

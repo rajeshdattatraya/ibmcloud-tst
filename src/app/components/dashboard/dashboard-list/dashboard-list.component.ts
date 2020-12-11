@@ -72,6 +72,7 @@ export class DashboardListComponent implements OnChanges {
   uScore = "";
   createdDate = "";
   loginAccounts:any = [];
+  candidatefromHistory: String = "";
 
 displayedColumns = ['Action','employeeName', 'jobRole','userResult','technicalInterviewResult','partnerInterviewResult','assignedToProject','fromHistory'];
 displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userResult','technicalInterviewResult','partnerInterviewResult','assignedToProject','fromHistory'];
@@ -370,9 +371,10 @@ displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userR
       })
     }
 
-    setCandidateID(id,role) {
+    setCandidateID(id,role,fromHistory) {
       this.candidateID = id;
       this.candidateJobrole = role;
+      this.candidatefromHistory = fromHistory;
       }
 
     viewDetails() {
@@ -387,7 +389,7 @@ displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userR
       this.displayContractorUIFields = false;
       this.displayRegularUIFields = true;
 
-      this.apiService.viewDashboardDetails(this.candidateID).subscribe((data) => {
+      this.apiService.viewDashboardDetails(this.candidateID, this.candidatefromHistory).subscribe((data) => {
          this.dashboardDetails = data;
          this.dashboardDetails[0].result_users[0].JRSS =  this.candidateJobrole;
          if (this.dashboardDetails[0].result_users[0].employeeType == 'Contractor') {

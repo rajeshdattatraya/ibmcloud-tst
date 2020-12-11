@@ -620,8 +620,14 @@ getDashboardListFromHistory(account): Observable<any> {
 }
 
 //viewDashboardDetails
-viewDashboardDetails(id): Observable<any> {
-  let url = `${this.userResultUri}/viewDashboardDetails/${id}`;
+viewDashboardDetails(id,candidatefromHistory): Observable<any> {
+  var url;
+  if(candidatefromHistory === 'No'){
+    url = `${this.userResultUri}/viewDashboardDetails/${id}`;
+  }else{
+    url = `${this.userResultUri}/viewDashboardDetailsHist/${id}`;
+  }
+  console.log('####### URL ::'+url);
   return this.http.get(url, {headers: this.headers}).pipe(
         map((res: Response) => {
           return res || {}
