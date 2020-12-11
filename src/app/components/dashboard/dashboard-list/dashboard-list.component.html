@@ -26,17 +26,17 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Account </th>
         <td mat-cell *matCellDef="let row"> {{row.canAccount}} </td>
       </ng-container>
-	  
-	  <ng-container matColumnDef="userResult">
+    
+   <ng-container matColumnDef="userResult">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Online Test Score </th>
         <td   mat-cell *matCellDef="let row">
           <div *ngIf="row.userResult==='Pass'">
-          <a style="color:rgb(0, 128, 43);" href="#assessmentModal"  (click)="getCandidateAssessmentDetails(row.canUserName,row.qNumber,row.employeeName,row.uScore,row.createdDate)" data-toggle="modal" >
+          <a style="color:rgb(0, 128, 43);" href="#assessmentModal"  (click)="getCandidateAssessmentDetails(row.canUserName,row.qNumber,row.employeeName,row.uScore,row.createdDate,row.fromHistory)" data-toggle="modal" >
             <b>{{row.onlineTestResult}}</b>
           </a>
           </div>
           <div *ngIf="row.userResult==='Fail'">
-            <a style="color:red;" href="#assessmentModal" (click)="getCandidateAssessmentDetails(row.canUserName,row.qNumber,row.employeeName,row.uScore,row.createdDate)" data-toggle="modal" >
+            <a style="color:red;" href="#assessmentModal" (click)="getCandidateAssessmentDetails(row.canUserName,row.qNumber,row.employeeName,row.uScore,row.createdDate,row.fromHistory)" data-toggle="modal" >
               <b>{{row.onlineTestResult}}</b>
             </a>
           </div>
@@ -45,7 +45,8 @@
           </div>
         </td>
     </ng-container>
-
+ 
+  
 	  <ng-container matColumnDef="technicalInterviewResult">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Tech Interview Result</th>
         <td mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.technicalInterviewResult}} </td>
@@ -97,25 +98,25 @@
           <td mat-cell *matCellDef="let row"> {{row.jobRole}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="userResult">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Online Test Score </th>
-          <td   mat-cell *matCellDef="let row">
-            <div *ngIf="row.userResult==='Pass'">
-              <a style="color:rgb(0, 128, 43);" href="#assessmentModal"  (click)="getCandidateAssessmentDetails(row.canUserName,row.qNumber,row.employeeName,row.uScore,row.createdDate)" data-toggle="modal" >
-                <b>{{row.onlineTestResult}}</b>
-              </a>
-            </div>
-            <div *ngIf="row.userResult==='Fail'">
-              <a style="color:red;" href="#assessmentModal" (click)="getCandidateAssessmentDetails(row.canUserName,row.qNumber,row.employeeName,row.uScore,row.createdDate)" data-toggle="modal" >
-                <b>{{row.onlineTestResult}}</b>
-              </a>
-            </div>
-            <div *ngIf="row.userResult=='Other'">
-              <a [style.color]="row.color">{{row.onlineTestResult}}</a>
-            </div>
-          </td>
-        </ng-container>
-
+    <ng-container matColumnDef="userResult">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Online Test Score </th>
+        <td   mat-cell *matCellDef="let row">
+          <div *ngIf="row.userResult==='Pass'">
+          <a style="color:rgb(0, 128, 43);" href="#assessmentModal"  (click)="getCandidateAssessmentDetails(row.canUserName,row.qNumber,row.employeeName,row.uScore,row.createdDate,row.fromHistory)" data-toggle="modal" >
+            <b>{{row.onlineTestResult}}</b>
+          </a>
+          </div>
+          <div *ngIf="row.userResult==='Fail'">
+            <a style="color:red;" href="#assessmentModal" (click)="getCandidateAssessmentDetails(row.canUserName,row.qNumber,row.employeeName,row.uScore,row.createdDate,row.fromHistory)" data-toggle="modal" >
+              <b>{{row.onlineTestResult}}</b>
+            </a>
+          </div>
+          <div *ngIf="row.userResult=='Other'">
+            <a [style.color]="row.color">{{row.onlineTestResult}}</a>
+          </div>
+        </td>
+    </ng-container>
+ 
         <ng-container matColumnDef="technicalInterviewResult">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Tech Interview Result</th>
           <td mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.technicalInterviewResult}} </td>

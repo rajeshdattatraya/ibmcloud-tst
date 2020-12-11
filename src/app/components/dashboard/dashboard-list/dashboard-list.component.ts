@@ -423,35 +423,30 @@ displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userR
     }
 
 
-    getCandidateAssessmentDetails(userid,quizId,username,userScore,createdDate) {
+    getCandidateAssessmentDetails(userid,quizId,username,userScore,createdDate,fromHistory) {
       this.userName=username;
       this.quizNumber=quizId;
       this.userScore=userScore;
       this.assesmentDate=createdDate;
+      this.candidatefromHistory = fromHistory;
       this.mode="displayAssessmentModalBody";
+      if(this.candidatefromHistory === 'No'){
       this.apiService.getCandidateAssessmentDetails(userid,quizId).subscribe((data) => {
       this.candidateAssessmentDetails = data;
       this.questionCount=this.candidateAssessmentDetails.results.length;
       this.correctAnswerCount=Math.round((userScore*this.questionCount)/100)
      })
+    }
+    else if(this.candidatefromHistory === 'Yes'){
+      this.apiService.getCandidateAssessmentDetailsHistory(userid,quizId).subscribe((data) => {
+      this.candidateAssessmentDetails = data;
+      this.questionCount=this.candidateAssessmentDetails.results.length;
+      this.correctAnswerCount=Math.round((userScore*this.questionCount)/100)
+     })
+    }
   }
 
   
-  //Get candidate history
-  getCandidateAssessmentDetailsHistory(userid,quizId,username,userScore,createdDate) {
-    this.userName=username;
-    this.quizNumber=quizId;
-    this.userScore=userScore;
-    this.assesmentDate=createdDate;
-    this.mode="displayAssessmentModalBody";
-    this.apiService.getCandidateAssessmentDetailsHistory(userid,quizId).subscribe((data) => {
-    this.candidateAssessmentDetails = data;
-    this.questionCount=this.candidateAssessmentDetails.results.length;
-    this.correctAnswerCount=Math.round((userScore*this.questionCount)/100)
-   })
-}
-
-
   @ViewChild(MatSort) set matSort(ms: MatSort) {
     this.sort = ms;
     this.setDataSourceAttributes();
