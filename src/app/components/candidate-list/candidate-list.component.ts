@@ -215,6 +215,7 @@ export class CandidateListComponent implements OnInit {
     this.qNumber=qNumber;
     this.index=i;
     this.isRowSelected = true;
+    
   }
    //Story#27 - Activate & Inactivate candidate's status for Assessment
    updateCandidateStatus(candidate, index) {     

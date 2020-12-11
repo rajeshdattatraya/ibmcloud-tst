@@ -9,7 +9,6 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator'
 import {MatSort} from '@angular/material/sort';
 
-
 @Component({
   selector: 'app-dashboard-list',
   templateUrl: './dashboard-list.component.html'
@@ -73,9 +72,11 @@ export class DashboardListComponent implements OnChanges {
   uScore = "";
   createdDate = "";
   loginAccounts:any = [];
+  candidatefromHistory: String = "";
 
 displayedColumns = ['Action','employeeName', 'jobRole','userResult','technicalInterviewResult','partnerInterviewResult','assignedToProject','fromHistory'];
 displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userResult','technicalInterviewResult','partnerInterviewResult','assignedToProject','fromHistory'];
+  candidateAssessmentDetailsHistory: any;
 
 
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
@@ -370,10 +371,11 @@ displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userR
       })
     }
 
-    setCandidateID(id,role) {
+    setCandidateID(id,role,fromHistory) {
       this.candidateID = id;
       this.candidateJobrole = role;
-    }
+      this.candidatefromHistory = fromHistory;
+      }
 
     viewDetails() {
       if (this.candidateID == undefined) {
@@ -387,7 +389,7 @@ displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userR
       this.displayContractorUIFields = false;
       this.displayRegularUIFields = true;
 
-      this.apiService.viewDashboardDetails(this.candidateID).subscribe((data) => {
+      this.apiService.viewDashboardDetails(this.candidateID, this.candidatefromHistory).subscribe((data) => {
          this.dashboardDetails = data;
          this.dashboardDetails[0].result_users[0].JRSS =  this.candidateJobrole;
          if (this.dashboardDetails[0].result_users[0].employeeType == 'Contractor') {
@@ -434,6 +436,20 @@ displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userR
      })
   }
 
+  
+  //Get candidate history
+  getCandidateAssessmentDetailsHistory(userid,quizId,username,userScore,createdDate) {
+    this.userName=username;
+    this.quizNumber=quizId;
+    this.userScore=userScore;
+    this.assesmentDate=createdDate;
+    this.mode="displayAssessmentModalBody";
+    this.apiService.getCandidateAssessmentDetailsHistory(userid,quizId).subscribe((data) => {
+    this.candidateAssessmentDetails = data;
+    this.questionCount=this.candidateAssessmentDetails.results.length;
+    this.correctAnswerCount=Math.round((userScore*this.questionCount)/100)
+   })
+}
 
 
   @ViewChild(MatSort) set matSort(ms: MatSort) {
