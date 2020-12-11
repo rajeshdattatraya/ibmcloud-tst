@@ -8,23 +8,16 @@ import { RegistrationConfigService } from './../../service/registrationConfig.se
 
 export class AwaitingTechInterview {
 
-  candidatesRetainDay: Object;
 
   constructor(private registrationConfigService: RegistrationConfigService,private apiService : ApiService){
-    this.getCandidatesRegistrationRetainDays();
   }
 
-  // Get candidate stage's retain day from RegistrationConfig table
-  getCandidatesRegistrationRetainDays(){
-    this.registrationConfigService.getStageCandidatesRetainDay().subscribe((data) => {
-      this.candidatesRetainDay = data;
-    })
-  }
+
 
   // Candidate who has cleared quiz and awaiting technical SME interview should be made available or
   // registered by other account after 'y'(7 days) number of days
 
-  isCandidateAwaitingInTechInterviewQ(username,quizNumber,callback) {
+  isCandidateAwaitingInTechInterviewQ(username,quizNumber, retentionDate, callback) {
 
       let userResult : string = "Pass";
       var resultCreatedDate: Date;
@@ -32,7 +25,7 @@ export class AwaitingTechInterview {
 
       return this.apiService.getResultByUserResultPass(username,quizNumber,userResult).subscribe((data) => {
           resultCreatedDate = new Date(data['createdDate']);
-          resultCreatedDate.setDate(resultCreatedDate.getDate() + this.candidatesRetainDay[0].retainStage3Candidates);
+          resultCreatedDate.setDate(resultCreatedDate.getDate() + retentionDate);
           let currentDate: Date = new Date();
           if (resultCreatedDate >= currentDate) {
             isCandidateReleased =  false;

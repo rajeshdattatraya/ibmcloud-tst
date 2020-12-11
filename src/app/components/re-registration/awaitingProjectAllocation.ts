@@ -6,20 +6,17 @@ import { RegistrationConfigService } from '../../service/registrationConfig.serv
   providedIn: 'root'
 })
 
-export class awaitingProjectAllocation {
+export class AwaitingProjectAllocation {
 
   constructor(private apiService : ApiService, private registrationConfigService: RegistrationConfigService) {
   }
 
-  candidatesRetainDay:any=[];
 
 
   // Candidate  who has cleared partner interview and yet to be assigned to a project should be made available 
   //or registered by other account after 'w'(7 days) number of days
-  isCandidateAwaitingInProjectAllocationQueue(username,quizNumber,callback) {
-    this.registrationConfigService.getStageCandidatesRetainDay().subscribe((data) => {
-      this.candidatesRetainDay = data;
-      let noOfRetentionDays : number = this.candidatesRetainDay[0].retainStage4Candidates;
+  isCandidateAwaitingInProjectAllocationQueue(username,quizNumber,retentionDate, callback) {
+    
       let currentDate: Date = new Date();
       let isEligibleToRegister : boolean = false;
       this.apiService.getUSerResultByAttendedPartnerInterview(username,quizNumber).subscribe(data => {
@@ -27,7 +24,7 @@ export class awaitingProjectAllocation {
         let managementResult : String = data['managementResult'];
         let elapsedDays = Math.floor((currentDate.getTime() - managementAssessmentDate.getTime()) / 1000 / 60 / 60 / 24);
         console.log('elapsedDays :: '+elapsedDays);
-        if ((elapsedDays >= noOfRetentionDays && managementResult != 'Not Suitable') || managementResult == 'Not Suitable') {
+        if ((elapsedDays >= retentionDate && managementResult != 'Not Suitable') || managementResult == 'Not Suitable') {
           isEligibleToRegister =  true;
         } else {
           isEligibleToRegister = false;
@@ -37,6 +34,6 @@ export class awaitingProjectAllocation {
         console.log(error);
         callback(isEligibleToRegister);
       }); 
-    })   
+       
   }
 }

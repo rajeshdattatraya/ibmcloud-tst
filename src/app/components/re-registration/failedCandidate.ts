@@ -6,21 +6,15 @@ import { RegistrationConfigService } from '../../service/registrationConfig.serv
   providedIn: 'root'
 })
 
-export class failedCandidate {
-  candidatesRetainDay : any;
+export class FailedCandidate {
+
   constructor(private registrationConfigService: RegistrationConfigService,private apiService : ApiService) {
-    this.getCandidatesRegistrationRetainDays();
   }
-  // Get candidate stage's retain day from RegistrationConfig table
-  getCandidatesRegistrationRetainDays(){
-    this.registrationConfigService.getStageCandidatesRetainDay().subscribe((data) => {
-    this.candidatesRetainDay = data;
-   })
-  }
+ 
 
   // Candidate who has failed quiz should be made available or registered by other account after 'x'(7 days) no of days
 
-  isCandidateFailed(username,quizNumber,updatedDate,callback) {
+  isCandidateFailed(username,quizNumber,updatedDate, retentionDate, callback) {
       let currentDate: Date = new Date();
       let userResult : string = "Fail";
       var resultCreatedDate: Date;
@@ -29,7 +23,7 @@ export class failedCandidate {
       //   (res) => {
         return this.apiService.getResultByUserResultFail(username,quizNumber,userResult).subscribe(data => {
             resultCreatedDate = new Date(data['createdDate']);
-            resultCreatedDate.setDate(resultCreatedDate.getDate() + this.candidatesRetainDay[0].retainFailedCandidates);
+            resultCreatedDate.setDate(resultCreatedDate.getDate() + retentionDate);
             if (resultCreatedDate >= currentDate) {
               isCandidateReleased =  false;
             } else {
@@ -39,7 +33,7 @@ export class failedCandidate {
           }, (error) => { 
             console.log("Error found while fetching records from Results collection - " + error);
             resultCreatedDate = new Date(updatedDate);
-            resultCreatedDate.setDate(resultCreatedDate.getDate() + this.candidatesRetainDay[0].retainFailedCandidates);
+            resultCreatedDate.setDate(resultCreatedDate.getDate() + retentionDate);
             if (resultCreatedDate >= currentDate) {
               isCandidateReleased =  false; 
             } else {

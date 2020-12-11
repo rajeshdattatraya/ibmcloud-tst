@@ -13,6 +13,7 @@ import { UserResultWorkFlow } from './../../model/userResultWorkFlow';
 import { ResultPageService } from './../../components/result-page/result-page.service';
 import { SendEmail } from './../../model/sendEmail';
 import { TestConfigService } from './../../service/testconfig.service';
+import { ReRegisterCandidate } from '../re-registration/re-registerCandidate';
 
 
 @Component({
@@ -69,7 +70,8 @@ export class CandidateCreateComponent implements OnInit {
 
   constructor(private testconfigService: TestConfigService,public fb: FormBuilder,private router: Router,private ngZone: NgZone,
     private apiService: ApiService,private resultPageService: ResultPageService,
-    private openPositionService: OpenPositionService) {
+    private openPositionService: OpenPositionService,
+    public reRegisterCandidateObj : ReRegisterCandidate) {
       this.browserRefresh = browserRefresh;
       if (!this.browserRefresh) {
         this.userName = this.router.getCurrentNavigation().extras.state.username;
@@ -368,10 +370,20 @@ export class CandidateCreateComponent implements OnInit {
          } else {
           this.apiService.findUniqueUsername(this.candidateForm.value.email).subscribe((res) => {
              if (res.count > 0) {
-                window.confirm("Please use another Email ID");
-             } else {
-              if (res.count == 0)
-              {
+               
+                //Candidate re-registraion 
+                var canReRegisterCandidate = this.reRegisterCandidateObj.reRegisterCandidate(this.candidateForm.value.email);
+
+                if (canReRegisterCandidate) {
+                  window.alert("Candidate re-registration warning message");
+                  this.reRegisterCandidateObj.backupCandidateData(this.candidateForm.value.email);
+
+                } else  {
+                  window.confirm("Please use another Email ID");
+                  return;
+                }
+             } 
+             
                 this.apiService.createUserDetails(user).subscribe((res) => {
                     console.log('User successfully created!')
                  }, (error) => {
@@ -464,7 +476,6 @@ export class CandidateCreateComponent implements OnInit {
                     });
 
 
-              }}
             }, (error) => {
         console.log(error);
     })

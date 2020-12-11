@@ -8,30 +8,29 @@ var daysCheck:any;
   providedIn: 'root'
 })
 
-export class assignedToProjectCandidate {
-  candidatesRetainDay: any;
- 
+export class AssignedToProjectCandidate {
 
   constructor(private apiService : ApiService,
     private registrationConfigService: RegistrationConfigService) {
   }
 
-  // Get candidate registration retain days
-  getCandidatesRegistrationRetainDays(){
-    this.registrationConfigService.getStageCandidatesRetainDay().subscribe((data) => {
-      this.candidatesRetainDay = data['retainProjectCandidates'];
-      })
+  ngOnInit(){
+    
   }
 
+  
+
   // Candidate assigned to account and who is in the account for more than 2 months
-  isCandidateAssigned(userName, callback) {
+  isCandidateAssigned(userName, retentionDate, callback) {
+    let candidateDetails: Object;
     let retainCandidate : boolean = false;
     var projectAssignedDate: Date;
-    
-  return this.apiService.getAssignedCandidate(userName).subscribe(res =>{
-   projectAssignedDate = new Date(res['createdDate']);
-   projectAssignedDate.setDate(projectAssignedDate.getDate() + this.candidatesRetainDay);
-  let currentDate: Date = new Date();
+    let currentDate: Date = new Date();
+  return this.apiService.getAssignedCandidate(userName).subscribe(data =>{
+    candidateDetails = data;
+    console.log("Assigned candidate details:" +JSON.stringify(candidateDetails));
+  projectAssignedDate = new Date(candidateDetails[0].createdDate);
+  projectAssignedDate.setDate(projectAssignedDate.getDate() + retentionDate);
   if (projectAssignedDate >= currentDate) {
     retainCandidate =  false;
   } else {

@@ -89,9 +89,9 @@ export class PreTechnicalInterviewFormComponent implements OnInit {
     if (quesAndAnswer.PreTechAnswers.length > 0) {
          answer = quesAndAnswer.PreTechAnswers[0].answer ;
          test = quesAndAnswer.preTechQuestion;
+         this.preTechQuesAndAns.push(new PreTechQuesAndAns(quesAndAnswer.preTechQID, quesAndAnswer.jrss,
+           test,this.userName, answer));
      }
-    this.preTechQuesAndAns.push(new PreTechQuesAndAns(quesAndAnswer.preTechQID, quesAndAnswer.jrss,
-    test,this.userName, answer));
      });
            }, (error) => {
            console.log(error);
