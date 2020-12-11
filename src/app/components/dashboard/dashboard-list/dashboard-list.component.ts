@@ -434,6 +434,7 @@ displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userR
      })
   }
 
+  
   //Get candidate history
   getCandidateAssessmentDetailsHistory(userid,quizId,username,userScore,createdDate) {
     this.userName=username;
