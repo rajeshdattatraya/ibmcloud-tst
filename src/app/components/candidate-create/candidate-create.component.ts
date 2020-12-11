@@ -369,20 +369,29 @@ export class CandidateCreateComponent implements OnInit {
           window.confirm("Date Of Joining is a future date. Please verify.")
          } else {
           this.apiService.findUniqueUsername(this.candidateForm.value.email).subscribe((res) => {
+            var canReRegisterCandidate =true;
              if (res.count > 0) {
                
                 //Candidate re-registraion 
-                var canReRegisterCandidate = this.reRegisterCandidateObj.reRegisterCandidate(this.candidateForm.value.email);
-
+                this.reRegisterCandidateObj.reRegisterCandidate(this.candidateForm.value.email).subscribe ((data)=> {
+                canReRegisterCandidate = data;
+                  
+                console.log(`<<<<<canReRegisterCandidate <<<<<<< `,canReRegisterCandidate);
                 if (canReRegisterCandidate) {
                   window.alert("Candidate re-registration warning message");
                   this.reRegisterCandidateObj.backupCandidateData(this.candidateForm.value.email);
 
                 } else  {
                   window.confirm("Please use another Email ID");
-                  return;
+                  return false;
                 }
+                });
+                 
+      
              } 
+             if (canReRegisterCandidate) {
+             
+             console.log(`<<<<<canReRegisterCandidate <<<<<<< `,canReRegisterCandidate);
              
                 this.apiService.createUserDetails(user).subscribe((res) => {
                     console.log('User successfully created!')
@@ -476,10 +485,12 @@ export class CandidateCreateComponent implements OnInit {
                     });
 
 
-            }, (error) => {
+            }}
+            , (error) => {
         console.log(error);
     })
   }
+  
   }
   }
 }

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
 import { ApiService } from 'src/app/service/api.service';
 import { RegistrationConfigService } from 'src/app/service/registrationConfig.service';
 import { AssignedToProjectCandidate } from './assignedToProjectCandidate';
@@ -64,7 +65,7 @@ export class ReRegisterCandidate {
     //This method takes username as an input to determine whether the candidate can be re-registered or not
     //It returns a boolean value - true to indicate to re-register, false to not to re-register
 
-    reRegisterCandidate(userName): boolean {
+    reRegisterCandidate(userName):Observable<boolean> {
         var canReRegisterCandidate = false;
 
 
@@ -97,11 +98,18 @@ export class ReRegisterCandidate {
 
             this.assignedToProjectCandidate.isCandidateAssigned(
                 userName, this.candidatesRetainDay[0].retainProjectCandidates, (data) => {
-                    this.assignedToProjectCandidate = data;
+                    this.canReleaseCandidateAssignedToProject = data;
                 });
 
+                console.log(`this.canReleaseFailedCanidate*** `, this.canReleaseFailedCanidate);
+                console.log(`this.canReleaseCandidateAwtingTechInt*** `, this.canReleaseCandidateAwtingTechInt);
+                console.log(`this.canReleaseCandidateAwtingPtnrInt*** `, this.canReleaseCandidateAwtingPtnrInt);
+                console.log(`this.canReleaseCandidateAwtingProjAlloc*** `, this.canReleaseCandidateAwtingProjAlloc);
+                console.log(`this.canReleaseCandidateAssignedToProject*** `, this.canReleaseCandidateAssignedToProject);
+
+
             if (this.canReleaseFailedCanidate || this.canReleaseCandidateAwtingTechInt || this.canReleaseCandidateAwtingPtnrInt
-                || this.canReleaseCandidateAwtingProjAlloc || this.assignedToProjectCandidate) {
+                || this.canReleaseCandidateAwtingProjAlloc || this.canReleaseCandidateAssignedToProject) {
                 canReRegisterCandidate = true;
             }
             console.log(`canReRegisterCandidate *** ` + canReRegisterCandidate);
@@ -109,7 +117,7 @@ export class ReRegisterCandidate {
 
         });//end of cnadi
 
-        return canReRegisterCandidate;
+        return of(canReRegisterCandidate);
     }
 
 
