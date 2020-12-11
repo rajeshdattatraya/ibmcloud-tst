@@ -380,8 +380,10 @@ export class CandidateCreateComponent implements OnInit {
 
                 } else  {
                   window.confirm("Please use another Email ID");
+                  return;
                 }
              } 
+             
                 this.apiService.createUserDetails(user).subscribe((res) => {
                     console.log('User successfully created!')
                  }, (error) => {

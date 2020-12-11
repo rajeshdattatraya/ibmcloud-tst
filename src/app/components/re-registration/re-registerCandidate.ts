@@ -47,6 +47,12 @@ export class ReRegisterCandidate {
     }
 
     //This method will backup the candidate data before registering
+    // 1) Users
+    // 2) Candidate
+    // 3) UserAnswer
+    // 4) Results
+    // 5) PreTechAssessmentAnswer
+    // 6) ProjectAlloc
     backupCandidateData(username) {
         this.backupDataService.backupCandidateData(username).subscribe(data => {
         })
