@@ -25,6 +25,9 @@ export class ReRegisterCandidate {
 
     candidatesRetainDay: any;
 
+    quizNumber: any;
+    updatedDate: any;
+
     constructor(
         private apiService: ApiService,
         private registrationConfigService: RegistrationConfigService,
@@ -36,6 +39,7 @@ export class ReRegisterCandidate {
         private assignedToProjectCandidate: AssignedToProjectCandidate) {
 
         this.getCandidatesRegistrationRetainDays();
+
     }
 
 
@@ -54,10 +58,13 @@ export class ReRegisterCandidate {
     // 4) Results
     // 5) PreTechAssessmentAnswer
     // 6) ProjectAlloc
-    backupCandidateData(username) {
-        this.backupDataService.backupCandidateData(username).subscribe(data => {
+    async backupCandidateData(username) {
+        await this.backupDataService.backupCandidateData(username).subscribe(data => {
+            console.log(`backup taken`, data);
         })
     }
+
+
 
 
     //Start - Integration of Candindate Registration funcations
@@ -65,60 +72,58 @@ export class ReRegisterCandidate {
     //This method takes username as an input to determine whether the candidate can be re-registered or not
     //It returns a boolean value - true to indicate to re-register, false to not to re-register
 
-    reRegisterCandidate(userName):Observable<boolean> {
+    reRegisterCandidate(userName, callback) {
         var canReRegisterCandidate = false;
-
-
         this.apiService.getNameFromUsername(userName).subscribe(res => {
 
-            var quizNumber = res.quizNumber;
-            var updatedDate = res.UpdatedDate;
+            if (res != null) {
+                this.quizNumber = res.quizNumber;
+                this.updatedDate = res.UpdatedDate;
+            }
+            if (this.quizNumber != undefined) {
+                this.failedCandidate.isCandidateFailed(
+                    userName, this.quizNumber, this.updatedDate, this.candidatesRetainDay[0].retainFailedCandidates, (data) => {
+                        this.canReleaseFailedCanidate = data;
+                    });
 
-            console.log(`inside the reReg Method`);
+                this.awaitingTechInterviewService.isCandidateAwaitingInTechInterviewQ(
+                    userName, this.quizNumber, this.candidatesRetainDay[0].retainStage3Candidates, (data) => {
+                        this.canReleaseCandidateAwtingTechInt = data;
+                    });
 
-            this.failedCandidate.isCandidateFailed(
-                userName, quizNumber, updatedDate, this.candidatesRetainDay[0].retainFailedCandidates, (data) => {
-                    this.canReleaseFailedCanidate = data;
-                });
+                this.awaitingPartnerInterview.isCandidateAwaitingInPartnerInterviewQ(
+                    userName, this.quizNumber, this.candidatesRetainDay[0].retainStage4Candidates, (data) => {
+                        this.canReleaseCandidateAwtingPtnrInt = data;
+                    });
 
-            this.awaitingTechInterviewService.isCandidateAwaitingInTechInterviewQ(
-                userName, quizNumber, this.candidatesRetainDay[0].retainStage3Candidates, (data) => {
-                    this.canReleaseCandidateAwtingTechInt = data;
-                });
+                this.awaitingProjectAllocation.isCandidateAwaitingInProjectAllocationQueue(
+                    userName, this.quizNumber, this.candidatesRetainDay[0].retainStage5Candidates, (data) => {
+                        this.canReleaseCandidateAwtingProjAlloc = data;
+                    });
 
-            this.awaitingPartnerInterview.isCandidateAwaitingInPartnerInterviewQ(
-                userName, quizNumber, this.candidatesRetainDay[0].retainStage4Candidates, (data) => {
-                    this.canReleaseCandidateAwtingPtnrInt = data;
-                });
-
-            this.awaitingProjectAllocation.isCandidateAwaitingInProjectAllocationQueue(
-                userName, quizNumber, this.candidatesRetainDay[0].retainStage5Candidates, (data) => {
-                    this.canReleaseCandidateAwtingProjAlloc = data;
-                });
-
-            this.assignedToProjectCandidate.isCandidateAssigned(
-                userName, this.candidatesRetainDay[0].retainProjectCandidates, (data) => {
-                    this.canReleaseCandidateAssignedToProject = data;
-                });
-
-                console.log(`this.canReleaseFailedCanidate*** `, this.canReleaseFailedCanidate);
-                console.log(`this.canReleaseCandidateAwtingTechInt*** `, this.canReleaseCandidateAwtingTechInt);
-                console.log(`this.canReleaseCandidateAwtingPtnrInt*** `, this.canReleaseCandidateAwtingPtnrInt);
-                console.log(`this.canReleaseCandidateAwtingProjAlloc*** `, this.canReleaseCandidateAwtingProjAlloc);
-                console.log(`this.canReleaseCandidateAssignedToProject*** `, this.canReleaseCandidateAssignedToProject);
+                this.assignedToProjectCandidate.isCandidateAssigned(
+                    userName, this.candidatesRetainDay[0].retainProjectCandidates, (data) => {
+                        this.canReleaseCandidateAssignedToProject = data;
+                    });
+            }
+            console.log(`this.canReleaseFailedCanidate*** `, this.canReleaseFailedCanidate);
+            console.log(`this.canReleaseCandidateAwtingTechInt*** `, this.canReleaseCandidateAwtingTechInt);
+            console.log(`this.canReleaseCandidateAwtingPtnrInt*** `, this.canReleaseCandidateAwtingPtnrInt);
+            console.log(`this.canReleaseCandidateAwtingProjAlloc*** `, this.canReleaseCandidateAwtingProjAlloc);
+            console.log(`this.canReleaseCandidateAssignedToProject*** `, this.canReleaseCandidateAssignedToProject);
 
 
-            if (this.canReleaseFailedCanidate || this.canReleaseCandidateAwtingTechInt || this.canReleaseCandidateAwtingPtnrInt
-                || this.canReleaseCandidateAwtingProjAlloc || this.canReleaseCandidateAssignedToProject) {
+            if (this.canReleaseFailedCanidate || this.canReleaseCandidateAwtingTechInt ||
+                this.canReleaseCandidateAwtingPtnrInt || this.canReleaseCandidateAwtingProjAlloc ||
+                this.canReleaseCandidateAssignedToProject || this.quizNumber == undefined) {
                 canReRegisterCandidate = true;
             }
             console.log(`canReRegisterCandidate *** ` + canReRegisterCandidate);
 
+            callback(canReRegisterCandidate);
 
-        });//end of cnadi
-
-        return of(canReRegisterCandidate);
-    }
+        })
+    }//end of methiod
 
 
 

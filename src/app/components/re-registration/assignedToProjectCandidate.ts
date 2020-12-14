@@ -14,12 +14,7 @@ export class AssignedToProjectCandidate {
     private registrationConfigService: RegistrationConfigService) {
   }
 
-  ngOnInit(){
-    
-  }
-
-  
-
+ 
   // Candidate assigned to account and who is in the account for more than 2 months
   isCandidateAssigned(userName, retentionDate, callback) {
     let candidateDetails: Object;

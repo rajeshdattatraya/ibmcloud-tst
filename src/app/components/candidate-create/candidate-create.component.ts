@@ -368,31 +368,21 @@ export class CandidateCreateComponent implements OnInit {
         if ( formDate > this.currDate) {
           window.confirm("Date Of Joining is a future date. Please verify.")
          } else {
-          this.apiService.findUniqueUsername(this.candidateForm.value.email).subscribe((res) => {
             var canReRegisterCandidate =true;
-             if (res.count > 0) {
-               
-                //Candidate re-registraion 
-                this.reRegisterCandidateObj.reRegisterCandidate(this.candidateForm.value.email).subscribe ((data)=> {
+                this.reRegisterCandidateObj.reRegisterCandidate(this.candidateForm.value.email,(data)=> {
                 canReRegisterCandidate = data;
-                  
-                console.log(`<<<<<canReRegisterCandidate <<<<<<< `,canReRegisterCandidate);
-                if (canReRegisterCandidate) {
-                  window.alert("Candidate re-registration warning message");
-                  this.reRegisterCandidateObj.backupCandidateData(this.candidateForm.value.email);
-
-                } else  {
+                 
+                if (canReRegisterCandidate == false) {
                   window.confirm("Please use another Email ID");
                   return false;
-                }
-                });
-                 
-      
-             } 
-             if (canReRegisterCandidate) {
-             
-             console.log(`<<<<<canReRegisterCandidate <<<<<<< `,canReRegisterCandidate);
-             
+                } else  {
+                  this.apiService.findUniqueUsername(this.candidateForm.value.email).subscribe ((res) => {
+
+                    if (res.count > 0) {
+                      window.alert("Candidate re-registration warning message");
+                      this.reRegisterCandidateObj.backupCandidateData(this.candidateForm.value.email);
+                    }
+                   
                 this.apiService.createUserDetails(user).subscribe((res) => {
                     console.log('User successfully created!')
                  }, (error) => {
@@ -484,11 +474,11 @@ export class CandidateCreateComponent implements OnInit {
                           console.log(error);
                     });
 
-
-            }}
-            , (error) => {
-        console.log(error);
-    })
+                  })
+            }//
+          
+          }
+            )
   }
   
   }
