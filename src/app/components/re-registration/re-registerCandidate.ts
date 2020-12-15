@@ -58,9 +58,9 @@ export class ReRegisterCandidate {
     // 4) Results
     // 5) PreTechAssessmentAnswer
     // 6) ProjectAlloc
-    async backupCandidateData(username) {
+    async backupCandidateData(username, callback) {
         await this.backupDataService.backupCandidateData(username).subscribe(data => {
-            console.log(`backup taken`, data);
+            callback(data)
         })
     }
 
@@ -72,7 +72,7 @@ export class ReRegisterCandidate {
     //This method takes username as an input to determine whether the candidate can be re-registered or not
     //It returns a boolean value - true to indicate to re-register, false to not to re-register
 
-    reRegisterCandidate(userName, callback) {
+     reRegisterCandidate(userName, callback) {
         var canReRegisterCandidate = false;
         this.apiService.getNameFromUsername(userName).subscribe(res => {
 
@@ -80,6 +80,9 @@ export class ReRegisterCandidate {
                 this.quizNumber = res.quizNumber;
                 this.updatedDate = res.UpdatedDate;
             }
+            console.log(`this.quizNumber *** `, this.quizNumber);
+            console.log(`this.updatedDate *** `, this.updatedDate);
+            
             if (this.quizNumber != undefined) {
                 this.failedCandidate.isCandidateFailed(
                     userName, this.quizNumber, this.updatedDate, this.candidatesRetainDay[0].retainFailedCandidates, (data) => {
@@ -117,10 +120,13 @@ export class ReRegisterCandidate {
                 this.canReleaseCandidateAwtingPtnrInt || this.canReleaseCandidateAwtingProjAlloc ||
                 this.canReleaseCandidateAssignedToProject || this.quizNumber == undefined) {
                 canReRegisterCandidate = true;
+                callback(canReRegisterCandidate);
+            } else {
+                callback(false);
             }
             console.log(`canReRegisterCandidate *** ` + canReRegisterCandidate);
 
-            callback(canReRegisterCandidate);
+            
 
         })
     }//end of methiod

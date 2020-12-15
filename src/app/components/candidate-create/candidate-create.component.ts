@@ -371,6 +371,7 @@ export class CandidateCreateComponent implements OnInit {
             var canReRegisterCandidate =true;
                 this.reRegisterCandidateObj.reRegisterCandidate(this.candidateForm.value.email,(data)=> {
                 canReRegisterCandidate = data;
+                 console.log('**** canReReg******!', canReRegisterCandidate)
                  
                 if (canReRegisterCandidate == false) {
                   window.confirm("Please use another Email ID");
@@ -380,7 +381,9 @@ export class CandidateCreateComponent implements OnInit {
 
                     if (res.count > 0) {
                       window.alert("Candidate re-registration warning message");
-                      this.reRegisterCandidateObj.backupCandidateData(this.candidateForm.value.email);
+                      this.reRegisterCandidateObj.backupCandidateData(this.candidateForm.value.email, (test) => {
+                        console.log('Backup taken successfully!')
+                    });
                     }
                    
                 this.apiService.createUserDetails(user).subscribe((res) => {
