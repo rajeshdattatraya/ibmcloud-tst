@@ -109,7 +109,7 @@ export class WorkflowConfigComponent implements OnInit {
         this.stage5 = false;
       }
       this.workFlowForm.setValue({
-        JRSS: data[0]['jrss'],
+        JRSS: data[0]['_id'],
         account:data[0]['account'],
         stage1OnlineTechAssessment: this.stage1,
         stage2PreTechAssessment: this.stage2,
