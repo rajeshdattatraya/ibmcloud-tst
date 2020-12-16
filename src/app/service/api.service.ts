@@ -169,14 +169,14 @@ getQuestions(account): Observable<any> {
 
 
 // GET registered Candidate details by username
-getAssignedCandidate(username): Observable<any> {
+getAssignedCandidate(username): Promise<any> {
       let url = `${this.projectAllocUri}/${username}`;
       return this.http.get(url, {headers: this.headers}).pipe(
             map((res: Response) => {
               return res || {}
             }),
             catchError(this.errorMgmt)
-      )
+      ).toPromise()
   }
 
   // Create Question
@@ -770,32 +770,33 @@ getResultByUser(username: string,quiznumber:number){
   )
 }
 
-getResultByUserResultPass(username: string,quiznumber:number,userResult: string){
+ getResultByUserResultPass(username: string,quiznumber:number,userResult: string) : Promise<any> {
+  
   let url = `${this.userResultUri}/getResultByUserResultPass/${username}/${quiznumber}/${userResult}`;
   return this.http.get(url, { headers: this.headers }).pipe(
     catchError(this.errorMgmt)
-  )
+  ).toPromise()
 }
-getResultByUserResultFail(username: string,quiznumber:number,userResult: string){
+getResultByUserResultFail(username: string,quiznumber:number,userResult: string) : Promise<any> {
   let url = `${this.userResultUri}/getResultByUserResultFail/${username}/${quiznumber}/${userResult}`;
   return this.http.get(url, { headers: this.headers }).pipe(
     catchError(this.errorMgmt)
-  )
+  ).toPromise()
 }
 
 // Get partner candidates awaiting result
-getPartnerCandidateAwaitingResult(username: string,quiznumber:number){
+getPartnerCandidateAwaitingResult(username: string,quiznumber:number) : Promise<any> {
   let url = `${this.userResultUri}/getPartnerCandidateAwaitingResult/${username}/${quiznumber}`;
   return this.http.get(url, { headers: this.headers }).pipe(
     catchError(this.errorMgmt)
-  )
+  ).toPromise()
 }
 
-getUSerResultByAttendedPartnerInterview(username: string,quiznumber:number){
+getUSerResultByAttendedPartnerInterview(username: string,quiznumber:number) : Promise<any>{
   let url = `${this.userResultUri}/getUSerResultByAttendedPartnerInterview/${username}/${quiznumber}`;
   return this.http.get(url, { headers: this.headers }).pipe(
     catchError(this.errorMgmt)
-  )
+  ).toPromise()
 }
 
 // Update candidate

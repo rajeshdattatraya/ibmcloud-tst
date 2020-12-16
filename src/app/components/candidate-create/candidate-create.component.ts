@@ -380,7 +380,7 @@ export class CandidateCreateComponent implements OnInit {
                   this.apiService.findUniqueUsername(this.candidateForm.value.email).subscribe ((res) => {
 
                     if (res.count > 0) {
-                      window.alert("Candidate re-registration warning message");
+                      window.alert("It is presumed that the Canidate you are trying to register has been relieved from all of his/her current assingment");
                       this.reRegisterCandidateObj.backupCandidateData(this.candidateForm.value.email, (test) => {
                         console.log('Backup taken successfully!')
                     });

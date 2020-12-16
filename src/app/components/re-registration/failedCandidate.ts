@@ -21,7 +21,7 @@ export class FailedCandidate {
       let isCandidateReleased : boolean = false;   
       // this.apiService.getUserByUserName(username).subscribe(
       //   (res) => {
-        return this.apiService.getResultByUserResultFail(username,quizNumber,userResult).subscribe(data => {
+        return this.apiService.getResultByUserResultFail(username,quizNumber,userResult).then(data => {
             resultCreatedDate = new Date(data['createdDate']);
             resultCreatedDate.setDate(resultCreatedDate.getDate() + retentionDate);
             if (resultCreatedDate >= currentDate) {

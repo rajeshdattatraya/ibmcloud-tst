@@ -17,20 +17,24 @@ export class AwaitingTechInterview {
   // Candidate who has cleared quiz and awaiting technical SME interview should be made available or
   // registered by other account after 'y'(7 days) number of days
 
-  isCandidateAwaitingInTechInterviewQ(username,quizNumber, retentionDate, callback) {
+   isCandidateAwaitingInTechInterviewQ(username,quizNumber, retentionDate, callback) {
 
       let userResult : string = "Pass";
       var resultCreatedDate: Date;
       let isCandidateReleased : boolean = false;
 
-      return this.apiService.getResultByUserResultPass(username,quizNumber,userResult).subscribe((data) => {
+      return (this.apiService.getResultByUserResultPass(username, quizNumber, userResult)).then((data) => {
           resultCreatedDate = new Date(data['createdDate']);
           resultCreatedDate.setDate(resultCreatedDate.getDate() + retentionDate);
           let currentDate: Date = new Date();
+          
           if (resultCreatedDate >= currentDate) {
             isCandidateReleased =  false;
+            callback(isCandidateReleased);
+            
           } else {
             isCandidateReleased = true;
+            callback(isCandidateReleased);
           }
           callback(isCandidateReleased);
       }, (error) => {

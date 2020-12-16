@@ -18,7 +18,7 @@ export class AwaitingPartnerInterview {
       let isCandidateReleased : boolean = false;
     
     // Get candidates partner awaiting interview result
-     return this.apiService.getPartnerCandidateAwaitingResult(username,quizNumber).subscribe((data) => {
+     return this.apiService.getPartnerCandidateAwaitingResult(username,quizNumber).then((data) => {
           if(data['stage3_status'] == 'Not Suitable'){
             isCandidateReleased = true;
           }else{

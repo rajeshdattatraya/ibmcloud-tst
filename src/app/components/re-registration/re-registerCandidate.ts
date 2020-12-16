@@ -59,7 +59,7 @@ export class ReRegisterCandidate {
     // 5) PreTechAssessmentAnswer
     // 6) ProjectAlloc
     async backupCandidateData(username, callback) {
-        await this.backupDataService.backupCandidateData(username).subscribe(data => {
+        await this.backupDataService.backupCandidateData(username).then(data => {
             callback(data)
         })
     }
@@ -72,9 +72,9 @@ export class ReRegisterCandidate {
     //This method takes username as an input to determine whether the candidate can be re-registered or not
     //It returns a boolean value - true to indicate to re-register, false to not to re-register
 
-     reRegisterCandidate(userName, callback) {
+      reRegisterCandidate(userName, callback) {
         var canReRegisterCandidate = false;
-        this.apiService.getNameFromUsername(userName).subscribe(res => {
+        this.apiService.getNameFromUsername(userName).subscribe(async res => {
 
             if (res != null) {
                 this.quizNumber = res.quizNumber;
@@ -84,27 +84,27 @@ export class ReRegisterCandidate {
             console.log(`this.updatedDate *** `, this.updatedDate);
             
             if (this.quizNumber != undefined) {
-                this.failedCandidate.isCandidateFailed(
+                await this.failedCandidate.isCandidateFailed(
                     userName, this.quizNumber, this.updatedDate, this.candidatesRetainDay[0].retainFailedCandidates, (data) => {
                         this.canReleaseFailedCanidate = data;
                     });
 
-                this.awaitingTechInterviewService.isCandidateAwaitingInTechInterviewQ(
+                await this.awaitingTechInterviewService.isCandidateAwaitingInTechInterviewQ(
                     userName, this.quizNumber, this.candidatesRetainDay[0].retainStage3Candidates, (data) => {
                         this.canReleaseCandidateAwtingTechInt = data;
                     });
 
-                this.awaitingPartnerInterview.isCandidateAwaitingInPartnerInterviewQ(
+                await this.awaitingPartnerInterview.isCandidateAwaitingInPartnerInterviewQ(
                     userName, this.quizNumber, this.candidatesRetainDay[0].retainStage4Candidates, (data) => {
                         this.canReleaseCandidateAwtingPtnrInt = data;
                     });
 
-                this.awaitingProjectAllocation.isCandidateAwaitingInProjectAllocationQueue(
+                await this.awaitingProjectAllocation.isCandidateAwaitingInProjectAllocationQueue(
                     userName, this.quizNumber, this.candidatesRetainDay[0].retainStage5Candidates, (data) => {
                         this.canReleaseCandidateAwtingProjAlloc = data;
                     });
 
-                this.assignedToProjectCandidate.isCandidateAssigned(
+                await this.assignedToProjectCandidate.isCandidateAssigned(
                     userName, this.candidatesRetainDay[0].retainProjectCandidates, (data) => {
                         this.canReleaseCandidateAssignedToProject = data;
                     });

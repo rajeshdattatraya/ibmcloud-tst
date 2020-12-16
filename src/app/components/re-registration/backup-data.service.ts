@@ -17,14 +17,14 @@ export class BackupDataService {
 
  //This method will take backup of  data for the given candidate
  //and it will delete the data from the main tables
- backupCandidateData(userName): Observable<any> {
+ backupCandidateData(userName): Promise<any> {
   let url = `${this.baseUri}/backupCandidateData/${userName}`;
   console.log("url:" +url);
 
 
   return this.http.post(url, {headers: this.headers}).pipe(
        catchError(this.errorMgmt)
-  )
+  ).toPromise();
 }
 
  // Error handling

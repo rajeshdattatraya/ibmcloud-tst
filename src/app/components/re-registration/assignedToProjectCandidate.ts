@@ -21,7 +21,7 @@ export class AssignedToProjectCandidate {
     let retainCandidate : boolean = false;
     var projectAssignedDate: Date;
     let currentDate: Date = new Date();
-  return this.apiService.getAssignedCandidate(userName).subscribe(data =>{
+  return this.apiService.getAssignedCandidate(userName).then(data =>{
     candidateDetails = data;
     console.log("Assigned candidate details:" +JSON.stringify(candidateDetails));
   projectAssignedDate = new Date(candidateDetails[0].createdDate);
