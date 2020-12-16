@@ -269,16 +269,27 @@ getAssignedCandidate(username): Promise<any> {
   }
 
   // Get Unique Username
-  findUniqueUsername(email): Observable<any> {
+  findUniqueUsername1(email): Promise<any> {
     let url = `${this.baseUri}/findUser/${email}`;
     return this.http.get(url, {headers: this.headers}).pipe(
       map((res: Response) => {
         return res || {}
       }),
       catchError(this.errorMgmt)
-      )
+      ).toPromise();
   }
 
+
+    // Get Unique Username
+    findUniqueUsername(email): Observable<any> {
+      let url = `${this.baseUri}/findUser/${email}`;
+      return this.http.get(url, {headers: this.headers}).pipe(
+        map((res: Response) => {
+          return res || {}
+        }),
+        catchError(this.errorMgmt)
+        )
+    }
 
  // Get User
  getUserByIdAndPwd(id, pwd): Observable<any> {

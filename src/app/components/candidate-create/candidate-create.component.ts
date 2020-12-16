@@ -14,6 +14,7 @@ import { ResultPageService } from './../../components/result-page/result-page.se
 import { SendEmail } from './../../model/sendEmail';
 import { TestConfigService } from './../../service/testconfig.service';
 import { ReRegisterCandidate } from '../re-registration/re-registerCandidate';
+import { async } from '@angular/core/testing';
 
 
 @Component({
@@ -377,7 +378,7 @@ export class CandidateCreateComponent implements OnInit {
                   window.confirm("Please use another Email ID");
                   return false;
                 } else  {
-                  this.apiService.findUniqueUsername(this.candidateForm.value.email).subscribe ((res) => {
+                   this.apiService.findUniqueUsername1( this.candidateForm.value.email).then ((res) => {
 
                     if (res.count > 0) {
                       window.alert("It is presumed that the Canidate you are trying to register has been relieved from all of his/her current assingment");
