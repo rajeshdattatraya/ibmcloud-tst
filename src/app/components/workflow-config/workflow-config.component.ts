@@ -110,6 +110,7 @@ export class WorkflowConfigComponent implements OnInit {
       }
       this.workFlowForm.setValue({
         JRSS: data[0]['_id'],
+        jrssName: data[0]['jrss'],
         account:data[0]['account'],
         stage1OnlineTechAssessment: this.stage1,
         stage2PreTechAssessment: this.stage2,
@@ -136,7 +137,7 @@ export class WorkflowConfigComponent implements OnInit {
       // Check if testconfig present for the jrss.
       if (res.count == 0) {
         event.checked = false;
-         window.confirm("Please add the test configuration for the JRSS "+this.workFlowForm.value.JRSS);
+         window.confirm("Please add the test configuration for the JRSS "+this.workFlowForm.value.jrssName);
          this.workFlowForm.get('stage1OnlineTechAssessment').setValue(false);
       }else{
           let noOfSimpleQuestionsConfig;
@@ -196,6 +197,7 @@ export class WorkflowConfigComponent implements OnInit {
     this.workFlowForm = this.fb.group({
       account: ['',[Validators.required]],
       JRSS: ['', [Validators.required]],
+      jrssName: [false],
       stage1OnlineTechAssessment: [false],
       stage2PreTechAssessment: [false],
       stage3TechAssessment: [false],
