@@ -269,7 +269,7 @@ getAssignedCandidate(username): Promise<any> {
   }
 
   // Get Unique Username
-  findUniqueUsername1(email): Promise<any> {
+  findUserByemail(email): Promise<any> {
     let url = `${this.baseUri}/findUser/${email}`;
     return this.http.get(url, {headers: this.headers}).pipe(
       map((res: Response) => {
