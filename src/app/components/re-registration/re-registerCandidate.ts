@@ -74,6 +74,8 @@ export class ReRegisterCandidate {
 
       reRegisterCandidate(userName, callback) {
         var canReRegisterCandidate = false;
+        this.quizNumber = undefined;
+        this.updatedDate = undefined;
         this.apiService.getNameFromUsername(userName).subscribe(async res => {
 
             if (res != null) {
