@@ -22,7 +22,7 @@ export class AwaitingPartnerInterview {
           if(data['stage3_status'] == 'Not Suitable'){
             isCandidateReleased = true;
           } else {
-            if (data['smeAssessmentDate'] == null || data['smeAssessmentDate'] == '' ) {
+            if (data['stage3_status'] == 'Skipped') {
               resultCreatedDate = new Date(data['createdDate']);              
             } else {
               resultCreatedDate = new Date(data['smeAssessmentDate']);
