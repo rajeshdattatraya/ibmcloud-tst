@@ -60,7 +60,7 @@ export class ReRegisterCandidate {
     // 6) ProjectAlloc
     async backupCandidateData(username, callback) {
         await this.backupDataService.backupCandidateData(username).then(data => {
-            callback(data)
+            callback("Backup taken successfully!")
         })
     }
 
@@ -122,7 +122,16 @@ export class ReRegisterCandidate {
                 this.canReleaseCandidateAwtingPtnrInt || this.canReleaseCandidateAwtingProjAlloc ||
                 this.canReleaseCandidateAssignedToProject || this.quizNumber == undefined) {
                 canReRegisterCandidate = true;
+               
+                if (this.quizNumber != undefined) {
+                    this.backupCandidateData(userName, (data) => {
+                        console.log(data);
+                        window.alert("It is presumed that the Candidate you are trying to register has been relieved from all of his/her current assingment");
+                    });
+
+                }
                 callback(canReRegisterCandidate);
+            
             } else {
                 callback(false);
             }

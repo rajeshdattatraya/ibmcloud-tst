@@ -381,10 +381,10 @@ export class CandidateCreateComponent implements OnInit {
                    this.apiService.findUserByemail( this.candidateForm.value.email).then ((res) => {
 
                     if (res.count > 0) {
-                      window.alert("It is presumed that the Canidate you are trying to register has been relieved from all of his/her current assingment");
-                      this.reRegisterCandidateObj.backupCandidateData(this.candidateForm.value.email, (test) => {
-                        console.log('Backup taken successfully!')
-                    });
+                      
+                    //   this.reRegisterCandidateObj.backupCandidateData(this.candidateForm.value.email, (test) => {
+                    //     console.log('Backup taken successfully!')
+                    // });
                     }
                    
                 this.apiService.createUserDetails(user).subscribe((res) => {
