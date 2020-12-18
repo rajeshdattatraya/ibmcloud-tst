@@ -21,17 +21,22 @@ export class AwaitingPartnerInterview {
      return this.apiService.getPartnerCandidateAwaitingResult(username,quizNumber).then((data) => {
           if(data['stage3_status'] == 'Not Suitable'){
             isCandidateReleased = true;
-          }else{
-          resultCreatedDate = new Date(data['smeAssessmentDate']);
-          resultCreatedDate.setDate(resultCreatedDate.getDate() + retentionDate);
-          let currentDate: Date = new Date();
-          if (resultCreatedDate >= currentDate) {
-              isCandidateReleased =  false;
           } else {
-              isCandidateReleased = true;
+            if (data['smeAssessmentDate'] == null || data['smeAssessmentDate'] == '' ) {
+              resultCreatedDate = new Date(data['createdDate']);              
+            } else {
+              resultCreatedDate = new Date(data['smeAssessmentDate']);
+            }
+            resultCreatedDate.setDate(resultCreatedDate.getDate() + retentionDate);
+            console.log("Awaiting partner interview resultCreatedDate =" + resultCreatedDate)            
+            let currentDate: Date = new Date();
+            if (resultCreatedDate >= currentDate) {
+                isCandidateReleased =  false;
+            } else {
+                isCandidateReleased = true;
+            }
           }
-        }
-          callback(isCandidateReleased);
+            callback(isCandidateReleased);
         }, (error) => {
           console.log('[AwaitingPartnerInterview]-Error found while fetching the records for partner awaiting candidate');
           console.log(error);
