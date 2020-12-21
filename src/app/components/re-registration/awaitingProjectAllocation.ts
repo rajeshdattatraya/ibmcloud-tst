@@ -20,7 +20,14 @@ export class AwaitingProjectAllocation {
       let currentDate: Date = new Date();
       let isEligibleToRegister : boolean = false;
       this.apiService.getUSerResultByAttendedPartnerInterview(username,quizNumber).then(data => {
-        let managementAssessmentDate = new Date(data['managementAssessmentDate']);
+        var managementAssessmentDate;
+        if ((data['stage4_status'] == 'Skipped') && (data['stage3_status'] == 'Skipped')) {
+          managementAssessmentDate = new Date(data['createdDate']);              
+        } else if(data['stage4_status'] == 'Skipped') {
+          managementAssessmentDate = new Date(data['smeAssessmentDate']);
+        }else{
+          managementAssessmentDate = new Date(data['managementAssessmentDate']);
+        }
         let managementResult : String = data['managementResult'];
         let elapsedDays = Math.floor((currentDate.getTime() - managementAssessmentDate.getTime()) / 1000 / 60 / 60 / 24);
         console.log('elapsedDays :: '+elapsedDays);
