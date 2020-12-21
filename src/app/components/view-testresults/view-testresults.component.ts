@@ -76,7 +76,7 @@ export class ViewTestresultsComponent {
         } else if (this.filterObj['key'] == 'JRSS') {
            rowValue = data.result_jrss[0].jrss;
         } else if (this.filterObj['key'] == 'account') {
-           rowValue = data.result_user.account;
+           rowValue = data.result_users.account;
         }
        if(rowValue && this.filterObj['key']) {
            if (rowValue.toLowerCase().startsWith(this.filterObj['value'])) {
@@ -90,7 +90,7 @@ export class ViewTestresultsComponent {
       switch(property) {
         case 'employeeName': return item.result_users.employeeName;
         case 'band': return item.result_users.band;
-        case 'userPositionLocation': return item.result_user.userPositionLocation;
+        case 'userPositionLocation': return item.result_users.userPositionLocation;
         case 'account': return item.result_users.account;
         case 'JRSS': return item.result_jrss[0].jrss;
         default: return item[property];
