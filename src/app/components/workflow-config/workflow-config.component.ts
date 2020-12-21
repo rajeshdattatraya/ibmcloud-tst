@@ -155,6 +155,7 @@ export class WorkflowConfigComponent implements OnInit {
             console.log('********************* data = '+data);
             this.noOfQuestions = data['noOfQuestions'];
             console.log('The no of configured questions === '+this.noOfQuestions);
+            console.log('this.technologyStream.length = '+this.technologyStream.length);
 
             noOfSimpleQuestionsConfig = Math.ceil(this.noOfQuestions * 0.4);
             noOfMediumQuestionsConfig = Math.ceil(this.noOfQuestions * 0.3);
@@ -177,6 +178,10 @@ export class WorkflowConfigComponent implements OnInit {
                   if(noOfComplexQuestionInDB >= this.noOfQuestions && noOfSimpleQuestionInDB >=noOfSimpleQuestionsConfig && noOfMediumQuestionInDB >=noOfMediumQuestionsConfig){
                     this.sufficientQuestionsPresent = true;
                     console.log('this.sufficientQuestionsPresent = '+this.sufficientQuestionsPresent);
+                  }else if(this.technologyStream.length === 0){
+                    event.checked = false;
+                    window.alert('Currently the selected JRSS has no mapped Technology Stream. Please map the required Technology Streams for the selected JRSS and add required number of questions.');
+                    this.workFlowForm.get('stage1OnlineTechAssessment').setValue(false);
                   }else{
                     event.checked = false;
                     window.alert('Currently you have '+noOfComplexQuestionInDB+' Complex, '+noOfMediumQuestionInDB+' Medium and '+noOfSimpleQuestionInDB+' Simple questions for the seletced Job Role. You should have at least '+this.noOfQuestions+' Complex, '+noOfMediumQuestionsConfig+' Medium and '+noOfSimpleQuestionsConfig+' Simple questions. So please add the required number of questions to select this option.');
