@@ -55,6 +55,7 @@ export class PartnerInterviewComponent implements OnChanges {
   nameFilter: string;
   accountFilter: string;
   jrssFilter: string;
+  jrssName: string;
   loginAccounts:any = [];
   dataSource = new MatTableDataSource<any>();
   displayedColumnsSector = ['Action','employeeName','jrss', 'account','userScore','smeResult','cvDownload'];
@@ -275,8 +276,9 @@ export class PartnerInterviewComponent implements OnChanges {
   }
 
   //To read candidate details
-  getCandidateDetails(username) {
+  getCandidateDetails(username,jrssName) {
     this.mode="displayModalBody";
+    this.jrssName = jrssName;
     this.apiService.getCandidateDetails(username).subscribe((data) => {
          this.candidateDetails = data;
          if (this.candidateDetails[0].employeeType == 'Contractor') {
