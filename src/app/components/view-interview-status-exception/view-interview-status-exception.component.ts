@@ -46,6 +46,7 @@ export class ViewInterviewStatusExceptionComponent implements OnInit {
 
   quizNumber = 1;
   userScore = "";
+  submitted: boolean = false;
   displayPreTechStage2Skip: boolean = false;
   displayPreTechStage2Completed: boolean = false;
   stage1Completed: boolean = false;
@@ -85,7 +86,7 @@ export class ViewInterviewStatusExceptionComponent implements OnInit {
         stage2PreTechAssessment: [false],
         stage3TechAssessment: [false],
         stage4ManagementInterview: [false],
-        exceptionalApprovalComment: ['']
+        exceptionalApprovalComment: ['',[Validators.required]]
         
       })
   }
@@ -164,6 +165,10 @@ export class ViewInterviewStatusExceptionComponent implements OnInit {
 
 
   exceptionSubmit() {
+     this.submitted = true;
+     if (!this.workFlowForm.valid) {
+       return false;
+     } else {
      if (this.resultId == "") {
        if (this.workFlowForm.value.stage1OnlineTechAssessment) {
          this.stage1 = "Completed";
@@ -236,6 +241,7 @@ export class ViewInterviewStatusExceptionComponent implements OnInit {
               console.log(error);
             });
             });
+     }
      }
   }
 
