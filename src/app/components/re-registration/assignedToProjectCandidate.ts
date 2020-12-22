@@ -24,12 +24,11 @@ export class AssignedToProjectCandidate {
   return this.apiService.getAssignedCandidate(userName).then(data =>{
     candidateDetails = data;
     console.log("Assigned candidate details:" +JSON.stringify(candidateDetails));
-  projectAssignedDate = new Date(candidateDetails[0].createdDate);
+  projectAssignedDate = new Date(data['createdDate']);
   projectAssignedDate.setDate(projectAssignedDate.getDate() + retentionDate);
   if (projectAssignedDate >= currentDate) {
     retainCandidate =  false;
   } else {
-    alert("Candidate is not on bench, hence cannot be registered to other account");
     retainCandidate = true;
   }
   callback(retainCandidate);
