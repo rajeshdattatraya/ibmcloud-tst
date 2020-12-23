@@ -179,6 +179,10 @@ onSubmit() {
   if( typeof(this.editForm.value.account) == 'object' ) {
     this.editForm.value.account = this.editForm.value.account.join(',');
   }
+
+  // #336 Candidate email ID - Updated email id to lower case  
+  this.editForm.value.email = this.editForm.value.email.toLowerCase().trim();
+
   let updatedUser = new SpecialUser(this.editForm.value.email,
     this.password,
     this.quizNumber,

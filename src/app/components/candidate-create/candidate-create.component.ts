@@ -282,6 +282,10 @@ export class CandidateCreateComponent implements OnInit {
     if( typeof(this.candidateForm.value.technologyStream) == 'object' ) {
       this.candidateForm.value.technologyStream = this.candidateForm.value.technologyStream.join(',');
     }
+
+    // #336 Candidate email ID - Updated email id to lower case  
+    this.candidateForm.value.email = this.candidateForm.value.email.toLowerCase().trim();   
+
     //Check if resume is not selected
     if(!this.resume){
       let bufferLength = 10;
