@@ -31,12 +31,12 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Online Test Score </th>
         <td   mat-cell *matCellDef="let row">
           <div *ngIf="row.userResult==='Pass'">
-          <a style="color:rgb(0, 128, 43);" href="#assessmentModal"  (click)="getCandidateAssessmentDetails(row.canUserName,row.qNumber,row.employeeName,row.uScore,row.createdDate,row.fromHistory)" data-toggle="modal" >
+          <a style="color:rgb(0, 128, 43);" href="#assessmentModal"  (click)="getCandidateAssessmentDetails(row.canUserName,row.qNumber,row.employeeName,row.uScore,row.createdDate,row.fromHistory,row.canAccount)" data-toggle="modal" >
             <b>{{row.onlineTestResult}}</b>
           </a>
           </div>
           <div *ngIf="row.userResult==='Fail'">
-            <a style="color:red;" href="#assessmentModal" (click)="getCandidateAssessmentDetails(row.canUserName,row.qNumber,row.employeeName,row.uScore,row.createdDate,row.fromHistory)" data-toggle="modal" >
+            <a style="color:red;" href="#assessmentModal" (click)="getCandidateAssessmentDetails(row.canUserName,row.qNumber,row.employeeName,row.uScore,row.createdDate,row.fromHistory,row.canAccount)" data-toggle="modal" >
               <b>{{row.onlineTestResult}}</b>
             </a>
           </div>
@@ -102,12 +102,12 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Online Test Score </th>
         <td   mat-cell *matCellDef="let row">
           <div *ngIf="row.userResult==='Pass'">
-          <a style="color:rgb(0, 128, 43);" href="#assessmentModal"  (click)="getCandidateAssessmentDetails(row.canUserName,row.qNumber,row.employeeName,row.uScore,row.createdDate,row.fromHistory)" data-toggle="modal" >
+          <a style="color:rgb(0, 128, 43);" href="#assessmentModal"  (click)="getCandidateAssessmentDetails(row.canUserName,row.qNumber,row.employeeName,row.uScore,row.createdDate,row.fromHistory,row.canAccount)" data-toggle="modal" >
             <b>{{row.onlineTestResult}}</b>
           </a>
           </div>
           <div *ngIf="row.userResult==='Fail'">
-            <a style="color:red;" href="#assessmentModal" (click)="getCandidateAssessmentDetails(row.canUserName,row.qNumber,row.employeeName,row.uScore,row.createdDate,row.fromHistory)" data-toggle="modal" >
+            <a style="color:red;" href="#assessmentModal" (click)="getCandidateAssessmentDetails(row.canUserName,row.qNumber,row.employeeName,row.uScore,row.createdDate,row.fromHistory,row.canAccount)" data-toggle="modal" >
               <b>{{row.onlineTestResult}}</b>
             </a>
           </div>

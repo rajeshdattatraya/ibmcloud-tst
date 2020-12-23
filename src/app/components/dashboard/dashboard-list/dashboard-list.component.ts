@@ -77,6 +77,7 @@ export class DashboardListComponent implements OnChanges {
 displayedColumns = ['Action','employeeName', 'jobRole','userResult','technicalInterviewResult','partnerInterviewResult','assignedToProject','fromHistory'];
 displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userResult','technicalInterviewResult','partnerInterviewResult','assignedToProject','fromHistory'];
   candidateAssessmentDetailsHistory: any;
+  candidateAccount: any;
 
 
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
@@ -423,23 +424,27 @@ displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userR
     }
 
 
-    getCandidateAssessmentDetails(userid,quizId,username,userScore,createdDate,fromHistory) {
+    getCandidateAssessmentDetails(userid,quizId,username,userScore,createdDate,fromHistory,canAccount) {
       this.userName=username;
       this.quizNumber=quizId;
       this.userScore=userScore;
       this.assesmentDate=createdDate;
       this.candidatefromHistory = fromHistory;
+      this.candidateAccount = canAccount;
       this.mode="displayAssessmentModalBody";
+      console.log("Candidate account:" +this.canAccount);
+      console.log("Created date:" +this.assesmentDate);
       if(this.candidatefromHistory === 'No'){
-      this.apiService.getCandidateAssessmentDetails(userid,quizId).subscribe((data) => {
+      this.apiService.getDashboardCandidateAssessmentDetails(userid,quizId,createdDate,canAccount).subscribe((data) => {
       this.candidateAssessmentDetails = data;
       this.questionCount=this.candidateAssessmentDetails.results.length;
       this.correctAnswerCount=Math.round((userScore*this.questionCount)/100)
      })
     }
     else if(this.candidatefromHistory === 'Yes'){
-      this.apiService.getCandidateAssessmentDetailsHistory(userid,quizId).subscribe((data) => {
+      this.apiService.getCandidateAssessmentDetailsHistory(userid,quizId,createdDate,canAccount).subscribe((data) => {
       this.candidateAssessmentDetails = data;
+      console.log("Candidate Assessment details:" +JSON.stringify(this.candidateAssessmentDetails));
       this.questionCount=this.candidateAssessmentDetails.results.length;
       this.correctAnswerCount=Math.round((userScore*this.questionCount)/100)
      })

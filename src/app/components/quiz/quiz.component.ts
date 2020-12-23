@@ -62,13 +62,24 @@ export class QuizComponent implements OnInit {
   displayQuestions: Boolean = false;
   handler;
   displaySpinner: Boolean = true;
+  candidateUserName: any;
+  userScore: any;
+  stage1: any;
+  stage2: any;
+  stage3: any;
+  smeResult: any;
+  stage4: any;
+  managementResult: any;
+  stage5: any;
+  exceptionalApprovalComments: any;
+  createdDate: any;
   
   constructor(
     private router: Router,
     private ngZone: NgZone,
     private quizService: QuizService,
     private testconfigService: TestConfigService,
-    private apiService: ApiService
+   private apiService: ApiService
   ) {
     this.browserRefresh = browserRefresh;
     if (!this.browserRefresh) {
@@ -391,7 +402,7 @@ ngOnInit() {
    }
 
   submitAnswers(warning: boolean) {
-  let userAnswer = new UserAnswer(null,null,null,null,null);
+  let userAnswer = new UserAnswer(null,null,null,null,null,null,null);
   let data:any=[]
   this.questions.forEach((question) => {  
 	this.questionID = question.questionID;
@@ -409,9 +420,22 @@ ngOnInit() {
     question.flagged = false;
   }  
   
-	//this.array = this.userAnswerID.split(',')
-	this.userAnswerID = (this.userAnswerID.length && this.userAnswerID[0] == ',') ? this.userAnswerID.slice(1) : this.userAnswerID;
-  userAnswer = new UserAnswer(this.userName,this.quizNumber, this.questionID, this.userAnswerID, question.flagged );
+  //this.array = this.userAnswerID.split(',')
+  let currentDate: Date = new Date();
+  this.createdDate = currentDate;
+  console.log("Created date:"+this.createdDate);
+  //this.apiService.getResultByUser(this.userName, this.quizNumber).subscribe(
+  //  (res) => {
+  //    let test = res;
+  //    console.log("res:" +JSON.stringify(test));
+  //    this.createdDate = res['createdDate'];
+  //    console.log("Created date:"+this.createdDate);
+     // console.log('Quiz results for the user have been successfully saved!');
+  //  }, (error) => {
+  //    console.log(error);
+  //  });
+ 	this.userAnswerID = (this.userAnswerID.length && this.userAnswerID[0] == ',') ? this.userAnswerID.slice(1) : this.userAnswerID;
+  userAnswer = new UserAnswer(this.userName,this.quizNumber, this.questionID, this.userAnswerID, question.flagged, this.createdDate, this.candidateAccount);
  
   data.push( userAnswer );
   
