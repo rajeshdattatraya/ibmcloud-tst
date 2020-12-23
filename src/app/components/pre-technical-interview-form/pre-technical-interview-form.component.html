@@ -8,7 +8,7 @@
   </mat-toolbar-row>
 </mat-toolbar>
 <div *ngIf="preTechQuesAndAns.length > 0">
-  <div *ngFor="let preTechQAndA of preTechQuesAndAns;let i=index">
+  <div *ngFor="let preTechQAndA of preTechQuesAndAns;let i=index" oncopy="return false">
     <mat-card class="login-card">
       <mat-card-header>
       </mat-card-header>
