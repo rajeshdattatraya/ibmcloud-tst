@@ -1,3 +1,5 @@
+import { dateSelectionJoinTransformer } from '@fullcalendar/angular';
+
 export class UserAnswer {
 
 
@@ -5,16 +7,20 @@ export class UserAnswer {
         public quizNumber: any;
 		public questionID: any;
         public userAnswerID: any;
-		public flagged: any;
+        public flagged: any;
+        public createdDate: Date;
+        public account: any;
 		
 		
-		constructor(userName,quizNumber, questionID, userAnswerID, flagged) {
+		constructor(userName,quizNumber, questionID, userAnswerID, flagged, createdDate, account) {
         
         this.userName = userName;
 		this.quizNumber = quizNumber;
         this.questionID = questionID;
 		this.userAnswerID = userAnswerID;
         this.flagged = flagged;
+        this.createdDate = createdDate;
+        this.account = account;
     }
     
 }

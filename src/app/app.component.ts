@@ -42,7 +42,7 @@ export class AppComponent implements OnDestroy {
   //@HostListener('copy', ['$event'])
   //blockCopy(e: KeyboardEvent) {
   //    e.preventDefault();
-  //}
+  // }
 
   //Disable Cut on application
   @HostListener('cut', ['$event'])
