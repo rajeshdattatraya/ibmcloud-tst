@@ -124,8 +124,12 @@
             <td></td>
             <td>
             <mat-form-field class="stream-half-width">
-              <textarea matInput placeholder="Exceptional Approval Comment"  type="textarea" rows="8" cols="10"  formControlName="exceptionalApprovalComment" class="form-control">
+              <textarea matInput placeholder="Exceptional Approval Comment"  type="textarea" rows="8" cols="10"  formControlName="exceptionalApprovalComment"
+                        required [ngClass]="{ 'is-invalid': submitted && myForm.exceptionalApprovalComment.errors }">
               </textarea>
+              <div *ngIf="submitted && myForm.exceptionalApprovalComment.errors" class="invalid-feedback">
+                <div *ngIf="myForm.exceptionalApprovalComment.errors.required">Exceptional Approval Comment is required</div>
+              </div>
             </mat-form-field>
             </td>
           </tr>
