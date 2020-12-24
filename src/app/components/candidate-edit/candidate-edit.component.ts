@@ -420,6 +420,10 @@ export class CandidateEditComponent implements OnInit {
     if( typeof(this.editForm.value.technologyStream) == 'object' ) {
       this.editForm.value.technologyStream = this.editForm.value.technologyStream.join(',');
     }
+
+    // #336 Candidate email ID - Updated email id to lower case  
+    this.editForm.value.email = this.editForm.value.email.toLowerCase().trim();   
+
      let updatedCandidate;
      if(!this.editCandResume) {
       console.log("Resume is not selected");

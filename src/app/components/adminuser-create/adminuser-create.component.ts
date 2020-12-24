@@ -247,6 +247,10 @@ export class AdminuserCreateComponent implements OnInit {
         this.candidateForm.value.account = this.candidateForm.value.account.substring(1);
       }
       console.log("account val ** ", this.candidateForm.value.account);
+
+    // #336 Candidate email ID - Updated email id to lower case  
+    this.candidateForm.value.email = this.candidateForm.value.email.toLowerCase().trim();   
+
     let user = new SpecialUser(this.candidateForm.value.email,
      this.password,
      this.quizNumber,
