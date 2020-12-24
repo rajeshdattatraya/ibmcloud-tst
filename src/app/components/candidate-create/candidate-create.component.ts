@@ -176,6 +176,8 @@ export class CandidateCreateComponent implements OnInit {
     // Choose account with select dropdown
     updateAccountProfile(e){            
       //Get test config JRSS based on account
+      this.candidateForm.get('JRSS').setValue("");
+      this.candidateForm.get('technologyStream').setValue("");
       this.testconfigService.findTestConfigJRSSByAccount(e).subscribe((res) => {            
         this.testConfigJRSS = [];     
         for (var jrss of res){ 
