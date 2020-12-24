@@ -4,6 +4,7 @@ import { Question } from './../../model/questions';
 import { UserAnswer } from './../../model/userAnswer';
 import { QuizService } from './../../components/quiz/quiz.service';
 import { ApiService } from './../../service/api.service';
+import { DatePipe } from '@angular/common';
 
 import { FormGroup, FormControl } from "@angular/forms";
 import { environment } from './../../../environments/environment';
@@ -72,14 +73,15 @@ export class QuizComponent implements OnInit {
   managementResult: any;
   stage5: any;
   exceptionalApprovalComments: any;
-  createdDate: any;
+  createdDate: String;
   
   constructor(
     private router: Router,
     private ngZone: NgZone,
     private quizService: QuizService,
     private testconfigService: TestConfigService,
-   private apiService: ApiService
+   private apiService: ApiService,
+   private datePipe: DatePipe
   ) {
     this.browserRefresh = browserRefresh;
     if (!this.browserRefresh) {
@@ -415,25 +417,22 @@ ngOnInit() {
 		}
 	})
 
+  
+  let currentDate: any = new Date();
+  let formattedDate:any;
+  //const datepipe: DatePipe = new DatePipe(currentDate);
+   formattedDate = this.datePipe.transform(currentDate, 'yyyy-MM-dd');
+  //var formattedDate = currentDate.toString();
+  this.createdDate = formattedDate;
+  console.log("Created date:" +this.createdDate);
   // Story#8 - Code to set default flagged value to false
   if(question.flagged == null || question.flagged == undefined || question.flagged == ""){
     question.flagged = false;
   }  
   
   //this.array = this.userAnswerID.split(',')
-  let currentDate: Date = new Date();
-  this.createdDate = currentDate;
-  console.log("Created date:"+this.createdDate);
-  //this.apiService.getResultByUser(this.userName, this.quizNumber).subscribe(
-  //  (res) => {
-  //    let test = res;
-  //    console.log("res:" +JSON.stringify(test));
-  //    this.createdDate = res['createdDate'];
-  //    console.log("Created date:"+this.createdDate);
-     // console.log('Quiz results for the user have been successfully saved!');
-  //  }, (error) => {
-  //    console.log(error);
-  //  });
+  
+ 
  	this.userAnswerID = (this.userAnswerID.length && this.userAnswerID[0] == ',') ? this.userAnswerID.slice(1) : this.userAnswerID;
   userAnswer = new UserAnswer(this.userName,this.quizNumber, this.questionID, this.userAnswerID, question.flagged, this.createdDate, this.candidateAccount);
  

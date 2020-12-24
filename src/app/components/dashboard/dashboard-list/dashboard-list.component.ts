@@ -8,6 +8,7 @@ import { appConfig } from './../../../model/appConfig';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator'
 import {MatSort} from '@angular/material/sort';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard-list',
@@ -78,9 +79,10 @@ displayedColumns = ['Action','employeeName', 'jobRole','userResult','technicalIn
 displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userResult','technicalInterviewResult','partnerInterviewResult','assignedToProject','fromHistory'];
   candidateAssessmentDetailsHistory: any;
   candidateAccount: any;
+  DateArr: any;
 
 
-  constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
+  constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService,private datePipe: DatePipe) {
         this.config = {
           currentPage: appConfig.currentPage,
           itemsPerPage: appConfig.itemsPerPage,
@@ -428,21 +430,21 @@ displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userR
       this.userName=username;
       this.quizNumber=quizId;
       this.userScore=userScore;
-      this.assesmentDate=createdDate;
+      this.assesmentDate=this.datePipe.transform(createdDate, 'yyyy-MM-dd');
       this.candidatefromHistory = fromHistory;
       this.candidateAccount = canAccount;
       this.mode="displayAssessmentModalBody";
       console.log("Candidate account:" +this.canAccount);
-      console.log("Created date:" +this.assesmentDate);
+      console.log("Created date:" +this.createdDate);
       if(this.candidatefromHistory === 'No'){
-      this.apiService.getDashboardCandidateAssessmentDetails(userid,quizId,createdDate,canAccount).subscribe((data) => {
+      this.apiService.getDashboardCandidateAssessmentDetails(userid,quizId,this.assesmentDate,canAccount).subscribe((data) => {
       this.candidateAssessmentDetails = data;
       this.questionCount=this.candidateAssessmentDetails.results.length;
       this.correctAnswerCount=Math.round((userScore*this.questionCount)/100)
      })
     }
     else if(this.candidatefromHistory === 'Yes'){
-      this.apiService.getCandidateAssessmentDetailsHistory(userid,quizId,createdDate,canAccount).subscribe((data) => {
+      this.apiService.getCandidateAssessmentDetailsHistory(userid,quizId,this.assesmentDate,canAccount).subscribe((data) => {
       this.candidateAssessmentDetails = data;
       console.log("Candidate Assessment details:" +JSON.stringify(this.candidateAssessmentDetails));
       this.questionCount=this.candidateAssessmentDetails.results.length;
