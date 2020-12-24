@@ -21,3 +21,8 @@
     /* To center horizontally */
     margin: 0 auto;
 }
+.active {
+    background-color: #F5F5F5 !important;
+    color: black;
+    text-decoration: none;
+}
