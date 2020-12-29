@@ -586,19 +586,9 @@ deleteJrss(id): Observable<any> {
   )
 }
 
+ //getCandidateAssessmentDetails
 getCandidateAssessmentDetails(username,quizNumber): Observable<any> {
   let url = `${this.userResultUri}/quizDetailsByUser/${username}/${quizNumber}`;
-  return this.http.get(url, {headers: this.headers}).pipe(
-        map((res: Response) => {
-          return res || {}
-        }),
-        catchError(this.errorMgmt)
-  )
-}
-
-getDashboardCandidateAssessmentDetails(username,quizNumber,createdDate,account): Observable<any> {
-  let url = `${this.userResultUri}/quizDetailsByUser/${username}/${quizNumber}/${createdDate}/${account}`;
-  console.log("url:" +url);
   return this.http.get(url, {headers: this.headers}).pipe(
         map((res: Response) => {
           return res || {}

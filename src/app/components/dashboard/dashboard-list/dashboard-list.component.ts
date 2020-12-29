@@ -437,7 +437,7 @@ displayedSectorColumns = ['Action','employeeName', 'jobRole','canAccount','userR
       console.log("Candidate account:" +this.canAccount);
       console.log("Created date:" +this.createdDate);
       if(this.candidatefromHistory === 'No'){
-      this.apiService.getDashboardCandidateAssessmentDetails(userid,quizId,this.assesmentDate,canAccount).subscribe((data) => {
+      this.apiService.getCandidateAssessmentDetails(userid,quizId).subscribe((data) => {
       this.candidateAssessmentDetails = data;
       this.questionCount=this.candidateAssessmentDetails.results.length;
       this.correctAnswerCount=Math.round((userScore*this.questionCount)/100)
