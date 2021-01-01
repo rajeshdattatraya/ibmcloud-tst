@@ -328,7 +328,7 @@ ngOnInit() {
 
   //This method determines whether questions are answered or not answered
    isAnswered(question: Question) {
-        return question.options.find(option => option.checked) ? 'Answered' : 'Not Answered';
+        return question.options.find(option => option.checked == 'checked') ? 'Answered' : 'Not Answered';
     };
 
     //This method determines whether questions are flagged or not

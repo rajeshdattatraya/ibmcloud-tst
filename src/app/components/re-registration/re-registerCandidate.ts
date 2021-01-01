@@ -126,7 +126,7 @@ export class ReRegisterCandidate {
                 if (this.quizNumber != undefined) {
                     this.backupCandidateData(userName, (data) => {
                         console.log(data);
-                        window.alert("It is presumed that the Candidate you are trying to register has been relieved from all of his/her current assingment");
+                        window.alert("Please ensure that the candidate you are trying to register has been relieved from all of his/her current assingment");
                     });
 
                 }
