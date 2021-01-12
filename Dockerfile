@@ -11,5 +11,5 @@ ENV NODE_ENV production
 ENV PORT 4200
 EXPOSE 4200
 
-WORKDIR "/app"
+# WORKDIR "/app"
 CMD [ "npm", "start" ]
