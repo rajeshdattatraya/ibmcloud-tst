@@ -1,8 +1,9 @@
 FROM node:8
 
 ADD views /app/views
+ADD angular.json /app
 ADD package.json /app
-ADD server.js /app
+
 
 RUN cd /app; npm install
 
