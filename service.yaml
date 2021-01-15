@@ -1,0 +1,13 @@
+---
+apiVersion: serving.knative.dev/v1alpha1
+kind: Service
+metadata:
+  name: talentsourcingtoolclientv2
+  namespace: default
+spec:
+  template:
+    spec:
+      containers:
+        - image: REGISTRY_URL/replace-me-namespace/talentsourcingtoolclientv2:BUILD_NUMBER
+          ports:
+            - containerPort: 3000

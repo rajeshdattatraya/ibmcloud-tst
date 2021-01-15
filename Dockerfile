@@ -1,20 +1,23 @@
-FROM node:14.15.4-alpine3.12 as build-step
+FROM node:8-stretch
+
+# Change working directory
 WORKDIR /app
-COPY package.json ./
-RUN npm cache clean --force 
-RUN npm install
-COPY . .
-RUN npm run build
 
+# Update packages and install dependency packages for services
+RUN apt-get update \
+ && apt-get dist-upgrade -y \
+ && apt-get clean \
+ && echo 'Finished installing dependencies'
 
+# Install npm production packages
+COPY package.json /app/
+RUN cd /app; npm install --production
 
-FROM nginx:1.18.0-alpine as prod-stage
-COPY --from=build-step /app/dist/TATClientApp /usr/share/nginx/html
- 
+COPY . /app
+
 ENV NODE_ENV production
-ENV PORT 4200
-EXPOSE 4200
+ENV PORT 3000
 
+EXPOSE 3000
 
-CMD [ "nginx", "-g", "daemon off;" ]
-
+CMD ["npm", "start"]
