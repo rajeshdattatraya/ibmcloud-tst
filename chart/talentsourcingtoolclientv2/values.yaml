@@ -3,7 +3,7 @@
 replicaCount: 1
 revisionHistoryLimit: 1
 image:
-  repository: icr.io/replace-me-namespace/talentsourcingtoolclientv2
+  repository: icr.io/test1container/talentsourcingtoolclientv2
   tag: v1.0.0
   pullPolicy: Always
   resources:
