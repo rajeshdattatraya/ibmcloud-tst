@@ -5,7 +5,7 @@ applications:
   name: TalentSourcingToolClientV2
   buildpack: sdk-for-nodejs
   command: npm start
-  memory: 256M
+  memory: 1024M
   domain: not-used.net
   host: not-used
   services:

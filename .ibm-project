@@ -1,1 +1,1 @@
-{"build-release-ready":false,"build-debug-ready":false,"devops":false,"deploy-image":"","chart-path":"","ibm-cluster":"","motd-access":"Sat, 16 Jan 2021 00:54:23 IST","app-id":"","deploy-target":"","knative-service-filename":""}
+{"build-release-ready":true,"build-debug-ready":false,"devops":false,"deploy-image":"","chart-path":"","ibm-cluster":"TSTcluster-dal10-b3c.4x16","motd-access":"Sat, 16 Jan 2021 00:54:23 IST","app-id":"aefaf6ed-f22b-4c46-9952-821e8e9039f1","deploy-target":"","knative-service-filename":""}
