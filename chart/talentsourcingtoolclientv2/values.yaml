@@ -20,7 +20,7 @@ service:
 hpa:
   enabled: false
   minReplicas: 1
-  maxReplicas: 1
+  maxReplicas: 2
   metrics:
     cpu:
       targetAverageUtilization: 70
@@ -28,7 +28,7 @@ hpa:
       targetAverageUtilization: 70
 base:
   enabled: false
-  replicaCount: 1
+  replicaCount: 2
   image:
     tag : v0.9.9
   weight: 100
